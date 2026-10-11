@@ -1,22 +1,64 @@
 /* ========================================
-   Advertisement
+   Advertisement / Promos
    ======================================== */
 
 .advertisement {
   width: min(800px, calc(100% - 40px));
   margin: 40px auto 0;
   overflow: hidden;
+
+  border: 1px solid var(--border);
   border-radius: 18px;
+
+  box-shadow: 0 8px 24px rgb(15 23 42 / 6%);
 }
 
 .advertisement a {
-  display: block;
+  min-height: 150px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+
+  padding: 24px;
+
+  color: var(--text);
+  text-align: center;
+  text-decoration: none;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.advertisement img {
-  width: 100%;
-  height: auto;
-  display: block;
+.advertisement a:hover {
+  box-shadow: 0 12px 30px rgb(15 23 42 / 10%);
+}
+
+.advertisement__emoji {
+  width: 80px;
+  height: 80px;
+
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+
+  border: 1px solid var(--border);
+  border-radius: 50%;
+
+  
+
+  font-size: 3rem;
+
+ 
+}
+
+.advertisement__text {
+  color: var(--text);
+  font-size: 1.1rem;
+  font-weight: 750;
+  line-height: 1.8;
 }
 
 /* ========================================
@@ -29,6 +71,21 @@
     margin-top: 32px;
     border-radius: 14px;
   }
+
+  .advertisement a {
+    min-height: 130px;
+    padding: 20px;
+  }
+
+  .advertisement__emoji {
+    width: 68px;
+    height: 68px;
+    font-size: 2.5rem;
+  }
+
+  .advertisement__text {
+    font-size: 1rem;
+  }
 }
 
 @media (max-width: 600px) {
@@ -37,13 +94,42 @@
     margin-top: 24px;
     border-radius: 12px;
   }
+
+  .advertisement a {
+    min-height: 110px;
+    gap: 14px;
+    padding: 16px;
+  }
+
+  .advertisement__emoji {
+    width: 58px;
+    height: 58px;
+    font-size: 2rem;
+  }
+
+  .advertisement__text {
+    font-size: 0.9rem;
+  }
 }
 
 @media (max-width: 400px) {
   .advertisement {
     width: calc(100% - 16px);
   }
-  .advertisement img {
-    height: 150px;
+
+  .advertisement a {
+    min-height: 90px;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .advertisement__emoji {
+    width: 48px;
+    height: 48px;
+    font-size: 1.7rem;
+  }
+
+  .advertisement__text {
+    font-size: 0.8rem;
   }
 }

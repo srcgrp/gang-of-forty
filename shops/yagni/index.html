@@ -33,11 +33,11 @@
         <form class="header__search">
           <span class="header__search-label">جستجو</span>
 
-          <input
-            type="search"
-            placeholder="چی می‌خوای بخری؟"
-            aria-label="جستجوی محصولات"
-          >
+       <input
+  type="search"
+  placeholder="می‌تونی بین محصولات جستجو کنی"
+  aria-label="جستجوی محصولات"
+>
 
           <button
             type="submit"
@@ -52,26 +52,27 @@
 
         <!-- Header Actions -->
         <div>
-          <!-- Cart -->
-          <a href="/#" class="header__cart">
-            <span class="header__cart-icon">
-              <svg>
-                <use href="./sprite.svg#basket"></use>
-              </svg>
+      <!-- Cart -->
+<a href="#" class="header__cart">
+  <span class="header__cart-icon">
+    <svg>
+      <use href="./sprite.svg#basket"></use>
+    </svg>
 
-              <span class="header__cart-count">۲</span>
-            </span>
+    <span class="header__cart-count">۰</span>
+  </span>
 
-            <span class="header__cart-content">
-              <small>سبد خرید</small>
-              <strong>۲۴۵,۰۰۰ تومان</strong>
-            </span>
-          </a>
+  <span class="header__cart-content">
+    <small>سبد خرید</small>
+    <strong>۰ تومان</strong>
+  </span>
+</a>
         </div>
       </div>
     </header>
     <!-- Navbar -->
-       <input
+<nav>
+         <input
   type="checkbox"
   id="nav-toggle"
   class="nav-toggle"
@@ -113,63 +114,15 @@
     </ul>
   </div>
 </div>
+</nav>
     <!-- Banner -->
-    <section class="banner anchor-section" id="banner">
-      <div class="banner__track">
-        <img
-          class="banner_track-image"
-          src="images/banner/banner-1.webp"
-          alt="بنر"
-        >
-
-        <img
-          class="banner_track-image"
-          src="images/banner/banner-2.webp"
-          alt="بنر"
-        >
-
-        <img
-          class="banner_track-image"
-          src="images/banner/banner-3.webp"
-          alt="بنر"
-      >
-
-        <img
-          class="banner_track-image"
-          src="images/banner/banner-4.webp"
-          alt="بنر"
-        >
-
-        <!-- Duplicate -->
-        <img
-          class="banner_track-image"
-          src="images/banner/banner-1.webp"
-          alt=""
-          aria-hidden="true"
-        >
-
-        <img
-          class="banner_track-image"
-          src="images/banner/banner-2.webp"
-          alt=""
-          aria-hidden="true"
-        >
-
-        <img
-          class="banner_track-image"
-          src="images/banner/banner-3.webp"
-          alt=""
-          aria-hidden="true"
-        >
-
-        <img
-          class="banner_track-image"
-          src="images/banner/banner-4.webp"
-          alt=""
-          aria-hidden="true"
-        >
-      </div>
-    </section>
+<section
+  class="banner anchor-section"
+  id="banner"
+  aria-label="بنر اصلی"
+>
+  <div class="banner__track" id="banner-track"></div>
+</section>
     <main>
       <!-- Categories -->
      <section
@@ -190,7 +143,7 @@
   
 </section>
       <!-- suggestions -->
-      <section class="carousel-container anchor-section" id="suggestions">
+      <section class="carousel-container anchor-section" id="offers">
         <div class="carousel-header">
           <h2 class="section-title">
             <span>پیشنهاد ویژه امروز</span>
@@ -215,37 +168,16 @@
 
         <div class="carousel-track suggestions">
        
-            <div class="product-thumb">
-              <img src="images/product/orange-juice.webp" alt="" >
-            </div>
-
-            <div class="product-info">
-              <span class="product-name">آب پرتقال</span>
-              <span class="product-unit">۳۰۰ لیتر</span>
-            </div>
-
-            <div class="product-footer">
-              <div class="product-pricing">
-                <span class="current-price">۵۰,۰۰۰ تومان</span>
-              </div>
-
-              <button class="add-btn" type="button" aria-label="افزودن به سبد">
-                +
-              </button>
-            </div>
+           
           </div>
         </div>
       </section>
       <!-- Advertisement -->
-      <section
-        class="advertisement anchor-section"
-        id="advertisement-1"
-        aria-label="تبلیغات1"
-      >
-        <a href="#">
-          <img src="images/ad/Advertisemnet-1.png" alt="پیشنهاد ویژه یانگی">
-        </a>
-      </section>
+     <section
+  class="advertisement anchor-section"
+  id="advertisement-1"
+  aria-label="تبلیغات"
+></section>
       <!-- dairy -->
       <section class="carousel-container anchor-section" id="dairy">
         <div class="carousel-header">
@@ -269,122 +201,8 @@
         </div>
 
         <div class="carousel-track dairyProducts">
-          <!-- Product 1 -->
-          <!-- <div class="product-card">
-            <div class="product-thumb">
-              <span class="badge-discount">۲۰٪</span>
-              <img src="images/dairy/milk.webp" alt="" >
-            </div>
-            <div class="product-info">
-              <span class="product-name">شیر کم‌چرب</span>
-              <span class="product-unit">۱ لیتر</span>
-            </div>
-            <div class="product-footer">
-              <div class="product-pricing">
-                <span class="old-price">۴۰,۰۰۰</span>
-                <span class="current-price">۳۲,۰۰۰ تومان</span>
-              </div>
-              <button class="add-btn" type="button" aria-label="افزودن به سبد">
-                +
-              </button>
-            </div>
-          </div> -->
-          <!-- Product 2 -->
-          <!-- <div class="product-card">
-            <div class="product-thumb">
-              <span class="badge-discount">۱۵٪</span>
-              <img src="images/dairy/yogurt.webp" alt="" >
-            </div>
-            <div class="product-info">
-              <span class="product-name">ماست پرچرب</span>
-              <span class="product-unit">۹۰۰ گرم</span>
-            </div>
-            <div class="product-footer">
-              <div class="product-pricing">
-                <span class="old-price">۶۵,۰۰۰</span>
-                <span class="current-price">۵۵,۰۰۰ تومان</span>
-              </div>
-              <button class="add-btn" type="button" aria-label="افزودن به سبد">
-                +
-              </button>
-            </div>
-          </div> -->
-          <!-- Product 3 -->
-          <!-- <div class="product-card">
-            <div class="product-thumb">
-              <img src="images/dairy/cheese.webp" alt="" >
-            </div>
-            <div class="product-info">
-              <span class="product-name">پنیر سفید</span>
-              <span class="product-unit">۴۰۰ گرم</span>
-            </div>
-            <div class="product-footer">
-              <div class="product-pricing">
-                <span class="current-price">۸۵,۰۰۰ تومان</span>
-              </div>
-              <button class="add-btn" type="button" aria-label="افزودن به سبد">
-                +
-              </button>
-            </div>
-          </div> -->
-          <!-- Product 4 -->
-          <!-- <div class="product-card">
-            <div class="product-thumb">
-              <span class="badge-discount">۲۵٪</span>
-              <img src="images/dairy/butter.webp" alt="" >
-            </div>
-            <div class="product-info">
-              <span class="product-name">کره پاستوریزه</span>
-              <span class="product-unit">۱۰۰ گرم</span>
-            </div>
-            <div class="product-footer">
-              <div class="product-pricing">
-                <span class="old-price">۷۵,۰۰۰</span>
-                <span class="current-price">۵۶,۰۰۰ تومان</span>
-              </div>
-              <button class="add-btn" type="button" aria-label="افزودن به سبد">
-                +
-              </button>
-            </div>
-          </div> -->
-          <!-- Product 5 -->
-          <!-- <div class="product-card">
-            <div class="product-thumb">
-              <img src="images/dairy/cream.webp" alt="" >
-            </div>
-            <div class="product-info">
-              <span class="product-name">خامه صبحانه</span>
-              <span class="product-unit">۲۰۰ گرم</span>
-            </div>
-            <div class="product-footer">
-              <div class="product-pricing">
-                <span class="current-price">۴۸,۰۰۰ تومان</span>
-              </div>
-              <button class="add-btn" type="button" aria-label="افزودن به سبد">
-                +
-              </button>
-            </div>
-          </div> -->
-          <!-- Product 6 -->
-          <!-- <div class="product-card">
-            <div class="product-thumb">
-              <span class="badge-discount">۱۰٪</span>
-              <img src="images/dairy/doogh.webp" alt="" >
-            </div>
-            <div class="product-info">
-              <span class="product-name">دوغ نعناعی</span>
-              <span class="product-unit">۱.۵ لیتر</span>
-            </div>
-            <div class="product-footer">
-              <div class="product-pricing">
-                <span class="old-price">۶۰,۰۰۰</span>
-                <span class="current-price">۵۴,۰۰۰ تومان</span>
-              </div>
-              <button class="add-btn" type="button" aria-label="افزودن به سبد">
-                +
-              </button>
-            </div>
-          </div> -->
+         
+          </div> 
         </div>
       </section>
 
@@ -442,14 +260,10 @@
       </section>
                   <!-- Advertisement -->
       <section
-        class="advertisement anchor-section"
-        id="advertisement-2"
-        aria-label="تبلیغات2"
-      >
-        <a href="#">
-          <img src="images/ad/Advertisemnet-2.png" alt="پیشنهاد ویژه یانگی" >
-        </a>
-      </section>
+  class="advertisement anchor-section"
+  id="advertisement-2"
+  aria-label="تبلیغات"
+></section>
                     <!-- Staples & Groceries -->
       <section class="carousel-container anchor-section" id="pantry">
         <div class="carousel-header">

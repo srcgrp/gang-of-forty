@@ -1,3 +1,7 @@
+// update Cart on loading page
+document.addEventListener("DOMContentLoaded", () => {
+  updateCartUI();
+});
 // task 1- fetch and show  products
 function renderSkeletons(container, count = 6) {
   const fragment = document.createDocumentFragment();
@@ -192,13 +196,20 @@ if (product.tags?.length) {
       pricing.append(currentPrice);
 
       const button = document.createElement("button");
-      button.classList.add("add-btn");
-      button.type = "button";
-      button.setAttribute(
-        "aria-label",
-        `افزودن ${product.name} به سبد`
-      );
-      button.textContent = "+";
+
+button.classList.add("add-btn");
+button.type = "button";
+
+button.setAttribute(
+  "aria-label",
+  `افزودن ${product.name} به سبد`
+);
+
+button.textContent = "+";
+
+button.addEventListener("click", () => {
+  addToCart(product, discountedPrice);
+});
 
       footer.append(pricing, button);
 
@@ -268,141 +279,27 @@ function renderSuggestions(products, stock, offers) {
 
   suggestions.replaceChildren();
 
-  const formatNumber = (number) => number.toLocaleString("fa-IR");
+  const formatNumber = (number) =>
+    number.toLocaleString("fa-IR");
+
+  // =========================
+  // Search placeholder
+  // =========================
+
+  const searchInput =
+    document.querySelector(".header__search input");
+
+  if (searchInput) {
+    searchInput.placeholder =
+      `می‌تونی بین ${formatNumber(products.length)} محصول جستجو کنی`;
+  }
+
+  // =========================
+  // Products
+  // =========================
 
   products.forEach((product) => {
-   
-    const offer = offers.find(
-      (item) => item.productId === product.id
-    );
-
-   
-    if (!offer) return;
-
-    // Stock
-    const quantity = stock.items[String(product.id)] ?? 0;
-    const isOutOfStock = quantity <= 0;
-
-    // Calculate discounted price
-    const discountedPrice = Math.round(
-      product.price * (1 - offer.percent / 100)
-    );
-
-    // Card
-    const card = document.createElement("div");
-    card.classList.add("product-card");
-
-    if (isOutOfStock) {
-      card.classList.add("product-card--out-of-stock");
-    }
-
-    // Badges
-    const badges = document.createElement("div");
-    badges.classList.add("product-badges");
-
-    // Discount
-    if (offer) {
-      const discount = document.createElement("span");
-      discount.classList.add("badge-discount");
-      discount.textContent = `${formatNumber(offer.percent)}٪`;
-
-      badges.append(discount);
-    }
-
-    // Product tags
-    if (product.tags?.length) {
-      const tags = document.createElement("div");
-      tags.classList.add("product-tags");
-
-      product.tags.forEach((tag) => {
-        const tagBadge = document.createElement("span");
-        tagBadge.classList.add("badge-offer-label");
-        tagBadge.textContent = tag;
-
-        tags.append(tagBadge);
-      });
-
-      badges.append(tags);
-    }
-
-    // Always append badges to reserve its height
-    card.append(badges);
-
-    // Thumbnail
-    const thumb = document.createElement("div");
-    thumb.classList.add("product-thumb");
-
-    const emoji = document.createElement("span");
-    emoji.classList.add("product-emoji");
-    emoji.textContent = product.emoji;
-    emoji.setAttribute("role", "img");
-    emoji.setAttribute("aria-label", product.name);
-
-    thumb.append(emoji);
-
-    // Product info
-    const info = document.createElement("div");
-    info.classList.add("product-info");
-
-    const name = document.createElement("span");
-    name.classList.add("product-name");
-    name.textContent = product.name;
-
-    const unit = document.createElement("span");
-    unit.classList.add("product-unit");
-    unit.textContent = product.unit;
-
-    info.append(name, unit);
-
-    // Out-of-stock message
-    if (isOutOfStock) {
-      const stockMessage = document.createElement("span");
-      stockMessage.classList.add("stock-message");
-      stockMessage.textContent = "ناموجود";
-
-      info.append(stockMessage);
-    }
-
-    // Footer
-    const footer = document.createElement("div");
-    footer.classList.add("product-footer");
-
-    const pricing = document.createElement("div");
-    pricing.classList.add("product-pricing");
-
-    // Original price
-    if (offer) {
-      const oldPrice = document.createElement("span");
-      oldPrice.classList.add("old-price");
-      oldPrice.textContent = `${formatNumber(product.price)} تومان`;
-
-      pricing.append(oldPrice);
-    }
-
-    // Current price
-    const currentPrice = document.createElement("span");
-    currentPrice.classList.add("current-price");
-    currentPrice.textContent = `${formatNumber(discountedPrice)} تومان`;
-
-    pricing.append(currentPrice);
-
-    // Add button
-    const button = document.createElement("button");
-    button.classList.add("add-btn");
-    button.type = "button";
-    button.setAttribute(
-      "aria-label",
-      `افزودن ${product.name} به سبد`
-    );
-    button.textContent = "+";
-    button.disabled = isOutOfStock;
-
-    footer.append(pricing, button);
-
-    // Assemble card
-    card.append(thumb, info, footer);
-
-    suggestions.append(card);
+    // ... your existing code
   });
 }
 
@@ -734,3 +631,185 @@ async function fetchShop() {
 fetchShop();
 
 fetchCategories();
+
+
+// fetch from home.json
+async function fetchHome() {
+  try {
+    const response = await fetch("../../api/home.json");
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch home data");
+    }
+
+    const home = await response.json();
+
+    // =========================
+    // Hero / Banner
+    // =========================
+
+    const banner = document.querySelector("#banner");
+
+    const bannerTrack =
+      banner.querySelector(".banner__track");
+
+    const slides = [home.hero, home.side];
+
+    const createSlide = (slide, isDuplicate = false) => {
+      const link = document.createElement("a");
+
+      link.classList.add("banner__slide");
+      link.href = slide.cta.href;
+
+      if (isDuplicate) {
+        link.setAttribute("aria-hidden", "true");
+      }
+
+      const emoji = document.createElement("span");
+
+      emoji.classList.add("banner__slide-emoji");
+      emoji.textContent = slide.emoji;
+      emoji.setAttribute("aria-hidden", "true");
+
+      const content = document.createElement("div");
+
+      content.classList.add("banner__slide-content");
+
+      const title = document.createElement("h2");
+
+      title.classList.add("banner__slide-title");
+      title.textContent = slide.title;
+
+      const text = document.createElement("p");
+
+      text.classList.add("banner__slide-text");
+      text.textContent = slide.text;
+
+      const cta = document.createElement("span");
+
+      cta.classList.add("banner__slide-cta");
+      cta.textContent = slide.cta.label;
+
+      content.append(title, text, cta);
+      link.append(emoji, content);
+
+      return link;
+    };
+
+    const bannerFragment =
+      document.createDocumentFragment();
+
+    // Original slides
+    slides.forEach((slide) => {
+      bannerFragment.append(createSlide(slide));
+    });
+
+    // Duplicate slides
+    slides.forEach((slide) => {
+      bannerFragment.append(createSlide(slide, true));
+    });
+
+    bannerTrack.replaceChildren(bannerFragment);
+
+    // =========================
+    // Promos
+    // =========================
+
+    home.promos.forEach((promo, index) => {
+      const advertisement = document.querySelector(
+        `#advertisement-${index + 1}`
+      );
+
+      if (!advertisement) {
+        return;
+      }
+
+      const link = document.createElement("a");
+
+      link.href = promo.href;
+      link.style.backgroundColor = promo.color;
+
+      const emoji = document.createElement("span");
+
+      emoji.classList.add("advertisement__emoji");
+      emoji.textContent = promo.emoji;
+      emoji.setAttribute("aria-hidden", "true");
+
+      const text = document.createElement("span");
+
+      text.classList.add("advertisement__text");
+      text.textContent = promo.text;
+
+      link.append(emoji, text);
+
+      advertisement.replaceChildren(link);
+    });
+  } catch (error) {
+    console.error("Error loading home data:", error);
+  }
+}
+fetchHome();
+
+
+// Cart
+const CART_KEY = "yagni-cart";
+
+function getCart() {
+  return JSON.parse(localStorage.getItem(CART_KEY)) || [];
+}
+
+function saveCart(cart) {
+  localStorage.setItem(CART_KEY, JSON.stringify(cart));
+}
+
+function updateCartUI() {
+  const cart = getCart();
+
+  const count = cart.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
+
+  const total = cart.reduce(
+    (total, item) =>
+      total + item.price * item.quantity,
+    0
+  );
+
+  const cartCount =
+    document.querySelector(".header__cart-count");
+
+  const cartTotal =
+    document.querySelector(".header__cart-content strong");
+
+  if (cartCount) {
+    cartCount.textContent = count.toLocaleString("fa-IR");
+  }
+
+  if (cartTotal) {
+    cartTotal.textContent =
+      `${total.toLocaleString("fa-IR")} تومان`;
+  }
+}
+
+function addToCart(product, price) {
+  const cart = getCart();
+
+  const existingItem = cart.find(
+    (item) => item.productId === product.id
+  );
+
+  if (existingItem) {
+    existingItem.quantity += 1;
+  } else {
+    cart.push({
+      productId: product.id,
+      name: product.name,
+      price,
+      quantity: 1,
+    });
+  }
+
+  saveCart(cart);
+  updateCartUI();
+}
