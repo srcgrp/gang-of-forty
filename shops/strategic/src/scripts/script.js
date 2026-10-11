@@ -96,3 +96,5 @@ const BANNER_ART = [
   ['hero/hot-bread.png', /نان|شیرینی/, [240, 240]],
   ['hero/dairy.webp', /لبنیات|شیر|پنیر|ماست/, [560, 348]],
 ];
+
+
