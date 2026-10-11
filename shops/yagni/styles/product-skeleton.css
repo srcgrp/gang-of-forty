@@ -49,3 +49,42 @@
     animation: none;
   }
 }
+@media (max-width: 1050px) {
+  .category-skeleton__image {
+    width: 82px;
+    height: 82px;
+  }
+}
+
+@media (max-width: 600px) {
+  .category-skeleton {
+    padding: 10px 4px;
+    border-radius: 12px;
+  }
+
+  .category-skeleton__image {
+    width: 64px;
+    height: 64px;
+  }
+
+  .category-skeleton__title {
+    width: 55px;
+    height: 12px;
+  }
+}
+
+@media (max-width: 400px) {
+  .category-skeleton {
+    padding-inline: 2px;
+  }
+
+  .category-skeleton__image {
+    width: 58px;
+    height: 58px;
+  }
+
+  .category-skeleton__title {
+    width: 50px;
+    height: 11px;
+  }
+}

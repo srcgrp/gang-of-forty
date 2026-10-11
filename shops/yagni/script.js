@@ -206,34 +206,8 @@ if (product.tags?.length) {
       card.append(thumb, info, footer);
       container.append(card);
     });
-  } catch (error) {
-    console.error("Error loading products:", error);
-
-    container.replaceChildren();
-
-    const errorMessage = document.createElement("div");
-    errorMessage.classList.add("product-error");
-
-    const icon = document.createElement("span");
-    icon.classList.add("product-error__icon");
-    icon.textContent = "⚠️";
-    icon.setAttribute("aria-hidden", "true");
-
-    const message = document.createElement("p");
-    message.classList.add("product-error__message");
-    message.textContent = "بارگذاری محصولات ناموفق بود";
-
-    const retryButton = document.createElement("button");
-    retryButton.classList.add("product-error__retry");
-    retryButton.type = "button";
-    retryButton.textContent = "تلاش مجدد";
-
-    retryButton.addEventListener("click", () => {
-      renderProducts(categoryId, containerSelector);
-    });
-
-    errorMessage.append(icon, message, retryButton);
-    container.append(errorMessage);
+  } catch (error){
+    renderError(container,renderProducts)
   }
 }
 
@@ -280,34 +254,8 @@ async function getSuggestions() {
     ]);
 
     renderSuggestions(products, stock, offers);
-  } catch (error) {
-    console.error("Error loading products:", error);
-
-    suggestions.replaceChildren();
-
-    const errorMessage = document.createElement("div");
-    errorMessage.classList.add("product-error");
-
-    const icon = document.createElement("span");
-    icon.classList.add("product-error__icon");
-    icon.textContent = "⚠️";
-    icon.setAttribute("aria-hidden", "true");
-
-    const message = document.createElement("p");
-    message.classList.add("product-error__message");
-    message.textContent = "بارگذاری محصولات ناموفق بود";
-
-    const retryButton = document.createElement("button");
-    retryButton.classList.add("product-error__retry");
-    retryButton.type = "button";
-    retryButton.textContent = "تلاش مجدد";
-
-    retryButton.addEventListener("click", () => {
-      getSuggestions();
-    });
-
-    errorMessage.append(icon, message, retryButton);
-    suggestions.append(errorMessage);
+  }catch (error){
+     renderError(suggestions,getSuggestions);
   }
 }
 
@@ -459,3 +407,330 @@ function renderSuggestions(products, stock, offers) {
 }
 
 getSuggestions();
+
+//task 3-fetch data from categories.json
+
+const categoriesGrid = document.querySelector("#categories-grid");
+
+function renderCategorySkeletons(container, count = 7) {
+  const fragment = document.createDocumentFragment();
+
+  for (let i = 0; i < count; i++) {
+    const card = document.createElement("div");
+    card.classList.add("category-skeleton");
+    card.setAttribute("aria-hidden", "true");
+
+    const image = document.createElement("div");
+    image.classList.add(
+      "category-skeleton__shimmer",
+      "category-skeleton__image"
+    );
+
+    const title = document.createElement("div");
+    title.classList.add(
+      "category-skeleton__shimmer",
+      "category-skeleton__title"
+    );
+
+    card.append(image, title);
+    fragment.append(card);
+  }
+
+  container.replaceChildren(fragment);
+}
+
+function renderError(container,retryFunction) {
+  const errorMessage = document.createElement("div");
+  errorMessage.classList.add("product-error");
+
+  const icon = document.createElement("span");
+  icon.classList.add("product-error__icon");
+  icon.textContent = "⚠️";
+  icon.setAttribute("aria-hidden", "true");
+
+  const message = document.createElement("p");
+  message.classList.add("product-error__message");
+  message.textContent = "بارگذاری دسته‌بندی‌ها ناموفق بود";
+
+  const retryButton = document.createElement("button");
+  retryButton.classList.add("product-error__retry");
+  retryButton.type = "button";
+  retryButton.textContent = "تلاش مجدد";
+
+  retryButton.addEventListener("click",retryFunction );
+
+  errorMessage.append(icon, message, retryButton);
+
+  container.replaceChildren(errorMessage);
+}
+
+async function fetchCategories() {
+  renderCategorySkeletons(categoriesGrid);
+
+  try {
+    const response = await fetch("../../api/categories.json");
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch categories");
+    }
+
+    const categories = await response.json();
+
+    const fragment = document.createDocumentFragment();
+
+    categories.forEach((category) => {
+      const card = document.createElement("a");
+      card.classList.add("category-card");
+      card.href = `#${category.slug}`;
+
+      const image = document.createElement("span");
+      image.classList.add("category-card__image");
+      image.textContent = category.emoji;
+      image.style.backgroundColor = category.color;
+
+      const title = document.createElement("span");
+      title.classList.add("category-card__title");
+      title.textContent = category.name;
+
+      card.append(image, title);
+      fragment.append(card);
+    });
+
+    categoriesGrid.replaceChildren(fragment);
+  } catch (error) {
+    console.error("Error loading categories:", error);
+
+    renderError(categoriesGrid,fetchCategories);
+  }
+}
+
+
+function renderError(container, retryFunction, messageText) {
+  const errorMessage = document.createElement("div");
+  errorMessage.classList.add("product-error");
+
+  const icon = document.createElement("span");
+  icon.classList.add("product-error__icon");
+  icon.textContent = "⚠️";
+  icon.setAttribute("aria-hidden", "true");
+
+  const message = document.createElement("p");
+  message.classList.add("product-error__message");
+  message.textContent = messageText;
+
+  const retryButton = document.createElement("button");
+  retryButton.classList.add("product-error__retry");
+  retryButton.type = "button";
+  retryButton.textContent = "تلاش مجدد";
+
+  retryButton.addEventListener("click", retryFunction);
+
+  errorMessage.append(icon, message, retryButton);
+
+  container.replaceChildren(errorMessage);
+}
+
+
+
+async function fetchShop() {
+  try {
+    // =========================
+    // Fetch shop and categories
+    // =========================
+
+    const [shopResponse, categoriesResponse] = await Promise.all([
+      fetch("../../api/shop.json"),
+      fetch("../../api/categories.json"),
+    ]);
+
+    if (!shopResponse.ok) {
+      throw new Error("Failed to fetch shop data");
+    }
+
+    if (!categoriesResponse.ok) {
+      throw new Error("Failed to fetch categories data");
+    }
+
+    const shop = await shopResponse.json();
+    const categories = await categoriesResponse.json();
+
+    // =========================
+    // Header information
+    // =========================
+
+    document.querySelector("#shop-header-name").textContent = shop.name;
+
+    document.querySelector("#shop-header-slogan").textContent =
+      shop.slogan;
+
+    // =========================
+    // Shop information
+    // =========================
+
+    document.querySelector("#shop-name").textContent = shop.name;
+
+    document.querySelector("#shop-about").textContent = shop.about;
+
+    document.querySelector("#shop-address").textContent = shop.address;
+
+    document.querySelector("#shop-phone").textContent = shop.phone;
+
+    // =========================
+    // Navbar categories
+    // =========================
+
+    const navbarCategories =
+      document.querySelector("#navbar-categories");
+
+    const navbarCategoriesFragment =
+      document.createDocumentFragment();
+
+    categories.forEach((category) => {
+      const li = document.createElement("li");
+
+      const link = document.createElement("a");
+      link.classList.add("dropdown-item");
+      link.href = `#${category.slug}`;
+
+      const emoji = document.createElement("span");
+      emoji.classList.add("emoji");
+      emoji.textContent = category.emoji;
+      emoji.setAttribute("aria-hidden", "true");
+
+      link.append(emoji, category.name);
+      li.append(link);
+
+      navbarCategoriesFragment.append(li);
+    });
+
+    navbarCategories.replaceChildren(navbarCategoriesFragment);
+
+    // =========================
+    // Navbar menu
+    // =========================
+
+    const navbarList =
+      document.querySelector("#navbar-list");
+
+    // Remove previously generated menu items
+    const oldNavbarItems =
+      navbarList.querySelectorAll(".navbar-menu-item");
+
+    oldNavbarItems.forEach((item) => {
+      item.remove();
+    });
+
+    const navbarMenuFragment =
+      document.createDocumentFragment();
+
+    shop.menu.forEach((item) => {
+      const li = document.createElement("li");
+      li.classList.add("navbar-menu-item");
+
+      const link = document.createElement("a");
+      link.classList.add("nav-link");
+      link.href = item.href;
+      link.textContent = item.label;
+
+      li.append(link);
+      navbarMenuFragment.append(li);
+    });
+
+    navbarList.append(navbarMenuFragment);
+
+    // =========================
+    // Footer categories
+    // =========================
+
+    const footerCategories =
+      document.querySelector("#footer-categories");
+
+    const categoriesFragment =
+      document.createDocumentFragment();
+
+    categories.forEach((category) => {
+      const li = document.createElement("li");
+
+      const link = document.createElement("a");
+
+      link.href = `#${category.slug}`;
+      link.textContent = category.name;
+
+      li.append(link);
+      categoriesFragment.append(li);
+    });
+
+    footerCategories.replaceChildren(categoriesFragment);
+
+    // =========================
+    // Help
+    // =========================
+
+    const helpList =
+      document.querySelector("#footer-help");
+
+    const helpFragment =
+      document.createDocumentFragment();
+
+    shop.help.forEach((item) => {
+      const li = document.createElement("li");
+
+      const link = document.createElement("a");
+
+      link.href = item.href;
+      link.textContent = item.label;
+
+      li.append(link);
+      helpFragment.append(li);
+    });
+
+    helpList.replaceChildren(helpFragment);
+
+    // =========================
+    // Working hours
+    // =========================
+
+    const schedule =
+      document.querySelector("#shop-schedule");
+
+    const scheduleFragment =
+      document.createDocumentFragment();
+
+    shop.schedule.forEach((item) => {
+      const p = document.createElement("p");
+
+      const strong = document.createElement("strong");
+      strong.textContent = `${item.days}:`;
+
+      const time = document.createElement("span");
+      time.textContent = item.time;
+
+      p.append(strong, " ", time);
+
+      scheduleFragment.append(p);
+    });
+
+    schedule.replaceChildren(scheduleFragment);
+
+    // =========================
+    // Copyright
+    // =========================
+
+    document.querySelector("#shop-copyright").textContent =
+      shop.copyright;
+  } catch (error) {
+    console.error("Error loading shop data:", error);
+
+    renderError(
+      document.querySelector("#footer"),
+      fetchShop,
+      "بارگذاری اطلاعات فروشگاه ناموفق بود"
+    );
+  }
+}
+
+
+
+fetchShop();
+
+fetchCategories();
