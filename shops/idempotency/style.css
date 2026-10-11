@@ -701,6 +701,34 @@ body {
   font-size: 13px;
   text-decoration: line-through;
 }
+/* Product price layout */
+
+.price-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    width: 100%;
+    margin-top: 8px;
+    margin-bottom: 12px;
+}
+
+.price-box .old-price,
+.price-box .product-price {
+    margin: 0;
+    position: static;
+}
+
+.price-box .old-price {
+    font-size: 13px;
+    color: var(--color-text-soft);
+    text-decoration: line-through;
+}
+
+.price-box .product-price {
+    font-weight: 700;
+    color: var(--color-primary);
+}
 .product-card-unavailable {
   position: relative;
 }
@@ -855,6 +883,34 @@ body {
 .promo-ornament-bottom {
   transform: rotate(180deg);
 }
+/* Emojies */
+
+.product-emoji {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 170px;
+    margin-bottom: 12px;
+
+    font-size: 72px;
+    border-radius: 12px;
+    background-color: var(--color-bg);
+}
+
+.product-card-unavailable .product-emoji {
+    opacity: 0.55;
+    filter: grayscale(0.5);
+}
+
+@media (max-width: 520px) {
+    .product-emoji {
+        height: 140px;
+        font-size: 60px;
+    }
+}
+
 
 /*Cart Toast */
 

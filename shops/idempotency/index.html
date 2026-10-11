@@ -119,27 +119,27 @@
       </span>
       <div class="category-grid">
         <a class="category-card" href="#dairy-breakfast">
-          <img src="./asset/categories/breakfast-and-dairy.png" alt="" aria-hidden="true">
+          <img src="./asset/products/breakfast-and-dairy.png" alt="" aria-hidden="true">
           <span>لبنیات و صبحانه</span>
         </a>
         <a class="category-card" href="#fruits-vegetables">
-          <img src="./asset/categories/fruits-and-vegetables.png" alt="" aria-hidden="true">
+          <img src="./asset/products/fruits-and-vegetables.png" alt="" aria-hidden="true">
           <span>میوه و سبزیجات</span>
         </a>
         <a class="category-card" href="#drinks">
-          <img src="./asset/categories/drinks.png" alt="" aria-hidden="true">
+          <img src="./asset/products/drinks.png" alt="" aria-hidden="true">
           <span>نوشیدنی</span>
         </a>
         <a class="category-card" href="#snacks-sweets">
-          <img src="./asset/categories/sweets-and-treats.png" alt="" aria-hidden="true">
+          <img src="./asset/products/sweets-and-treats.png" alt="" aria-hidden="true">
           <span>تنقلات و شیرینی</span>
         </a>
         <a class="category-card" href="#nuts">
-          <img src="./asset/categories/nuts.png" alt="" aria-hidden="true">
+          <img src="./asset/products/nuts.png" alt="" aria-hidden="true">
           <span>آجیل</span>
         </a>
         <a class="category-card" href="#protein">
-          <img src="./asset/categories/proteins.png" alt="" aria-hidden="true">
+          <img src="./asset/products/proteins.png" alt="" aria-hidden="true">
           <span>پروتئین</span>
         </a>
       </div>
@@ -151,82 +151,29 @@
           اینجا هستید
         </span>
       </div>
-      <div class="product-track" tabindex="0" aria-label="محصولات پیشنهادهای امروز">
-        <span id="today-first" class="carousel-anchor" aria-hidden="true"></span>
-        <article class="product-card">
-          <img src="./asset/day-offer/milk.png" alt="شیر تازه">
-          <h3>شیر تازه</h3>
-          <p class="product-meta">۱ لیتر</p>
-          <p class="product-price">۱۱۰٬۰۰۰ تومان</p>
-          <button type="button">افزودن به سبد</button>
-        </article>
-        <article class="product-card">
-          <img src="./asset/day-offer/butter.png" alt="کره">
-          <h3>کره</h3>
-          <p class="product-meta">۱۰۰ گرم</p>
-          <p class="product-price">۹۸٬۰۰۰ تومان</p>
-          <button type="button">افزودن به سبد</button>
-        </article>
-        <article class="product-card">
-          <img src="./asset/day-offer/watermelon.png" alt="هندوانه">
-          <h3>هندوانه</h3>
-          <p class="product-meta">کیلویی</p>
-          <p class="product-price">۱۲۰٬۰۰۰ تومان</p>
-          <button type="button">افزودن به سبد</button>
-        </article>
-        <article class="product-card">
-          <img src="./asset/day-offer/cake.png" alt="کیک یزدی">
-          <h3>کیک یزدی</h3>
-          <p class="product-meta">۴ عدد</p>
-          <p class="product-price">۲۴۰٬۰۰۰ تومان</p>
-          <button type="button">افزودن به سبد</button>
-        </article>
-        <article class="product-card">
-          <img src="./asset/day-offer/orange-juice.png" alt="آب پرتقال">
-          <h3>آب پرتقال</h3>
-          <p class="product-meta">۱ لیتر</p>
-          <p class="product-price">۲۳۰٬۰۰۰ تومان</p>
-          <button type="button">افزودن به سبد</button>
-        </article>
-        <article class="product-card">
-          <img src="./asset/day-offer/pistachio.png" alt="پسته">
-          <h3>پسته</h3>
-          <p class="product-meta">۷۰۰ گرم</p>
-          <p class="product-price">۱٬۰۰۰٬۰۰۰ تومان</p>
-          <button type="button">افزودن به سبد</button>
-        </article>
-        <article class="product-card">
-          <img src="./asset/categories/eggs.png" alt="تخم مرغ">
-          <h3>تخم مرغ</h3>
-          <p class="product-meta">یک شانه</p>
-          <p class="product-price">۷۰۰٬۰۰۰ تومان</p>
-          <button type="button">افزودن به سبد</button>
-        </article>
-        <article class="product-card">
-          <img src="./asset/categories/strawberries.png" alt="توت فرنگی">
-          <h3>توت فرنگی</h3>
-          <p class="product-meta">کیلویی</p>
-          <p class="product-price">۴۵۰٬۰۰۰ تومان</p>
-          <button type="button">افزودن به سبد</button>
-        </article>
-        <article class="product-card">
-          <img src="./asset/categories/sohan.png" alt="سوهان">
-          <h3>سوهان</h3>
-          <p class="product-meta">یک بسته</p>
-          <p class="product-price">۴۵۰٬۰۰۰ تومان</p>
-          <button type="button">افزودن به سبد</button>
-        </article>
-        <span id="today-last" class="carousel-anchor" aria-hidden="true"></span>
+      <div class="product-track" id="today-products" tabindex="0" aria-label="محصولات پیشنهادهای امروز" aria-busy="true">
+        <p class="loading-message" role="status"> در حال بارگذاری پیشنهادهای امروز...
+        </p>        
       </div>
-      <div class="carousel-controls">
-        <a href="#today-first" class="carousel-arrow carousel-arrow-start" aria-label="رفتن به ابتدای پیشنهادهای امروز">
-          →
-        </a>
+     <div class="carousel-controls">
 
-        <a href="#today-last" class="carousel-arrow carousel-arrow-end" aria-label="رفتن به انتهای پیشنهادهای امروز">
-          ←
-        </a>
-      </div>
+    <button
+        type="button"
+        class="carousel-arrow carousel-arrow-start"
+        id="today-scroll-start"
+        aria-label="رفتن به ابتدای پیشنهادهای امروز">
+        →
+    </button>
+
+    <button
+        type="button"
+        class="carousel-arrow carousel-arrow-end"
+        id="today-scroll-end"
+        aria-label="رفتن به انتهای پیشنهادهای امروز">
+        ←
+    </button>
+
+</div>
     </section>
     <section id="special-discounts" class="product-section" aria-labelledby="special-discounts-title">
       <h2 id="special-discounts-title">تخفیف‌های ویژه</h2>
@@ -237,7 +184,7 @@
         <span id="discount-first" class="carousel-anchor" aria-hidden="true"></span>
         <article class="product-card product-card-discount">
           <span class="discount-badge">٪۱۵</span>
-          <img src="./asset/categories/cream.png" alt="خامه">
+          <img src="./asset/products/cream.png" alt="خامه">
           <h3>خامه</h3>
           <p class="product-meta">۱۲۰ گرم</p>
           <p class="old-price">۱۵۰٬۰۰۰ تومان</p>
@@ -246,7 +193,7 @@
         </article>
         <article class="product-card product-card-discount">
           <span class="discount-badge">٪۱۵</span>
-          <img src="./asset/categories/coffee.png" alt="قهوه">
+          <img src="./asset/products/coffee.png" alt="قهوه">
           <h3>قهوه</h3>
           <p class="product-meta">یک لیوان</p>
           <p class="old-price">۲۳۰٬۰۰۰ تومان</p>
@@ -255,7 +202,7 @@
         </article>
         <article class="product-card product-card-discount">
           <span class="discount-badge">٪۲۰</span>
-          <img src="./asset/categories/pomagranate-juice.png" alt="آب انار">
+          <img src="./asset/products/pomagranate-juice.png" alt="آب انار">
           <h3>آب انار</h3>
           <p class="product-meta">۱ لیتر</p>
           <p class="old-price">۵۴۰٬۰۰۰ تومان</p>
@@ -264,7 +211,7 @@
         </article>
         <article class="product-card product-card-discount">
           <span class="discount-badge">٪۱۵</span>
-          <img src="./asset/categories/baklava.png" alt="باقلوا">
+          <img src="./asset/products/baklava.png" alt="باقلوا">
           <h3>باقلوا</h3>
           <p class="product-meta">۳ عدد</p>
           <p class="old-price">۵۷۰٬۰۰۰ تومان</p>
@@ -273,7 +220,7 @@
         </article>
         <article class="product-card product-card-discount">
           <span class="discount-badge">٪۱۰</span>
-          <img src="./asset/categories/hazulnut.png" alt="فندق">
+          <img src="./asset/products/hazulnut.png" alt="فندق">
           <h3>فندق</h3>
           <p class="product-meta">کیلویی</p>
           <p class="old-price">۱٬۳۰۰٬۰۰۰ تومان</p>
@@ -282,7 +229,7 @@
         </article>
         <article class="product-card product-card-discount">
           <span class="discount-badge">٪۲۰</span>
-          <img src="./asset/categories/shrimp.png" alt="میگو">
+          <img src="./asset/products/shrimp.png" alt="میگو">
           <h3>میگو</h3>
           <p class="product-meta">کیلویی</p>
           <p class="old-price">۲٬۳۰۰٬۰۰۰ تومان</p>
@@ -320,63 +267,63 @@
       <div class="product-track" tabindex="0" aria-label="محصولات پرفروش">
         <span id="best-first" class="carousel-anchor" aria-hidden="true"></span>
         <article class="product-card">
-          <img src="./asset/best-sellers/cheese.png" alt="پنیر">
+          <img src="./asset/products/cheese.png" alt="پنیر">
           <h3>پنیر</h3>
           <p class="product-meta">۳۵۰ گرم</p>
           <p class="product-price">۲۴۸٬۰۰۰ تومان</p>
           <button type="button">افزودن به سبد</button>
         </article>
         <article class="product-card">
-          <img src="./asset/best-sellers/bananas.png" alt="موز">
+          <img src="./asset/products/bananas.png" alt="موز">
           <h3>موز</h3>
           <p class="product-meta">کیلویی</p>
           <p class="product-price">۲۵۰٬۰۰۰ تومان</p>
           <button type="button">افزودن به سبد</button>
         </article>
         <article class="product-card">
-          <img src="./asset/best-sellers/cola.png" alt="نوشابه">
+          <img src="./asset/products/cola.png" alt="نوشابه">
           <h3>نوشابه</h3>
           <p class="product-meta">۱/۵ لیتر</p>
           <p class="product-price">۱۱۰٬۰۰۰ تومان</p>
           <button type="button">افزودن به سبد</button>
         </article>
         <article class="product-card">
-          <img src="./asset/best-sellers/apple-pie.png" alt="پای سیب">
+          <img src="./asset/products/apple-pie.png" alt="پای سیب">
           <h3>پای سیب</h3>
           <p class="product-meta">کیلویی</p>
           <p class="product-price">۲۱۵٬۰۰۰ تومان</p>
           <button type="button">افزودن به سبد</button>
         </article>
         <article class="product-card">
-          <img src="./asset/best-sellers/chicken.png" alt="سینه مرغ">
+          <img src="./asset/products/chicken.png" alt="سینه مرغ">
           <h3>سینه مرغ</h3>
           <p class="product-meta">کیلویی</p>
           <p class="product-price">۵۰۰٬۰۰۰ تومان</p>
           <button type="button">افزودن به سبد</button>
         </article>
         <article class="product-card">
-          <img src="./asset/best-sellers/almonds.png" alt="بادام">
+          <img src="./asset/products/almonds.png" alt="بادام">
           <h3>بادام</h3>
           <p class="product-meta">کیلویی</p>
           <p class="product-price">۱٬۲۵۰٬۰۰۰ تومان</p>
           <button type="button">افزودن به سبد</button>
         </article>
         <article class="product-card">
-          <img src="./asset/categories/fish.png" alt="ماهی سالمون">
+          <img src="./asset/products/fish.png" alt="ماهی سالمون">
           <h3>ماهی سالمون</h3>
           <p class="product-meta">کیلویی</p>
           <p class="product-price">۱٬۲۵۰٬۰۰۰ تومان</p>
           <button type="button">افزودن به سبد</button>
         </article>
         <article class="product-card">
-          <img src="./asset/categories/honey.png" alt="عسل">
+          <img src="./asset/products/honey.png" alt="عسل">
           <h3>عسل</h3>
           <p class="product-meta">۵۰۰ گرم</p>
           <p class="product-price">۷۵۰٬۰۰۰ تومان</p>
           <button type="button">افزودن به سبد</button>
         </article>
         <article class="product-card">
-          <img src="./asset/categories/herbs.png" alt="سبزی خوردن">
+          <img src="./asset/products/herbs.png" alt="سبزی خوردن">
           <h3>سبزی خوردن</h3>
           <p class="product-meta">یک بسته</p>
           <p class="product-price">۴۵۰٬۰۰۰ تومان</p>
@@ -417,35 +364,35 @@
       <div class="product-track" tabindex="0">
 
         <article class="product-card">
-          <img src="./asset/day-offer/watermelon.png" alt="هندوانه">
+          <img src="./asset/products/watermelon.png" alt="هندوانه">
           <h3>هندوانه</h3>
           <p class="product-meta">کیلویی</p>
           <p class="product-price">۱۵۰٬۰۰۰ تومان</p>
           <button type="button">افزودن به سبد</button>
         </article>
         <article class="product-card">
-          <img src="./asset/categories/strawberries.png" alt="توت فرنگی">
+          <img src="./asset/products/strawberries.png" alt="توت فرنگی">
           <h3>توت فرنگی</h3>
           <p class="product-meta">کیلویی</p>
           <p class="product-price">۴۸۰٬۰۰۰ تومان</p>
           <button type="button">افزودن به سبد</button>
         </article>
         <article class="product-card">
-          <img src="./asset/categories/oranges.png" alt="پرتقال">
+          <img src="./asset/products/oranges.png" alt="پرتقال">
           <h3>پرتقال</h3>
           <p class="product-meta">کیلویی</p>
           <p class="product-price">۴۰۰٬۰۰۰ تومان</p>
           <button type="button">افزودن به سبد</button>
         </article>
         <article class="product-card">
-          <img src="./asset/categories/avacados.png" alt="آووکادو">
+          <img src="./asset/products/avacados.png" alt="آووکادو">
           <h3>آووکادو</h3>
           <p class="product-meta">دو عدد</p>
           <p class="product-price">۶۳۵٬۰۰۰ تومان</p>
           <button type="button">افزودن به سبد</button>
         </article>
         <article class="product-card">
-          <img src="./asset/categories/pomagranet.png" alt="انار">
+          <img src="./asset/products/pomagranet.png" alt="انار">
           <h3>انار</h3>
           <p class="product-meta">کیلویی</p>
           <p class="product-price">۳۴۰٬۰۰۰ تومان</p>
@@ -453,14 +400,14 @@
         </article>
 
         <article class="product-card">
-          <img src="./asset/best-sellers/bananas.png" alt="موز">
+          <img src="./asset/products/bananas.png" alt="موز">
           <h3>موز</h3>
           <p class="product-meta">کیلویی</p>
           <p class="product-price">۹۵٬۰۰۰ تومان</p>
           <button type="button">افزودن به سبد</button>
         </article>
         <article class="product-card">
-          <img src="./asset/categories/herbs.png" alt="سبزی خوردن">
+          <img src="./asset/products/herbs.png" alt="سبزی خوردن">
           <h3>سبزی خوردن</h3>
           <p class="product-meta">یک بسته</p>
           <p class="product-price">۶۳۵٬۰۰۰ تومان</p>
@@ -468,7 +415,7 @@
         </article>
 
         <article class="product-card">
-          <img src="./asset/categories/fruits-and-vegetables.png" alt="سبد میوه و سبزیجات">
+          <img src="./asset/products/fruits-and-vegetables.png" alt="سبد میوه و سبزیجات">
           <h3>سبد میوه و سبزیجات</h3>
           <p class="product-meta">یک بسته</p>
           <p class="product-price">۱٬۸۵۰٬۰۰۰ تومان</p>
@@ -484,7 +431,7 @@
       <div class="product-track" tabindex="0">
 
         <article class="product-card">
-          <img src="./asset/day-offer/orange-juice.png" alt="آب پرتقال">
+          <img src="./asset/products/orange-juice.png" alt="آب پرتقال">
           <h3>آب پرتقال</h3>
           <p class="product-meta">۱ لیتر</p>
           <p class="product-price">۹۸٬۰۰۰ تومان</p>
@@ -492,7 +439,7 @@
         </article>
 
         <article class="product-card">
-          <img src="./asset/best-sellers/cola.png" alt="نوشابه">
+          <img src="./asset/products/cola.png" alt="نوشابه">
           <h3>نوشابه</h3>
           <p class="product-meta">۱/۵ لیتر</p>
           <p class="product-price">۴۵٬۰۰۰ تومان</p>
@@ -500,7 +447,7 @@
         </article>
         <article class="product-card product-card-discount">
           <span class="discount-badge">٪۱۵</span>
-          <img src="./asset/categories/coffee.png" alt="قهوه">
+          <img src="./asset/products/coffee.png" alt="قهوه">
           <h3>قهوه</h3>
           <p class="product-meta">یک لیوان</p>
           <p class="old-price">۲۳۰٬۰۰۰ تومان</p>
@@ -508,7 +455,7 @@
           <button type="button">افزودن به سبد</button>
         </article>
         <article class="product-card">
-          <img src="./asset/categories/tea.png" alt="چای">
+          <img src="./asset/products/tea.png" alt="چای">
           <h3>چای</h3>
           <p class="product-meta">۳۰۰ گرم</p>
           <p class="product-price">۷۹۰٬۰۰۰ تومان</p>
@@ -516,7 +463,7 @@
         </article>
         <article class="product-card product-card-discount">
           <span class="discount-badge">٪۲۰</span>
-          <img src="./asset/categories/pomagranate-juice.png" alt="آب انار">
+          <img src="./asset/products/pomagranate-juice.png" alt="آب انار">
           <h3>آب انار</h3>
           <p class="product-meta">۱ لیتر</p>
           <p class="old-price">۵۴۰٬۰۰۰ تومان</p>
@@ -524,7 +471,7 @@
           <button type="button">افزودن به سبد</button>
         </article>
         <article class="product-card">
-          <img src="./asset/categories/doogh.png" alt="دوغ">
+          <img src="./asset/products/doogh.png" alt="دوغ">
           <h3>دوغ</h3>
           <p class="product-meta">۱/۵ لیتر</p>
           <p class="product-price">۲۷۰٬۰۰۰ تومان</p>
@@ -532,7 +479,7 @@
         </article>
         <article class="product-card product-card-unavailable">
           <span class="unavailable-badge">ناموجود</span>
-          <img src="./asset/categories/safaron.png" alt="شربت زعفران">
+          <img src="./asset/products/safaron.png" alt="شربت زعفران">
           <h3>شربت زعفران</h3>
           <p class="product-meta">۵۰۰ میلی لیتر</p>
           <p class="product-price">۶۵۰٬۰۰۰ تومان</p>
@@ -540,7 +487,7 @@
         </article>
 
         <article class="product-card">
-          <img src="./asset/categories/drinks.png" alt="مجموعه نوشیدنی">
+          <img src="./asset/products/drinks.png" alt="مجموعه نوشیدنی">
           <h3>مجموعه نوشیدنی</h3>
           <p class="product-meta">۶ نوشیدنی</p>
           <p class="product-price">۱٬۶۵۰٬۰۰۰ تومان</p>
@@ -555,7 +502,7 @@
       </span>
       <div class="product-track" tabindex="0">
         <article class="product-card">
-          <img src="./asset/day-offer/cake.png" alt="کیک یزدی">
+          <img src="./asset/products/cake.png" alt="کیک یزدی">
           <h3>کیک یزدی</h3>
           <p class="product-meta">۴ عدد</p>
           <p class="product-price">۳۲۰٬۰۰۰ تومان</p>
@@ -563,7 +510,7 @@
         </article>
         <article class="product-card product-card-discount">
           <span class="discount-badge">٪۱۵</span>
-          <img src="./asset/categories/baklava.png" alt="باقلوا">
+          <img src="./asset/products/baklava.png" alt="باقلوا">
           <h3>باقلوا</h3>
           <p class="product-meta">۳ عدد</p>
           <p class="old-price">۵۷۰٬۰۰۰ تومان</p>
@@ -571,35 +518,35 @@
           <button type="button">افزودن به سبد</button>
         </article>
         <article class="product-card">
-          <img src="./asset/categories/chocolate.png" alt="شکلات">
+          <img src="./asset/products/chocolate.png" alt="شکلات">
           <h3>شکلات</h3>
           <p class="product-meta">یک تخته</p>
           <p class="product-price">۳۲۰٬۰۰۰ تومان</p>
           <button type="button">افزودن به سبد</button>
         </article>
         <article class="product-card">
-          <img src="./asset/categories/cookie.png" alt="کوکی">
+          <img src="./asset/products/cookie.png" alt="کوکی">
           <h3>کوکی</h3>
           <p class="product-meta">۶ عدد</p>
           <p class="product-price">۳۱۰٬۰۰۰ تومان</p>
           <button type="button">افزودن به سبد</button>
         </article>
         <article class="product-card">
-          <img src="./asset/categories/sohan.png" alt="سوهان">
+          <img src="./asset/products/sohan.png" alt="سوهان">
           <h3>سوهان</h3>
           <p class="product-meta">یک بسته</p>
           <p class="product-price">۶۵۰٬۰۰۰ تومان</p>
           <button type="button">افزودن به سبد</button>
         </article>
         <article class="product-card">
-          <img src="./asset/best-sellers/apple-pie.png" alt="پای سیب">
+          <img src="./asset/products/apple-pie.png" alt="پای سیب">
           <h3>پای سیب</h3>
           <p class="product-meta">یک بسته</p>
           <p class="product-price">۸۹٬۰۰۰ تومان</p>
           <button type="button">افزودن به سبد</button>
         </article>
         <article class="product-card">
-          <img src="./asset/categories/date-sweet.png" alt="شیرینی خرمایی">
+          <img src="./asset/products/date-sweet.png" alt="شیرینی خرمایی">
           <h3>شیرینی خرمایی</h3>
           <p class="product-meta">کیلویی</p>
           <p class="product-price">۶۵۰٬۰۰۰ تومان</p>
@@ -607,7 +554,7 @@
         </article>
 
         <article class="product-card">
-          <img src="./asset/categories/sweets-and-treats.png" alt="تنقلات و شیرینی">
+          <img src="./asset/products/sweets-and-treats.png" alt="تنقلات و شیرینی">
           <h3>مجموعه تنقلات</h3>
           <p class="product-meta">۶ شیرینی</p>
           <p class="product-price">۱٬۴۵۰٬۰۰۰ تومان</p>
@@ -624,14 +571,14 @@
       <div class="product-track" tabindex="0">
 
         <article class="product-card">
-          <img src="./asset/day-offer/pistachio.png" alt="پسته">
+          <img src="./asset/products/pistachio.png" alt="پسته">
           <h3>پسته</h3>
           <p class="product-meta">کیلویی</p>
           <p class="product-price">۱٬۲۰۰٬۰۰۰ تومان</p>
           <button type="button">افزودن به سبد</button>
         </article>
         <article class="product-card">
-          <img src="./asset/categories/cashew.png" alt="بادام هندی">
+          <img src="./asset/products/cashew.png" alt="بادام هندی">
           <h3>بادام هندی</h3>
           <p class="product-meta">کیلویی</p>
           <p class="product-price">۱٬۴۰۰٬۰۰۰ تومان</p>
@@ -639,7 +586,7 @@
         </article>
         <article class="product-card product-card-discount">
           <span class="discount-badge">٪۱۰</span>
-          <img src="./asset/categories/hazulnut.png" alt="فندق">
+          <img src="./asset/products/hazulnut.png" alt="فندق">
           <h3>فندق</h3>
           <p class="product-meta">کیلویی</p>
           <p class="old-price">۱٬۳۰۰٬۰۰۰ تومان</p>
@@ -647,14 +594,14 @@
           <button type="button">افزودن به سبد</button>
         </article>
         <article class="product-card">
-          <img src="./asset/categories/raisin.png" alt="مویز">
+          <img src="./asset/products/raisin.png" alt="مویز">
           <h3>مویز</h3>
           <p class="product-meta">کیلویی</p>
           <p class="product-price">۹۰۰٬۰۰۰ تومان</p>
           <button type="button">افزودن به سبد</button>
         </article>
         <article class="product-card">
-          <img src="./asset/categories/walnut.png" alt="گردو">
+          <img src="./asset/products/walnut.png" alt="گردو">
           <h3>گردو</h3>
           <p class="product-meta">کیلویی</p>
           <p class="product-price">۱٬۴۵۰٬۰۰۰ تومان</p>
@@ -662,7 +609,7 @@
         </article>
 
         <article class="product-card">
-          <img src="./asset/categories/nuts.png" alt="آجیل مخلوط">
+          <img src="./asset/products/nuts.png" alt="آجیل مخلوط">
           <h3>آجیل مخلوط</h3>
           <p class="product-meta">کیلویی</p>
           <p class="product-price">۳٬۴۵۰٬۰۰۰ تومان</p>
@@ -670,14 +617,14 @@
         </article>
 
         <article class="product-card">
-          <img src="./asset/best-sellers/almonds.png" alt="بادام">
+          <img src="./asset/products/almonds.png" alt="بادام">
           <h3>بادام</h3>
           <p class="product-meta">کیلویی</p>
           <p class="product-price">۱٬۲۰۰٬۰۰۰ تومان</p>
           <button type="button">افزودن به سبد</button>
         </article>
         <article class="product-card">
-          <img src="./asset/categories/sunflower-seed.png" alt="تخمه آفتابگردان">
+          <img src="./asset/products/sunflower-seed.png" alt="تخمه آفتابگردان">
           <h3>تخمه آفتابگردان</h3>
           <p class="product-meta">کیلویی</p>
           <p class="product-price">۹۹۰٬۰۰۰ تومان</p>
@@ -695,7 +642,7 @@
       <div class="product-track" tabindex="0">
 
         <article class="product-card">
-          <img src="./asset/best-sellers/chicken.png" alt="سینه مرغ ">
+          <img src="./asset/products/chicken.png" alt="سینه مرغ ">
           <h3>سینه مرغ</h3>
           <p class="product-meta">کیلویی</p>
           <p class="product-price">۸۹۰٬۰۰۰ تومان</p>
@@ -703,7 +650,7 @@
         </article>
 
         <article class="product-card">
-          <img src="./asset/categories/fish.png" alt="ماهی سالمون">
+          <img src="./asset/products/fish.png" alt="ماهی سالمون">
           <h3>ماهی سالمون</h3>
           <p class="product-meta">کیلویی</p>
           <p class="product-price">۱٬۸۹۰٬۰۰۰ تومان</p>
@@ -711,14 +658,14 @@
         </article>
 
         <article class="product-card">
-          <img src="./asset/categories/meat.png" alt="گوشت چرخ کرده">
+          <img src="./asset/products/meat.png" alt="گوشت چرخ کرده">
           <h3>گوشت چرخ کرده</h3>
           <p class="product-meta">کیلویی</p>
           <p class="product-price">۱٬۲۳۰٬۰۰۰ تومان</p>
           <button type="button">افزودن به سبد</button>
         </article>
         <article class="product-card">
-          <img src="./asset/categories/fish.png" alt="ماهی قزل آلا">
+          <img src="./asset/products/fish.png" alt="ماهی قزل آلا">
           <h3>ماهی قزل آلا</h3>
           <p class="product-meta">کیلویی</p>
           <p class="product-price">۱٬۸۹۰٬۰۰۰ تومان</p>
@@ -726,7 +673,7 @@
         </article>
         <article class="product-card product-card-discount">
           <span class="discount-badge">٪۲۰</span>
-          <img src="./asset/categories/shrimp.png" alt="میگو">
+          <img src="./asset/products/shrimp.png" alt="میگو">
           <h3>میگو</h3>
           <p class="product-meta">کیلویی</p>
           <p class="old-price">۲٬۳۰۰٬۰۰۰ تومان</p>
@@ -734,7 +681,7 @@
           <button type="button">افزودن به سبد</button>
         </article>
         <article class="product-card">
-          <img src="./asset/categories/eggs.png" alt="تخم مرغ">
+          <img src="./asset/products/eggs.png" alt="تخم مرغ">
           <h3>تخم مرغ</h3>
           <p class="product-meta">یک شانه</p>
           <p class="product-price">۷۰۰٬۰۰۰ تومان</p>
