@@ -1,6 +1,6 @@
 .product-skeleton {
   flex: 0 0 220px;
-  height: 220px;
+  height: 335.8px;
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: 18px;
@@ -27,15 +27,19 @@
 }
 
 
-@media (max-width: 900px) {
 
+
+@media (max-width:900){
+  .product-skeleton{
+     flex-basis: 150px;
+    height: 315.8px;
+  }
 }
-
 
 @media (max-width: 600px) {
   .product-skeleton {
     flex-basis: 150px;
-    height: 205px;
+    height: 253px;
   }
 }
 
