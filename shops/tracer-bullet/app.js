@@ -1,12 +1,19 @@
 const CATEGORY_ID = 1;
 
+function formatNumber(n) {
+  return new Intl.NumberFormat('fa-IR').format(n);
+}
 function formatPrice(price) {
-  const farsiPrice = new Intl.NumberFormat('fa-IR').format(price)
-  return `${farsiPrice} تومان`;
+  return `${formatNumber(price)} تومان`;
 }
 
 function createCard(product) {
+  const outOfStock = product.stock === 0; 
   const li = document.createElement("li");
+
+  if (outOfStock){
+    li.classList.add("out-of-stock");
+  }
 
   const icon = document.createElement("span");  
   icon.classList.add("emoji");
@@ -22,15 +29,48 @@ function createCard(product) {
   
   const price = document.createElement("p");
   price.classList.add("price")
-  price.textContent = formatPrice(product.price);  
+
+  if (product.newPrice){
+    const del = document.createElement("del");
+    const oldPriceLable = document.createElement("span");
+    oldPriceLable.classList.add("visually-hidden");
+    oldPriceLable.textContent = "قیمت قبلی";
+    del.append(oldPriceLable, " ", formatNumber(product.price))
+
+    const newPriceLable = document.createElement("span");
+    newPriceLable.classList.add("visually-hidden");
+    newPriceLable.textContent = "قیمت با تخفیف";
+    price.append(del,  newPriceLable, " ", formatPrice(product.newPrice))
+  } else {
+        price.textContent = formatPrice(product.price);  
+    }
 
   const button = document.createElement("button")
   button.type = "button";
   button.textContent = "+";
+  button.disabled = outOfStock;
   button.setAttribute("aria-label", `افزودن ${product.name} به سبد خرید`)
   
-  li.append(icon, name, meta, price, button);
-  return li;
+  li.append(icon);
+
+  if (outOfStock) {
+    const stockBadge = document.createElement("p");
+    stockBadge.classList.add("badge");
+    stockBadge.textContent = "ناموجود";
+    li.append(stockBadge);
+  } else if (product.percent) {
+    const badge = document.createElement("p");
+    badge.classList.add("badge");
+
+    const hidden = document.createElement("span");
+    hidden.classList.add("visually-hidden");
+    hidden.textContent = "تخفیف";
+    badge.append(hidden, " ", `${formatNumber(product.percent)}٪`);
+    li.append(badge);
+    }
+
+    li.append(name, meta, price, button);
+    return li;
 }
 
 /* replace everything in the carousel with one message */
@@ -70,3 +110,57 @@ async function loadProducts() {
     }
 }
 loadProducts();
+
+/* loadSpecialOffers */
+
+async function loadSpecialOffers() {
+    const specialCarousel = document.querySelector("#special-offer .carousel");
+    try {
+        const [productsRes, offersRes, stockRes] = await Promise.all([
+            fetch("../../api/products.json"),
+            fetch("../../api/offers.json"),
+            fetch("../../api/stock.json"),
+        ]);
+        if (!productsRes.ok || !offersRes.ok || !stockRes.ok){
+            throw new Error("Request failed")
+        } 
+        const [products, offers, stock] = await Promise.all([
+            productsRes.json(),
+            offersRes.json(),
+            stockRes.json(),
+        ]);
+    
+        const specialProducts = offers.map(offer => {
+            const product = products.find(p => p.id === offer.productId);
+            const productStock = stock.items[product.id];
+            const newPrice = Math.round(product.price * (100 - offer.percent) / 100);
+
+            return {
+                name: product.name,
+                emoji: product.emoji,
+                unit: product.unit,
+                id: product.id,
+                price: product.price,
+                newPrice: newPrice,
+                percent: offer.percent,
+                label: offer.label,
+                stock: productStock,
+            };
+        });
+        specialProducts.forEach((item, index) => {
+            const card = createCard(item);
+            if (index === 0){
+                card.id = "special-offer-first"
+            }
+            if (index === specialProducts.length - 1){
+                card.id = "special-offer-last"
+            }
+
+            specialCarousel.append(card);
+        });
+
+    } catch (error) {
+    console.error(error);
+    }
+}
+loadSpecialOffers();

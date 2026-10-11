@@ -1,5 +1,3 @@
-/* Your shop's styles. Week 1: make it yours! */
-
 @font-face {
   font-family: "Vazirmatn";
   src: url("fonts/Vazirmatn/Vazirmatn-VariableFont_wght.ttf") format("truetype");
@@ -839,7 +837,7 @@ html:dir(ltr) .carousel-nav a span[aria-hidden] {
   --color-on-muted: #FFFFFF;
 }
 
-.out-of-stock img {
+.out-of-stock img, .out-of-stock .emoji {
   opacity: 0.45;
   filter: grayscale(1);
 }
