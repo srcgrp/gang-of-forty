@@ -137,21 +137,25 @@ function renderSpecialOffers(carousel, data) {
 /* loading, show the messages, call drawing functions */
 
 async function init() {
-    const newCarousel = document.querySelector("#fruits .carousel");
+    const fruitCarousel = document.querySelector("#fruits .carousel");
     const specialCarousel = document.querySelector("#special-offer .carousel");
     const categoryList = document.querySelector("#categories .category-list")
-    showMessage(newCarousel, "در حال بارگذاری");
+    const dropDown = document.querySelector(".dropdown-menu")
+    const footerCategories = document.querySelector("footer .footer-categories")
+    showMessage(fruitCarousel, "در حال بارگذاری");
     showMessage(specialCarousel, "در حال بارگذاری");
     showMessage(categoryList, "در حال بارگذاری");
 
     try {
         const data = await loadData();
-        renderNewItems(newCarousel, data);
+        renderNewItems(fruitCarousel, data);
         renderSpecialOffers(specialCarousel, data);
-        renderCategories(categoryList, data.categories)
+        renderCategories(categoryList, data.categories);
+        renderCategoryLinks(dropDown, data.categories);
+        renderCategoryLinks(footerCategories, data.categories);
     } catch (error) {
         console.error(error);
-        showMessage(newCarousel, "دسترسی به اینترنت را بررسی و صفحه را دوباره بارگذاری کنید");
+        showMessage(fruitCarousel, "دسترسی به اینترنت را بررسی و صفحه را دوباره بارگذاری کنید");
         showMessage(specialCarousel, "دسترسی به اینترنت را بررسی و صفحه را دوباره بارگذاری کنید")
         showMessage(categoryList, "دسترسی به اینترنت را بررسی و صفحه را دوباره بارگذاری کنید")
     }
@@ -216,5 +220,20 @@ function renderCategories(list, categories) {
     list.replaceChildren();
     categories.forEach(category => {
         list.append(createCategoryItem(category));
+    })
+}
+
+function createCategoryLink(category) {
+    const li = document.createElement("li");
+    const link = document.createElement("a");
+    link.href = `#${category.slug}`;
+    link.textContent = category.name;
+    li.append(link);
+    return li;
+}
+
+function renderCategoryLinks(list, categories) {
+    categories.forEach(category => {
+        list.append(createCategoryLink(category));
     })
 }
