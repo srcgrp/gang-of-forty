@@ -411,7 +411,7 @@ renderProducts(6, ".meatProteinProducts");
 renderProducts(7, ".snacksProducts");
 
 ///////////////////////////////
-// task 2 -fetch and show products in suggestions
+// task 2 -fetch and show products in suggestions + search input placeholder count
 // /////////////////////////////////
 
 async function getSuggestions() {
@@ -787,8 +787,6 @@ async function renderShop() {
 
     document.querySelector("#shop-header-slogan").textContent =
       shop.slogan;
-
-  
 
     document.querySelector("#shop-name").textContent =
       shop.name;
