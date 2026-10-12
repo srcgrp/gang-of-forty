@@ -1,0 +1,71 @@
+.nav-bar {
+    position: absolute;
+    inset-inline: 0;
+    top: 100%;
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 14px 24px rgba(10, 40, 28, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease), visibility 0s linear var(--dur);
+}
+
+.nav-toggle:checked~.nav-bar {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition-delay: 0s;
+}
+
+.nav-inner {
+    padding-inline: 0;
+}
+
+.nav-links a,
+.nav-extra a,
+.nav-phone {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 52px;
+    padding-inline: var(--gutter);
+    font-family: var(--font-head);
+    font-weight: 500;
+    font-size: var(--nav-font-size);
+    line-height: var(--nav-line-height);
+}
+
+.nav-links li+li a,
+.nav-extra li a {
+    border-top: 1px solid var(--line);
+}
+
+.nav-links a[aria-current="page"] {
+    color: var(--green-deep);
+    background: var(--mint);
+}
+
+.nav-links a:hover,
+.nav-extra a:hover,
+.nav-phone:hover {
+    background: var(--field);
+}
+
+.nav-links .icon,
+.nav-extra .icon,
+.nav-phone .icon {
+    color: var(--green);
+}
+
+.nav-extra {
+    border-top: 1px solid var(--line);
+}
+
+.nav-phone {
+    border-top: 1px solid var(--line);
+}
+
+.sub-menu {
+    display: none;
+}

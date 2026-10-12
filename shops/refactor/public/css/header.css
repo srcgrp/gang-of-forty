@@ -1,0 +1,254 @@
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+}
+
+.header-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    padding-block: 10px;
+}
+
+.brand {
+    order: 1;
+    flex: 1 1 auto;
+    min-width: 0;
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap);
+    border-radius: 12px;
+}
+
+.logo {
+    width: auto;
+    height: 44px;
+    max-width: 100%;
+    --logo-name: var(--green);
+    --logo-sub: var(--muted);
+}
+
+.header-actions {
+    order: 2;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.search {
+    order: 3;
+    flex: 1 1 100%;
+    min-width: 0;
+}
+
+.icon-btn,
+.nav-toggle-btn,
+.search-btn,
+.car-btn {
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    width: var(--tap);
+    height: var(--tap);
+    padding: 0;
+    border: 0;
+    border-radius: 12px;
+    background: transparent;
+    color: var(--ink);
+    transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+.car-btn-hero {
+    border-radius: 32px;
+}
+
+.icon-btn .icon,
+.nav-toggle-btn .icon {
+    width: 1.45rem;
+    height: 1.45rem;
+}
+
+.icon-btn:hover,
+.nav-toggle-btn:hover {
+    background: var(--field);
+}
+
+.icon-btn--desktop {
+    display: none;
+}
+
+.badge {
+    position: absolute;
+    top: 2px;
+    inset-inline-end: 2px;
+    min-width: 22px;
+    height: 22px;
+    padding-inline: 4px;
+    display: grid;
+    place-items: center;
+    border: 2px solid var(--surface);
+    border-radius: 999px;
+    background: var(--orange);
+    color: var(--on-orange);
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1;
+    pointer-events: none;
+}
+
+.nav-toggle-btn {
+    background: var(--field);
+    cursor: pointer;
+}
+
+.nav-toggle-btn .icon-close {
+    display: none;
+}
+
+.nav-toggle:checked~.header-top .icon-open {
+    display: none;
+}
+
+.nav-toggle:checked~.header-top .icon-close {
+    display: block;
+}
+
+.nav-toggle:focus-visible~.header-top .nav-toggle-btn {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 2px var(--focus-gap);
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px;
+    border-radius: 14px;
+    background: var(--field);
+    font-family: var(--font-head);
+}
+
+.search-box:focus-within {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+}
+
+.search-box input {
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: var(--tap);
+    padding-inline: 12px;
+    border: 0;
+    background: none;
+    font-family: var(--font-head);
+    font-size: 0.85rem;
+    color: var(--ink);
+}
+
+.search-box input::placeholder {
+    color: var(--muted);
+    opacity: 1;
+    font-family: var(--font-head);
+}
+
+.search-box input:focus-visible {
+    outline: none;
+    box-shadow: none;
+}
+
+.cat-select {
+    display: none;
+    flex: none;
+    max-width: 150px;
+    min-height: 40px;
+    padding-inline: 10px;
+    border: 0;
+    border-radius: 10px;
+    background: #fff;
+    font-family: var(--font-head);
+    font-size: 0.8rem;
+    color: var(--ink);
+    cursor: pointer;
+}
+
+.search-btn {
+    background: var(--green);
+    color: #fff;
+}
+
+.search-btn:hover {
+    background: var(--green-deep);
+}
+
+.site-header--desktop {
+    display: none;
+}
+
+.site-header--mobile {
+    display: block;
+}
+
+.site-header--desktop .promo {
+    padding: 10px 16px;
+    background: var(--green);
+    color: #fff;
+    text-align: center;
+    font-family: "IRANSans", Tahoma, sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+.site-header--desktop .promo p {
+    margin: 0;
+}
+
+.site-header--desktop .brand {
+    gap: 10px;
+}
+
+.site-header--desktop .nav-links li+li a {
+    border-top: 0;
+}
+
+.site-header--desktop .contact {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 18px;
+    font-style: normal;
+    font-family: var(--font-head);
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+
+.site-header--desktop .contact a {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-height: var(--tap);
+    padding-inline: 0;
+    color: inherit;
+    border-radius: 8px;
+    font-size: var(--nav-font-size);
+    line-height: var(--nav-line-height);
+}
+
+.site-header--desktop .contact a:hover {
+    color: var(--green);
+    background: transparent;
+}
+
+.site-header--desktop .contact .icon {
+    color: var(--green);
+}
+
+.site-header--desktop .contact bdi {
+    direction: ltr;
+    unicode-bidi: isolate;
+}

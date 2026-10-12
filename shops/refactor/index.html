@@ -1,29 +1,1025 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت ریفکتور</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>ریفکتور | سوپرمارکت آنلاین</title>
+    <meta name="description" content="ریفکتور؛ سوپرمارکت آنلاین با محصولات متنوع، پیشنهادهای ویژه و ارسال سریع.">
+    <link rel="stylesheet" href="./public/css/font.css">
+    <link rel="stylesheet" href="./public/css/style.css">
+    <link rel="stylesheet" href="./public/css/responsive.css">
 </head>
-<body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>🛠️ سلام دنیا!</h1>
-  </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>ریفکتور</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p>ریفکتور یعنی تغییر ساختار کد بدون تغییر رفتارش. مارتین فاولر در کتاب <bdi>Refactoring</bdi> (۱۹۹۹) ده‌ها روش قدم‌به‌قدم برایش جمع کرد، مثل «استخراج تابع» و «تغییر نام». شرطش داشتن تست است تا مطمئن شوی چیزی خراب نشده.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
-    </section>
-  </main>
-  <footer>
-    <p dir="ltr">slug: <code>refactor</code></p>
-  </footer>
+
+<body id="top">
+    <a class="skip-link" href="#content">پرش به محتوای اصلی</a>
+    <svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+        <symbol id="i-search" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="7" />
+            <path d="M20 20l-4-4" />
+        </symbol>
+        <symbol id="i-menu" viewBox="0 0 24 24">
+            <path d="M4 7h16M4 12h16M4 17h16" />
+        </symbol>
+        <symbol id="i-close" viewBox="0 0 24 24">
+            <path d="M6 6l12 12M18 6L6 18" />
+        </symbol>
+        <symbol id="i-heart" viewBox="0 0 24 24">
+            <path d="M12 20s-7-4.4-7-10a4.2 4.2 0 0 1 7-3 4.2 4.2 0 0 1 7 3c0 5.6-7 10-7 10z" />
+        </symbol>
+        <symbol id="i-user" viewBox="0 0 24 24">
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 21c0-4 3.6-6 8-6s8 2 8 6" />
+        </symbol>
+        <symbol id="i-cart" viewBox="0 0 24 24">
+            <path d="M3 9h18l-2 10a2 2 0 0 1-2 1.6H7a2 2 0 0 1-2-1.6z" />
+            <path d="M8 9l3-5M16 9l-3-5" />
+        </symbol>
+        <symbol id="i-home" viewBox="0 0 24 24">
+            <path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" />
+        </symbol>
+        <symbol id="i-box" viewBox="0 0 24 24">
+            <path d="M12 3l8 4v10l-8 4-8-4V7z" />
+            <path d="M4 7l8 4 8-4M12 11v10" />
+        </symbol>
+        <symbol id="i-grid" viewBox="0 0 24 24">
+            <rect x="4" y="4" width="7" height="7" rx="1.5" />
+            <rect x="13" y="4" width="7" height="7" rx="1.5" />
+            <rect x="4" y="13" width="7" height="7" rx="1.5" />
+            <rect x="13" y="13" width="7" height="7" rx="1.5" />
+        </symbol>
+        <symbol id="i-tag" viewBox="0 0 24 24">
+            <path d="M3 12V4h8l10 10-8 8z" />
+            <circle cx="7.5" cy="8.5" r="1" />
+        </symbol>
+        <symbol id="i-info" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="9" />
+            <path d="M12 11v5M12 8v.01" />
+        </symbol>
+        <symbol id="i-phone" viewBox="0 0 24 24">
+            <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2z" />
+        </symbol>
+        <symbol id="i-mail" viewBox="0 0 24 24">
+            <rect x="3" y="5" width="18" height="14" rx="2" />
+            <path d="M3 7l9 6 9-6" />
+        </symbol>
+        <symbol id="i-pin" viewBox="0 0 24 24">
+            <path d="M12 21s7-6 7-11a7 7 0 0 0-14 0c0 5 7 11 7 11z" />
+            <circle cx="12" cy="10" r="2.5" />
+        </symbol>
+        <symbol id="i-clock" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="9" />
+            <path d="M12 7v5l3 2" />
+        </symbol>
+        <symbol id="i-arrow-right" viewBox="0 0 24 24">
+            <path d="M5 12h14M13 6l6 6-6 6" />
+        </symbol>
+        <symbol id="i-arrow-left" viewBox="0 0 24 24">
+            <path d="M19 12H5M11 6l-6 6 6 6" />
+        </symbol>
+        <symbol id="i-arrow-up" viewBox="0 0 24 24">
+            <path d="M12 19V5M6 11l6-6 6 6" />
+        </symbol>
+        <symbol id="i-shield" viewBox="0 0 24 24">
+            <path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z" />
+            <path d="M8.5 12l2.5 2.5 4.5-5" />
+        </symbol>
+        <symbol id="i-truck" viewBox="0 0 24 24">
+            <path d="M3 6h11v10H3zM14 10h4l3 3v3h-7" />
+            <circle cx="7" cy="18" r="2" />
+            <circle cx="17" cy="18" r="2" />
+        </symbol>
+        <symbol id="i-card" viewBox="0 0 24 24">
+            <rect x="3" y="5" width="18" height="14" rx="2" />
+            <path d="M3 10h18M7 15h4" />
+        </symbol>
+        <symbol id="i-headset" viewBox="0 0 24 24">
+            <path d="M4 14v-2a8 8 0 0 1 16 0v2" />
+            <rect x="3" y="13" width="4" height="6" rx="1" />
+            <rect x="17" y="13" width="4" height="6" rx="1" />
+        </symbol>
+        <symbol id="i-star" viewBox="0 0 24 24">
+            <path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z" />
+        </symbol>
+        <symbol id="i-check" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="9" />
+            <path d="M8.5 12.5l2.5 2.5 4.5-5" />
+        </symbol>
+        <symbol id="logo" viewBox="0 0 214 56">
+            <g transform="translate(158 0)">
+                <rect width="56" height="56" rx="16" fill="#0b7a54" />
+                <path d="M16 25h24l-2.6 14a3.2 3.2 0 0 1-3.1 2.6H21.7a3.2 3.2 0 0 1-3.1-2.6z" fill="#fff" />
+                <path d="M22 25l4-8M34 25l-4-8" stroke="#fff" stroke-width="2.6" stroke-linecap="round" fill="none" />
+                <path d="M9.5 31a19 19 0 0 1 30.5-14.2" stroke="#ff7a1a" stroke-width="3.2" stroke-linecap="round"
+                    fill="none" />
+                <path d="M41.5 11.5l-.4 7.2-7.1-1.6" stroke="#ff7a1a" stroke-width="3.2" stroke-linecap="round"
+                    stroke-linejoin="round" fill="none" />
+                <path d="M46.5 25a19 19 0 0 1-30.5 14.2" stroke="#ff7a1a" stroke-width="3.2" stroke-linecap="round"
+                    fill="none" />
+                <path d="M14.5 44.5l.4-7.2 7.1 1.6" stroke="#ff7a1a" stroke-width="3.2" stroke-linecap="round"
+                    stroke-linejoin="round" fill="none" />
+            </g>
+            <text x="146" y="30" text-anchor="start" direction="rtl"
+                style="font-family: var(--font-head); font-weight: 700; font-size: 32px; fill: var(--logo-name)">ریفکتور</text>
+            <text x="146" y="48" text-anchor="start" direction="rtl"
+                style="font-family: var(--font-body); font-weight: 400; font-size: 11.5px; fill: var(--logo-sub)">سوپرمارکت
+                آنلاین</text>
+        </symbol>
+    </svg>
+    <!-- start header for mobile -->
+    <header class="site-header site-header--mobile" aria-label="هدر موبایل">
+        <input type="checkbox" id="nav-toggle-mobile" class="nav-toggle sr-only" aria-label="باز و بسته کردن منو">
+        <div class="header-top container">
+            <a class="brand" href="#top" aria-label="ریفکتور سوپرمارکت آنلاین؛ بازگشت به ابتدای صفحه">
+                <svg class="logo" width="214" height="56" viewBox="0 0 214 56" aria-hidden="true" focusable="false">
+                    <use href="#logo" />
+                </svg>
+            </a>
+            <div class="header-actions">
+                <a class="icon-btn icon-btn--desktop" href="#favorites" aria-label="علاقه‌مندی‌ها"><svg class="icon"
+                        aria-hidden="true" focusable="false">
+                        <use href="#i-heart" />
+                    </svg></a>
+                <a class="icon-btn icon-btn--desktop" href="#account" aria-label="حساب کاربری"><svg class="icon"
+                        aria-hidden="true" focusable="false">
+                        <use href="#i-user" />
+                    </svg></a>
+                <a class="icon-btn" href="#cart" aria-label="سبد خرید، ۰ کالا"><svg class="icon" aria-hidden="true"
+                        focusable="false">
+                        <use href="#i-cart" />
+                    </svg><span class="badge" aria-hidden="true">۰</span></a>
+                <label for="nav-toggle-mobile" class="nav-toggle-btn">
+                    <span class="sr-only">منو</span>
+                    <svg class="icon icon-open" aria-hidden="true" focusable="false">
+                        <use href="#i-menu" />
+                    </svg>
+                    <svg class="icon icon-close" aria-hidden="true" focusable="false">
+                        <use href="#i-close" />
+                    </svg>
+                </label>
+            </div>
+            <search class="search">
+                <form action="#" method="get">
+                    <div class="search-box">
+                        <label class="sr-only" for="q-mobile">جستجو در محصولات</label>
+                        <input id="q-mobile" type="search" name="q" placeholder="جستجو در محصولات..." autocomplete="off">
+                        <label class="sr-only" for="cat-mobile">دسته‌بندی</label>
+                        <select id="cat-mobile" name="category" class="cat-select">
+                            <option value="">همه دسته‌بندی‌ها</option>
+                            <option value="snacks">تنقلات</option>
+                            <option value="grocery">خواروبار</option>
+                            <option value="vegetables">سبزیجات</option>
+                            <option value="dairy">لبنیات</option>
+                            <option value="protein">مواد پروتئینی</option>
+                            <option value="drinks">نوشیدنی‌ها</option>
+                        </select>
+                        <button class="search-btn" type="submit" aria-label="جستجو"><svg class="icon" aria-hidden="true"
+                                focusable="false">
+                                <use href="#i-search" />
+                            </svg></button>
+                    </div>
+                </form>
+            </search>
+        </div>
+        <div class="nav-bar">
+            <div class="nav-inner container">
+                <nav aria-label="منوی اصلی موبایل">
+                    <ul class="nav-links">
+                        <li><a href="#top" aria-current="page"><svg class="icon" aria-hidden="true" focusable="false">
+                                    <use href="#i-home" />
+                                </svg>صفحه اصلی</a></li>
+                        <li class="has-sub">
+                            <a href="#products"><svg class="icon" aria-hidden="true" focusable="false">
+                                    <use href="#i-box" />
+                                </svg>محصولات</a>
+                            <ul class="sub-menu">
+                                <li><a href="#categories">تنقلات</a></li>
+                                <li><a href="#categories">خواروبار</a></li>
+                                <li><a href="#categories">سبزیجات</a></li>
+                                <li><a href="#dairy">لبنیات</a></li>
+                                <li><a href="#categories">مواد پروتئینی</a></li>
+                                <li><a href="#categories">نوشیدنی‌ها</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#categories"><svg class="icon" aria-hidden="true" focusable="false">
+                                    <use href="#i-grid" />
+                                </svg>دسته‌بندی‌ها</a></li>
+                        <li><a href="#brands"><svg class="icon" aria-hidden="true" focusable="false">
+                                    <use href="#i-tag" />
+                                </svg>برندها</a></li>
+                        <li><a href="#about"><svg class="icon" aria-hidden="true" focusable="false">
+                                    <use href="#i-info" />
+                                </svg>درباره ما</a></li>
+                        <li><a href="#contact"><svg class="icon" aria-hidden="true" focusable="false">
+                                    <use href="#i-phone" />
+                                </svg>تماس با ما</a></li>
+                    </ul>
+                </nav>
+                <ul class="nav-extra">
+                    <li><a href="#favorites"><svg class="icon" aria-hidden="true" focusable="false">
+                                <use href="#i-heart" />
+                            </svg>علاقه‌مندی‌ها</a></li>
+                    <li><a href="#account"><svg class="icon" aria-hidden="true" focusable="false">
+                                <use href="#i-user" />
+                            </svg>حساب کاربری</a></li>
+                </ul>
+                <a class="nav-phone" href="tel:+982155456789"><svg class="icon" aria-hidden="true" focusable="false">
+                        <use href="#i-phone" />
+                    </svg><bdi>۰۲۱&#8209;۵۵۴۵۶۷۸۹</bdi></a>
+            </div>
+        </div>
+    </header>
+    <!-- finish header for mobile -->
+    <!-- header for desktop -->
+    <header class="site-header site-header--desktop" aria-label="هدر دسکتاپ">
+        <div class="promo">
+            <p>به فروشگاه سوپرمارکت refactor خوش آمدید!</p>
+        </div>
+        <div class="header-top container">
+            <a class="brand" href="#top" aria-label="ریفکتور سوپرمارکت آنلاین؛ بازگشت به ابتدای صفحه">
+                <svg class="logo" width="214" height="56" viewBox="0 0 214 56" aria-hidden="true" focusable="false">
+                    <use href="#logo" />
+                </svg>
+            </a>
+            <div class="header-actions">
+                <a class="icon-btn icon-btn--desktop" href="#favorites" aria-label="علاقه‌مندی‌ها"><svg class="icon"
+                        aria-hidden="true" focusable="false">
+                        <use href="#i-heart" />
+                    </svg></a>
+                <a class="icon-btn icon-btn--desktop" href="#account" aria-label="حساب کاربری"><svg class="icon"
+                        aria-hidden="true" focusable="false">
+                        <use href="#i-user" />
+                    </svg></a>
+                <a class="icon-btn" href="#cart" aria-label="سبد خرید، ۰ کالا"><svg class="icon" aria-hidden="true"
+                        focusable="false">
+                        <use href="#i-cart" />
+                    </svg><span class="badge" aria-hidden="true">۰</span></a>
+            </div>
+            <search class="search">
+                <form action="#" method="get">
+                    <div class="search-box">
+                        <label class="sr-only" for="q-desktop">جستجو در محصولات</label>
+                        <input id="q-desktop" type="search" name="q" placeholder="جستجو در محصولات..." autocomplete="off">
+                        <label class="sr-only" for="cat-desktop">دسته‌بندی</label>
+                        <select id="cat-desktop" name="category" class="cat-select">
+                            <option value="">همه دسته‌بندی‌ها</option>
+                            <option value="snacks">تنقلات</option>
+                            <option value="grocery">خواروبار</option>
+                            <option value="vegetables">سبزیجات</option>
+                            <option value="dairy">لبنیات</option>
+                            <option value="protein">مواد پروتئینی</option>
+                            <option value="drinks">نوشیدنی‌ها</option>
+                        </select>
+                        <button class="search-btn" type="submit" aria-label="جستجو"><svg class="icon" aria-hidden="true"
+                                focusable="false">
+                                <use href="#i-search" />
+                            </svg></button>
+                    </div>
+                </form>
+            </search>
+        </div>
+        <div class="nav-bar">
+            <div class="nav-inner container">
+                <nav aria-label="منوی اصلی دسکتاپ">
+                    <ul class="nav-links">
+                        <li><a href="#top" aria-current="page"><svg class="icon" aria-hidden="true" focusable="false">
+                                    <use href="#i-home" />
+                                </svg>صفحه اصلی</a></li>
+                        <li class="has-sub">
+                            <a href="#products"><svg class="icon" aria-hidden="true" focusable="false">
+                                    <use href="#i-box" />
+                                </svg>محصولات</a>
+                            <ul class="sub-menu">
+                                <li><a href="#categories">تنقلات</a></li>
+                                <li><a href="#categories">خواروبار</a></li>
+                                <li><a href="#categories">سبزیجات</a></li>
+                                <li><a href="#dairy">لبنیات</a></li>
+                                <li><a href="#categories">مواد پروتئینی</a></li>
+                                <li><a href="#categories">نوشیدنی‌ها</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#categories"><svg class="icon" aria-hidden="true" focusable="false">
+                                    <use href="#i-grid" />
+                                </svg>دسته‌بندی‌ها</a></li>
+                        <li><a href="#brands"><svg class="icon" aria-hidden="true" focusable="false">
+                                    <use href="#i-tag" />
+                                </svg>برندها</a></li>
+                        <li><a href="#about"><svg class="icon" aria-hidden="true" focusable="false">
+                                    <use href="#i-info" />
+                                </svg>درباره ما</a></li>
+                        <li><a href="#contact"><svg class="icon" aria-hidden="true" focusable="false">
+                                    <use href="#i-phone" />
+                                </svg>تماس با ما</a></li>
+                    </ul>
+                </nav>
+                <address class="contact">
+                    <a href="tel:+982155456789"><svg class="icon" aria-hidden="true" focusable="false">
+                            <use href="#i-phone" />
+                        </svg><bdi>۰۲۱&#8209;۵۵۴۵۶۷۸۹</bdi></a>
+                    <a href="mailto:info@website.com"><svg class="icon" aria-hidden="true" focusable="false">
+                            <use href="#i-mail" />
+                        </svg><bdi>info@website.com</bdi></a>
+                </address>
+            </div>
+        </div>
+    </header>
+    <!-- finish header for desktop -->
+    <main id="content" tabindex="-1">
+        <h1 class="sr-only">ریفکتور؛ سوپرمارکت آنلاین</h1>
+        <!-- start hero section -->
+        <section class="hero container" id="hero" aria-label="پیشنهادهای ویژه">
+            <div class="carousel hero-carousel">
+                <input type="radio" name="hero-r" id="hero-r1" class="hero-radio" aria-label="بنر اول">
+                <input type="radio" name="hero-r" id="hero-r2" class="hero-radio" aria-label="بنر دوم">
+                <input type="radio" name="hero-r" id="hero-r3" class="hero-radio" aria-label="بنر سوم">
+                <ul class="hero-track">
+                    <li class="hero-slide s1"><img src="./public/img/b-2.webp" alt="تخفیف تا ۲۰٪ تکدانه" width="1200" height="600" fetchpriority="high" decoding="async"></li>
+                    <li class="hero-slide s2"><img src="./public/img/05890ea1-4ca8-4aca-a29f-e8921b3f4780.webp" alt="تخفیف تا ۲۰٪ چی‌فلکس" width="1200" height="600" decoding="async"></li>
+                    <li class="hero-slide s3"><img src="./public/img/b-2.webp" alt="تخفیف تا ۱۵٪ نسکافه" width="1200" height="600" decoding="async"></li>
+                </ul>
+                <div class="hero-nav n1">
+                    <label class="car-btn car-btn-hero" for="hero-r3">
+                        <span class="sr-only">رفتن به اسلاید بعدی</span>
+                        <svg class="icon" aria-hidden="true" focusable="false">
+                            <use href="#i-arrow-right" />
+                        </svg>
+                    </label>
+                    <label class="car-btn car-btn-hero" for="hero-r2">
+                        <span class="sr-only">رفتن به اسلاید قبلی</span>
+                        <svg class="icon" aria-hidden="true" focusable="false">
+                            <use href="#i-arrow-left" />
+                        </svg>
+                    </label>
+                </div>
+                <div class="hero-nav n2">
+                    <label class="car-btn car-btn-hero" for="hero-r1">
+                        <span class="sr-only">رفتن به اسلاید بعدی</span>
+                        <svg class="icon" aria-hidden="true" focusable="false">
+                            <use href="#i-arrow-right" />
+                        </svg>
+                    </label>
+                    <label class="car-btn car-btn-hero" for="hero-r3">
+                        <span class="sr-only">رفتن به اسلاید قبلی</span>
+                        <svg class="icon" aria-hidden="true" focusable="false">
+                            <use href="#i-arrow-left" />
+                        </svg>
+                    </label>
+                </div>
+                <div class="hero-nav n3">
+                    <label class="car-btn car-btn-hero" for="hero-r2">
+                        <span class="sr-only">رفتن به اسلاید بعدی</span>
+                        <svg class="icon" aria-hidden="true" focusable="false">
+                            <use href="#i-arrow-right" />
+                        </svg>
+                    </label>
+                    <label class="car-btn car-btn-hero" for="hero-r1">
+                        <span class="sr-only">رفتن به اسلاید قبلی</span>
+                        <svg class="icon" aria-hidden="true" focusable="false">
+                            <use href="#i-arrow-left" />
+                        </svg>
+                    </label>
+                </div>
+            </div>
+        </section>
+        <!-- finish hero section -->
+        <!-- start section cats -->
+        <section class="cats container" id="categories" aria-labelledby="cats-title">
+            <div class="section-head">
+                <h2 class="section-title" id="cats-title">دسته‌بندی محصولات</h2>
+            </div>
+            <ul class="cat-list">
+                <li>
+                    <a class="cat" href="#products">
+                        <img class="cat-img" src="./public/img/1.png" alt="تصویر دسته‌بندی تنقلات" width="428" height="360" loading="lazy" decoding="async">
+                        <strong>تنقلات</strong>
+                        <small>۱۰ محصول</small>
+                    </a>
+                </li>
+                <li>
+                    <a class="cat" href="#products">
+                        <img class="cat-img" src="./public/img/2.png" alt="تصویر دسته‌بندی خواروبار" width="520" height="380" loading="lazy" decoding="async">
+                        <strong>خواروبار</strong>
+                        <small>۴ محصول</small>
+                    </a>
+                </li>
+                <li>
+                    <a class="cat" href="#products">
+                        <img class="cat-img" src="./public/img/3.png" alt="تصویر دسته‌بندی سبزیجات" width="552" height="364" loading="lazy" decoding="async">
+                        <strong>سبزیجات</strong>
+                        <small>۹ محصول</small>
+                    </a>
+                </li>
+                <li>
+                    <a class="cat" id="dairy" href="#dairy">
+                        <img class="cat-img" src="./public/img/4.png" alt="تصویر دسته‌بندی لبنیات" width="596" height="288" loading="lazy" decoding="async">
+                        <strong>لبنیات</strong>
+                        <small>۸ محصول</small>
+                    </a>
+                </li>
+                <li>
+                    <a class="cat" href="#products">
+                        <img class="cat-img" src="./public/img/5.png" alt="تصویر دسته‌بندی مواد پروتئینی" width="484" height="352" loading="lazy" decoding="async">
+                        <strong>مواد پروتئینی</strong>
+                        <small>۵ محصول</small>
+                    </a>
+                </li>
+                <li>
+                    <a class="cat" href="#products">
+                        <img class="cat-img" src="./public/img/6.png" alt="تصویر دسته‌بندی نوشیدنی‌ها" width="504" height="372" loading="lazy" decoding="async">
+                        <strong>نوشیدنی‌ها</strong>
+                        <small>۴ محصول</small>
+                    </a>
+                </li>
+            </ul>
+        </section>
+        <!-- finish section cats -->
+        <!-- start offer section -->
+        <section class="offer container" id="offers" aria-labelledby="offer-title">
+            <div class="carousel">
+                <div class="section-head">
+                    <h2 class="section-title" id="offer-title">پیشنهاد شگفت‌انگیز</h2>
+                    <a class="section-link" href="#products">مشاهده همه محصولات</a>
+                </div>
+                <ul class="track products-track products-track-off" tabindex="0" aria-label="پیشنهادهای شگفت‌انگیز">
+                    <li class="card">
+                        <div class="card-top">
+                            <span class="chip-off"><span class="sr-only">تخفیف </span>۲۰٪</span>
+                            <span class="chip-rate" role="img" aria-label="امتیاز ۴٫۵ از ۵"><svg class="icon icon--fill"
+                                    aria-hidden="true" focusable="false">
+                                    <use href="#i-star" />
+                                </svg>۴٫۵</span>
+                        </div>
+                        <a class="card-media" href="#products" tabindex="-1" aria-hidden="true">
+                            <img src="./public/img/p1.webp" alt="تصویر کروسان شکلاتی پیچ‌پیچ" width="312" height="312" loading="lazy" decoding="async">
+                        </a>
+                        <div class="card-body">
+                            <h3 class="card-title"><a href="#products">کروسان شکلاتی پیچ‌پیچ</a></h3>
+                        </div>
+                        <div class="card-actions">
+                            <p class="price">
+                                <strong>۸۵,۰۰۰<small>تومان</small></strong>
+                                <del><span class="sr-only">قیمت قبل از تخفیف </span>۱۰۵,۰۰۰</del>
+                            </p>
+                            <div class="act-pair">
+                                <button class="act-btn" type="button" aria-label="افزودن کروسان شکلاتی پیچ‌پیچ به علاقه‌مندی‌ها"><svg class="icon"
+                                        aria-hidden="true" focusable="false">
+                                        <use href="#i-heart" />
+                                    </svg></button>
+                                <button class="act-btn act-cart" type="button" aria-label="افزودن کروسان شکلاتی پیچ‌پیچ به سبد خرید"><svg class="icon"
+                                        aria-hidden="true" focusable="false">
+                                        <use href="#i-cart" />
+                                    </svg><span>افزودن</span></button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="card">
+                        <div class="card-top">
+                            <span class="chip-off"><span class="sr-only">تخفیف </span>۱۵٪</span>
+                            <span class="chip-rate" role="img" aria-label="امتیاز ۴٫۲ از ۵"><svg class="icon icon--fill"
+                                    aria-hidden="true" focusable="false">
+                                    <use href="#i-star" />
+                                </svg>۴٫۲</span>
+                        </div>
+                        <a class="card-media" href="#products" tabindex="-1" aria-hidden="true">
+                            <img src="./public/img/p2.webp" alt="تصویر نوشابه نارنگی سانیچ" width="312" height="312" loading="lazy" decoding="async">
+                        </a>
+                        <div class="card-body">
+                            <h3 class="card-title"><a href="#products">نوشابه نارنگی سانیچ</a></h3>
+                        </div>
+                        <div class="card-actions">
+                            <p class="price">
+                                <strong>۷۵,۰۰۰<small>تومان</small></strong>
+                                <del><span class="sr-only">قیمت قبل از تخفیف </span>۸۸,۰۰۰</del>
+                            </p>
+                            <div class="act-pair">
+                                <button class="act-btn" type="button" aria-label="افزودن نوشابه نارنگی سانیچ به علاقه‌مندی‌ها"><svg class="icon"
+                                        aria-hidden="true" focusable="false">
+                                        <use href="#i-heart" />
+                                    </svg></button>
+                                <button class="act-btn act-cart" type="button" aria-label="افزودن نوشابه نارنگی سانیچ به سبد خرید"><svg class="icon"
+                                        aria-hidden="true" focusable="false">
+                                        <use href="#i-cart" />
+                                    </svg><span>افزودن</span></button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="card">
+                        <div class="card-top">
+                            <span class="chip-off"><span class="sr-only">تخفیف </span>۲۵٪</span>
+                            <span class="chip-rate" role="img" aria-label="امتیاز ۴٫۷ از ۵"><svg class="icon icon--fill"
+                                    aria-hidden="true" focusable="false">
+                                    <use href="#i-star" />
+                                </svg>۴٫۷</span>
+                        </div>
+                        <a class="card-media" href="#products" tabindex="-1" aria-hidden="true">
+                            <img src="./public/img/p3.webp" alt="تصویر نوشیدنی میوه‌ای رانی هلو" width="312" height="312" loading="lazy" decoding="async">
+                        </a>
+                        <div class="card-body">
+                            <h3 class="card-title"><a href="#products">نوشیدنی میوه‌ای رانی هلو</a></h3>
+                        </div>
+                        <div class="card-actions">
+                            <p class="price">
+                                <strong>۲۸۰,۰۰۰<small>تومان</small></strong>
+                                <del><span class="sr-only">قیمت قبل از تخفیف </span>۳۷۵,۰۰۰</del>
+                            </p>
+                            <div class="act-pair">
+                                <button class="act-btn" type="button" aria-label="افزودن نوشیدنی میوه‌ای رانی هلو به علاقه‌مندی‌ها"><svg class="icon"
+                                        aria-hidden="true" focusable="false">
+                                        <use href="#i-heart" />
+                                    </svg></button>
+                                <button class="act-btn act-cart" type="button" aria-label="افزودن نوشیدنی میوه‌ای رانی هلو به سبد خرید"><svg class="icon"
+                                        aria-hidden="true" focusable="false">
+                                        <use href="#i-cart" />
+                                    </svg><span>افزودن</span></button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="card">
+                        <div class="card-top">
+                            <span class="chip-off"><span class="sr-only">تخفیف </span>۲۰٪</span>
+                            <span class="chip-rate" role="img" aria-label="امتیاز ۴٫۵ از ۵"><svg class="icon icon--fill"
+                                    aria-hidden="true" focusable="false">
+                                    <use href="#i-star" />
+                                </svg>۴٫۵</span>
+                        </div>
+                        <a class="card-media" href="#products" tabindex="-1" aria-hidden="true">
+                            <img src="./public/img/p4.webp" alt="تصویر نسکافه ۳ در ۱ کلاسیک" width="312" height="312" loading="lazy" decoding="async">
+                        </a>
+                        <div class="card-body">
+                            <h3 class="card-title"><a href="#products">نسکافه ۳ در ۱ کلاسیک</a></h3>
+                        </div>
+                        <div class="card-actions">
+                            <p class="price">
+                                <strong>۸۵,۰۰۰<small>تومان</small></strong>
+                                <del><span class="sr-only">قیمت قبل از تخفیف </span>۱۰۵,۰۰۰</del>
+                            </p>
+                            <div class="act-pair">
+                                <button class="act-btn" type="button" aria-label="افزودن نسکافه ۳ در ۱ کلاسیک به علاقه‌مندی‌ها"><svg class="icon"
+                                        aria-hidden="true" focusable="false">
+                                        <use href="#i-heart" />
+                                    </svg></button>
+                                <button class="act-btn act-cart" type="button" aria-label="افزودن نسکافه ۳ در ۱ کلاسیک به سبد خرید"><svg class="icon"
+                                        aria-hidden="true" focusable="false">
+                                        <use href="#i-cart" />
+                                    </svg><span>افزودن</span></button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="card">
+                        <div class="card-top">
+                            <span class="chip-off"><span class="sr-only">تخفیف </span>۲۰٪</span>
+                            <span class="chip-rate" role="img" aria-label="امتیاز ۴٫۵ از ۵"><svg class="icon icon--fill"
+                                    aria-hidden="true" focusable="false">
+                                    <use href="#i-star" />
+                                </svg>۴٫۵</span>
+                        </div>
+                        <a class="card-media" href="#products" tabindex="-1" aria-hidden="true">
+                            <img src="./public/img/p-5.webp" alt="تصویر کیک شکلاتی تینی" width="312" height="312" loading="lazy" decoding="async">
+                        </a>
+                        <div class="card-body">
+                            <h3 class="card-title"><a href="#products">کیک شکلاتی تینی</a></h3>
+                        </div>
+                        <div class="card-actions">
+                            <p class="price">
+                                <strong>۸۵,۰۰۰<small>تومان</small></strong>
+                                <del><span class="sr-only">قیمت قبل از تخفیف </span>۱۰۵,۰۰۰</del>
+                            </p>
+                            <div class="act-pair">
+                                <button class="act-btn" type="button" aria-label="افزودن کیک شکلاتی تینی به علاقه‌مندی‌ها"><svg class="icon"
+                                        aria-hidden="true" focusable="false">
+                                        <use href="#i-heart" />
+                                    </svg></button>
+                                <button class="act-btn act-cart" type="button" aria-label="افزودن کیک شکلاتی تینی به سبد خرید"><svg class="icon" aria-hidden="true"
+                                        focusable="false">
+                                        <use href="#i-cart" />
+                                    </svg><span>افزودن</span></button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="card">
+                        <div class="card-top">
+                            <span class="chip-off"><span class="sr-only">تخفیف </span>۲۰٪</span>
+                            <span class="chip-rate" role="img" aria-label="امتیاز ۴٫۵ از ۵"><svg class="icon icon--fill"
+                                    aria-hidden="true" focusable="false">
+                                    <use href="#i-star" />
+                                </svg>۴٫۵</span>
+                        </div>
+                        <a class="card-media" href="#products" tabindex="-1" aria-hidden="true">
+                            <img src="./public/img/p6.webp" alt="تصویر چی‌توز فلفلی" width="312" height="312" loading="lazy" decoding="async">
+                        </a>
+                        <div class="card-body">
+                            <h3 class="card-title"><a href="#products">چی‌توز فلفلی</a></h3>
+                        </div>
+                        <div class="card-actions">
+                            <p class="price">
+                                <strong>۸۵,۰۰۰<small>تومان</small></strong>
+                                <del><span class="sr-only">قیمت قبل از تخفیف </span>۱۰۵,۰۰۰</del>
+                            </p>
+                            <div class="act-pair">
+                                <button class="act-btn" type="button" aria-label="افزودن چی‌توز فلفلی به علاقه‌مندی‌ها"><svg class="icon"
+                                        aria-hidden="true" focusable="false">
+                                        <use href="#i-heart" />
+                                    </svg></button>
+                                <button class="act-btn act-cart" type="button" aria-label="افزودن چی‌توز فلفلی به سبد خرید"><svg class="icon" aria-hidden="true"
+                                        focusable="false">
+                                        <use href="#i-cart" />
+                                    </svg><span>افزودن</span></button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <!-- finish offer section -->
+        <!-- start section latest products -->
+        <section class="latest container" id="products" aria-labelledby="latest-title">
+            <div class="carousel">
+                <div class="section-head">
+                    <h2 class="section-title" id="latest-title">جدیدترین محصولات</h2>
+                    <a class="section-link" href="#products">مشاهده همه محصولات</a>
+                </div>
+                <ul class="track products-track products-track-latest" tabindex="0" aria-label="جدیدترین محصولات">
+                    <li class="card">
+                        <a href="#products" class="card-link">
+                            <span class="card-media"><img src="./public/img/p9.webp"
+                                    alt="تصویر پسته نمکی تازه و خوش‌طعم" width="420" height="420" loading="lazy"
+                                    decoding="async"></span>
+                            <div class="card-body">
+                                <h3 class="card-title">پسته نمکی تازه و خوش‌طعم</h3>
+                                <p class="price-old"><del><span class="sr-only">قیمت قبل از تخفیف
+                                        </span>۴۵۰,۰۰۰</del><span class="chip-off"><span class="sr-only">تخفیف
+                                        </span>۱۵٪</span>
+                                </p>
+                                <span class="price"><strong>۳۸۵,۰۰۰<small>تومان</small></strong></span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="card">
+                        <a href="#products" class="card-link">
+                            <span class="card-media"><img src="./public/img/p7.webp" alt="تصویر نوشابه فانتا پرتقالی"
+                                    width="420" height="420" loading="lazy" decoding="async"></span>
+                            <div class="card-body">
+                                <h3 class="card-title">نوشابه فانتا پرتقالی</h3>
+                                <p class="price-old" aria-hidden="true"></p>
+                                <span class="price"><strong>۵۹,۰۰۰<small>تومان</small></strong></span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="card">
+                        <a href="#products" class="card-link">
+                            <span class="card-media"><img src="./public/img/p8.webp" alt="تصویر هایپ انرژی‌درینک کلاسیک"
+                                    width="420" height="420" loading="lazy" decoding="async"></span>
+                            <div class="card-body">
+                                <h3 class="card-title">هایپ انرژی‌درینک کلاسیک</h3>
+                                <p class="price-old"><del><span class="sr-only">قیمت قبل از تخفیف
+                                        </span>۹۵,۰۰۰</del><span class="chip-off"><span class="sr-only">تخفیف
+                                        </span>۱۰٪</span>
+                                </p>
+                                <span class="price"><strong>۸۵,۰۰۰<small>تومان</small></strong></span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="card">
+                        <a href="#products" class="card-link">
+                            <span class="card-media"><img src="./public/img/p6.webp" alt="تصویر چی‌توز فلفلی"
+                                    width="420" height="420" loading="lazy" decoding="async"></span>
+                            <div class="card-body">
+                                <h3 class="card-title">چی‌توز پنیری</h3>
+                                <p class="price-old" aria-hidden="true"></p>
+                                <span class="price"><strong>۷۲,۰۰۰<small>تومان</small></strong></span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="card">
+                        <a href="#products" class="card-link">
+                            <span class="card-media"><img src="./public/img/p10.webp" alt="تصویر سوپر چیپس نمکی مزمز"
+                                    width="420" height="420" loading="lazy" decoding="async"></span>
+                            <div class="card-body">
+                                <h3 class="card-title">سوپر چیپس نمکی مزمز</h3>
+                                <p class="price-old"><del><span class="sr-only">قیمت قبل از تخفیف
+                                        </span>۶۲۰,۰۰۰</del><span class="chip-off"><span class="sr-only">تخفیف
+                                        </span>۲۰٪</span>
+                                </p>
+                                <span class="price"><strong>۴۹۵,۰۰۰<small>تومان</small></strong></span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="card">
+                        <a href="#products" class="card-link">
+                            <span class="card-media"><img src="./public/img/p11.webp" alt="تصویر پاستیل مار رنگی هاریبو"
+                                    width="420" height="420" loading="lazy" decoding="async"></span>
+                            <div class="card-body">
+                                <h3 class="card-title">پاستیل مار رنگی هاریبو</h3>
+                                <p class="price-old"><del><span class="sr-only">قیمت قبل از تخفیف
+                                        </span>۱۰۳,۰۰۰</del><span class="chip-off"><span class="sr-only">تخفیف
+                                        </span>۸٪</span>
+                                </p>
+                                <span class="price"><strong>۹۵,۰۰۰<small>تومان</small></strong></span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="card">
+                        <a href="#products" class="card-link">
+                            <span class="card-media"><img src="./public/img/p12.webp" alt="تصویر چیپس دل مزه لیمو فلفل"
+                                    width="420" height="420" loading="lazy" decoding="async"></span>
+                            <div class="card-body">
+                                <h3 class="card-title">چیپس دل مزه لیمو فلفل</h3>
+                                <p class="price-old" aria-hidden="true"></p>
+                                <span class="price"><strong>۶۵,۰۰۰<small>تومان</small></strong></span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="card">
+                        <a href="#products" class="card-link">
+                            <span class="card-media"><img src="./public/img/p-13.webp"
+                                    alt="تصویر شکلات شیری گالاردو فرمند" width="420" height="420" loading="lazy"
+                                    decoding="async"></span>
+                            <div class="card-body">
+                                <h3 class="card-title">شکلات شیری گالاردو فرمند</h3>
+                                <p class="price-old"><del><span class="sr-only">قیمت قبل از تخفیف
+                                        </span>۹۰,۰۰۰</del><span class="chip-off"><span class="sr-only">تخفیف
+                                        </span>۱۲٪</span>
+                                </p>
+                                <span class="price"><strong>۷۹,۰۰۰<small>تومان</small></strong></span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <!-- finish section latest products -->
+        <!-- start section season-promo -->
+        <section class="season container" id="season" aria-labelledby="season-title">
+            <div class="season-grid">
+                <div class="season-promo">
+                    <div class="season-promo-text">
+                        <h2 class="season-promo-title" id="season-title">سبزیجات و میوه‌های تازه</h2>
+                        <p class="season-promo-desc">تازه‌ترین سبزیجات فصل، مستقیم از مزرعه تا سفره شما</p>
+                    </div>
+                    <div class="season-promo-art"><img src="./public/img/1-1.png" alt="تصویر سبزیجات و میوه‌های تازه" width="560" height="514" loading="lazy" decoding="async"></div>
+                </div>
+                <div class="season-box carousel">
+                    <div class="section-head">
+                        <h3 class="section-title">محصولات فصل</h3>
+                        <a class="section-link" href="#products">مشاهده همه</a>
+                    </div>
+                    <ul class="track products-track" tabindex="0" aria-label="محصولات تازه فصل">
+                        <li class="card">
+                            <a href="#products" class="card-link">
+                                <span class="card-top"><span class="chip-off"><span class="sr-only">تخفیف
+                                        </span>۲۸٪</span>
+                                </span>
+                                <span class="card-media"><img src="./public/img/fr-1.webp" alt="تصویر هلو یک کیلوگرمی"
+                                        width="420" height="420" loading="lazy" decoding="async"></span>
+                                <div class="card-body">
+                                    <h4 class="card-title">هلو یک کیلوگرمی</h4>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="card">
+                            <a href="#products" class="card-link">
+                                <span class="card-top card-top--empty" aria-hidden="true"></span>
+                                <span class="card-media"><img src="./public/img/fr-2.webp"
+                                        alt="تصویر گلابی فله یک کیلوگرم" width="420" height="420" loading="lazy"
+                                        decoding="async"></span>
+                                <div class="card-body">
+                                    <h4 class="card-title">گلابی فله یک کیلوگرم</h4>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="card">
+                            <a href="#products" class="card-link">
+                                <span class="card-top"><span class="chip-off"><span class="sr-only">تخفیف
+                                        </span>۵٪</span>
+                                </span>
+                                <span class="card-media"><img src="./public/img/fr-3.webp" alt="تصویر موز یک کیلوگرمی"
+                                        width="420" height="420" loading="lazy" decoding="async"></span>
+                                <div class="card-body">
+                                    <h4 class="card-title">موز یک کیلوگرمی</h4>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <!-- finish section season-promo -->
+        <!-- start section brands -->
+        <section class="brands container" id="brands" aria-labelledby="brands-title">
+            <div class="carousel">
+                <div class="section-head">
+                    <h2 class="section-title" id="brands-title">محبوب‌ترین برندها</h2>
+                </div>
+                <ul class="track products-track products-track-brand" tabindex="0" aria-label="محبوب‌ترین برندها">
+                    <li class="card brand-card">
+                        <a href="#products" class="card-link">
+                            <span class="brand-logo"><img src="./public/img/brand.webp" alt="لوگوی برند تک دانه"
+                                    width="1000" height="1000" loading="lazy" decoding="async"></span>
+                            <span class="brand-name">تک دانه</span>
+                            <span class="brand-count">۲ محصول</span>
+                        </a>
+                    </li>
+                    <li class="card brand-card">
+                        <a href="#products" class="card-link">
+                            <span class="brand-logo"><img src="./public/img/brand1.webp" alt="لوگوی برند مزمز"
+                                    width="1000" height="1000" loading="lazy" decoding="async"></span>
+                            <span class="brand-name">مزمز</span>
+                            <span class="brand-count">۲ محصول</span>
+                        </a>
+                    </li>
+                    <li class="card brand-card">
+                        <a href="#products" class="card-link">
+                            <span class="brand-logo"><img src="./public/img/brand3.webp" alt="لوگوی برند لادن"
+                                    width="1000" height="1000" loading="lazy" decoding="async"></span>
+                            <span class="brand-name">لادن</span>
+                            <span class="brand-count">۲ محصول</span>
+                        </a>
+                    </li>
+                    <li class="card brand-card">
+                        <a href="#products" class="card-link">
+                            <span class="brand-logo"><img src="./public/img/brand4.webp" alt="لوگوی برند دلوسه"
+                                    width="1000" height="1000" loading="lazy" decoding="async"></span>
+                            <span class="brand-name">دلوسه</span>
+                            <span class="brand-count">۲ محصول</span>
+                        </a>
+                    </li>
+                    <li class="card brand-card">
+                        <a href="#products" class="card-link">
+                            <span class="brand-logo"><img src="./public/img/brand5.webp" alt="لوگوی برند سن ایچ"
+                                    width="1000" height="1000" loading="lazy" decoding="async"></span>
+                            <span class="brand-name">سن ایچ</span>
+                            <span class="brand-count">۲ محصول</span>
+                        </a>
+                    </li>
+                    <li class="card brand-card">
+                        <a href="#products" class="card-link">
+                            <span class="brand-logo"><img src="./public/img/brand6.webp" alt="لوگوی برند واتا"
+                                    width="1000" height="1000" loading="lazy" decoding="async"></span>
+                            <span class="brand-name">واتا</span>
+                            <span class="brand-count">۲ محصول</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <!-- finish section brands -->
+        <!-- start section features -->
+        <section class="features container" id="features" aria-label="مزیت‌های خرید از ریفکتور">
+            <ul class="features-list">
+                <li>
+                    <span class="f-icon"><svg class="icon" aria-hidden="true" focusable="false">
+                            <use href="#i-shield" />
+                        </svg></span>
+                    <span><strong>محصولات اورجینال</strong><small>ضمانت اصالت کالا</small></span>
+                </li>
+                <li>
+                    <span class="f-icon"><svg class="icon" aria-hidden="true" focusable="false">
+                            <use href="#i-truck" />
+                        </svg></span>
+                    <span><strong>ارسال رایگان</strong><small>خریدهای بالای ۵۰۰ هزار تومان</small></span>
+                </li>
+                <li>
+                    <span class="f-icon"><svg class="icon" aria-hidden="true" focusable="false">
+                            <use href="#i-card" />
+                        </svg></span>
+                    <span><strong>پرداخت امن</strong><small>همه کارت‌های عضو شتاب</small></span>
+                </li>
+                <li>
+                    <span class="f-icon"><svg class="icon" aria-hidden="true" focusable="false">
+                            <use href="#i-headset" />
+                        </svg></span>
+                    <span><strong>پشتیبانی سریع</strong><small>۲۴ ساعته، ۷ روز هفته</small></span>
+                </li>
+                <li>
+                    <span class="f-icon"><svg class="icon" aria-hidden="true" focusable="false">
+                            <use href="#i-star" />
+                        </svg></span>
+                    <span><strong>محصولات تازه</strong><small>هر روز، مستقیم از تأمین‌کننده</small></span>
+                </li>
+            </ul>
+        </section>
+        <!-- finish section features -->
+    </main>
+    <!-- footer section -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div class="footer-badges">
+                    <span class="footer-badge" role="img" aria-label="پشتیبانی ۲۴ ساعته">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                            <path d="M4 14v-2a8 8 0 0 1 16 0v2" />
+                            <rect x="3" y="13" width="4" height="6" rx="1" />
+                            <rect x="17" y="13" width="4" height="6" rx="1" />
+                        </svg>
+                    </span>
+                    <span class="footer-badge" role="img" aria-label="ضمانت اصالت کالا">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                            <path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z" />
+                            <path d="M8.5 12l2.5 2.5 4.5-5" />
+                        </svg>
+                    </span>
+                    <span class="footer-badge" role="img" aria-label="پرداخت امن">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                            <rect x="3" y="5" width="18" height="14" rx="2" />
+                            <path d="M3 10h18M7 15h4" />
+                        </svg>
+                    </span>
+                </div>
+                <div class="footer-cols">
+                    <nav aria-labelledby="f-quick">
+                        <h2 class="footer-col-title" id="f-quick">دسترسی‌های سریع</h2>
+                        <ul class="footer-col-list">
+                            <li><a href="#top">صفحه اصلی</a></li>
+                            <li><a href="#products">همه محصولات</a></li>
+                            <li><a href="#offers">محصولات تخفیف‌دار</a></li>
+                            <li><a href="#brands">برندها</a></li>
+                        </ul>
+                    </nav>
+                    <nav aria-labelledby="f-brands">
+                        <h2 class="footer-col-title" id="f-brands">برندهای مطرح</h2>
+                        <ul class="footer-col-list">
+                            <li><a href="#brands">تکدانه</a></li>
+                            <li><a href="#brands">مزمز</a></li>
+                            <li><a href="#brands">لادن</a></li>
+                            <li><a href="#brands">دلوسه</a></li>
+                            <li><a href="#brands">سن‌ایچ</a></li>
+                            <li><a href="#brands">واتا</a></li>
+                        </ul>
+                    </nav>
+                    <nav aria-labelledby="f-help">
+                        <h2 class="footer-col-title" id="f-help">راهنمای مشتریان</h2>
+                        <ul class="footer-col-list">
+                            <li><a id="account" href="#account">حساب کاربری من</a></li>
+                            <li><a id="cart" href="#cart">سبد خرید</a></li>
+                            <li><a id="favorites" href="#favorites">علاقه‌مندی‌ها</a></li>
+                            <li><a href="#about">درباره ما</a></li>
+                        </ul>
+                    </nav>
+                    <nav aria-labelledby="f-cats">
+                        <h2 class="footer-col-title" id="f-cats">محبوب‌ترین دسته‌بندی‌ها</h2>
+                        <ul class="footer-col-list">
+                            <li><a href="#categories">پاپ‌کورن</a></li>
+                            <li><a href="#categories">ساعت هوشمند</a></li>
+                            <li><a href="#categories">تلویزیون</a></li>
+                            <li><a href="#categories">کنسول بازی</a></li>
+                            <li><a href="#categories">موبایل</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-contact" id="contact">
+                    <div class="footer-contact-row">
+                        <span class="footer-contact-label">تلفن:</span>
+                        <a class="footer-contact-value" href="tel:+982155456789"><bdi>۰۲۱&#8209;۵۵۴۵۶۷۸۹</bdi></a>
+                        <span class="footer-contact-sep" aria-hidden="true">|</span>
+                        <a class="footer-contact-value" href="tel:+982155456790"><bdi>۰۲۱&#8209;۵۵۴۵۶۷۹۰</bdi></a>
+                    </div>
+                    <div class="footer-contact-row">
+                        <span class="footer-contact-label">آدرس:</span>
+                        <span class="footer-contact-value">تهران - خیابان سعادت‌آباد - کوچه ۵ - پلاک ۶۳ - طبقه
+                            دوم</span>
+                    </div>
+                </div>
+                <div class="footer-about" id="about">
+                    <a class="footer-brand" href="#top" aria-label="ریفکتور؛ بازگشت به ابتدای صفحه">
+                        <svg class="footer-brand-icon" viewBox="0 0 56 56" aria-hidden="true" focusable="false">
+                            <rect width="56" height="56" rx="16" fill="#0f8a5f" />
+                            <path d="M16 25h24l-2.6 14a3.2 3.2 0 0 1-3.1 2.6H21.7a3.2 3.2 0 0 1-3.1-2.6z" fill="#fff" />
+                            <path d="M22 25l4-8M34 25l-4-8" stroke="#fff" stroke-width="2.6" stroke-linecap="round"
+                                fill="none" />
+                        </svg>
+                        <span class="footer-brand-text">
+                            <strong><span class="footer-brand-prefix">فروشگاه</span> ریفکتور</strong>
+                        <small>سفارش سریع روزانه، آسان</small>
+                        </span>
+                    </a>
+                    <p class="footer-about-desc"> ما باور داریم خرید آفلاین باید ساده، مطمئن و لذت‌بخش باشد. از همین باور بود که فروشگاه ما متولد شد؛ جایی که هدفش ایجاد تجربه‌ای متفاوت از خرید اینترنتی برای شماست. ما تلاش می‌کنیم هر روز مجموعه‌ای از کاربردی‌ترین محصولات را از برندهای
+                        معتبر کشورمان فراهم کنیم تا با خیال راحت و بهترین قیمت خرید کنید. </p>
+                </div>
+            </div>
+            <div class="footer-copy">
+                <div class="footer-copy-left">
+                    <a id="terms" href="#terms">شرایط و قوانین</a>
+                    <span aria-hidden="true">|</span>
+                    <a id="privacy" href="#privacy">حریم خصوصی</a>
+                    <span aria-hidden="true">|</span>
+                    <a id="faq" href="#faq">سوالات متداول</a>
+                </div>
+                <p class="footer-copy-right"> © ۱۴۰۵ ریفکتور؛ کلیه حقوق مادی و معنوی این سایت محفوظ می‌باشد. طراحی و توسعه: زهرا گلابی </p>
+            </div>
+            <div class="footer-to-top-wrap">
+                <a class="footer-to-top" href="#top" aria-label="بازگشت به بالای صفحه">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                        <path d="M12 19V5M6 11l6-6 6 6" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </footer>
 </body>
+
 </html>
