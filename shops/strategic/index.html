@@ -97,6 +97,20 @@
       <path d="M3.103 6.034h17.794" />
       <path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z" />
       </symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24">
+      <path d="M5 12h14" />
+      <path d="M12 5v14" />
+      </symbol>
+      <symbol id="i-minus" viewBox="0 0 24 24">
+      <path d="M5 12h14" />
+      </symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24">
+      <path d="M3 6h18" />
+      <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+      <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+      <path d="M10 11v6" />
+      <path d="M14 11v6" />
+      </symbol>
     </svg>
 
     <!-- ========== skip link ========== -->
@@ -478,13 +492,17 @@
             autocomplete="off">
         </div>
 
-        <button class="cart" id="cart-btn" type="button" aria-label="سبد خرید، ۰ کالا">
-          <span aria-hidden="true">
-            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-cart" /></svg>
-            <span class="cart-txt">سبد خرید</span>
-          </span>
-          <b id="cart-count" aria-hidden="true">۰</b>
-        </button>
+        <!-- ========== CART: button + hover summary (filled by script.js) ========== -->
+        <div class="cart-wrap" id="cart-wrap">
+          <button class="cart" id="cart-btn" type="button" aria-label="سبد خرید، ۰ کالا" aria-expanded="false" aria-controls="cart-panel">
+            <span aria-hidden="true">
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-cart" /></svg>
+              <span class="cart-txt">سبد خرید</span>
+            </span>
+            <b id="cart-count" aria-hidden="true">۰</b>
+          </button>
+          <section class="cart-panel" id="cart-panel" aria-label="خلاصه سبد خرید" tabindex="-1"></section>
+        </div>
 
         <input
           class="sr-only menu-toggle"
