@@ -91,10 +91,10 @@ function renderNewItems(carousel, data) {
     items.forEach((product, index) => {
         const card = createCard(product);
         if (index === 0) {
-            card.id = "new-items-first"
+            card.id = "fruits-first"
         }
         if (index === items.length - 1) {
-            card.id = "new-items-last"
+            card.id = "fruits-last"
         }
 
         carousel.append(card);
@@ -137,7 +137,7 @@ function renderSpecialOffers(carousel, data) {
 /* loading, show the messages, call drawing functions */
 
 async function init() {
-  const newCarousel = document.querySelector("#new-items .carousel");
+  const newCarousel = document.querySelector("#fruits .carousel");
   const specialCarousel = document.querySelector("#special-offer .carousel");
 
   showMessage(newCarousel, "در حال بارگذاری");
