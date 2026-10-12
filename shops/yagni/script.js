@@ -458,9 +458,9 @@ async function renderSuggestions() {
     const formatNumber = (number) =>
       number.toLocaleString("fa-IR");
 
-    // =========================
+
     // Search placeholder
-    // =========================
+
 
     const searchInput =
       document.querySelector(".header__search input");
@@ -470,9 +470,9 @@ async function renderSuggestions() {
         `می‌تونی بین ${formatNumber(products.length)} محصول جستجو کنی`;
     }
 
-    // =========================
+
     // Carousel start anchor
-    // =========================
+
 
     const startAnchor = document.createElement("span");
 
@@ -481,9 +481,9 @@ async function renderSuggestions() {
 
     suggestions.append(startAnchor);
 
-    // =========================
+
     // Products with offers
-    // =========================
+
 
     const suggestedProducts = products.filter((product) =>
       offers.some((offer) => offer.productId === product.id)
@@ -494,26 +494,26 @@ async function renderSuggestions() {
         (item) => item.productId === product.id
       );
 
-      // =========================
+
       // Stock
-      // =========================
+
 
       const quantity =
         stock.items[String(product.id)] ?? 0;
 
       const isOutOfStock = quantity <= 0;
 
-      // =========================
+  
       // Discounted price
-      // =========================
+  
 
       const discountedPrice = Math.round(
         product.price * (1 - offer.percent / 100)
       );
 
-      // =========================
+   
       // Card
-      // =========================
+   
 
       const card = document.createElement("div");
 
@@ -523,9 +523,9 @@ async function renderSuggestions() {
         card.classList.add("product-card--out-of-stock");
       }
 
-      // =========================
+
       // Badges
-      // =========================
+   
 
       const badges = document.createElement("div");
 
@@ -557,9 +557,9 @@ async function renderSuggestions() {
 
       card.append(badges);
 
-      // =========================
+    
       // Thumbnail
-      // =========================
+    
 
       const thumb = document.createElement("div");
 
@@ -574,9 +574,9 @@ async function renderSuggestions() {
 
       thumb.append(emoji);
 
-      // =========================
+
       // Product info
-      // =========================
+
 
       const info = document.createElement("div");
 
@@ -594,9 +594,9 @@ async function renderSuggestions() {
 
       info.append(name, unit);
 
-      // =========================
+
       // Out-of-stock message
-      // =========================
+ 
 
       if (isOutOfStock) {
         const stockMessage = document.createElement("span");
@@ -607,9 +607,9 @@ async function renderSuggestions() {
         info.append(stockMessage);
       }
 
-      // =========================
+
       // Footer
-      // =========================
+
 
       const footer = document.createElement("div");
 
@@ -637,9 +637,9 @@ async function renderSuggestions() {
 
       pricing.append(currentPrice);
 
-      // =========================
+    
       // Add button
-      // =========================
+
 
       const button = document.createElement("button");
 
@@ -660,9 +660,9 @@ async function renderSuggestions() {
 
       footer.append(pricing, button);
 
-      // =========================
+  
       // Assemble card
-      // =========================
+ 
 
       card.append(
         thumb,
@@ -673,9 +673,8 @@ async function renderSuggestions() {
       suggestions.append(card);
     });
 
-    // =========================
+    
     // Carousel end anchor
-    // =========================
 
     const endAnchor = document.createElement("span");
 
