@@ -102,57 +102,59 @@ function renderNewItems(carousel, data) {
 }
 
 function renderSpecialOffers(carousel, data) {
-        const { products, offers, stock } = data;
-        const specialProducts = offers.map(offer => {
-            const product = products.find(p => p.id === offer.productId);
-            const productStock = stock.items[product.id];
-            const newPrice = Math.round(product.price * (100 - offer.percent) / 100);
+    const { products, offers, stock } = data;
+    const specialProducts = offers.map(offer => {
+        const product = products.find(p => p.id === offer.productId);
+        const productStock = stock.items[product.id];
+        const newPrice = Math.round(product.price * (100 - offer.percent) / 100);
 
-            return {
-                name: product.name,
-                emoji: product.emoji,
-                unit: product.unit,
-                id: product.id,
-                price: product.price,
-                newPrice: newPrice,
-                percent: offer.percent,
-                label: offer.label,
-                stock: productStock,
-            };
-        });
-        carousel.replaceChildren();
-        specialProducts.forEach((item, index) => {
-            const card = createCard(item);
-            if (index === 0) {
-                card.id = "special-offer-first"
-            }
-            if (index === specialProducts.length - 1) {
-                card.id = "special-offer-last"
-            }
+        return {
+            name: product.name,
+            emoji: product.emoji,
+            unit: product.unit,
+            id: product.id,
+            price: product.price,
+            newPrice: newPrice,
+            percent: offer.percent,
+            label: offer.label,
+            stock: productStock,
+        };
+    });
+    carousel.replaceChildren();
+    specialProducts.forEach((item, index) => {
+        const card = createCard(item);
+        if (index === 0) {
+            card.id = "special-offer-first"
+        }
+        if (index === specialProducts.length - 1) {
+            card.id = "special-offer-last"
+        }
 
-            carousel.append(card);
-        });
+        carousel.append(card);
+    });
 }
 
 /* loading, show the messages, call drawing functions */
 
 async function init() {
-  const newCarousel = document.querySelector("#fruits .carousel");
-  const specialCarousel = document.querySelector("#special-offer .carousel");
+    const newCarousel = document.querySelector("#fruits .carousel");
+    const specialCarousel = document.querySelector("#special-offer .carousel");
+    const categoryList = document.querySelector("#categories .category-list")
+    showMessage(newCarousel, "در حال بارگذاری");
+    showMessage(specialCarousel, "در حال بارگذاری");
+    showMessage(categoryList, "در حال بارگذاری");
 
-  showMessage(newCarousel, "در حال بارگذاری");
-  showMessage(specialCarousel, "در حال بارگذاری");
-
-  try {
-    const data = await loadData();
-    renderNewItems(newCarousel, data);
-    renderSpecialOffers(specialCarousel, data);
-    
-  } catch (error) {
-    console.error(error);
-    showMessage(newCarousel, "دسترسی به اینترنت را بررسی و صفحه را دوباره بارگذاری کنید");
-    showMessage(specialCarousel, "دسترسی به اینترنت را بررسی و صفحه را دوباره بارگذاری کنید")
-  }
+    try {
+        const data = await loadData();
+        renderNewItems(newCarousel, data);
+        renderSpecialOffers(specialCarousel, data);
+        renderCategories(categoryList, data.categories)
+    } catch (error) {
+        console.error(error);
+        showMessage(newCarousel, "دسترسی به اینترنت را بررسی و صفحه را دوباره بارگذاری کنید");
+        showMessage(specialCarousel, "دسترسی به اینترنت را بررسی و صفحه را دوباره بارگذاری کنید")
+        showMessage(categoryList, "دسترسی به اینترنت را بررسی و صفحه را دوباره بارگذاری کنید")
+    }
 }
 init();
 
@@ -179,7 +181,7 @@ async function loadData() {
 
     return { products, offers, stock, categories, shop };
 }
-loadData().then(console.log)
+
 
 function withOfferAndStock(product, offers, stock) {
     const offer = offers.find(o => o.productId === product.id);
@@ -190,4 +192,29 @@ function withOfferAndStock(product, offers, stock) {
         result.newPrice = Math.round(product.price * (100 - offer.percent) / 100)
     }
     return result;
+}
+
+/* categories */
+
+function createCategoryItem(category) {
+    const li = document.createElement("li");
+
+    const link = document.createElement("a");
+    link.href = `#${category.slug}`;
+
+    const icon = document.createElement("span");
+    icon.setAttribute("aria-hidden", "true");
+    icon.textContent = category.emoji;
+    icon.style.background = category.color;
+
+    link.append(icon, " ", category.name);
+    li.append(link);
+    return li;
+}
+
+function renderCategories(list, categories) {
+    list.replaceChildren();
+    categories.forEach(category => {
+        list.append(createCategoryItem(category));
+    })
 }
