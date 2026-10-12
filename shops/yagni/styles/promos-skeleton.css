@@ -1,0 +1,63 @@
+.advertisement-skeleton {
+  width: 100%;
+  min-height: 150px;
+
+  overflow: hidden;
+
+  background: linear-gradient(
+    90deg,
+    var(--skeleton-base) 25%,
+    var(--skeleton-highlight) 50%,
+    var(--skeleton-base) 75%
+  );
+
+  background-size: 200% 100%;
+
+  animation: skeleton-shimmer 1.5s linear infinite;
+}
+
+/* ========================================
+   Responsive
+   ======================================== */
+
+@media (max-width: 900px) {
+  .advertisement-skeleton {
+    min-height: 130px;
+  }
+}
+
+@media (max-width: 600px) {
+  .advertisement-skeleton {
+    min-height: 110px;
+  }
+}
+
+@media (max-width: 400px) {
+  .advertisement-skeleton {
+    min-height: 90px;
+  }
+}
+
+/* ========================================
+   Reduced Motion
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .advertisement-skeleton {
+    animation: none;
+  }
+}
+
+/* ========================================
+   Skeleton Animation
+   ======================================== */
+
+@keyframes skeleton-shimmer {
+  from {
+    background-position: 200% 0;
+  }
+
+  to {
+    background-position: -200% 0;
+  }
+}

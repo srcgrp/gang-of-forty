@@ -1,8 +1,38 @@
 // update Cart on loading page
+
 document.addEventListener("DOMContentLoaded", () => {
   updateCartUI();
 });
-// task 1- fetch and show  products
+
+//render error
+
+function renderError(container, retryFunction, messageText) {
+  const errorMessage = document.createElement("div");
+  errorMessage.classList.add("product-error");
+
+  const icon = document.createElement("span");
+  icon.classList.add("product-error__icon");
+  icon.textContent = "⚠️";
+  icon.setAttribute("aria-hidden", "true");
+
+  const message = document.createElement("p");
+  message.classList.add("product-error__message");
+  message.textContent = messageText;
+
+  const retryButton = document.createElement("button");
+  retryButton.classList.add("product-error__retry");
+  retryButton.type = "button";
+  retryButton.textContent = "تلاش مجدد";
+
+  retryButton.addEventListener("click", retryFunction);
+
+  errorMessage.append(icon, message, retryButton);
+
+  container.replaceChildren(errorMessage);
+}
+
+//skeletons
+
 function renderSkeletons(container, count = 6) {
   const fragment = document.createDocumentFragment();
 
@@ -68,497 +98,6 @@ function renderSkeletons(container, count = 6) {
 
   container.replaceChildren(fragment);
 }
-async function renderProducts(categoryId, containerSelector) {
-  const container = document.querySelector(containerSelector);
-
-  if (!container) return;
-
-  renderSkeletons(container);
-
-  try {
-    const [productsResponse, offersResponse] = await Promise.all([
-      fetch("../../api/products.json"),
-      fetch("../../api/offers.json"),
-    ]);
-
-    if (!productsResponse.ok || !offersResponse.ok) {
-      throw new Error("Failed to fetch products or offers");
-    }
-
-    const [products, offers] = await Promise.all([
-      productsResponse.json(),
-      offersResponse.json(),
-    ]);
-
-    const filteredProducts = products.filter(
-      (product) => product.categoryId === categoryId
-    );
-
-    container.replaceChildren();
-
-
-// Carousel start anchor
-const startAnchor = document.createElement("span");
-
-startAnchor.id = `products-${categoryId}-start`;
-startAnchor.classList.add("anchor-section");
-
-container.append(startAnchor);
-
-    filteredProducts.forEach((product) => {
-      // Find product offer, if available
-      const offer = offers.find(
-        (item) => item.productId === product.id
-      );
-
-      // Calculate discounted price
-      const discountedPrice = offer
-        ? Math.round(product.price * (1 - offer.percent / 100))
-        : product.price;
-
-   
-
-      // Card
-      const card = document.createElement("div");
-      card.classList.add("product-card");
-
-  // Badges
-const badges = document.createElement("div");
-badges.classList.add("product-badges");
-
-if (offer) {
-  const discount = document.createElement("span");
-  discount.classList.add("badge-discount");
-  discount.textContent = `${offer.percent.toLocaleString("fa-IR")}٪`;
-
-  badges.append(discount);
-}
-
-if (product.tags?.length) {
-  const tags = document.createElement("div");
-  tags.classList.add("product-tags");
-
-  product.tags.forEach((tag) => {
-    const tagBadge = document.createElement("span");
-    tagBadge.classList.add("badge-offer-label");
-    tagBadge.textContent = tag;
-
-    tags.append(tagBadge);
-  });
-
-  badges.append(tags);
-}
-
-
-  card.append(badges);
-
-
-
-      // Thumbnail
-      const thumb = document.createElement("div");
-      thumb.classList.add("product-thumb");
-
-      const emoji = document.createElement("span");
-      emoji.classList.add("product-emoji");
-      emoji.textContent = product.emoji;
-      emoji.setAttribute("role", "img");
-      emoji.setAttribute("aria-label", product.name);
-
-      thumb.append(emoji);
-
-      // Product info
-      const info = document.createElement("div");
-      info.classList.add("product-info");
-
-      const name = document.createElement("span");
-      name.classList.add("product-name");
-      name.textContent = product.name;
-
-      const unit = document.createElement("span");
-      unit.classList.add("product-unit");
-      unit.textContent = product.unit;
-
-      info.append(name, unit);
-
-      // Footer
-      const footer = document.createElement("div");
-      footer.classList.add("product-footer");
-
-      const pricing = document.createElement("div");
-      pricing.classList.add("product-pricing");
-
-      // Show original price only when discounted
-      if (offer) {
-        const oldPrice = document.createElement("span");
-        oldPrice.classList.add("old-price");
-        oldPrice.textContent =
-          `${product.price.toLocaleString("fa-IR")} تومان`;
-
-        pricing.append(oldPrice);
-      }
-
-      const currentPrice = document.createElement("span");
-      currentPrice.classList.add("current-price");
-      currentPrice.textContent =
-        `${discountedPrice.toLocaleString("fa-IR")} تومان`;
-
-      pricing.append(currentPrice);
-
-      const button = document.createElement("button");
-
-button.classList.add("add-btn");
-button.type = "button";
-
-button.setAttribute(
-  "aria-label",
-  `افزودن ${product.name} به سبد`
-);
-
-button.textContent = "+";
-
-button.addEventListener("click", () => {
-  addToCart(product, discountedPrice);
-});
-
-      footer.append(pricing, button);
-
-      // Assemble card
-      card.append(thumb, info, footer);
-      container.append(card);
-    });
-// Carousel end anchor
-const endAnchor = document.createElement("span");
-
-endAnchor.id = `products-${categoryId}-end`;
-endAnchor.classList.add("anchor-section");
-
-container.append(endAnchor);
-  } catch (error){
-    renderError(container,renderProducts)
-  }
-}
-
-renderProducts(1, ".fruitsVegetablesProducts");
-renderProducts(2, ".dairyProducts");
-renderProducts(3, ".bakeryPastriesProducts");
-renderProducts(4, ".staplesGroceriesProducts");
-renderProducts(5, ".beveragesProducts");
-renderProducts(6, ".meatProteinProducts");
-renderProducts(7, ".snacksProducts");
-
-
-//task 2 -fetch and show in suggestions
-
-
-async function getSuggestions() {
-    const suggestions = document.querySelector(".suggestions");
-
-  if (!suggestions) return;
-
-  // Show skeletons while data is loading
-  renderSkeletons(suggestions);
-
-  try {
-    const [productsResponse, stockResponse, offersResponse] =
-      await Promise.all([
-        fetch("../../api/products.json"),
-        fetch("../../api/stock.json"),
-        fetch("../../api/offers.json"),
-      ]);
-
-    if (
-      !productsResponse.ok ||
-      !stockResponse.ok ||
-      !offersResponse.ok
-    ) {
-      throw new Error("Failed to fetch suggestions data");
-    }
-
-    const [products, stock, offers] = await Promise.all([
-      productsResponse.json(),
-      stockResponse.json(),
-      offersResponse.json(),
-    ]);
-
-    renderSuggestions(products, stock, offers);
-  }catch (error){
-     renderError(suggestions,getSuggestions);
-  }
-}
-
-
-
-function renderSuggestions(products, stock, offers) {
-  const suggestions = document.querySelector(".suggestions");
-
-  if (!suggestions) return;
-
-  suggestions.replaceChildren();
-
-  const formatNumber = (number) =>
-    number.toLocaleString("fa-IR");
-
-  // =========================
-  // Search placeholder
-  // =========================
-
-  const searchInput =
-    document.querySelector(".header__search input");
-
-  if (searchInput) {
-    searchInput.placeholder =
-      `می‌تونی بین ${formatNumber(products.length)} محصول جستجو کنی`;
-  }
-
-  // =========================
-  // Carousel start anchor
-  // =========================
-
-  const startAnchor = document.createElement("span");
-
-  startAnchor.id = "offers-start";
-  startAnchor.classList.add("anchor-section");
-
-  suggestions.append(startAnchor);
-
-  // =========================
-  // Products with offers
-  // =========================
-
-  const suggestedProducts = products.filter((product) =>
-    offers.some((offer) => offer.productId === product.id)
-  );
-
-  suggestedProducts.forEach((product) => {
-    const offer = offers.find(
-      (item) => item.productId === product.id
-    );
-
-    // =========================
-    // Stock
-    // =========================
-
-    const quantity =
-      stock.items[String(product.id)] ?? 0;
-
-    const isOutOfStock = quantity <= 0;
-
-    // =========================
-    // Calculate discounted price
-    // =========================
-
-    const discountedPrice = Math.round(
-      product.price * (1 - offer.percent / 100)
-    );
-
-    // =========================
-    // Card
-    // =========================
-
-    const card = document.createElement("div");
-
-    card.classList.add("product-card");
-
-    if (isOutOfStock) {
-      card.classList.add(
-        "product-card--out-of-stock"
-      );
-    }
-
-    // =========================
-    // Badges
-    // =========================
-
-    const badges = document.createElement("div");
-
-    badges.classList.add("product-badges");
-
-    // Discount
-    const discount = document.createElement("span");
-
-    discount.classList.add("badge-discount");
-
-    discount.textContent =
-      `${formatNumber(offer.percent)}٪`;
-
-    badges.append(discount);
-
-    // Product tags
-    if (product.tags?.length) {
-      const tags = document.createElement("div");
-
-      tags.classList.add("product-tags");
-
-      product.tags.forEach((tag) => {
-        const tagBadge = document.createElement("span");
-
-        tagBadge.classList.add(
-          "badge-offer-label"
-        );
-
-        tagBadge.textContent = tag;
-
-        tags.append(tagBadge);
-      });
-
-      badges.append(tags);
-    }
-
-    // Always append badges to reserve height
-    card.append(badges);
-
-    // =========================
-    // Thumbnail
-    // =========================
-
-    const thumb = document.createElement("div");
-
-    thumb.classList.add("product-thumb");
-
-    const emoji = document.createElement("span");
-
-    emoji.classList.add("product-emoji");
-
-    emoji.textContent = product.emoji;
-
-    emoji.setAttribute("role", "img");
-
-    emoji.setAttribute(
-      "aria-label",
-      product.name
-    );
-
-    thumb.append(emoji);
-
-    // =========================
-    // Product info
-    // =========================
-
-    const info = document.createElement("div");
-
-    info.classList.add("product-info");
-
-    const name = document.createElement("span");
-
-    name.classList.add("product-name");
-
-    name.textContent = product.name;
-
-    const unit = document.createElement("span");
-
-    unit.classList.add("product-unit");
-
-    unit.textContent = product.unit;
-
-    info.append(name, unit);
-
-    // =========================
-    // Out-of-stock message
-    // =========================
-
-    if (isOutOfStock) {
-      const stockMessage =
-        document.createElement("span");
-
-      stockMessage.classList.add(
-        "stock-message"
-      );
-
-      stockMessage.textContent = "ناموجود";
-
-      info.append(stockMessage);
-    }
-
-    // =========================
-    // Footer
-    // =========================
-
-    const footer = document.createElement("div");
-
-    footer.classList.add("product-footer");
-
-    const pricing = document.createElement("div");
-
-    pricing.classList.add("product-pricing");
-
-    // Original price
-    const oldPrice = document.createElement("span");
-
-    oldPrice.classList.add("old-price");
-
-    oldPrice.textContent =
-      `${formatNumber(product.price)} تومان`;
-
-    pricing.append(oldPrice);
-
-    // Current price
-    const currentPrice =
-      document.createElement("span");
-
-    currentPrice.classList.add(
-      "current-price"
-    );
-
-    currentPrice.textContent =
-      `${formatNumber(discountedPrice)} تومان`;
-
-    pricing.append(currentPrice);
-
-    // =========================
-    // Add button
-    // =========================
-
-    const button = document.createElement("button");
-
-    button.classList.add("add-btn");
-
-    button.type = "button";
-
-    button.setAttribute(
-      "aria-label",
-      `افزودن ${product.name} به سبد`
-    );
-
-    button.textContent = "+";
-
-    button.disabled = isOutOfStock;
-
-    button.addEventListener("click", () => {
-      addToCart(product, discountedPrice);
-    });
-
-    footer.append(pricing, button);
-
-    // =========================
-    // Assemble card
-    // =========================
-
-    card.append(
-      thumb,
-      info,
-      footer
-    );
-
-    suggestions.append(card);
-  });
-
-
-  // Carousel end anchor
-
-
-  const endAnchor = document.createElement("span");
-
-  endAnchor.id = "offers-end";
-  endAnchor.classList.add("anchor-section");
-
-  suggestions.append(endAnchor);
-}
-
-getSuggestions();
-
-//task 3-fetch data from categories.json
-
-const categoriesGrid = document.querySelector("#categories-grid");
 
 function renderCategorySkeletons(container, count = 7) {
   const fragment = document.createDocumentFragment();
@@ -587,145 +126,683 @@ function renderCategorySkeletons(container, count = 7) {
   container.replaceChildren(fragment);
 }
 
-function renderError(container,retryFunction) {
-  const errorMessage = document.createElement("div");
-  errorMessage.classList.add("product-error");
+function renderBannerSkeleton(count = 2) {
+  const banner = document.querySelector("#banner");
 
-  const icon = document.createElement("span");
-  icon.classList.add("product-error__icon");
-  icon.textContent = "⚠️";
-  icon.setAttribute("aria-hidden", "true");
+  if (!banner) return;
 
-  const message = document.createElement("p");
-  message.classList.add("product-error__message");
-  message.textContent = "بارگذاری دسته‌بندی‌ها ناموفق بود";
+  const bannerTrack = banner.querySelector(".banner__track");
 
-  const retryButton = document.createElement("button");
-  retryButton.classList.add("product-error__retry");
-  retryButton.type = "button";
-  retryButton.textContent = "تلاش مجدد";
+  if (!bannerTrack) return;
 
-  retryButton.addEventListener("click",retryFunction );
+  const fragment = document.createDocumentFragment();
 
-  errorMessage.append(icon, message, retryButton);
+  for (let i = 0; i < count; i++) {
+    const slide = document.createElement("div");
 
-  container.replaceChildren(errorMessage);
+    slide.classList.add("banner-skeleton");
+    slide.setAttribute("aria-hidden", "true");
+
+    const emoji = document.createElement("div");
+
+    emoji.classList.add(
+      "banner-skeleton__shimmer",
+      "banner-skeleton__emoji"
+    );
+
+    const content = document.createElement("div");
+
+    content.classList.add("banner-skeleton__content");
+
+    const title = document.createElement("div");
+
+    title.classList.add(
+      "banner-skeleton__shimmer",
+      "banner-skeleton__title"
+    );
+
+    const text = document.createElement("div");
+
+    text.classList.add(
+      "banner-skeleton__shimmer",
+      "banner-skeleton__text"
+    );
+
+    const cta = document.createElement("div");
+
+    cta.classList.add(
+      "banner-skeleton__shimmer",
+      "banner-skeleton__cta"
+    );
+
+    content.append(title, text, cta);
+    slide.append(emoji, content);
+
+    fragment.append(slide);
+  }
+
+  bannerTrack.replaceChildren(fragment);
 }
 
-async function fetchCategories() {
+function renderPromoSkeletons() {
+  const advertisements = document.querySelectorAll(".advertisement");
+
+  advertisements.forEach((advertisement) => {
+    const skeleton = document.createElement("div");
+
+    skeleton.classList.add("advertisement-skeleton");
+    skeleton.setAttribute("aria-hidden", "true");
+
+    advertisement.replaceChildren(skeleton);
+  });
+}
+/////////////////////////////////
+// task 1- fetch and show  products in carousel
+///////////////////////////////////
+
+async function getProducts() {
+  const [productsResponse, offersResponse] = await Promise.all([
+    fetch("../../api/products.json"),
+    fetch("../../api/offers.json"),
+  ]);
+
+  if (!productsResponse.ok || !offersResponse.ok) {
+    throw new Error("Failed to fetch products or offers");
+  }
+
+  const [products, offers] = await Promise.all([
+    productsResponse.json(),
+    offersResponse.json(),
+  ]);
+
+  return { products, offers };
+}
+async function renderProducts(categoryId, containerSelector) {
+  const container = document.querySelector(containerSelector);
+
+  if (!container) return;
+
+  renderSkeletons(container);
+
+  try {
+    const { products, offers } = await getProducts();
+
+    const filteredProducts = products.filter(
+      (product) => product.categoryId === categoryId
+    );
+
+    container.replaceChildren();
+
+    // =========================
+    // Carousel start anchor
+    // =========================
+
+    const startAnchor = document.createElement("span");
+
+    startAnchor.id = `products-${categoryId}-start`;
+    startAnchor.classList.add("anchor-section");
+
+    container.append(startAnchor);
+
+
+    filteredProducts.forEach((product) => {
+      const offer = offers.find(
+        (item) => item.productId === product.id
+      );
+
+      const discountedPrice = offer
+        ? Math.round(product.price * (1 - offer.percent / 100))
+        : product.price;
+
+  
+
+      const card = document.createElement("div");
+
+      card.classList.add("product-card");
+
+     
+
+      const badges = document.createElement("div");
+
+      badges.classList.add("product-badges");
+
+      if (offer) {
+        const discount = document.createElement("span");
+
+        discount.classList.add("badge-discount");
+
+        discount.textContent =
+          `${offer.percent.toLocaleString("fa-IR")}٪`;
+
+        badges.append(discount);
+      }
+
+      if (product.tags?.length) {
+        const tags = document.createElement("div");
+
+        tags.classList.add("product-tags");
+
+        product.tags.forEach((tag) => {
+          const tagBadge = document.createElement("span");
+
+          tagBadge.classList.add("badge-offer-label");
+
+          tagBadge.textContent = tag;
+
+          tags.append(tagBadge);
+        });
+
+        badges.append(tags);
+      }
+
+      card.append(badges);
+
+ 
+
+      const thumb = document.createElement("div");
+
+      thumb.classList.add("product-thumb");
+
+      const emoji = document.createElement("span");
+
+      emoji.classList.add("product-emoji");
+
+      emoji.textContent = product.emoji;
+
+      emoji.setAttribute("role", "img");
+      emoji.setAttribute("aria-label", product.name);
+
+      thumb.append(emoji);
+
+      const info = document.createElement("div");
+
+      info.classList.add("product-info");
+
+      const name = document.createElement("span");
+
+      name.classList.add("product-name");
+
+      name.textContent = product.name;
+
+      const unit = document.createElement("span");
+
+      unit.classList.add("product-unit");
+
+      unit.textContent = product.unit;
+
+      info.append(name, unit);
+
+
+      const footer = document.createElement("div");
+
+      footer.classList.add("product-footer");
+
+      const pricing = document.createElement("div");
+
+      pricing.classList.add("product-pricing");
+
+      if (offer) {
+        const oldPrice = document.createElement("span");
+
+        oldPrice.classList.add("old-price");
+
+        oldPrice.textContent =
+          `${product.price.toLocaleString("fa-IR")} تومان`;
+
+        pricing.append(oldPrice);
+      }
+
+      const currentPrice = document.createElement("span");
+
+      currentPrice.classList.add("current-price");
+
+      currentPrice.textContent =
+        `${discountedPrice.toLocaleString("fa-IR")} تومان`;
+
+      pricing.append(currentPrice);
+
+
+      const button = document.createElement("button");
+
+      button.classList.add("add-btn");
+
+      button.type = "button";
+
+      button.setAttribute(
+        "aria-label",
+        `افزودن ${product.name} به سبد`
+      );
+
+      button.textContent = "+";
+
+      button.addEventListener("click", () => {
+        addToCart(product, discountedPrice);
+      });
+
+      footer.append(pricing, button);
+
+
+      card.append(thumb, info, footer);
+
+      container.append(card);
+    });
+
+
+    const endAnchor = document.createElement("span");
+
+    endAnchor.id = `products-${categoryId}-end`;
+    endAnchor.classList.add("anchor-section");
+
+    container.append(endAnchor);
+  } catch (error) {
+    renderError(
+      container,
+      () => renderProducts(categoryId, containerSelector),
+      "دریافت محصولات با خطا مواجه شد"
+    );
+  }
+}
+renderProducts(1, ".fruitsVegetablesProducts");
+renderProducts(2, ".dairyProducts");
+renderProducts(3, ".bakeryPastriesProducts");
+renderProducts(4, ".staplesGroceriesProducts");
+renderProducts(5, ".beveragesProducts");
+renderProducts(6, ".meatProteinProducts");
+renderProducts(7, ".snacksProducts");
+
+///////////////////////////////
+// task 2 -fetch and show products in suggestions
+// /////////////////////////////////
+
+async function getSuggestions() {
+  const [productsResponse, stockResponse, offersResponse] =
+    await Promise.all([
+      fetch("../../api/products.json"),
+      fetch("../../api/stock.json"),
+      fetch("../../api/offers.json"),
+    ]);
+
+  if (
+    !productsResponse.ok ||
+    !stockResponse.ok ||
+    !offersResponse.ok
+  ) {
+    throw new Error("Failed to fetch suggestions data");
+  }
+
+  const [products, stock, offers] = await Promise.all([
+    productsResponse.json(),
+    stockResponse.json(),
+    offersResponse.json(),
+  ]);
+
+  return {
+    products,
+    stock,
+    offers,
+  };
+}
+
+async function renderSuggestions() {
+  const suggestions = document.querySelector(".suggestions");
+
+  if (!suggestions) return;
+
+  renderSkeletons(suggestions);
+
+  try {
+    const { products, stock, offers } = await getSuggestions();
+
+    suggestions.replaceChildren();
+
+    const formatNumber = (number) =>
+      number.toLocaleString("fa-IR");
+
+    // =========================
+    // Search placeholder
+    // =========================
+
+    const searchInput =
+      document.querySelector(".header__search input");
+
+    if (searchInput) {
+      searchInput.placeholder =
+        `می‌تونی بین ${formatNumber(products.length)} محصول جستجو کنی`;
+    }
+
+    // =========================
+    // Carousel start anchor
+    // =========================
+
+    const startAnchor = document.createElement("span");
+
+    startAnchor.id = "offers-start";
+    startAnchor.classList.add("anchor-section");
+
+    suggestions.append(startAnchor);
+
+    // =========================
+    // Products with offers
+    // =========================
+
+    const suggestedProducts = products.filter((product) =>
+      offers.some((offer) => offer.productId === product.id)
+    );
+
+    suggestedProducts.forEach((product) => {
+      const offer = offers.find(
+        (item) => item.productId === product.id
+      );
+
+      // =========================
+      // Stock
+      // =========================
+
+      const quantity =
+        stock.items[String(product.id)] ?? 0;
+
+      const isOutOfStock = quantity <= 0;
+
+      // =========================
+      // Discounted price
+      // =========================
+
+      const discountedPrice = Math.round(
+        product.price * (1 - offer.percent / 100)
+      );
+
+      // =========================
+      // Card
+      // =========================
+
+      const card = document.createElement("div");
+
+      card.classList.add("product-card");
+
+      if (isOutOfStock) {
+        card.classList.add("product-card--out-of-stock");
+      }
+
+      // =========================
+      // Badges
+      // =========================
+
+      const badges = document.createElement("div");
+
+      badges.classList.add("product-badges");
+
+      const discount = document.createElement("span");
+
+      discount.classList.add("badge-discount");
+      discount.textContent = `${formatNumber(offer.percent)}٪`;
+
+      badges.append(discount);
+
+      if (product.tags?.length) {
+        const tags = document.createElement("div");
+
+        tags.classList.add("product-tags");
+
+        product.tags.forEach((tag) => {
+          const tagBadge = document.createElement("span");
+
+          tagBadge.classList.add("badge-offer-label");
+          tagBadge.textContent = tag;
+
+          tags.append(tagBadge);
+        });
+
+        badges.append(tags);
+      }
+
+      card.append(badges);
+
+      // =========================
+      // Thumbnail
+      // =========================
+
+      const thumb = document.createElement("div");
+
+      thumb.classList.add("product-thumb");
+
+      const emoji = document.createElement("span");
+
+      emoji.classList.add("product-emoji");
+      emoji.textContent = product.emoji;
+      emoji.setAttribute("role", "img");
+      emoji.setAttribute("aria-label", product.name);
+
+      thumb.append(emoji);
+
+      // =========================
+      // Product info
+      // =========================
+
+      const info = document.createElement("div");
+
+      info.classList.add("product-info");
+
+      const name = document.createElement("span");
+
+      name.classList.add("product-name");
+      name.textContent = product.name;
+
+      const unit = document.createElement("span");
+
+      unit.classList.add("product-unit");
+      unit.textContent = product.unit;
+
+      info.append(name, unit);
+
+      // =========================
+      // Out-of-stock message
+      // =========================
+
+      if (isOutOfStock) {
+        const stockMessage = document.createElement("span");
+
+        stockMessage.classList.add("stock-message");
+        stockMessage.textContent = "ناموجود";
+
+        info.append(stockMessage);
+      }
+
+      // =========================
+      // Footer
+      // =========================
+
+      const footer = document.createElement("div");
+
+      footer.classList.add("product-footer");
+
+      const pricing = document.createElement("div");
+
+      pricing.classList.add("product-pricing");
+
+      // Original price
+      const oldPrice = document.createElement("span");
+
+      oldPrice.classList.add("old-price");
+      oldPrice.textContent =
+        `${formatNumber(product.price)} تومان`;
+
+      pricing.append(oldPrice);
+
+      // Current price
+      const currentPrice = document.createElement("span");
+
+      currentPrice.classList.add("current-price");
+      currentPrice.textContent =
+        `${formatNumber(discountedPrice)} تومان`;
+
+      pricing.append(currentPrice);
+
+      // =========================
+      // Add button
+      // =========================
+
+      const button = document.createElement("button");
+
+      button.classList.add("add-btn");
+      button.type = "button";
+
+      button.setAttribute(
+        "aria-label",
+        `افزودن ${product.name} به سبد`
+      );
+
+      button.textContent = "+";
+      button.disabled = isOutOfStock;
+
+      button.addEventListener("click", () => {
+        addToCart(product, discountedPrice);
+      });
+
+      footer.append(pricing, button);
+
+      // =========================
+      // Assemble card
+      // =========================
+
+      card.append(
+        thumb,
+        info,
+        footer
+      );
+
+      suggestions.append(card);
+    });
+
+    // =========================
+    // Carousel end anchor
+    // =========================
+
+    const endAnchor = document.createElement("span");
+
+    endAnchor.id = "offers-end";
+    endAnchor.classList.add("anchor-section");
+
+    suggestions.append(endAnchor);
+  } catch (error) {
+    console.error("Error loading suggestions:", error);
+
+    renderError(
+      suggestions,
+      renderSuggestions,
+      "دریافت محصولات با خطا مواجه شد"
+    );
+  }
+}
+
+renderSuggestions();
+
+
+
+///////////////////////////////////////////
+// task 3-fetch data from categories and show in homepage-navBar-footer  && footer and header info
+///////////////////////////////////////////////
+
+async function getCategories() {
+  const response = await fetch("../../api/categories.json");
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch categories");
+  }
+
+  return response.json();
+}
+async function renderCategories() {
+  const categoriesGrid = document.querySelector("#categories-grid");
   renderCategorySkeletons(categoriesGrid);
 
   try {
-    const response = await fetch("../../api/categories.json");
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch categories");
-    }
-
-    const categories = await response.json();
+    const categories = await getCategories();
 
     const fragment = document.createDocumentFragment();
 
     categories.forEach((category) => {
       const card = document.createElement("a");
+
       card.classList.add("category-card");
       card.href = `#${category.slug}`;
 
       const image = document.createElement("span");
+
       image.classList.add("category-card__image");
       image.textContent = category.emoji;
       image.style.backgroundColor = category.color;
 
       const title = document.createElement("span");
+
       title.classList.add("category-card__title");
       title.textContent = category.name;
 
       card.append(image, title);
+
       fragment.append(card);
     });
 
     categoriesGrid.replaceChildren(fragment);
-  } catch (error) {
-    console.error("Error loading categories:", error);
-
-    renderError(categoriesGrid,fetchCategories);
+   } catch (error) {
+  renderError(
+    categoriesGrid,
+    renderCategories,
+    "دریافت دسته‌بندی‌ها با خطا مواجه شد"
+  );
   }
 }
+renderCategories()
 
+// footer navbar and header info
 
-function renderError(container, retryFunction, messageText) {
-  const errorMessage = document.createElement("div");
-  errorMessage.classList.add("product-error");
+async function getShop() {
+  const [shopResponse, categoriesResponse] = await Promise.all([
+    fetch("../../api/shop.json"),
+    fetch("../../api/categories.json"),
+  ]);
 
-  const icon = document.createElement("span");
-  icon.classList.add("product-error__icon");
-  icon.textContent = "⚠️";
-  icon.setAttribute("aria-hidden", "true");
+  if (!shopResponse.ok) {
+    throw new Error("Failed to fetch shop data");
+  }
 
-  const message = document.createElement("p");
-  message.classList.add("product-error__message");
-  message.textContent = messageText;
+  if (!categoriesResponse.ok) {
+    throw new Error("Failed to fetch categories data");
+  }
 
-  const retryButton = document.createElement("button");
-  retryButton.classList.add("product-error__retry");
-  retryButton.type = "button";
-  retryButton.textContent = "تلاش مجدد";
+  const [shop, categories] = await Promise.all([
+    shopResponse.json(),
+    categoriesResponse.json(),
+  ]);
 
-  retryButton.addEventListener("click", retryFunction);
-
-  errorMessage.append(icon, message, retryButton);
-
-  container.replaceChildren(errorMessage);
+  return { shop, categories };
 }
-
-
-
-async function fetchShop() {
+async function renderShop() {
   try {
-    // =========================
-    // Fetch shop and categories
-    // =========================
+    const { shop, categories } = await getShop();
 
-    const [shopResponse, categoriesResponse] = await Promise.all([
-      fetch("../../api/shop.json"),
-      fetch("../../api/categories.json"),
-    ]);
 
-    if (!shopResponse.ok) {
-      throw new Error("Failed to fetch shop data");
-    }
 
-    if (!categoriesResponse.ok) {
-      throw new Error("Failed to fetch categories data");
-    }
-
-    const shop = await shopResponse.json();
-    const categories = await categoriesResponse.json();
-
-    // =========================
-    // Header information
-    // =========================
-
-    document.querySelector("#shop-header-name").textContent = shop.name;
+    document.querySelector("#shop-header-name").textContent =
+      shop.name;
 
     document.querySelector("#shop-header-slogan").textContent =
       shop.slogan;
 
-    // =========================
-    // Shop information
-    // =========================
+  
 
-    document.querySelector("#shop-name").textContent = shop.name;
+    document.querySelector("#shop-name").textContent =
+      shop.name;
 
-    document.querySelector("#shop-about").textContent = shop.about;
+    document.querySelector("#shop-about").textContent =
+      shop.about;
 
-    document.querySelector("#shop-address").textContent = shop.address;
+    document.querySelector("#shop-address").textContent =
+      shop.address;
 
-    document.querySelector("#shop-phone").textContent = shop.phone;
+    document.querySelector("#shop-phone").textContent =
+      shop.phone;
 
-    // =========================
-    // Navbar categories
-    // =========================
+
 
     const navbarCategories =
       document.querySelector("#navbar-categories");
@@ -737,10 +814,12 @@ async function fetchShop() {
       const li = document.createElement("li");
 
       const link = document.createElement("a");
+
       link.classList.add("dropdown-item");
       link.href = `#${category.slug}`;
 
       const emoji = document.createElement("span");
+
       emoji.classList.add("emoji");
       emoji.textContent = category.emoji;
       emoji.setAttribute("aria-hidden", "true");
@@ -753,14 +832,11 @@ async function fetchShop() {
 
     navbarCategories.replaceChildren(navbarCategoriesFragment);
 
-    // =========================
-    // Navbar menu
-    // =========================
+
 
     const navbarList =
       document.querySelector("#navbar-list");
 
-    // Remove previously generated menu items
     const oldNavbarItems =
       navbarList.querySelectorAll(".navbar-menu-item");
 
@@ -773,9 +849,11 @@ async function fetchShop() {
 
     shop.menu.forEach((item) => {
       const li = document.createElement("li");
+
       li.classList.add("navbar-menu-item");
 
       const link = document.createElement("a");
+
       link.classList.add("nav-link");
       link.href = item.href;
       link.textContent = item.label;
@@ -786,9 +864,7 @@ async function fetchShop() {
 
     navbarList.append(navbarMenuFragment);
 
-    // =========================
-    // Footer categories
-    // =========================
+  
 
     const footerCategories =
       document.querySelector("#footer-categories");
@@ -810,9 +886,7 @@ async function fetchShop() {
 
     footerCategories.replaceChildren(categoriesFragment);
 
-    // =========================
-    // Help
-    // =========================
+
 
     const helpList =
       document.querySelector("#footer-help");
@@ -834,9 +908,7 @@ async function fetchShop() {
 
     helpList.replaceChildren(helpFragment);
 
-    // =========================
-    // Working hours
-    // =========================
+ 
 
     const schedule =
       document.querySelector("#shop-schedule");
@@ -848,9 +920,11 @@ async function fetchShop() {
       const p = document.createElement("p");
 
       const strong = document.createElement("strong");
+
       strong.textContent = `${item.days}:`;
 
       const time = document.createElement("span");
+
       time.textContent = item.time;
 
       p.append(strong, " ", time);
@@ -860,44 +934,39 @@ async function fetchShop() {
 
     schedule.replaceChildren(scheduleFragment);
 
-    // =========================
-    // Copyright
-    // =========================
+
 
     document.querySelector("#shop-copyright").textContent =
       shop.copyright;
   } catch (error) {
-    console.error("Error loading shop data:", error);
-
     renderError(
       document.querySelector("#footer"),
-      fetchShop,
+      renderShop,
       "بارگذاری اطلاعات فروشگاه ناموفق بود"
     );
   }
 }
 
+renderShop();
 
+/////////////////////////////////////////////////////
+// fetch from home.json create banners and promos && add button+Cart and localSorage
+///////////////////////////////////////////////////////
+async function getHome() {
+  const response = await fetch("../../api/home.json");
 
-fetchShop();
+  if (!response.ok) {
+    throw new Error("Failed to fetch home data");
+  }
 
-fetchCategories();
+  return response.json();
+}
+async function renderHome() {
+  renderBannerSkeleton();
+  renderPromoSkeletons();
 
-
-// fetch from home.json
-async function fetchHome() {
   try {
-    const response = await fetch("../../api/home.json");
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch home data");
-    }
-
-    const home = await response.json();
-
-    // =========================
-    // Hero / Banner
-    // =========================
+    const home = await getHome();
 
     const banner = document.querySelector("#banner");
 
@@ -962,9 +1031,7 @@ async function fetchHome() {
 
     bannerTrack.replaceChildren(bannerFragment);
 
-    // =========================
-    // Promos
-    // =========================
+
 
     home.promos.forEach((promo, index) => {
       const advertisement = document.querySelector(
@@ -996,13 +1063,17 @@ async function fetchHome() {
       advertisement.replaceChildren(link);
     });
   } catch (error) {
-    console.error("Error loading home data:", error);
+    renderError(
+      document.querySelector("#banner"),
+      renderHome,
+      "بارگذاری اطلاعات صفحه اصلی ناموفق بود"
+    );
   }
 }
-fetchHome();
+renderHome();
 
+// Cart + localStorage
 
-// Cart
 const CART_KEY = "yagni-cart";
 
 function getCart() {
