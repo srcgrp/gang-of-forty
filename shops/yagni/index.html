@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1.0" >
-    <meta name="description" content="یاگنی٬سوپرمارکتی به وسعت قلبتان" >
-    <title>یاگنی-خرید تازه٬زندگی بهتر</title>
+    <meta name="description" content="مینا٬سوپرمارکتی به وسعت قلبتان" >
+    <title>مینا-خرید تازه٬زندگی بهتر</title>
     <link rel="stylesheet" href="./styles/main.css" >
   </head>
   <body>
@@ -71,7 +71,7 @@
       </div>
     </header>
     <!-- Navbar -->
-<nav>
+        <nav>
          <input
   type="checkbox"
   id="nav-toggle"
@@ -114,15 +114,15 @@
     </ul>
   </div>
 </div>
-</nav>
+        </nav>
     <!-- Banner -->
-<section
+      <section
   class="banner anchor-section"
   id="banner"
   aria-label="بنر اصلی"
 >
   <div class="banner__track" id="banner-track"></div>
-</section>
+       </section>
     <main>
       <!-- Categories -->
      <section
@@ -152,13 +152,13 @@
 
           <div class="nav-controls">
             <!-- Go to start -->
-            <a class="nav-btn" aria-label="ابتدای محصولات">
+            <a class="nav-btn" aria-label="ابتدای محصولات"   href="#offers-start">
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-right"></use>
               </svg>
             </a>
 
-            <a class="nav-btn" aria-label="انتهای محصولات">
+            <a class="nav-btn" aria-label="انتهای محصولات" href="#offers-end">
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-left"></use>
               </svg>
@@ -167,8 +167,9 @@
         </div>
 
         <div class="carousel-track suggestions">
+          
+       <!-- dynamic filling from js -->
        
-           
           </div>
         </div>
       </section>
@@ -186,17 +187,17 @@
             <span aria-hidden="true">🐮</span>
           </h2>
           <div class="nav-controls">
-            <button class="nav-btn" type="button" aria-label="قبلی">
+            <a href="#products-2-start" class="nav-btn" type="button" aria-label="قبلی">
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-right"></use>
               </svg>
-            </button>
+            </a>
 
-            <button class="nav-btn" type="button" aria-label="بعدی">
+            <a href="#products-2-end" class="nav-btn" type="button" aria-label="بعدی">
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-left"></use>
               </svg>
-            </button>
+            </a>
           </div>
         </div>
 
@@ -206,7 +207,7 @@
         </div>
       </section>
 
-        <!-- fruits and vegetables -->
+        <!-- fruits -->
       <section class="carousel-container anchor-section" id="fruits">
         <div class="carousel-header">
           <h2 class="section-title">
@@ -214,17 +215,17 @@
             <span aria-hidden="true">🐮</span>
           </h2>
           <div class="nav-controls">
-            <button class="nav-btn" type="button" aria-label="قبلی">
+            <a href="#products-1-start"  class="nav-btn" type="button" aria-label="قبلی">
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-right"></use>
               </svg>
-            </button>
+            </a>
 
-            <button class="nav-btn" type="button" aria-label="بعدی">
+            <a href="#products-1-end"  class="nav-btn" type="button" aria-label="بعدی">
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-left"></use>
               </svg>
-            </button>
+            </a>
           </div>
         </div>
 
@@ -240,17 +241,17 @@
             <span aria-hidden="true">🐮</span>
           </h2>
           <div class="nav-controls">
-            <button class="nav-btn" type="button" aria-label="قبلی">
+            <a href="#products-3-start" class="nav-btn" type="button" aria-label="قبلی">
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-right"></use>
               </svg>
-            </button>
+            </a>
 
-            <button class="nav-btn" type="button" aria-label="بعدی">
+            <a href="#products-3-end" class="nav-btn" type="button" aria-label="بعدی">
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-left"></use>
               </svg>
-            </button>
+            </a>
           </div>
         </div>
 
@@ -264,7 +265,7 @@
   id="advertisement-2"
   aria-label="تبلیغات"
 ></section>
-                    <!-- Staples & Groceries -->
+                    <!-- pantry -->
       <section class="carousel-container anchor-section" id="pantry">
         <div class="carousel-header">
           <h2 class="section-title">
@@ -272,17 +273,17 @@
             <span aria-hidden="true">🍚</span>
           </h2>
           <div class="nav-controls">
-            <button class="nav-btn" type="button" aria-label="قبلی">
+            <a href="#products-4-start" class="nav-btn" type="button" aria-label="قبلی">
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-right"></use>
               </svg>
-            </button>
+            </a>
 
-            <button class="nav-btn" type="button" aria-label="بعدی">
+            <a href="#products-4-end"  class="nav-btn" type="button" aria-label="بعدی">
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-left"></use>
               </svg>
-            </button>
+            </a>
           </div>
         </div>
 
@@ -290,7 +291,7 @@
          <!-- fetch from api and fill by js -->
         </div>
       </section>
-                      <!-- beverages -->
+                      <!-- drinks -->
       <section class="carousel-container anchor-section" id="drinks">
         <div class="carousel-header">
           <h2 class="section-title">
@@ -298,17 +299,17 @@
             <span aria-hidden="true">🍹</span>
           </h2>
           <div class="nav-controls">
-            <button class="nav-btn" type="button" aria-label="قبلی">
+            <a href="#products-5-start" class="nav-btn" type="button" aria-label="قبلی">
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-right"></use>
               </svg>
-            </button>
+            </a>
 
-            <button class="nav-btn" type="button" aria-label="بعدی">
+            <a href="#products-5-end"  class="nav-btn" type="button" aria-label="بعدی">
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-left"></use>
               </svg>
-            </button>
+            </a>
           </div>
         </div>
 
@@ -317,7 +318,7 @@
         </div>
       </section>
 
-                        <!--meat & protein -->
+                        <!-- protein -->
       <section class="carousel-container anchor-section" id="protein">
         <div class="carousel-header">
           <h2 class="section-title">
@@ -325,17 +326,17 @@
             <span aria-hidden="true">🥩</span>
           </h2>
           <div class="nav-controls">
-            <button class="nav-btn" type="button" aria-label="قبلی">
+            <a href="#products-6-start" class="nav-btn" type="button" aria-label="قبلی">
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-right"></use>
               </svg>
-            </button>
+            </a>
 
-            <button class="nav-btn" type="button" aria-label="بعدی">
+            <a href="#products-6-end"  class="nav-btn" type="button" aria-label="بعدی">
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-left"></use>
               </svg>
-            </button>
+            </a>
           </div>
         </div>
 
@@ -351,17 +352,17 @@
             <span aria-hidden="true">🍿</span>
           </h2>
           <div class="nav-controls">
-            <button class="nav-btn" type="button" aria-label="قبلی">
+            <a  href="#products-7-start"class="nav-btn" type="button" aria-label="قبلی">
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-right"></use>
               </svg>
-            </button>
+            </a>
 
-            <button class="nav-btn" type="button" aria-label="بعدی">
+            <a href="#products-7-end" class="nav-btn" type="button" aria-label="بعدی">
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-left"></use>
               </svg>
-            </button>
+            </a>
           </div>
         </div>
 

@@ -5,6 +5,7 @@
 .carousel-container {
   width: min(1240px, calc(100% - 40px));
   margin: 48px auto 0;
+  
 }
 
 /* ========================================
@@ -192,3 +193,4 @@
     width: calc(100% - 16px);
   }
 }
+

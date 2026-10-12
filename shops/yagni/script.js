@@ -96,6 +96,15 @@ async function renderProducts(categoryId, containerSelector) {
 
     container.replaceChildren();
 
+
+// Carousel start anchor
+const startAnchor = document.createElement("span");
+
+startAnchor.id = `products-${categoryId}-start`;
+startAnchor.classList.add("anchor-section");
+
+container.append(startAnchor);
+
     filteredProducts.forEach((product) => {
       // Find product offer, if available
       const offer = offers.find(
@@ -217,6 +226,13 @@ button.addEventListener("click", () => {
       card.append(thumb, info, footer);
       container.append(card);
     });
+// Carousel end anchor
+const endAnchor = document.createElement("span");
+
+endAnchor.id = `products-${categoryId}-end`;
+endAnchor.classList.add("anchor-section");
+
+container.append(endAnchor);
   } catch (error){
     renderError(container,renderProducts)
   }
@@ -295,12 +311,247 @@ function renderSuggestions(products, stock, offers) {
   }
 
   // =========================
-  // Products
+  // Carousel start anchor
   // =========================
 
-  products.forEach((product) => {
-    // ... your existing code
+  const startAnchor = document.createElement("span");
+
+  startAnchor.id = "offers-start";
+  startAnchor.classList.add("anchor-section");
+
+  suggestions.append(startAnchor);
+
+  // =========================
+  // Products with offers
+  // =========================
+
+  const suggestedProducts = products.filter((product) =>
+    offers.some((offer) => offer.productId === product.id)
+  );
+
+  suggestedProducts.forEach((product) => {
+    const offer = offers.find(
+      (item) => item.productId === product.id
+    );
+
+    // =========================
+    // Stock
+    // =========================
+
+    const quantity =
+      stock.items[String(product.id)] ?? 0;
+
+    const isOutOfStock = quantity <= 0;
+
+    // =========================
+    // Calculate discounted price
+    // =========================
+
+    const discountedPrice = Math.round(
+      product.price * (1 - offer.percent / 100)
+    );
+
+    // =========================
+    // Card
+    // =========================
+
+    const card = document.createElement("div");
+
+    card.classList.add("product-card");
+
+    if (isOutOfStock) {
+      card.classList.add(
+        "product-card--out-of-stock"
+      );
+    }
+
+    // =========================
+    // Badges
+    // =========================
+
+    const badges = document.createElement("div");
+
+    badges.classList.add("product-badges");
+
+    // Discount
+    const discount = document.createElement("span");
+
+    discount.classList.add("badge-discount");
+
+    discount.textContent =
+      `${formatNumber(offer.percent)}٪`;
+
+    badges.append(discount);
+
+    // Product tags
+    if (product.tags?.length) {
+      const tags = document.createElement("div");
+
+      tags.classList.add("product-tags");
+
+      product.tags.forEach((tag) => {
+        const tagBadge = document.createElement("span");
+
+        tagBadge.classList.add(
+          "badge-offer-label"
+        );
+
+        tagBadge.textContent = tag;
+
+        tags.append(tagBadge);
+      });
+
+      badges.append(tags);
+    }
+
+    // Always append badges to reserve height
+    card.append(badges);
+
+    // =========================
+    // Thumbnail
+    // =========================
+
+    const thumb = document.createElement("div");
+
+    thumb.classList.add("product-thumb");
+
+    const emoji = document.createElement("span");
+
+    emoji.classList.add("product-emoji");
+
+    emoji.textContent = product.emoji;
+
+    emoji.setAttribute("role", "img");
+
+    emoji.setAttribute(
+      "aria-label",
+      product.name
+    );
+
+    thumb.append(emoji);
+
+    // =========================
+    // Product info
+    // =========================
+
+    const info = document.createElement("div");
+
+    info.classList.add("product-info");
+
+    const name = document.createElement("span");
+
+    name.classList.add("product-name");
+
+    name.textContent = product.name;
+
+    const unit = document.createElement("span");
+
+    unit.classList.add("product-unit");
+
+    unit.textContent = product.unit;
+
+    info.append(name, unit);
+
+    // =========================
+    // Out-of-stock message
+    // =========================
+
+    if (isOutOfStock) {
+      const stockMessage =
+        document.createElement("span");
+
+      stockMessage.classList.add(
+        "stock-message"
+      );
+
+      stockMessage.textContent = "ناموجود";
+
+      info.append(stockMessage);
+    }
+
+    // =========================
+    // Footer
+    // =========================
+
+    const footer = document.createElement("div");
+
+    footer.classList.add("product-footer");
+
+    const pricing = document.createElement("div");
+
+    pricing.classList.add("product-pricing");
+
+    // Original price
+    const oldPrice = document.createElement("span");
+
+    oldPrice.classList.add("old-price");
+
+    oldPrice.textContent =
+      `${formatNumber(product.price)} تومان`;
+
+    pricing.append(oldPrice);
+
+    // Current price
+    const currentPrice =
+      document.createElement("span");
+
+    currentPrice.classList.add(
+      "current-price"
+    );
+
+    currentPrice.textContent =
+      `${formatNumber(discountedPrice)} تومان`;
+
+    pricing.append(currentPrice);
+
+    // =========================
+    // Add button
+    // =========================
+
+    const button = document.createElement("button");
+
+    button.classList.add("add-btn");
+
+    button.type = "button";
+
+    button.setAttribute(
+      "aria-label",
+      `افزودن ${product.name} به سبد`
+    );
+
+    button.textContent = "+";
+
+    button.disabled = isOutOfStock;
+
+    button.addEventListener("click", () => {
+      addToCart(product, discountedPrice);
+    });
+
+    footer.append(pricing, button);
+
+    // =========================
+    // Assemble card
+    // =========================
+
+    card.append(
+      thumb,
+      info,
+      footer
+    );
+
+    suggestions.append(card);
   });
+
+
+  // Carousel end anchor
+
+
+  const endAnchor = document.createElement("span");
+
+  endAnchor.id = "offers-end";
+  endAnchor.classList.add("anchor-section");
+
+  suggestions.append(endAnchor);
 }
 
 getSuggestions();
