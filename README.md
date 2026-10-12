@@ -53,11 +53,13 @@ git checkout -b feat/<slug>-w<week>
 
 ## Preview locally / دیدن روی سیستم خودت
 
-- Double-click `index.html` to open the landing page. Shop names and owners only
-  update when the site is served over http.
-- For the full view, serve the folder: VS Code **Live Server**, or `npx serve .`
+- Double-click `index.html` to open the landing page.
+- To use `fetch` (`api/*.json`), serve the folder over http: VS Code **Live Server**,
+  or `python3 -m http.server` and open http://localhost:8000
 
-## What the landing page reads from your page
+## What the landing card shows
+
+Mentors copy these from your page into `api/shops.json` (you never edit it):
 
 | From your `shops/<slug>/index.html` | Shown on the landing card |
 |---|---|
