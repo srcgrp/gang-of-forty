@@ -159,22 +159,27 @@ init();
 /* share the data */
 
 async function loadData() {
-    const [productsRes, offersRes, stockRes] = await Promise.all([
+    const [productsRes, offersRes, stockRes, categoriesRes, shopRes] = await Promise.all([
         fetch("../../api/products.json"),
         fetch("../../api/offers.json"),
         fetch("../../api/stock.json"),
+        fetch("../../api/categories.json"),
+        fetch("../../api/shop.json"),
     ]);
-    if (!productsRes.ok || !offersRes.ok || !stockRes.ok) {
+    if (!productsRes.ok || !offersRes.ok || !stockRes.ok || !categoriesRes.ok || !shopRes.ok) {
         throw new Error("Request failed")
     }
-    const [products, offers, stock] = await Promise.all([
+    const [products, offers, stock, categories, shop] = await Promise.all([
         productsRes.json(),
         offersRes.json(),
         stockRes.json(),
+        categoriesRes.json(),
+        shopRes.json(),
     ]);
 
-    return { products, offers, stock };
+    return { products, offers, stock, categories, shop };
 }
+loadData().then(console.log)
 
 function withOfferAndStock(product, offers, stock) {
     const offer = offers.find(o => o.productId === product.id);
