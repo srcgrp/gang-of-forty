@@ -1,5 +1,3 @@
-const CATEGORY_ID = 1;
-
 function formatNumber(n) {
     return new Intl.NumberFormat('fa-IR').format(n);
 }
@@ -82,21 +80,20 @@ function showMessage(carousel, text) {
 }
 
 /* drawing functions */
-function renderNewItems(carousel, data) {
-
+function renderCategoryCarousel(carousel, data, categoryId, idPrefix) {
     const { products, offers, stock } = data;
-    const items = products.filter(p => p.categoryId === CATEGORY_ID)
+    const items = products
+        .filter(p => p.categoryId === categoryId)
         .map(p => withOfferAndStock(p, offers, stock));
     carousel.replaceChildren();
     items.forEach((product, index) => {
         const card = createCard(product);
         if (index === 0) {
-            card.id = "fruits-first"
+            card.id = `${idPrefix}-first`;
         }
         if (index === items.length - 1) {
-            card.id = "fruits-last"
+            card.id = `${idPrefix}-last`;
         }
-
         carousel.append(card);
     });
 }
@@ -124,10 +121,10 @@ function renderSpecialOffers(carousel, data) {
     specialProducts.forEach((item, index) => {
         const card = createCard(item);
         if (index === 0) {
-            card.id = "special-offer-first"
+            card.id = "offers-first"
         }
         if (index === specialProducts.length - 1) {
-            card.id = "special-offer-last"
+            card.id = "offers-last"
         }
 
         carousel.append(card);
@@ -138,17 +135,20 @@ function renderSpecialOffers(carousel, data) {
 
 async function init() {
     const fruitCarousel = document.querySelector("#fruits .carousel");
-    const specialCarousel = document.querySelector("#special-offer .carousel");
+    const dairyCarousel = document.querySelector("#dairy .carousel");
+    const specialCarousel = document.querySelector("#offers .carousel");
     const categoryList = document.querySelector("#categories .category-list")
     const dropDown = document.querySelector(".dropdown-menu")
     const footerCategories = document.querySelector("footer .footer-categories")
     showMessage(fruitCarousel, "در حال بارگذاری");
+    showMessage(dairyCarousel, "در حال بارگذاری");
     showMessage(specialCarousel, "در حال بارگذاری");
     showMessage(categoryList, "در حال بارگذاری");
 
     try {
         const data = await loadData();
-        renderNewItems(fruitCarousel, data);
+        renderCategoryCarousel(fruitCarousel, data, 1, "fruits");
+        renderCategoryCarousel(dairyCarousel, data, 2, "dairy");
         renderSpecialOffers(specialCarousel, data);
         renderCategories(categoryList, data.categories);
         renderCategoryLinks(dropDown, data.categories);
@@ -156,8 +156,9 @@ async function init() {
     } catch (error) {
         console.error(error);
         showMessage(fruitCarousel, "دسترسی به اینترنت را بررسی و صفحه را دوباره بارگذاری کنید");
-        showMessage(specialCarousel, "دسترسی به اینترنت را بررسی و صفحه را دوباره بارگذاری کنید")
-        showMessage(categoryList, "دسترسی به اینترنت را بررسی و صفحه را دوباره بارگذاری کنید")
+        showMessage(dairyCarousel, errorText);
+        showMessage(specialCarousel, "دسترسی به اینترنت را بررسی و صفحه را دوباره بارگذاری کنید");
+        showMessage(categoryList, "دسترسی به اینترنت را بررسی و صفحه را دوباره بارگذاری کنید");
     }
 }
 init();
@@ -237,3 +238,4 @@ function renderCategoryLinks(list, categories) {
         list.append(createCategoryLink(category));
     })
 }
+
