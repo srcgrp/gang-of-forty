@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Week 2 · Supermarket API challenges</title>
+  <style>
+    body { font-family: system-ui, Tahoma, sans-serif; margin: 0; background: #f6f7fb; color: #1a1c28; }
+    header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: #fff; border-bottom: 1px solid #e3e6f0; }
+    header small { color: #666; }
+    #status { margin: 12px 20px; padding: 8px 12px; border-radius: 8px; background: #eef1ff; }
+    #status.error { background: #ffe3e6; color: #a1121f; }
+    #categories { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 20px; }
+    #categories button { border: 1px solid #ccd; background: #fff; border-radius: 99px; padding: 4px 12px; cursor: pointer; }
+    #products { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; padding: 20px; }
+    .card { background: #fff; border-radius: 10px; padding: 12px; display: grid; gap: 6px; }
+    .card .emoji { font-size: 2.4rem; text-align: center; }
+    .card footer { display: flex; justify-content: space-between; align-items: center; }
+    .card.out { opacity: .5; }
+    .old { text-decoration: line-through; color: #999; font-size: .85em; }
+    .badge { background: #e6123d; color: #fff; border-radius: 99px; padding: 0 8px; font-size: .8em; }
+  </style>
+</head>
+<body>
+  <header>
+    <div><b id="shop-name">…</b> <small id="shop-slogan"></small></div>
+    <small id="shop-hours"></small>
+    <span>🛒 <b id="cart-count">0</b></span>
+  </header>
+  <p id="status">Loading…</p>
+  <nav id="categories"></nav>
+  <main id="products"></main>
+
+<script>
+// ============================================================
+// Week 2 · Lesson 5 — Supermarket API challenges
+// Serve the REPO ROOT over http (VS Code Live Server or `npx serve .`),
+// then open http://localhost:3000/api/starter.html
+// On file:// the browser blocks XHR and fetch.
+// Keep DevTools → Network open the whole time.
+// ============================================================
+
+// Where the JSON lives:
+//   this file inside api/         → API = './'
+//   copied into shops/<your-slug>/ → API = '../../api/'
+//   from any other site (online)  → API = 'https://gof.zzb.cx/api/'
+const API = './'
+
+// Helpers you can use
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+const toman = (n) => new Intl.NumberFormat('fa-IR').format(n) + ' تومان'
+const $ = (sel) => document.querySelector(sel)
+
+// ---------- Challenge 1 · XMLHttpRequest ----------
+// Load API + 'categories.json' with XHR. console.log every readyState (0 → 4)
+// and the status. Then render one <button> per category into #categories.
+// TODO
+
+
+// ---------- Challenge 2 · XHR inside a Promise ----------
+// Write getJSON(url) that returns a Promise:
+//   resolve(JSON.parse(xhr.responseText)) when status is 200
+//   reject(new Error('HTTP ' + xhr.status)) otherwise
+// Use it: getJSON(API + 'shop.json').then(...) → fill #shop-name, #shop-slogan, #shop-hours
+function getJSON(url) {
+  // TODO
+}
+
+
+// ---------- Challenge 3 · fetch + async / await ----------
+// Write loadProducts() with fetch + await:
+//   - check response.ok, throw if not
+//   - render every product as a .card in #products (emoji, name, unit, price)
+//   - while loading, #status says "Loading…"; when done, hide it
+async function loadProducts() {
+  // TODO
+}
+
+
+// ---------- Challenge 4 · Promise.all ----------
+// Load products.json, stock.json and offers.json (all from API) AT THE SAME TIME:
+//   const [products, stock, offers] = await Promise.all([...])
+// Then merge them:
+//   - stock 0 → add class "out" and the text "ناموجود", disable the button
+//   - an offer → show the old price crossed out, the new price, and a badge "15٪"
+// Bonus: console.time() it, then load the 3 files one after another with 3 awaits.
+//        Which is faster, and why?
+// TODO
+
+
+// ---------- Challenge 5 · Promise.race ----------
+// a) withTimeout(promise, ms): reject with Error('timeout') if promise is slower than ms.
+//    Try withTimeout(fetch(API + 'products.json'), 1) and withTimeout(fetch(API + 'products.json'), 2000).
+// b) Two "servers" answer shop.json with a random delay:
+//      const serverA = wait(Math.random() * 1000).then(() => getJSON(API + 'shop.json')).then(() => 'A')
+//      const serverB = wait(Math.random() * 1000).then(() => getJSON(API + 'shop.json')).then(() => 'B')
+//    Which one wins Promise.race? Run it 5 times.
+// TODO
+
+
+// ---------- Challenge 6 · When things go wrong ----------
+// a) await fetch(API + 'missing.json')  → what is response.status? Does fetch throw?
+// b) await (await fetch(API + 'broken.json')).json()  → what error?
+// c) Promise.all with one bad URL inside → what happens to the other two?
+// Show a friendly message in #status (add class "error") instead of a blank page.
+// TODO
+
+
+// ---------- Challenge 7 · Guess the order (write it down first!) ----------
+// console.log('A')
+// setTimeout(() => console.log('B'), 0)
+// Promise.resolve().then(() => console.log('C'))
+// ;(async () => { console.log('D'); await null; console.log('E') })()
+// console.log('F')
+// TODO: run it and compare with your guess
+
+
+// ---------- Challenge 8 · Your shop ----------
+// In shops/<your-slug>/index.html, load ../../api/products.json, stock.json and
+// offers.json with fetch + Promise.all and render YOUR shelf from them
+// (pick the categories that fit your shop). Your shop name and slogan stay
+// in your own HTML. The cart count (#cart-count) is saved in localStorage (Lesson 3).
+// Do NOT edit api/: it is shared by all 40 shops (CI only lets you change your folder).
+</script>
+</body>
+</html>
