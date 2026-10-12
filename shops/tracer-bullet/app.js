@@ -81,39 +81,28 @@ function showMessage(carousel, text) {
     carousel.append(li);
 }
 
-/* loadProducts */
-async function loadProducts() {
-    const carousel = document.querySelector("#new-items .carousel");
-    showMessage(carousel, "لطفا کمی صبر کنید")
-    try {
-        const { products, offers, stock } = await loadData();
-        const items = products.filter(p => p.categoryId === CATEGORY_ID)
-            .map(p => withOfferAndStock(p, offers, stock));
-        carousel.replaceChildren();
-        items.forEach((product, index) => {
-            const card = createCard(product);
-            if (index === 0) {
-                card.id = "new-items-first"
-            }
-            if (index === items.length - 1) {
-                card.id = "new-items-last"
-            }
+/* drawing functions */
+function renderNewItems(carousel, data) {
 
-            carousel.append(card);
-        });
-    } catch (error) {
-        console.error(error);
-        showMessage(carousel, "دسترسی به اینترنت را بررسی و صفحه را دوباره بارگذاری کنید")
-    }
+    const { products, offers, stock } = data;
+    const items = products.filter(p => p.categoryId === CATEGORY_ID)
+        .map(p => withOfferAndStock(p, offers, stock));
+    carousel.replaceChildren();
+    items.forEach((product, index) => {
+        const card = createCard(product);
+        if (index === 0) {
+            card.id = "new-items-first"
+        }
+        if (index === items.length - 1) {
+            card.id = "new-items-last"
+        }
+
+        carousel.append(card);
+    });
 }
-loadProducts();
 
-/* loadSpecialOffers */
-
-async function loadSpecialOffers() {
-    const specialCarousel = document.querySelector("#special-offer .carousel");
-    try {
-        const { products, offers, stock } = await loadData();
+function renderSpecialOffers(carousel, data) {
+        const { products, offers, stock } = data;
         const specialProducts = offers.map(offer => {
             const product = products.find(p => p.id === offer.productId);
             const productStock = stock.items[product.id];
@@ -131,6 +120,7 @@ async function loadSpecialOffers() {
                 stock: productStock,
             };
         });
+        carousel.replaceChildren();
         specialProducts.forEach((item, index) => {
             const card = createCard(item);
             if (index === 0) {
@@ -140,14 +130,31 @@ async function loadSpecialOffers() {
                 card.id = "special-offer-last"
             }
 
-            specialCarousel.append(card);
+            carousel.append(card);
         });
-
-    } catch (error) {
-        console.error(error);
-    }
 }
-loadSpecialOffers();
+
+/* loading, show the messages, call drawing functions */
+
+async function init() {
+  const newCarousel = document.querySelector("#new-items .carousel");
+  const specialCarousel = document.querySelector("#special-offer .carousel");
+
+  showMessage(newCarousel, "در حال بارگذاری");
+  showMessage(specialCarousel, "در حال بارگذاری");
+
+  try {
+    const data = await loadData();
+    renderNewItems(newCarousel, data);
+    renderSpecialOffers(specialCarousel, data);
+    
+  } catch (error) {
+    console.error(error);
+    showMessage(newCarousel, "دسترسی به اینترنت را بررسی و صفحه را دوباره بارگذاری کنید");
+    showMessage(specialCarousel, "دسترسی به اینترنت را بررسی و صفحه را دوباره بارگذاری کنید")
+  }
+}
+init();
 
 /* share the data */
 
