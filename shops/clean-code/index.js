@@ -5,6 +5,8 @@ const $ = (sel) => document.querySelector(sel);
 
 const faNum = (n) => new Intl.NumberFormat("fa-IR").format(n);
 
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 function el(tag, opts = {}, children = []) {
   const node = document.createElement(tag);
   for (const [key, value] of Object.entries(opts)) {
@@ -114,7 +116,7 @@ function renderCategories(categories) {
   grid.replaceChildren(
     ...categories.map((c) =>
       el("li", {}, [
-        el("a", { href: "#" + c.slug }, [
+        el("a", { href: "?cat=" + c.slug, "data-cat": c.slug }, [
           el("span", { "aria-hidden": "true", text: c.emoji }),
           document.createTextNode(" " + c.name),
         ]),
@@ -126,7 +128,7 @@ function renderCategories(categories) {
   const menu = $("#menu-list");
   const dropdown = el("ul", {}, categories.map(catLink));
   const allCats = el("li", { class: "all-cats" }, [
-    el("a", { href: "#categories", text: "همه دسته‌ها" }),
+    el("a", { href: "?", "data-cat": "", text: "همه دسته‌ها" }),
     dropdown,
   ]);
   menu.replaceChildren(
@@ -140,7 +142,48 @@ function renderCategories(categories) {
 }
 
 function catLink(c) {
-  return el("li", {}, [el("a", { href: "#" + c.slug, text: c.name })]);
+  return el("li", {}, [
+    el("a", { href: "?cat=" + c.slug, "data-cat": c.slug, text: c.name }),
+  ]);
+}
+
+// ---------- فیلتر دسته با ?cat=slug (URLSearchParams + history) ----------
+function getCatFromURL() {
+  return new URLSearchParams(location.search).get("cat") || "";
+}
+
+function applyCatFilter(slug, opts = {}) {
+  const sections = document.querySelectorAll("#category-sections > section");
+  let name = "";
+  sections.forEach((section) => {
+    const show = !slug || section.id === slug;
+    section.hidden = !show;
+    if (section.id === slug) name = section.dataset.name || slug;
+  });
+
+  // لینک دستهٔ فعال را مشخص کن
+  document.querySelectorAll("a[data-cat]").forEach((a) => {
+    a.classList.toggle("active", a.dataset.cat === slug);
+  });
+
+  // نوار «نمایش همهٔ دسته‌ها»
+  const notice = $("#cat-filter");
+  if (notice) {
+    if (slug) {
+      notice.hidden = false;
+      notice.replaceChildren(
+        document.createTextNode("نمایش دستهٔ «" + name + "» · "),
+        el("a", { href: "?", "data-cat": "", text: "نمایش همهٔ دسته‌ها" }),
+      );
+    } else {
+      notice.hidden = true;
+      notice.replaceChildren();
+    }
+  }
+
+  if (slug && opts.scroll) {
+    document.getElementById(slug)?.scrollIntoView({ behavior: "smooth" });
+  }
 }
 
 // سطح ۲: ردیف پیشنهادها (ترکیب products + stock + offers)
@@ -196,7 +239,7 @@ function renderCategorySections(categories, products, stockItems, offers) {
       cards,
     );
 
-    return el("section", { id: cat.slug }, [
+    return el("section", { id: cat.slug, "data-name": cat.name }, [
       el("h2", {}, [
         el("span", { "aria-hidden": "true", text: cat.emoji + " " }),
         document.createTextNode(cat.name),
@@ -212,7 +255,9 @@ function renderCategorySections(categories, products, stockItems, offers) {
     ]);
   });
 
-  wrap.replaceChildren(...sections);
+  const notice = el("p", { id: "cat-filter", class: "cat-filter" });
+  notice.hidden = true;
+  wrap.replaceChildren(notice, ...sections);
 }
 
 // سطح ۳: اطلاعات فروشگاه (بنر ارسال، آدرس، تلفن، ساعت کاری)
@@ -299,7 +344,7 @@ async function init() {
 
   try {
     // سطح ۴: هر پنج فایل همزمان با Promise.all
-    const [products, categories, stock, offers, shop] = await Promise.all([
+    const dataPromise = Promise.all([
       getJSON(API + "products.json"),
       getJSON(API + "categories.json"),
       getJSON(API + "stock.json"),
@@ -307,6 +352,14 @@ async function init() {
       getJSON(API + "shop.json"),
     ]);
 
+    // اگر داده‌ها دیرتر از ۳ ثانیه بیایند، پیام «اتصال کند است» بده
+    const SLOW = Symbol("slow");
+    const winner = await Promise.race([dataPromise, wait(3000).then(() => SLOW)]);
+    if (winner === SLOW && !$("#status").hidden) {
+      $("#status").textContent = "اتصال کند است، همچنان در حال بارگذاری…";
+    }
+
+    const [products, categories, stock, offers, shop] = await dataPromise;
     const stockItems = stock.items || {};
 
     renderShopInfo(shop);
@@ -315,9 +368,29 @@ async function init() {
     renderCategorySections(categories, products, stockItems, offers);
 
     hideStatus();
+
+    // فیلتر دسته را از روی ?cat در آدرس اعمال کن
+    applyCatFilter(getCatFromURL());
   } catch (error) {
     showError(error);
   }
 }
+
+// کلیک روی لینک دسته: به جای پرش، آدرس را به ?cat=slug تغییر بده و فیلتر کن
+document.addEventListener("click", (event) => {
+  const link = event.target.closest("a[data-cat]");
+  if (!link) return;
+  event.preventDefault();
+  const slug = link.dataset.cat;
+  history.pushState(
+    { cat: slug },
+    "",
+    slug ? "?cat=" + slug : location.pathname,
+  );
+  applyCatFilter(slug, { scroll: true });
+});
+
+// دکمه‌های back/forward مرورگر
+window.addEventListener("popstate", () => applyCatFilter(getCatFromURL()));
 
 init();

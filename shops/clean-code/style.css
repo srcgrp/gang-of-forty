@@ -1075,6 +1075,30 @@ hr {
   }
 }
 
+/* نوار فیلتر دسته */
+.cat-filter {
+  margin: 0 0 16px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--yellow-soft);
+  border: 1px solid var(--border);
+  font-size: 14px;
+}
+
+.cat-filter[hidden] {
+  display: none;
+}
+
+.cat-filter a {
+  font-weight: 700;
+}
+
+/* لینک دستهٔ انتخاب‌شده */
+a[data-cat].active {
+  background: var(--coral);
+  color: #fff;
+}
+
 /* حالت لودینگ / خطا */
 .status {
   margin: 0 0 16px;
