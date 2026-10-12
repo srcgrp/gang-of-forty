@@ -1075,6 +1075,63 @@ hr {
   }
 }
 
+/* حالت لودینگ / خطا */
+.status {
+  margin: 0 0 16px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--mint-soft);
+  color: var(--ink);
+  border: 1px solid var(--border);
+}
+
+.status[hidden] {
+  display: none;
+}
+
+.status.error {
+  background: var(--coral-soft);
+  color: var(--coral-deep);
+  border-color: var(--coral);
+}
+
+.status.error button {
+  margin-inline-start: 8px;
+  min-height: 36px;
+}
+
+/* اسکلت (در حال بارگذاری) */
+.product.skeleton {
+  pointer-events: none;
+}
+
+.skeleton .pic {
+  background: linear-gradient(90deg, #eee 25%, #f6f6f6 37%, #eee 63%);
+  background-size: 400% 100%;
+  animation: skeleton-shimmer 1.3s ease-in-out infinite;
+}
+
+.skeleton .sk-line {
+  height: 14px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #eee 25%, #f6f6f6 37%, #eee 63%);
+  background-size: 400% 100%;
+  animation: skeleton-shimmer 1.3s ease-in-out infinite;
+}
+
+.skeleton .sk-line.short {
+  width: 50%;
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
 .offer-header {
   display: flex;
   gap: 4px;
@@ -1094,5 +1151,6 @@ hr {
   *::before,
   *::after {
     transition: none !important;
+    animation: none !important;
   }
 }
