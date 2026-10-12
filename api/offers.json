@@ -1,6 +1,12 @@
 [
-  { "productId": 102, "percent": 15, "label": "حراج فصل" },
-  { "productId": 202, "percent": 10, "label": "پیشنهاد ویژه" },
-  { "productId": 402, "percent": 20, "label": "تخفیف مهر" },
-  { "productId": 501, "percent": 12, "label": "پیشنهاد ویژه" }
+  {"productId": 102, "percent": 15, "label": "حراج فصل"},
+  {"productId": 104, "percent": 25, "label": "تخفیف روز"},
+  {"productId": 105, "percent": 30, "label": "تخفیف روز"},
+  {"productId": 201, "percent": 15, "label": "پیشنهاد ویژه"},
+  {"productId": 202, "percent": 10, "label": "پیشنهاد ویژه"},
+  {"productId": 204, "percent": 20, "label": "تخفیف لبنیات"},
+  {"productId": 402, "percent": 20, "label": "تخفیف مهر"},
+  {"productId": 501, "percent": 12, "label": "پیشنهاد ویژه"},
+  {"productId": 601, "percent": 10, "label": "پیشنهاد ویژه"},
+  {"productId": 703, "percent": 15, "label": "تخفیف مهر"}
 ]

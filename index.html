@@ -20,19 +20,375 @@
     <section class="hero" aria-labelledby="hero-title">
       <h1 id="hero-title">هر چی بخوای، از <span>۴۰ سوپرمارکت</span> محله</h1>
       <p>میوه، سبزی، لبنیات و نون تازه. هر غرفه را یکی از شرکت‌کنندگان بوت‌کمپ هفته به هفته می‌سازد.</p>
-      <p class="stats" id="stats" aria-live="polite"></p>
+      <p class="stats" id="stats">۰ از ۴۰ سوپرمارکت صاحب دارد</p>
     </section>
 
     <section aria-labelledby="shops-title">
       <div class="shops-head">
         <h2 id="shops-title">سوپرمارکت‌ها</h2>
-        <label class="search">
-          <span class="visually-hidden">جستجوی سوپرمارکت</span>
-          <input id="q" type="search" placeholder="جستجو: تام، شنگول، pikachu…" autocomplete="off">
-        </label>
       </div>
-      <ul class="shops" id="shops"></ul>
-      <noscript><p>برای دیدن فهرست سوپرمارکت‌ها جاوااسکریپت را روشن کنید.</p></noscript>
+      <ul class="shops" id="shops">
+      <li class="shop">
+        <a href="shops/dry/index.html">
+          <span class="emoji" aria-hidden="true">🔁</span>
+          <strong class="name">سوپرمارکت DRY</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">dry</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/kiss/index.html">
+          <span class="emoji" aria-hidden="true">🪶</span>
+          <strong class="name">سوپرمارکت KISS</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">kiss</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/yagni/index.html">
+          <span class="emoji" aria-hidden="true">✂️</span>
+          <strong class="name">سوپرمارکت YAGNI</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">yagni</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/composition/index.html">
+          <span class="emoji" aria-hidden="true">🧩</span>
+          <strong class="name">سوپرمارکت ترکیب به جای وراثت</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">composition</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/tdd/index.html">
+          <span class="emoji" aria-hidden="true">✅</span>
+          <strong class="name">سوپرمارکت TDD</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">tdd</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/clean-code/index.html">
+          <span class="emoji" aria-hidden="true">🧼</span>
+          <strong class="name">سوپرمارکت کد تمیز</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">clean-code</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/refactor/index.html">
+          <span class="emoji" aria-hidden="true">🛠️</span>
+          <strong class="name">سوپرمارکت ریفکتور</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">refactor</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/code-smell/index.html">
+          <span class="emoji" aria-hidden="true">👃</span>
+          <strong class="name">سوپرمارکت بوی کد</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">code-smell</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/boy-scout/index.html">
+          <span class="emoji" aria-hidden="true">⛺</span>
+          <strong class="name">سوپرمارکت قانون پیشاهنگ</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">boy-scout</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/demeter/index.html">
+          <span class="emoji" aria-hidden="true">📨</span>
+          <strong class="name">سوپرمارکت قانون دیمیتر</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">demeter</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/liskov/index.html">
+          <span class="emoji" aria-hidden="true">🔄</span>
+          <strong class="name">سوپرمارکت لیسکوف</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">liskov</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/open-closed/index.html">
+          <span class="emoji" aria-hidden="true">🚪</span>
+          <strong class="name">سوپرمارکت باز-بسته</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">open-closed</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/fail-fast/index.html">
+          <span class="emoji" aria-hidden="true">💥</span>
+          <strong class="name">سوپرمارکت شکست سریع</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">fail-fast</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/rubber-duck/index.html">
+          <span class="emoji" aria-hidden="true">🦆</span>
+          <strong class="name">سوپرمارکت اردک پلاستیکی</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">rubber-duck</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/broken-windows/index.html">
+          <span class="emoji" aria-hidden="true">🪟</span>
+          <strong class="name">سوپرمارکت پنجره شکسته</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">broken-windows</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/tracer-bullet/index.html">
+          <span class="emoji" aria-hidden="true">🎯</span>
+          <strong class="name">سوپرمارکت گلوله رسام</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">tracer-bullet</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/orthogonality/index.html">
+          <span class="emoji" aria-hidden="true">📐</span>
+          <strong class="name">سوپرمارکت تعامد</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">orthogonality</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/big-o/index.html">
+          <span class="emoji" aria-hidden="true">⏱️</span>
+          <strong class="name">سوپرمارکت بیگ‌او</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">big-o</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/conway/index.html">
+          <span class="emoji" aria-hidden="true">🏢</span>
+          <strong class="name">سوپرمارکت قانون کانوی</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">conway</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/brooks/index.html">
+          <span class="emoji" aria-hidden="true">📅</span>
+          <strong class="name">سوپرمارکت قانون بروکس</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">brooks</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/separation/index.html">
+          <span class="emoji" aria-hidden="true">🗂️</span>
+          <strong class="name">سوپرمارکت جداسازی دغدغه‌ها</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">separation</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/least-surprise/index.html">
+          <span class="emoji" aria-hidden="true">😮</span>
+          <strong class="name">سوپرمارکت کمترین شگفتی</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">least-surprise</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/premature-optimization/index.html">
+          <span class="emoji" aria-hidden="true">🏎️</span>
+          <strong class="name">سوپرمارکت بهینه‌سازی زودرس</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">premature-optimization</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/convention/index.html">
+          <span class="emoji" aria-hidden="true">🛤️</span>
+          <strong class="name">سوپرمارکت قرارداد به جای پیکربندی</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">convention</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/semver/index.html">
+          <span class="emoji" aria-hidden="true">🏷️</span>
+          <strong class="name">سوپرمارکت نسخه‌بندی معنایی</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">semver</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/cap/index.html">
+          <span class="emoji" aria-hidden="true">🔺</span>
+          <strong class="name">سوپرمارکت قضیه CAP</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">cap</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/idempotency/index.html">
+          <span class="emoji" aria-hidden="true">🔂</span>
+          <strong class="name">سوپرمارکت خودتوانی</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">idempotency</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/cache/index.html">
+          <span class="emoji" aria-hidden="true">🗄️</span>
+          <strong class="name">سوپرمارکت کش</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">cache</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/load-balancer/index.html">
+          <span class="emoji" aria-hidden="true">⚖️</span>
+          <strong class="name">سوپرمارکت متعادل‌کننده بار</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">load-balancer</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/rate-limit/index.html">
+          <span class="emoji" aria-hidden="true">🚦</span>
+          <strong class="name">سوپرمارکت محدودیت نرخ</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">rate-limit</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/deep-module/index.html">
+          <span class="emoji" aria-hidden="true">🧊</span>
+          <strong class="name">سوپرمارکت ماژول عمیق</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">deep-module</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/info-hiding/index.html">
+          <span class="emoji" aria-hidden="true">🙈</span>
+          <strong class="name">سوپرمارکت پنهان‌سازی اطلاعات</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">info-hiding</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/strategic/index.html">
+          <span class="emoji" aria-hidden="true">🗺️</span>
+          <strong class="name">سوپرمارکت برنامه‌نویسی راهبردی</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">strategic</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/define-errors-out/index.html">
+          <span class="emoji" aria-hidden="true">🧯</span>
+          <strong class="name">سوپرمارکت حذف خطا از ریشه</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">define-errors-out</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/race-condition/index.html">
+          <span class="emoji" aria-hidden="true">🏁</span>
+          <strong class="name">سوپرمارکت شرایط رقابتی</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">race-condition</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/deadlock/index.html">
+          <span class="emoji" aria-hidden="true">🔒</span>
+          <strong class="name">سوپرمارکت بن‌بست</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">deadlock</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/message-broker/index.html">
+          <span class="emoji" aria-hidden="true">📬</span>
+          <strong class="name">سوپرمارکت کارگزار پیام</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">message-broker</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/circuit-breaker/index.html">
+          <span class="emoji" aria-hidden="true">🔌</span>
+          <strong class="name">سوپرمارکت قطع‌کننده مدار</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">circuit-breaker</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/acid/index.html">
+          <span class="emoji" aria-hidden="true">🧪</span>
+          <strong class="name">سوپرمارکت ACID</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">acid</code>
+        </a>
+      </li>
+      <li class="shop">
+        <a href="shops/sharding/index.html">
+          <span class="emoji" aria-hidden="true">🍕</span>
+          <strong class="name">سوپرمارکت شاردینگ</strong>
+          <span class="desc">به‌زودی: بهترین میوه و سبزی محله!</span>
+          <span class="owner free">غرفه آزاد است</span>
+          <code class="slug">sharding</code>
+        </a>
+      </li>
+      </ul>
     </section>
   </main>
 
@@ -40,7 +396,5 @@
     <p>ساخته‌شده با ❤️ در بوت‌کمپ فرانت‌اند · <a href="README.md">راهنمای مشارکت</a></p>
   </footer>
 
-  <script src="assets/shops.js"></script>
-  <script src="assets/landing.js"></script>
 </body>
 </html>
