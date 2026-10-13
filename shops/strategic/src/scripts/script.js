@@ -422,6 +422,36 @@ function assertShape(raw) {
 }
 
 
+// ----- Search: what the visitor can type, and how a product matches -----
+// Persian/Arabic letter variants, diacritics, the half-space and digit styles are all made equal
+const searchKey = (value) =>
+  String(value ?? '')
+    .replace(/[يى]/g, 'ی')
+    .replace(/ك/g, 'ک')
+    .replace(/ة/g, 'ه')
+    .replace(/[\u200c\u200d\u200e\u200f]/g, ' ')
+    .replace(/[\u064b-\u065f\u0670]/g, '')
+    .replace(/[۰-۹]/g, (digit) => '۰۱۲۳۴۵۶۷۸۹'.indexOf(digit))
+    .replace(/[٠-٩]/g, (digit) => '٠١٢٣٤٥٦٧٨٩'.indexOf(digit))
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+
+// A product matches when EVERY word of the query is found in its name, unit or tags.
+// The category name only counts as a whole word, so «شیر» does not pull in all of «نان و شیرینی».
+// Products whose name contains all the words come first (the sort is stable).
+function searchProducts(m, query) {
+  const terms = searchKey(query).split(' ').filter(Boolean);
+  if (!terms.length) return [];
+  const matches = m.searchIndex.filter((entry) =>
+    terms.every((term) => entry.text.includes(term) || entry.categoryWords.includes(term)));
+  const inName = (entry) => terms.every((term) => entry.name.includes(term));
+  return matches
+    .sort((first, second) => Number(inName(second)) - Number(inName(first)))
+    .map((entry) => describe(entry.product));
+}
+
+
 // ----- Model: join the files by id with Maps -----
 let model = null;
 
@@ -436,7 +466,16 @@ function buildModel(raw) {
     return Number.isFinite(value) && value > 0 ? value : 0;
   };
 
+  const categoryName = new Map(categories.map((category) => [category.id, category.name]));
+  const searchIndex = products.map((product) => ({
+    product,
+    name: searchKey(product.name),
+    text: searchKey([product.name, product.unit, ...(product.tags || [])].join(' ')),
+    categoryWords: searchKey(categoryName.get(product.categoryId)).split(' '),
+  }));
+
   return {
+    searchIndex,
     products,
     categories,
     shop: raw.shop,
@@ -766,11 +805,6 @@ function renderCatalog(m, slug) {
   }
 
   const art = category && categoryArt(category);
-  const crumbs = el('nav', { class: 'crumbs', 'aria-label': 'مسیر صفحه' }, [
-    el('a', { href: location.pathname, 'data-route': true, text: 'همه محصولات' }),
-    icon('chevron-right', 'icon--mirror'),
-    el('span', { 'aria-current': 'page', text: title }),
-  ]);
 
   const section = el('section', { class: 'catalog', 'aria-labelledby': 'catalog-t' }, [
     el('div', { class: 'sec-head' }, [
@@ -784,14 +818,45 @@ function renderCatalog(m, slug) {
       ? el('ul', { class: 'grid' }, items.map(productCard))
       : el('p', { class: 'state', text: 'فعلاً کالایی در این بخش نداریم.' }),
   ]);
-  return { title, nodes: [crumbs, section] };
+  return { title, nodes: [backBar(), section] };
+}
+
+// "بازگشت": goes back to the page the visitor came from (the home page, at the same scroll position).
+// The href is the home page, so the button also works in a new tab.
+function backBar() {
+  return el('div', { class: 'back-bar' }, [
+    el('a', { class: 'back-btn', href: location.pathname, 'data-back': true }, [icon('arrow-right'), 'بازگشت به صفحه اصلی']),
+  ]);
+}
+
+// ----- Rendering: search results (?q=<text>) -----
+function renderSearch(m, query) {
+  const items = searchProducts(m, query);
+
+  const head = el('div', { class: 'sec-head' }, [
+    el('h1', { id: 'catalog-t', class: 'catalog__title', text: `نتایج جستجو برای «${query}»` }),
+    el('p', { class: 'catalog__count', text: `${formatNumber(items.length)} کالا` }),
+  ]);
+
+  const body = items.length
+    ? [el('h2', { class: 'sr-only', text: 'فهرست کالاها' }), el('ul', { class: 'grid' }, items.map(productCard))]
+    : [el('div', { class: 'state state--empty', role: 'status' }, [
+        el('p', { class: 'state__text', text: 'کالایی با این عبارت پیدا نشد. عبارت دیگری را امتحان کنید.' }),
+        el('button', { class: 'btn btn--outline', type: 'button', 'data-clear-search': true, text: 'پاک کردن جستجو' }),
+      ])];
+
+  return {
+    title: `جستجو: ${query}`,
+    count: items.length,
+    nodes: [el('section', { class: 'catalog', 'aria-labelledby': 'catalog-t' }, [head, ...body])],
+  };
 }
 
 function notFound(slug) {
   return el('section', { class: 'state', 'aria-labelledby': 'nf-t' }, [
     el('h1', { id: 'nf-t', class: 'state__title', text: 'این دسته را پیدا نکردیم' }),
     el('p', { text: 'آدرسی که باز کردید دسته‌ای با این نام ندارد.' }),
-    el('a', { class: 'btn btn--green', href: location.pathname, 'data-route': true, text: 'بازگشت به همه محصولات' }),
+    el('a', { class: 'btn btn--green', href: location.pathname, 'data-route': true, text: 'بازگشت به صفحه اصلی' }),
   ]);
 }
 
@@ -1025,8 +1090,12 @@ async function swapView(update) {
 let renderedSearch = location.search;
 
 function parseRoute() {
-  const slug = new URLSearchParams(location.search).get('cat');
-  return slug ? { type: 'catalog', slug } : { type: 'home' };
+  const params = new URLSearchParams(location.search);
+  const slug = params.get('cat');
+  const query = (params.get('q') || '').trim();
+  if (slug) return { type: 'catalog', slug };
+  if (query) return { type: 'search', query };
+  return { type: 'home' };
 }
 
 function currentHashId() {
@@ -1062,8 +1131,16 @@ function renderRoute({ focus = false, smooth = false } = {}) {
   renderedSearch = location.search;
   let nodes;
 
+  // the search box always shows what the address says
+  const shown = route.type === 'search' ? route.query : pendingQuery ? searchInput.value.trim() : '';
+  if (searchInput.value.trim().replace(/\s+/g, ' ') !== shown) searchInput.value = shown;
+
   if (route.type === 'catalog') {
     const view = renderCatalog(model, route.slug);
+    document.title = `${view.title} | ${BRAND.name}`;
+    nodes = view.nodes;
+  } else if (route.type === 'search') {
+    const view = renderSearch(model, route.query);
     document.title = `${view.title} | ${BRAND.name}`;
     nodes = view.nodes;
   } else {
@@ -1082,13 +1159,34 @@ function renderRoute({ focus = false, smooth = false } = {}) {
   if (focus && !currentHashId()) main.focus({ preventScroll: true });
 }
 
-async function navigate(url) {
-  history.pushState(null, '', url);
+// Remember where the visitor was on this page, so "back" can bring them to the same spot
+function rememberScroll() {
+  history.replaceState({ ...(history.state || {}), scrollY: window.scrollY }, '');
+}
+
+// focus: move the keyboard focus to the new content (links and buttons do; the search box must NOT)
+// animate: fade the old view out first (the search shows its results at once)
+async function navigate(url, { replace = false, focus = true, animate = true } = {}) {
+  if (replace) history.replaceState({ app: true }, '', url);
+  else {
+    rememberScroll();
+    history.pushState({ app: true }, '', url); // { app: true } = the previous entry is a page of this shop
+  }
   closeCart();
-  await swapView(() => {
+  const show = () => {
     window.scrollTo({ top: 0, behavior: 'instant' });
-    renderRoute({ focus: true, smooth: true });
-  });
+    renderRoute({ focus, smooth: true });
+  };
+  if (animate) await swapView(show);
+  else {
+    show();
+    playEnter();
+  }
+}
+
+function goBack() {
+  if (history.state && history.state.app) history.back();
+  else navigate(location.pathname, { replace: true }); // opened from a shared link: there is no page before this one
 }
 
 // A link to a section of the page: scroll there smoothly and keep the address bar in step
@@ -1218,6 +1316,59 @@ function refreshMiniCart() {
 }
 
 
+// ----- Search box (header) -----
+const searchInput = $('#q');
+let searchTimer = 0;
+let pendingQuery = '';
+
+function showSearch(query) {
+  if (!model) {
+    pendingQuery = query; // the data is still loading: run the search as soon as it arrives
+    return;
+  }
+  const text = query.trim().replace(/\s+/g, ' ');
+  const route = parseRoute();
+
+  if (!text) {
+    if (route.type !== 'search') return;
+    if (history.state && history.state.app) history.back(); // back to the page the search started from
+    else navigate(location.pathname, { replace: true, focus: false, animate: false });
+    return;
+  }
+
+  const url = `${location.pathname}?q=${encodeURIComponent(text)}`;
+  if (route.type === 'search') {
+    // still typing: update the same history entry, so "back" is not flooded with every letter
+    history.replaceState(history.state, '', url);
+    renderRoute();
+    announce(`${formatNumber(searchProducts(model, text).length)} نتیجه برای ${text}`);
+  } else {
+    closeCart();
+    navigate(url, { focus: false, animate: false }); // the visitor is still typing: keep the focus in the box
+    announce(`${formatNumber(searchProducts(model, text).length)} نتیجه برای ${text}`);
+  }
+}
+
+searchInput.addEventListener('input', () => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => showSearch(searchInput.value), 150);
+});
+
+searchInput.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    clearTimeout(searchTimer);
+    showSearch(searchInput.value);
+    if (window.matchMedia('(pointer: coarse)').matches) searchInput.blur(); // phones: hide the keyboard so the results are visible
+  } else if (event.key === 'Escape' && searchInput.value) {
+    event.stopPropagation();
+    searchInput.value = '';
+    clearTimeout(searchTimer);
+    showSearch('');
+  }
+});
+
+
 // ----- Events (one listener for the whole page) -----
 const menuToggle = $('#menu-toggle');
 
@@ -1262,6 +1413,14 @@ document.addEventListener('click', (event) => {
     return;
   }
 
+  if (target.closest('[data-clear-search]')) {
+    searchInput.value = '';
+    clearTimeout(searchTimer);
+    showSearch('');
+    searchInput.focus();
+    return;
+  }
+
   if (target.closest('[data-action="retry"]')) {
     start();
     return;
@@ -1275,6 +1434,11 @@ document.addEventListener('click', (event) => {
   if (!plainClick || link.target === '_blank') return;
 
   const href = link.getAttribute('href');
+  if (link.hasAttribute('data-back')) {
+    event.preventDefault();
+    goBack();
+    return;
+  }
   if (link.hasAttribute('data-route')) {
     event.preventDefault();
     navigate(href);
@@ -1286,7 +1450,7 @@ document.addEventListener('click', (event) => {
   if (section) {
     event.preventDefault();
     goToSection(href, section);
-  } else if (parseRoute().type === 'catalog') {
+  } else if (parseRoute().type !== 'home') {
     // the home sections are not on this view: go home first, then slide to the section
     event.preventDefault();
     navigate(location.pathname + href);
@@ -1314,10 +1478,18 @@ document.addEventListener('keydown', (event) => {
   }
 });
 
-window.addEventListener('popstate', () => {
+window.addEventListener('popstate', (event) => {
   closeCart();
-  if (location.search !== renderedSearch) swapView(() => renderRoute());
-  else syncLocation(); // only the #fragment changed: the browser has already scrolled
+  if (location.search === renderedSearch) {
+    syncLocation(); // only the #fragment changed: the browser has already scrolled
+    return;
+  }
+  const saved = event.state && event.state.scrollY;
+  swapView(() => {
+    renderRoute();
+    if (typeof saved === 'number') window.scrollTo({ top: saved, behavior: 'instant' }); // back to the same spot
+    else if (!location.hash) window.scrollTo({ top: 0, behavior: 'instant' });
+  });
 });
 window.addEventListener('hashchange', () => syncLocation());
 
@@ -1342,6 +1514,8 @@ async function start() {
     reconcileCart();
     renderRoute();
     playEnter();
+    if (pendingQuery && parseRoute().type === 'home') showSearch(pendingQuery);
+    pendingQuery = '';
   } catch (error) {
     model = null;
     renderError(error instanceof ApiError ? error : new ApiError('shape', ''));
