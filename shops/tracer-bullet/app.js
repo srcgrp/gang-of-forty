@@ -4,6 +4,13 @@ function formatNumber(n) {
 function formatPrice(price) {
     return `${formatNumber(price)} تومان`;
 }
+function renderSchedule(section, schedule) {
+    schedule.forEach(row => {
+        const p = document.createElement("p");
+        p.textContent = `${row.days}: ${row.time}`;
+        section.append(p);
+    });
+}
 
 function createCard(product) {
     const outOfStock = product.stock === 0;
@@ -140,6 +147,10 @@ async function init() {
     const categoryList = document.querySelector("#categories .category-list")
     const dropDown = document.querySelector(".dropdown-menu")
     const footerCategories = document.querySelector("footer .footer-categories")
+    const mainMenu = document.querySelector(".main-nav > ul");
+    const helpList = document.querySelector(".footer-help");               
+    const hoursSection = document.querySelector("#working-hours");         
+    const errorText = "دسترسی به اینترنت را بررسی و صفحه را دوباره بارگذاری کنید";
     showMessage(fruitCarousel, "در حال بارگذاری");
     showMessage(dairyCarousel, "در حال بارگذاری");
     showMessage(specialCarousel, "در حال بارگذاری");
@@ -153,6 +164,10 @@ async function init() {
         renderCategories(categoryList, data.categories);
         renderCategoryLinks(dropDown, data.categories);
         renderCategoryLinks(footerCategories, data.categories);
+        renderShopTexts(data.shop);
+        renderLinks(mainMenu, data.shop.menu);
+        renderLinks(helpList, data.shop.help); 
+        renderSchedule(hoursSection, data.shop.schedule);
     } catch (error) {
         console.error(error);
         showMessage(fruitCarousel, "دسترسی به اینترنت را بررسی و صفحه را دوباره بارگذاری کنید");
@@ -237,5 +252,29 @@ function renderCategoryLinks(list, categories) {
     categories.forEach(category => {
         list.append(createCategoryLink(category));
     })
+}
+
+/* read shop.json */
+function renderShopTexts(shop) {
+    document.querySelector("header .notice").textContent = shop.notice;
+    document.querySelector("footer .address").textContent = shop.address;
+    document.querySelector("footer .phone").textContent = shop.phone;
+    document.querySelector("footer .about").textContent = shop.about;
+    document.querySelector("header .logo-text .slogan").textContent = shop.slogan;
+}
+
+function createLinkItem(label, href) {
+    const li = document.createElement("li");
+    const link = document.createElement("a");
+    link.href = href;
+    link.textContent = label;
+    li.append(link);
+    return li;
+}
+
+function renderLinks(list, items) {
+    items.forEach(item => {
+        list.append(createLinkItem(item.label, item.href));
+    });
 }
 
