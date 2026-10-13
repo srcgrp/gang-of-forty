@@ -2,7 +2,13 @@ async function loadSnacksProducts() {
   const carouselList = document.querySelector('#snacks .carousel-list');
   if (!carouselList) return;
 
-  carouselList.innerHTML = '<p class="loading-message">در حال بارگذاری...</p>';
+  carouselList.innerHTML = `
+    <div class="skeleton-card">
+      <div class="skeleton-img"></div>
+      <div class="skeleton-title"></div>
+      <div class="skeleton-price"></div>
+    </div>
+  `.repeat(4);
 
   try {
     const response = await fetch('../../api/products.json');    
@@ -11,7 +17,6 @@ async function loadSnacksProducts() {
     }
 
     const products = await response.json();
-
     const snackProducts = products.filter(item => item.categoryId === 7);
 
     carouselList.innerHTML = '';
