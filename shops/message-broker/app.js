@@ -71,28 +71,28 @@ init()
 
 
 
-const productsContainer = document.querySelector("#products");
-const statusMessage = document.querySelector("#status");
+// const productsContainer = document.querySelector("#products");
+// const statusMessage = document.querySelector("#status");
 
-async function loadProducts() {
-  statusMessage.textContent = "در حال بارگذاری محصولات...";
+// async function loadProducts() {
+//   statusMessage.textContent = "در حال بارگذاری محصولات...";
 
-  try {
-    const response = await fetch("api/products.json");
+//   try {
+//     const response = await fetch("api/products.json");
 
-    if (!response.ok) {
-      throw new Error("خطا در دریافت اطلاعات");
-    }
+//     if (!response.ok) {
+//       throw new Error("خطا در دریافت اطلاعات");
+//     }
 
-    const products = await response.json();
+//     const products = await response.json();
 
-    statusMessage.textContent = "";
-    productsContainer.textContent = JSON.stringify(products, null, 2);
+//     statusMessage.textContent = "";
+//     productsContainer.textContent = JSON.stringify(products, null, 2);
 
-  } catch (error) {
-    statusMessage.textContent = "خطا در دریافت محصولات!";
-    console.error(error);
-  }
-}
+//   } catch (error) {
+//     statusMessage.textContent = "خطا در دریافت محصولات!";
+//     console.error(error);
+//   }
+// }
 
-loadProducts();
+// loadProducts();
