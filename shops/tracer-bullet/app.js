@@ -12,6 +12,17 @@ function renderSchedule(section, schedule) {
     });
 }
 
+/* land on the right section */
+function scrollToHash() {
+    if (!location.hash) {
+        return;
+    }
+    const target = document.getElementById(location.hash.slice(1));
+    if (target) {
+        target.scrollIntoView();
+    }
+}
+
 function createCard(product) {
     const outOfStock = product.stock === 0;
     const li = document.createElement("li");
@@ -168,6 +179,7 @@ async function init() {
         renderLinks(mainMenu, data.shop.menu);
         renderLinks(helpList, data.shop.help); 
         renderSchedule(hoursSection, data.shop.schedule);
+        scrollToHash();
     } catch (error) {
         console.error(error);
         showMessage(fruitCarousel, "دسترسی به اینترنت را بررسی و صفحه را دوباره بارگذاری کنید");
@@ -258,7 +270,9 @@ function renderCategoryLinks(list, categories) {
 function renderShopTexts(shop) {
     document.querySelector("header .notice").textContent = shop.notice;
     document.querySelector("footer .address").textContent = shop.address;
-    document.querySelector("footer .phone").textContent = shop.phone;
+    const phoneLink = document.querySelector("footer .phone a");
+    phoneLink.textContent = shop.phone;
+    phoneLink.href = `tel:${shop.phone}`;
     document.querySelector("footer .about").textContent = shop.about;
     document.querySelector("header .logo-text .slogan").textContent = shop.slogan;
 }
