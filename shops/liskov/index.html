@@ -1,822 +1,437 @@
-
 <!doctype html>
 <html lang="fa" dir="rtl">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>سوپرمارکت شایان</title>
-        <link rel="stylesheet" href="./style.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link
-            href="https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&family=Amita:wght@400;700&family=Gulzar&family=Happy+Monkey&family=Orbitron:wght@400..900&family=Playwrite+CA+Guides&family=Zain:ital,wght@0,200;0,300;0,400;0,700;0,800;0,900;1,300;1,400&display=swap"
-            rel="stylesheet"
-        >
-    </head>
-    <body>
-        <a class="skip-link" href="#main">پرش به محتوای اصلی</a>
-        <!-- ..........................  Header: Logo, SearchBox,Cart, Main menu  .......................... -->
-        <header class="header" id="top">
-            <!-- Announcement Bar -->
-            <div id="top-bar">
-                <p id="top-bar-text">
-                    ارسال رایگان برای سفارش‌های بالای ۵۰۰ هزار تومان
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>سوپرمارکت شایان</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&family=Amita:wght@400;700&family=Gulzar&family=Happy+Monkey&family=Orbitron:wght@400..900&family=Playwrite+CA+Guides&family=Zain:ital,wght@0,200;0,300;0,400;0,700;0,800;0,900;1,300;1,400&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+    <!-- ..........................  Header: Logo, SearchBox,Cart, Main menu  .......................... -->
+    <header class="header" id="top">
+        <!-- Announcement Bar -->
+        <div id="top-bar">
+            <p id="top-bar-text">
+                ارسال رایگان برای سفارش‌های بالای ۵۰۰ هزار تومان
+            </p>
+        </div>
+        <!-- Main Header -->
+        <div class="header-main">
+            <a id="main-logo" href="#top" aria-label="سوپرمارکت شایان، بازگشت به بالای صفحه">
+                <svg viewBox="0 0 48 48" width="44" height="44" aria-hidden="true" focusable="false">
+                    <rect width="48" height="48" rx="12" fill="#035efc"></rect>
+
+                    <!-- S -->
+                    <path d="M29 15H20.5C18 15 16 17 16 19.5S18 24 20.5 24H27.5C30 24 32 26 32 28.5S30 33 27.5 33H19"
+                        fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                    </path>
+
+                    <!-- H -->
+                    <path d="M21 15V33M27 15V33M21 24H27" fill="none" stroke="#f8c566" stroke-width="3"
+                        stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                <span>سوپرمارکت شایان</span>
+            </a>
+            <input type="search" id="search" name="search" placeholder="جستجو در میان ۲٬۰۰۰ کالا..."
+                aria-label="جستجو در میان ۲٬۰۰۰ کالا">
+
+            <button type="button" id="cart" aria-label="سبد خرید، ۳ کالا">
+                <img class="icon" src="https://api.iconify.design/mdi/cart.svg?color=%23005532" alt="">
+                سبد خرید
+                <span class="cart-count">۳</span>
+            </button>
+        </div>
+        <!-- Navigation Bar -->
+        <nav class="main-nav" aria-label="منوی اصلی">
+            <input type="checkbox" id="menu-checkbox" class="visually-hidden" aria-label="باز و بسته کردن منو">
+            <label id="menu-toggle" for="menu-checkbox" aria-hidden="true"><img class="icon"
+                    src="https://api.iconify.design/mdi/menu.svg?color=%231f2a1c" alt=""></label>
+            <ul class="main-nav-items">
+                <li class="all-categories-menu">
+                    <a class="categories-links" href="#all-categories"><img class="icon"
+                            src="https://api.iconify.design/mdi/menu.svg?color=%23005532" alt="">
+                        همه دسته‌ها</a>
+                    <ul class="categories-dropdown">
+                        <li>
+                            <a href="#fruits-vegtebles"><img class="icon"
+                                    src="https://api.iconify.design/noto/red-apple.svg" alt="">
+                                میوه و سبزی</a>
+                        </li>
+                        <li>
+                            <a href="#dairy"><img class="icon" src="https://api.iconify.design/noto/glass-of-milk.svg"
+                                    alt="">
+                                لبنیات</a>
+                        </li>
+                        <li>
+                            <a href="#fresh-bread"><img class="icon"
+                                    src="https://api.iconify.design/noto/baguette-bread.svg" alt="">
+                                نان و شیرینی</a>
+                        </li>
+                        <li>
+                            <a href="#all-categories"><img class="icon"
+                                    src="https://api.iconify.design/noto/poultry-leg.svg" alt="">
+                                پروتئین</a>
+                        </li>
+                        <li>
+                            <a href="#all-categories"><img class="icon"
+                                    src="https://api.iconify.design/noto/beverage-box.svg" alt="">
+                                نوشیدنی</a>
+                        </li>
+                        <li>
+                            <a href="#all-categories"><img class="icon" src="https://api.iconify.design/noto/cookie.svg"
+                                    alt="">
+                                تنقلات</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="categories-links" href="#special-suggestions">پیشنهاد ویژه</a>
+                </li>
+                <li>
+                    <a class="categories-links" href="#fruits-vegtebles">میوه و سبزی</a>
+                </li>
+                <li>
+                    <a class="categories-links" href="#dairy">لبنیات</a>
+                </li>
+                <li>
+                    <a class="categories-links" href="#fresh-bread">نان تازه</a>
+                </li>
+                <li>
+                    <a class="categories-links" href="#contact-us">تماس با ما</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <!-- ...................  MAIN: Banners, Categories, Special Offer, Carousel 1&2, Banners  ............... -->
+    <main id="main" tabindex="-1">
+        <!-- Promotional Banners -->
+        <div class="banners-container">
+            <section class="banner" id="banner-1" aria-labelledby="main-banner-title">
+                <h1 id="main-banner-title">میوه‌های تازه، هر روز صبح</h1>
+                <p>
+                    مستقیم از باغ‌های اطراف شهر، تا دو ساعت بعد دم در خانه
+                    شما.
+                </p>
+                <a class="banner-button banner-button-right" href="#fruits-vegtebles">خرید میوه و سبزی</a>
+            </section>
+            <section class="banner" id="banner-2" aria-labelledby="promo-banner-right">
+                <svg viewBox="0 0 48 48" width="56" height="56" aria-hidden="true" focusable="false">
+                    <defs>
+                        <filter id="logo-shadow" x="-30%" y="-30%" width="160%" height="160%">
+                            <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000000" flood-opacity="0.25">
+                            </feDropShadow>
+                        </filter>
+                    </defs>
+
+                    <rect width="48" height="48" rx="12" fill="#035efc" filter="url(#logo-shadow)"></rect>
+
+                    <!-- S -->
+                    <path d="M29 15H20.5C18 15 16 17 16 19.5S18 24 20.5 24H27.5C30 24 32 26 32 28.5S30 33 27.5 33H19"
+                        fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                    </path>
+
+                    <!-- H -->
+                    <path d="M21 15V33M27 15V33M21 24H27" fill="none" stroke="#f8c566" stroke-width="3"
+                        stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                <h2 id="promo-banner-title">۲۰٪ تخفیف لبنیات</h2>
+                <p>فقط تا پایان هفته</p>
+
+                <a class="banner-button banner-button-left" href="#dairy">دیدن محصولات</a>
+            </section>
+        </div>
+
+        <!-- Categories -->
+        <section id="all-categories" class="page-section" aria-labelledby="categories-title">
+            <h2 class="titles" id="categories-title">دسته‌بندی‌ها</h2>
+            <div class="categories">
+                <a class="categories-items" id="category-fruits-vegtebles" href="#fruits-vegtebles"><img class="icon"
+                        src="https://api.iconify.design/noto/red-apple.svg" alt="">میوه و سبزی</a>
+                <a class="categories-items" id="category-dairy" href="#dairy"><img class="icon"
+                        src="https://api.iconify.design/noto/glass-of-milk.svg" alt="">لبنیات</a>
+                <a class="categories-items" id="category-bread-sweets" href="#fresh-bread"><img class="icon"
+                        src="https://api.iconify.design/noto/baguette-bread.svg" alt="">نان و شیرینی</a>
+                <a class="categories-items" id="category-protein" href="#special-suggestions"><img class="icon"
+                        src="https://api.iconify.design/noto/poultry-leg.svg" alt="">پروتئین</a>
+                <a class="categories-items" id="category-drinks" href="#drinks"><img class="icon"
+                        src="https://api.iconify.design/noto/beverage-box.svg" alt="">نوشیدنی</a>
+                <a class="categories-items" id="category-snacks" href="#snacks"><img class="icon"
+                        src="https://api.iconify.design/noto/cookie.svg" alt="">تنقلات</a>
+            </div>
+        </section>
+
+        <!-- Carousel 1 -->
+        <section id="special-suggestions" class="page-section" aria-labelledby="special-suggestions-title">
+            <h2 class="titles" id="special-suggestions-title">
+                <img class="icon" src="https://api.iconify.design/noto/fire.svg" alt="">
+                فروش ویژه امروز
+            </h2>
+            <div class="carousel">
+                <div class="carousel-items" tabindex="0" role="group"
+                    aria-label="فروش ویژه امروز، با کلیدهای جهت‌نما حرکت کنید">
+                    <article class="item" id="fruits-vegtebles">
+                        <div class="item-image item-image-red" aria-hidden="true">
+                            <img class="icon" src="https://api.iconify.design/noto/tomato.svg" alt="">
+                        </div>
+                        <span class="item-badge">۲۵٪ تخفیف</span>
+                        <h3>گوجه‌فرنگی</h3>
+                        <p class="item-weight">۱ کیلوگرم</p>
+                        <div class="item-purchase">
+                            <p class="item-price">
+                                <del>۶۰٬۰۰۰</del> ۴۵٬۰۰۰ تومان
+                            </p>
+                            <button type="button" aria-label="افزودن گوجه‌فرنگی به سبد">
+                                +
+                            </button>
+                        </div>
+                    </article>
+                    <article class="item">
+                        <div class="item-image item-image-blue" aria-hidden="true">
+                            <img class="icon" src="https://api.iconify.design/noto/glass-of-milk.svg" alt="">
+                        </div>
+                        <span class="item-badge">۱۵٪ تخفیف</span>
+                        <h3>شیر کم‌چرب</h3>
+                        <p class="item-weight">۱ لیتر</p>
+                        <div class="item-purchase">
+                            <p class="item-price">
+                                <del>۴۰٬۰۰۰</del> ۳۴٬۰۰۰ تومان
+                            </p>
+                            <button type="button" aria-label="افزودن شیر به سبد">
+                                +
+                            </button>
+                        </div>
+                    </article>
+                    <article class="item">
+                        <div class="item-image item-image-yellow" aria-hidden="true">
+                            <img class="icon" src="https://api.iconify.design/noto/banana.svg" alt="">
+                        </div>
+                        <h3>موز اکوادور</h3>
+                        <p class="item-weight">۱ کیلوگرم</p>
+                        <div class="item-purchase">
+                            <p class="item-price">۹۸٬۰۰۰ تومان</p>
+                            <button type="button" aria-label="افزودن موز به سبد">
+                                +
+                            </button>
+                        </div>
+                    </article>
+                    <article class="item">
+                        <div class="item-image item-image-green" aria-hidden="true">
+                            <img class="icon" src="https://api.iconify.design/noto/cucumber.svg" alt="">
+                        </div>
+                        <span class="item-badge">۳۰٪ تخفیف</span>
+                        <h3>خیار سالادی</h3>
+                        <p class="item-weight">۱ کیلوگرم</p>
+                        <div class="item-purchase">
+                            <p class="item-price">
+                                <del>۵۰٬۰۰۰</del> ۳۵٬۰۰۰ تومان
+                            </p>
+                            <button type="button" aria-label="افزودن خیار به سبد">
+                                +
+                            </button>
+                        </div>
+                    </article>
+                    <article class="item">
+                        <div class="item-image item-image-purple" aria-hidden="true">
+                            <img class="icon" src="https://api.iconify.design/noto/avocado.svg" alt="">
+                        </div>
+                        <h3>آووکادو</h3>
+                        <p class="item-weight">۵۰۰ گرم</p>
+                        <div class="item-purchase">
+                            <p class="item-price">۱۲۰٬۰۰۰ تومان</p>
+                            <button type="button" aria-label="افزودن آووکادو به سبد">
+                                +
+                            </button>
+                        </div>
+                    </article>
+                    <article class="item item-out-of-stock" id="special-suggestions-last-item">
+                        <div class="item-image item-image-pink" aria-hidden="true">
+                            <img class="icon" src="https://api.iconify.design/noto/poultry-leg.svg" alt="">
+                        </div>
+                        <span class="item-badge item-badge-out-of-stock">ناموجود</span>
+                        <h3>ران مرغ</h3>
+                        <p class="item-weight">۹۰۰ گرم</p>
+                        <div class="item-purchase">
+                            <p class="item-price">۲۱۰٬۰۰۰ تومان</p>
+                            <button type="button" disabled aria-label="ران مرغ ناموجود است">
+                                +
+                            </button>
+                        </div>
+                    </article>
+                </div>
+                <div class="carousel-buttons">
+                    <a href="#fruits-vegtebles" aria-label="رفتن به ابتدای فهرست"><img class="icon"
+                            src="https://api.iconify.design/mdi/chevron-right.svg?color=%231f2a1c" alt=""></a>
+                    <a href="#special-suggestions-last-item" aria-label="رفتن به انتهای فهرست"><img class="icon"
+                            src="https://api.iconify.design/mdi/chevron-left.svg?color=%231f2a1c" alt=""></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Banners -->
+        <div class="s-banners-container">
+            <a class="s-banners" id="s-banner-1" href="#s-banner-1"><img class="icon"
+                    src="https://api.iconify.design/noto/cooking.svg" alt="">
+                سبد صبحانه خانواده</a>
+            <a class="s-banners" id="fresh-bread" href="#fresh-bread"><img class="icon"
+                    src="https://api.iconify.design/noto/croissant.svg" alt="">
+                نان داغ، هر روز ساعت ۷</a>
+        </div>
+
+        <section id="dairy" class="page-section" aria-labelledby="dairy-title">
+            <h2 class="titles" id="dairy-title">
+                <img class="icon" src="https://api.iconify.design/noto/glass-of-milk.svg" alt="">
+                لبنیات
+            </h2>
+            <div class="carousel">
+                <div class="carousel-items" tabindex="0" role="group" aria-label="لبنیات، با کلیدهای جهت‌نما حرکت کنید">
+                    <article class="item" id="dairy-first-item">
+                        <div class="item-image item-image-blue" aria-hidden="true">
+                            <img class="icon" src="https://api.iconify.design/noto/cheese-wedge.svg" alt="">
+                        </div>
+                        <h3>پنیر سفید</h3>
+                        <p class="item-weight">۴۰۰ گرم</p>
+                        <div class="item-purchase">
+                            <p class="item-price">۸۵٬۰۰۰ تومان</p>
+                            <button type="button" aria-label="افزودن پنیر به سبد">
+                                +
+                            </button>
+                        </div>
+                    </article>
+                    <article class="item">
+                        <div class="item-image item-image-yellow" aria-hidden="true">
+                            <img class="icon" src="https://api.iconify.design/noto/butter.svg" alt="">
+                        </div>
+                        <span class="item-badge">۲۰٪ تخفیف</span>
+                        <h3>کره حیوانی</h3>
+                        <p class="item-weight">۱۰۰ گرم</p>
+                        <div class="item-purchase">
+                            <p class="item-price">
+                                <del>۷۰٬۰۰۰</del> ۵۶٬۰۰۰ تومان
+                            </p>
+                            <button type="button" aria-label="افزودن کره به سبد">
+                                +
+                            </button>
+                        </div>
+                    </article>
+                    <article class="item">
+                        <div class="item-image item-image-green" aria-hidden="true">
+                            <img class="icon" src="https://api.iconify.design/noto/bowl-with-spoon.svg" alt="">
+                        </div>
+                        <h3>ماست پرچرب</h3>
+                        <p class="item-weight">۹۰۰ گرم</p>
+                        <div class="item-purchase">
+                            <p class="item-price">۶۲٬۰۰۰ تومان</p>
+                            <button type="button" aria-label="افزودن ماست به سبد">
+                                +
+                            </button>
+                        </div>
+                    </article>
+                    <article class="item">
+                        <div class="item-image item-image-pink" aria-hidden="true">
+                            <img class="icon" src="https://api.iconify.design/noto/soft-ice-cream.svg" alt="">
+                        </div>
+                        <h3>بستنی وانیلی</h3>
+                        <p class="item-weight">۱ لیتر</p>
+                        <div class="item-purchase">
+                            <p class="item-price">۱۱۰٬۰۰۰ تومان</p>
+                            <button type="button" aria-label="افزودن بستنی به سبد">
+                                +
+                            </button>
+                        </div>
+                    </article>
+                    <article class="item">
+                        <div class="item-image item-image-purple" aria-hidden="true">
+                            <img class="icon" src="https://api.iconify.design/noto/egg.svg" alt="">
+                        </div>
+                        <h3>تخم‌مرغ</h3>
+                        <p class="item-weight">۱۲ عدد</p>
+                        <div class="item-purchase">
+                            <p class="item-price">۹۵٬۰۰۰ تومان</p>
+                            <button type="button" aria-label="افزودن تخم‌مرغ به سبد">
+                                +
+                            </button>
+                        </div>
+                    </article>
+                    <article class="item" id="dairy-last-item">
+                        <div class="item-image item-image-blue" aria-hidden="true">
+                            <img class="icon" src="https://api.iconify.design/noto/glass-of-milk.svg" alt="">
+                        </div>
+                        <h3>دوغ سنتی</h3>
+                        <p class="item-weight">۱٫۵ لیتر</p>
+                        <div class="item-purchase">
+                            <p class="item-price">۴۲٬۰۰۰ تومان</p>
+                            <button type="button" aria-label="افزودن دوغ به سبد">
+                                +
+                            </button>
+                        </div>
+                    </article>
+                </div>
+                <div class="carousel-buttons">
+                    <a href="#dairy-first-item" aria-label="رفتن به ابتدای فهرست"><img class="icon"
+                            src="https://api.iconify.design/mdi/chevron-right.svg?color=%231f2a1c" alt=""></a>
+                    <a href="#dairy-last-item" aria-label="رفتن به انتهای فهرست"><img class="icon"
+                            src="https://api.iconify.design/mdi/chevron-left.svg?color=%231f2a1c" alt=""></a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact-us">
+        <!-- Main footer -->
+        <div class="footer-main">
+            <div class="footer-column footer-about">
+                <h2>سوپرمارکت شایان</h2>
+                <p>
+                    از سال ۱۴۰۰ کنار شما هستیم؛ کالای تازه با قیمت منصفانه.
+                </p>
+                <p>
+                    <img class="icon" src="https://api.iconify.design/mdi/map-marker.svg?color=%23d5d5d5" alt="">
+                    تهران، خیابان نمونه، پلاک ۴۰
+                </p>
+                <p>
+                    <img class="icon" src="https://api.iconify.design/mdi/phone.svg?color=%23d5d5d5" alt="">
+                    <a href="tel:+982112345678"><bdi dir="ltr">۰۲۱&#8209;۱۲۳۴۵۶۷۸</bdi></a>
                 </p>
             </div>
-            <!-- Main Header -->
-            <div class="header-main">
-                <a
-                    id="main-logo"
-                    href="#top"
-                    aria-label="سوپرمارکت شایان، بازگشت به بالای صفحه"
-                >
-                    <svg
-                        viewBox="0 0 48 48"
-                        width="44"
-                        height="44"
-                        aria-hidden="true"
-                        focusable="false"
-                    >
-                        <rect width="48" height="48" rx="12" fill="#035efc"></rect>
 
-                        <!-- S -->
-                        <path
-                            d="M29 15H20.5C18 15 16 17 16 19.5S18 24 20.5 24H27.5C30 24 32 26 32 28.5S30 33 27.5 33H19"
-                            fill="none"
-                            stroke="#fff"
-                            stroke-width="3.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        ></path>
-
-                        <!-- H -->
-                        <path
-                            d="M21 15V33M27 15V33M21 24H27"
-                            fill="none"
-                            stroke="#f8c566"
-                            stroke-width="3"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        ></path>
-                    </svg>
-                    <span>سوپرمارکت شایان</span>
-                </a>
-                <input
-                    type="search"
-                    id="search"
-                    name="search"
-                    placeholder="جستجو در میان ۲٬۰۰۰ کالا..."
-                    aria-label="جستجو در میان ۲٬۰۰۰ کالا"
-                >
-
-                <button type="button" id="cart" aria-label="سبد خرید، ۳ کالا">
-                    <img
-                        class="icon"
-                        src="https://api.iconify.design/mdi/cart.svg?color=%23005532"
-                        alt=""
-                    >
-                    سبد خرید
-                    <span class="cart-count">۳</span>
-                </button>
-            </div>
-            <!-- Navigation Bar -->
-            <nav class="main-nav" aria-label="منوی اصلی">
-                <input
-                    type="checkbox"
-                    id="menu-checkbox"
-                    class="visually-hidden"
-                    aria-label="باز و بسته کردن منو"
-                >
-                <label id="menu-toggle" for="menu-checkbox" aria-hidden="true"
-                    ><img
-                        class="icon"
-                        src="https://api.iconify.design/mdi/menu.svg?color=%231f2a1c"
-                        alt=""
-                    ></label>
-                <ul class="main-nav-items">
-                    <li class="all-categories-menu">
-                        <a class="categories-links" href="#all-categories"
-                            ><img
-                                class="icon"
-                                src="https://api.iconify.design/mdi/menu.svg?color=%23005532"
-                                alt=""
-                            >
-                            همه دسته‌ها</a
-                        >
-                        <ul class="categories-dropdown">
-                            <li>
-                                <a href="#fruits-vegtebles"
-                                    ><img
-                                        class="icon"
-                                        src="https://api.iconify.design/noto/red-apple.svg"
-                                        alt=""
-                                    >
-                                    میوه و سبزی</a
-                                >
-                            </li>
-                            <li>
-                                <a href="#dairy"
-                                    ><img
-                                        class="icon"
-                                        src="https://api.iconify.design/noto/glass-of-milk.svg"
-                                        alt=""
-                                    >
-                                    لبنیات</a
-                                >
-                            </li>
-                            <li>
-                                <a href="#fresh-bread"
-                                    ><img
-                                        class="icon"
-                                        src="https://api.iconify.design/noto/baguette-bread.svg"
-                                        alt=""
-                                    >
-                                    نان و شیرینی</a
-                                >
-                            </li>
-                            <li>
-                                <a href="#all-categories"
-                                    ><img
-                                        class="icon"
-                                        src="https://api.iconify.design/noto/poultry-leg.svg"
-                                        alt=""
-                                    >
-                                    پروتئین</a
-                                >
-                            </li>
-                            <li>
-                                <a href="#all-categories"
-                                    ><img
-                                        class="icon"
-                                        src="https://api.iconify.design/noto/beverage-box.svg"
-                                        alt=""
-                                    >
-                                    نوشیدنی</a
-                                >
-                            </li>
-                            <li>
-                                <a href="#all-categories"
-                                    ><img
-                                        class="icon"
-                                        src="https://api.iconify.design/noto/cookie.svg"
-                                        alt=""
-                                    >
-                                    تنقلات</a
-                                >
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="categories-links" href="#special-suggestions"
-                            >پیشنهاد ویژه</a
-                        >
-                    </li>
-                    <li>
-                        <a class="categories-links" href="#fruits-vegtebles"
-                            >میوه و سبزی</a
-                        >
-                    </li>
-                    <li>
-                        <a class="categories-links" href="#dairy">لبنیات</a>
-                    </li>
-                    <li>
-                        <a class="categories-links" href="#fresh-bread"
-                            >نان تازه</a
-                        >
-                    </li>
-                    <li>
-                        <a class="categories-links" href="#contact-us"
-                            >تماس با ما</a
-                        >
-                    </li>
-                </ul>
+            <nav class="footer-column" aria-labelledby="footer-categories-title">
+                <h2 id="footer-categories-title">دسته‌ها</h2>
+                <a href="#fruits-vegtebles">میوه و سبزی</a>
+                <a href="#dairy">لبنیات</a>
+                <a href="#fresh-bread">نان و شیرینی</a>
+                <a href="#special-suggestions">پروتئین</a>
             </nav>
-        </header>
-        <!-- ...................  MAIN: Banners, Categories, Special Offer, Carousel 1&2, Banners  ............... -->
-        <main id="main" tabindex="-1">
-            <!-- Promotional Banners -->
-            <div class="banners-container">
-                <section
-                    class="banner"
-                    id="banner-1"
-                    aria-labelledby="main-banner-title"
-                >
-                    <h1 id="main-banner-title">میوه‌های تازه، هر روز صبح</h1>
-                    <p>
-                        مستقیم از باغ‌های اطراف شهر، تا دو ساعت بعد دم در خانه
-                        شما.
-                    </p>
-                    <a
-                        class="banner-button banner-button-right"
-                        href="#fruits-vegtebles"
-                        >خرید میوه و سبزی</a
-                    >
-                </section>
-                <section
-                    class="banner"
-                    id="banner-2"
-                    aria-labelledby="promo-banner-right"
-                >
-                    <svg
-                        viewBox="0 0 48 48"
-                        width="56"
-                        height="56"
-                        aria-hidden="true"
-                        focusable="false"
-                    >
-                        <defs>
-                            <filter
-                                id="logo-shadow"
-                                x="-30%"
-                                y="-30%"
-                                width="160%"
-                                height="160%"
-                            >
-                                <feDropShadow
-                                    dx="0"
-                                    dy="3"
-                                    stdDeviation="3"
-                                    flood-color="#000000"
-                                    flood-opacity="0.25"
-                                ></feDropShadow>
-                            </filter>
-                        </defs>
 
-                        <rect
-                            width="48"
-                            height="48"
-                            rx="12"
-                            fill="#035efc"
-                            filter="url(#logo-shadow)"
-                        ></rect>
+            <nav class="footer-column" aria-labelledby="footer-help-title">
+                <h2 id="footer-help-title">راهنما</h2>
+                <a href="#contact-us">شیوه ارسال</a>
+                <a href="#contact-us">بازگشت کالا</a>
+                <a href="#contact-us">پرسش‌های پرتکرار</a>
+            </nav>
 
-                        <!-- S -->
-                        <path
-                            d="M29 15H20.5C18 15 16 17 16 19.5S18 24 20.5 24H27.5C30 24 32 26 32 28.5S30 33 27.5 33H19"
-                            fill="none"
-                            stroke="#fff"
-                            stroke-width="3.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        ></path>
-
-                        <!-- H -->
-                        <path
-                            d="M21 15V33M27 15V33M21 24H27"
-                            fill="none"
-                            stroke="#f8c566"
-                            stroke-width="3"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        ></path>
-                    </svg>
-                    <h2 id="promo-banner-title">۲۰٪ تخفیف لبنیات</h2>
-                    <p>فقط تا پایان هفته</p>
-
-                    <a class="banner-button banner-button-left" href="#dairy"
-                        >دیدن محصولات</a
-                    >
-                </section>
+            <div class="footer-column">
+                <h2>ساعت کاری</h2>
+                <p>شنبه تا پنجشنبه: ۸ تا ۲۲</p>
+                <p>جمعه: ۹ تا ۱۴</p>
             </div>
+        </div>
 
-            <!-- Categories -->
-            <section
-                id="all-categories"
-                class="page-section"
-                aria-labelledby="categories-title"
-            >
-                <h2 class="titles" id="categories-title">دسته‌بندی‌ها</h2>
-                <div class="categories">
-                    <a
-                        class="categories-items"
-                        id="category-fruits-vegtebles"
-                        href="#fruits-vegtebles"
-                        ><img
-                            class="icon"
-                            src="https://api.iconify.design/noto/red-apple.svg"
-                            alt=""
-                        >میوه و سبزی</a
-                    >
-                    <a
-                        class="categories-items"
-                        id="category-dairy"
-                        href="#dairy"
-                        ><img
-                            class="icon"
-                            src="https://api.iconify.design/noto/glass-of-milk.svg"
-                            alt=""
-                        >لبنیات</a
-                    >
-                    <a
-                        class="categories-items"
-                        id="category-bread-sweets"
-                        href="#fresh-bread"
-                        ><img
-                            class="icon"
-                            src="https://api.iconify.design/noto/baguette-bread.svg"
-                            alt=""
-                        >نان و شیرینی</a
-                    >
-                    <a
-                        class="categories-items"
-                        id="category-protein"
-                        href="#special-suggestions"
-                        ><img
-                            class="icon"
-                            src="https://api.iconify.design/noto/poultry-leg.svg"
-                            alt=""
-                        >پروتئین</a
-                    >
-                    <a
-                        class="categories-items"
-                        id="category-drinks"
-                        href="#drinks"
-                        ><img
-                            class="icon"
-                            src="https://api.iconify.design/noto/beverage-box.svg"
-                            alt=""
-                        >نوشیدنی</a
-                    >
-                    <a
-                        class="categories-items"
-                        id="category-snacks"
-                        href="#snacks"
-                        ><img
-                            class="icon"
-                            src="https://api.iconify.design/noto/cookie.svg"
-                            alt=""
-                        >تنقلات</a
-                    >
-                </div>
-            </section>
+        <!-- Bottom footer -->
+        <div class="footer-bottom">
+            <p>© ۱۴۰۰ سوپرمارکت شایان - عضو و دسته چهل نفره</p>
+            <a href="#top"><img class="icon" src="https://api.iconify.design/mdi/arrow-up.svg" alt="">
+                بازگشت به بالا</a>
+        </div>
+    </footer>
+</body>
 
-            <!-- Carousel 1 -->
-            <section
-                id="special-suggestions"
-                class="page-section"
-                aria-labelledby="special-suggestions-title"
-            >
-                <h2 class="titles" id="special-suggestions-title">
-                    <img
-                        class="icon"
-                        src="https://api.iconify.design/noto/fire.svg"
-                        alt=""
-                    >
-                    فروش ویژه امروز
-                </h2>
-                <div class="carousel">
-                    <div
-                        class="carousel-items"
-                        tabindex="0"
-                        role="group"
-                        aria-label="فروش ویژه امروز، با کلیدهای جهت‌نما حرکت کنید"
-                    >
-                        <article class="item" id="fruits-vegtebles">
-                            <div
-                                class="item-image item-image-red"
-                                aria-hidden="true"
-                            >
-                                <img
-                                    class="icon"
-                                    src="https://api.iconify.design/noto/tomato.svg"
-                                    alt=""
-                                >
-                            </div>
-                            <span class="item-badge">۲۵٪ تخفیف</span>
-                            <h3>گوجه‌فرنگی</h3>
-                            <p class="item-weight">۱ کیلوگرم</p>
-                            <div class="item-purchase">
-                                <p class="item-price">
-                                    <del>۶۰٬۰۰۰</del> ۴۵٬۰۰۰ تومان
-                                </p>
-                                <button
-                                    type="button"
-                                    aria-label="افزودن گوجه‌فرنگی به سبد"
-                                >
-                                    +
-                                </button>
-                            </div>
-                        </article>
-                        <article class="item">
-                            <div
-                                class="item-image item-image-blue"
-                                aria-hidden="true"
-                            >
-                                <img
-                                    class="icon"
-                                    src="https://api.iconify.design/noto/glass-of-milk.svg"
-                                    alt=""
-                                >
-                            </div>
-                            <span class="item-badge">۱۵٪ تخفیف</span>
-                            <h3>شیر کم‌چرب</h3>
-                            <p class="item-weight">۱ لیتر</p>
-                            <div class="item-purchase">
-                                <p class="item-price">
-                                    <del>۴۰٬۰۰۰</del> ۳۴٬۰۰۰ تومان
-                                </p>
-                                <button
-                                    type="button"
-                                    aria-label="افزودن شیر به سبد"
-                                >
-                                    +
-                                </button>
-                            </div>
-                        </article>
-                        <article class="item">
-                            <div
-                                class="item-image item-image-yellow"
-                                aria-hidden="true"
-                            >
-                                <img
-                                    class="icon"
-                                    src="https://api.iconify.design/noto/banana.svg"
-                                    alt=""
-                                >
-                            </div>
-                            <h3>موز اکوادور</h3>
-                            <p class="item-weight">۱ کیلوگرم</p>
-                            <div class="item-purchase">
-                                <p class="item-price">۹۸٬۰۰۰ تومان</p>
-                                <button
-                                    type="button"
-                                    aria-label="افزودن موز به سبد"
-                                >
-                                    +
-                                </button>
-                            </div>
-                        </article>
-                        <article class="item">
-                            <div
-                                class="item-image item-image-green"
-                                aria-hidden="true"
-                            >
-                                <img
-                                    class="icon"
-                                    src="https://api.iconify.design/noto/cucumber.svg"
-                                    alt=""
-                                >
-                            </div>
-                            <span class="item-badge">۳۰٪ تخفیف</span>
-                            <h3>خیار سالادی</h3>
-                            <p class="item-weight">۱ کیلوگرم</p>
-                            <div class="item-purchase">
-                                <p class="item-price">
-                                    <del>۵۰٬۰۰۰</del> ۳۵٬۰۰۰ تومان
-                                </p>
-                                <button
-                                    type="button"
-                                    aria-label="افزودن خیار به سبد"
-                                >
-                                    +
-                                </button>
-                            </div>
-                        </article>
-                        <article class="item">
-                            <div
-                                class="item-image item-image-purple"
-                                aria-hidden="true"
-                            >
-                                <img
-                                    class="icon"
-                                    src="https://api.iconify.design/noto/avocado.svg"
-                                    alt=""
-                                >
-                            </div>
-                            <h3>آووکادو</h3>
-                            <p class="item-weight">۵۰۰ گرم</p>
-                            <div class="item-purchase">
-                                <p class="item-price">۱۲۰٬۰۰۰ تومان</p>
-                                <button
-                                    type="button"
-                                    aria-label="افزودن آووکادو به سبد"
-                                >
-                                    +
-                                </button>
-                            </div>
-                        </article>
-                        <article
-                            class="item item-out-of-stock"
-                            id="special-suggestions-last-item"
-                        >
-                            <div
-                                class="item-image item-image-pink"
-                                aria-hidden="true"
-                            >
-                                <img
-                                    class="icon"
-                                    src="https://api.iconify.design/noto/poultry-leg.svg"
-                                    alt=""
-                                >
-                            </div>
-                            <span class="item-badge item-badge-out-of-stock"
-                                >ناموجود</span
-                            >
-                            <h3>ران مرغ</h3>
-                            <p class="item-weight">۹۰۰ گرم</p>
-                            <div class="item-purchase">
-                                <p class="item-price">۲۱۰٬۰۰۰ تومان</p>
-                                <button
-                                    type="button"
-                                    disabled
-                                    aria-label="ران مرغ ناموجود است"
-                                >
-                                    +
-                                </button>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="carousel-buttons">
-                        <a
-                            href="#fruits-vegtebles"
-                            aria-label="رفتن به ابتدای فهرست"
-                            ><img
-                                class="icon"
-                                src="https://api.iconify.design/mdi/chevron-right.svg?color=%231f2a1c"
-                                alt=""
-                            ></a>
-                        <a
-                            href="#special-suggestions-last-item"
-                            aria-label="رفتن به انتهای فهرست"
-                            ><img
-                                class="icon"
-                                src="https://api.iconify.design/mdi/chevron-left.svg?color=%231f2a1c"
-                                alt=""
-                            ></a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Banners -->
-            <div class="s-banners-container">
-                <a class="s-banners" id="s-banner-1" href="#s-banner-1"
-                    ><img
-                        class="icon"
-                        src="https://api.iconify.design/noto/cooking.svg"
-                        alt=""
-                    >
-                    سبد صبحانه خانواده</a
-                >
-                <a class="s-banners" id="fresh-bread" href="#fresh-bread"
-                    ><img
-                        class="icon"
-                        src="https://api.iconify.design/noto/croissant.svg"
-                        alt=""
-                    >
-                    نان داغ، هر روز ساعت ۷</a
-                >
-            </div>
-
-            <section
-                id="dairy"
-                class="page-section"
-                aria-labelledby="dairy-title"
-            >
-                <h2 class="titles" id="dairy-title">
-                    <img
-                        class="icon"
-                        src="https://api.iconify.design/noto/glass-of-milk.svg"
-                        alt=""
-                    >
-                    لبنیات
-                </h2>
-                <div class="carousel">
-                    <div
-                        class="carousel-items"
-                        tabindex="0"
-                        role="group"
-                        aria-label="لبنیات، با کلیدهای جهت‌نما حرکت کنید"
-                    >
-                        <article class="item" id="dairy-first-item">
-                            <div
-                                class="item-image item-image-blue"
-                                aria-hidden="true"
-                            >
-                                <img
-                                    class="icon"
-                                    src="https://api.iconify.design/noto/cheese-wedge.svg"
-                                    alt=""
-                                >
-                            </div>
-                            <h3>پنیر سفید</h3>
-                            <p class="item-weight">۴۰۰ گرم</p>
-                            <div class="item-purchase">
-                                <p class="item-price">۸۵٬۰۰۰ تومان</p>
-                                <button
-                                    type="button"
-                                    aria-label="افزودن پنیر به سبد"
-                                >
-                                    +
-                                </button>
-                            </div>
-                        </article>
-                        <article class="item">
-                            <div
-                                class="item-image item-image-yellow"
-                                aria-hidden="true"
-                            >
-                                <img
-                                    class="icon"
-                                    src="https://api.iconify.design/noto/butter.svg"
-                                    alt=""
-                                >
-                            </div>
-                            <span class="item-badge">۲۰٪ تخفیف</span>
-                            <h3>کره حیوانی</h3>
-                            <p class="item-weight">۱۰۰ گرم</p>
-                            <div class="item-purchase">
-                                <p class="item-price">
-                                    <del>۷۰٬۰۰۰</del> ۵۶٬۰۰۰ تومان
-                                </p>
-                                <button
-                                    type="button"
-                                    aria-label="افزودن کره به سبد"
-                                >
-                                    +
-                                </button>
-                            </div>
-                        </article>
-                        <article class="item">
-                            <div
-                                class="item-image item-image-green"
-                                aria-hidden="true"
-                            >
-                                <img
-                                    class="icon"
-                                    src="https://api.iconify.design/noto/bowl-with-spoon.svg"
-                                    alt=""
-                                >
-                            </div>
-                            <h3>ماست پرچرب</h3>
-                            <p class="item-weight">۹۰۰ گرم</p>
-                            <div class="item-purchase">
-                                <p class="item-price">۶۲٬۰۰۰ تومان</p>
-                                <button
-                                    type="button"
-                                    aria-label="افزودن ماست به سبد"
-                                >
-                                    +
-                                </button>
-                            </div>
-                        </article>
-                        <article class="item">
-                            <div
-                                class="item-image item-image-pink"
-                                aria-hidden="true"
-                            >
-                                <img
-                                    class="icon"
-                                    src="https://api.iconify.design/noto/soft-ice-cream.svg"
-                                    alt=""
-                                >
-                            </div>
-                            <h3>بستنی وانیلی</h3>
-                            <p class="item-weight">۱ لیتر</p>
-                            <div class="item-purchase">
-                                <p class="item-price">۱۱۰٬۰۰۰ تومان</p>
-                                <button
-                                    type="button"
-                                    aria-label="افزودن بستنی به سبد"
-                                >
-                                    +
-                                </button>
-                            </div>
-                        </article>
-                        <article class="item">
-                            <div
-                                class="item-image item-image-purple"
-                                aria-hidden="true"
-                            >
-                                <img
-                                    class="icon"
-                                    src="https://api.iconify.design/noto/egg.svg"
-                                    alt=""
-                                >
-                            </div>
-                            <h3>تخم‌مرغ</h3>
-                            <p class="item-weight">۱۲ عدد</p>
-                            <div class="item-purchase">
-                                <p class="item-price">۹۵٬۰۰۰ تومان</p>
-                                <button
-                                    type="button"
-                                    aria-label="افزودن تخم‌مرغ به سبد"
-                                >
-                                    +
-                                </button>
-                            </div>
-                        </article>
-                        <article class="item" id="dairy-last-item">
-                            <div
-                                class="item-image item-image-blue"
-                                aria-hidden="true"
-                            >
-                                <img
-                                    class="icon"
-                                    src="https://api.iconify.design/noto/glass-of-milk.svg"
-                                    alt=""
-                                >
-                            </div>
-                            <h3>دوغ سنتی</h3>
-                            <p class="item-weight">۱٫۵ لیتر</p>
-                            <div class="item-purchase">
-                                <p class="item-price">۴۲٬۰۰۰ تومان</p>
-                                <button
-                                    type="button"
-                                    aria-label="افزودن دوغ به سبد"
-                                >
-                                    +
-                                </button>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="carousel-buttons">
-                        <a
-                            href="#dairy-first-item"
-                            aria-label="رفتن به ابتدای فهرست"
-                            ><img
-                                class="icon"
-                                src="https://api.iconify.design/mdi/chevron-right.svg?color=%231f2a1c"
-                                alt=""
-                            ></a>
-                        <a
-                            href="#dairy-last-item"
-                            aria-label="رفتن به انتهای فهرست"
-                            ><img
-                                class="icon"
-                                src="https://api.iconify.design/mdi/chevron-left.svg?color=%231f2a1c"
-                                alt=""
-                            ></a>
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <!-- Footer -->
-        <footer class="footer" id="contact-us">
-            <!-- Main footer -->
-            <div class="footer-main">
-                <div class="footer-column footer-about">
-                    <h2>سوپرمارکت شایان</h2>
-                    <p>
-                        از سال ۱۴۰۰ کنار شما هستیم؛ کالای تازه با قیمت منصفانه.
-                    </p>
-                    <p>
-                        <img
-                            class="icon"
-                            src="https://api.iconify.design/mdi/map-marker.svg?color=%23d5d5d5"
-                            alt=""
-                        >
-                        تهران، خیابان نمونه، پلاک ۴۰
-                    </p>
-                    <p>
-                        <img
-                            class="icon"
-                            src="https://api.iconify.design/mdi/phone.svg?color=%23d5d5d5"
-                            alt=""
-                        >
-                        <a href="tel:+982112345678"
-                            ><bdi dir="ltr">۰۲۱&#8209;۱۲۳۴۵۶۷۸</bdi></a
-                        >
-                    </p>
-                </div>
-
-                <nav
-                    class="footer-column"
-                    aria-labelledby="footer-categories-title"
-                >
-                    <h2 id="footer-categories-title">دسته‌ها</h2>
-                    <a href="#fruits-vegtebles">میوه و سبزی</a>
-                    <a href="#dairy">لبنیات</a>
-                    <a href="#fresh-bread">نان و شیرینی</a>
-                    <a href="#special-suggestions">پروتئین</a>
-                </nav>
-
-                <nav class="footer-column" aria-labelledby="footer-help-title">
-                    <h2 id="footer-help-title">راهنما</h2>
-                    <a href="#contact-us">شیوه ارسال</a>
-                    <a href="#contact-us">بازگشت کالا</a>
-                    <a href="#contact-us">پرسش‌های پرتکرار</a>
-                </nav>
-
-                <div class="footer-column">
-                    <h2>ساعت کاری</h2>
-                    <p>شنبه تا پنجشنبه: ۸ تا ۲۲</p>
-                    <p>جمعه: ۹ تا ۱۴</p>
-                </div>
-            </div>
-
-            <!-- Bottom footer -->
-            <div class="footer-bottom">
-                <p>© ۱۴۰۰ سوپرمارکت شایان - عضو و دسته چهل نفره</p>
-                <a href="#top"
-                    ><img
-                        class="icon"
-                        src="https://api.iconify.design/mdi/arrow-up.svg"
-                        alt=""
-                    >
-                    بازگشت به بالا</a
-                >
-            </div>
-        </footer>
-    </body>
 </html>
