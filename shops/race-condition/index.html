@@ -1,29 +1,581 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت شرایط رقابتی</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
+  <title>بقالی</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+
+  <a href="#main-content" class="go-top" aria-label="پرش به محتوای اصلی<">پرش به محتوای اصلی</a>
+
   <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>🏁 سلام دنیا!</h1>
-  </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>شرایط رقابتی</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p><bdi>Race Condition</bdi> یعنی نتیجه برنامه به ترتیب زمانی چند کار هم‌زمان بستگی دارد. فقط یک بسته شیر در انبار مانده؛ دو مشتری هم‌زمان موجودی را می‌خوانند (۱)، هر دو خرید می‌کنند و موجودی منفی می‌شود. راه‌حل: قفل، تراکنش، یا عملیات اتمی که خواندن و کم کردن را در یک قدم انجام دهد.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
+    <p id="notif-bar" role="status">ارسال رایگان تا پایان تعطیلات!</p>
+    <section id="header-wrapper">
+      <div id="header-logo">
+        <img src="svg/logo.svg" alt="یک ماهی که از آب به بیرون پریده و دوباره به سمت آب شیرجه میزند که به عنوان لوگوی بقالی استفاده شده است" width="24" height="24">
+        <h1 id="name">بقالی<br></h1>
+      </div>
+      <label for="search" class="sr-only">جستجوی محصولات</label>
+      <input id="search" type="search" class="search-bar" placeholder="دنبال چی هستی؟">
+      <button type="button" class="cart-button">🛒 سبد خرید</button>
     </section>
+
+    <nav id="nav-wrapper">
+      <div class="dropdown">
+        <button type="button" class="nav-option nav-selected">
+          <i class="fa fa-bars" aria-hidden="true"></i>
+          همه دسته‌ها
+        </button>
+        <div class="content">
+          <a href="#fruits">🍎 میوه و سبزی</a>
+          <a href="#bread">🫓 نان و شیرینی</a>
+          <a href="#drinks">🍋‍🟩 نوشیدنی</a>
+          <a href="#dairy">🥛 لبنیات</a>
+          <a href="#protein">🥩 پروتئین</a>
+          <a href="#snacks">🍭 تنقلات</a>
+        </div>
+      </div>
+      <a href="#special-offer" class="nav-option desktop-nav">پیشنهاد ویژه</a>
+      <a href="#fruits" class="nav-option desktop-nav">میوه و سبزی</a>
+      <a href="#bread" class="nav-option desktop-nav">نان تازه</a>
+      <a href="#footer-bottom" class="nav-option desktop-nav">تماس با ما</a>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <section id="hero-wrapper">
+      <div class="bigger-hero">
+        <p class="hero-title">صبحت بخیر<br>زیبای من</p>
+        <p class="hero-description">هروقت خواستی بیا رو دکمه پایین بزن و باهام صحبت کن</p>
+        <button type="button" class="hero-button">صحبت کردن</button>
+      </div>
+
+      <div class="smaller-hero">
+        <p class="hero-title">تخفیفات ویژه!</p>
+        <p class="hero-description">فقط تا پایان این هفته!</p>
+        <button type="button" class="hero-button">دیدن محصولات</button>
+      </div>
+    </section>
+
+    <section id="item-category">
+      <p class="category-title">دسته بندی‌ها</p>
+      <div class="category-wrapper">
+        <a class="item" href="#fruits">
+          <div class="item-background">🍎</div>
+          <p class="item-name">میوه و سبزی</p>
+        </a>
+        <a class="item" href="#bread">
+          <div class="item-background">🫓</div>
+          <p class="item-name">نان و شیرینی</p>
+        </a>
+        <a class="item" href="#drinks">
+          <div class="item-background">🍋‍🟩</div>
+          <p class="item-name">نوشیدنی</p>
+        </a>
+        <a class="item" href="#dairy">
+          <div class="item-background">🥛</div>
+          <p class="item-name">لبنیات</p>
+        </a>
+        <a class="item" href="#protein">
+          <div class="item-background">🥩</div>
+          <p class="item-name">پروتئین</p>
+        </a>
+        <a class="item" href="#snacks">
+          <div class="item-background">🍭</div>
+          <p class="item-name">تنقلات</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="sellable-items">
+      <p class="category-title" id="special-offer">
+        🔥 پیشنهاد ویژه امروز
+        <span class="here">← اینجا هستید</span>
+      </p>
+      <div class="carousel carousel-offer">
+        <div class="card item">
+          <p class="off-pill">۲۵٪</p>
+          <div class="item-background">
+            <span class="item-emoji" aria-hidden="true">🍎</span>
+          </div>
+          <p class="item-name">سیب قرمز</p>
+          <p class="item-details">۱ کیلوگرم</p>
+          <p class="item-price-before">۸۰.۰۰۰ تومان</p>
+          <div class="item-price-wrapper">
+            <p class="item-price-after">۶۰.۰۰۰ تومان</p>
+            <button type="button" class="item-add-btn" aria-label="افزودن سیب قرمز به سبد خرید">+</button>
+          </div>
+        </div>
+
+        <div class="card item">
+          <p class="off-pill">۲۰٪</p>
+          <div class="item-background">
+            <span class="item-emoji" aria-hidden="true">🥛</span>
+          </div>
+          <p class="item-name">شیر</p>
+          <p class="item-details">۱ لیتر</p>
+          <p class="item-price-before">۶۰.۰۰۰ تومان</p>
+          <div class="item-price-wrapper">
+            <p class="item-price-after">۴۸.۰۰۰ تومان</p>
+            <button type="button" class="item-add-btn" aria-label="افزودن سیب قرمز به سبد خرید">+</button>
+          </div>
+        </div>
+
+        <div class="card item">
+          <p class="off-pill">۲۵٪</p>
+          <div class="item-background">
+            <span class="item-emoji" aria-hidden="true">🫓</span>
+          </div>
+          <p class="item-name">نان سنگک</p>
+          <p class="item-details">۱ عدد</p>
+          <p class="item-price-before">۴۰.۰۰۰ تومان</p>
+          <div class="item-price-wrapper">
+            <p class="item-price-after">۳۰.۰۰۰ تومان</p>
+            <button type="button" class="item-add-btn" aria-label="افزودن سیب قرمز به سبد خرید">+</button>
+          </div>
+        </div>
+
+        <div class="card item">
+          <p class="off-pill">۲۰٪</p>
+          <div class="item-background">
+            <span class="item-emoji" aria-hidden="true">🍗</span>
+          </div>
+          <p class="item-name">مرغ</p>
+          <p class="item-details">۱ کیلوگرم</p>
+          <p class="item-price-before">۲۰۰.۰۰۰ تومان</p>
+          <div class="item-price-wrapper">
+            <p class="item-price-after">۱۶۰.۰۰۰ تومان</p>
+            <button type="button" class="item-add-btn" aria-label="افزودن سیب قرمز به سبد خرید">+</button>
+          </div>
+        </div>
+
+        <div class="card item">
+          <p class="off-pill">۲۵٪</p>
+          <div class="item-background">
+            <span class="item-emoji" aria-hidden="true">🥤</span>
+          </div>
+          <p class="item-name">نوشابه</p>
+          <p class="item-details">۱.۵ لیتر</p>
+          <p class="item-price-before">۶۰.۰۰۰ تومان</p>
+          <div class="item-price-wrapper">
+            <p class="item-price-after">۴۵.۰۰۰ تومان</p>
+            <button type="button" class="item-add-btn" aria-label="افزودن سیب قرمز به سبد خرید">+</button>
+          </div>
+        </div>
+
+        <div class="card item">
+          <p class="off-pill">۳۰٪</p>
+          <div class="item-background">
+            <span class="item-emoji" aria-hidden="true">🍟</span>
+          </div>
+          <p class="item-name">چیپس</p>
+          <p class="item-details">۱۰۰ گرم</p>
+          <p class="item-price-before">۵۰.۰۰۰ تومان</p>
+          <div class="item-price-wrapper">
+            <p class="item-price-after">۳۵.۰۰۰ تومان</p>
+            <button type="button" class="item-add-btn" aria-label="افزودن سیب قرمز به سبد خرید">+</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="containers">
+      <div class="container-item">
+        <p class="container-title">سبد صبحانه خانواده</p>
+        <img class="container-img" src="svg/egg.svg" alt="یک عدد تخم مرغ پخته شده کارتونی" width="50" height="50">
+      </div>
+
+      <div class="container-item green">
+        <p class="container-title">نان داغ هر روز ساعت ۷</p>
+        <img class="container-img" src="svg/croissant.svg" alt="یک عدد کروسانت کارتونی" width="50" height="50">
+      </div>
+    </section>
+
+    <section class="sellable-items">
+      <p class="category-title" id="fruits">
+        🍎 میوه و سبزی
+        <span class="here">← اینجا هستید</span>
+      </p>
+      <div class="carousel carousel-fruits">
+        <div class="card item">
+          <div class="item-background">
+            <span class="item-emoji" aria-hidden="true">🍎</span>
+          </div>
+          <p class="item-name">سیب قرمز</p>
+          <p class="item-details">۱ کیلوگرم</p>
+          <div class="item-price-wrapper">
+            <p class="item-price-after">۸۰.۰۰۰ تومان</p>
+            <button type="button" class="item-add-btn" aria-label="افزودن سیب قرمز به سبد خرید">+</button>
+          </div>
+        </div>
+
+        <div class="card item">
+          <div class="item-background">
+            <span class="item-emoji" aria-hidden="true">🍌</span>
+          </div>
+          <p class="item-name">موز</p>
+          <p class="item-details">۱ کیلوگرم</p>
+          <div class="item-price-wrapper">
+            <p class="item-price-after">۷۵.۰۰۰ تومان</p>
+            <button type="button" class="item-add-btn" aria-label="افزودن موز به سبد خرید">+</button>
+          </div>
+        </div>
+
+        <div class="card item">
+          <div class="item-background">
+            <span class="item-emoji" aria-hidden="true">🍊</span>
+          </div>
+          <p class="item-name">پرتقال</p>
+          <p class="item-details">۱ کیلوگرم</p>
+          <div class="item-price-wrapper">
+            <p class="item-price-after">۵۵.۰۰۰ تومان</p>
+            <button type="button" class="item-add-btn" aria-label="افزودن پرتقال به سبد خرید">+</button>
+          </div>
+        </div>
+
+        <div class="card item">
+          <div class="item-background">
+            <span class="item-emoji" aria-hidden="true">🥕</span>
+          </div>
+          <p class="item-name">هویج</p>
+          <p class="item-details">۱ کیلوگرم</p>
+          <div class="item-price-wrapper">
+            <p class="item-price-after">۳۰.۰۰۰ تومان</p>
+            <button type="button" class="item-add-btn" aria-label="افزودن هویج به سبد خرید">+</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sellable-items">
+      <p class="category-title" id="bread">
+        🫓 نان و شیرینی
+        <span class="here">← اینجا هستید</span>
+      </p>
+      <div class="carousel carousel-bread">
+        <div class="card item">
+          <div class="item-background">
+            <span class="item-emoji" aria-hidden="true">🫓</span>
+          </div>
+          <p class="item-name">نان سنگک</p>
+          <p class="item-details">۱ عدد</p>
+          <div class="item-price-wrapper">
+            <p class="item-price-after">۴۰.۰۰۰ تومان</p>
+            <button type="button" class="item-add-btn" aria-label="افزودن نان سنگک به سبد خرید">+</button>
+          </div>
+        </div>
+
+        <div class="card item">
+          <div class="item-background">
+            <span class="item-emoji" aria-hidden="true">🍞</span>
+          </div>
+          <p class="item-name">نان بربری</p>
+          <p class="item-details">۱ عدد</p>
+          <div class="item-price-wrapper">
+            <p class="item-price-after">۳۵.۰۰۰ تومان</p>
+            <button type="button" class="item-add-btn" aria-label="افزودن نان بربری به سبد خرید">+</button>
+          </div>
+        </div>
+
+        <div class="card item">
+          <div class="item-background">
+            <span class="item-emoji" aria-hidden="true">🥐</span>
+          </div>
+          <p class="item-name">کروسان</p>
+          <p class="item-details">۱ عدد</p>
+          <div class="item-price-wrapper">
+            <p class="item-price-after">۴۵.۰۰۰ تومان</p>
+            <button type="button" class="item-add-btn" aria-label="افزودن کروسان به سبد خرید">+</button>
+          </div>
+        </div>
+
+        <div class="card item">
+          <div class="item-background">
+            <span class="item-emoji" aria-hidden="true">🍰</span>
+          </div>
+          <p class="item-name">کیک شکلاتی</p>
+          <p class="item-details">۱ عدد</p>
+          <div class="item-price-wrapper">
+            <p class="item-price-after">۹۰.۰۰۰ تومان</p>
+            <button type="button" class="item-add-btn" aria-label="افزودن کیک شکلاتی به سبد خرید">+</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sellable-items">
+      <p class="category-title" id="drinks">
+        🍋‍🟩 نوشیدنی
+        <span class="here">← اینجا هستید</span>
+      </p>
+      <div class="carousel carousel-drinks">
+        <div class="card item">
+          <div class="item-background">
+            <span class="item-emoji" aria-hidden="true">💧</span>
+          </div>
+          <p class="item-name">آب معدنی</p>
+          <p class="item-details">۱.۵ لیتر</p>
+          <div class="item-price-wrapper">
+            <p class="item-price-after">۱۵.۰۰۰ تومان</p>
+            <button type="button" class="item-add-btn" aria-label="افزودن آب معدنی به سبد خرید">+</button>
+          </div>
+        </div>
+
+        <div class="card item">
+          <div class="item-background">
+            <span class="item-emoji" aria-hidden="true">🥤</span>
+          </div>
+          <p class="item-name">نوشابه</p>
+          <p class="item-details">۱.۵ لیتر</p>
+          <div class="item-price-wrapper">
+            <p class="item-price-after">۶۰.۰۰۰ تومان</p>
+            <button type="button" class="item-add-btn" aria-label="افزودن نوشابه به سبد خرید">+</button>
+          </div>
+        </div>
+
+        <div class="card item">
+          <div class="item-background">
+            <span class="item-emoji" aria-hidden="true">🧃</span>
+          </div>
+          <p class="item-name">آبمیوه</p>
+          <p class="item-details">۱ لیتر</p>
+          <div class="item-price-wrapper">
+            <p class="item-price-after">۷۰.۰۰۰ تومان</p>
+            <button type="button" class="item-add-btn" aria-label="افزودن آبمیوه به سبد خرید">+</button>
+          </div>
+        </div>
+
+        <div class="card item">
+          <div class="item-background">
+            <span class="item-emoji" aria-hidden="true">🍵</span>
+          </div>
+          <p class="item-name">چای</p>
+          <p class="item-details">۵۰۰ گرم</p>
+          <div class="item-price-wrapper">
+            <p class="item-price-after">۱۸۰.۰۰۰ تومان</p>
+            <button type="button" class="item-add-btn" aria-label="افزودن چای به سبد خرید">+</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sellable-items">
+      <p class="category-title" id="dairy">
+        🥛 لبنیات
+        <span class="here">← اینجا هستید</span>
+      </p>
+      <div class="carousel carousel-dairy">
+        <div class="card item">
+          <div class="item-background">
+            <span class="item-emoji" aria-hidden="true">🥛</span>
+          </div>
+          <p class="item-name">شیر</p>
+          <p class="item-details">۱ لیتر</p>
+          <div class="item-price-wrapper">
+            <p class="item-price-after">۶۰.۰۰۰ تومان</p>
+            <button type="button" class="item-add-btn" aria-label="افزودن شیر به سبد خرید">+</button>
+          </div>
+        </div>
+
+        <div class="card item">
+          <div class="item-background">
+            <span class="item-emoji" aria-hidden="true">🥣</span>
+          </div>
+          <p class="item-name">ماست</p>
+          <p class="item-details">۱ کیلوگرم</p>
+          <div class="item-price-wrapper">
+            <p class="item-price-after">۵۵.۰۰۰ تومان</p>
+            <button type="button" class="item-add-btn" aria-label="افزودن ماست به سبد خرید">+</button>
+          </div>
+        </div>
+
+        <div class="card item">
+          <div class="item-background">
+            <span class="item-emoji" aria-hidden="true">🧀</span>
+          </div>
+          <p class="item-name">پنیر</p>
+          <p class="item-details">۴۰۰ گرم</p>
+          <div class="item-price-wrapper">
+            <p class="item-price-after">۱۲۰.۰۰۰ تومان</p>
+            <button type="button" class="item-add-btn" aria-label="افزودن پنیر به سبد خرید">+</button>
+          </div>
+        </div>
+
+        <div class="card item">
+          <div class="item-background">
+            <span class="item-emoji" aria-hidden="true">🧈</span>
+          </div>
+          <p class="item-name">کره</p>
+          <p class="item-details">۱۰۰ گرم</p>
+          <div class="item-price-wrapper">
+            <p class="item-price-after">۸۵.۰۰۰ تومان</p>
+            <button type="button" class="item-add-btn" aria-label="افزودن کره به سبد خرید">+</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sellable-items">
+      <p class="category-title" id="protein">
+        🥩 پروتئین
+        <span class="here">← اینجا هستید</span>
+      </p>
+      <div class="carousel carousel-protein">
+        <div class="card item">
+          <div class="item-background">
+            <span class="item-emoji" aria-hidden="true">🍗</span>
+          </div>
+          <p class="item-name">مرغ</p>
+          <p class="item-details">۱ کیلوگرم</p>
+          <div class="item-price-wrapper">
+            <p class="item-price-after">۲۰۰.۰۰۰ تومان</p>
+            <button type="button" class="item-add-btn" aria-label="افزودن مرغ به سبد خرید">+</button>
+          </div>
+        </div>
+
+        <div class="card item">
+          <div class="item-background">
+            <span class="item-emoji" aria-hidden="true">🐟</span>
+          </div>
+          <p class="item-name">ماهی</p>
+          <p class="item-details">۱ کیلوگرم</p>
+          <div class="item-price-wrapper">
+            <p class="item-price-after">۲۵۰.۰۰۰ تومان</p>
+            <button type="button" class="item-add-btn" aria-label="افزودن ماهی به سبد خرید">+</button>
+          </div>
+        </div>
+
+        <div class="card item">
+          <div class="item-background">
+            <span class="item-emoji" aria-hidden="true">🥚</span>
+          </div>
+          <p class="item-name">تخم مرغ</p>
+          <p class="item-details">۱۲ عدد</p>
+          <div class="item-price-wrapper">
+            <p class="item-price-after">۱۲۰.۰۰۰ تومان</p>
+            <button type="button" class="item-add-btn" aria-label="افزودن تخم مرغ به سبد خرید">+</button>
+          </div>
+        </div>
+
+        <div class="card item">
+          <div class="item-background">
+            <span class="item-emoji" aria-hidden="true">🥩</span>
+          </div>
+          <p class="item-name">گوشت گوسفندی</p>
+          <p class="item-details">۱ کیلوگرم</p>
+          <div class="item-price-wrapper">
+            <p class="item-price-after">۶۰۰.۰۰۰ تومان</p>
+            <button type="button" class="item-add-btn" aria-label="افزودن گوشت گوسفندی به سبد خرید">+</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sellable-items">
+      <p class="category-title" id="snacks">
+        🍭 تنقلات
+        <span class="here">← اینجا هستید</span>
+      </p>
+      <div class="carousel carousel-snacks">
+        <div class="card item">
+          <div class="item-background">
+            <span class="item-emoji" aria-hidden="true">🍟</span>
+          </div>
+          <p class="item-name">چیپس</p>
+          <p class="item-details">۱۰۰ گرم</p>
+          <div class="item-price-wrapper">
+            <p class="item-price-after">۵۰.۰۰۰ تومان</p>
+            <button type="button" class="item-add-btn" aria-label="افزودن چیپس به سبد خرید">+</button>
+          </div>
+        </div>
+
+        <div class="card item">
+          <div class="item-background">
+            <span class="item-emoji" aria-hidden="true">🍿</span>
+          </div>
+          <p class="item-name">پفک</p>
+          <p class="item-details">۱۰۰ گرم</p>
+          <div class="item-price-wrapper">
+            <p class="item-price-after">۳۵.۰۰۰ تومان</p>
+            <button type="button" class="item-add-btn" aria-label="افزودن پفک به سبد خرید">+</button>
+          </div>
+        </div>
+
+        <div class="card item">
+          <div class="item-background">
+            <span class="item-emoji" aria-hidden="true">🍪</span>
+          </div>
+          <p class="item-name">بیسکویت</p>
+          <p class="item-details">۲۰۰ گرم</p>
+          <div class="item-price-wrapper">
+            <p class="item-price-after">۴۰.۰۰۰ تومان</p>
+            <button type="button" class="item-add-btn" aria-label="افزودن بیسکویت به سبد خرید">+</button>
+          </div>
+        </div>
+
+        <div class="card item">
+          <div class="item-background">
+            <span class="item-emoji" aria-hidden="true">🍫</span>
+          </div>
+          <p class="item-name">شکلات</p>
+          <p class="item-details">۱۰۰ گرم</p>
+          <div class="item-price-wrapper">
+            <p class="item-price-after">۶۵.۰۰۰ تومان</p>
+            <button type="button" class="item-add-btn" aria-label="افزودن شکلات به سبد خرید">+</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
-  <footer>
-    <p dir="ltr">slug: <code>race-condition</code></p>
+
+  <footer class="footer" id="footer-bottom">
+    <div class="footer-wrapper">
+      <div class="footer-section">
+        <p class="footer-title">بقالی</p>
+        <p class="footer-description">از سال ۱۴۰۵ در خدمت شما هستیم</p>
+        <p class="footer-description">📌 تهران،خیابان نمونه، پلاک ۲</p>
+        <p class="footer-description">۰۲۱-۱۲۳۴۵۶۷۸</p>
+      </div>
+
+      <div class="footer-section">
+        <p class="footer-title">دسته بندی</p>
+        <a class="footer-description footer-clickable">میوه و سبزی</a>
+        <a class="footer-description footer-clickable">لبنیات</a>
+        <a class="footer-description footer-clickable">نان و شیرینی</a>
+        <a class="footer-description footer-clickable">پروتئین</a>
+      </div>
+
+      <div class="footer-section">
+        <p class="footer-title">راهنما</p>
+        <a class="footer-description footer-clickable">شیوه ارسال</a>
+        <a class="footer-description footer-clickable">بازگشت کالا</a>
+        <a class="footer-description footer-clickable">پرسش‌های پرتکرار</a>
+      </div>
+
+      <div class="footer-section">
+        <p class="footer-title">ساعت کاری</p>
+        <p class="footer-description">شنبه تا پنجشنبه: ۸ تا ۲۲</p>
+        <p class="footer-description">جمعه:‌ ۹ تا ۱۴</p>
+      </div>
+    </div>
+
+    <div class="footer-divider">
+      <hr>
+      <div class="footer-divder-content">
+        <p>© بقالی - عضو دار و دسته چهل نفره</p>
+        <a href="#">بازگشت به بالا</a>
+      </div>
+    </div>
   </footer>
 </body>
+
 </html>
