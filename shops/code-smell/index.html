@@ -1,29 +1,66 @@
-<!doctype html>
-<html lang="fa" dir="rtl">
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت بوی کد</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
-  <link rel="stylesheet" href="style.css">
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1" name="viewport">
+        <title>سوپرمارکت آنلاین بوی کد</title>
+        <meta content="خرید تازه، سریع و آسان." name="description">
+        <meta content="#ffb000" name="theme-color">
+        <meta content="website" property="og:type">
+        <meta content="fa_IR" property="og:locale">
+        <meta content="سوپرمارکت بوی کد" property="og:site_name">
+        <meta content="سوپرمارکت بوی کد" property="og:title">
+        <meta content="خرید تازه، سریع و آسان؛ همه چیز تازه و یکجا." property="og:description">
+        <link href="svg/logo.svg" rel="icon" type="image/svg+xml">
+        <link as="font" crossorigin href="font/KalamehWebFaNum-Regular.woff" rel="preload" type="font/woff">
+        <link as="font" crossorigin href="font/KalamehWebFaNum-Bold.woff" rel="preload" type="font/woff">
+        <link href="style.css" rel="stylesheet">
+        <link href="responsive.css" rel="stylesheet">
+        <script src="shop-content.js" defer></script>
+        <script src="index.js" defer></script>
 </head>
-<body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>👃 سلام دنیا!</h1>
-  </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>بوی کد</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p><bdi>Code Smell</bdi> اصطلاحی از کنت بک است که در کتاب <bdi>Refactoring</bdi> مارتین فاولر معروف شد. بوی کد باگ نیست، نشانه است: تابع خیلی بلند، کد تکراری، کلاسی که همه‌کاره است. مثل بوی بد در آشپزخانه، می‌گوید یک جای کار ایراد دارد.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
-    </section>
-  </main>
-  <footer>
-    <p dir="ltr">slug: <code>code-smell</code></p>
-  </footer>
+
+<body id="top">
+    <a class="skip-link" href="#main-content">پرش به محتوای اصلی</a>
+    <header class="site-header">
+        <p class="announcement" id="announcement"></p>
+        <div class="site-header__bar container" id="header-bar">
+            <a class="brand" href="#top" aria-label="سوپرمارکت بوی کد، بازگشت به بالای صفحه">
+                <svg aria-labelledby="logo-title" class="brand__logo" role="img" viewBox="0 0 320 160">
+                                        <title id="logo-title"> لوگوی سوپرمارکت بوی کد</title>
+                                        <g fill="none" stroke="#ffb000" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="14">
+                                                <polyline points="75,35 30,80 75,125">
+                                                </polyline>
+                                                <polyline points="125,35 112,60 125,85 112,110 125,130">
+                                                </polyline>
+                                                <polyline points="160,25 173,52 160,80 173,108 160,135">
+                                                </polyline>
+                                                <polyline points="195,35 208,60 195,85 208,110 195,130">
+                                                </polyline>
+                                                <polyline points="245,35 290,80 245,125">
+                                                </polyline>
+                                        </g>
+                                </svg>
+                <span class="brand__text" id="brand-text"></span>
+            </a>
+            <div class="search" id="search-root" role="search" aria-label="جستجوی کالا"></div>
+            <button class="cart-button" id="cart-button" type="button" aria-label="سبد خرید"></button>
+            <details class="mobile-menu" id="mobile-menu"><summary class="menu-toggle" aria-label="منوی اصلی">☰</summary></details>
+        </div>
+        <nav class="site-nav" id="site-nav" aria-label="منوی اصلی"></nav>
+    </header>
+    <main id="main-content" tabindex="-1">
+        <div class="container" id="page-status" role="status" aria-live="polite"></div>
+        <section class="hero" id="hero" hidden></section>
+        <section class="section" id="categories" hidden></section>
+        <section class="section section--flush-top" id="special-offers" hidden></section>
+        <div id="carousels-root"></div>
+        <div id="results-root" hidden></div>
+        <section class="section" id="shopping-guide" hidden></section>
+    </main>
+    <footer class="site-footer" id="footer" hidden></footer>
+    <noscript><p class="container"> JavaScript را فعال کنید  </p></noscript>
 </body>
 </html>
