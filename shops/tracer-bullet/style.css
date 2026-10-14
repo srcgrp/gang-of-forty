@@ -842,6 +842,7 @@ html:dir(ltr) .carousel-nav a span[aria-hidden] {
   filter: grayscale(1);
 }
 
+
 .out-of-stock .badge {
   background: var(--color-muted);
   color: var(--color-on-muted);

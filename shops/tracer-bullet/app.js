@@ -159,8 +159,11 @@ async function init() {
     const dropDown = document.querySelector(".dropdown-menu")
     const footerCategories = document.querySelector("footer .footer-categories")
     const mainMenu = document.querySelector(".main-nav > ul");
-    const helpList = document.querySelector(".footer-help");               
-    const hoursSection = document.querySelector("#working-hours");         
+    const helpList = document.querySelector(".footer-help");
+    const hoursSection = document.querySelector("#working-hours");
+    const hero = document.querySelector('#hero');
+    const promo = document.querySelector('#promo')
+    const banners = document.querySelector('#banners')
     const errorText = "دسترسی به اینترنت را بررسی و صفحه را دوباره بارگذاری کنید";
     showMessage(fruitCarousel, "در حال بارگذاری");
     showMessage(dairyCarousel, "در حال بارگذاری");
@@ -177,8 +180,11 @@ async function init() {
         renderCategoryLinks(footerCategories, data.categories);
         renderShopTexts(data.shop);
         renderLinks(mainMenu, data.shop.menu);
-        renderLinks(helpList, data.shop.help); 
+        renderLinks(helpList, data.shop.help);
         renderSchedule(hoursSection, data.shop.schedule);
+        renderBanner(hero, data.home.hero);
+        renderBanner(promo, data.home.side);
+        renderPromos(banners, data.home.promos);
         scrollToHash();
     } catch (error) {
         console.error(error);
@@ -193,25 +199,27 @@ init();
 /* share the data */
 
 async function loadData() {
-    const [productsRes, offersRes, stockRes, categoriesRes, shopRes] = await Promise.all([
+    const [productsRes, offersRes, stockRes, categoriesRes, shopRes, homeRes] = await Promise.all([
         fetch("../../api/products.json"),
         fetch("../../api/offers.json"),
         fetch("../../api/stock.json"),
         fetch("../../api/categories.json"),
         fetch("../../api/shop.json"),
+        fetch("../../api/home.json"),
     ]);
-    if (!productsRes.ok || !offersRes.ok || !stockRes.ok || !categoriesRes.ok || !shopRes.ok) {
+    if (!productsRes.ok || !offersRes.ok || !stockRes.ok || !categoriesRes.ok || !shopRes.ok || !homeRes.ok) {
         throw new Error("Request failed")
     }
-    const [products, offers, stock, categories, shop] = await Promise.all([
+    const [products, offers, stock, categories, shop, home] = await Promise.all([
         productsRes.json(),
         offersRes.json(),
         stockRes.json(),
         categoriesRes.json(),
         shopRes.json(),
+        homeRes.json(),
     ]);
 
-    return { products, offers, stock, categories, shop };
+    return { products, offers, stock, categories, shop, home };
 }
 
 
@@ -292,3 +300,49 @@ function renderLinks(list, items) {
     });
 }
 
+/* hero and side banner */
+function renderBanner(section, banner) {
+    const title = section.querySelector("h2");
+    const text = section.querySelector("p");
+    const link = section.querySelector("a");
+    const emoji = section.querySelector("span")
+
+    title.textContent = banner.title;
+    emoji.textContent = banner.emoji
+    emoji.append(title);
+    text.textContent = banner.text;
+    link.textContent = banner.cta.label;
+    link.href = banner.cta.href;
+}
+
+/* promos */
+function renderPromos(container, promos) {
+    container.replaceChildren();
+    promos.forEach(promo => {
+        const link = document.createElement("a");
+        link.href = promo.href;
+
+        const emoji = document.createElement("span");
+        emoji.setAttribute("aria-hidden", "true");
+        emoji.textContent = promo.emoji;
+
+        link.append(promo.text, " ", emoji);
+        container.append(link);
+    });
+}
+
+function renderBanner(section, banner) {
+    const title = section.querySelector("h2");
+    const text = section.querySelector("p");
+    const link = section.querySelector("a");
+
+    const emoji = document.createElement("span");
+    emoji.setAttribute("aria-hidden", "true");
+    emoji.textContent = banner.emoji;
+
+    title.textContent = banner.title;
+    title.append(" ", emoji);
+    text.textContent = banner.text;
+    link.textContent = banner.cta.label;
+    link.href = banner.cta.href;
+}
