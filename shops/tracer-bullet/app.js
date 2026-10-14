@@ -121,6 +121,9 @@ function renderSpecialOffers(carousel, data, idPrefix) {
     const { products, offers, stock } = data;
     const specialProducts = offers.map(offer => {
         const product = products.find(p => p.id === offer.productId);
+        if (!product) {
+            return null;
+        }
         const productStock = stock.items[product.id];
         const newPrice = Math.round(product.price * (100 - offer.percent) / 100);
 
@@ -135,7 +138,8 @@ function renderSpecialOffers(carousel, data, idPrefix) {
             label: offer.label,
             stock: productStock,
         };
-    });
+    }) .filter(Boolean);
+     
     carousel.replaceChildren();
     specialProducts.forEach((item, index) => {
         const card = createCard(item);
