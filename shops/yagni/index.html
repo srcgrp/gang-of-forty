@@ -1,29 +1,469 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت YAGNI</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>✂️ سلام دنیا!</h1>
-  </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>YAGNI</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p><bdi>You Aren't Gonna Need It</bdi> یعنی «لازمش نخواهی داشت». این اصل از <bdi>Extreme Programming</bdi> (کنت بک و ران جفریز) می‌آید: چیزی را که امروز لازم نیست، به امید «شاید بعداً» نساز. کد اضافه هم باید نوشته شود، هم تست شود، هم نگهداری شود.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
-    </section>
-  </main>
-  <footer>
-    <p dir="ltr">slug: <code>yagni</code></p>
-  </footer>
-</body>
+  <head>
+    <meta charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+    <meta name="description" content="مینا٬سوپرمارکتی به وسعت قلبتان" >
+    <title>مینا-خرید تازه٬زندگی بهتر</title>
+    <link rel="stylesheet" href="./styles/main.css" >
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="header__container">
+        <!-- Brand -->
+        <a
+          href="#top"
+          class="header__logo"
+          aria-label="یاگنی-فروشگاه همیشه سبز"
+        >
+          <span class="header__logo-mark">
+            <svg>
+              <use href="./sprite.svg#logo"></use>
+            </svg>
+          </span>
+
+<div class="header__brand" id="shop-header-brand"></div>
+        </a>
+
+        <!-- Search -->
+        <form class="header__search">
+          <span class="header__search-label">جستجو</span>
+
+       <input
+  type="search"
+  placeholder="می‌تونی بین محصولات جستجو کنی"
+  aria-label="جستجوی محصولات"
+>
+
+          <button
+            type="submit"
+            class="header__search-button"
+            aria-label="جستجو"
+          >
+            <svg class="header__search-icon">
+              <use href="./sprite.svg#search"></use>
+            </svg>
+          </button>
+        </form>
+
+        <!-- Header Actions -->
+        <div>
+      <!-- Cart -->
+<a href="#" class="header__cart">
+  <span class="header__cart-icon">
+    <svg>
+      <use href="./sprite.svg#basket"></use>
+    </svg>
+
+    <span class="header__cart-count">۰</span>
+  </span>
+
+  <span class="header__cart-content">
+    <small>سبد خرید</small>
+    <strong>۰ تومان</strong>
+  </span>
+</a>
+        </div>
+      </div>
+    </header>
+    <!-- Navbar -->
+        <nav class="navbar">
+         <input
+  type="checkbox"
+  id="nav-toggle"
+  class="nav-toggle"
+  hidden
+>
+<div class="navbar-inner">
+
+  <!-- Mobile menu button -->
+  <label for="nav-toggle" class="burger-btn">
+    <svg class="burger-icon burger-icon--open" aria-hidden="true">
+      <use href="./sprite.svg#hamburger-menu"></use>
+    </svg>
+
+    <svg class="burger-icon burger-icon--close" aria-hidden="true">
+      <use href="./sprite.svg#close"></use>
+    </svg>
+  </label>
+
+  <div class="navbar-content">
+    <ul class="nav-list" id="navbar-list">
+
+      <!-- Categories -->
+      <li class="has-dropdown">
+        <a
+          href="#"
+          class="nav-link is-active"
+          aria-haspopup="true"
+        >
+          <svg class="icon" aria-hidden="true">
+            <use href="./sprite.svg#dropDown"></use>
+          </svg>
+
+          همه دسته‌ها
+        </a>
+
+        <ul class="dropdown" id="navbar-categories"></ul>
+      </li>
+
+    </ul>
+  </div>
+</div>
+        </nav>
+    <!-- Banner -->
+      <section
+  class="banner anchor-section"
+  id="banner"
+  aria-label="بنر اصلی"
+>
+  <div class="banner__track" id="banner-track"></div>
+       </section>
+    <main>
+      <!-- Categories -->
+     <section
+  class="categories anchor-section"
+  id="categories"
+  aria-labelledby="categories-title"
+>
+  <div class="categories__header">
+    <h2 id="categories-title" class="categories__title">
+      دسته‌بندی‌ها
+    </h2>
+    <a href="#" class="categories__link">مشاهده همه</a>
+  </div>
+  <div class="categories__grid" id="categories-grid"></div>
+</section>
+      <!-- suggestions -->
+      <section class="carousel-container anchor-section" id="offers">
+        <div class="carousel-header">
+          <h2 class="section-title">
+            <span>پیشنهاد ویژه امروز</span>
+            <span aria-hidden="true">🔥</span>
+          </h2>
+          <div class="nav-controls">
+            <!-- Go to start -->
+            <a class="nav-btn" aria-label="ابتدای محصولات"   href="#offers-start">
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-right"></use>
+              </svg>
+            </a>
+            <a class="nav-btn" aria-label="انتهای محصولات" href="#offers-end">
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-left"></use>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="carousel-track suggestions">
+       <!-- dynamic filling from js -->
+          </div>
+      </section>
+      <!-- Advertisement -->
+     <section class="advertisement anchor-section" id="advertisement-1" aria-label="1تبلیغات">
+        <!-- dynamic filling from js -->
+     </section>
+      <!-- dairy -->
+      <section class="carousel-container anchor-section" id="dairy" aria-label="لبنیات">
+        <div class="carousel-header">
+          <h2 class="section-title">
+            <span>لبنیات</span>
+            <span aria-hidden="true">🐮</span>
+          </h2>
+          <div class="nav-controls">
+            <a href="#products-2-start" class="nav-btn" type="button" aria-label="قبلی">
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-right"></use>
+              </svg>
+            </a>
+
+            <a href="#products-2-end" class="nav-btn" type="button" aria-label="بعدی">
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-left"></use>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+<div class="carousel-track dairyProducts">
+  <!-- Dynamic filling from JS -->
+</div>
+      </section>
+
+        <!-- fruits -->
+      <section class="carousel-container anchor-section" id="fruits">
+        <div class="carousel-header">
+          <h2 class="section-title">
+            <span>میوه و سبزی</span>
+            <span aria-hidden="true">🐮</span>
+          </h2>
+          <div class="nav-controls">
+            <a href="#products-1-start"  class="nav-btn" type="button" aria-label="قبلی">
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-right"></use>
+              </svg>
+            </a>
+
+            <a href="#products-1-end"  class="nav-btn" type="button" aria-label="بعدی">
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-left"></use>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="carousel-track  fruitsVegetablesProducts">
+         <!-- fetch from api and fill by js -->
+        </div>
+      </section>
+              <!-- Bakery and Pastries -->
+      <section class="carousel-container anchor-section" id="bakery">
+        <div class="carousel-header">
+          <h2 class="section-title">
+            <span>نان و شیرینی</span>
+            <span aria-hidden="true">🐮</span>
+          </h2>
+          <div class="nav-controls">
+            <a href="#products-3-start" class="nav-btn" type="button" aria-label="قبلی">
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-right"></use>
+              </svg>
+            </a>
+
+            <a href="#products-3-end" class="nav-btn" type="button" aria-label="بعدی">
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-left"></use>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="carousel-track bakeryPastriesProducts">
+         <!-- fetch from api and fill by js -->
+        </div>
+      </section>
+                  <!-- Advertisement -->
+      <section
+  class="advertisement anchor-section"
+  id="advertisement-2"
+  aria-label="تبلیغات2"
+></section>
+                    <!-- pantry -->
+      <section class="carousel-container anchor-section" id="pantry" aria-label="خواربار">
+        <div class="carousel-header">
+          <h2 class="section-title">
+            <span>کالاهای اساسی و خواربار</span>
+            <span aria-hidden="true">🍚</span>
+          </h2>
+          <div class="nav-controls">
+            <a href="#products-4-start" class="nav-btn" type="button" aria-label="قبلی">
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-right"></use>
+              </svg>
+            </a>
+
+            <a href="#products-4-end"  class="nav-btn" type="button" aria-label="بعدی">
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-left"></use>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="carousel-track staplesGroceriesProducts">
+         <!-- fetch from api and fill by js -->
+        </div>
+      </section>
+                      <!-- drinks -->
+      <section class="carousel-container anchor-section" id="drinks">
+        <div class="carousel-header">
+          <h2 class="section-title">
+            <span>نوشیدنی</span>
+            <span aria-hidden="true">🍹</span>
+          </h2>
+          <div class="nav-controls">
+            <a href="#products-5-start" class="nav-btn" type="button" aria-label="قبلی">
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-right"></use>
+              </svg>
+            </a>
+
+            <a href="#products-5-end"  class="nav-btn" type="button" aria-label="بعدی">
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-left"></use>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="carousel-track beveragesProducts">
+         <!-- fetch from api and fill by js -->
+        </div>
+      </section>
+
+                        <!-- protein -->
+      <section class="carousel-container anchor-section" id="protein">
+        <div class="carousel-header">
+          <h2 class="section-title">
+            <span>گوشت و پروتئین</span>
+            <span aria-hidden="true">🥩</span>
+          </h2>
+          <div class="nav-controls">
+            <a href="#products-6-start" class="nav-btn" type="button" aria-label="قبلی">
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-right"></use>
+              </svg>
+            </a>
+
+            <a href="#products-6-end"  class="nav-btn" type="button" aria-label="بعدی">
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-left"></use>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="carousel-track meatProteinProducts">
+         <!-- fetch from api and fill by js -->
+        </div>
+      </section>
+                            <!--snacks -->
+      <section class="carousel-container anchor-section" id="snacks" aria-label="تنقلات">
+        <div class="carousel-header">
+          <h2 class="section-title">
+            <span>تنقلات</span>
+            <span aria-hidden="true">🍿</span>
+          </h2>
+          <div class="nav-controls">
+            <a href="#products-7-start" class="nav-btn" type="button" aria-label="قبلی">
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-right"></use>
+              </svg>
+            </a>
+
+            <a href="#products-7-end" class="nav-btn" type="button" aria-label="بعدی">
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-left"></use>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="carousel-track snacksProducts">
+         <!-- fetch from api and fill by js -->
+        </div>
+      </section>
+      <!-- Support -->
+      <section
+        class="support anchor-section"
+        id="support"
+        aria-label="خدمات فروشگاه"
+      >
+        <a class="support-item" href="#">
+          <svg class="support-icon" aria-hidden="true">
+            <use href="./sprite.svg#express"></use>
+          </svg>
+          <span>امکان تحویل اکسپرس</span>
+        </a>
+
+        <a class="support-item" href="#">
+          <svg class="support-icon" aria-hidden="true">
+            <use href="./sprite.svg#payment"></use>
+          </svg>
+          <span>امکان پرداخت در محل</span>
+        </a>
+
+        <a class="support-item" href="#">
+          <svg class="support-icon" aria-hidden="true">
+            <use href="./sprite.svg#support"></use>
+          </svg>
+          <span>۷ روز هفته، ۲۴ ساعته</span>
+        </a>
+
+        <a class="support-item" href="#">
+          <svg class="support-icon" aria-hidden="true">
+            <use href="./sprite.svg#return"></use>
+          </svg>
+          <span>۲ روز ضمانت بازگشت کالا</span>
+        </a>
+
+        <a class="support-item" href="#">
+          <svg class="support-icon" aria-hidden="true">
+            <use href="./sprite.svg#original"></use>
+          </svg>
+          <span>ضمانت اصل بودن کالا</span>
+        </a>
+      </section>
+    </main>
+    <!-- Footer -->
+ <footer class="site-footer anchor-section" id="footer">
+  <div class="footer-container">
+    <div class="footer-grid">
+
+      <!-- Brand & About -->
+      <div class="footer-col brand-col">
+      <div class="footer-heading brand-title" id="shop-name"></div>
+
+        <p class="brand-description" id="shop-about"></p>
+
+        <ul class="contact-list">
+          <li>
+            <svg>
+              <use href="./sprite.svg#location"></use>
+            </svg>
+
+            <span id="shop-address"></span>
+          </li>
+
+          <li  id="contact">
+            <svg>
+              <use href="./sprite.svg#call"></use>
+            </svg>
+
+            <span id="shop-phone" dir="ltr"></span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Categories -->
+      <div class="footer-col">
+        <h4 class="footer-heading">دسته‌ها</h4>
+
+        <ul class="footer-links" id="footer-categories"></ul>
+      </div>
+
+      <!-- Help & Links -->
+      <div class="footer-col">
+        <h4 class="footer-heading">راهنما</h4>
+
+        <ul class="footer-links" id="footer-help"></ul>
+      </div>
+
+      <!-- Working Hours -->
+      <div class="footer-col">
+        <h4 class="footer-heading">ساعت کاری</h4>
+
+        <div class="hours-info" id="shop-schedule"></div>
+      </div>
+
+    </div>
+
+    <!-- Footer Bottom Bar -->
+    <div class="footer-bottom">
+      <p class="copyright" id="shop-copyright"></p>
+
+      <a href="#top" class="back-to-top">
+        <span>بازگشت به بالا</span>
+
+        <svg>
+          <use href="./sprite.svg#up"></use>
+        </svg>
+      </a>
+    </div>
+  </div>
+</footer>
+    <script src="script.js"></script>
+  </body>
 </html>

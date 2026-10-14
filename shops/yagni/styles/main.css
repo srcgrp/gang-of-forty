@@ -1,0 +1,16 @@
+@import url("./variables.css");
+@import url("./header.css");
+@import url("./style.css");
+@import url("./footer.css");
+@import url("./navbar.css");
+@import url("./banner.css");
+@import url("./categories.css");
+@import url("./product.css");
+@import url("./carousel.css");
+@import url("./support.css");
+@import url("./advertisment.css");
+@import url("./product-skeleton.css");
+@import url("product-loading-error.css");
+@import url("./category-skeleton.css");
+@import url("./banner-skeleton.css");
+@import url("./promos-skeleton.css");
