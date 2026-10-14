@@ -176,12 +176,14 @@ async function init() {
     const promo = document.querySelector('#promo')
     const banners = document.querySelector('#banners')
     const carouselsContainer = document.querySelector("#carousels");
+    const searchInput = document.querySelector("#search");
     const errorText = "دسترسی به اینترنت را بررسی و صفحه را دوباره بارگذاری کنید";
     showMessage(categoryList, "در حال بارگذاری");
     showBlockMessage(carouselsContainer, "در حال بارگذاری");
 
     try {
         const data = await loadData();
+        renderSearchPlaceholder(searchInput, data.products.length);
         renderCartCount();
         renderCarousels(carouselsContainer, data);
         renderCategories(categoryList, data.categories);
@@ -422,3 +424,7 @@ function renderCarousels(container, data) {
     });
 }
 
+/* render search placeholder */
+function renderSearchPlaceholder(input, count) {
+    input.placeholder = `جستجو در میان ${formatNumber(count)} کالا…`;
+}
