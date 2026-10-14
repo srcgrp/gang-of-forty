@@ -981,3 +981,46 @@ body {
   height: 22px;
   object-fit: contain;
 }
+
+.product-card.out-of-stock {
+    opacity: 0.5;
+    filter: grayscale(1);
+}
+.product-card.out-of-stock .add-to-cart-btn {
+    background-color: #ccc !important;
+    cursor: not-allowed;
+}
+.product-price-box del {
+    color: #888;
+    margin-left: 5px;
+}
+.product-price-box ins {
+    text-decoration: none;
+    color: #e74c3c;
+    font-weight: bold;
+}
+/* استایل پیام‌های بارگذاری و خطا در کاروسل */
+.carousel-status-msg {
+  width: 100%;
+  padding: 1.25rem 1.5rem;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin: 1rem 0;
+  box-sizing: border-box;
+}
+
+/* حالت در حال بارگذاری */
+.carousel-status-msg.loading {
+  background-color: #f3f4f6;
+  color: #4b5563;
+  border: 1px dashed #d1d5db;
+}
+
+/* حالت خطا با کادر قرمز/صورتی طبق تصویر راهنما */
+.carousel-status-msg.error {
+  background-color: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}

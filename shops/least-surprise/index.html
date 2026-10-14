@@ -17,7 +17,7 @@
   <!-- نوار اطلاع‌رسانی بالای سایت -->
   <aside class="top-banner" aria-label="اطلاعیه ویژه">
     <div class="container">
-      <p>🚚 ارسال کاملاً رایگان و سریع برای سفارش‌های بالای ۵۰۰ هزار تومان در سراسر شهر</p>
+      <p id="shop-notice">🚚 ارسال کاملاً رایگان و سریع برای سفارش‌های بالای ۵۰۰ هزار تومان در سراسر شهر</p>
     </div>
   </aside>
 
@@ -36,7 +36,7 @@
         </svg>
         <div class="brand-text">
           <span class="shop-name">سوپرمارکت کمترین شگفتی</span>
-          <span class="shop-slogan">تازه، شفاف، بدون غافلگیری در فاکتور</span>
+          <span class="shop-slogan" id="shop-slogan">تازه، شفاف، بدون غافلگیری در فاکتور</span>
         </div>
       </a>
 
@@ -72,7 +72,7 @@
             <span class="dropdown-trigger">
               <span>🗂️</span> همه دسته‌ها <span class="arrow-indicator">▾</span>
             </span>
-            <ul class="dropdown-menu" aria-label="زیرمنوی دسته‌بندی‌ها">
+            <ul class="dropdown-menu" id="categories-dropdown" aria-label="زیرمنوی دسته‌بندی‌ها">
               <li>
                 <a href="#fruits">
                   <span class="dropdown-icon-box bg-green-tint">
@@ -175,7 +175,7 @@
             <a href="#all-cats" class="view-all-link">مشاهده همه دسته‌ها ←</a>
           </div>
 
-          <div class="categories-grid">
+          <div class="categories-grid" id="popular-categories-container">
 
             <!-- ۱. لبنیات -->
             <a href="#dairy" class="cat-pill-card">
@@ -243,89 +243,7 @@
         </div>
 
         <div class="carousel-track" id="track-disc" tabindex="0" aria-label="لیست افقی تخفیف‌ها">
-          
-          <article class="product-card" id="disc-1">
-            <span class="badge-tag tag-discount">۲۵٪ تخفیف</span>
-            <div class="product-img-box">
-              <span class="emoji-visual">🍅</span>
-            </div>
-            <h3 class="product-name">گوجه‌فرنگی بوته‌ای تازه</h3>
-            <p class="product-unit">بسته‌بندی ۱ کیلوگرمی</p>
-            <div class="price-container">
-              <del>۶۰,۰۰۰</del>
-              <span class="current-price">۴۵,۰۰۰ تومان</span>
-            </div>
-            <button type="button" class="add-to-cart-btn">➕ افزودن به سبد</button>
-          </article>
-
-          <article class="product-card" id="disc-2">
-            <span class="badge-tag tag-discount">۱۵٪ تخفیف</span>
-            <div class="product-img-box">
-              <span class="emoji-visual">🥛</span>
-            </div>
-            <h3 class="product-name">شیر بطری کم‌چرب محلی</h3>
-            <p class="product-unit">۱ لیتر خالص</p>
-            <div class="price-container">
-              <del>۴۰,۰۰۰</del>
-              <span class="current-price">۳۴,۰۰۰ تومان</span>
-            </div>
-            <button type="button" class="add-to-cart-btn">➕ افزودن به سبد</button>
-          </article>
-
-          <article class="product-card" id="disc-3">
-            <span class="badge-tag tag-discount">۳۰٪ تخفیف</span>
-            <div class="product-img-box">
-              <span class="emoji-visual">🍌</span>
-            </div>
-            <h3 class="product-name">موز اکوادور ممتاز</h3>
-            <p class="product-unit">دست‌چین ۱ کیلوگرم</p>
-            <div class="price-container">
-              <del>۱۴۰,۰۰۰</del>
-              <span class="current-price">۹۸,۰۰۰ تومان</span>
-            </div>
-            <button type="button" class="add-to-cart-btn">➕ افزودن به سبد</button>
-          </article>
-
-          <article class="product-card" id="disc-4">
-            <span class="badge-tag tag-discount">۱۰٪ تخفیف</span>
-            <div class="product-img-box">
-              <span class="emoji-visual">🥒</span>
-            </div>
-            <h3 class="product-name">خیار قلمی گلخانه‌ای</h3>
-            <p class="product-unit">بسته‌بندی ۱ کیلوگرم</p>
-            <div class="price-container">
-              <del>۳۵,۰۰۰</del>
-              <span class="current-price">۳۱,۵۰۰ تومان</span>
-            </div>
-            <button type="button" class="add-to-cart-btn">➕ افزودن به سبد</button>
-          </article>
-
-          <article class="product-card" id="disc-5">
-            <span class="badge-tag tag-special">ویژه</span>
-            <div class="product-img-box">
-              <span class="emoji-visual">🥔</span>
-            </div>
-            <h3 class="product-name">سیب‌زمینی پاک‌شده ممتاز</h3>
-            <p class="product-unit">بسته ۲ کیلوگرمی</p>
-            <div class="price-container">
-              <span class="current-price">۵۸,۰۰۰ تومان</span>
-            </div>
-            <button type="button" class="add-to-cart-btn">➕ افزودن به سبد</button>
-          </article>
-
-          <article class="product-card is-out" id="disc-6">
-            <span class="badge-tag tag-out">اتمام موجودی</span>
-            <div class="product-img-box">
-              <span class="emoji-visual">🥑</span>
-            </div>
-            <h3 class="product-name">آووکادو تازه وارداتی</h3>
-            <p class="product-unit">۱ عدد درشت</p>
-            <div class="price-container">
-              <span class="current-price">۱۳۵,۰۰۰ تومان</span>
-            </div>
-            <button type="button" class="add-to-cart-btn" disabled>ناموجود</button>
-          </article>
-
+          <!-- کارت‌ها با JS اضافه می‌شوند -->
         </div>
       </section>
 
@@ -432,12 +350,12 @@
       <div class="footer-grid">
         <div class="footer-col">
           <h3 class="footer-title">درباره سوپرمارکت کمترین شگفتی</h3>
-          <p class="footer-text">هدف ما ایجاد خریدی آسوده، شفاف و بدون تغییر ناگهانی قیمت در فاکتور نهایی است. کلیه محصولات سوپرمارکتی، لبنیات روز و تره‌بار مستقیماً از تأمین‌کنندگان معتبر آماده و در کمترین زمان ارسال می‌گردند.</p>
+          <p class="footer-text" id="shop-about">هدف ما ایجاد خریدی آسوده، شفاف و بدون تغییر ناگهانی قیمت در فاکتور نهایی است. کلیه محصولات سوپرمارکتی، لبنیات روز و تره‌بار مستقیماً از تأمین‌کنندگان معتبر آماده و در کمترین زمان ارسال می‌گردند.</p>
         </div>
 
         <div class="footer-col">
           <h3 class="footer-title">دسترسی و بخش‌ها</h3>
-          <ul class="footer-links">
+          <ul class="footer-links" id="footer-categories">
             <li><a href="#discounts">تخفیف‌های شگفت‌انگیز</a></li>
             <li><a href="#dairy">لبنیات و پروتئین</a></li>
             <li><a href="#fruits">میوه و سبزیجات روز</a></li>
@@ -448,20 +366,21 @@
         <div class="footer-col">
           <h3 class="footer-title">ارتباط و پشتیبانی</h3>
           <address class="footer-contact">
-            <p>📍 نشانی: تهران، خیابان ولیعصر، جنب پارک ملت</p>
-            <p>📞 پشتیبانی: <span dir="ltr">021 - 8877 6655</span></p>
+            <p>📍 نشانی: <span id="shop-address">تهران، خیابان ولیعصر، جنب پارک ملت</span></p>
+            <p>📞 پشتیبانی: <span id="shop-phone" dir="ltr">021 - 8877 6655</span></p>
             <p>✉️ ایمیل: info@least-surprise.local</p>
-            <p>⏰ ساعات کاری: همه‌روزه از ۸ صبح الی ۲۴</p>
+            <p>⏰ ساعات کاری: <span id="shop-schedule">همه‌روزه از ۸ صبح الی ۲۴</span></p>
           </address>
         </div>
       </div>
 
       <div class="footer-bottom">
-        <p>© ۱۴۰۵ کلیه حقوق برای سوپرمارکت آنلاین کمترین شگفتی محفوظ است.</p>
+        <p id="shop-copyright">© ۱۴۰۵ کلیه حقوق برای سوپرمارکت آنلاین کمترین شگفتی محفوظ است.</p>
         <a href="#main-content" class="back-to-top">↑ بازگشت به بالای صفحه</a>
       </div>
     </div>
   </footer>
+  <script src="app.js"></script>
 
 </body>
 </html>
