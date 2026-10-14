@@ -960,6 +960,25 @@ h1 {
       font: inherit;
       cursor: pointer;
     }
+
+    .card.sold-out article {
+      opacity: .55;
+     }
+    
+  .badge-sold {
+   align-self: flex-start;  padding: 2px 10px;
+   border-radius: 12px;
+   background: #666;
+  color: #fff;
+ font-size: .8rem;
+   }
+    
+  .card button:disabled {
+ background: #ddd;
+border-color: #bbb;
+color: #777;
+ cursor: not-allowed;
+   }
   
     @media(max-width:768px) {
       .card {

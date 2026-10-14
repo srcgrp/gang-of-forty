@@ -1,28 +1,24 @@
-   async function loadProducts() {
-    const res = await fetch('../../api/products.json')
-    if (!res.ok) {
-        throw new Error('HTTP ' + res.status)
-    }
-    return res.json()
-}
-
-loadProducts().then(data => console.log(data))
-
-
-const CATEGORY_ID = 2
 const container = document.getElementById('best-carousel')
+const BASE = '../../api/'
 
-async function loadProducts() {
-    const res = await fetch('../../api/products.json')
+async function loadJSON(name) {
+    const res = await fetch(BASE + name)
     if (!res.ok) {
-        throw new Error('HTTP ' + res.status)
+        throw new Error(name + ': HTTP ' + res.status)
     }
     return res.json()
 }
 
-function createCard(product) {
+function formatPrice(n) {
+    return new Intl.NumberFormat('fa-IR').format(n) + ' تومان'
+}
+
+function createCard(product, offer, stockCount) {
+    const soldOut = stockCount === 0
+
     const li = document.createElement('li')
     li.className = 'card'
+    if (soldOut) li.classList.add('sold-out')
 
     const article = document.createElement('article')
 
@@ -37,62 +33,78 @@ function createCard(product) {
     unit.textContent = product.unit
 
     const price = document.createElement('p')
-    const b = document.createElement('b')
-    b.textContent = new Intl.NumberFormat('fa-IR').format(product.price) + ' تومان'
-    price.appendChild(b)
+    if (offer) {
+        const newPrice = Math.round(product.price * (100 - offer.percent) / 100)
+        const old = document.createElement('s')
+        old.textContent = new Intl.NumberFormat('fa-IR').format(product.price)
+        const b = document.createElement('b')
+        b.textContent = ' ' + formatPrice(newPrice)
+        price.append(old, b)
+    } else {
+        const b = document.createElement('b')
+        b.textContent = formatPrice(product.price)
+        price.appendChild(b)
+    }
+
+    article.append(imgBox, name, unit, price)
+
+    if (offer) {
+        const off = document.createElement('span')
+        off.className = 'off'
+        off.textContent = new Intl.NumberFormat('fa-IR').format(offer.percent) + '٪ تخفیف'
+        article.appendChild(off)
+    }
+
+    if (soldOut) {
+        const tag = document.createElement('span')
+        tag.className = 'badge-sold'
+        tag.textContent = 'ناموجود'
+        article.appendChild(tag)
+    }
 
     const button = document.createElement('button')
     button.type = 'button'
     button.textContent = 'افزودن'
+    button.disabled = soldOut
+    article.appendChild(button)
 
-    article.append(imgBox, name, unit, price, button)
     li.appendChild(article)
     return li
 }
 
+function showMessage(text) {
+    container.textContent = ''
+    const li = document.createElement('li')
+    li.textContent = text
+    container.appendChild(li)
+}
+
 async function init() {
+    showMessage('در حال بارگذاری...')
+
     try {
-        const products = await loadProducts()
-        const items = products.filter(p => p.categoryId === CATEGORY_ID)
+        const [products, stock, offers] = await Promise.all([
+            loadJSON('products.json'),
+            loadJSON('stock.json'),
+            loadJSON('offers.json')
+        ])
+
+        const offerMap = new Map(offers.map(o => [o.productId, o]))
+        const items = products.filter(p => offerMap.has(p.id))
+
         container.textContent = ''
-        items.forEach(p => container.appendChild(createCard(p)))
+        items.forEach(p => {
+            container.appendChild(
+                createCard(p, offerMap.get(p.id), stock.items[p.id])
+            )
+        })
+
         container.firstElementChild.id = 'b1'
         container.lastElementChild.id = 'b6'
-
     } catch (err) {
-          console.error(err)
-        status.textContent = 'بارگذاری محصولات ممکن نشد. اتصال اینترنت را بررسی کنید و صفحه را دوباره باز کنید.'
-        container.textContent = ''
-        container.appendChild(status)
+        console.error(err)
+        showMessage('بارگذاری محصولات ممکن نشد. اتصال اینترنت را بررسی کنید و صفحه را دوباره باز کنید.')
     }
 }
 
 init()
-
-
-
-// const productsContainer = document.querySelector("#products");
-// const statusMessage = document.querySelector("#status");
-
-// async function loadProducts() {
-//   statusMessage.textContent = "در حال بارگذاری محصولات...";
-
-//   try {
-//     const response = await fetch("api/products.json");
-
-//     if (!response.ok) {
-//       throw new Error("خطا در دریافت اطلاعات");
-//     }
-
-//     const products = await response.json();
-
-//     statusMessage.textContent = "";
-//     productsContainer.textContent = JSON.stringify(products, null, 2);
-
-//   } catch (error) {
-//     statusMessage.textContent = "خطا در دریافت محصولات!";
-//     console.error(error);
-//   }
-// }
-
-// loadProducts();
