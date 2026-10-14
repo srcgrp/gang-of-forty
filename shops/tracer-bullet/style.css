@@ -864,14 +864,14 @@ button:disabled {
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
-    --color-bg: #2A1C60;
-    --color-surface: #4477bd;
-    --color-text: #FFFFFFS;
-    --color-accent: #EF8D50;
-    --color-soft: #B2CCEF;
+    --color-bg: #3d5d5a;
+    --color-surface: #074744;
+    --color-text: #FFFFFF;
+    --color-accent: #d83e0a;
+    --color-soft: #298090;
     --color-muted: #ACB8BE;
     --color-on-muted: #000000;
-    --on-dark: #000000;
+    --on-dark: #FFFFFF;
   }
 
   button,
