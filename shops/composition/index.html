@@ -1,29 +1,92 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت ترکیب به جای وراثت</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>🧩 سلام دنیا!</h1>
-  </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>ترکیب به جای وراثت</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p><bdi>Composition over Inheritance</bdi> از کتاب معروف <bdi>Design Patterns</bdi> (۱۹۹۴) می‌آید که چهار نویسنده‌اش به <bdi>Gang of Four</bdi> یا «دار و دسته چهارنفره» معروف‌اند. به جای اینکه کلاس‌ها را در درخت‌های عمیق وراثت از هم مشتق کنی، اشیای کوچک را کنار هم بگذار و ترکیبشان کن؛ مثل لگو.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
-    </section>
-  </main>
-  <footer>
-    <p dir="ltr">slug: <code>composition</code></p>
-  </footer>
-</body>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>بت‌شاپ | یه پرواز تا خرید روزانه</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+    <div id="notice" class="announcement"></div>
+    <header class="site-header">
+      <div class="header-top wrap">
+        <a class="brand" href="#top">
+          <svg
+            viewBox="0 0 120 80"
+            width="64"
+            height="44"
+            role="img"
+            aria-labelledby="bat-title"
+          >
+            <title id="bat-title">بت‌شاپ؛ بازگشت به بالای صفحه</title>
+            <polygon
+              points="60,34 42,22 8,12 16,42 32,39 40,57 52,51 60,70 68,51 80,57 88,39 104,42 112,12 78,22"
+              fill="currentColor"
+            ></polygon>
+            <ellipse
+              cx="60"
+              cy="39"
+              rx="14"
+              ry="20"
+              fill="currentColor"
+            ></ellipse>
+            <polygon
+              points="48,28 49,8 59,25 71,8 72,28"
+              fill="currentColor"
+            ></polygon>
+            <circle cx="55" cy="32" r="2" fill="#20221f"></circle>
+            <circle cx="65" cy="32" r="2" fill="#20221f"></circle>
+          </svg>
+          <span>
+            <strong>بت‌شاپ</strong>
+            <small id="slogan"></small>
+          </span>
+        </a>
+        <div class="search-box">
+          <label for="product-search">جست‌وجوی محصولات</label>
+          <input id="product-search" type="search" placeholder="دنبال چی می‌گردی؟">
+        </div>
+        <button class="cart-button" type="button" aria-label="سبد خرید، ۰ کالا">
+          <img src="icons/shopping-cart.svg" alt="" width="48" height="48">
+          <span>سبد خرید</span>
+          <b id="cart-count" aria-live="polite">۰</b>
+        </button>
+        <details class="mobile-menu">
+          <summary aria-label="باز و بسته کردن منوی اصلی">
+            <img src="icons/menu-2.svg" alt="" width="48" height="48">
+          </summary>
+          <nav id="mobile-links" aria-label="منوی موبایل"></nav>
+        </details>
+      </div>
+      <nav class="desktop-nav wrap" aria-label="منوی اصلی">
+        <div class="category-menu">
+          <button class="category-trigger" type="button">☰ همهٔ دسته‌ها</button>
+          <div id="category-links" class="category-links"></div>
+        </div>
+        <div id="main-links" class="main-links"></div>
+      </nav>
+    </header>
+    <main id="main" class="wrap" tabindex="-1">
+      <p id="page-status" class="products-status" role="status"></p>
+      <p id="cart-message" role="status"></p>
+      <div id="banners" class="banners"></div>
+      <section id="categories" aria-label="دسته‌بندی‌ها">
+        <div id="categories-heading" class="section-heading"></div>
+        <div id="category-tiles" class="categories"></div>
+      </section>
+      <div id="promos" class="promos"></div>
+      <div id="carousels"></div>
+      <div id="category-products"></div>
+    </main>
+    <footer id="contact">
+      <div class="wrap footer-grid">
+        <div id="shop-info"></div>
+        <nav id="footer-categories" aria-label="دسته‌بندی‌های پایین صفحه"></nav>
+        <div id="shop-hours"></div>
+      </div>
+      <div id="footer-bottom" class="wrap footer-bottom"></div>
+    </footer>
+    <script src="apicall.js"></script>
+  </body>
 </html>
