@@ -95,6 +95,7 @@ function showMessage(carousel, text) {
     carousel.replaceChildren();
     const li = document.createElement("li");
     li.textContent = text;
+    li.classList.add("message");
     carousel.append(li);
 }
 
@@ -213,6 +214,7 @@ function showBlockMessage(container, text) {
     container.replaceChildren();
     const p = document.createElement("p");
     p.textContent = text;
+    p.classList.add("message")
     container.append(p);
 }
 

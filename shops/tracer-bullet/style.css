@@ -7,11 +7,11 @@
 
 :root {
   /* colors, named by role */
-  --color-bg: #ECDEDE;
+  --color-bg: #C8DAF4;
   --color-surface: #FFFFFF;
-  --color-text: #792E4C;
-  --color-accent: #BB3168;
-  --color-soft: #F6B0D8;
+  --color-text: #2d1c6b;
+  --color-accent: #5737cc;
+  --color-soft: #FF8437;
 
   /* spacing and shape */
   --space-s: 0.5rem;
@@ -864,14 +864,14 @@ button:disabled {
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
-    --color-bg: #1F0E16;
-    --color-surface: #792E4C;
-    --color-text: #FEC3DB;
-    --color-accent: #FEC3DB;
-    --color-soft: #A3728E;
+    --color-bg: #2A1C60;
+    --color-surface: #4477bd;
+    --color-text: #FFFFFFS;
+    --color-accent: #EF8D50;
+    --color-soft: #B2CCEF;
     --color-muted: #ACB8BE;
-    --color-on-muted: #1F0E16;
-    --on-dark: #1F0E16;
+    --color-on-muted: #000000;
+    --on-dark: #000000;
   }
 
   button,
@@ -1007,4 +1007,13 @@ footer address a {
   aspect-ratio: 1 / 1;
   border-radius: calc(var(--radius) - var(--space-s));
   background: var(--color-soft);
+}
+
+/* error message */
+.message {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: var(--space-m);
+  background: var(--color-surface);
+  border-radius: var(--radius);
 }
