@@ -22,7 +22,7 @@
 
 
       <div class="top-bar">
-        <p>سلام، خوش آمدید</p>
+        <p id="notice"></p>
       </div>
       <input type="checkbox" id="menu-toggle" aria-label="باز و بسته کردن منو">
 
@@ -56,7 +56,7 @@
 
       <nav class="nav" aria-label="منوی اصلی">
         <ul class="menu" id="mi">
-           <li class="has-sub">
+           <!-- <li class="has-sub">
             <a href="#categories">دسته‌بندی محصولات</a>
             <ul class="submenu">
               <li><a href="#best-selling">مراقبت از پوست</a></li>
@@ -69,7 +69,13 @@
           </li>
           <li><a href="#best-selling">محصولات پرفروش</a></li>
           <li><a href="#new-products">محصولات جدید</a></li>
-          <li><a href="#footer">تماس با ما</a></li>  
+          <li><a href="#footer">تماس با ما</a></li>   -->
+          <ul class="menu" id="main-menu">
+            <li class="has-sub">
+              <a href="#categories">همه دسته‌ها</a>
+              <ul class="submenu" id="submenu"></ul>
+            </li>
+          </ul>
         </ul>
       </nav>
   </header>
@@ -260,6 +266,7 @@
     </footer>
 
 <script src="app.js" defer></script>
+<script src="layout.js"></script>
 </body>
 
 </html>
