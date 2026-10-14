@@ -1,18 +1,6 @@
 /* Amirhossein (Armin) Panahi */
 /* Week 2 - Strategic Supermarket - Live Supermarket (fetch + DOM) */
 
-/*
-  How this file is organised
-  1. Config & brand data
-  2. Small helpers (DOM, numbers, safe text)
-  3. Cart (localStorage)
-  4. Loading data (fetch + Promise.all + Promise.race)
-  5. Model (joins products / stock / offers / categories with Maps)
-  6. Rendering (header, hero, categories, carousels, catalog, footer)
-  7. Carousel behaviour, routing (URL + history) and events
-  8. Start-up
-*/
-
 
 // ----- Apply Strict Mode -----
 "use strict";
@@ -24,8 +12,8 @@ const API_FILES = ['products', 'categories', 'stock', 'offers', 'shop', 'home'];
 const SLOW_AFTER_MS = 3000;
 const HARD_TIMEOUT_MS = 30000;
 const CART_KEY = 'armin-market:cart';
-const OFFERS_VIEW = 'offers'; // ?cat=offers shows every discounted product
-const SHOW_REMAINING_CATEGORIES = true; // categories that home.json does not list still get their own shelf
+const OFFERS_VIEW = 'offers'; 
+const SHOW_REMAINING_CATEGORIES = true;
 
 const BRAND = {
   name: 'سوپرمارکت آرمین',
@@ -1523,7 +1511,7 @@ async function start() {
   }
 }
 
-renderFooterBrand(); // our own contact details need no API
-renderCartBadge();   // the cart comes from localStorage, so it shows at once
+renderFooterBrand();
+renderCartBadge();
 syncLocation();
 start();
