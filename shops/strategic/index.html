@@ -1,29 +1,568 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت برنامه‌نویسی راهبردی</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>🗺️ سلام دنیا!</h1>
-  </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>برنامه‌نویسی راهبردی</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p>اوسترهوت در <bdi>A Philosophy of Software Design</bdi> دو جور برنامه‌نویسی را مقایسه می‌کند: تاکتیکی یعنی فقط کار را زود راه بینداز، راهبردی یعنی کمی وقت (حدود ۱۰ تا ۲۰ درصد) هم برای طراحی خوب بگذار. شعارش این است: «کدی که کار می‌کند کافی نیست.» برنامه‌نویسی را که سریع ویژگی تحویل می‌دهد و پشت سرش خرابی جا می‌گذارد «گردباد تاکتیکی» می‌نامد.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
-    </section>
-  </main>
-  <footer>
-    <p dir="ltr">slug: <code>strategic</code></p>
-  </footer>
-</body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- ========== TITLE & DESCRIPTION  ========== -->
+    <title>سوپرمارکت آرمین</title>
+    <meta name="description" content="سوپرمارکت آرمین؛ میوه و سبزی تازه، لبنیات، نان داغ و پروتئین با قیمت منصفانه.">
+    <!-- ========== THEME COLORS ========== -->
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#1d7448" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0f1a14" media="(prefers-color-scheme: dark)">
+    <!-- ========== ICON LINKS ========== -->
+    <link rel="icon" href="./assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="./assets/icons/favicon-48.png" sizes="48x48" type="image/png">
+    <link rel="icon" href="./assets/icons/icon-192.png" sizes="192x192" type="image/png">
+    <link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png">
+    <!-- ========== STYLE LINKS ========== -->
+    <link rel="stylesheet" href="./src/styles/style.css">
+    <!-- ========== SCRIPT (all page content is built from the API in this file) ========== -->
+    <script src="./src/scripts/script.js" defer></script>
+  </head>
+  <body id="top">
+    <!-- ========== SVG ICONS ========== -->
+    <svg class="sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <symbol id="i-truck" viewBox="0 0 24 24">
+      <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2" />
+      <path d="M15 18H9" />
+      <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14" />
+      <circle cx="17" cy="18" r="2" />
+      <circle cx="7" cy="18" r="2" />
+      </symbol>
+      <symbol id="i-search" viewBox="0 0 24 24">
+      <path d="m21 21-4.34-4.34" />
+      <circle cx="11" cy="11" r="8" />
+      </symbol>
+      <symbol id="i-cart" viewBox="0 0 24 24">
+      <path d="m2.05 2.05 1.099-.028a1 1 0 0 1 1.008.815l2.69 14.347A1 1 0 0 0 7.83 18H18" />
+      <path d="M4.563 5h16.435a1 1 0 0 1 .981 1.204l-1.026 6.226A2 2 0 0 1 18.962 14H6.25" />
+      <circle cx="18" cy="20" r="2" />
+      <circle cx="8" cy="20" r="2" />
+      </symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24">
+      <path d="M4 5h16" />
+      <path d="M4 12h16" />
+      <path d="M4 19h16" />
+      </symbol>
+      <symbol id="i-pin" viewBox="0 0 24 24">
+      <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
+      <circle cx="12" cy="10" r="3" />
+      </symbol>
+      <symbol id="i-phone" viewBox="0 0 24 24">
+      <path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" />
+      </symbol>
+      <symbol id="i-smartphone" viewBox="0 0 24 24">
+      <rect width="14" height="20" x="5" y="2" rx="2" ry="2" />
+      <path d="M12 18h.01" />
+      </symbol>
+      <symbol id="i-mail" viewBox="0 0 24 24">
+      <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" />
+      <rect x="2" y="4" width="20" height="16" rx="2" />
+      </symbol>
+      <symbol id="i-instagram" viewBox="0 0 24 24">
+      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <path d="M17.5 6.5h.01" />
+      </symbol>
+      <symbol id="i-telegram" viewBox="0 0 24 24">
+      <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" />
+      <path d="m21.854 2.147-10.94 10.939" />
+      </symbol>
+      <symbol id="i-whatsapp" viewBox="0 0 24 24">
+      <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+      </symbol>
+      <symbol id="i-arrow-up" viewBox="0 0 24 24">
+      <path d="m5 12 7-7 7 7" />
+      <path d="M12 19V5" />
+      </symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24">
+      <path d="M5 12h14" />
+      <path d="m12 5 7 7-7 7" />
+      </symbol>
+      <symbol id="i-chevron-right" viewBox="0 0 24 24">
+      <path d="m9 18 6-6-6-6" />
+      </symbol>
+      <symbol id="i-alert" viewBox="0 0 24 24">
+      <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+      <path d="M12 9v4" />
+      <path d="M12 17h.01" />
+      </symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24">
+      <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
+      <path d="M21 3v5h-5" />
+      </symbol>
+      <symbol id="i-bag" viewBox="0 0 24 24">
+      <path d="M16 10a4 4 0 0 1-8 0" />
+      <path d="M3.103 6.034h17.794" />
+      <path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z" />
+      </symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24">
+      <path d="M5 12h14" />
+      <path d="M12 5v14" />
+      </symbol>
+      <symbol id="i-minus" viewBox="0 0 24 24">
+      <path d="M5 12h14" />
+      </symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24">
+      <path d="M3 6h18" />
+      <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+      <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+      <path d="M10 11v6" />
+      <path d="M14 11v6" />
+      </symbol>
+    </svg>
+
+    <!-- ========== skip link ========== -->
+
+    <a class="skip" href="#main">پرش به محتوای اصلی</a>
+
+    <!-- ========== NOTICE BAR (filled from shop.json) ========== -->
+
+    <section class="header-banner" id="notice" aria-label="اطلاعیه"></section>
+
+    <!-- ========== HEADER ========== -->
+
+    <header class="site-header">
+      <div class="bar">
+        <a class="logo" href="#top" aria-label="سوپرمارکت آرمین، بازگشت به بالای صفحه">
+                    <!-- SVG LOGO -->
+          <svg
+            width="512"
+            height="512"
+            viewBox="0 0 512 512"
+            xmlns="http://www.w3.org/2000/svg"
+            role="img"
+            aria-labelledby="logo-title logo-desc"
+          >
+          <title id="logo-title">Armin Supermarket Logo</title>
+          <desc id="logo-desc">
+              A glossy green shopping cart logo with a golden check mark.
+          </desc>
+
+          <defs>
+
+        <!-- =========================
+             GREEN GRADIENT
+        ========================== -->
+        <linearGradient id="green-gradient"
+            x1="0%"
+            y1="0%"
+            x2="100%"
+            y2="100%">
+            <stop offset="0%" stop-color="#9AF3BA"/>
+            <stop offset="45%" stop-color="#45C985"/>
+            <stop offset="100%" stop-color="#07965C"/>
+        </linearGradient>
+
+        <!-- =========================
+             GREEN HIGHLIGHT
+        ========================== -->
+        <linearGradient id="green-highlight"
+            x1="0%"
+            y1="0%"
+            x2="0%"
+            y2="100%">
+            <stop offset="0%" stop-color="#C5FFE0"/>
+            <stop offset="35%" stop-color="#68D99B"/>
+            <stop offset="100%" stop-color="#0B9D60"/>
+        </linearGradient>
+
+        <!-- =========================
+             GOLD GRADIENT
+        ========================== -->
+        <linearGradient id="gold-gradient"
+            x1="0%"
+            y1="0%"
+            x2="100%"
+            y2="100%">
+            <stop offset="0%" stop-color="#FFE58A"/>
+            <stop offset="35%" stop-color="#FFC83D"/>
+            <stop offset="70%" stop-color="#F6A900"/>
+            <stop offset="100%" stop-color="#D88A00"/>
+        </linearGradient>
+
+        <!-- =========================
+             WHITE GRADIENT
+        ========================== -->
+        <linearGradient id="white-gradient"
+            x1="0%"
+            y1="0%"
+            x2="100%"
+            y2="100%">
+            <stop offset="0%" stop-color="#FFFFFF"/>
+            <stop offset="55%" stop-color="#F5F7F2"/>
+            <stop offset="100%" stop-color="#DDE4DB"/>
+        </linearGradient>
+
+        <!-- =========================
+             CART SHADOW
+        ========================== -->
+        <filter id="shadow"
+            x="-30%"
+            y="-30%"
+            width="160%"
+            height="160%">
+
+            <feDropShadow
+                dx="0"
+                dy="7"
+                stdDeviation="7"
+                flood-color="#000000"
+                flood-opacity="0.28"/>
+        </filter>
+
+        <!-- =========================
+             SOFT SHADOW
+        ========================== -->
+        <filter id="soft-shadow"
+            x="-30%"
+            y="-30%"
+            width="160%"
+            height="160%">
+
+            <feDropShadow
+                dx="0"
+                dy="4"
+                stdDeviation="5"
+                flood-color="#000000"
+                flood-opacity="0.22"/>
+        </filter>
+
+          </defs>
+
+
+    <!-- ==================================================
+         GREEN A — MAIN UPPER SHAPE
+    =================================================== -->
+
+    <path
+        d="
+            M 215 251
+            L 276 117
+            Q 281 108 291 108
+            L 326 108
+            Q 336 108 341 118
+            L 364 169
+            L 322 182
+            L 306 150
+            L 277 204
+            Z
+        "
+        fill="url(#green-gradient)"
+        filter="url(#shadow)"
+    />
+
+    <!-- Highlight on green A -->
+    <path
+        d="
+            M 218 246
+            L 278 119
+            Q 282 111 291 111
+            L 319 111
+            Q 304 114 299 124
+            L 252 223
+            Z
+        "
+        fill="#B7F9CF"
+        opacity="0.28"
+    />
+
+
+    <!-- ==================================================
+         GREEN B — LOWER RIGHT SHAPE
+    =================================================== -->
+
+    <path
+        d="
+            M 337 217
+            L 366 200
+            L 401 273
+            Q 404 280 397 283
+            L 371 283
+            Q 364 283 361 277
+            Z
+        "
+        fill="url(#green-gradient)"
+        filter="url(#shadow)"
+    />
+
+    <!-- Green highlight -->
+    <path
+        d="
+            M 340 219
+            L 363 205
+            L 393 272
+            L 375 276
+            Z
+        "
+        fill="#A4F2C3"
+        opacity="0.22"
+    />
+
+
+    <!-- ==================================================
+         GOLD CHECK / SPEED CURVE
+    =================================================== -->
+
+    <path
+        d="
+            M 208 277
+            C 250 231 304 205 366 182
+            C 393 172 422 166 451 166
+            C 422 177 390 191 357 207
+            C 303 233 256 258 222 291
+            Z
+        "
+        fill="url(#gold-gradient)"
+        filter="url(#soft-shadow)"
+    />
+
+    <!-- Golden highlight -->
+    <path
+        d="
+            M 215 273
+            C 260 232 311 209 365 190
+            C 391 181 416 174 437 170
+            C 399 181 365 194 333 209
+            C 283 232 244 253 215 279
+            Z
+        "
+        fill="#FFF1A8"
+        opacity="0.35"
+    />
+
+
+    <!-- ==================================================
+         SHOPPING CART
+    =================================================== -->
+
+    <!-- Cart handle + body -->
+    <path
+        d="
+            M 48 108
+            H 116
+            Q 130 108 135 122
+            L 176 260
+            Q 181 277 199 277
+            H 395
+            Q 407 277 412 265
+            L 445 181
+        "
+        fill="none"
+        stroke="url(#white-gradient)"
+        stroke-width="27"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        filter="url(#shadow)"
+    />
+
+    <!-- Cart upper glossy highlight -->
+    <path
+        d="
+            M 49 103
+            H 115
+            Q 131 103 137 120
+            L 177 258
+        "
+        fill="none"
+        stroke="#FFFFFF"
+        stroke-width="5"
+        stroke-linecap="round"
+        opacity="0.4"
+    />
+
+
+    <!-- ==================================================
+         CART BASE
+    =================================================== -->
+
+    <path
+        d="
+            M 188 336
+            H 397
+        "
+        fill="none"
+        stroke="url(#white-gradient)"
+        stroke-width="27"
+        stroke-linecap="round"
+        filter="url(#shadow)"
+    />
+
+    <!-- Base highlight -->
+    <path
+        d="
+            M 190 331
+            H 397
+        "
+        fill="none"
+        stroke="#FFFFFF"
+        stroke-width="5"
+        stroke-linecap="round"
+        opacity="0.35"
+    />
+
+
+    <!-- ==================================================
+         LEFT SPEED LINES
+    =================================================== -->
+
+    <rect
+        x="70"
+        y="187"
+        width="66"
+        height="21"
+        rx="10.5"
+        fill="url(#green-gradient)"
+        filter="url(#soft-shadow)"
+    />
+
+    <rect
+        x="41"
+        y="225"
+        width="112"
+        height="21"
+        rx="10.5"
+        fill="url(#green-gradient)"
+        filter="url(#soft-shadow)"
+    />
+
+    <rect
+        x="76"
+        y="263"
+        width="91"
+        height="21"
+        rx="10.5"
+        fill="url(#green-gradient)"
+        filter="url(#soft-shadow)"
+    />
+
+
+    <!-- ==================================================
+         WHEELS
+    =================================================== -->
+
+    <circle
+        cx="225"
+        cy="390"
+        r="29"
+        fill="url(#gold-gradient)"
+        filter="url(#shadow)"
+    />
+
+    <circle
+        cx="377"
+        cy="390"
+        r="29"
+        fill="url(#gold-gradient)"
+        filter="url(#shadow)"
+    />
+
+    <!-- Wheel highlights -->
+
+    <circle
+        cx="217"
+        cy="382"
+        r="8"
+        fill="#FFF0A7"
+        opacity="0.55"
+    />
+
+    <circle
+        cx="369"
+        cy="382"
+        r="8"
+        fill="#FFF0A7"
+        opacity="0.55"
+    />
+
+          </svg>
+          <span>
+            <b>سوپرمارکت آرمین</b><small>همه‌چیز برای یک خرید خوب</small>
+          </span>
+        </a>
+
+        <div class="search" role="search">
+          <label class="sr-only" for="q">جستجوی کالا</label>
+          <span class="search-ico" aria-hidden="true"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-search" /></svg></span>
+          <input
+            id="q"
+            type="search"
+            placeholder="جستجو در میان کالاها…"
+            autocomplete="off">
+        </div>
+
+        <!-- ========== CART: button + hover summary (filled by script.js) ========== -->
+        <div class="cart-wrap" id="cart-wrap">
+          <button class="cart" id="cart-btn" type="button" aria-label="سبد خرید، ۰ کالا" aria-expanded="false" aria-controls="cart-panel">
+            <span aria-hidden="true">
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-cart" /></svg>
+              <span class="cart-txt">سبد خرید</span>
+            </span>
+            <b id="cart-count" aria-hidden="true">۰</b>
+          </button>
+          <section class="cart-panel" id="cart-panel" aria-label="خلاصه سبد خرید" tabindex="-1"></section>
+        </div>
+
+        <input
+          class="sr-only menu-toggle"
+          type="checkbox"
+          id="menu-toggle"
+          aria-controls="primary-nav">
+        <label class="burger" for="menu-toggle"
+          ><span class="sr-only">باز و بسته کردن منوی اصلی</span
+          ><span class="bars"></span
+        ></label>
+        <label class="scrim" for="menu-toggle" aria-hidden="true"></label>
+
+        <!-- ========== MAIN MENU (built from categories.json + shop.json) ========== -->
+        <nav class="main-nav" id="primary-nav" aria-label="منوی اصلی">
+          <ul id="nav-list"></ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- ========== MAIN (hero, categories, carousels: built from the API) ========== -->
+
+    <main id="main" class="wrap" tabindex="-1" aria-busy="true">
+      <noscript>
+        <p class="state state--error">برای نمایش محصولات، جاوااسکریپت مرورگر باید فعال باشد.</p>
+      </noscript>
+    </main>
+
+    <!-- ========== FOOTER ========== -->
+
+    <footer class="site-footer" id="contact">
+      <div class="wrap">
+        <div class="foot-grid">
+          <div>
+            <h2>سوپرمارکت آرمین</h2>
+            <p id="foot-about"></p>
+            <address id="foot-contact"></address>
+            <h3 class="foot-social__title" id="foot-social-t">ما را دنبال کنید</h3>
+            <ul class="foot-social" id="foot-social" aria-labelledby="foot-social-t"></ul>
+          </div>
+          <nav aria-label="دسته‌ها در پاورقی">
+            <h2>دسته‌ها</h2>
+            <ul id="foot-cats"></ul>
+          </nav>
+          <div>
+            <h2>راهنما</h2>
+            <ul id="foot-help"></ul>
+          </div>
+          <div>
+            <h2>ساعت کاری</h2>
+            <ul id="foot-hours"></ul>
+          </div>
+        </div>
+        <div class="foot-bar">
+          <p id="foot-copy"></p>
+          <a href="#top"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-up" /></svg> بازگشت به بالا</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ========== LIVE REGION (screen-reader announcements) ========== -->
+    <div class="sr-only" id="live" role="status"></div>
+  </body>
 </html>

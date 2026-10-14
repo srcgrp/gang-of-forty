@@ -1,0 +1,1517 @@
+/* Amirhossein (Armin) Panahi */
+/* Week 2 - Strategic Supermarket - Live Supermarket (fetch + DOM) */
+
+
+// ----- Apply Strict Mode -----
+"use strict";
+
+
+// ----- Config -----
+const API_BASE = '../../api/';
+const API_FILES = ['products', 'categories', 'stock', 'offers', 'shop', 'home'];
+const SLOW_AFTER_MS = 3000;
+const HARD_TIMEOUT_MS = 30000;
+const CART_KEY = 'armin-market:cart';
+const OFFERS_VIEW = 'offers'; 
+const SHOW_REMAINING_CATEGORIES = true;
+
+const BRAND = {
+  name: 'سوپرمارکت آرمین',
+  address: 'تهران، میدان ونک، پلاک 10',
+  phones: [
+    { label: 'تلفن ثابت', text: '۰۲۱-۱۲۳۴۵۶۷۸', tel: '+982112345678', icon: 'phone' },
+    { label: 'پشتیبانی موبایل', text: '۰۹۱۲-۱۲۳-۴۵۶۷', tel: '+989121234567', icon: 'smartphone' },
+  ],
+  email: 'info@arminmarket.ir',
+  social: [
+    { label: 'اینستاگرام', href: 'https://instagram.com/arminmarket', icon: 'instagram' },
+    { label: 'تلگرام', href: 'https://t.me/arminmarket', icon: 'telegram' },
+    { label: 'واتس‌اپ', href: 'https://wa.me/989121234567', icon: 'whatsapp' },
+  ],
+  copyright: '© ۱۴۰۵ تمامی حقوق برای سوپرمارکت آرمین محفوظ است.',
+};
+
+
+// ----- Artwork (no emoji anywhere: every emoji from the API is replaced by an image) -----
+const IMG = './assets/images/';
+
+const HERO_ART = [
+  ['broccoli', 'کلم بروکلی', 560, 559],
+  ['carrot', 'هویج', 357, 560],
+  ['pepper', 'فلفل دلمه‌ای', 502, 560],
+  ['tomato', 'گوجه‌فرنگی', 541, 560],
+  ['orange', 'پرتقال تامسون', 560, 466],
+  ['strawberry', 'توت‌فرنگی', 518, 560],
+];
+
+// Product name -> image. The first match wins; `null` means "no image on purpose".
+// (names are normalised first: the half-space becomes a normal space)
+const PRODUCT_ART = [
+  [null, /سیب ?زمینی/],
+  ['strawberry', /چیپس ?توت/],
+  ['plain-chips', /چیپس|لواشک/],
+  ['popcorn', /پاپ ?کورن/],
+  ['butter-biscuit', /بیسکویت|کلوچه/],
+  ['croissant', /کروسان/],
+  ['chocolate-donut', /دونات/],
+  ['vanilla-cupcake', /کاپ ?کیک|کیک/],
+  ['dark-chocolate', /شکلات/],
+  ['fruit-candy', /آب ?نبات|پاستیل/],
+  ['salted-peanuts', /بادام ?زمینی|آجیل/],
+  ['orange-juice', /آب ?میوه|آب ?پرتقال/],
+  ['mineral-water', /آب ?معدنی/],
+  ['cola', /نوشابه|کولا/],
+  ['sour-cherry-syrup', /شربت|آلبالو/],
+  ['black-tea', /چای/],
+  ['instant-coffee', /قهوه|نسکافه/],
+  ['vanilla-ice-cream', /بستنی/],
+  ['yogurt-drink', /دوغ/],
+  ['low-fat-milk', /(^| )شیر( |$)/],
+  ['butter', /(^| )کره( |$)/],
+  ['cheese', /پنیر/],
+  ['yogurt', /ماست/],
+  ['eggs', /تخم/],
+  ['chicken-thigh', /ران ?مرغ/],
+  ['chicken-breast', /سینه|فیله|مرغ/],
+  ['veal-striploin', /راسته|گوساله|گوسفند/],
+  ['ground-meat', /چرخ ?کرده/],
+  ['fish-tuna', /تن ماهی|کنسرو ?تن|کنسرو/],
+  ['shrimp', /میگو/],
+  ['trout', /ماهی|قزل/],
+  ['sausage', /سوسیس|کالباس/],
+  ['lavash-bread', /لواش/],
+  ['gandomin-bread', /گندمین|سنگک|بربری|تافتون/],
+  ['whole-grain-toast', /نان ?تست|تست|سبوس|باگت/],
+  ['rice', /برنج/],
+  ['macaroni', /ماکارونی|پاستا|اسپاگتی/],
+  ['lentil', /عدس/],
+  ['sunflower-oil', /روغن/],
+  ['saffron', /زعفران/],
+  ['honey', /عسل/],
+  ['Gaz', /(^| )گز( |$)/],
+  ['grapes', /انگور/],
+  ['watermelon', /هندوانه/],
+  ['banana', /موز/],
+  ['red-apple', /سیب/],
+  ['carrot', /هویج/],
+  ['orange', /پرتقال|پرتغال|نارنگی/],
+  ['tomato', /گوجه/],
+  ['cucumber', /خیار/],
+];
+
+// Category -> icon image (matched on the slug first, then on the Persian name)
+const CATEGORY_ART = [
+  ['produce', /fruit|produce|vegetable/i, /میوه|سبزی/],
+  ['dairy', /dairy/i, /لبنیات/],
+  ['bakery', /bakery|bread/i, /نان|شیرینی/],
+  ['grocery', /pantry|grocery/i, /خواربار/],
+  ['drinks', /drink|beverage/i, /نوشیدنی/],
+  ['protein', /protein|meat/i, /پروتئین|گوشت/],
+  ['snacks', /snack/i, /تنقلات/],
+];
+
+// Banner text -> image: [file, test, width, height]
+const BANNER_ART = [
+  ['hero/breakfast-basket.webp', /صبحانه/, 1536, 1024],
+  ['hero/hot-bread.webp', /نان|شیرینی/, 1536, 1024],
+  ['hero/dairy.webp', /لبنیات|شیر|پنیر|ماست/, 560, 348],
+];
+const FALLBACK_BANNER = ['hero/offer.webp', null, 1536, 1024];
+
+
+// ----- Small helpers -----
+const $ = (selector, root = document) => root.querySelector(selector);
+
+const SVG_NS = 'http://www.w3.org/2000/svg';
+
+const numberFa = new Intl.NumberFormat('fa-IR');
+const formatNumber = (value) => numberFa.format(value);
+const formatPrice = (value) => `${numberFa.format(value)} تومان`;
+
+const toFaDigits = (text) => String(text).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d]);
+
+// Build an element. Text is ALWAYS set as plain text (textContent / text nodes), never parsed as HTML.
+function el(tag, props = {}, children = []) {
+  const node = document.createElement(tag);
+  for (const [key, value] of Object.entries(props)) {
+    if (value === undefined || value === null || value === false) continue;
+    if (key === 'class') node.className = value;
+    else if (key === 'text') node.textContent = value;
+    else node.setAttribute(key, value === true ? '' : value);
+  }
+  node.append(...[].concat(children).filter((child) => child !== null && child !== undefined && child !== false));
+  return node;
+}
+
+function icon(name, extraClass = '') {
+  const svg = document.createElementNS(SVG_NS, 'svg');
+  svg.setAttribute('class', `icon ${extraClass}`.trim());
+  svg.setAttribute('aria-hidden', 'true');
+  svg.setAttribute('focusable', 'false');
+  const use = document.createElementNS(SVG_NS, 'use');
+  use.setAttribute('href', `#i-${name}`);
+  svg.append(use);
+  return svg;
+}
+
+// Image element with the real intrinsic size (prevents layout shift)
+function image(src, { alt = '', width, height, className, lazy = true, priority = false } = {}) {
+  return el('img', {
+    class: className,
+    src,
+    alt,
+    width,
+    height,
+    loading: lazy && !priority ? 'lazy' : null,
+    fetchpriority: priority ? 'high' : null,
+    decoding: 'async',
+  });
+}
+
+// Persian text from the API may carry emoji; the shop never shows emoji
+const stripEmoji = (text) =>
+  String(text ?? '').replace(/[\p{Extended_Pictographic}\uFE0F\u200D]/gu, '').replace(/\s+/g, ' ').trim();
+
+// Half-space -> space, so the regular expressions above stay simple
+const normalise = (text) => String(text ?? '').replace(/[\u200c\u200f]/g, ' ').replace(/\s+/g, ' ').trim();
+
+// Only http(s), mailto, tel and in-page / relative links are allowed from data
+function safeHref(href) {
+  try {
+    const url = new URL(href, location.href);
+    const allowed = [location.protocol, 'http:', 'https:', 'mailto:', 'tel:'];
+    return allowed.includes(url.protocol) ? href : '#';
+  } catch {
+    return '#';
+  }
+}
+
+const safeColor = (value) => (/^#[0-9a-f]{3,8}$/i.test(String(value)) ? value : null);
+
+const liveRegion = $('#live');
+let liveTimer = 0;
+function announce(message) {
+  clearTimeout(liveTimer);
+  liveRegion.textContent = '';
+  liveTimer = setTimeout(() => { liveRegion.textContent = message; }, 60);
+}
+
+
+// ----- Cart (kept in localStorage: { productId: quantity }) -----
+function loadCart() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(CART_KEY));
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {};
+    const clean = {};
+    for (const [id, quantity] of Object.entries(parsed)) {
+      if (Number.isInteger(quantity) && quantity > 0) clean[id] = quantity;
+    }
+    return clean;
+  } catch {
+    return {}; // empty, blocked or corrupted storage: start with an empty cart
+  }
+}
+
+function saveCart() {
+  try {
+    localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  } catch {
+    /* storage is full or blocked: the cart still works until the page closes */
+  }
+}
+
+let cart = loadCart();
+
+const cartCount = () => Object.values(cart).reduce((sum, quantity) => sum + quantity, 0);
+
+function renderCartBadge(bump = false) {
+  const count = cartCount();
+  const badge = $('#cart-count');
+  badge.textContent = formatNumber(count);
+  $('#cart-btn').setAttribute('aria-label', `سبد خرید، ${formatNumber(count)} کالا`);
+  if (bump) {
+    badge.classList.remove('is-bump');
+    void badge.offsetWidth; // restart the CSS animation
+    badge.classList.add('is-bump');
+  }
+}
+
+const qtyOf = (id) => cart[id] || 0;
+
+// The only place where the cart changes: + / - / trash all end up here
+function setQty(id, wanted) {
+  const product = model && model.productById.get(id);
+  if (!product) return;
+  const limit = model.stockOf(id);
+  const before = qtyOf(id);
+  const after = Math.max(0, Math.min(wanted, limit));
+
+  if (after === before) {
+    if (wanted > limit) announce(`موجودی ${product.name} بیشتر از این نیست؛ همه‌ی موجودی در سبد شما است.`);
+    return;
+  }
+  if (after === 0) delete cart[id];
+  else cart[id] = after;
+
+  saveCart();
+  renderCartBadge(after > before);
+  syncControls(id);
+  refreshMiniCart();
+  announce(after === 0
+    ? `${product.name} از سبد خرید حذف شد.`
+    : `تعداد ${product.name} در سبد: ${formatNumber(after)}. کل کالاهای سبد: ${formatNumber(cartCount())}`);
+}
+
+// ----- The capsule:  [ trash | 1 | + ]  (trash at 1, minus above 1) -----
+function stepper(product) {
+  return el('div', { class: 'stepper', role: 'group', 'aria-label': `تعداد ${product.name} در سبد خرید`, 'data-id': product.id }, [
+    // RTL: the first child is on the right, so "+" sits on the right and the trash on the left
+    el('button', { class: 'stepper__btn', type: 'button', 'data-step': 'inc', 'aria-label': `افزودن یک عدد ${product.name}` }, [icon('plus')]),
+    el('span', { class: 'stepper__qty' }),
+    el('button', { class: 'stepper__btn', type: 'button', 'data-step': 'dec' }, [icon('minus')]),
+  ]);
+}
+
+function updateStepper(box, product, quantity) {
+  const dec = $('[data-step="dec"]', box);
+  const inc = $('[data-step="inc"]', box);
+  const trash = quantity === 1;
+  $('.stepper__qty', box).textContent = formatNumber(quantity);
+  dec.setAttribute('aria-label', trash ? `حذف ${product.name} از سبد خرید` : `کم کردن یک عدد ${product.name}`);
+  dec.classList.toggle('is-trash', trash);
+  $('use', dec).setAttribute('href', trash ? '#i-trash' : '#i-minus');
+  if (quantity >= model.stockOf(product.id)) inc.setAttribute('aria-disabled', 'true');
+  else inc.removeAttribute('aria-disabled');
+}
+
+// A card's control: the round "+" while the product is not in the cart, the capsule once it is
+function buyControl(product, soldOut) {
+  return el('div', { class: 'buy__control', 'data-id': product.id }, [
+    el('button', {
+      class: 'add',
+      type: 'button',
+      'data-id': product.id,
+      'aria-label': soldOut ? `${product.name} ناموجود است` : `افزودن ${product.name} به سبد خرید`,
+      disabled: soldOut,
+      text: '+',
+    }),
+    stepper(product),
+  ]);
+}
+
+function updateSlot(slot) {
+  const id = Number(slot.dataset.id);
+  const product = model.productById.get(id);
+  if (!product) return;
+  const quantity = qtyOf(id);
+  const add = $('.add', slot);
+  const box = $('.stepper', slot);
+
+  const active = document.activeElement;
+  const hadFocus = slot.contains(active);
+  const pressed = hadFocus && active.dataset ? active.dataset.step : '';
+
+  add.hidden = quantity > 0;
+  box.hidden = quantity === 0;
+  if (quantity > 0) updateStepper(box, product, quantity);
+
+  if (hadFocus) { // the focused button may have just been hidden: keep the keyboard where it was
+    const next = quantity === 0 ? add : $(pressed === 'dec' ? '[data-step="dec"]' : '[data-step="inc"]', box);
+    next.focus({ preventScroll: true });
+  }
+}
+
+const syncControls = (id) => document.querySelectorAll(`.buy__control[data-id="${id}"]`).forEach(updateSlot);
+const syncAllControls = () => document.querySelectorAll('.buy__control').forEach(updateSlot);
+
+// Products that disappeared (or ran out) since the last visit must not stay in the cart
+function reconcileCart() {
+  let changed = false;
+  for (const id of Object.keys(cart)) {
+    const limit = model.productById.has(Number(id)) ? model.stockOf(Number(id)) : 0;
+    if (limit <= 0) { delete cart[id]; changed = true; }
+    else if (cart[id] > limit) { cart[id] = limit; changed = true; }
+  }
+  if (changed) saveCart();
+  renderCartBadge();
+}
+
+
+// ----- Loading data -----
+class ApiError extends Error {
+  constructor(kind, file, status) {
+    super(`${kind}: ${file}${status ? ` (${status})` : ''}`);
+    this.kind = kind; // network | http | parse | timeout | shape
+    this.file = file;
+    this.status = status;
+  }
+}
+
+// fetch() only rejects when the network fails. A 404 is a *successful* fetch,
+// so the status is checked with res.ok. A broken file fails later, in res.json().
+async function fetchJson(file, signal) {
+  let res;
+  try {
+    res = await fetch(`${API_BASE}${file}.json`, { signal });
+  } catch {
+    throw new ApiError(signal.aborted ? 'timeout' : 'network', `${file}.json`);
+  }
+  if (!res.ok) throw new ApiError('http', `${file}.json`, res.status);
+  try {
+    return await res.json();
+  } catch {
+    throw new ApiError('parse', `${file}.json`);
+  }
+}
+
+// All six files are requested at the same time with ONE Promise.all
+async function loadData() {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), HARD_TIMEOUT_MS);
+  try {
+    const results = await Promise.all(API_FILES.map((file) => fetchJson(file, controller.signal)));
+    return Object.fromEntries(API_FILES.map((file, index) => [file, results[index]]));
+  } catch (error) {
+    controller.abort(); // stop the requests that are still running
+    throw error;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+// Promise.race: if the answer takes longer than SLOW_AFTER_MS, tell the visitor, then keep waiting
+const SLOW = Symbol('slow');
+async function loadWithSlowNotice(onSlow) {
+  const request = loadData();
+  let timerId;
+  const slow = new Promise((resolve) => { timerId = setTimeout(resolve, SLOW_AFTER_MS, SLOW); });
+  try {
+    const first = await Promise.race([request, slow]);
+    if (first === SLOW) {
+      onSlow();
+      return await request;
+    }
+    return first;
+  } finally {
+    clearTimeout(timerId);
+  }
+}
+
+// A file can be valid JSON and still have the wrong shape
+function assertShape(raw) {
+  const ok =
+    Array.isArray(raw.products) &&
+    Array.isArray(raw.categories) &&
+    Array.isArray(raw.offers) &&
+    raw.stock && typeof raw.stock.items === 'object' &&
+    raw.shop && typeof raw.shop === 'object' &&
+    raw.home && typeof raw.home === 'object';
+  if (!ok) throw new ApiError('shape', 'api');
+}
+
+
+// ----- Search: what the visitor can type, and how a product matches -----
+// Persian/Arabic letter variants, diacritics, the half-space and digit styles are all made equal
+const searchKey = (value) =>
+  String(value ?? '')
+    .replace(/[يى]/g, 'ی')
+    .replace(/ك/g, 'ک')
+    .replace(/ة/g, 'ه')
+    .replace(/[\u200c\u200d\u200e\u200f]/g, ' ')
+    .replace(/[\u064b-\u065f\u0670]/g, '')
+    .replace(/[۰-۹]/g, (digit) => '۰۱۲۳۴۵۶۷۸۹'.indexOf(digit))
+    .replace(/[٠-٩]/g, (digit) => '٠١٢٣٤٥٦٧٨٩'.indexOf(digit))
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+
+// A product matches when EVERY word of the query is found in its name, unit or tags.
+// The category name only counts as a whole word, so «شیر» does not pull in all of «نان و شیرینی».
+// Products whose name contains all the words come first (the sort is stable).
+function searchProducts(m, query) {
+  const terms = searchKey(query).split(' ').filter(Boolean);
+  if (!terms.length) return [];
+  const matches = m.searchIndex.filter((entry) =>
+    terms.every((term) => entry.text.includes(term) || entry.categoryWords.includes(term)));
+  const inName = (entry) => terms.every((term) => entry.name.includes(term));
+  return matches
+    .sort((first, second) => Number(inName(second)) - Number(inName(first)))
+    .map((entry) => describe(entry.product));
+}
+
+
+// ----- Model: join the files by id with Maps -----
+let model = null;
+
+function buildModel(raw) {
+  assertShape(raw);
+  const products = raw.products;
+  const categories = raw.categories;
+  const offerByProductId = new Map(raw.offers.map((offer) => [offer.productId, offer]));
+
+  const stockOf = (id) => {
+    const value = Number(raw.stock.items[id]);
+    return Number.isFinite(value) && value > 0 ? value : 0;
+  };
+
+  const categoryName = new Map(categories.map((category) => [category.id, category.name]));
+  const searchIndex = products.map((product) => ({
+    product,
+    name: searchKey(product.name),
+    text: searchKey([product.name, product.unit, ...(product.tags || [])].join(' ')),
+    categoryWords: searchKey(categoryName.get(product.categoryId)).split(' '),
+  }));
+
+  return {
+    searchIndex,
+    products,
+    categories,
+    shop: raw.shop,
+    home: raw.home,
+    offers: raw.offers,
+    productById: new Map(products.map((product) => [product.id, product])),
+    categoryById: new Map(categories.map((category) => [category.id, category])),
+    categoryBySlug: new Map(categories.map((category) => [category.slug, category])),
+    offerByProductId,
+    stockOf,
+  };
+}
+
+function productArt(product) {
+  const name = normalise(product.name);
+  const row = PRODUCT_ART.find(([, test]) => test.test(name));
+  return row ? row[0] : null;
+}
+
+const categoryArt = (category) =>
+  CATEGORY_ART.find(([, slugTest, nameTest]) => slugTest.test(category.slug) || nameTest.test(normalise(category.name)))?.[0] ?? null;
+
+// Discounted prices are rounded to the nearest 1,000 Toman (like the sample page)
+function salePrice(price, percent) {
+  return Math.min(price, Math.round((price * (100 - percent)) / 100 / 1000) * 1000);
+}
+
+// Everything a product card needs, joined from the four files
+function describe(product) {
+  const offer = model.offerByProductId.get(product.id);
+  const validOffer = offer && offer.percent > 0 && offer.percent < 100 ? offer : null;
+  return {
+    product,
+    art: productArt(product),
+    stock: model.stockOf(product.id),
+    soldOut: model.stockOf(product.id) === 0,
+    percent: validOffer ? validOffer.percent : 0,
+    oldPrice: validOffer ? product.price : 0,
+    price: validOffer ? salePrice(product.price, validOffer.percent) : product.price,
+  };
+}
+
+const offerItems = () =>
+  model.offers.map((offer) => model.productById.get(offer.productId)).filter(Boolean).map(describe);
+
+const categoryItems = (categoryId) =>
+  model.products.filter((product) => product.categoryId === categoryId).map(describe);
+
+
+// ----- Rendering: shared pieces -----
+const main = $('#main');
+
+const catalogHref = (slug) => `?cat=${encodeURIComponent(slug)}`;
+
+function placeholderPic() {
+  return el('span', { class: 'pic__empty' }, [icon('bag')]);
+}
+
+// One product card: <li class="card"><article class="card__body"> ... </article></li>
+function productCard(item) {
+  const { product, art, soldOut, percent, oldPrice, price } = item;
+
+  let badge = null;
+  if (soldOut) {
+    badge = el('span', { class: 'badge badge--out', text: 'ناموجود' });
+  } else if (percent) {
+    badge = el('span', { class: 'badge' }, [`${formatNumber(percent)}٪`, el('span', { class: 'sr-only', text: ' تخفیف' })]);
+  }
+
+  const picture = el('div', { class: 'pic' }, [
+    art ? image(`${IMG}products/${art}.webp`, { width: 600, height: 600 }) : placeholderPic(),
+    badge,
+  ]);
+
+  const priceBox = el('p', { class: 'price' }, percent
+    ? [
+        el('del', {}, [el('span', { class: 'sr-only', text: 'قیمت قبلی: ' }), formatNumber(oldPrice)]),
+        el('strong', { text: formatPrice(price) }),
+      ]
+    : [el('strong', { text: formatPrice(price) })]);
+
+  return el('li', { class: soldOut ? 'card card--out' : 'card' }, [
+    el('article', { class: 'card__body' }, [
+      picture,
+      el('h3', { text: product.name }),
+      el('p', { class: 'unit', text: product.unit }),
+      el('div', { class: 'buy' }, [priceBox, buyControl(product, soldOut)]),
+    ]),
+  ]);
+}
+
+// The last card of a carousel: "مشاهده همه" (opens ?cat=<slug>)
+function seeAllCard(slug, title) {
+  return el('li', { class: 'card card--all' }, [
+    el('a', { class: 'offer-all', href: catalogHref(slug), 'data-route': true }, [
+      el('span', { class: 'offer-all__circle' }, [icon('arrow-right', 'icon--mirror')]),
+      el('span', { class: 'offer-all__text' }, ['مشاهده همه', el('span', { class: 'sr-only', text: ` ${title}` })]),
+    ]),
+  ]);
+}
+
+function arrowButton(direction, label, extraClass) {
+  return el('button', { class: `${extraClass} ${direction < 0 ? 'arr--start' : 'arr--end'}`, type: 'button', 'data-dir': direction, 'aria-label': label },
+    [icon('arrow-right')]);
+}
+
+
+// ----- Rendering: header -----
+function renderNotice(shop) {
+  const text = stripEmoji(shop.notice);
+  $('#notice').replaceChildren(...(text ? [icon('truck', 'icon--mirror'), el('span', { text })] : []));
+}
+
+function renderNav(m) {
+  const megaLinks = m.categories.map((category) => {
+    const art = categoryArt(category);
+    return el('li', {}, [
+      el('a', { href: `#${category.slug}` }, [
+        art ? image(`${IMG}categories/${art}.webp`, { className: 'cat__icon cat__icon--menu', width: 96, height: 96 }) : null,
+        category.name,
+      ]),
+    ]);
+  });
+
+  const menu = (Array.isArray(m.shop.menu) ? m.shop.menu : []).map((item) =>
+    el('li', {}, [el('a', { href: safeHref(item.href) , text: stripEmoji(item.label) })]));
+
+  $('#nav-list').replaceChildren(
+    el('li', { class: 'mega' }, [
+      el('a', { href: '#categories' }, [icon('menu'), ' همه دسته‌ها']),
+      el('ul', { class: 'mega-panel' }, megaLinks),
+    ]),
+    ...menu,
+  );
+
+  $('#q').placeholder = `جستجو در میان ${formatNumber(m.products.length)} کالا…`;
+}
+
+
+// ----- Rendering: hero (home.json -> hero + side) -----
+function heroTag(m) {
+  // the discounted, in-stock product that is also pictured in the hero art
+  const pictured = new Set(HERO_ART.map(([name]) => name));
+  const candidates = m.offers
+    .map((offer) => m.productById.get(offer.productId))
+    .filter(Boolean)
+    .map(describe)
+    .filter((item) => item.percent && !item.soldOut && pictured.has(item.art))
+    .sort((a, b) => b.percent - a.percent);
+  return candidates[0] ?? null;
+}
+
+function bannerArt(text) {
+  return BANNER_ART.find(([, test]) => test.test(text)) ?? FALLBACK_BANNER;
+}
+
+function renderHero(m) {
+  const { hero, side } = m.home;
+  const offersCarousel = (m.home.carousels || []).find((carousel) => carousel.source === 'offers');
+  const tag = heroTag(m);
+
+  const stage = el('div', { class: 'hero__stage' }, [
+    el('span', { class: 'hero__disc', 'aria-hidden': 'true' }),
+    ...HERO_ART.map(([name, alt, width, height]) =>
+      image(`${IMG}hero/${name}.webp`, { className: `hero__item hero__item--${name}`, alt, width, height, lazy: false, priority: name === 'tomato' })),
+    tag
+      ? el('a', { class: 'hero__tag', href: offersCarousel ? `#${offersCarousel.id}` : '#categories' }, [
+          el('span', { class: 'hero__tag-name', text: `${tag.product.name}، ${tag.product.unit}` }),
+          el('span', { class: 'hero__tag-row' }, [
+            el('del', {}, [el('span', { class: 'sr-only', text: 'قیمت قبلی: ' }), formatNumber(tag.oldPrice)]),
+            el('strong', { text: formatPrice(tag.price) }),
+            el('span', { class: 'hero__tag-off' }, [`${formatNumber(tag.percent)}٪`, el('span', { class: 'sr-only', text: ' تخفیف' })]),
+          ]),
+        ])
+      : null,
+  ]);
+
+  const actions = el('div', { class: 'hero__actions' }, [
+    hero.cta ? el('a', { class: 'btn', href: safeHref(hero.cta.href), text: stripEmoji(hero.cta.label) }) : null,
+    offersCarousel ? el('a', { class: 'btn btn--outline', href: `#${offersCarousel.id}`, text: stripEmoji(offersCarousel.title) }) : null,
+  ]);
+
+  const feature = el('div', { class: 'hero__feature' }, [
+    el('div', { class: 'hero__copy' }, [
+      el('h1', { class: 'hero__title' }, [
+        el('span', { class: 'hero__brand', text: `${BRAND.name}،` }),
+        el('span', { class: 'hero__headline', text: stripEmoji(hero.title) }),
+      ]),
+      el('p', { class: 'hero__lead', text: stripEmoji(hero.text) }),
+      actions,
+    ]),
+    stage,
+  ]);
+
+  const [sideFile, , sideWidth, sideHeight] = bannerArt(`${side.title} ${side.text}`);
+  const promo = el('div', { class: 'hero__promo' }, [
+    el('div', { class: 'hero__promo-copy' }, [
+      el('h2', { class: 'hero__promo-title', text: stripEmoji(side.title) }),
+      el('p', { class: 'hero__promo-note', text: stripEmoji(side.text) }),
+      side.cta ? el('a', { class: 'btn btn--green', href: safeHref(side.cta.href), text: stripEmoji(side.cta.label) }) : null,
+    ]),
+    image(`${IMG}${sideFile}`, { className: 'hero__promo-art', width: sideWidth, height: sideHeight, lazy: false }),
+  ]);
+
+  return el('section', { class: 'hero', 'aria-label': 'پیشنهاد اصلی' }, [feature, promo]);
+}
+
+
+// ----- Rendering: categories grid (categories.json) -----
+function renderCategories(m) {
+  const tiles = m.categories.map((category) => {
+    const art = categoryArt(category);
+    const color = safeColor(category.color);
+    const iconBox = el('span', { class: 'cat__icon-wrap' }, [
+      art ? image(`${IMG}categories/${art}.webp`, { className: 'cat__icon', width: 96, height: 96, lazy: false }) : icon('bag'),
+    ]);
+    if (color) iconBox.style.setProperty('--cat-bg', color); // CSSOM, not an inline attribute in the HTML
+    return el('li', {}, [el('a', { class: 'cat', href: `#${category.slug}` }, [iconBox, category.name])]);
+  });
+
+  return el('section', { id: 'categories', 'aria-labelledby': 'categories-t' }, [
+    el('div', { class: 'sec-head' }, [el('h2', { id: 'categories-t', text: 'دسته‌بندی‌ها' })]),
+    el('ul', { class: 'cats' }, tiles),
+  ]);
+}
+
+
+// ----- Rendering: carousels (home.json -> carousels) -----
+function offersCarousel(def, items) {
+  const title = stripEmoji(def.title);
+  const words = title.split(' ').flatMap((word, index) => (index ? [' ', el('span', { text: word })] : [el('span', { text: word })]));
+  const [artFile, , artWidth, artHeight] = FALLBACK_BANNER;
+
+  const intro = el('div', { class: 'offers__intro' }, [
+    el('h2', { class: 'offers__title', id: `${def.id}-t` }, words),
+    image(`${IMG}${artFile}`, { className: 'offers__art', width: artWidth, height: artHeight }),
+    el('a', { class: 'offers__all', href: catalogHref(OFFERS_VIEW), 'data-route': true }, ['مشاهده همه ', icon('chevron-right', 'icon--mirror')]),
+  ]);
+
+  const list = el('ul', { class: 'offers__list' }, [...items.map(productCard), seeAllCard(OFFERS_VIEW, title)]);
+
+  return el('section', { class: 'shelf offers', id: def.id, 'aria-labelledby': `${def.id}-t` }, [
+    el('div', { class: 'offers__box' }, [
+      el('div', { class: 'offers__scroller' }, [intro, list]),
+      arrowButton(-1, `محصولات قبلی «${title}»`, 'offers__nav offers__nav--prev'),
+      arrowButton(1, `محصولات بعدی «${title}»`, 'offers__nav offers__nav--next'),
+    ]),
+  ]);
+}
+
+function categoryCarousel(id, category, title, items) {
+  const art = categoryArt(category);
+  return el('section', { class: 'shelf', id, 'aria-labelledby': `${id}-t` }, [
+    el('div', { class: 'sec-head' }, [
+      el('h2', { id: `${id}-t` }, [
+        art ? image(`${IMG}categories/${art}.webp`, { className: 'cat__icon cat__icon--head', width: 96, height: 96, lazy: false }) : null,
+        title,
+      ]),
+      el('div', { class: 'arrows' }, [
+        arrowButton(-1, `محصولات قبلی «${title}»`, 'arr'),
+        arrowButton(1, `محصولات بعدی «${title}»`, 'arr'),
+      ]),
+    ]),
+    el('ul', { class: 'rail' }, [...items.map(productCard), seeAllCard(category.slug, title)]),
+  ]);
+}
+
+// The order and the content of the carousels come from home.json.
+// A new entry in home.json -> a new carousel, with no change in the HTML.
+function renderCarousels(m) {
+  const sections = [];
+  const usedIds = new Set(['categories', 'contact', 'top', 'main']);
+  const coveredCategories = new Set();
+
+  for (const def of Array.isArray(m.home.carousels) ? m.home.carousels : []) {
+    if (!def || !def.id || usedIds.has(def.id)) continue;
+    if (def.source === 'offers') {
+      sections.push(offersCarousel(def, offerItems()));
+      usedIds.add(def.id);
+    } else if (m.categoryById.has(def.categoryId)) {
+      const category = m.categoryById.get(def.categoryId);
+      sections.push(categoryCarousel(def.id, category, stripEmoji(def.title) || category.name, categoryItems(category.id)));
+      coveredCategories.add(category.id);
+      usedIds.add(def.id);
+    }
+  }
+
+  // Every category tile links to #<slug>, so every category needs a section to land on
+  if (SHOW_REMAINING_CATEGORIES) {
+    for (const category of m.categories) {
+      if (coveredCategories.has(category.id) || usedIds.has(category.slug)) continue;
+      sections.push(categoryCarousel(category.slug, category, category.name, categoryItems(category.id)));
+    }
+  }
+  return sections;
+}
+
+// Promo banners (home.json -> promos) sit after the first carousel, like the sample page
+function renderPromos(m) {
+  const promos = Array.isArray(m.home.promos) ? m.home.promos : [];
+  if (!promos.length) return null;
+  const links = promos.map((promo) => {
+    const text = stripEmoji(promo.text);
+    const [file, , width, height] = bannerArt(text);
+    return el('a', { class: 'banner', href: safeHref(promo.href) }, [text, image(`${IMG}${file}`, { width, height })]);
+  });
+  return el('section', { class: 'banners', 'aria-label': 'پیشنهادهای تبلیغاتی' }, links);
+}
+
+
+// ----- Rendering: catalog view (?cat=<slug>) -----
+function renderCatalog(m, slug) {
+  let title;
+  let items;
+  let category = null;
+
+  if (slug === OFFERS_VIEW) {
+    const def = (m.home.carousels || []).find((carousel) => carousel.source === 'offers');
+    title = (def && stripEmoji(def.title)) || 'پیشنهاد ویژه';
+    items = offerItems();
+  } else if (m.categoryBySlug.has(slug)) {
+    category = m.categoryBySlug.get(slug);
+    title = category.name;
+    items = categoryItems(category.id);
+  } else {
+    return { title: 'دسته پیدا نشد', nodes: [notFound(slug)] };
+  }
+
+  const art = category && categoryArt(category);
+
+  const section = el('section', { class: 'catalog', 'aria-labelledby': 'catalog-t' }, [
+    el('div', { class: 'sec-head' }, [
+      el('h1', { id: 'catalog-t', class: 'catalog__title' }, [
+        art ? image(`${IMG}categories/${art}.webp`, { className: 'cat__icon cat__icon--head', width: 96, height: 96, lazy: false }) : null,
+        title,
+      ]),
+      el('p', { class: 'catalog__count', text: `${formatNumber(items.length)} کالا` }),
+    ]),
+    items.length
+      ? el('ul', { class: 'grid' }, items.map(productCard))
+      : el('p', { class: 'state', text: 'فعلاً کالایی در این بخش نداریم.' }),
+  ]);
+  return { title, nodes: [backBar(), section] };
+}
+
+// "بازگشت": goes back to the page the visitor came from (the home page, at the same scroll position).
+// The href is the home page, so the button also works in a new tab.
+function backBar() {
+  return el('div', { class: 'back-bar' }, [
+    el('a', { class: 'back-btn', href: location.pathname, 'data-back': true }, [icon('arrow-right'), 'بازگشت به صفحه اصلی']),
+  ]);
+}
+
+// ----- Rendering: search results (?q=<text>) -----
+function renderSearch(m, query) {
+  const items = searchProducts(m, query);
+
+  const head = el('div', { class: 'sec-head' }, [
+    el('h1', { id: 'catalog-t', class: 'catalog__title', text: `نتایج جستجو برای «${query}»` }),
+    el('p', { class: 'catalog__count', text: `${formatNumber(items.length)} کالا` }),
+  ]);
+
+  const body = items.length
+    ? [el('h2', { class: 'sr-only', text: 'فهرست کالاها' }), el('ul', { class: 'grid' }, items.map(productCard))]
+    : [el('div', { class: 'state state--empty', role: 'status' }, [
+        el('p', { class: 'state__text', text: 'کالایی با این عبارت پیدا نشد. عبارت دیگری را امتحان کنید.' }),
+        el('button', { class: 'btn btn--outline', type: 'button', 'data-clear-search': true, text: 'پاک کردن جستجو' }),
+      ])];
+
+  return {
+    title: `جستجو: ${query}`,
+    count: items.length,
+    nodes: [el('section', { class: 'catalog', 'aria-labelledby': 'catalog-t' }, [head, ...body])],
+  };
+}
+
+function notFound(slug) {
+  return el('section', { class: 'state', 'aria-labelledby': 'nf-t' }, [
+    el('h1', { id: 'nf-t', class: 'state__title', text: 'این دسته را پیدا نکردیم' }),
+    el('p', { text: 'آدرسی که باز کردید دسته‌ای با این نام ندارد.' }),
+    el('a', { class: 'btn btn--green', href: location.pathname, 'data-route': true, text: 'بازگشت به صفحه اصلی' }),
+  ]);
+}
+
+
+// ----- Rendering: footer (static brand data + categories.json + shop.json) -----
+function renderFooterBrand() {
+  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(BRAND.address)}`;
+
+  const address = el('a', { href: mapsUrl, target: '_blank', rel: 'noopener noreferrer' }, [
+    icon('pin'),
+    ` ${BRAND.address}`,
+    el('span', { class: 'sr-only', text: ' (نمایش در گوگل مپ، در تب جدید باز می‌شود)' }),
+  ]);
+  const phones = BRAND.phones.map((phone) =>
+    el('a', { href: `tel:${phone.tel}` }, [
+      icon(phone.icon),
+      ' ',
+      el('span', { class: 'sr-only', text: `${phone.label}: ` }),
+      el('bdi', { dir: 'ltr', text: phone.text }),
+    ]));
+  const email = el('a', { href: `mailto:${BRAND.email}` }, [
+    icon('mail'),
+    ' ',
+    el('span', { class: 'sr-only', text: 'ایمیل: ' }),
+    el('bdi', { dir: 'ltr', text: BRAND.email }),
+  ]);
+  $('#foot-contact').replaceChildren(address, ...phones, email);
+
+  $('#foot-social').replaceChildren(...BRAND.social.map((net) =>
+    el('li', {}, [el('a', { href: net.href }, [icon(net.icon), ` ${net.label}`])])));
+
+  $('#foot-copy').textContent = BRAND.copyright; // our own line, not the sample shop's
+}
+
+function renderFooterData(m) {
+  const shop = m.shop;
+  $('#foot-about').textContent = stripEmoji(shop.about);
+
+  $('#foot-cats').replaceChildren(...m.categories.map((category) =>
+    el('li', {}, [el('a', { href: `#${category.slug}`, text: category.name })])));
+
+  // help links with a real address are links; "#" placeholders stay plain text
+  $('#foot-help').replaceChildren(...(Array.isArray(shop.help) ? shop.help : []).map((item) => {
+    const label = stripEmoji(item.label);
+    return el('li', {}, [item.href && item.href !== '#' ? el('a', { href: safeHref(item.href), text: label }) : label]);
+  }));
+
+  $('#foot-hours').replaceChildren(...(Array.isArray(shop.schedule) ? shop.schedule : []).map((row) =>
+    el('li', { text: `${row.days}: ${row.time}` })));
+}
+
+
+// ----- Rendering: loading skeleton & error state -----
+function skeletonCard() {
+  return el('li', { class: 'card card--skeleton' }, [
+    el('div', { class: 'card__body' }, [
+      el('div', { class: 'pic skeleton' }),
+      el('span', { class: 'skeleton skeleton--line' }),
+      el('span', { class: 'skeleton skeleton--line skeleton--short' }),
+    ]),
+  ]);
+}
+
+function renderLoading() {
+  main.setAttribute('aria-busy', 'true');
+  main.replaceChildren(
+    el('section', { class: 'hero hero--skeleton', 'aria-hidden': 'true' }, [
+      el('div', { class: 'skeleton skeleton--hero' }),
+      el('div', { class: 'skeleton skeleton--hero' }),
+    ]),
+    el('section', { id: 'loading', 'aria-labelledby': 'categories-t' }, [
+      el('div', { class: 'sec-head' }, [el('h2', { id: 'categories-t', text: 'دسته‌بندی‌ها' })]),
+      el('p', { class: 'state-text', id: 'loading-text', text: 'در حال بارگذاری…' }),
+      el('ul', { class: 'cats cats--skeleton', 'aria-hidden': 'true' }, Array.from({ length: 7 }, () => el('li', { class: 'skeleton' }))),
+    ]),
+    el('section', { 'aria-hidden': 'true' }, [el('ul', { class: 'rail rail--skeleton' }, Array.from({ length: 6 }, skeletonCard))]),
+  );
+  announce('در حال بارگذاری محصولات…');
+}
+
+function showSlowNotice() {
+  const text = $('#loading-text');
+  if (!text) return;
+  text.textContent = 'اتصال کند است؛ هنوز در حال دریافت اطلاعات هستیم…';
+  text.classList.add('state-text--slow');
+  announce('اتصال کند است؛ هنوز در حال دریافت اطلاعات هستیم.');
+}
+
+const ERROR_TEXT = {
+  network: 'ارتباط با سرور برقرار نشد. اتصال اینترنت خود را بررسی کنید و دوباره تلاش کنید.',
+  http: 'سرور فایل مورد نیاز را پیدا نکرد یا پاسخ درستی نداد.',
+  parse: 'اطلاعات دریافتی از سرور خراب است و خوانده نمی‌شود.',
+  timeout: 'پاسخ سرور بیش از اندازه طول کشید. دوباره تلاش کنید.',
+  shape: 'ساختار اطلاعات دریافتی با انتظار ما نمی‌خواند.',
+};
+
+function renderError(error) {
+  const kind = error instanceof ApiError ? error.kind : 'network';
+  const detail = error instanceof ApiError && error.file
+    ? el('p', { class: 'state__detail' }, [
+        el('bdi', { dir: 'ltr', text: error.file }),
+        error.status ? ` · ${toFaDigits(error.status)}` : null,
+      ])
+    : null;
+
+  main.removeAttribute('aria-busy');
+  main.replaceChildren(
+    el('section', { class: 'state state--error', role: 'alert' }, [
+      icon('alert', 'state__icon'),
+      el('h2', { class: 'state__title', text: 'بارگذاری محصولات ممکن نشد' }),
+      el('p', { text: ERROR_TEXT[kind] ?? ERROR_TEXT.network }),
+      detail,
+      el('button', { class: 'btn btn--green', type: 'button', 'data-action': 'retry' }, [icon('refresh'), ' تلاش دوباره']),
+    ]),
+  );
+}
+
+
+// ----- Carousel behaviour (one click = one card) -----
+function carouselScroller(section) {
+  return $('.offers__scroller, .rail', section);
+}
+
+function initCarousel(section) {
+  const scroller = carouselScroller(section);
+  const buttons = [...section.querySelectorAll('button[data-dir]')];
+
+  // the arrows are disabled at the two ends (works in LTR and RTL: scrollLeft is 0 at the start)
+  const update = () => {
+    const max = scroller.scrollWidth - scroller.clientWidth;
+    const position = Math.abs(scroller.scrollLeft);
+    for (const button of buttons) {
+      button.disabled = Number(button.dataset.dir) < 0 ? position <= 1 : position >= max - 1;
+    }
+  };
+
+  let frame = 0;
+  scroller.addEventListener('scroll', () => {
+    cancelAnimationFrame(frame);
+    frame = requestAnimationFrame(update);
+  }, { passive: true });
+
+  if ('ResizeObserver' in window) new ResizeObserver(update).observe(scroller);
+  else window.addEventListener('resize', update);
+  update();
+}
+
+function scrollCarousel(section, direction) {
+  const scroller = carouselScroller(section);
+  const card = $('.card', scroller);
+  if (!card) return;
+  const gap = parseFloat(getComputedStyle(card.parentElement).columnGap) || 12;
+  const step = card.getBoundingClientRect().width + gap;
+  const rtl = getComputedStyle(scroller).direction === 'rtl';
+  scroller.scrollBy({ left: direction * (rtl ? -1 : 1) * step }); // smooth when the visitor allows motion (see CSS)
+}
+
+
+// ----- Motion: smooth scrolling and view changes -----
+const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const easeInOutCubic = (t) => (t < 0.5 ? 4 * t * t * t : 1 - ((-2 * t + 2) ** 3) / 2);
+
+let scrollFrame = 0;
+
+// One smooth, eased scroll whose length follows the distance (instead of the browser's own jump).
+// Any wheel / touch / key / mouse press by the visitor stops it at once.
+function smoothScrollTo(top) {
+  cancelAnimationFrame(scrollFrame);
+  const start = window.scrollY;
+  const end = Math.max(0, Math.min(top, document.documentElement.scrollHeight - window.innerHeight));
+  const distance = end - start;
+
+  if (prefersReducedMotion() || Math.abs(distance) < 2) {
+    window.scrollTo({ top: end, behavior: 'instant' });
+    return Promise.resolve();
+  }
+
+  const duration = Math.min(1000, Math.max(500, Math.abs(distance) * 0.4));
+  const events = ['wheel', 'touchstart', 'keydown', 'mousedown'];
+
+  return new Promise((resolve) => {
+    const stop = () => {
+      cancelAnimationFrame(scrollFrame);
+      events.forEach((name) => window.removeEventListener(name, stop));
+      resolve();
+    };
+    events.forEach((name) => window.addEventListener(name, stop, { passive: true, once: true }));
+
+    const startTime = performance.now();
+    const step = (now) => {
+      const progress = Math.min(1, (now - startTime) / duration);
+      window.scrollTo({ top: start + distance * easeInOutCubic(progress), behavior: 'instant' });
+      if (progress < 1) scrollFrame = requestAnimationFrame(step);
+      else stop();
+    };
+    scrollFrame = requestAnimationFrame(step);
+  });
+}
+
+function scrollToElement(target) {
+  const margin = parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
+  const top = target.getBoundingClientRect().top + window.scrollY - margin;
+  return smoothScrollTo(top).then(() => {
+    if (!target.hasAttribute('tabindex') && !/^(a|button|input)$/i.test(target.tagName)) target.setAttribute('tabindex', '-1');
+    target.focus({ preventScroll: true }); // keyboard and screen-reader users arrive where the page scrolled to
+  });
+}
+
+// Content change: the old view fades out, the new one slides in
+const enterFrames = [{ opacity: 0, transform: 'translateY(14px)' }, { opacity: 1, transform: 'none' }];
+const enterTiming = { duration: 320, easing: 'cubic-bezier(.2, .7, .2, 1)' };
+
+function playEnter() {
+  if (!prefersReducedMotion() && main.animate) main.animate(enterFrames, enterTiming);
+}
+
+async function swapView(update) {
+  if (prefersReducedMotion() || !main.animate) {
+    update();
+    return;
+  }
+  const out = main.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 140, easing: 'ease-in', fill: 'forwards' });
+  try { await out.finished; } catch { /* cancelled: carry on */ }
+  update();
+  out.cancel();
+  playEnter();
+}
+
+
+// ----- URL: ?cat=<slug> (catalog view) and #<slug> (section on the home view) -----
+let renderedSearch = location.search;
+
+function parseRoute() {
+  const params = new URLSearchParams(location.search);
+  const slug = params.get('cat');
+  const query = (params.get('q') || '').trim();
+  if (slug) return { type: 'catalog', slug };
+  if (query) return { type: 'search', query };
+  return { type: 'home' };
+}
+
+function currentHashId() {
+  try {
+    return decodeURIComponent(location.hash.slice(1));
+  } catch {
+    return '';
+  }
+}
+
+// The sections are created after the page has loaded, so the browser cannot jump to the
+// #fragment by itself: do it here, and mark where the visitor is.
+function syncLocation({ scroll = false, smooth = false } = {}) {
+  const id = currentHashId();
+  const target = id ? document.getElementById(id) : null;
+
+  main.querySelectorAll('[data-here]').forEach((node) => node.removeAttribute('data-here'));
+  if (target && target.matches('.shelf, #categories')) target.setAttribute('data-here', '');
+
+  document.querySelectorAll('.main-nav a').forEach((link) => {
+    if (id && link.getAttribute('href') === `#${id}`) link.setAttribute('aria-current', 'location');
+    else link.removeAttribute('aria-current');
+  });
+
+  if (!scroll || !target) return;
+  if (smooth) scrollToElement(target);
+  else target.scrollIntoView({ block: 'start', behavior: 'instant' });
+}
+
+function renderRoute({ focus = false, smooth = false } = {}) {
+  if (!model) return;
+  const route = parseRoute();
+  renderedSearch = location.search;
+  let nodes;
+
+  // the search box always shows what the address says
+  const shown = route.type === 'search' ? route.query : pendingQuery ? searchInput.value.trim() : '';
+  if (searchInput.value.trim().replace(/\s+/g, ' ') !== shown) searchInput.value = shown;
+
+  if (route.type === 'catalog') {
+    const view = renderCatalog(model, route.slug);
+    document.title = `${view.title} | ${BRAND.name}`;
+    nodes = view.nodes;
+  } else if (route.type === 'search') {
+    const view = renderSearch(model, route.query);
+    document.title = `${view.title} | ${BRAND.name}`;
+    nodes = view.nodes;
+  } else {
+    document.title = BRAND.name;
+    const sections = renderCarousels(model);
+    const promos = renderPromos(model);
+    if (promos) sections.splice(1, 0, promos);
+    nodes = [renderHero(model), renderCategories(model), ...sections];
+  }
+
+  main.replaceChildren(...nodes);
+  main.removeAttribute('aria-busy');
+  main.querySelectorAll('.shelf').forEach(initCarousel);
+  syncAllControls();
+  syncLocation({ scroll: true, smooth });
+  if (focus && !currentHashId()) main.focus({ preventScroll: true });
+}
+
+// Remember where the visitor was on this page, so "back" can bring them to the same spot
+function rememberScroll() {
+  history.replaceState({ ...(history.state || {}), scrollY: window.scrollY }, '');
+}
+
+// focus: move the keyboard focus to the new content (links and buttons do; the search box must NOT)
+// animate: fade the old view out first (the search shows its results at once)
+async function navigate(url, { replace = false, focus = true, animate = true } = {}) {
+  if (replace) history.replaceState({ app: true }, '', url);
+  else {
+    rememberScroll();
+    history.pushState({ app: true }, '', url); // { app: true } = the previous entry is a page of this shop
+  }
+  closeCart();
+  const show = () => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    renderRoute({ focus, smooth: true });
+  };
+  if (animate) await swapView(show);
+  else {
+    show();
+    playEnter();
+  }
+}
+
+function goBack() {
+  if (history.state && history.state.app) history.back();
+  else navigate(location.pathname, { replace: true }); // opened from a shared link: there is no page before this one
+}
+
+// A link to a section of the page: scroll there smoothly and keep the address bar in step
+function goToSection(href, target) {
+  closeCart();
+  if (location.hash !== href) history.pushState(null, '', href);
+  syncLocation();
+  scrollToElement(target);
+}
+
+
+// ----- Cart summary (hover / click on the cart button) -----
+const cartWrap = $('#cart-wrap');
+const cartButton = $('#cart-btn');
+const cartPanel = $('#cart-panel');
+let cartPinned = false; // opened by a click (or the keyboard): it stays open until the visitor closes it
+let cartCloseTimer = 0;
+
+const cartIsOpen = () => cartWrap.classList.contains('is-open');
+
+function openCart({ pin = false } = {}) {
+  clearTimeout(cartCloseTimer);
+  if (pin) cartPinned = true;
+  if (cartIsOpen()) return;
+  renderMiniCart();
+  // on phones the panel is fixed under the header; tell the CSS where the button ends
+  cartWrap.style.setProperty('--cart-top', `${Math.round(cartButton.getBoundingClientRect().bottom + 8)}px`);
+  cartWrap.classList.add('is-open');
+  cartButton.setAttribute('aria-expanded', 'true');
+}
+
+function closeCart({ returnFocus = false } = {}) {
+  clearTimeout(cartCloseTimer);
+  cartPinned = false;
+  if (!cartIsOpen()) return;
+  cartWrap.classList.remove('is-open');
+  cartButton.setAttribute('aria-expanded', 'false');
+  if (returnFocus) cartButton.focus();
+}
+
+const sumPrices = (rows, field) => rows.reduce((sum, row) => sum + row[field] * row.quantity, 0);
+
+function priceText(value) {
+  return el('span', { class: 'mini-price' }, [el('strong', { text: formatNumber(value) }), el('small', { text: 'تومان' })]);
+}
+
+// old price + discount badge, shown only when something is discounted
+function discountLine(oldValue, newValue, percent = Math.round(((oldValue - newValue) / oldValue) * 100)) {
+  if (oldValue <= newValue) return null;
+  return el('div', { class: 'mini-old' }, [
+    percent > 0 ? el('span', { class: 'badge badge--sm' }, [`${formatNumber(percent)}٪`, el('span', { class: 'sr-only', text: ' تخفیف' })]) : null,
+    el('del', {}, [el('span', { class: 'sr-only', text: 'قیمت قبلی: ' }), formatNumber(oldValue)]),
+  ]);
+}
+
+function miniItem(row) {
+  const { product, art, quantity } = row;
+  const box = stepper(product);
+  updateStepper(box, product, quantity);
+
+  return el('li', { class: 'mini-item', 'data-id': product.id }, [
+    el('div', { class: 'mini-item__pic' }, [art ? image(`${IMG}products/${art}.webp`, { width: 600, height: 600 }) : placeholderPic()]),
+    el('div', { class: 'mini-item__body' }, [
+      el('h3', { class: 'mini-item__name', text: product.name }),
+      el('div', { class: 'mini-item__row' }, [
+        box,
+        el('div', { class: 'mini-item__price' }, [
+          discountLine(row.oldPrice * quantity, row.price * quantity, row.percent),
+          priceText(row.price * quantity),
+        ]),
+      ]),
+    ]),
+  ]);
+}
+
+function renderMiniCart() {
+  const title = el('h2', { class: 'mini__title', text: 'خلاصه سبد خرید شما' });
+  const count = cartCount();
+
+  if (!model || count === 0) {
+    cartPanel.replaceChildren(el('div', { class: 'mini mini--empty' }, [
+      title,
+      icon('cart', 'mini__empty-icon'),
+      el('p', { text: model ? 'سبد خرید شما خالی است.' : 'تا بارگذاری محصولات، جزئیات سبد را نمی‌توان نشان داد.' }),
+    ]));
+    return;
+  }
+
+  const rows = Object.keys(cart)
+    .map(Number)
+    .sort((a, b) => a - b)
+    .map((id) => model.productById.get(id))
+    .filter(Boolean)
+    .map((product) => ({ ...describe(product), quantity: qtyOf(product.id) }))
+    .map((row) => ({ ...row, oldPrice: row.oldPrice || row.price }));
+
+  const total = sumPrices(rows, 'price');
+  const oldTotal = sumPrices(rows, 'oldPrice');
+
+  cartPanel.replaceChildren(el('div', { class: 'mini' }, [
+    el('div', { class: 'mini__head' }, [title, el('span', { class: 'mini__count', text: `${formatNumber(count)} کالا` })]),
+    el('ul', { class: 'mini__list' }, rows.map(miniItem)),
+    el('p', { class: 'mini__note', id: 'mini-note', text: 'ثبت سفارش در این مرحله از پروژه فعال نیست.' }),
+    el('div', { class: 'mini__foot' }, [
+      el('div', { class: 'mini__total' }, [discountLine(oldTotal, total), priceText(total)]),
+      el('button', { class: 'checkout', type: 'button', 'data-action': 'checkout', 'aria-disabled': 'true', 'aria-describedby': 'mini-note', text: 'ثبت سفارش' }),
+    ]),
+  ]));
+}
+
+// After the list is rebuilt, keep the keyboard on the same stepper button
+function refreshMiniCart() {
+  if (!cartIsOpen()) return;
+  const active = document.activeElement;
+  const inPanel = cartPanel.contains(active);
+  const id = inPanel && active.closest('.mini-item') ? active.closest('.mini-item').dataset.id : null;
+  const step = inPanel && active.dataset ? active.dataset.step : null;
+  const scroll = $('.mini__list', cartPanel)?.scrollTop ?? 0;
+
+  renderMiniCart();
+
+  const list = $('.mini__list', cartPanel);
+  if (list) list.scrollTop = scroll;
+  if (!inPanel) return;
+  const same = id && $(`.mini-item[data-id="${id}"] [data-step="${step}"]`, cartPanel);
+  (same || $('.mini-item [data-step="dec"]', cartPanel) || cartPanel).focus({ preventScroll: true });
+}
+
+
+// ----- Search box (header) -----
+const searchInput = $('#q');
+let searchTimer = 0;
+let pendingQuery = '';
+
+function showSearch(query) {
+  if (!model) {
+    pendingQuery = query; // the data is still loading: run the search as soon as it arrives
+    return;
+  }
+  const text = query.trim().replace(/\s+/g, ' ');
+  const route = parseRoute();
+
+  if (!text) {
+    if (route.type !== 'search') return;
+    if (history.state && history.state.app) history.back(); // back to the page the search started from
+    else navigate(location.pathname, { replace: true, focus: false, animate: false });
+    return;
+  }
+
+  const url = `${location.pathname}?q=${encodeURIComponent(text)}`;
+  if (route.type === 'search') {
+    // still typing: update the same history entry, so "back" is not flooded with every letter
+    history.replaceState(history.state, '', url);
+    renderRoute();
+    announce(`${formatNumber(searchProducts(model, text).length)} نتیجه برای ${text}`);
+  } else {
+    closeCart();
+    navigate(url, { focus: false, animate: false }); // the visitor is still typing: keep the focus in the box
+    announce(`${formatNumber(searchProducts(model, text).length)} نتیجه برای ${text}`);
+  }
+}
+
+searchInput.addEventListener('input', () => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => showSearch(searchInput.value), 150);
+});
+
+searchInput.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    clearTimeout(searchTimer);
+    showSearch(searchInput.value);
+    if (window.matchMedia('(pointer: coarse)').matches) searchInput.blur(); // phones: hide the keyboard so the results are visible
+  } else if (event.key === 'Escape' && searchInput.value) {
+    event.stopPropagation();
+    searchInput.value = '';
+    clearTimeout(searchTimer);
+    showSearch('');
+  }
+});
+
+
+// ----- Events (one listener for the whole page) -----
+const menuToggle = $('#menu-toggle');
+
+document.addEventListener('click', (event) => {
+  const target = event.target;
+  if (!(target instanceof Element)) return;
+
+  const addButton = target.closest('.add');
+  if (addButton) {
+    if (!addButton.disabled) setQty(Number(addButton.dataset.id), qtyOf(Number(addButton.dataset.id)) + 1);
+    return;
+  }
+
+  const stepButton = target.closest('[data-step]');
+  if (stepButton) {
+    const id = Number(stepButton.closest('.stepper').dataset.id);
+    setQty(id, qtyOf(id) + (stepButton.dataset.step === 'inc' ? 1 : -1));
+    return;
+  }
+
+  if (target.closest('[data-action="checkout"]')) {
+    announce('ثبت سفارش در این مرحله از پروژه فعال نیست.');
+    const note = $('#mini-note', cartPanel);
+    note.classList.remove('is-flash');
+    void note.offsetWidth;
+    note.classList.add('is-flash');
+    return;
+  }
+
+  if (target.closest('#cart-btn')) {
+    // hovering already opened it: the first click keeps it open, the next one closes it
+    if (!cartIsOpen() || !cartPinned) openCart({ pin: true });
+    else closeCart();
+    return;
+  }
+
+  if (cartIsOpen() && !target.closest('#cart-wrap')) closeCart();
+
+  const arrow = target.closest('button[data-dir]');
+  if (arrow) {
+    scrollCarousel(arrow.closest('.shelf'), Number(arrow.dataset.dir));
+    return;
+  }
+
+  if (target.closest('[data-clear-search]')) {
+    searchInput.value = '';
+    clearTimeout(searchTimer);
+    showSearch('');
+    searchInput.focus();
+    return;
+  }
+
+  if (target.closest('[data-action="retry"]')) {
+    start();
+    return;
+  }
+
+  const link = target.closest('a[href]');
+  if (!link) return;
+  if (link.closest('.main-nav')) menuToggle.checked = false; // close the phone menu after a choice
+
+  const plainClick = event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
+  if (!plainClick || link.target === '_blank') return;
+
+  const href = link.getAttribute('href');
+  if (link.hasAttribute('data-back')) {
+    event.preventDefault();
+    goBack();
+    return;
+  }
+  if (link.hasAttribute('data-route')) {
+    event.preventDefault();
+    navigate(href);
+    return;
+  }
+
+  if (!href.startsWith('#') || href.length < 2 || link.classList.contains('skip')) return;
+  const section = document.getElementById(decodeURIComponent(href.slice(1)));
+  if (section) {
+    event.preventDefault();
+    goToSection(href, section);
+  } else if (parseRoute().type !== 'home') {
+    // the home sections are not on this view: go home first, then slide to the section
+    event.preventDefault();
+    navigate(location.pathname + href);
+  }
+});
+
+// hover opens the cart summary on a mouse; touch and keyboard use the click above
+cartWrap.addEventListener('pointerenter', (event) => {
+  if (event.pointerType === 'mouse') openCart();
+});
+cartWrap.addEventListener('pointerleave', (event) => {
+  if (event.pointerType !== 'mouse' || cartPinned) return;
+  cartCloseTimer = setTimeout(closeCart, 220);
+});
+cartWrap.addEventListener('focusout', (event) => {
+  if (cartIsOpen() && !cartWrap.contains(event.relatedTarget) && event.relatedTarget) closeCart();
+});
+
+document.addEventListener('keydown', (event) => {
+  if (event.key !== 'Escape') return;
+  if (cartIsOpen()) closeCart({ returnFocus: cartWrap.contains(document.activeElement) });
+  else if (menuToggle.checked) {
+    menuToggle.checked = false;
+    menuToggle.focus();
+  }
+});
+
+window.addEventListener('popstate', (event) => {
+  closeCart();
+  if (location.search === renderedSearch) {
+    syncLocation(); // only the #fragment changed: the browser has already scrolled
+    return;
+  }
+  const saved = event.state && event.state.scrollY;
+  swapView(() => {
+    renderRoute();
+    if (typeof saved === 'number') window.scrollTo({ top: saved, behavior: 'instant' }); // back to the same spot
+    else if (!location.hash) window.scrollTo({ top: 0, behavior: 'instant' });
+  });
+});
+window.addEventListener('hashchange', () => syncLocation());
+
+// the cart changed in another tab
+window.addEventListener('storage', (event) => {
+  if (event.key !== CART_KEY) return;
+  cart = loadCart();
+  renderCartBadge();
+  if (model) syncAllControls();
+  refreshMiniCart();
+});
+
+
+// ----- Start-up -----
+async function start() {
+  renderLoading();
+  try {
+    model = buildModel(await loadWithSlowNotice(showSlowNotice));
+    renderNotice(model.shop);
+    renderNav(model);
+    renderFooterData(model);
+    reconcileCart();
+    renderRoute();
+    playEnter();
+    if (pendingQuery && parseRoute().type === 'home') showSearch(pendingQuery);
+    pendingQuery = '';
+  } catch (error) {
+    model = null;
+    renderError(error instanceof ApiError ? error : new ApiError('shape', ''));
+    announce('بارگذاری محصولات ممکن نشد.');
+  }
+}
+
+renderFooterBrand();
+renderCartBadge();
+syncLocation();
+start();
