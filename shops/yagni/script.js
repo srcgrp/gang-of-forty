@@ -775,6 +775,7 @@ async function getShop() {
 
   return { shop, categories };
 }
+
 async function renderShop() {
   try {
     const { shop, categories } = await getShop();
@@ -809,7 +810,17 @@ async function renderShop() {
     // Shop information
     // =========================
 
-    document.querySelector("#shop-name").textContent = shop.name;
+    const shopNameContainer = document.querySelector("#shop-name");
+
+    if (shopNameContainer && shop.name) {
+      const heading = document.createElement("h3");
+
+      heading.classList.add("footer-heading", "brand-title");
+      heading.textContent = shop.name;
+
+      shopNameContainer.replaceChildren(heading);
+    }
+
     document.querySelector("#shop-about").textContent = shop.about;
     document.querySelector("#shop-address").textContent = shop.address;
     document.querySelector("#shop-phone").textContent = shop.phone;
@@ -901,7 +912,6 @@ async function renderShop() {
     // =========================
 
     const helpList = document.querySelector("#footer-help");
-
     const helpFragment = document.createDocumentFragment();
 
     shop.help.forEach((item) => {
