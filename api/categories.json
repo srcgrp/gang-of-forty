@@ -1,0 +1,7 @@
+[
+  { "id": 1, "slug": "fruit", "name": "میوه و سبزی", "emoji": "🍎" },
+  { "id": 2, "slug": "dairy", "name": "لبنیات", "emoji": "🥛" },
+  { "id": 3, "slug": "bakery", "name": "نان و شیرینی", "emoji": "🥖" },
+  { "id": 4, "slug": "pantry", "name": "خواربار", "emoji": "🍚" },
+  { "id": 5, "slug": "drinks", "name": "نوشیدنی", "emoji": "🧃" }
+]

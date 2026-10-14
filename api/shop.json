@@ -1,0 +1,11 @@
+{
+  "name": "سوپرمارکت مینا",
+  "slogan": "تازه، نزدیک، به‌صرفه",
+  "owner": "",
+  "city": "تهران",
+  "phone": "021-12345678",
+  "hours": { "open": "08:00", "close": "23:00" },
+  "deliveryFee": 35000,
+  "freeDeliveryOver": 500000,
+  "currency": "تومان"
+}

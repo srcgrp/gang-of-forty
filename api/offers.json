@@ -1,0 +1,6 @@
+[
+  { "productId": 102, "percent": 15, "label": "حراج فصل" },
+  { "productId": 202, "percent": 10, "label": "پیشنهاد ویژه" },
+  { "productId": 402, "percent": 20, "label": "تخفیف مهر" },
+  { "productId": 501, "percent": 12, "label": "پیشنهاد ویژه" }
+]
