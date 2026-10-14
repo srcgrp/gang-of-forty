@@ -1,29 +1,139 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت گلوله رسام</title>
+  <title>پرتقال</title>
   <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
+  <meta name="author" content="elena">
+  <meta name="description" content="برای خاطرات شیرین">
   <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+  <link rel="icon" href="data:,">
 </head>
-<body>
+
+<body id="top">
+  <a href="#main" class="skip-link">پرش به محتوای اصلی</a>
+
   <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>🎯 سلام دنیا!</h1>
+    <p class="notice"></p>
+    <h1 class="logo">
+      <a href="#top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+          <circle cx="100" cy="100" r="82" fill="#F58220" />
+          <circle cx="100" cy="100" r="72" fill="#FFF0C2" />
+          <circle cx="100" cy="100" r="65" fill="#FF9D24" />
+          <g fill="#FFF4D6" stroke="#F58220" stroke-width="2">
+            <path d="M100 100 L100 36 A64 64 0 0 1 145.25 54.75 Z" />
+            <path d="M100 100 L100 36 A64 64 0 0 1 145.25 54.75 Z" transform="rotate(45 100 100)" />
+            <path d="M100 100 L100 36 A64 64 0 0 1 145.25 54.75 Z" transform="rotate(90 100 100)" />
+            <path d="M100 100 L100 36 A64 64 0 0 1 145.25 54.75 Z" transform="rotate(135 100 100)" />
+            <path d="M100 100 L100 36 A64 64 0 0 1 145.25 54.75 Z" transform="rotate(180 100 100)" />
+            <path d="M100 100 L100 36 A64 64 0 0 1 145.25 54.75 Z" transform="rotate(225 100 100)" />
+            <path d="M100 100 L100 36 A64 64 0 0 1 145.25 54.75 Z" transform="rotate(270 100 100)" />
+            <path d="M100 100 L100 36 A64 64 0 0 1 145.25 54.75 Z" transform="rotate(315 100 100)" />
+          </g>
+          <circle cx="100" cy="100" r="5" fill="#FFF4D6" />
+        </svg>
+        <span class="logo-text">
+          <span>پرتقال</span>
+          <small class="slogan"></small>
+        </span>
+      </a>
+    </h1>
+    <form class="search" role="search" action="#">
+      <label for="search" class="visually-hidden">جستجو</label>
+      <input type="search" id="search" name="q" placeholder="جستجو">
+      <button type="submit" aria-label="جستجو"><img src="png/magnifying-glass-fill.png" alt="" width="20"
+          height="20"></button>
+    </form>
+    <button type="button" class="cart">
+      <img class="icon-inline" src="png/shopping-bag-open-fill.png" alt="" width="20" height="20">
+      سبد خرید
+      <span class="cartCount" aria-hidden="true">۰</span>
+      <span class="visually-hidden cartCountText">۰ کالا در سبد</span>
+    </button>
+    <input type="checkbox" id="menu-toggle" class="visually-hidden">
+    <label for="menu-toggle" class="menu-button">
+      <span aria-hidden="true">☰</span>
+      <span class="visually-hidden">منو</span>
+    </label>
+    <nav class="main-nav" aria-label="منوی اصلی">
+      <ul>
+        <li class="dropdown">
+          <button type="button">همه دسته‌ها</button>
+          <ul class="dropdown-menu">
+          </ul>
+        </li>
+      </ul>
+    </nav>
   </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>گلوله رسام</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p>گلوله رسام در شب مسیرش را روشن نشان می‌دهد تا تیرانداز ببیند به هدف می‌خورد یا نه. کتاب <bdi>The Pragmatic Programmer</bdi> می‌گوید: اول یک نسخه باریک ولی سرتاسری بساز (از صفحه تا دیتابیس) که واقعاً کار کند، بعد کم‌کم پرش کن.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
+
+  <main id="main">
+    <div class="hero-area">
+      <section class="hero" id="hero" aria-label="hero-title">
+        <h2 id="hero-title">بنر اصلی</h2>
+        <p></p>
+        <a href="#dairy">میوه</a>
+      </section>
+      <section class="promo" id="promo" aria-label="promo-title">
+        <h2 id="promo-title">بنر</h2>
+        <p></p>
+        <a href="#offers">لبنیات</a>
+      </section>
+    </div>
+
+    <section id="categories" aria-labelledby="categories-title">
+      <h2 id="categories-title">دسته‌بندی‌ها</h2>
+      <ul class="category-list">
+      </ul>
     </section>
+
+    <div id="carousels"></div>
+
+    <section class="banners" id="banners" aria-label="بنرهای تبلیغاتی">
+
+    </section>
+
   </main>
+
   <footer>
-    <p dir="ltr">slug: <code>tracer-bullet</code></p>
+    <div class="footer-columns">
+      <div>
+        <p class="footer-brand">پرتقال<img class="icon-inline" src="png/orange-slice.png" alt="" width="32" height="32">
+        </p>
+        <p class="about"></p>
+      </div>
+      <section id="contact">
+
+        <h2><img class="icon-inline" src="png/phone-fill.png" alt="" width="20" height="20">راه ارتباطی</h2>
+        <address>
+          <p class="address"></p>
+          <p class="phone"><a href="tel:+982100000000" dir="ltr">#8209;</a></p>
+        </address>
+      </section>
+      <nav class="footer-nav" aria-label="پیوندهای پایین صفحه">
+        <div>
+          <h2><img class="icon-inline" src="png/folders-fill.png" alt="" width="20" height="20">دسته‌ها</h2>
+          <ul class="footer-categories">
+          </ul>
+        </div>
+        <div>
+          <h2><img class="icon-inline" src="png/hand-pointing-fill.png" alt="" width="20" height="20">راهنما</h2>
+          <ul class="footer-help">
+          </ul>
+        </div>
+      </nav>
+      <section id="working-hours">
+        <h2><img class="icon-inline" src="png/clock-fill.png" alt="" width="20" height="20">ساعت کاری</h2>
+      </section>
+    </div>
+    <div class="footer-bottom">
+      <p><small>© ۱۴۰۵ پرتقال</small></p>
+      <a href="#top">بازگشت به بالا</a>
+    </div>
   </footer>
 </body>
+
 </html>
