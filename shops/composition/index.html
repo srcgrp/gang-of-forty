@@ -1,29 +1,1469 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت ترکیب به جای وراثت</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>سوپرمارکت ترکیب به جای وراثت</title>
+    <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
+    <meta name="author" content="ali-nezhadpour">
+    <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>🧩 سلام دنیا!</h1>
-  </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>ترکیب به جای وراثت</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p><bdi>Composition over Inheritance</bdi> از کتاب معروف <bdi>Design Patterns</bdi> (۱۹۹۴) می‌آید که چهار نویسنده‌اش به <bdi>Gang of Four</bdi> یا «دار و دسته چهارنفره» معروف‌اند. به جای اینکه کلاس‌ها را در درخت‌های عمیق وراثت از هم مشتق کنی، اشیای کوچک را کنار هم بگذار و ترکیبشان کن؛ مثل لگو.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
-    </section>
-  </main>
-  <footer>
-    <p dir="ltr">slug: <code>composition</code></p>
-  </footer>
+<body id="top">
+<a href="#main-content" class="skip-link">پرش به محتوای اصلی</a>
+<header>
+    <div class="header-notification">
+        <span>هر حرکت یک رنگ تازه</span>
+    </div>
+    <div class="container">
+        <input type="checkbox" id="mobile-menu-toggle" class="mobile-menu-toggle visually-hidden" aria-label="منوی موبایل">
+
+        <div class="main-header-info">
+            <label for="mobile-menu-toggle" class="menu-button">
+                <span class="visually-hidden">باز کردن منو</span>
+                <svg class="icon-hamburger" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+                <svg class="icon-close" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                    <path d="M18 6L6 18M6 6l12 12"/>
+                </svg>
+            </label>
+            <a href="#top" class="logo-div" aria-label="سوپرمارکت نمونه - صفحه اصلی">
+                <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 327 361" width="40" height="40" shape-rendering="geometricPrecision">
+                    <!-- بدنه سبد، لبه گرد بالا و ۳ شیار بیضوی داخلی -->
+                    <path fill="#1a2b33" fill-rule="evenodd" d="
+                                                                    M53.5 152 H301.5 C309.5 152 316 158.5 316 166.5 C316 174.5 309.5 181 301.5 181 H293
+                                                                    C290.5 190 287 204 282 222 C276 245 271 268 266 283
+                                                                    C263.5 292.5 256 299 247 299 H108
+                                                                    C99 299 91.5 292.5 89 283 L62 181 H53.5
+                                                                    C45.5 181 39 174.5 39 166.5 C39 158.5 45.5 152 53.5 152 Z
+                                                                    M174 185 C169 185 165 189 165 195 V259 C165 265 169 269 175 269 H180
+                                                                    C186 269 190 265 190 259 V195 C190 189 186 185 180 185 Z
+                                                                    M117 185 C111 185 107 190 108 196 L115 253 C116 262 120 269 127 269 H131
+                                                                    C137 269 141 264 141 258 C140 245 137 226 134 205 C133 192 127 185 121 185 Z
+                                                                    M236 184 C230 184 225 189 223 198 L215 253 C214 262 218 269 225 269 H229
+                                                                    C236 269 240 263 241 254 L248 198 C249 190 244 184 238 184 Z"/>
+                    <!-- کاشی‌های شبکه ۲×۲ با گوشه‌های گرد -->
+                    <rect x="230" y="61" width="34" height="37" rx="6" fill="#1a2b33"/>
+                    <rect x="270" y="61" width="36" height="37" rx="6" fill="#46ac5c"/>
+                    <rect x="230" y="104" width="34" height="37" rx="6" fill="#46ac5c"/>
+                    <rect x="270" y="104" width="36" height="37" rx="6" fill="#fec412"/>
+                    <!-- گنبد زرد: نیم‌دایره دقیق با مرکز x=178.5 و شعاع 51.5 -->
+                    <path fill="#fec412" d="M 127 140 A 51.5 51.5 0 0 1 230 140 Z"/>
+                    <!-- سرپوش/دستگیره متقارن و هم‌مرکز با نیم‌دایره -->
+                    <rect x="155.5" y="61" width="46" height="22" rx="11" fill="#1a2b33"/>
+                    <rect x="166.5" y="81" width="24" height="12" rx="2" fill="#1a2b33"/>
+                    <!-- برگ سبز و رگبرگ با انحنای بزیه طبیعی -->
+                    <path fill="#46ac5c" fill-rule="evenodd" d="M50 31
+                                                                    C64 32 79 36 94 43
+                                                                    C112 51 128 65 138 84
+                                                                    C141 89 139 92 136 95
+                                                                    C132 99 128 103 125 107
+                                                                    C122 112 120 117 120 121
+                                                                    C118 120 116 116 114 111
+                                                                    C108 99 98 87 84 74
+                                                                    C83 72 81 71 80 72
+                                                                    C79 74 82 78 85 82
+                                                                    C97 98 109 117 119 137
+                                                                    C121 141 119 143 115 141
+                                                                    C101 137 89 133 78 140
+                                                                    C69 134 62 122 57 107
+                                                                    C52 91 50 72 50 52 Z
+                                                                    M82 45 C93 56 104 71 113 87
+                                                                    C120 100 126 114 130 127
+                                                                    C127 124 124 120 121 116
+                                                                    C115 104 108 93 99 82
+                                                                    C92 70 86 57 82 45 Z"/>
+                </svg>
+            </a>
+            <div class="main-title">
+                <h1>سوپرمارکت ترکیب</h1>
+                <span>تازه، نزدیک، به‌صرفه</span>
+            </div>
+            <form class="search-div" role="search" action="#" method="get">
+                <label for="site-search" class="visually-hidden">جستجو در کالاها</label>
+                <input type="search" id="site-search" name="q" class="search-input" placeholder="جستجو...">
+                <svg aria-hidden="true" class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="10.5" cy="10.5" r="7.5"/>
+                    <path d="M16 16l5 5"/>
+                </svg>
+                <button type="submit" class="visually-hidden">جستجو</button>
+            </form>
+            <button class="shopping-card-button" type="button" aria-label="سبد خرید، ۳ قلم کالا">
+                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6H4l1.5 8h10.5L18 6z"/>
+                    <path d="M18 6l.5-2H21"/>
+                    <circle cx="15" cy="19" r="1.5"/>
+                    <circle cx="7" cy="19" r="1.5"/>
+                </svg>
+                <span class="shopping-card-text">سبد خرید</span>
+                <span class="shopping-card-counter" aria-hidden="true">۳</span>
+            </button>
+        </div>
+        <nav class="main-menu-header" aria-label="منوی اصلی سایت">
+            <ul class="menu-header">
+                <li class="has-dropdown">
+                    <a href="#categories" class="menu-header-link bold-text" aria-haspopup="true">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                        <span>همه دسته‌ها</span>
+                        <svg class="dropdown-chevron" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M6 9l6 6 6-6"/>
+                        </svg>
+                    </a>
+                    <div class="dropdown-menu" role="menu">
+                        <a href="#fruits-vegetables" class="dropdown-item" role="menuitem">
+                            <span class="dropdown-icon" aria-hidden="true">🍎</span>
+                            <span>میوه و سبزی</span>
+                        </a>
+                        <a href="#dairy" class="dropdown-item" role="menuitem">
+                            <span class="dropdown-icon" aria-hidden="true">🥛</span>
+                            <span>لبنیات</span>
+                        </a>
+                        <a href="#bakery" class="dropdown-item" role="menuitem">
+                            <span class="dropdown-icon" aria-hidden="true">🥖</span>
+                            <span>نان و شیرینی</span>
+                        </a>
+                        <a href="#protein" class="dropdown-item" role="menuitem">
+                            <span class="dropdown-icon" aria-hidden="true">🍗</span>
+                            <span>پروتئین</span>
+                        </a>
+                        <a href="#drinks" class="dropdown-item" role="menuitem">
+                            <span class="dropdown-icon" aria-hidden="true">🧃</span>
+                            <span>نوشیدنی</span>
+                        </a>
+                        <a href="#snacks" class="dropdown-item" role="menuitem">
+                            <span class="dropdown-icon" aria-hidden="true">🍪</span>
+                            <span>تنقلات</span>
+                        </a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#special-offers" class="menu-header-link gray-color">
+                        پیشنهاد ویژه
+                    </a>
+                </li>
+                <li>
+                    <a href="#fruits-vegetables" class="menu-header-link gray-color">
+                        میوه و سبزی
+                    </a>
+                </li>
+                <li>
+                    <a href="#dairy" class="menu-header-link gray-color">
+                        لبنیات
+                    </a>
+                </li>
+                <li>
+                    <a href="#bakery" class="menu-header-link gray-color">
+                        نان تازه
+                    </a>
+                </li>
+                <li>
+                    <a href="#contact" class="menu-header-link gray-color">
+                        تماس با ما
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- لایه تاریک پشت منو برای بستن با کلیک خارج از منو -->
+        <label for="mobile-menu-toggle" class="mobile-drawer-backdrop">
+            <span class="visually-hidden">بستن منو</span>
+        </label>
+        <!-- پنل کشویی موبایل -->
+        <aside class="mobile-drawer" aria-label="منوی کشویی موبایل">
+            <div class="mobile-drawer-header">
+                <span class="mobile-drawer-title">منوی دسترسی</span>
+                <label for="mobile-menu-toggle" class="drawer-close-btn">
+                    <span class="visually-hidden">بستن منو</span>
+                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                </label>
+            </div>
+
+            <nav class="mobile-nav-list" aria-label="لینک‌های موبایل">
+                <a href="#categories" class="mobile-nav-link bold-text">
+                    <span>☰ همه دسته‌ها</span>
+                </a>
+                <a href="#special-offers" class="mobile-nav-link">
+                    <span>🔥 پیشنهاد ویژه</span>
+                </a>
+                <a href="#fruits-vegetables" class="mobile-nav-link">
+                    <span>🍎 میوه و سبزی</span>
+                </a>
+                <a href="#dairy" class="mobile-nav-link">
+                    <span>🥛 لبنیات</span>
+                </a>
+                <a href="#bakery" class="mobile-nav-link">
+                    <span>🥖 نان تازه</span>
+                </a>
+                <a href="#contact" class="mobile-nav-link">
+                    <span>📞 تماس با ما</span>
+                </a>
+            </nav>
+            <div class="mobile-drawer-banner">
+                <div class="banner-badge">پیشنهاد هفته</div>
+                <strong>۲۰٪ تخفیف لبنیات</strong>
+                <span>فقط تا پایان هفته</span>
+            </div>
+        </aside>
+    </div>
+</header>
+
+<main id="main-content">
+    <div class="container">
+
+        <section id="categories">
+            <h2>دسته‌بندی کالاها</h2>
+            <div class="custom-row gap-10px margin-top-15px">
+                <a href="#fruits-vegetables" class="category-box custom-col-4 custom-col-md-2">
+                    <div class="category-box-image">
+                        <img src="composition-images/apple.png" alt="دسته‌بندی میوه و سبزیجات">
+                    </div>
+                    <span class="category-box-title">میوه و سبزیجات</span>
+                </a>
+
+                <a href="#dairy" class="category-box custom-col-4 custom-col-md-2">
+                    <div class="category-box-image">
+                        <img src="composition-images/dairy.png" alt="دسته‌بندی لبنیات">
+                    </div>
+                    <span class="category-box-title">لبنیات</span>
+                </a>
+
+                <a href="#bakery" class="category-box custom-col-4 custom-col-md-2">
+                    <div class="category-box-image">
+                        <img src="composition-images/bread.png" alt="دسته‌بندی نان و شیرینی">
+                    </div>
+                    <span class="category-box-title">نان و شیرینی</span>
+                </a>
+
+                <a href="#protein" class="category-box custom-col-4 custom-col-md-2">
+                    <div class="category-box-image">
+                        <img src="composition-images/protein.png" alt="دسته‌بندی مواد پروتئینی">
+                    </div>
+                    <span class="category-box-title">پروتئین</span>
+                </a>
+
+                <a href="#drinks" class="category-box custom-col-4 custom-col-md-2">
+                    <div class="category-box-image">
+                        <img src="composition-images/beverage.png" alt="دسته‌بندی نوشیدنی">
+                    </div>
+                    <span class="category-box-title">نوشیدنی</span>
+                </a>
+
+                <a href="#snacks" class="category-box custom-col-4 custom-col-md-2">
+                    <div class="category-box-image">
+                        <img src="composition-images/snacks.png" alt="دسته‌بندی تنقلات">
+                    </div>
+                    <span class="category-box-title">تنقلات</span>
+                </a>
+            </div>
+        </section>
+
+        <section id="special-offers" aria-labelledby="special-offers-title">
+            <div class="amazing-offer-div">
+                <div class="amazing-offer-time-div">
+                    <svg class="offer-badge-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M15 9l-6 6"/>
+                        <circle cx="9" cy="9" r="1" fill="currentColor"/>
+                        <circle cx="15" cy="15" r="1" fill="currentColor"/>
+                    </svg>
+                    <h2 id="special-offers-title" class="amazing-offer-heading">شگفت‌انگیز</h2>
+                    <div class="amazing-offer-time" role="timer" aria-label="زمان باقی‌مانده: ۰۷ ساعت و ۱۲ دقیقه">
+                        <div class="time-counter-div"><span>۰۷</span></div>
+                        <span class="time-separator" aria-hidden="true">:</span>
+                        <div class="time-counter-div"><span>۱۲</span></div>
+                        <span class="time-separator" aria-hidden="true">:</span>
+                        <div class="time-counter-div"><span>۲۲</span></div>
+                    </div>
+                    <a href="#all-offers" class="amazing-offer-time-button">
+                        <span>مشاهده همه</span>
+                        <svg class="chevron-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 6l-6 6 6 6"/>
+                        </svg>
+                    </a>
+                </div>
+
+                <div class="amazing-offer-carousel-wrapper">
+                    <!-- دکمه رفتن به کارت اول (مطابق سند: تغییر URL fragment بدون JS) -->
+                    <a href="#offer-card-1" class="carousel-nav-btn previous-arrow-button" aria-label="رفتن به ابتدای محصولات">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18l6-6-6-6"/>
+                        </svg>
+                    </a>
+
+                    <!-- کانتینر اسکرول محصولات -->
+                    <section class="amazing-offer-list-div thin-scrollbar" tabindex="0"  aria-label="لیست محصولات شگفت‌انگیز">
+
+                        <!-- کارت ۱ -->
+                        <div class="amazing-offer-box" id="offer-card-1">
+                            <div class="amazing-offer-box-image-div">
+                                <img src="composition-images/chocolate.png" alt="شکلات تلخ صبحانه" loading="lazy">
+                            </div>
+                            <span class="amazing-offer-box-title">شکلات صبحانه فندقی کاله</span>
+                            <span class="amazing-offer-box-weight">۳۵۰ گرم</span>
+                            <div class="main-amazing-price-div">
+                                <div class="amazing-offer-box-old-price-div">
+                                    <span class="amazing-offer-box-discount-label">۷۰٪</span>
+                                    <span class="old-price">۳۰۰,۰۰۰</span>
+                                </div>
+                                <div class="amazing-offer-box-price-div">
+                                    <button type="button" class="add-button" aria-label="افزودن شکلات صبحانه به سبد خرید">
+                                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        </svg>
+                                    </button>
+                                    <div class="amazing-offer-box-price">
+                                        <span>۹۰,۰۰۰</span>
+                                        <span class="toman">
+                                            <svg  width="17" height="17" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                              <path class="text-gray-880 dark:text-white" d="M1.14878 6.91843C1.44428 6.91843 1.70285 6.87142 1.92447 6.77739C2.15282 6.68337 2.34422 6.55577 2.49869 6.39458C2.65316 6.2334 2.77069 6.04535 2.85128 5.83044C2.93187 5.62224 2.97888 5.40062 2.99231 5.16556H1.98492C1.6424 5.16556 1.36033 5.12862 1.1387 5.05474C0.917077 4.98087 0.742461 4.87341 0.614858 4.73238C0.487254 4.59134 0.396588 4.42344 0.34286 4.22868C0.295849 4.0272 0.272343 3.80221 0.272343 3.55372C0.272343 3.29852 0.309281 3.05674 0.383156 2.8284C0.457032 2.60005 0.564488 2.39857 0.705523 2.22396C0.846559 2.04934 1.02117 1.91167 1.22937 1.81093C1.44428 1.70347 1.68941 1.64974 1.96477 1.64974C2.1864 1.64974 2.39795 1.68668 2.59943 1.76056C2.80091 1.83443 2.97888 1.95196 3.13335 2.11315C3.28782 2.26761 3.40871 2.47245 3.49601 2.72766C3.59004 2.97615 3.63705 3.27837 3.63705 3.63431V4.47045H4.60415C4.68474 4.47045 4.73847 4.50068 4.76533 4.56112C4.79891 4.61485 4.8157 4.6988 4.8157 4.81297C4.8157 4.93386 4.79891 5.02452 4.76533 5.08497C4.73847 5.13869 4.68474 5.16556 4.60415 5.16556H3.6169C3.60347 5.49464 3.53631 5.80693 3.41542 6.10244C3.30125 6.39794 3.14007 6.65651 2.93187 6.87813C2.72368 7.09976 2.47518 7.27438 2.1864 7.40198C1.89761 7.5363 1.57188 7.60346 1.20922 7.60346H0.141381L0.0809373 6.91843H1.14878ZM0.896929 3.51343C0.896929 3.68133 0.913719 3.82572 0.947299 3.94661C0.987594 4.0675 1.0514 4.16823 1.1387 4.24883C1.23273 4.3227 1.35697 4.37979 1.51144 4.42008C1.66591 4.45366 1.86067 4.47045 2.09573 4.47045H3.00239V3.71491C3.00239 3.21792 2.90501 2.86198 2.71024 2.64707C2.51548 2.43215 2.24684 2.3247 1.90433 2.3247C1.58196 2.3247 1.33347 2.43215 1.15885 2.64707C0.984237 2.86198 0.896929 3.15076 0.896929 3.51343ZM6.26895 4.47045C6.35626 4.47045 6.41335 4.50068 6.44021 4.56112C6.47379 4.61485 6.49058 4.6988 6.49058 4.81297C6.49058 4.93386 6.47379 5.02452 6.44021 5.08497C6.41335 5.13869 6.35626 5.16556 6.26895 5.16556H4.60675C4.51944 5.16556 4.46235 5.13869 4.43549 5.08497C4.40191 5.03124 4.38512 4.94729 4.38512 4.83312C4.38512 4.71223 4.40191 4.62156 4.43549 4.56112C4.46235 4.50068 4.51944 4.47045 4.60675 4.47045H6.26895ZM7.93155 4.47045C8.01886 4.47045 8.07594 4.50068 8.10281 4.56112C8.13639 4.61485 8.15318 4.6988 8.15318 4.81297C8.15318 4.93386 8.13639 5.02452 8.10281 5.08497C8.07594 5.13869 8.01886 5.16556 7.93155 5.16556H6.26935C6.18204 5.16556 6.12495 5.13869 6.09809 5.08497C6.06451 5.03124 6.04772 4.94729 6.04772 4.83312C6.04772 4.71223 6.06451 4.62156 6.09809 4.56112C6.12495 4.50068 6.18204 4.47045 6.26935 4.47045H7.93155ZM9.59415 4.47045C9.68146 4.47045 9.73854 4.50068 9.76541 4.56112C9.79899 4.61485 9.81578 4.6988 9.81578 4.81297C9.81578 4.93386 9.79899 5.02452 9.76541 5.08497C9.73854 5.13869 9.68146 5.16556 9.59415 5.16556H7.93194C7.84464 5.16556 7.78755 5.13869 7.76069 5.08497C7.72711 5.03124 7.71032 4.94729 7.71032 4.83312C7.71032 4.71223 7.72711 4.62156 7.76069 4.56112C7.78755 4.50068 7.84464 4.47045 7.93194 4.47045H9.59415ZM11.2567 4.47045C11.3441 4.47045 11.4011 4.50068 11.428 4.56112C11.4616 4.61485 11.4784 4.6988 11.4784 4.81297C11.4784 4.93386 11.4616 5.02452 11.428 5.08497C11.4011 5.13869 11.3441 5.16556 11.2567 5.16556H9.59454C9.50723 5.16556 9.45015 5.13869 9.42328 5.08497C9.3897 5.03124 9.37291 4.94729 9.37291 4.83312C9.37291 4.71223 9.3897 4.62156 9.42328 4.56112C9.45015 4.50068 9.50723 4.47045 9.59454 4.47045H11.2567ZM12.1638 4.47045C12.4257 4.47045 12.6339 4.39994 12.7884 4.2589C12.9496 4.11787 13.0302 3.9231 13.0302 3.67461V2.2844H13.685V3.67461C13.685 4.15144 13.5506 4.52082 13.282 4.78275C13.0201 5.03795 12.6608 5.16556 12.2041 5.16556H11.2571C11.1698 5.16556 11.1127 5.13869 11.0859 5.08497C11.0523 5.03124 11.0355 4.94729 11.0355 4.83312C11.0355 4.71223 11.0523 4.62156 11.0859 4.56112C11.1127 4.50068 11.1698 4.47045 11.2571 4.47045H12.1638ZM13.7857 0.994934H12.9798V0.279683H13.7857V0.994934ZM12.5063 0.994934H11.7004V0.279683H12.5063V0.994934ZM5.64177 12.9641C5.64177 13.3267 5.58468 13.6659 5.47051 13.9815C5.35634 14.3039 5.1918 14.5826 4.97689 14.8177C4.76198 15.0595 4.50005 15.2509 4.19112 15.3919C3.8889 15.5329 3.54638 15.6035 3.16357 15.6035H2.56921C1.81702 15.6035 1.23273 15.3718 0.816337 14.9084C0.399946 14.445 0.191751 13.8103 0.191751 13.0044V11.2414H0.836485V12.9842C0.836485 13.273 0.870065 13.5349 0.937225 13.77C1.0111 14.0051 1.12191 14.2065 1.26967 14.3744C1.42413 14.549 1.61554 14.6834 1.84388 14.7774C2.07223 14.8714 2.34758 14.9184 2.66995 14.9184H3.1132C3.42885 14.9184 3.70421 14.8647 3.93927 14.7572C4.17433 14.6565 4.36909 14.5188 4.52356 14.3442C4.68474 14.1696 4.80227 13.9648 4.87615 13.7297C4.95674 13.4946 4.99703 13.2495 4.99703 12.9943V10.2844H5.64177V12.9641ZM3.21394 10.0628H2.36773V9.32738H3.21394V10.0628ZM8.24526 13.1656C8.07064 13.1656 7.90274 13.1421 7.74156 13.095C7.58038 13.0413 7.43598 12.954 7.30838 12.8331C7.18749 12.7122 7.09011 12.5544 7.01624 12.3596C6.94236 12.1582 6.90542 11.9097 6.90542 11.6142V6.9197H7.56023V11.4933C7.56023 11.7754 7.62067 12.0104 7.74156 12.1985C7.86916 12.3798 8.074 12.4705 8.35607 12.4705H8.52733C8.67508 12.4705 8.74896 12.5846 8.74896 12.813C8.74896 13.048 8.67508 13.1656 8.52733 13.1656H8.24526ZM8.69324 12.4705C8.95516 12.4705 9.15328 12.4067 9.2876 12.279C9.42192 12.1514 9.48908 11.9802 9.48908 11.7653V11.3825C9.48908 10.7982 9.63683 10.3415 9.93233 10.0124C10.2346 9.68332 10.6509 9.51878 11.1815 9.51878C11.4569 9.51878 11.6986 9.56243 11.9068 9.64974C12.115 9.73705 12.2863 9.8613 12.4206 10.0225C12.5616 10.1837 12.6657 10.3751 12.7329 10.5967C12.8001 10.8183 12.8336 11.0635 12.8336 11.3321C12.8336 11.9097 12.6825 12.3596 12.3803 12.682C12.0781 13.0044 11.6651 13.1656 11.1412 13.1656C10.8726 13.1656 10.614 13.1152 10.3655 13.0144C10.117 12.907 9.92226 12.7189 9.78123 12.4503C9.72078 12.6048 9.64691 12.729 9.5596 12.823C9.47229 12.9171 9.38162 12.9909 9.2876 13.0447C9.19358 13.0917 9.09284 13.1253 8.98538 13.1454C8.88464 13.1588 8.78726 13.1656 8.69324 13.1656H8.53205C8.44475 13.1656 8.38766 13.1387 8.3608 13.085C8.32722 13.0312 8.31043 12.9473 8.31043 12.8331C8.31043 12.7122 8.32722 12.6216 8.3608 12.5611C8.38766 12.5007 8.44475 12.4705 8.53205 12.4705H8.69324ZM12.1889 11.3925C12.1889 11.0433 12.1117 10.7612 11.9572 10.5463C11.8027 10.3247 11.5375 10.2139 11.1614 10.2139C10.4629 10.2139 10.1137 10.6202 10.1137 11.4328C10.1137 11.7754 10.2077 12.0339 10.3957 12.2085C10.5905 12.3831 10.839 12.4705 11.1412 12.4705C11.4837 12.4705 11.7423 12.3764 11.9169 12.1884C12.0982 12.0003 12.1889 11.7351 12.1889 11.3925Z" fill="currentColor"></path>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- کارت ۲ -->
+                        <div class="amazing-offer-box" id="offer-card-2">
+                            <div class="amazing-offer-box-image-div">
+                                <img src="composition-images/milk.png" alt="شیر کم‌چرب بطری" loading="lazy">
+                            </div>
+                            <span class="amazing-offer-box-title">شیر کم‌چرب پاستوریزه محلی</span>
+                            <span class="amazing-offer-box-weight">۱ لیتر</span>
+                            <div class="main-amazing-price-div">
+                                <div class="amazing-offer-box-old-price-div">
+                                    <span class="amazing-offer-box-discount-label">۳۰٪</span>
+                                    <span class="old-price">۴۵,۰۰۰</span>
+                                </div>
+                                <div class="amazing-offer-box-price-div">
+                                    <button type="button" class="add-button" aria-label="افزودن شیر به سبد خرید">
+                                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        </svg>
+                                    </button>
+                                    <div class="amazing-offer-box-price">
+                                        <span>۳۱,۵۰۰</span>
+                                        <span class="toman">
+                                            <svg  width="17" height="17" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                              <path class="text-gray-880 dark:text-white" d="M1.14878 6.91843C1.44428 6.91843 1.70285 6.87142 1.92447 6.77739C2.15282 6.68337 2.34422 6.55577 2.49869 6.39458C2.65316 6.2334 2.77069 6.04535 2.85128 5.83044C2.93187 5.62224 2.97888 5.40062 2.99231 5.16556H1.98492C1.6424 5.16556 1.36033 5.12862 1.1387 5.05474C0.917077 4.98087 0.742461 4.87341 0.614858 4.73238C0.487254 4.59134 0.396588 4.42344 0.34286 4.22868C0.295849 4.0272 0.272343 3.80221 0.272343 3.55372C0.272343 3.29852 0.309281 3.05674 0.383156 2.8284C0.457032 2.60005 0.564488 2.39857 0.705523 2.22396C0.846559 2.04934 1.02117 1.91167 1.22937 1.81093C1.44428 1.70347 1.68941 1.64974 1.96477 1.64974C2.1864 1.64974 2.39795 1.68668 2.59943 1.76056C2.80091 1.83443 2.97888 1.95196 3.13335 2.11315C3.28782 2.26761 3.40871 2.47245 3.49601 2.72766C3.59004 2.97615 3.63705 3.27837 3.63705 3.63431V4.47045H4.60415C4.68474 4.47045 4.73847 4.50068 4.76533 4.56112C4.79891 4.61485 4.8157 4.6988 4.8157 4.81297C4.8157 4.93386 4.79891 5.02452 4.76533 5.08497C4.73847 5.13869 4.68474 5.16556 4.60415 5.16556H3.6169C3.60347 5.49464 3.53631 5.80693 3.41542 6.10244C3.30125 6.39794 3.14007 6.65651 2.93187 6.87813C2.72368 7.09976 2.47518 7.27438 2.1864 7.40198C1.89761 7.5363 1.57188 7.60346 1.20922 7.60346H0.141381L0.0809373 6.91843H1.14878ZM0.896929 3.51343C0.896929 3.68133 0.913719 3.82572 0.947299 3.94661C0.987594 4.0675 1.0514 4.16823 1.1387 4.24883C1.23273 4.3227 1.35697 4.37979 1.51144 4.42008C1.66591 4.45366 1.86067 4.47045 2.09573 4.47045H3.00239V3.71491C3.00239 3.21792 2.90501 2.86198 2.71024 2.64707C2.51548 2.43215 2.24684 2.3247 1.90433 2.3247C1.58196 2.3247 1.33347 2.43215 1.15885 2.64707C0.984237 2.86198 0.896929 3.15076 0.896929 3.51343ZM6.26895 4.47045C6.35626 4.47045 6.41335 4.50068 6.44021 4.56112C6.47379 4.61485 6.49058 4.6988 6.49058 4.81297C6.49058 4.93386 6.47379 5.02452 6.44021 5.08497C6.41335 5.13869 6.35626 5.16556 6.26895 5.16556H4.60675C4.51944 5.16556 4.46235 5.13869 4.43549 5.08497C4.40191 5.03124 4.38512 4.94729 4.38512 4.83312C4.38512 4.71223 4.40191 4.62156 4.43549 4.56112C4.46235 4.50068 4.51944 4.47045 4.60675 4.47045H6.26895ZM7.93155 4.47045C8.01886 4.47045 8.07594 4.50068 8.10281 4.56112C8.13639 4.61485 8.15318 4.6988 8.15318 4.81297C8.15318 4.93386 8.13639 5.02452 8.10281 5.08497C8.07594 5.13869 8.01886 5.16556 7.93155 5.16556H6.26935C6.18204 5.16556 6.12495 5.13869 6.09809 5.08497C6.06451 5.03124 6.04772 4.94729 6.04772 4.83312C6.04772 4.71223 6.06451 4.62156 6.09809 4.56112C6.12495 4.50068 6.18204 4.47045 6.26935 4.47045H7.93155ZM9.59415 4.47045C9.68146 4.47045 9.73854 4.50068 9.76541 4.56112C9.79899 4.61485 9.81578 4.6988 9.81578 4.81297C9.81578 4.93386 9.79899 5.02452 9.76541 5.08497C9.73854 5.13869 9.68146 5.16556 9.59415 5.16556H7.93194C7.84464 5.16556 7.78755 5.13869 7.76069 5.08497C7.72711 5.03124 7.71032 4.94729 7.71032 4.83312C7.71032 4.71223 7.72711 4.62156 7.76069 4.56112C7.78755 4.50068 7.84464 4.47045 7.93194 4.47045H9.59415ZM11.2567 4.47045C11.3441 4.47045 11.4011 4.50068 11.428 4.56112C11.4616 4.61485 11.4784 4.6988 11.4784 4.81297C11.4784 4.93386 11.4616 5.02452 11.428 5.08497C11.4011 5.13869 11.3441 5.16556 11.2567 5.16556H9.59454C9.50723 5.16556 9.45015 5.13869 9.42328 5.08497C9.3897 5.03124 9.37291 4.94729 9.37291 4.83312C9.37291 4.71223 9.3897 4.62156 9.42328 4.56112C9.45015 4.50068 9.50723 4.47045 9.59454 4.47045H11.2567ZM12.1638 4.47045C12.4257 4.47045 12.6339 4.39994 12.7884 4.2589C12.9496 4.11787 13.0302 3.9231 13.0302 3.67461V2.2844H13.685V3.67461C13.685 4.15144 13.5506 4.52082 13.282 4.78275C13.0201 5.03795 12.6608 5.16556 12.2041 5.16556H11.2571C11.1698 5.16556 11.1127 5.13869 11.0859 5.08497C11.0523 5.03124 11.0355 4.94729 11.0355 4.83312C11.0355 4.71223 11.0523 4.62156 11.0859 4.56112C11.1127 4.50068 11.1698 4.47045 11.2571 4.47045H12.1638ZM13.7857 0.994934H12.9798V0.279683H13.7857V0.994934ZM12.5063 0.994934H11.7004V0.279683H12.5063V0.994934ZM5.64177 12.9641C5.64177 13.3267 5.58468 13.6659 5.47051 13.9815C5.35634 14.3039 5.1918 14.5826 4.97689 14.8177C4.76198 15.0595 4.50005 15.2509 4.19112 15.3919C3.8889 15.5329 3.54638 15.6035 3.16357 15.6035H2.56921C1.81702 15.6035 1.23273 15.3718 0.816337 14.9084C0.399946 14.445 0.191751 13.8103 0.191751 13.0044V11.2414H0.836485V12.9842C0.836485 13.273 0.870065 13.5349 0.937225 13.77C1.0111 14.0051 1.12191 14.2065 1.26967 14.3744C1.42413 14.549 1.61554 14.6834 1.84388 14.7774C2.07223 14.8714 2.34758 14.9184 2.66995 14.9184H3.1132C3.42885 14.9184 3.70421 14.8647 3.93927 14.7572C4.17433 14.6565 4.36909 14.5188 4.52356 14.3442C4.68474 14.1696 4.80227 13.9648 4.87615 13.7297C4.95674 13.4946 4.99703 13.2495 4.99703 12.9943V10.2844H5.64177V12.9641ZM3.21394 10.0628H2.36773V9.32738H3.21394V10.0628ZM8.24526 13.1656C8.07064 13.1656 7.90274 13.1421 7.74156 13.095C7.58038 13.0413 7.43598 12.954 7.30838 12.8331C7.18749 12.7122 7.09011 12.5544 7.01624 12.3596C6.94236 12.1582 6.90542 11.9097 6.90542 11.6142V6.9197H7.56023V11.4933C7.56023 11.7754 7.62067 12.0104 7.74156 12.1985C7.86916 12.3798 8.074 12.4705 8.35607 12.4705H8.52733C8.67508 12.4705 8.74896 12.5846 8.74896 12.813C8.74896 13.048 8.67508 13.1656 8.52733 13.1656H8.24526ZM8.69324 12.4705C8.95516 12.4705 9.15328 12.4067 9.2876 12.279C9.42192 12.1514 9.48908 11.9802 9.48908 11.7653V11.3825C9.48908 10.7982 9.63683 10.3415 9.93233 10.0124C10.2346 9.68332 10.6509 9.51878 11.1815 9.51878C11.4569 9.51878 11.6986 9.56243 11.9068 9.64974C12.115 9.73705 12.2863 9.8613 12.4206 10.0225C12.5616 10.1837 12.6657 10.3751 12.7329 10.5967C12.8001 10.8183 12.8336 11.0635 12.8336 11.3321C12.8336 11.9097 12.6825 12.3596 12.3803 12.682C12.0781 13.0044 11.6651 13.1656 11.1412 13.1656C10.8726 13.1656 10.614 13.1152 10.3655 13.0144C10.117 12.907 9.92226 12.7189 9.78123 12.4503C9.72078 12.6048 9.64691 12.729 9.5596 12.823C9.47229 12.9171 9.38162 12.9909 9.2876 13.0447C9.19358 13.0917 9.09284 13.1253 8.98538 13.1454C8.88464 13.1588 8.78726 13.1656 8.69324 13.1656H8.53205C8.44475 13.1656 8.38766 13.1387 8.3608 13.085C8.32722 13.0312 8.31043 12.9473 8.31043 12.8331C8.31043 12.7122 8.32722 12.6216 8.3608 12.5611C8.38766 12.5007 8.44475 12.4705 8.53205 12.4705H8.69324ZM12.1889 11.3925C12.1889 11.0433 12.1117 10.7612 11.9572 10.5463C11.8027 10.3247 11.5375 10.2139 11.1614 10.2139C10.4629 10.2139 10.1137 10.6202 10.1137 11.4328C10.1137 11.7754 10.2077 12.0339 10.3957 12.2085C10.5905 12.3831 10.839 12.4705 11.1412 12.4705C11.4837 12.4705 11.7423 12.3764 11.9169 12.1884C12.0982 12.0003 12.1889 11.7351 12.1889 11.3925Z" fill="currentColor"></path>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- کارت ۳ -->
+                        <div class="amazing-offer-box" id="offer-card-3">
+                            <div class="amazing-offer-box-image-div">
+                                <img src="composition-images/yogurt.png" alt="ماست همزده پرچرب" loading="lazy">
+                            </div>
+                            <span class="amazing-offer-box-title">ماست همزده دبه‌ای سون</span>
+                            <span class="amazing-offer-box-weight">۹۰۰ گرم</span>
+                            <div class="main-amazing-price-div">
+                                <div class="amazing-offer-box-old-price-div">
+                                    <span class="amazing-offer-box-discount-label">۲۰٪</span>
+                                    <span class="old-price">۸۵,۰۰۰</span>
+                                </div>
+                                <div class="amazing-offer-box-price-div">
+                                    <button type="button" class="add-button" aria-label="افزودن ماست به سبد خرید">
+                                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        </svg>
+                                    </button>
+                                    <div class="amazing-offer-box-price">
+                                        <span>۶۸,۰۰۰</span>
+                                        <span class="toman">
+                                            <svg  width="17" height="17" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                              <path class="text-gray-880 dark:text-white" d="M1.14878 6.91843C1.44428 6.91843 1.70285 6.87142 1.92447 6.77739C2.15282 6.68337 2.34422 6.55577 2.49869 6.39458C2.65316 6.2334 2.77069 6.04535 2.85128 5.83044C2.93187 5.62224 2.97888 5.40062 2.99231 5.16556H1.98492C1.6424 5.16556 1.36033 5.12862 1.1387 5.05474C0.917077 4.98087 0.742461 4.87341 0.614858 4.73238C0.487254 4.59134 0.396588 4.42344 0.34286 4.22868C0.295849 4.0272 0.272343 3.80221 0.272343 3.55372C0.272343 3.29852 0.309281 3.05674 0.383156 2.8284C0.457032 2.60005 0.564488 2.39857 0.705523 2.22396C0.846559 2.04934 1.02117 1.91167 1.22937 1.81093C1.44428 1.70347 1.68941 1.64974 1.96477 1.64974C2.1864 1.64974 2.39795 1.68668 2.59943 1.76056C2.80091 1.83443 2.97888 1.95196 3.13335 2.11315C3.28782 2.26761 3.40871 2.47245 3.49601 2.72766C3.59004 2.97615 3.63705 3.27837 3.63705 3.63431V4.47045H4.60415C4.68474 4.47045 4.73847 4.50068 4.76533 4.56112C4.79891 4.61485 4.8157 4.6988 4.8157 4.81297C4.8157 4.93386 4.79891 5.02452 4.76533 5.08497C4.73847 5.13869 4.68474 5.16556 4.60415 5.16556H3.6169C3.60347 5.49464 3.53631 5.80693 3.41542 6.10244C3.30125 6.39794 3.14007 6.65651 2.93187 6.87813C2.72368 7.09976 2.47518 7.27438 2.1864 7.40198C1.89761 7.5363 1.57188 7.60346 1.20922 7.60346H0.141381L0.0809373 6.91843H1.14878ZM0.896929 3.51343C0.896929 3.68133 0.913719 3.82572 0.947299 3.94661C0.987594 4.0675 1.0514 4.16823 1.1387 4.24883C1.23273 4.3227 1.35697 4.37979 1.51144 4.42008C1.66591 4.45366 1.86067 4.47045 2.09573 4.47045H3.00239V3.71491C3.00239 3.21792 2.90501 2.86198 2.71024 2.64707C2.51548 2.43215 2.24684 2.3247 1.90433 2.3247C1.58196 2.3247 1.33347 2.43215 1.15885 2.64707C0.984237 2.86198 0.896929 3.15076 0.896929 3.51343ZM6.26895 4.47045C6.35626 4.47045 6.41335 4.50068 6.44021 4.56112C6.47379 4.61485 6.49058 4.6988 6.49058 4.81297C6.49058 4.93386 6.47379 5.02452 6.44021 5.08497C6.41335 5.13869 6.35626 5.16556 6.26895 5.16556H4.60675C4.51944 5.16556 4.46235 5.13869 4.43549 5.08497C4.40191 5.03124 4.38512 4.94729 4.38512 4.83312C4.38512 4.71223 4.40191 4.62156 4.43549 4.56112C4.46235 4.50068 4.51944 4.47045 4.60675 4.47045H6.26895ZM7.93155 4.47045C8.01886 4.47045 8.07594 4.50068 8.10281 4.56112C8.13639 4.61485 8.15318 4.6988 8.15318 4.81297C8.15318 4.93386 8.13639 5.02452 8.10281 5.08497C8.07594 5.13869 8.01886 5.16556 7.93155 5.16556H6.26935C6.18204 5.16556 6.12495 5.13869 6.09809 5.08497C6.06451 5.03124 6.04772 4.94729 6.04772 4.83312C6.04772 4.71223 6.06451 4.62156 6.09809 4.56112C6.12495 4.50068 6.18204 4.47045 6.26935 4.47045H7.93155ZM9.59415 4.47045C9.68146 4.47045 9.73854 4.50068 9.76541 4.56112C9.79899 4.61485 9.81578 4.6988 9.81578 4.81297C9.81578 4.93386 9.79899 5.02452 9.76541 5.08497C9.73854 5.13869 9.68146 5.16556 9.59415 5.16556H7.93194C7.84464 5.16556 7.78755 5.13869 7.76069 5.08497C7.72711 5.03124 7.71032 4.94729 7.71032 4.83312C7.71032 4.71223 7.72711 4.62156 7.76069 4.56112C7.78755 4.50068 7.84464 4.47045 7.93194 4.47045H9.59415ZM11.2567 4.47045C11.3441 4.47045 11.4011 4.50068 11.428 4.56112C11.4616 4.61485 11.4784 4.6988 11.4784 4.81297C11.4784 4.93386 11.4616 5.02452 11.428 5.08497C11.4011 5.13869 11.3441 5.16556 11.2567 5.16556H9.59454C9.50723 5.16556 9.45015 5.13869 9.42328 5.08497C9.3897 5.03124 9.37291 4.94729 9.37291 4.83312C9.37291 4.71223 9.3897 4.62156 9.42328 4.56112C9.45015 4.50068 9.50723 4.47045 9.59454 4.47045H11.2567ZM12.1638 4.47045C12.4257 4.47045 12.6339 4.39994 12.7884 4.2589C12.9496 4.11787 13.0302 3.9231 13.0302 3.67461V2.2844H13.685V3.67461C13.685 4.15144 13.5506 4.52082 13.282 4.78275C13.0201 5.03795 12.6608 5.16556 12.2041 5.16556H11.2571C11.1698 5.16556 11.1127 5.13869 11.0859 5.08497C11.0523 5.03124 11.0355 4.94729 11.0355 4.83312C11.0355 4.71223 11.0523 4.62156 11.0859 4.56112C11.1127 4.50068 11.1698 4.47045 11.2571 4.47045H12.1638ZM13.7857 0.994934H12.9798V0.279683H13.7857V0.994934ZM12.5063 0.994934H11.7004V0.279683H12.5063V0.994934ZM5.64177 12.9641C5.64177 13.3267 5.58468 13.6659 5.47051 13.9815C5.35634 14.3039 5.1918 14.5826 4.97689 14.8177C4.76198 15.0595 4.50005 15.2509 4.19112 15.3919C3.8889 15.5329 3.54638 15.6035 3.16357 15.6035H2.56921C1.81702 15.6035 1.23273 15.3718 0.816337 14.9084C0.399946 14.445 0.191751 13.8103 0.191751 13.0044V11.2414H0.836485V12.9842C0.836485 13.273 0.870065 13.5349 0.937225 13.77C1.0111 14.0051 1.12191 14.2065 1.26967 14.3744C1.42413 14.549 1.61554 14.6834 1.84388 14.7774C2.07223 14.8714 2.34758 14.9184 2.66995 14.9184H3.1132C3.42885 14.9184 3.70421 14.8647 3.93927 14.7572C4.17433 14.6565 4.36909 14.5188 4.52356 14.3442C4.68474 14.1696 4.80227 13.9648 4.87615 13.7297C4.95674 13.4946 4.99703 13.2495 4.99703 12.9943V10.2844H5.64177V12.9641ZM3.21394 10.0628H2.36773V9.32738H3.21394V10.0628ZM8.24526 13.1656C8.07064 13.1656 7.90274 13.1421 7.74156 13.095C7.58038 13.0413 7.43598 12.954 7.30838 12.8331C7.18749 12.7122 7.09011 12.5544 7.01624 12.3596C6.94236 12.1582 6.90542 11.9097 6.90542 11.6142V6.9197H7.56023V11.4933C7.56023 11.7754 7.62067 12.0104 7.74156 12.1985C7.86916 12.3798 8.074 12.4705 8.35607 12.4705H8.52733C8.67508 12.4705 8.74896 12.5846 8.74896 12.813C8.74896 13.048 8.67508 13.1656 8.52733 13.1656H8.24526ZM8.69324 12.4705C8.95516 12.4705 9.15328 12.4067 9.2876 12.279C9.42192 12.1514 9.48908 11.9802 9.48908 11.7653V11.3825C9.48908 10.7982 9.63683 10.3415 9.93233 10.0124C10.2346 9.68332 10.6509 9.51878 11.1815 9.51878C11.4569 9.51878 11.6986 9.56243 11.9068 9.64974C12.115 9.73705 12.2863 9.8613 12.4206 10.0225C12.5616 10.1837 12.6657 10.3751 12.7329 10.5967C12.8001 10.8183 12.8336 11.0635 12.8336 11.3321C12.8336 11.9097 12.6825 12.3596 12.3803 12.682C12.0781 13.0044 11.6651 13.1656 11.1412 13.1656C10.8726 13.1656 10.614 13.1152 10.3655 13.0144C10.117 12.907 9.92226 12.7189 9.78123 12.4503C9.72078 12.6048 9.64691 12.729 9.5596 12.823C9.47229 12.9171 9.38162 12.9909 9.2876 13.0447C9.19358 13.0917 9.09284 13.1253 8.98538 13.1454C8.88464 13.1588 8.78726 13.1656 8.69324 13.1656H8.53205C8.44475 13.1656 8.38766 13.1387 8.3608 13.085C8.32722 13.0312 8.31043 12.9473 8.31043 12.8331C8.31043 12.7122 8.32722 12.6216 8.3608 12.5611C8.38766 12.5007 8.44475 12.4705 8.53205 12.4705H8.69324ZM12.1889 11.3925C12.1889 11.0433 12.1117 10.7612 11.9572 10.5463C11.8027 10.3247 11.5375 10.2139 11.1614 10.2139C10.4629 10.2139 10.1137 10.6202 10.1137 11.4328C10.1137 11.7754 10.2077 12.0339 10.3957 12.2085C10.5905 12.3831 10.839 12.4705 11.1412 12.4705C11.4837 12.4705 11.7423 12.3764 11.9169 12.1884C12.0982 12.0003 12.1889 11.7351 12.1889 11.3925Z" fill="currentColor"></path>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- کارت ۴ -->
+                        <div class="amazing-offer-box" id="offer-card-4">
+                            <div class="amazing-offer-box-image-div">
+                                <img src="composition-images/lays.png" alt="چیپس سیب‌زمینی نمکی" loading="lazy">
+                            </div>
+                            <span class="amazing-offer-box-title">چیپس ساده نمکی ترد</span>
+                            <span class="amazing-offer-box-weight">۱۵۰ گرم</span>
+                            <div class="main-amazing-price-div">
+                                <div class="amazing-offer-box-old-price-div">
+                                    <span class="amazing-offer-box-discount-label">۱۵٪</span>
+                                    <span class="old-price">۴۰,۰۰۰</span>
+                                </div>
+                                <div class="amazing-offer-box-price-div">
+                                    <button type="button" class="add-button" aria-label="افزودن چیپس به سبد خرید">
+                                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        </svg>
+                                    </button>
+                                    <div class="amazing-offer-box-price">
+                                        <span>۳۴,۰۰۰</span>
+                                        <span class="toman">
+                                            <svg  width="17" height="17" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                              <path class="text-gray-880 dark:text-white" d="M1.14878 6.91843C1.44428 6.91843 1.70285 6.87142 1.92447 6.77739C2.15282 6.68337 2.34422 6.55577 2.49869 6.39458C2.65316 6.2334 2.77069 6.04535 2.85128 5.83044C2.93187 5.62224 2.97888 5.40062 2.99231 5.16556H1.98492C1.6424 5.16556 1.36033 5.12862 1.1387 5.05474C0.917077 4.98087 0.742461 4.87341 0.614858 4.73238C0.487254 4.59134 0.396588 4.42344 0.34286 4.22868C0.295849 4.0272 0.272343 3.80221 0.272343 3.55372C0.272343 3.29852 0.309281 3.05674 0.383156 2.8284C0.457032 2.60005 0.564488 2.39857 0.705523 2.22396C0.846559 2.04934 1.02117 1.91167 1.22937 1.81093C1.44428 1.70347 1.68941 1.64974 1.96477 1.64974C2.1864 1.64974 2.39795 1.68668 2.59943 1.76056C2.80091 1.83443 2.97888 1.95196 3.13335 2.11315C3.28782 2.26761 3.40871 2.47245 3.49601 2.72766C3.59004 2.97615 3.63705 3.27837 3.63705 3.63431V4.47045H4.60415C4.68474 4.47045 4.73847 4.50068 4.76533 4.56112C4.79891 4.61485 4.8157 4.6988 4.8157 4.81297C4.8157 4.93386 4.79891 5.02452 4.76533 5.08497C4.73847 5.13869 4.68474 5.16556 4.60415 5.16556H3.6169C3.60347 5.49464 3.53631 5.80693 3.41542 6.10244C3.30125 6.39794 3.14007 6.65651 2.93187 6.87813C2.72368 7.09976 2.47518 7.27438 2.1864 7.40198C1.89761 7.5363 1.57188 7.60346 1.20922 7.60346H0.141381L0.0809373 6.91843H1.14878ZM0.896929 3.51343C0.896929 3.68133 0.913719 3.82572 0.947299 3.94661C0.987594 4.0675 1.0514 4.16823 1.1387 4.24883C1.23273 4.3227 1.35697 4.37979 1.51144 4.42008C1.66591 4.45366 1.86067 4.47045 2.09573 4.47045H3.00239V3.71491C3.00239 3.21792 2.90501 2.86198 2.71024 2.64707C2.51548 2.43215 2.24684 2.3247 1.90433 2.3247C1.58196 2.3247 1.33347 2.43215 1.15885 2.64707C0.984237 2.86198 0.896929 3.15076 0.896929 3.51343ZM6.26895 4.47045C6.35626 4.47045 6.41335 4.50068 6.44021 4.56112C6.47379 4.61485 6.49058 4.6988 6.49058 4.81297C6.49058 4.93386 6.47379 5.02452 6.44021 5.08497C6.41335 5.13869 6.35626 5.16556 6.26895 5.16556H4.60675C4.51944 5.16556 4.46235 5.13869 4.43549 5.08497C4.40191 5.03124 4.38512 4.94729 4.38512 4.83312C4.38512 4.71223 4.40191 4.62156 4.43549 4.56112C4.46235 4.50068 4.51944 4.47045 4.60675 4.47045H6.26895ZM7.93155 4.47045C8.01886 4.47045 8.07594 4.50068 8.10281 4.56112C8.13639 4.61485 8.15318 4.6988 8.15318 4.81297C8.15318 4.93386 8.13639 5.02452 8.10281 5.08497C8.07594 5.13869 8.01886 5.16556 7.93155 5.16556H6.26935C6.18204 5.16556 6.12495 5.13869 6.09809 5.08497C6.06451 5.03124 6.04772 4.94729 6.04772 4.83312C6.04772 4.71223 6.06451 4.62156 6.09809 4.56112C6.12495 4.50068 6.18204 4.47045 6.26935 4.47045H7.93155ZM9.59415 4.47045C9.68146 4.47045 9.73854 4.50068 9.76541 4.56112C9.79899 4.61485 9.81578 4.6988 9.81578 4.81297C9.81578 4.93386 9.79899 5.02452 9.76541 5.08497C9.73854 5.13869 9.68146 5.16556 9.59415 5.16556H7.93194C7.84464 5.16556 7.78755 5.13869 7.76069 5.08497C7.72711 5.03124 7.71032 4.94729 7.71032 4.83312C7.71032 4.71223 7.72711 4.62156 7.76069 4.56112C7.78755 4.50068 7.84464 4.47045 7.93194 4.47045H9.59415ZM11.2567 4.47045C11.3441 4.47045 11.4011 4.50068 11.428 4.56112C11.4616 4.61485 11.4784 4.6988 11.4784 4.81297C11.4784 4.93386 11.4616 5.02452 11.428 5.08497C11.4011 5.13869 11.3441 5.16556 11.2567 5.16556H9.59454C9.50723 5.16556 9.45015 5.13869 9.42328 5.08497C9.3897 5.03124 9.37291 4.94729 9.37291 4.83312C9.37291 4.71223 9.3897 4.62156 9.42328 4.56112C9.45015 4.50068 9.50723 4.47045 9.59454 4.47045H11.2567ZM12.1638 4.47045C12.4257 4.47045 12.6339 4.39994 12.7884 4.2589C12.9496 4.11787 13.0302 3.9231 13.0302 3.67461V2.2844H13.685V3.67461C13.685 4.15144 13.5506 4.52082 13.282 4.78275C13.0201 5.03795 12.6608 5.16556 12.2041 5.16556H11.2571C11.1698 5.16556 11.1127 5.13869 11.0859 5.08497C11.0523 5.03124 11.0355 4.94729 11.0355 4.83312C11.0355 4.71223 11.0523 4.62156 11.0859 4.56112C11.1127 4.50068 11.1698 4.47045 11.2571 4.47045H12.1638ZM13.7857 0.994934H12.9798V0.279683H13.7857V0.994934ZM12.5063 0.994934H11.7004V0.279683H12.5063V0.994934ZM5.64177 12.9641C5.64177 13.3267 5.58468 13.6659 5.47051 13.9815C5.35634 14.3039 5.1918 14.5826 4.97689 14.8177C4.76198 15.0595 4.50005 15.2509 4.19112 15.3919C3.8889 15.5329 3.54638 15.6035 3.16357 15.6035H2.56921C1.81702 15.6035 1.23273 15.3718 0.816337 14.9084C0.399946 14.445 0.191751 13.8103 0.191751 13.0044V11.2414H0.836485V12.9842C0.836485 13.273 0.870065 13.5349 0.937225 13.77C1.0111 14.0051 1.12191 14.2065 1.26967 14.3744C1.42413 14.549 1.61554 14.6834 1.84388 14.7774C2.07223 14.8714 2.34758 14.9184 2.66995 14.9184H3.1132C3.42885 14.9184 3.70421 14.8647 3.93927 14.7572C4.17433 14.6565 4.36909 14.5188 4.52356 14.3442C4.68474 14.1696 4.80227 13.9648 4.87615 13.7297C4.95674 13.4946 4.99703 13.2495 4.99703 12.9943V10.2844H5.64177V12.9641ZM3.21394 10.0628H2.36773V9.32738H3.21394V10.0628ZM8.24526 13.1656C8.07064 13.1656 7.90274 13.1421 7.74156 13.095C7.58038 13.0413 7.43598 12.954 7.30838 12.8331C7.18749 12.7122 7.09011 12.5544 7.01624 12.3596C6.94236 12.1582 6.90542 11.9097 6.90542 11.6142V6.9197H7.56023V11.4933C7.56023 11.7754 7.62067 12.0104 7.74156 12.1985C7.86916 12.3798 8.074 12.4705 8.35607 12.4705H8.52733C8.67508 12.4705 8.74896 12.5846 8.74896 12.813C8.74896 13.048 8.67508 13.1656 8.52733 13.1656H8.24526ZM8.69324 12.4705C8.95516 12.4705 9.15328 12.4067 9.2876 12.279C9.42192 12.1514 9.48908 11.9802 9.48908 11.7653V11.3825C9.48908 10.7982 9.63683 10.3415 9.93233 10.0124C10.2346 9.68332 10.6509 9.51878 11.1815 9.51878C11.4569 9.51878 11.6986 9.56243 11.9068 9.64974C12.115 9.73705 12.2863 9.8613 12.4206 10.0225C12.5616 10.1837 12.6657 10.3751 12.7329 10.5967C12.8001 10.8183 12.8336 11.0635 12.8336 11.3321C12.8336 11.9097 12.6825 12.3596 12.3803 12.682C12.0781 13.0044 11.6651 13.1656 11.1412 13.1656C10.8726 13.1656 10.614 13.1152 10.3655 13.0144C10.117 12.907 9.92226 12.7189 9.78123 12.4503C9.72078 12.6048 9.64691 12.729 9.5596 12.823C9.47229 12.9171 9.38162 12.9909 9.2876 13.0447C9.19358 13.0917 9.09284 13.1253 8.98538 13.1454C8.88464 13.1588 8.78726 13.1656 8.69324 13.1656H8.53205C8.44475 13.1656 8.38766 13.1387 8.3608 13.085C8.32722 13.0312 8.31043 12.9473 8.31043 12.8331C8.31043 12.7122 8.32722 12.6216 8.3608 12.5611C8.38766 12.5007 8.44475 12.4705 8.53205 12.4705H8.69324ZM12.1889 11.3925C12.1889 11.0433 12.1117 10.7612 11.9572 10.5463C11.8027 10.3247 11.5375 10.2139 11.1614 10.2139C10.4629 10.2139 10.1137 10.6202 10.1137 11.4328C10.1137 11.7754 10.2077 12.0339 10.3957 12.2085C10.5905 12.3831 10.839 12.4705 11.1412 12.4705C11.4837 12.4705 11.7423 12.3764 11.9169 12.1884C12.0982 12.0003 12.1889 11.7351 12.1889 11.3925Z" fill="currentColor"></path>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- کارت ۵ -->
+                        <div class="amazing-offer-box" id="offer-card-5">
+                            <div class="amazing-offer-box-image-div">
+                                <img src="composition-images/cookies.png" alt="بیسکویت پذیرایی شکلاتی" loading="lazy">
+                            </div>
+                            <span class="amazing-offer-box-title">بیسکویت شکلاتی کرم‌دار</span>
+                            <span class="amazing-offer-box-weight">۲۰۰ گرم</span>
+                            <div class="main-amazing-price-div">
+                                <div class="amazing-offer-box-old-price-div">
+                                    <span class="amazing-offer-box-discount-label">۲۵٪</span>
+                                    <span class="old-price">۵۰,۰۰۰</span>
+                                </div>
+                                <div class="amazing-offer-box-price-div">
+                                    <button type="button" class="add-button" aria-label="افزودن بیسکویت به سبد خرید">
+                                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        </svg>
+                                    </button>
+                                    <div class="amazing-offer-box-price">
+                                        <span>۳۷,۵۰۰</span>
+                                        <span class="toman">
+                                            <svg  width="17" height="17" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                              <path class="text-gray-880 dark:text-white" d="M1.14878 6.91843C1.44428 6.91843 1.70285 6.87142 1.92447 6.77739C2.15282 6.68337 2.34422 6.55577 2.49869 6.39458C2.65316 6.2334 2.77069 6.04535 2.85128 5.83044C2.93187 5.62224 2.97888 5.40062 2.99231 5.16556H1.98492C1.6424 5.16556 1.36033 5.12862 1.1387 5.05474C0.917077 4.98087 0.742461 4.87341 0.614858 4.73238C0.487254 4.59134 0.396588 4.42344 0.34286 4.22868C0.295849 4.0272 0.272343 3.80221 0.272343 3.55372C0.272343 3.29852 0.309281 3.05674 0.383156 2.8284C0.457032 2.60005 0.564488 2.39857 0.705523 2.22396C0.846559 2.04934 1.02117 1.91167 1.22937 1.81093C1.44428 1.70347 1.68941 1.64974 1.96477 1.64974C2.1864 1.64974 2.39795 1.68668 2.59943 1.76056C2.80091 1.83443 2.97888 1.95196 3.13335 2.11315C3.28782 2.26761 3.40871 2.47245 3.49601 2.72766C3.59004 2.97615 3.63705 3.27837 3.63705 3.63431V4.47045H4.60415C4.68474 4.47045 4.73847 4.50068 4.76533 4.56112C4.79891 4.61485 4.8157 4.6988 4.8157 4.81297C4.8157 4.93386 4.79891 5.02452 4.76533 5.08497C4.73847 5.13869 4.68474 5.16556 4.60415 5.16556H3.6169C3.60347 5.49464 3.53631 5.80693 3.41542 6.10244C3.30125 6.39794 3.14007 6.65651 2.93187 6.87813C2.72368 7.09976 2.47518 7.27438 2.1864 7.40198C1.89761 7.5363 1.57188 7.60346 1.20922 7.60346H0.141381L0.0809373 6.91843H1.14878ZM0.896929 3.51343C0.896929 3.68133 0.913719 3.82572 0.947299 3.94661C0.987594 4.0675 1.0514 4.16823 1.1387 4.24883C1.23273 4.3227 1.35697 4.37979 1.51144 4.42008C1.66591 4.45366 1.86067 4.47045 2.09573 4.47045H3.00239V3.71491C3.00239 3.21792 2.90501 2.86198 2.71024 2.64707C2.51548 2.43215 2.24684 2.3247 1.90433 2.3247C1.58196 2.3247 1.33347 2.43215 1.15885 2.64707C0.984237 2.86198 0.896929 3.15076 0.896929 3.51343ZM6.26895 4.47045C6.35626 4.47045 6.41335 4.50068 6.44021 4.56112C6.47379 4.61485 6.49058 4.6988 6.49058 4.81297C6.49058 4.93386 6.47379 5.02452 6.44021 5.08497C6.41335 5.13869 6.35626 5.16556 6.26895 5.16556H4.60675C4.51944 5.16556 4.46235 5.13869 4.43549 5.08497C4.40191 5.03124 4.38512 4.94729 4.38512 4.83312C4.38512 4.71223 4.40191 4.62156 4.43549 4.56112C4.46235 4.50068 4.51944 4.47045 4.60675 4.47045H6.26895ZM7.93155 4.47045C8.01886 4.47045 8.07594 4.50068 8.10281 4.56112C8.13639 4.61485 8.15318 4.6988 8.15318 4.81297C8.15318 4.93386 8.13639 5.02452 8.10281 5.08497C8.07594 5.13869 8.01886 5.16556 7.93155 5.16556H6.26935C6.18204 5.16556 6.12495 5.13869 6.09809 5.08497C6.06451 5.03124 6.04772 4.94729 6.04772 4.83312C6.04772 4.71223 6.06451 4.62156 6.09809 4.56112C6.12495 4.50068 6.18204 4.47045 6.26935 4.47045H7.93155ZM9.59415 4.47045C9.68146 4.47045 9.73854 4.50068 9.76541 4.56112C9.79899 4.61485 9.81578 4.6988 9.81578 4.81297C9.81578 4.93386 9.79899 5.02452 9.76541 5.08497C9.73854 5.13869 9.68146 5.16556 9.59415 5.16556H7.93194C7.84464 5.16556 7.78755 5.13869 7.76069 5.08497C7.72711 5.03124 7.71032 4.94729 7.71032 4.83312C7.71032 4.71223 7.72711 4.62156 7.76069 4.56112C7.78755 4.50068 7.84464 4.47045 7.93194 4.47045H9.59415ZM11.2567 4.47045C11.3441 4.47045 11.4011 4.50068 11.428 4.56112C11.4616 4.61485 11.4784 4.6988 11.4784 4.81297C11.4784 4.93386 11.4616 5.02452 11.428 5.08497C11.4011 5.13869 11.3441 5.16556 11.2567 5.16556H9.59454C9.50723 5.16556 9.45015 5.13869 9.42328 5.08497C9.3897 5.03124 9.37291 4.94729 9.37291 4.83312C9.37291 4.71223 9.3897 4.62156 9.42328 4.56112C9.45015 4.50068 9.50723 4.47045 9.59454 4.47045H11.2567ZM12.1638 4.47045C12.4257 4.47045 12.6339 4.39994 12.7884 4.2589C12.9496 4.11787 13.0302 3.9231 13.0302 3.67461V2.2844H13.685V3.67461C13.685 4.15144 13.5506 4.52082 13.282 4.78275C13.0201 5.03795 12.6608 5.16556 12.2041 5.16556H11.2571C11.1698 5.16556 11.1127 5.13869 11.0859 5.08497C11.0523 5.03124 11.0355 4.94729 11.0355 4.83312C11.0355 4.71223 11.0523 4.62156 11.0859 4.56112C11.1127 4.50068 11.1698 4.47045 11.2571 4.47045H12.1638ZM13.7857 0.994934H12.9798V0.279683H13.7857V0.994934ZM12.5063 0.994934H11.7004V0.279683H12.5063V0.994934ZM5.64177 12.9641C5.64177 13.3267 5.58468 13.6659 5.47051 13.9815C5.35634 14.3039 5.1918 14.5826 4.97689 14.8177C4.76198 15.0595 4.50005 15.2509 4.19112 15.3919C3.8889 15.5329 3.54638 15.6035 3.16357 15.6035H2.56921C1.81702 15.6035 1.23273 15.3718 0.816337 14.9084C0.399946 14.445 0.191751 13.8103 0.191751 13.0044V11.2414H0.836485V12.9842C0.836485 13.273 0.870065 13.5349 0.937225 13.77C1.0111 14.0051 1.12191 14.2065 1.26967 14.3744C1.42413 14.549 1.61554 14.6834 1.84388 14.7774C2.07223 14.8714 2.34758 14.9184 2.66995 14.9184H3.1132C3.42885 14.9184 3.70421 14.8647 3.93927 14.7572C4.17433 14.6565 4.36909 14.5188 4.52356 14.3442C4.68474 14.1696 4.80227 13.9648 4.87615 13.7297C4.95674 13.4946 4.99703 13.2495 4.99703 12.9943V10.2844H5.64177V12.9641ZM3.21394 10.0628H2.36773V9.32738H3.21394V10.0628ZM8.24526 13.1656C8.07064 13.1656 7.90274 13.1421 7.74156 13.095C7.58038 13.0413 7.43598 12.954 7.30838 12.8331C7.18749 12.7122 7.09011 12.5544 7.01624 12.3596C6.94236 12.1582 6.90542 11.9097 6.90542 11.6142V6.9197H7.56023V11.4933C7.56023 11.7754 7.62067 12.0104 7.74156 12.1985C7.86916 12.3798 8.074 12.4705 8.35607 12.4705H8.52733C8.67508 12.4705 8.74896 12.5846 8.74896 12.813C8.74896 13.048 8.67508 13.1656 8.52733 13.1656H8.24526ZM8.69324 12.4705C8.95516 12.4705 9.15328 12.4067 9.2876 12.279C9.42192 12.1514 9.48908 11.9802 9.48908 11.7653V11.3825C9.48908 10.7982 9.63683 10.3415 9.93233 10.0124C10.2346 9.68332 10.6509 9.51878 11.1815 9.51878C11.4569 9.51878 11.6986 9.56243 11.9068 9.64974C12.115 9.73705 12.2863 9.8613 12.4206 10.0225C12.5616 10.1837 12.6657 10.3751 12.7329 10.5967C12.8001 10.8183 12.8336 11.0635 12.8336 11.3321C12.8336 11.9097 12.6825 12.3596 12.3803 12.682C12.0781 13.0044 11.6651 13.1656 11.1412 13.1656C10.8726 13.1656 10.614 13.1152 10.3655 13.0144C10.117 12.907 9.92226 12.7189 9.78123 12.4503C9.72078 12.6048 9.64691 12.729 9.5596 12.823C9.47229 12.9171 9.38162 12.9909 9.2876 13.0447C9.19358 13.0917 9.09284 13.1253 8.98538 13.1454C8.88464 13.1588 8.78726 13.1656 8.69324 13.1656H8.53205C8.44475 13.1656 8.38766 13.1387 8.3608 13.085C8.32722 13.0312 8.31043 12.9473 8.31043 12.8331C8.31043 12.7122 8.32722 12.6216 8.3608 12.5611C8.38766 12.5007 8.44475 12.4705 8.53205 12.4705H8.69324ZM12.1889 11.3925C12.1889 11.0433 12.1117 10.7612 11.9572 10.5463C11.8027 10.3247 11.5375 10.2139 11.1614 10.2139C10.4629 10.2139 10.1137 10.6202 10.1137 11.4328C10.1137 11.7754 10.2077 12.0339 10.3957 12.2085C10.5905 12.3831 10.839 12.4705 11.1412 12.4705C11.4837 12.4705 11.7423 12.3764 11.9169 12.1884C12.0982 12.0003 12.1889 11.7351 12.1889 11.3925Z" fill="currentColor"></path>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- کارت ۶ -->
+                        <div class="amazing-offer-box" id="offer-card-6">
+                            <div class="amazing-offer-box-image-div">
+                                <img src="composition-images/benana.png" alt="موز وارداتی تازه" loading="lazy">
+                            </div>
+                            <span class="amazing-offer-box-title">موز تازه درجه یک</span>
+                            <span class="amazing-offer-box-weight">۱ کیلوگرم</span>
+                            <div class="main-amazing-price-div">
+                                <div class="amazing-offer-box-old-price-div">
+                                    <span class="amazing-offer-box-discount-label">۱۰٪</span>
+                                    <span class="old-price">۱۱۰,۰۰۰</span>
+                                </div>
+                                <div class="amazing-offer-box-price-div">
+                                    <button type="button" class="add-button" aria-label="افزودن موز به سبد خرید">
+                                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        </svg>
+                                    </button>
+                                    <div class="amazing-offer-box-price">
+                                        <span>۹۹,۰۰۰</span>
+                                        <span class="toman">
+                                            <svg  width="17" height="17" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                              <path class="text-gray-880 dark:text-white" d="M1.14878 6.91843C1.44428 6.91843 1.70285 6.87142 1.92447 6.77739C2.15282 6.68337 2.34422 6.55577 2.49869 6.39458C2.65316 6.2334 2.77069 6.04535 2.85128 5.83044C2.93187 5.62224 2.97888 5.40062 2.99231 5.16556H1.98492C1.6424 5.16556 1.36033 5.12862 1.1387 5.05474C0.917077 4.98087 0.742461 4.87341 0.614858 4.73238C0.487254 4.59134 0.396588 4.42344 0.34286 4.22868C0.295849 4.0272 0.272343 3.80221 0.272343 3.55372C0.272343 3.29852 0.309281 3.05674 0.383156 2.8284C0.457032 2.60005 0.564488 2.39857 0.705523 2.22396C0.846559 2.04934 1.02117 1.91167 1.22937 1.81093C1.44428 1.70347 1.68941 1.64974 1.96477 1.64974C2.1864 1.64974 2.39795 1.68668 2.59943 1.76056C2.80091 1.83443 2.97888 1.95196 3.13335 2.11315C3.28782 2.26761 3.40871 2.47245 3.49601 2.72766C3.59004 2.97615 3.63705 3.27837 3.63705 3.63431V4.47045H4.60415C4.68474 4.47045 4.73847 4.50068 4.76533 4.56112C4.79891 4.61485 4.8157 4.6988 4.8157 4.81297C4.8157 4.93386 4.79891 5.02452 4.76533 5.08497C4.73847 5.13869 4.68474 5.16556 4.60415 5.16556H3.6169C3.60347 5.49464 3.53631 5.80693 3.41542 6.10244C3.30125 6.39794 3.14007 6.65651 2.93187 6.87813C2.72368 7.09976 2.47518 7.27438 2.1864 7.40198C1.89761 7.5363 1.57188 7.60346 1.20922 7.60346H0.141381L0.0809373 6.91843H1.14878ZM0.896929 3.51343C0.896929 3.68133 0.913719 3.82572 0.947299 3.94661C0.987594 4.0675 1.0514 4.16823 1.1387 4.24883C1.23273 4.3227 1.35697 4.37979 1.51144 4.42008C1.66591 4.45366 1.86067 4.47045 2.09573 4.47045H3.00239V3.71491C3.00239 3.21792 2.90501 2.86198 2.71024 2.64707C2.51548 2.43215 2.24684 2.3247 1.90433 2.3247C1.58196 2.3247 1.33347 2.43215 1.15885 2.64707C0.984237 2.86198 0.896929 3.15076 0.896929 3.51343ZM6.26895 4.47045C6.35626 4.47045 6.41335 4.50068 6.44021 4.56112C6.47379 4.61485 6.49058 4.6988 6.49058 4.81297C6.49058 4.93386 6.47379 5.02452 6.44021 5.08497C6.41335 5.13869 6.35626 5.16556 6.26895 5.16556H4.60675C4.51944 5.16556 4.46235 5.13869 4.43549 5.08497C4.40191 5.03124 4.38512 4.94729 4.38512 4.83312C4.38512 4.71223 4.40191 4.62156 4.43549 4.56112C4.46235 4.50068 4.51944 4.47045 4.60675 4.47045H6.26895ZM7.93155 4.47045C8.01886 4.47045 8.07594 4.50068 8.10281 4.56112C8.13639 4.61485 8.15318 4.6988 8.15318 4.81297C8.15318 4.93386 8.13639 5.02452 8.10281 5.08497C8.07594 5.13869 8.01886 5.16556 7.93155 5.16556H6.26935C6.18204 5.16556 6.12495 5.13869 6.09809 5.08497C6.06451 5.03124 6.04772 4.94729 6.04772 4.83312C6.04772 4.71223 6.06451 4.62156 6.09809 4.56112C6.12495 4.50068 6.18204 4.47045 6.26935 4.47045H7.93155ZM9.59415 4.47045C9.68146 4.47045 9.73854 4.50068 9.76541 4.56112C9.79899 4.61485 9.81578 4.6988 9.81578 4.81297C9.81578 4.93386 9.79899 5.02452 9.76541 5.08497C9.73854 5.13869 9.68146 5.16556 9.59415 5.16556H7.93194C7.84464 5.16556 7.78755 5.13869 7.76069 5.08497C7.72711 5.03124 7.71032 4.94729 7.71032 4.83312C7.71032 4.71223 7.72711 4.62156 7.76069 4.56112C7.78755 4.50068 7.84464 4.47045 7.93194 4.47045H9.59415ZM11.2567 4.47045C11.3441 4.47045 11.4011 4.50068 11.428 4.56112C11.4616 4.61485 11.4784 4.6988 11.4784 4.81297C11.4784 4.93386 11.4616 5.02452 11.428 5.08497C11.4011 5.13869 11.3441 5.16556 11.2567 5.16556H9.59454C9.50723 5.16556 9.45015 5.13869 9.42328 5.08497C9.3897 5.03124 9.37291 4.94729 9.37291 4.83312C9.37291 4.71223 9.3897 4.62156 9.42328 4.56112C9.45015 4.50068 9.50723 4.47045 9.59454 4.47045H11.2567ZM12.1638 4.47045C12.4257 4.47045 12.6339 4.39994 12.7884 4.2589C12.9496 4.11787 13.0302 3.9231 13.0302 3.67461V2.2844H13.685V3.67461C13.685 4.15144 13.5506 4.52082 13.282 4.78275C13.0201 5.03795 12.6608 5.16556 12.2041 5.16556H11.2571C11.1698 5.16556 11.1127 5.13869 11.0859 5.08497C11.0523 5.03124 11.0355 4.94729 11.0355 4.83312C11.0355 4.71223 11.0523 4.62156 11.0859 4.56112C11.1127 4.50068 11.1698 4.47045 11.2571 4.47045H12.1638ZM13.7857 0.994934H12.9798V0.279683H13.7857V0.994934ZM12.5063 0.994934H11.7004V0.279683H12.5063V0.994934ZM5.64177 12.9641C5.64177 13.3267 5.58468 13.6659 5.47051 13.9815C5.35634 14.3039 5.1918 14.5826 4.97689 14.8177C4.76198 15.0595 4.50005 15.2509 4.19112 15.3919C3.8889 15.5329 3.54638 15.6035 3.16357 15.6035H2.56921C1.81702 15.6035 1.23273 15.3718 0.816337 14.9084C0.399946 14.445 0.191751 13.8103 0.191751 13.0044V11.2414H0.836485V12.9842C0.836485 13.273 0.870065 13.5349 0.937225 13.77C1.0111 14.0051 1.12191 14.2065 1.26967 14.3744C1.42413 14.549 1.61554 14.6834 1.84388 14.7774C2.07223 14.8714 2.34758 14.9184 2.66995 14.9184H3.1132C3.42885 14.9184 3.70421 14.8647 3.93927 14.7572C4.17433 14.6565 4.36909 14.5188 4.52356 14.3442C4.68474 14.1696 4.80227 13.9648 4.87615 13.7297C4.95674 13.4946 4.99703 13.2495 4.99703 12.9943V10.2844H5.64177V12.9641ZM3.21394 10.0628H2.36773V9.32738H3.21394V10.0628ZM8.24526 13.1656C8.07064 13.1656 7.90274 13.1421 7.74156 13.095C7.58038 13.0413 7.43598 12.954 7.30838 12.8331C7.18749 12.7122 7.09011 12.5544 7.01624 12.3596C6.94236 12.1582 6.90542 11.9097 6.90542 11.6142V6.9197H7.56023V11.4933C7.56023 11.7754 7.62067 12.0104 7.74156 12.1985C7.86916 12.3798 8.074 12.4705 8.35607 12.4705H8.52733C8.67508 12.4705 8.74896 12.5846 8.74896 12.813C8.74896 13.048 8.67508 13.1656 8.52733 13.1656H8.24526ZM8.69324 12.4705C8.95516 12.4705 9.15328 12.4067 9.2876 12.279C9.42192 12.1514 9.48908 11.9802 9.48908 11.7653V11.3825C9.48908 10.7982 9.63683 10.3415 9.93233 10.0124C10.2346 9.68332 10.6509 9.51878 11.1815 9.51878C11.4569 9.51878 11.6986 9.56243 11.9068 9.64974C12.115 9.73705 12.2863 9.8613 12.4206 10.0225C12.5616 10.1837 12.6657 10.3751 12.7329 10.5967C12.8001 10.8183 12.8336 11.0635 12.8336 11.3321C12.8336 11.9097 12.6825 12.3596 12.3803 12.682C12.0781 13.0044 11.6651 13.1656 11.1412 13.1656C10.8726 13.1656 10.614 13.1152 10.3655 13.0144C10.117 12.907 9.92226 12.7189 9.78123 12.4503C9.72078 12.6048 9.64691 12.729 9.5596 12.823C9.47229 12.9171 9.38162 12.9909 9.2876 13.0447C9.19358 13.0917 9.09284 13.1253 8.98538 13.1454C8.88464 13.1588 8.78726 13.1656 8.69324 13.1656H8.53205C8.44475 13.1656 8.38766 13.1387 8.3608 13.085C8.32722 13.0312 8.31043 12.9473 8.31043 12.8331C8.31043 12.7122 8.32722 12.6216 8.3608 12.5611C8.38766 12.5007 8.44475 12.4705 8.53205 12.4705H8.69324ZM12.1889 11.3925C12.1889 11.0433 12.1117 10.7612 11.9572 10.5463C11.8027 10.3247 11.5375 10.2139 11.1614 10.2139C10.4629 10.2139 10.1137 10.6202 10.1137 11.4328C10.1137 11.7754 10.2077 12.0339 10.3957 12.2085C10.5905 12.3831 10.839 12.4705 11.1412 12.4705C11.4837 12.4705 11.7423 12.3764 11.9169 12.1884C12.0982 12.0003 12.1889 11.7351 12.1889 11.3925Z" fill="currentColor"></path>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </section>
+
+                    <!-- دکمه رفتن به کارت آخر -->
+                    <a href="#offer-card-6" class="carousel-nav-btn next-arrow-button" aria-label="رفتن به انتهای محصولات">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 18l-6-6 6-6"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="fruits-vegetables" class="products-carousel-section" aria-labelledby="fruits-title">
+            <div class="main-category-list-div">
+                <div class="header-main-category-list-div">
+                    <h2 id="fruits-title">میوه و سبزیجات تازه</h2>
+                    <a href="#fruits-vegetables" class="see-all-button">
+                        <span>مشاهده همه</span>
+                        <svg class="chevron-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 18l-6-6 6-6"/>
+                        </svg>
+                    </a>
+                </div>
+                <div class="carousel-wrapper">
+                    <a href="#fruit-card-1" class="carousel-nav-btn prev-btn" aria-label="مشاهده محصولات قبلی میوه و سبزی">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </a>
+                    <section class="category-list-div thin-scrollbar" tabindex="0" aria-label="فهرست میوه و سبزیجات">
+                        <article class="product-box" id="fruit-card-1">
+                            <div class="product-box-image">
+                                <img src="composition-images/benana.png" alt="موز ممتاز وارداتی تازه" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">موز ممتاز</h3>
+                                <span class="product-box-weight">۱ کیلوگرم</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۱۱۰,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن موز ممتاز به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                        <article class="product-box" id="fruit-card-2">
+                            <div class="product-box-image">
+                                <img src="composition-images/imsdsdsages.jfif" alt="سیب سرخ ارومیه صادراتی" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">سیب قرمز</h3>
+                                <span class="product-box-weight">۱ کیلوگرم</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۶۵,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن سیب قرمز دماوند به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                        <article class="product-box" id="fruit-card-3">
+                            <div class="product-box-image">
+                                <img src="composition-images/fvj76MRfxhsz0g15.jpg" alt="پرتقال تامسون شمال آبدار" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">پرتقال تامسون شمال</h3>
+                                <span class="product-box-weight">۲ کیلوگرم</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۷۸,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن پرتقال تامسون به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                        <article class="product-box" id="fruit-card-4">
+                            <div class="product-box-image">
+                                <img src="composition-images/sdadasd.webp" alt="خیار گلخانه‌ای قلمی بوته‌ای" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">خیار گلخانه‌ای ممتاز</h3>
+                                <span class="product-box-weight">۱ کیلوگرم</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۴۲,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن خیار گلخانه‌ای به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                        <article class="product-box" id="fruit-card-5">
+                            <div class="product-box-image">
+                                <img src="composition-images/imagasdsasdes.webp" alt="گوجه فرنگی بوته‌ای تازه و رسیده" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">گوجه فرنگی</h3>
+                                <span class="product-box-weight">۱.۵ کیلوگرم</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۴۸,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن گوجه فرنگی دستچین به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                        <article class="product-box" id="fruit-card-6">
+                            <div class="product-box-image">
+                                <img src="composition-images/imawqdwqdges.jfif" alt="کاهو تازه" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">کاهو تازه</h3>
+                                <span class="product-box-weight">۱ بوته (حدود ۸۰۰ گرم)</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۳۵,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن کاهو رسمی سالادی به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                    </section>
+                    <a href="#fruit-card-6" class="carousel-nav-btn next-btn" aria-label="مشاهده محصولات بعدی میوه و سبزی">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="dairy" class="products-carousel-section" aria-labelledby="dairy-title">
+            <div class="main-category-list-div">
+                <div class="header-main-category-list-div">
+                    <h2 id="dairy-title">لبنیات تازه و محلی</h2>
+                    <a href="#dairy" class="see-all-button">
+                        <span>مشاهده همه</span>
+                        <svg class="chevron-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 18l-6-6 6-6"/>
+                        </svg>
+                    </a>
+                </div>
+                <div class="carousel-wrapper">
+                    <a href="#dairy-card-1" class="carousel-nav-btn prev-btn" aria-label="مشاهده محصولات قبلی لبنیات">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </a>
+                    <section class="category-list-div thin-scrollbar" tabindex="0" aria-label="فهرست محصولات لبنی">
+                        <article class="product-box" id="dairy-card-1">
+                            <div class="product-box-image">
+                                <img src="composition-images/280x280.jpg" alt="شیر کم‌چرب پاستوریزه بطری ۱ لیتری" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">شیر کم‌چرب پاستوریزه</h3>
+                                <span class="product-box-weight">۱ لیتر</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۳۸,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن شیر کم‌چرب به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                        <article class="product-box" id="dairy-card-2">
+                            <div class="product-box-image">
+                                <img src="composition-images/Traditional-full-fat-yogurt-1500g.jpg" alt="ماست پرچرب دبه‌ای سنتی ۲ کیلوگرمی" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">ماست سنتی پرچرب</h3>
+                                <span class="product-box-weight">۲ کیلوگرم</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۹۵,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن ماست سنتی به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                        <article class="product-box" id="dairy-card-3">
+                            <div class="product-box-image">
+                                <img src="composition-images/1ec6497ea30e5d1586c86525626a60438e7e8cf8_1659508985.jpg" alt="پنیر سفید ایرانی ۴۰۰ گرمی" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">پنیر سفید صبحانه</h3>
+                                <span class="product-box-weight">۴۰۰ گرم</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۵۲,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن پنیر سفید صبحانه به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                        <article class="product-box" id="dairy-card-4">
+                            <div class="product-box-image">
+                                <img src="composition-images/4966133.jpg" alt="کره حیوانی پاستوریزه ۱۰۰ گرمی" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">کره حیوانی صبحانه</h3>
+                                <span class="product-box-weight">۱۰۰ گرم</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۴۵,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن کره حیوانی به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                        <article class="product-box" id="dairy-card-5">
+                            <div class="product-box-image">
+                                <img src="composition-images/oDz3l6DsnVUqGuIr_1724838226868.webp" alt="خامه صبحانه فراوری شده ۲۰۰ گرمی" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">خامه صبحانه</h3>
+                                <span class="product-box-weight">۲۰۰ گرم</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۳۲,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن خامه صبحانه به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                        <article class="product-box" id="dairy-card-6">
+                            <div class="product-box-image">
+                                <img src="composition-images/1_319_l_sade_69701.jpg" alt="دوغ نعنایی گازدار بدون چربی ۱.۵ لیتری" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">دوغ نعناع و پونه محلی</h3>
+                                <span class="product-box-weight">۱.۵ لیتر</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۲۹,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن دوغ نعنایی به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                    </section>
+                    <a href="#dairy-card-6" class="carousel-nav-btn next-btn" aria-label="مشاهده محصولات بعدی لبنیات">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="bakery" class="products-carousel-section" aria-labelledby="bakery-title">
+            <div class="main-category-list-div">
+                <div class="header-main-category-list-div">
+                    <h2 id="bakery-title">نان تازه و شیرینی‌پزی</h2>
+                    <a href="#bakery" class="see-all-button">
+                        <span>مشاهده همه</span>
+                        <svg class="chevron-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 18l-6-6 6-6"/>
+                        </svg>
+                    </a>
+                </div>
+                <div class="carousel-wrapper">
+                    <a href="#bakery-card-1" class="carousel-nav-btn prev-btn" aria-label="مشاهده محصولات قبلی نان و شیرینی">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </a>
+                    <section class="category-list-div thin-scrollbar" tabindex="0" aria-label="فهرست نان و شیرینیجات">
+                        <article class="product-box" id="bakery-card-1">
+                            <div class="product-box-image">
+                                <img src="composition-images/c1fe9b1f-7445-4a05-8e6d-94e5241b154d.jpg" alt="نان سنگک سنتی کنجدی دو رو" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">نان سنگک سنتی دو رو کنجد</h3>
+                                <span class="product-box-weight">۱ عدد</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۲۵,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن نان سنگک کنجدی به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                        <article class="product-box" id="bakery-card-2">
+                            <div class="product-box-image">
+                                <img src="composition-images/cenan1.webp" alt="نان تست هفت غله سبوس‌دار بسته ۵۰۰ گرمی" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">نان تست هفت غله مغزدار</h3>
+                                <span class="product-box-weight">۵۰۰ گرم</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۴۸,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن نان تست هفت غله به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                        <article class="product-box" id="bakery-card-3">
+                            <div class="product-box-image">
+                                <img src="composition-images/gz3aW516zviNLbiF.jpg" alt="نان باگت فرانسوی ترد و برشته" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">نان باگت فرانسوی ممتاز</h3>
+                                <span class="product-box-weight">۲ عدد</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۲۲,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن نان باگت فرانسوی به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                        <article class="product-box" id="bakery-card-4">
+                            <div class="product-box-image">
+                                <img src="composition-images/ssdsds.jfif" alt="کروسان کره ای تازه فرانسوی ۳ عددی" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">کروسان کره‌ای کلاسیک</h3>
+                                <span class="product-box-weight">بسته ۳ عددی</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۶۵,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن کروسان کره‌ای به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                        <article class="product-box" id="bakery-card-5">
+                            <div class="product-box-image">
+                                <img src="composition-images/asdsdaa.webp" alt="کیک صبحانه گردویی خانگی" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">کیک صبحانه گردویی</h3>
+                                <span class="product-box-weight">۳۵۰ گرم</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۵۵,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن کیک صبحانه گردویی به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                        <article class="product-box" id="bakery-card-6">
+                            <div class="product-box-image">
+                                <img src="composition-images/560x560.webp" alt="نان جو رژیمی بدون قند و چربی" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">نان جو خالص رژیمی</h3>
+                                <span class="product-box-weight">بسته ۴ عددی</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۳۶,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن نان جو خالص به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                    </section>
+                    <a href="#bakery-card-6" class="carousel-nav-btn next-btn" aria-label="مشاهده محصولات بعدی نان و شیرینی">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="protein" class="products-carousel-section" aria-labelledby="protein-title">
+            <div class="main-category-list-div">
+                <div class="header-main-category-list-div">
+                    <h2 id="protein-title">مواد پروتئینی و گوشت تازه</h2>
+                    <a href="#protein" class="see-all-button">
+                        <span>مشاهده همه</span>
+                        <svg class="chevron-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 18l-6-6 6-6"/>
+                        </svg>
+                    </a>
+                </div>
+                <div class="carousel-wrapper">
+                    <a href="#protein-card-1" class="carousel-nav-btn prev-btn" aria-label="مشاهده محصولات قبلی پروتئینی">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </a>
+                    <section class="category-list-div thin-scrollbar" tabindex="0" aria-label="فهرست محصولات پروتئینی">
+                        <article class="product-box" id="protein-card-1">
+                            <div class="product-box-image">
+                                <img src="composition-images/daqwd.jpg" alt="گوشت چرخ‌کرده مخلوط گوسفند و گوساله تازه" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">گوشت چرخ‌کرده مخلوط ممتاز</h3>
+                                <span class="product-box-weight">۱ کیلوگرم</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۵۲۰,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن گوشت چرخ‌کرده مخلوط به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                        <article class="product-box" id="protein-card-2">
+                            <div class="product-box-image">
+                                <img src="composition-images/dwqdwqd.jpg" alt="سینه مرغ بدون پوست و استخوان پاک‌شده" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">فیله سینه مرغ تازه پاک‌شده</h3>
+                                <span class="product-box-weight">۹۰۰ گرم</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۱۹۵,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن فیله سینه مرغ به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                        <article class="product-box" id="protein-card-3">
+                            <div class="product-box-image">
+                                <img src="composition-images/4876207.jpg" alt="تخم مرغ محلی بسته ۲۰ عددی شناسنامه‌دار" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">تخم مرغ تازه </h3>
+                                <span class="product-box-weight">بسته ۲۰ عددی</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۹۸,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن تخم مرغ تازه به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                        <article class="product-box" id="protein-card-4">
+                            <div class="product-box-image">
+                                <img src="composition-images/afegrgreg.webp" alt="ران گوسفندی خورشتی پاک شده و بی چربی" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">ران گوسفندی</h3>
+                                <span class="product-box-weight">۱ کیلوگرم</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۶۹۰,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن ران گوسفندی به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                        <article class="product-box" id="protein-card-5">
+                            <div class="product-box-image">
+                                <img src="composition-images/dwqdqwdwqd.jpg" alt="ماهی قزل‌آلا رنگین‌کمان پاک‌شده تازه" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">ماهی قزل‌آلا</h3>
+                                <span class="product-box-weight">۱ کیلوگرم</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۲۱۰,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن ماهی قزل‌آلا به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                        <article class="product-box" id="protein-card-6">
+                            <div class="product-box-image">
+                                <img src="composition-images/6VmcO96le9Ut80Hh.jpg" alt="سوسیس کوکتل دودی گوشت ۸۰ درصد" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">کوکتل گوشت دودی ۸۰ درصد</h3>
+                                <span class="product-box-weight">۵۰۰ گرم</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۱۴۵,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن کوکتل گوشت دودی به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                    </section>
+                    <a href="#protein-card-6" class="carousel-nav-btn next-btn" aria-label="مشاهده محصولات بعدی پروتئینی">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="drinks" class="products-carousel-section" aria-labelledby="drinks-title">
+            <div class="main-category-list-div">
+                <div class="header-main-category-list-div">
+                    <h2 id="drinks-title">نوشیدنی‌های خنک و طبیعی</h2>
+                    <a href="#drinks" class="see-all-button">
+                        <span>مشاهده همه</span>
+                        <svg class="chevron-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 18l-6-6 6-6"/>
+                        </svg>
+                    </a>
+                </div>
+                <div class="carousel-wrapper">
+                    <a href="#drinks-card-1" class="carousel-nav-btn prev-btn" aria-label="مشاهده محصولات قبلی نوشیدنی">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </a>
+                    <section class="category-list-div thin-scrollbar" tabindex="0" aria-label="فهرست نوشیدنی‌ها">
+                        <article class="product-box" id="drinks-card-1">
+                            <div class="product-box-image">
+                                <img src="composition-images/Dough-Nana-Pooneh-1.5.png" alt="دوغ سنتی نعناع و پونه بطری ۱.۵ لیتری" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">دوغ محلی نعناع و پونه</h3>
+                                <span class="product-box-weight">۱.۵ لیتر</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۳۲,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن دوغ محلی نعناع و پونه به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                        <article class="product-box" id="drinks-card-2">
+                            <div class="product-box-image">
+                                <img src="composition-images/1574845398.webp" alt="شیر کاکائو غلیظ و پرچرب بطری یک لیتری" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">شیر کاکائو غلیظ ممتاز</h3>
+                                <span class="product-box-weight">۱ لیتر</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۴۲,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن شیر کاکائو غلیظ به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                        <article class="product-box" id="drinks-card-3">
+                            <div class="product-box-image">
+                                <img src="composition-images/asdadad.png" alt="آب پرتقال طبیعی بدون پالپ و شکر افزوده ۱ لیتری" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">آب پرتقال ۱۰۰٪ طبیعی</h3>
+                                <span class="product-box-weight">۱ لیتر</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۵۸,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن آب پرتقال طبیعی به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                        <article class="product-box" id="drinks-card-4">
+                            <div class="product-box-image">
+                                <img src="composition-images/Nari-Doogh-Kefir-1000.png" alt="نوشیدنی کفیر پروبیوتیک ترش و گازدار بطری ۱ لیتری" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">نوشیدنی کفیر پروبیوتیک</h3>
+                                <span class="product-box-weight">۱ لیتر</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۳۸,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن نوشیدنی کفیر پروبیوتیک به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                        <article class="product-box" id="drinks-card-5">
+                            <div class="product-box-image">
+                                <img src="composition-images/0x244.jpg" alt="آب انار طبیعی خالص بدون کنسانتره بطری ۱ لیتری" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">آب انار طبیعی ساوه</h3>
+                                <span class="product-box-weight">۱ لیتر</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۷۵,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن آب انار طبیعی ساوه به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                        <article class="product-box" id="drinks-card-6">
+                            <div class="product-box-image">
+                                <img src="composition-images/images.jfif" alt="آب معدنی طبیعی چشمه دماوند بطری ۱.۵ لیتری" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">آب معدنی طبیعی کوهستان</h3>
+                                <span class="product-box-weight">۱.۵ لیتر</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۱۲,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن آب معدنی طبیعی به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                    </section>
+                    <a href="#drinks-card-6" class="carousel-nav-btn next-btn" aria-label="مشاهده محصولات بعدی نوشیدنی">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="snacks" class="products-carousel-section" aria-labelledby="snacks-title">
+            <div class="main-category-list-div">
+                <div class="header-main-category-list-div">
+                    <h2 id="snacks-title">تنقلات و خوراکی‌های خوشمزه</h2>
+                    <a href="#snacks" class="see-all-button">
+                        <span>مشاهده همه</span>
+                        <svg class="chevron-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 18l-6-6 6-6"/>
+                        </svg>
+                    </a>
+                </div>
+                <div class="carousel-wrapper">
+                    <a href="#snacks-card-1" class="carousel-nav-btn prev-btn" aria-label="مشاهده محصولات قبلی تنقلات">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </a>
+                    <section class="category-list-div thin-scrollbar" tabindex="0" aria-label="فهرست تنقلات و خشکبار">
+                        <article class="product-box" id="snacks-card-1">
+                            <div class="product-box-image">
+                                <img src="composition-images/chips.png" alt="چیپس سیب‌زمینی برشته نمکی و ترد بسته بزرگ" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">چیپس سیب‌زمینی نمک دریایی</h3>
+                                <span class="product-box-weight">۱۵۰ گرم</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۳۵,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن چیپس سیب‌زمینی نمک دریایی به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                        <article class="product-box" id="snacks-card-2">
+                            <div class="product-box-image">
+                                <img src="composition-images/snak.png" alt="پفک نمکی اکسترود شده پنیری ترد و خوشمزه" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">اسنک پنیری سوپر طلایی</h3>
+                                <span class="product-box-weight">۱۱۰ گرم</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۲۲,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن اسنک پنیری طلایی به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                        <article class="product-box" id="snacks-card-3">
+                            <div class="product-box-image">
+                                <img src="composition-images/chocolate1.png" alt="شکلات تلخ ۷۸ درصد تخته‌ای ممتاز پذیرایی" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">شکلات تلخ ۷۸ درصد دست‌ساز</h3>
+                                <span class="product-box-weight">۱۰۰ گرم</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۶۸,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن شکلات تلخ ۷۸ درصد به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                        <article class="product-box" id="snacks-card-4">
+                            <div class="product-box-image">
+                                <img src="composition-images/pistachio.png" alt="پسته اکبری بوداده شور زعفرانی اعلا" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">مغز پسته بوداده زعفرانی</h3>
+                                <span class="product-box-weight">۲۰۰ گرم</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۲۶۵,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن مغز پسته زعفرانی به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                        <article class="product-box" id="snacks-card-5">
+                            <div class="product-box-image">
+                                <img src="composition-images/ICJlSkIimTeS4-gWcGzujyUN_4w-FfthMxRdQgqQz9op-vU8NQ.png" alt="بیسکویت سبوس‌دار گندم کرم‌دار وانیلی" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">بیسکویت پذیرایی سبوس‌دار</h3>
+                                <span class="product-box-weight">۳۰۰ گرم</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۴۲,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن بیسکویت سبوس‌دار به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                        <article class="product-box" id="snacks-card-6">
+                            <div class="product-box-image">
+                                <img src="composition-images/roshen1.jpg" alt="پاستیل میوه‌ای ژله‌ای با طعم‌های تمشک و توت‌فرنگی" loading="lazy" width="180" height="170">
+                            </div>
+                            <div class="product-box-info">
+                                <h3 class="product-box-title">پاستیل میوه‌ای میکس شکری</h3>
+                                <span class="product-box-weight">۱۵۰ گرم</span>
+                            </div>
+                            <div class="product-box-footer">
+                                <div class="product-box-price">
+                                    <span class="price-value">۳۸,۰۰۰</span>
+                                    <span class="price-currency">تومان</span>
+                                </div>
+                                <button type="button" class="add-button" aria-label="افزودن پاستیل میوه‌ای میکس به سبد خرید">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                    </section>
+                    <a href="#snacks-card-6" class="carousel-nav-btn next-btn" aria-label="مشاهده محصولات بعدی تنقلات">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</main>
+
+<footer id="contact">
+    <div class="container">
+        <div class="custom-row gap-20px">
+            <div class="footer-div custom-col-12 custom-col-sm-6 custom-col-md-3">
+                <h3>سوپرمارکت ترکیب</h3>
+                <span>از سال ۱۴۰۵ در کنار شما هستیم.</span>
+                <address class="footer-address">
+                    <span>تهران، جردن، خیابان گلشهر</span>
+                    <a href="tel:021999888777" class="footer-phone" dir="ltr">۰۲۱&#8209;۹۹۹۸۸۸۷۷</a>
+                </address>
+            </div>
+            <nav class="footer-div custom-col-12 custom-col-sm-6 custom-col-md-3" aria-label="پیوندهای دسته‌بندی فوتر">
+                <h3>دسته‌ها</h3>
+                <ul class="footer-links-list">
+                    <li><a href="#fruits-vegetables">میوه و سبزیجات</a></li>
+                    <li><a href="#dairy">لبنیات</a></li>
+                    <li><a href="#bakery">نان و شیرینی</a></li>
+                    <li><a href="#protein">مواد پروتئینی</a></li>
+                    <li><a href="#drinks">نوشیدنی‌ها</a></li>
+                    <li><a href="#snacks">تنقلات</a></li>
+                </ul>
+            </nav>
+            <div class="footer-div custom-col-12 custom-col-sm-6 custom-col-md-3">
+                <h3>راهنما</h3>
+                <ul class="footer-links-list">
+                    <li><a href="#help-shipping">شیوه ارسال</a></li>
+                    <li><a href="#help-returns">بازگشت کالا</a></li>
+                    <li><a href="#help-faq">پرسش‌های پرتکرار</a></li>
+                </ul>
+            </div>
+            <div class="footer-div custom-col-12 custom-col-sm-6 custom-col-md-3">
+                <h3>ساعات کاری</h3>
+                <span>شنبه تا پنج‌شنبه: ۸ تا ۲۲</span>
+                <span>جمعه: ۹ تا ۱۲</span>
+            </div>
+            <div class="bottom-footer-div custom-col-12">
+                <span class="copyright-text">حق مالکیت متعلق به سوپرمارکت ترکیب می‌باشد.</span>
+                <a href="#top" class="back-to-top" aria-label="بازگشت به ابتدای صفحه">بازگشت به بالای صفحه ↑</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
 </body>
 </html>
