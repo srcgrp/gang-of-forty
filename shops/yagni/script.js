@@ -779,27 +779,44 @@ async function renderShop() {
   try {
     const { shop, categories } = await getShop();
 
+    // =========================
+    // Header brand
+    // =========================
 
+    const headerBrand = document.querySelector("#shop-header-brand");
 
-    document.querySelector("#shop-header-name").textContent =
-      shop.name;
+    if (headerBrand) {
+      headerBrand.replaceChildren();
 
-    document.querySelector("#shop-header-slogan").textContent =
-      shop.slogan;
+      if (shop.name) {
+        const heading = document.createElement("h1");
+        heading.id = "shop-header-name";
+        heading.textContent = shop.name;
 
-    document.querySelector("#shop-name").textContent =
-      shop.name;
+        headerBrand.append(heading);
+      }
 
-    document.querySelector("#shop-about").textContent =
-      shop.about;
+      if (shop.slogan) {
+        const slogan = document.createElement("small");
+        slogan.id = "shop-header-slogan";
+        slogan.textContent = shop.slogan;
 
-    document.querySelector("#shop-address").textContent =
-      shop.address;
+        headerBrand.append(slogan);
+      }
+    }
 
-    document.querySelector("#shop-phone").textContent =
-      shop.phone;
+    // =========================
+    // Shop information
+    // =========================
 
+    document.querySelector("#shop-name").textContent = shop.name;
+    document.querySelector("#shop-about").textContent = shop.about;
+    document.querySelector("#shop-address").textContent = shop.address;
+    document.querySelector("#shop-phone").textContent = shop.phone;
 
+    // =========================
+    // Navbar categories
+    // =========================
 
     const navbarCategories =
       document.querySelector("#navbar-categories");
@@ -809,7 +826,6 @@ async function renderShop() {
 
     categories.forEach((category) => {
       const li = document.createElement("li");
-
       const link = document.createElement("a");
 
       link.classList.add("dropdown-item");
@@ -823,30 +839,26 @@ async function renderShop() {
 
       link.append(emoji, category.name);
       li.append(link);
-
       navbarCategoriesFragment.append(li);
     });
 
     navbarCategories.replaceChildren(navbarCategoriesFragment);
 
+    // =========================
+    // Navbar menu
+    // =========================
 
+    const navbarList = document.querySelector("#navbar-list");
 
-    const navbarList =
-      document.querySelector("#navbar-list");
-
-    const oldNavbarItems =
-      navbarList.querySelectorAll(".navbar-menu-item");
-
-    oldNavbarItems.forEach((item) => {
-      item.remove();
-    });
+    navbarList
+      .querySelectorAll(".navbar-menu-item")
+      .forEach((item) => item.remove());
 
     const navbarMenuFragment =
       document.createDocumentFragment();
 
     shop.menu.forEach((item) => {
       const li = document.createElement("li");
-
       li.classList.add("navbar-menu-item");
 
       const link = document.createElement("a");
@@ -861,7 +873,9 @@ async function renderShop() {
 
     navbarList.append(navbarMenuFragment);
 
-  
+    // =========================
+    // Footer categories
+    // =========================
 
     const footerCategories =
       document.querySelector("#footer-categories");
@@ -871,7 +885,6 @@ async function renderShop() {
 
     categories.forEach((category) => {
       const li = document.createElement("li");
-
       const link = document.createElement("a");
 
       link.href = `#${category.slug}`;
@@ -883,17 +896,16 @@ async function renderShop() {
 
     footerCategories.replaceChildren(categoriesFragment);
 
+    // =========================
+    // Footer help
+    // =========================
 
+    const helpList = document.querySelector("#footer-help");
 
-    const helpList =
-      document.querySelector("#footer-help");
-
-    const helpFragment =
-      document.createDocumentFragment();
+    const helpFragment = document.createDocumentFragment();
 
     shop.help.forEach((item) => {
       const li = document.createElement("li");
-
       const link = document.createElement("a");
 
       link.href = item.href;
@@ -905,33 +917,32 @@ async function renderShop() {
 
     helpList.replaceChildren(helpFragment);
 
- 
+    // =========================
+    // Shop schedule
+    // =========================
 
-    const schedule =
-      document.querySelector("#shop-schedule");
+    const schedule = document.querySelector("#shop-schedule");
 
     const scheduleFragment =
       document.createDocumentFragment();
 
     shop.schedule.forEach((item) => {
       const p = document.createElement("p");
-
       const strong = document.createElement("strong");
-
-      strong.textContent = `${item.days}:`;
-
       const time = document.createElement("span");
 
+      strong.textContent = `${item.days}:`;
       time.textContent = item.time;
 
       p.append(strong, " ", time);
-
       scheduleFragment.append(p);
     });
 
     schedule.replaceChildren(scheduleFragment);
 
-
+    // =========================
+    // Copyright
+    // =========================
 
     document.querySelector("#shop-copyright").textContent =
       shop.copyright;
