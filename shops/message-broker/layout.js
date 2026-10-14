@@ -56,7 +56,7 @@ function renderFooter(shop, categories) {
     document.getElementById('about').textContent = shop.about
     document.getElementById('address').textContent = shop.address
     document.getElementById('phone').textContent = 'تلفن: ' + shop.phone
-
+      
     const cats = document.getElementById('footer-categories')
     categories.forEach(c => cats.appendChild(makeLink(c.name, '#' + c.slug)))
 
@@ -71,16 +71,64 @@ function renderFooter(shop, categories) {
     })
 }
 
-async function initLayout() {
+function renderPosters(home) {
+    const box = document.getElementById('posters')
+    box.textContent = ''
+
+    function makeBanner(data, className) {
+        const a = document.createElement('a')
+        a.className = 'poster ' + className
+        a.href = data.cta.href
+
+        const emoji = document.createElement('span')
+        emoji.textContent = data.emoji
+
+        const title = document.createElement('h2')
+        title.textContent = data.title
+
+        const text = document.createElement('p')
+        text.textContent = data.text
+
+        const cta = document.createElement('b')
+        cta.textContent = data.cta.label
+
+        a.append(emoji, title, text, cta)
+        return a
+    }
+
+    box.appendChild(makeBanner(home.hero, 'poster-1'))
+    box.appendChild(makeBanner(home.side, 'poster-2'))
+
+    home.promos.forEach((p, i) => {
+        const a = document.createElement('a')
+        a.className = 'poster poster-' + (i + 3)
+        a.href = p.href
+        a.style.background = p.color
+
+        const emoji = document.createElement('span')
+        emoji.textContent = p.emoji
+
+        const text = document.createElement('p')
+        text.textContent = p.text
+
+        a.append(emoji, text)
+        box.appendChild(a)
+    })
+}
+
+
+ async function initLayout() {
     try {
-        const [categories, shop] = await Promise.all([
+        const [categories, shop, home] = await Promise.all([
             loadLayoutJSON('categories.json'),
-            loadLayoutJSON('shop.json')
+            loadLayoutJSON('shop.json'),
+            loadLayoutJSON('home.json')
         ])
 
         renderCategories(categories)
         renderMenu(shop, categories)
         renderFooter(shop, categories)
+        renderPosters(home)
 
         if (location.hash) {
             document.getElementById(location.hash.slice(1))?.scrollIntoView()
@@ -88,7 +136,7 @@ async function initLayout() {
     } catch (err) {
         console.error(err)
         const nav = document.getElementById('categories')
-        nav.textContent = 'بارگذاری دسته‌ها ممکن نشد. اتصال اینترنت را بررسی کنید.'
+        nav.textContent = 'خطا: ' + err.message
     }
 }
 
