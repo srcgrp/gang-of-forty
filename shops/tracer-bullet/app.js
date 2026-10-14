@@ -66,6 +66,7 @@ function createCard(product) {
     button.textContent = "+";
     button.disabled = outOfStock;
     button.setAttribute("aria-label", outOfStock ? `${product.name}: ناموجود` : `افزودن ${product.name} به سبد خرید`);
+    button.addEventListener("click", addToCart);
 
     li.append(icon);
 
@@ -148,8 +149,21 @@ function renderSpecialOffers(carousel, data, idPrefix) {
     });
 }
 
-/* loading, show the messages, call drawing functions */
+/* cart */
+let cartCount = Number(localStorage.getItem("cartCount")) || 0;
 
+function renderCartCount() {
+    document.querySelector(".cartCount").textContent = formatNumber(cartCount);
+    document.querySelector(".cartCountText").textContent = `${formatNumber(cartCount)} کالا در سبد`;
+}
+
+function addToCart() {
+    cartCount++;
+    localStorage.setItem("cartCount", cartCount);
+    renderCartCount();
+}
+
+/* loading, show the messages, call drawing functions */
 async function init() {
 
     const categoryList = document.querySelector("#categories .category-list")
@@ -168,6 +182,7 @@ async function init() {
 
     try {
         const data = await loadData();
+        renderCartCount();
         renderCarousels(carouselsContainer, data);
         renderCategories(categoryList, data.categories);
         renderCategoryLinks(dropDown, data.categories);
@@ -406,3 +421,4 @@ function renderCarousels(container, data) {
         }
     });
 }
+
