@@ -116,7 +116,7 @@ function renderCategoryCarousel(carousel, data, categoryId, idPrefix) {
     });
 }
 
-function renderSpecialOffers(carousel, data) {
+function renderSpecialOffers(carousel, data, idPrefix) {
     const { products, offers, stock } = data;
     const specialProducts = offers.map(offer => {
         const product = products.find(p => p.id === offer.productId);
@@ -139,12 +139,11 @@ function renderSpecialOffers(carousel, data) {
     specialProducts.forEach((item, index) => {
         const card = createCard(item);
         if (index === 0) {
-            card.id = "offers-first"
+            card.id = `${idPrefix}-first`;
         }
         if (index === specialProducts.length - 1) {
-            card.id = "offers-last"
+            card.id = `${idPrefix}-last`;
         }
-
         carousel.append(card);
     });
 }
@@ -152,9 +151,7 @@ function renderSpecialOffers(carousel, data) {
 /* loading, show the messages, call drawing functions */
 
 async function init() {
-    const fruitCarousel = document.querySelector("#fruits .carousel");
-    const dairyCarousel = document.querySelector("#dairy .carousel");
-    const specialCarousel = document.querySelector("#offers .carousel");
+
     const categoryList = document.querySelector("#categories .category-list")
     const dropDown = document.querySelector(".dropdown-menu")
     const footerCategories = document.querySelector("footer .footer-categories")
@@ -164,17 +161,14 @@ async function init() {
     const hero = document.querySelector('#hero');
     const promo = document.querySelector('#promo')
     const banners = document.querySelector('#banners')
+    const carouselsContainer = document.querySelector("#carousels");
     const errorText = "دسترسی به اینترنت را بررسی و صفحه را دوباره بارگذاری کنید";
-    showMessage(fruitCarousel, "در حال بارگذاری");
-    showMessage(dairyCarousel, "در حال بارگذاری");
-    showMessage(specialCarousel, "در حال بارگذاری");
     showMessage(categoryList, "در حال بارگذاری");
+    showBlockMessage(carouselsContainer, "در حال بارگذاری");
 
     try {
         const data = await loadData();
-        renderCategoryCarousel(fruitCarousel, data, 1, "fruits");
-        renderCategoryCarousel(dairyCarousel, data, 2, "dairy");
-        renderSpecialOffers(specialCarousel, data);
+        renderCarousels(carouselsContainer, data);
         renderCategories(categoryList, data.categories);
         renderCategoryLinks(dropDown, data.categories);
         renderCategoryLinks(footerCategories, data.categories);
@@ -188,13 +182,18 @@ async function init() {
         scrollToHash();
     } catch (error) {
         console.error(error);
-        showMessage(fruitCarousel, "دسترسی به اینترنت را بررسی و صفحه را دوباره بارگذاری کنید");
-        showMessage(dairyCarousel, errorText);
-        showMessage(specialCarousel, "دسترسی به اینترنت را بررسی و صفحه را دوباره بارگذاری کنید");
         showMessage(categoryList, "دسترسی به اینترنت را بررسی و صفحه را دوباره بارگذاری کنید");
+        showBlockMessage(carouselsContainer, "دسترسی به اینترنت را برسی و صفحه را دوباره بارگذاری کنید");
     }
 }
 init();
+
+function showBlockMessage(container, text) {
+    container.replaceChildren();
+    const p = document.createElement("p");
+    p.textContent = text;
+    container.append(p);
+}
 
 /* share the data */
 
@@ -345,4 +344,65 @@ function renderBanner(section, banner) {
     text.textContent = banner.text;
     link.textContent = banner.cta.label;
     link.href = banner.cta.href;
+}
+
+/* build carousels */
+/* arrow link */
+function createArrowLink(href, arrow, hiddenText) {
+    const link = document.createElement("a");
+    link.href = href;
+
+    const arrowSpan = document.createElement("span");
+    arrowSpan.setAttribute("aria-hidden", "true");
+    arrowSpan.textContent = arrow;
+
+    const textSpan = document.createElement("span");
+    textSpan.classList.add("visually-hidden");
+    textSpan.textContent = hiddenText;
+
+    link.append(arrowSpan, " ", textSpan);
+    return link;
+}
+
+function createCarouselSection(def) {
+    const section = document.createElement("section");
+    section.id = def.id;
+    section.setAttribute("aria-labelledby", `${def.id}-title`);
+
+    const head = document.createElement("div");
+    head.classList.add("section-head");
+
+    const heading = document.createElement("h2");
+    heading.id = `${def.id}-title`;
+    const emoji = document.createElement("span");
+    emoji.setAttribute("aria-hidden", "true");
+    emoji.textContent = def.emoji;
+    heading.append(emoji, " ", def.title);
+
+    const nav = document.createElement("div");
+    nav.classList.add("carousel-nav");
+    nav.append(
+        createArrowLink(`#${def.id}-first`, "→", `رفتن به ابتدای ${def.title}`),
+        createArrowLink(`#${def.id}-last`, "←", `رفتن به انتهای ${def.title}`)
+    );
+    const list = document.createElement("ul");
+    list.classList.add("carousel");
+
+    head.append(heading, nav);
+    section.append(head, list);
+    return { section, list };
+}
+
+function renderCarousels(container, data) {
+    container.replaceChildren();
+    data.home.carousels.forEach(def => {
+        const { section, list } = createCarouselSection(def);
+        container.append(section);
+
+        if (def.source === "offers") {
+            renderSpecialOffers(list, data, def.id);
+        } else {
+            renderCategoryCarousel(list, data, def.categoryId, def.id);
+        }
+    });
 }
