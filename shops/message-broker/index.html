@@ -13,8 +13,7 @@
 
 <body>
 
-<p id="status"></p>
-<pre id="products"></pre>
+ 
 
   <header class="header" id="top">
 
@@ -47,37 +46,21 @@
           <button type="submit" aria-label="جستجو"><span aria-hidden="true">🔍</span></button>
         </form>
 
-        <button class="cart" type="button" aria-label="سبد خرید، ۳ کالا">
-          <span aria-hidden="true">🛍️</span> سبد خرید <b aria-hidden="true">۳</b>
+        <button class="cart" type="button" aria-label="سبد خرید">
+          <span aria-hidden="true">🛍️</span> سبد خرید <b id="cart-count" aria-hidden="true">۰</b>
         </button>
 
         <label for="menu-toggle" class="burger" aria-hidden="true">☰</label>
       </div>
 
-      <nav class="nav" aria-label="منوی اصلی">
-        <ul class="menu" id="mi">
-           <!-- <li class="has-sub">
-            <a href="#categories">دسته‌بندی محصولات</a>
-            <ul class="submenu">
-              <li><a href="#best-selling">مراقبت از پوست</a></li>
-              <li><a href="#best-selling">آرایش صورت</a></li>
-              <li><a href="#new-products">آرایش چشم</a></li>
-              <li><a href="#new-products">آرایش لب</a></li>
-              <li><a href="#best-selling">مراقبت مو</a></li>
-              <li><a href="#best-selling">عطر و ادکلن</a></li>
-            </ul>
-          </li>
-          <li><a href="#best-selling">محصولات پرفروش</a></li>
-          <li><a href="#new-products">محصولات جدید</a></li>
-          <li><a href="#footer">تماس با ما</a></li>   -->
-          <ul class="menu" id="main-menu">
-            <li class="has-sub">
-              <a href="#categories">همه دسته‌ها</a>
-              <ul class="submenu" id="submenu"></ul>
-            </li>
-          </ul>
-        </ul>
-      </nav>
+            <nav class="nav" aria-label="منوی اصلی">
+              <ul class="menu" id="main-menu">
+                <li class="has-sub">
+                  <a href="#categories">همه دسته‌ها</a>
+                  <ul class="submenu" id="submenu"></ul>
+                </li>
+              </ul>
+            </nav>
   </header>
 
     <main id="main">
@@ -104,44 +87,9 @@
       </section>
 
       <!-- Categories -->
-      <nav class="categories" id="categories" aria-label="دسته‌بندی محصولات">
+            <nav class="categories" id="categories" aria-label="دسته‌بندی محصولات">
 
-        <a href="#skincare" class="category">
-          <img src="img/Category/skincare.jpg" alt="مراقبت از پوست">
-          <span>مراقبت از پوست</span>
-        </a>
-
-
-        <a href="#face-makeup" class="category">
-          <img src="img/Category/makeup.jpg" alt="آرایش صورت">
-          <span>آرایش صورت</span>
-        </a>
-
-
-
-        <a href="#eye-makeup" class="category">
-          <img src="img/Category/eye-makeup.jpg" alt="آرایش چشم">
-          <span>آرایش چشم</span>
-        </a>
-
-
-        <a href="#lip-makeup" class="category">
-          <img src="img/Category/lip make up.jpg" alt="آرایش  لب">
-          <span>آرایش لب</span>
-        </a>
-
-
-        <a href="#hair-care" class="category">
-          <img src="img/Category/hair-care.jpg" alt="مراقبت از مو">
-          <span>مراقبت مو</span>
-        </a>
-
-
-        <a href="#perfume" class="category">
-          <img src="img/Category/perfume.jpg" alt="عطر و ادکلن">
-          <span>عطر و ادکلن</span>
-        </a>
-      </nav>
+            </nav>
 
     <!-- Products -->
      <section class="wrap" id="best-selling" aria-labelledby="best-title">
@@ -223,50 +171,42 @@
         <span class="off">۲۲٪ تخفیف</span>
         <button type="button">افزودن</button>
       </article>
-    </li> -->
+    </li>  
      </ul>
    </section>
 
 </main>
 
     <footer class="footer" id="footer">
-      <div class="footer-container">
-        <div class="footer-column">
-          <h3>درباره ما</h3>
-          <p>فروشگاه آنلاین محصولات آرایشی و بهداشتی </p>
-        </div>
-        <div class="footer-column">
-          <h3>دسترسی سریع</h3>
-          <ul>
-            <li><a href="#Products">محصولات</a></li>
-            <li><a href="#categories">دسته بندی ها</a></li>
-            <li><a href="#new-produts">محصولات جدید</a></li>
-          </ul>
-        </div>
-        <div class="footer-column">
-          <h3>خدمات مشتریان</h3>
-          <ul>
-            <li><a href="#">تماس با ما</a></li>
-            <li><a href="#">پیگیری سفارش</a></li>
-            <li><a href="#">سوالات متداول</a></li>
-          </ul>
-        </div>
-        <div class="footer-column">
-          <h3>ارتباط با ما</h3>
-          <address>
-            <p>تلفن: 0219724736</p>
-            <p>ایمیل: info@example.com</p>
-          </address>
-        </div>
+      
+    <div class="footer-container">
+      <div class="footer-column">
+        <h3>درباره ما</h3>
+        <p id="about"></p>
+        <p id="address"></p>
+        <p id="phone"></p>
       </div>
-      <div class="footer-bottom">
-        <p>&copy;تمامی حقوق این فروشگله محفوظ است</p>
-        <a href="#">بازگشت به بالا</a>
+      <div class="footer-column">
+        <h3>دسته‌ها</h3>
+        <ul id="footer-categories"></ul>
       </div>
+      <div class="footer-column">
+        <h3>راهنما</h3>
+        <ul id="footer-help"></ul>
+      </div>
+      <div class="footer-column">
+        <h3>ساعت کاری</h3>
+        <ul id="schedule"></ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; تمامی حقوق این فروشگاه محفوظ است</p>
+      <a href="#top">بازگشت به بالا</a>
+    </div>
     </footer>
 
 <script src="app.js" defer></script>
-<script src="layout.js"></script>
+<script src="layout.js" defer></script>
 </body>
 
 </html>
