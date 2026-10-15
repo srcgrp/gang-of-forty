@@ -74,7 +74,8 @@ function renderFooter(shop, categories) {
 function renderPosters(home) {
     const box = document.getElementById('posters')
     box.textContent = ''
-
+    const box2 = document.getElementById('posters-2')
+    box2.textContent = ''
     function makeBanner(data, className) {
         const a = document.createElement('a')
         a.className = 'poster ' + className
@@ -112,7 +113,7 @@ function renderPosters(home) {
         text.textContent = p.text
 
         a.append(emoji, text)
-        box.appendChild(a)
+        box2.appendChild(a)
     })
 }
 
