@@ -447,6 +447,19 @@ h1 {
    background-image: url("img/img (3).jpeg");
  }  
 
+ .poster-1 {
+   background-image: url("img/poster1.jpg");
+   background-position: center;
+   background-size: cover;
+   color: #fff;
+ }
+
+ .poster-2 {
+   background-image: url("img/poster2.jpg");
+   background-position: center;
+   background-size: cover;
+   color: #1f2a1c;
+ }
  /* Number */
  
  .poster span {
