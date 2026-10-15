@@ -1,0 +1,323 @@
+/* ═══════════════════════════════════════════════════
+   Nav — با منوی همبرگری روی موبایل
+   ═══════════════════════════════════════════════════ */
+
+/* ─── چک‌باکس مخفی ─── */
+.menu-toggle-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ─── نوار اصلی ─── */
+.main-nav {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  z-index: 90;
+}
+
+.nav__wrapper {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--s-4);
+  height: 52px;
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+/* ─── دکمه همبرگری (پیش‌فرض مخفی) ─── */
+.menu-toggle {
+  display: none;
+  width: 42px;
+  height: 42px;
+  padding: 10px;
+  border-radius: var(--r-sm);
+  background: transparent;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  transition: background var(--t-fast);
+}
+
+.menu-toggle:hover {
+  background: var(--primary-soft);
+}
+
+.menu-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--green-800);
+  border-radius: 2px;
+  transition: transform var(--t-base), opacity var(--t-base);
+}
+
+/* ─── مگا منو ─── */
+.mega {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.mega__trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: 9px var(--s-3);
+  background: transparent;
+  color: var(--text);
+  border: 0;
+  border-radius: var(--r-sm);
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--t-fast), color var(--t-fast);
+}
+
+.mega__trigger:hover,
+.mega:focus-within .mega__trigger {
+  background: linear-gradient(135deg, var(--green-600), var(--green-700));
+  color: #fff;
+  box-shadow: var(--shadow-primary);
+}
+
+.mega__icon {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  transition: transform var(--t-base);
+}
+
+.mega:hover .mega__icon {
+  transform: rotate(90deg);
+}
+
+.mega__icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* پنل مگا منو */
+.mega__menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 260px;
+  padding: var(--s-2);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-lg);
+  z-index: 200;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  pointer-events: none;
+  transition: opacity var(--t-base), transform var(--t-base),
+              visibility var(--t-base);
+}
+
+.mega:hover .mega__menu,
+.mega:focus-within .mega__menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.mega__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mega__list a {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: 9px var(--s-3);
+  font-size: 0.9rem;
+  color: var(--text-soft);
+  text-decoration: none;
+  border-radius: var(--r-sm);
+  transition: background var(--t-fast), color var(--t-fast),
+              padding var(--t-fast);
+}
+
+.mega__list a:hover {
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+  padding-inline-start: var(--s-4);
+}
+
+.mega__list a span {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* ─── لینک‌های دسکتاپ ─── */
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  min-width: 0;
+}
+
+.nav__links a {
+  display: inline-block;
+  padding: var(--s-2) var(--s-3);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-soft);
+  text-decoration: none;
+  border-radius: var(--r-sm);
+  white-space: nowrap;
+  transition: color var(--t-fast), background var(--t-fast);
+}
+
+.nav__links a:hover {
+  color: var(--primary-dark);
+  background: var(--primary-soft);
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════ */
+
+/* ─── ۱۰۲۴px ─── */
+@media (max-width: 1024px) {
+  .nav__wrapper { padding: 0 var(--s-4); gap: var(--s-2); }
+  .nav__links a { padding: var(--s-2) 10px; font-size: 13px; }
+  .mega__trigger { padding: 8px var(--s-3); font-size: 13px; }
+}
+
+/* ─── ۹۰۰px ─── */
+@media (max-width: 900px) {
+  .nav__links a { padding: var(--s-2) 9px; font-size: 12.5px; }
+}
+
+/* ─── ۷۶۸px: منوی همبرگری ─── */
+@media (max-width: 768px) {
+  .nav__wrapper {
+    padding: 0 var(--s-3);
+    gap: var(--s-2);
+    height: 48px;
+  }
+
+  /* نمایش همبرگر */
+  .menu-toggle {
+    display: flex;
+  }
+
+  /* مخفی مگا منو (چون لیست موبایل جدا داره) */
+  .mega {
+    display: none;
+  }
+
+  /* لینک‌ها: پنهان تا تیک */
+  .nav__links {
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    flex: none;
+  }
+
+  /* وقتی تیک خورد → منو باز می‌شه */
+  .menu-toggle-input:checked ~ .main-nav .nav__links {
+    display: flex;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow-lg);
+    padding: var(--s-2) var(--s-3) var(--s-4);
+    z-index: 99;
+    animation: menu-slide var(--t-base) ease;
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+  }
+
+  .nav__links li { width: 100%; }
+
+  .nav__links a {
+    display: block;
+    padding: var(--s-4) var(--s-3);
+    font-size: 0.95rem;
+    color: var(--text);
+    border-bottom: 1px solid var(--border-soft);
+    border-radius: 0;
+  }
+
+  .nav__links li:last-child a {
+    border-bottom: 0;
+  }
+
+  .nav__links a:hover {
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+    border-radius: var(--r-sm);
+  }
+
+  /* تبدیل همبرگر به ضربدر */
+  .menu-toggle-input:checked ~ .main-nav .menu-toggle span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .menu-toggle-input:checked ~ .main-nav .menu-toggle span:nth-child(2) {
+    opacity: 0;
+  }
+  .menu-toggle-input:checked ~ .main-nav .menu-toggle span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+}
+
+/* ─── ۴۸۰px ─── */
+@media (max-width: 480px) {
+  .nav__wrapper { padding: 0 var(--s-3); height: 46px; }
+
+  .menu-toggle { width: 38px; height: 38px; padding: 9px; }
+  .menu-toggle span { width: 20px; }
+
+  .nav__links a {
+    padding: var(--s-3) var(--s-3);
+    font-size: 0.92rem;
+  }
+}
+
+/* ─── انیمیشن ─── */
+@keyframes menu-slide {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── کاهش حرکت ─── */
+@media (prefers-reduced-motion: reduce) {
+  .menu-toggle span,
+  .mega__menu,
+  .mega__icon,
+  .nav__links {
+    transition-duration: 0.01ms;
+    animation-duration: 0.01ms;
+  }
+}
