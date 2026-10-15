@@ -18,18 +18,34 @@ function buildLookupMaps(stocksData, offersData) {
   return { stockMap, offerMap };
 }
 
-function renderSkeleton(container, count = 4) {
-  container.innerHTML = `
-    <div class="skeleton-card">
-      <div class="skeleton-img"></div>
-      <div class="skeleton-title"></div>
-      <div class="skeleton-price"></div>
-    </div>
-  `.repeat(count);
+function renderSkeleton(container, count = 6) {
+  const fragment = document.createDocumentFragment();
+
+  for (let i = 0; i < count; i++) {
+    const card = document.createElement('div');
+    card.className = 'skeleton-card';
+
+    const img = document.createElement('div');
+    img.className = 'skeleton-img';
+
+    const title = document.createElement('div');
+    title.className = 'skeleton-title';
+
+    const price = document.createElement('div');
+    price.className = 'skeleton-price';
+
+    card.append(img, title, price);
+    fragment.appendChild(card);
+  }
+
+  container.replaceChildren(fragment);
 }
 
 function renderMessage(container, message, isError = false) {
-  container.innerHTML = `<p class="${isError ? 'error-message' : 'empty-message'}">${message}</p>`;
+  const p = document.createElement('p');
+  p.className = isError ? 'error-message' : 'empty-message';
+  p.textContent = message;
+  container.replaceChildren(p);
 }
 
 function createProductCard(product, offerMap, stockMap) {
@@ -55,9 +71,6 @@ function createProductCard(product, offerMap, stockMap) {
 
   const img = document.createElement('div');
   img.className = 'carousel-image-sells';
-  img.style.fontSize = '40px';
-  img.style.textAlign = 'center';
-  img.style.padding = '15px 0';
   img.textContent = product.emoji;
   card.appendChild(img);
 
@@ -112,8 +125,6 @@ function createProductCard(product, offerMap, stockMap) {
 }
 
 function renderProductList(container, products, offerMap, stockMap, emptyText) {
-  container.innerHTML = '';
-
   if (products.length === 0) {
     renderMessage(container, emptyText);
     return;
@@ -123,7 +134,7 @@ function renderProductList(container, products, offerMap, stockMap, emptyText) {
   products.forEach((product) => {
     fragment.appendChild(createProductCard(product, offerMap, stockMap));
   });
-  container.appendChild(fragment);
+  container.replaceChildren(fragment);
 }
 
 async function fetchJSON(url, errorMessage) {
