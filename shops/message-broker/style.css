@@ -125,13 +125,49 @@ h1 {
       gap: 16px;
       padding: 10px 5%;
     }
-  
+    .logo{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
     .logo svg {
       display: block;
-      width: 180px;
-      height: 54px;
+      width: 52px;
+      height: 52px;
+      flex-shrink: 0;
     }
-  
+     
+    .logo-text{
+      display: flex;
+      flex-direction: column;
+      line-height: 1.3;
+    }
+
+    .logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.logo svg {
+  display: block;
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+
+.logo-text strong { font-size: 1.15rem; color: #1f2a1c; }
+.logo-text small  { font-size: .72rem;  color: #666; }
+
     .search {
       display: flex;
       flex: 1;
@@ -273,10 +309,17 @@ h1 {
       }
   
       .logo svg {
-        width: 100px;
-        height: 36px;
+        width: 38px;
+        height: 38px;
       }
-  
+      
+      .logo-text strong {
+        font-size: .95rem;
+      }
+
+    .logo-text small {
+      font-size: .62rem;
+      }
       .cart {
         order: 2;
         margin-inline-start: auto;
@@ -489,14 +532,6 @@ h1 {
      padding: 15px 3%;
    }
 
-   .logo h1 {
-     font-size: 18px;
-   }
-
-   .logo p {
-     font-size: 11px;
-   }
-
    .search-box {
      height: 45px;
    }
@@ -568,11 +603,11 @@ h1 {
 
    /* Search */
 
-   .search-box {
+   /* .search-box {
      grid-column: 1 / -1;
      width: 100%;
      height: 45px;
-   }
+   } */
 
    .search-box input {
      font-size: 13px;
@@ -592,15 +627,6 @@ h1 {
    }
 
    /* Navbar */
-
-   .navbar {
-     position: relative;
-   }
-
-   .menu-button {
-     display: block;
-     margin: 8px 15px;
-   }
 
    .navbar ul {
      display: flex;
@@ -661,11 +687,6 @@ h1 {
    .category {
      min-width: 100px;
      height: 120px;
-   }
-
-   .category img {
-     width: 55px;
-     height: 55px;
    }
 
    .category span {
@@ -881,7 +902,8 @@ h1 {
           display: flex;
           align-items: center;
           justify-content: center;
-          height: 180px;
+          font-size: 75px;
+          line-height: 1;
         }
     
         #best-carousel .img span {
