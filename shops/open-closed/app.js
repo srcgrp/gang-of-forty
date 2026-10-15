@@ -1,7 +1,7 @@
 'use strict';
 
 
-const API_URL = '../../api/nope.json';
+const API_URL = '../../api/products.json';
 const DAIRY_CATEGORY_ID = 2; 
 const SKELETON_COUNT = 6;
 const TINTS = ['t-blue', 't-yellow', 't-green', 't-pink', 't-purple', 't-orange'];
