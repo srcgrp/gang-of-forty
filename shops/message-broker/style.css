@@ -736,10 +736,15 @@ h1 {
    width: 90%;
    max-width: 1200px;
    margin: 20px auto;
-   grid-template-columns: 1fr 1fr;
-   grid-template-rows: 180px;
+   grid-template-rows: 200px;
    gap: 15px;
  }
+ #posters {
+  grid-template-columns: 2fr 1fr;
+}
+#posters-2{
+  grid-template-columns: 1fr 1fr;
+}
 
  #posters .poster,
  #posters-2 .poster {
@@ -747,8 +752,11 @@ h1 {
    grid-row: auto;
    display: flex;
    flex-direction: column;
-   gap: 8px;
+   align-items: center;
+   justify-content: center;
    text-align: center;
+   gap: 8px;
+  text-align: center;
    padding: 12px;
  }
 
