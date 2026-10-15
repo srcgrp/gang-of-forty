@@ -1,29 +1,321 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت کارگزار پیام</title>
+  <title>بیوتی</title>
   <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
   <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
+  <meta name="description" content="سایت برای خرید لوازم آرایشی ">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>📬 سلام دنیا!</h1>
+  <header class="site-header" id="top">
+    <a class="skip" href="#main">پرش به محتوای اصلی</a>
+
+
+    <div class="top-bar">
+      <p>سلام، خوش آمدید</p>
+    </div>
+    <input type="checkbox" id="menu-toggle" aria-label="باز و بسته کردن منو">
+
+    <div class="bar">
+      <a href="#top" class="logo" aria-label="بیوتی، بازگشت به ابتدای صفحه">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" aria-hidden="true" focusable="false">
+          <g fill="none" stroke="#8a5a00" stroke-width="2">
+            <ellipse cx="28" cy="12" rx="5" ry="8" />
+            <ellipse cx="19" cy="20" rx="8" ry="5" />
+            <ellipse cx="37" cy="20" rx="8" ry="5" />
+            <circle cx="28" cy="20" r="3" fill="#8a5a00" />
+          </g>
+          <path d="M28 28 C28 40 24 48 18 56" fill="none" stroke="#4f6b12" stroke-width="2.5" />
+          <ellipse cx="38" cy="42" rx="9" ry="4" fill="none" stroke="#4f6b12" stroke-width="2"
+            transform="rotate(-30 38 42)" />
+          <text x="58" y="40" font-family="Georgia, serif" font-size="28" font-weight="bold"
+            fill="#8a5a00">BEAUTY</text>
+        </svg>
+      </a>
+
+      <form class="search" role="search" action="#">
+        <input type="search" placeholder="جستجو در میان هزاران کالا" aria-label="جستجوی محصولات">
+        <button type="submit" aria-label="جستجو"><span aria-hidden="true">🔍</span></button>
+      </form>
+
+      <button class="cart" type="button" aria-label="سبد خرید، ۳ کالا">
+        <span aria-hidden="true">🛍️</span> سبد خرید <b aria-hidden="true">۳</b>
+      </button>
+
+      <label for="menu-toggle" class="burger" aria-hidden="true">☰</label>
+    </div>
+
+    <nav class="nav" aria-label="منوی اصلی">
+      <ul class="menu">
+        <li class="has-sub">
+          <a href="#categories">دسته‌بندی محصولات</a>
+          <ul class="submenu">
+            <li><a href="#best-selling">مراقبت از پوست</a></li>
+            <li><a href="#best-selling">آرایش صورت</a></li>
+            <li><a href="#new-products">آرایش چشم</a></li>
+            <li><a href="#new-products">آرایش لب</a></li>
+            <li><a href="#best-selling">مراقبت مو</a></li>
+            <li><a href="#best-selling">عطر و ادکلن</a></li>
+          </ul>
+        </li>
+        <li><a href="#best-selling">محصولات پرفروش</a></li>
+        <li><a href="#new-products">محصولات جدید</a></li>
+        <li><a href="#footer">تماس با ما</a></li>
+      </ul>
+    </nav>
+
   </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>کارگزار پیام</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p><bdi>Message Broker</bdi> نرم‌افزاری مثل <bdi>RabbitMQ</bdi> یا <bdi>Kafka</bdi> است که بین سرویس‌ها می‌نشیند. فرستنده پیام را در صف می‌گذارد و منتظر نمی‌ماند؛ گیرنده هر وقت آماده بود برش می‌دارد. وقتی سفارشی ثبت شد، پیام «سفارش جدید» در صف می‌رود و انبار، ایمیل و حسابداری هر کدام جدا آن را برمی‌دارند. اگر یکی موقتاً خراب باشد، پیام گم نمی‌شود.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
+  <main id="main">
+
+    <!-- Posters -->
+    <section class="posters" aria-label="پیشنهادهای ویژه">
+
+      <div class="poster poster-1">
+        <span>۱</span>
+      </div>
+
+      <div class="poster poster-2">
+        <span>۲</span>
+      </div>
+
+      <div class="poster poster-3">
+        <span>۳</span>
+      </div>
+
+      <div class="poster poster-4">
+        <span>۴</span>
+      </div>
+
     </section>
+
+    <!-- Categories -->
+    <nav class="categories" id="categories" aria-label="دسته‌بندی محصولات">
+
+      <a href="#skincare" class="category">
+        <img src="image/category/ski" alt="مراقبت از پوست">
+        <span>مراقبت از پوست</span>
+      </a>
+
+
+      <a href="#face-makeup" class="category">
+        <img src="img/Category/makeup.jpg" alt="آرایش صورت">
+        <span>آرایش صورت</span>
+      </a>
+
+
+
+      <a href="#eye-makeup" class="category">
+        <img src="img/Category/eye-makeup.jpg" alt="آرایش چشم">
+        <span>آرایش چشم</span>
+      </a>
+
+
+      <a href="#lip-makeup" class="category">
+        <img src="img/Category/lip make up.jpg" alt="آرایش  لب">
+        <span>آرایش لب</span>
+      </a>
+
+
+      <a href="#hair-care" class="category">
+        <img src="img/Category/hair-care.jpg" alt="مراقبت از مو">
+        <span>مراقبت مو</span>
+      </a>
+
+
+      <a href="#perfume" class="category">
+        <img src="img/Category/perfume.jpg" alt="عطر و ادکلن">
+        <span>عطر و ادکلن</span>
+      </a>
+
+    </nav>
+
+
+
+    <!-- Products -->
+
+    <section class="wrap" id="best-selling" aria-labelledby="best-title">
+      <div class="head">
+        <h2 id="best-title">محصولات پرفروش</h2>
+        <div class="jump"><a href="#b1">ابتدا</a><a href="#b6">انتها</a></div>
+      </div>
+      <ul class="carousel" tabindex="0" aria-label="کاروسل محصولات پرفروش">
+
+        <li class="card" id="b1">
+          <article>
+            <div class="img"><img src="img/Products/lip makeup.jpg" alt="رژ لب قرمز" loading="lazy"></div>
+            <h3>رژ لب Maybelline</h3>
+            <p><s>۲۵۰٬۰۰۰</s> <b>۱۵۰٬۰۰۰ تومان</b></p>
+            <span class="off">۴۰٪ تخفیف</span>
+            <button type="button">افزودن</button>
+          </article>
+        </li>
+
+        <li class="card" id="b2">
+          <article>
+            <div class="img"><img src="img/Products/Aftab.jpg" alt="اسپری دیور" loading="lazy"></div>
+            <h3>اسپری Dior</h3>
+            <p><s>۵۰۰٬۰۰۰</s> <b>۴۵۰٬۰۰۰ تومان</b></p>
+            <span class="off">۱۰٪ تخفیف</span>
+            <button type="button">افزودن</button>
+          </article>
+        </li>
+
+        <li class="card" id="b3">
+          <article>
+            <div class="img"><img src="img/Products/cream.jpg" alt="کرم نرم‌کننده" loading="lazy"></div>
+            <h3>کرم نرم‌کننده</h3>
+            <p><s>۴۵۰٬۰۰۰</s> <b>۳۵۰٬۰۰۰ تومان</b></p>
+            <span class="off">۲۲٪ تخفیف</span>
+            <button type="button">افزودن</button>
+          </article>
+        </li>
+
+        <li class="card" id="b4">
+          <article>
+            <div class="img"><img src="img/Products/perfume.jpg" alt="عطر YSL" loading="lazy"></div>
+            <h3>عطر YSL</h3>
+            <p><s>۶۰۰٬۰۰۰</s> <b>۴۵۰٬۰۰۰ تومان</b></p>
+            <span class="off">۲۵٪ تخفیف</span>
+            <button type="button">افزودن</button>
+          </article>
+        </li>
+
+        <li class="card" id="b5">
+          <article>
+            <div class="img"><img src="img/Products/Sayeh.jpg" alt="سایه SHEGLAM" loading="lazy"></div>
+            <h3>سایه SHEGLAM</h3>
+            <p><s>۲۰۰٬۰۰۰</s> <b>۱۳۰٬۰۰۰ تومان</b></p>
+            <span class="off">۳۵٪ تخفیف</span>
+            <button type="button">افزودن</button>
+          </article>
+        </li>
+
+        <li class="card" id="b6">
+          <article>
+            <div class="img"><img src="img/Products/خوش بو کننده بدن.jpg" alt="خوش‌بو کننده بدن" loading="lazy"></div>
+            <h3>اسپری EASY BAKE</h3>
+            <p><s>۳۰۰٬۰۰۰</s> <b>۲۰۰٬۰۰۰ تومان</b></p>
+            <span class="off">۳۳٪ تخفیف</span>
+            <button type="button">افزودن</button>
+          </article>
+        </li>
+
+      </ul>
+    </section>
+
+    <section class="wrap" id="new-products" aria-labelledby="new-title">
+      <div class="head">
+
+        <h2 id="new-title">محصولات جدید</h2>
+
+        <div class="jump"><a href="#n1">ابتدا</a><a href="#n6">انتها</a></div>
+      </div>
+      <ul class="carousel" tabindex="0" aria-label="کاروسل محصولات جدید">
+        <li class="card" id="n1">
+
+          <article>
+            <div class="img"><img src="img/Products/eyeliner.jpg" alt="خط چشم" loading="lazy"></div>
+            <h3>خط چشم Dior</h3>
+            <p><s>۲۵۰٬۰۰۰</s> <b>۲۰۰٬۰۰۰ تومان</b></p>
+            <span class="off">۲۰٪ تخفیف</span>
+            <button type="button">افزودن</button>
+          </article>
+
+        </li>
+        <li class="card" id="n2">
+          <article>
+            <div class="img"><img src="img/Products/lipstick2.jpg" alt="رژ لب" loading="lazy"></div>
+            <h3>رژ لب Maybelline</h3>
+            <p><s>۳۰۰٬۰۰۰</s> <b>۱۵۰٬۰۰۰ تومان</b></p>
+            <span class="off">۵۰٪ تخفیف</span>
+            <button type="button">افزودن</button>
+          </article>
+        </li>
+
+        <li class="card" id="n3">
+          <article>
+            <div class="img"><img src="img/Products/mascara.jpg" alt="ریمل" loading="lazy"></div>
+            <h3>ریمل Sky</h3>
+            <p><s>۳۵۰٬۰۰۰</s> <b>۳۰۰٬۰۰۰ تومان</b></p>
+            <span class="off">۱۴٪ تخفیف</span>
+            <button type="button">افزودن</button>
+          </article>
+        </li>
+
+        <li class="card" id="n4">
+          <article>
+            <div class="img"><img src="img/Products/eyeshadow.jpg" alt="سایه" loading="lazy"></div>
+            <h3>سایه Colorpop</h3>
+            <p><s>۵۰۰٬۰۰۰</s> <b>۳۵۰٬۰۰۰ تومان</b></p>
+            <span class="off">۳۰٪ تخفیف</span>
+            <button type="button">افزودن</button>
+          </article>
+        </li>
+
+        <li class="card" id="n5">
+          <article>
+            <div class="img"><img src="img/Products/lipstick.jpg" alt="رژ لب ژله‌ای" loading="lazy"></div>
+            <h3>رژ لب SHEGLAM</h3>
+            <p><s>۵۵۰٬۰۰۰</s> <b>۴۵۰٬۰۰۰ تومان</b></p>
+            <span class="off">۱۸٪ تخفیف</span>
+            <button type="button">افزودن</button>
+          </article>
+        </li>
+
+        <li class="card" id="n6">
+          <article>
+            <div class="img"><img src="img/Products/blush.jpg" alt="رژ گونه" loading="lazy"></div>
+            <h3>رژ گونه NYX</h3>
+            <p><s>۴۵۰٬۰۰۰</s> <b>۳۵۰٬۰۰۰ تومان</b></p>
+            <span class="off">۲۲٪ تخفیف</span>
+            <button type="button">افزودن</button>
+          </article>
+        </li>
+      </ul>
+    </section>
+
   </main>
-  <footer>
-    <p dir="ltr">slug: <code>message-broker</code></p>
+
+  <footer class="footer" id="footer">
+    <div class="footer-container">
+      <div class="footer-column">
+        <h3>درباره ما</h3>
+        <p>فروشگاه آنلاین محصولات آرایشی و بهداشتی </p>
+      </div>
+      <div class="footer-column">
+        <h3>دسترسی سریع</h3>
+        <ul>
+          <li><a href="#Products">محصولات</a></li>
+          <li><a href="#categories">دسته بندی ها</a></li>
+          <li><a href="#new-produts">محصولات جدید</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>خدمات مشتریان</h3>
+        <ul>
+          <li><a href="#">تماس با ما</a></li>
+          <li><a href="#">پیگیری سفارش</a></li>
+          <li><a href="#">سوالات متداول</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>ارتباط با ما</h3>
+        <address>
+          <p>تلفن: 0219724736</p>
+          <p>ایمیل: info@example.com</p>
+        </address>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy;تمامی حقوق این فروشگله محفوظ است</p>
+      <a href="#">بازگشت به بالا</a>
+    </div>
   </footer>
 </body>
+
 </html>
