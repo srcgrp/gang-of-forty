@@ -1,29 +1,368 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت بن‌بست</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>herman shop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>🔒 سلام دنیا!</h1>
-  </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>بن‌بست</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p><bdi>Deadlock</bdi> یعنی دو کار هر کدام منبعی را قفل کرده‌اند و منتظر منبع دیگری‌اند، و تا ابد منتظر می‌مانند؛ مثل دو ماشین در کوچه باریک که هیچ‌کدام عقب نمی‌رود. ادوارد کافمن سال ۱۹۷۱ چهار شرط لازمش را نوشت. ساده‌ترین پیشگیری: همه همیشه قفل‌ها را به یک ترتیب ثابت بگیرند.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
+    <a href="#main-content" class="skip-link">پرش به محتوای اصلی</a>
+    <header>
+        <div class="info-nav">
+            <svg class="gift-icon" viewBox="0 0 32 32" fill="none">
+                <rect x="5" y="13" width="22" height="14" rx="2.2" fill="#C0392B"/>
+                <rect x="4" y="9" width="24" height="6" rx="2" fill="#D6B44C"/>
+                <rect x="14.2" y="9" width="3.6" height="18" fill="#F5E9C2"/>
+                <path d="M16 9c-4.7-5.2-8.3-2.7-7.1.2C9.7 11.1 12.6 10.3 16 9zM16 9c4.7-5.2 8.3-2.7 7.1.2-.8 1.9-3.7 1.1-7.1-.2z" fill="#D6B44C"/>
+            </svg>
+            <span>با خرید ۲ محصول یکی هدیه بگیر</span>
+            <svg class="gift-icon" viewBox="0 0 32 32" fill="none">
+                <rect x="5" y="13" width="22" height="14" rx="2.2" fill="#C0392B"/>
+                <rect x="4" y="9" width="24" height="6" rx="2" fill="#D6B44C"/>
+                <rect x="14.2" y="9" width="3.6" height="18" fill="#F5E9C2"/>
+                <path d="M16 9c-4.7-5.2-8.3-2.7-7.1.2C9.7 11.1 12.6 10.3 16 9zM16 9c4.7-5.2 8.3-2.7 7.1.2-.8 1.9-3.7 1.1-7.1-.2z" fill="#D6B44C"/>
+            </svg>
+        </div>
+
+        <div class="logo-container">
+            <a href="#" class="logo">
+                <svg viewBox="0 0 100 70" class="logo-mark" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="66" cy="20" r="14" class="sun" />
+                    <polygon points="2,66 38,14 74,66" class="mountain-back" />
+                    <polygon points="30,66 62,22 98,66" class="mountain-front" />
+                </svg>
+                <div class="logo-words">
+                    <h1 class="logo-text">HERMAN SHOP</h1>
+                    <span class="logo-sub">GEAR FOR A WILDER LIFE</span>
+                </div>
+            </a>
+
+            <div class="search">
+                <input type="text" placeholder="جستجو محصول..." id="search-box">
+                <button type="button" class="search-btn" aria-label="جستجو">
+                    <svg width="16" height="16" viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="7"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"/>
+                        <line x1="16.5" y1="16.5" x2="22" y2="22"
+                            stroke="currentColor"
+                            stroke-width="2"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="header-actions">
+                <div class="cart-wrap">
+                    <button type="button" class="cart">
+                    <svg class="btn-icon" viewBox="0 0 32 32" fill="none">
+                        <path d="M4 6h3l2.2 12.2a2 2 0 0 0 2 1.65h9.95a2 2 0 0 0 1.93-1.48L25.5 10H8.2" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="12.2" cy="25" r="1.7" fill="currentColor"/>
+                        <circle cx="22" cy="25" r="1.7" fill="currentColor"/>
+                    </svg>
+                    <span class="btn-text">سبد خرید</span>
+                    <span class="cart-count">0</span>
+                </button>
+                </div>
+
+
+                <details class="mobile-menu">
+                    <summary class="hamburger-btn" aria-label="باز کردن منو">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                    </summary>
+                    <nav class="mobile-nav-links" aria-label="منوی موبایل">
+                        <a href="#categories">همه دسته ها</a>
+                        <a href="#special-offers">پیشنهاد ویژه</a>
+                        <a href="#sleeping-bags">کیسه خواب</a>
+                        <a href="#fire-gear">لوازم آتش</a>
+                        <a href="#tents">چادر</a>
+                        <a href="#contact">تماس با ما</a>
+                    </nav>
+                </details>
+            </div>
+        </div>
+
+        <nav class="main-nav" aria-label="منوی اصلی">
+            <div class="dropdown-container">
+                <a href="#" class="dropdown-trigger">
+                    <svg viewBox="0 0 32 32" fill="none">
+                        <rect x="5" y="5" width="8" height="8" rx="1.8" stroke="currentColor" stroke-width="2"/>
+                        <rect x="19" y="5" width="8" height="8" rx="1.8" stroke="currentColor" stroke-width="2"/>
+                        <rect x="5" y="19" width="8" height="8" rx="1.8" stroke="currentColor" stroke-width="2"/>
+                        <rect x="19" y="19" width="8" height="8" rx="1.8" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    همه دسته ها
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="#tents">چادر</a></li>
+                    <li><a href="#sleeping-bags">کیسه خواب</a></li>
+                    <li><a href="#fire-gear">لوازم آتش</a></li>
+                    <li><a href="#climbing-shoes">کفش کوهنوردی</a></li>
+                </ul>
+            </div>
+
+            <a href="#special-offers">پیشنهاد ویژه</a>
+            <a href="#sleeping-bags">کیسه خواب</a>
+            <a href="#fire-gear">لوازم آتش</a>
+            <a href="#tents">چادر</a>
+            <a href="#contact">تماس با ما</a>
+        </nav>
+    </header>
+
+    <section class="Hero" id="main-content">
+        <div class="banner1" id="sleeping-bags">
+            <h2>کیسه خواب<br>با بهترین قیمت</h2>
+            <p>اجناس وارداتی با تضمین کیفیت</p>
+            <button type="button" class="btn-light">
+                خرید
+                <svg viewBox="0 0 32 32" fill="none">
+                    <path d="M20 7l-9 9 9 9" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+        <div class="banner2">
+            <h2>چادر مسافرتی<br>با بهترین قیمت</h2>
+            <p>اجناس وارداتی با تضمین کیفیت</p>
+            <button type="button" class="btn-dark">
+                خرید
+                <svg viewBox="0 0 32 32" fill="none">
+                    <path d="M20 7l-9 9 9 9" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
     </section>
-  </main>
-  <footer>
-    <p dir="ltr">slug: <code>deadlock</code></p>
-  </footer>
+
+    <section class="category" id="categories">
+        <h2 class="titels">دسته بندی ها</h2>
+        <div class="carousel">
+
+
+            <a href="#tents" class="Categories">
+                <img src="images/camping-svgrepo-com.svg" alt="چادر">
+                <h3>چادر</h3>
+            </a>
+            <div class="Categories">
+                <img src="images/camping-gas-2.svg" alt="گاز">
+                <h3>گاز</h3>
+            </div>
+            <div class="Categories">
+                <img src="images/camping-flash-flashlight-svgrepo-com.svg" alt="چراغ قوه">
+                <h3>چراغ قوه</h3>
+            </div>
+            <div class="Categories">
+                <img src="images/camping-chair-svgrepo-com.svg" alt="صندلی">
+                <h3>صندلی</h3>
+            </div>
+            <div class="Categories">
+                <img src="images/camping-backpack-svgrepo-com.svg" alt="کوله پشتی" id="koole">
+                <h3>کوله پشتی</h3>
+            </div>
+            <a href="#coffee-gear" class="Categories">
+                <img src="images/spiral-32-svgrepo-com.svg" alt="آیکون دسته‌بندی قهوه‌ساز سفری">
+                <h3>قهوه‌ساز</h3>
+            </a>
+        </div>
+    </section>
+    <section class="offer" id="special-offers">
+        <div class="section-header">
+            <h2>پیشنهاد ویژه امروز🔥</h2>
+            <div class="carousel-nav">
+                <a href="#offer-first" class="carousel-btn" aria-label="رفتن به ابتدای کاروسل پیشنهاد ویژه">❯</a>
+                <a href="#offer-last" class="carousel-btn" aria-label="رفتن به انتهای کاروسل پیشنهاد ویژه">❮</a>
+            </div>
+        </div>
+        <div class="carousel">
+             <article class="product" id="offer-first">
+            <span class="discount-badge">۱۵٪</span>
+            <img src="images/mug.webp" alt="prouduct-pic" class="prouduct-pic">
+            <h3>تراول ماگ</h3>
+            <p> ظرفيت 180 ميلليتر</p>
+            <p class="discount-price">۲,۵۰۰,۰۰۰</p>
+            <div>
+                <p>تومان ۲,۰۰۰,۰۰۰</p>
+                <button type="button" class="add-to-cart" aria-label="افزودن به سبد خرید">+</button>
+            </div>
+
+        </article>
+        <article class="product">
+            <span class="discount-badge">۱۲٪</span>
+            <img src="images/images.jpeg" alt="prouduct-pic" class="prouduct-pic">
+            <h3>چادر مسافرتی</h3>
+            <p>ظرفيت ۵ نفر</p>
+            <p class="discount-price">۱۰,۵۰۰,۰۰۰</p>
+            <div>
+                <p>تومان ۹,۰۰۰,۰۰۰</p>
+                <button type="button" class="add-to-cart" aria-label="افزودن به سبد خرید">+</button>
+            </div>
+
+        </article>
+        <article class="product">
+            <span class="discount-badge">۱۵٪</span>
+            <img src="images/saak.webp" alt="prouduct-pic" class="prouduct-pic">
+            <h3>ساک پیک نیک</h3>
+            <p>۱۰ کیلو ظرفیت</p>
+            <p class="discount-price">۴,۰۰۰,۰۰۰</p>
+            <div>
+                <p>تومان ۳,۰۰۰,۰۰۰</p>
+                <button type="button" class="add-to-cart">+</button>
+            </div>
+
+        </article>
+        <article class="product">
+            <span class="discount-badge">۱۲٪</span>
+            <img src="images/toshak.webp" alt="prouduct-pic" class="prouduct-pic">
+            <h3>تشک بادی</h3>
+            <p>تک نفره</p>
+            <p class="discount-price">۲,۵۰۰,۰۰۰</p>
+            <div>
+                <p>تومان ۲,۰۰۰,۰۰۰</p>
+                <button type="button" class="add-to-cart">+</button>
+            </div>
+
+        </article>
+        <article class="product">
+            <span class="discount-badge">۱۰٪</span>
+            <img src="images/5d5dac8d6656c345968b3e161ea2af29879fc4d6_1770300839.webp" alt="prouduct-pic" class="prouduct-pic">
+            <h3>کوله پشتی </h3>
+            <p>مناسب کوه</p>
+            <p class="discount-price">۷,۵۰۰,۰۰۰</p>
+            <div>
+                <p>تومان ۶,۹۰۰,۰۰۰</p>
+                <button type="button" class="add-to-cart">+</button>
+            </div>
+
+        </article>
+        <article class="product" id="offer-last">
+            <span class="discount-badge">۱۵٪</span>
+            <img src="images/chagho.webp" alt="prouduct-pic" class="prouduct-pic">
+            <h3>چاقو</h3>
+            <p>دسته فازی</p>
+            <p class="discount-price">۲,۵۰۰,۰۰۰</p>
+            <div>
+                <p>تومان ۲,۰۹۰,۰۰۰</p>
+                <button type="button" class="add-to-cart">+</button>
+            </div>
+
+        </article>
+
+        </div>
+    </section>
+
+    <section class="banners">
+        <div>
+            <h2 class="banner-title">قهوه ساز و اسپرسوساز سفری</h2>
+            <img src="./images/spiral-32-svgrepo-com.svg" alt="icon" class="title-icon">
+        </div>
+
+        <div>
+            <h2 class="banner-title">میز و صندلی سفری</h2>
+            <img src="./images/spiral-32-svgrepo-com.svg" alt="icon" class="title-icon">
+        </div>
+    </section>
+
+    <section class="tents" id="tents">
+        <h2 class="titles">چادر⛺️</h2>
+        <div class="carousel">
+            <article class="tent-article" id="tent-first">
+                <img src="./images/1.jpeg" alt="چادر کوهنوردی حرفه‌ای تکپوش قرمزرنگ" class="prouduct-pic">
+                <h3>چادر کوهنوردی اورست</h3>
+                <p></p>
+                <p></p>
+                <div>
+                <p>تومان ۸,۹۰۰,۰۰۰</p>
+                <button type="button" class="add-to-cart" aria-label="افزودن به سبد خرید">+</button>
+            </div>
+            </article>
+            <article class="tent-article">
+                <span class="discount-badge">۱۰٪</span>
+                <img src="./images/2.webp" alt="چادر کوهنوردی حرفه‌ای تکپوش سفید" class="prouduct-pic">
+                <h3>چادر کوهنوردی اورست</h3>
+                <p>۲ نفره</p>
+                <p class="discount-price">۳,۳۳۰,۰۰۰</p>
+                <div>
+                <p>تومان ۲,۰۹۰,۰۰۰</p>
+                <button type="button" class="add-to-cart" aria-label="افزودن به سبد خرید">+</button>
+            </div>
+            </article>
+            <article class="tent-article">
+                <img src="./images/3.jpeg" alt="چادر کوهنوردی حرفه‌ای تکپوش آبی" class="prouduct-pic">
+                <h3>چادر کوهنوردی اورست</h3>
+                <p>۵ نفره</p>
+                <div>
+                <p>تومان ۶,۰۹۰,۰۰۰</p>
+                <button type="button" class="add-to-cart" aria-label="افزودن به سبد خرید">+</button>
+            </div>
+            </article>
+            <article class="tent-article">
+                <img src="./images/4.webp" alt="چادر کوهنوردی حرفه‌ای تکپوش سبز" class="prouduct-pic">
+                <h3>چادر کوهنوردی اورست</h3>
+                <p>۱۰ نفره</p>
+
+                <div>
+                <p>تومان ۱۲,۰۰۰,۰۰۰</p>
+                <button type="button" class="add-to-cart" aria-label="افزودن به سبد خرید">+</button>
+            </div>
+            </article>
+            <article class="tent-article">
+                <span class="discount-badge">۱۲٪</span>
+                <img src="./images/5.webp" alt="چادر کوهنوردی حرفه‌ای تکپوش قرمز" class="prouduct-pic">
+                <h3>چادر کوهنوردی اورست</h3>
+                <p>۶ نفره</p>
+                <p class="discount-price">۹,۰۰۰,۰۰۰</p>
+                <div>
+                <p>تومان ۵,۰۹۰,۰۰۰</p>
+                <button type="button" class="add-to-cart">+</button>
+            </div>
+            </article>
+            <article class="tent-article">
+                <span class="discount-badge">۴۲٪</span>
+                <img src="./images/tent4.jpeg" alt="" class="prouduct-pic">
+                <h3>چادر کوهنوردی اورست</h3>
+                <p>۶ نفره</p>
+                <p class="discount-price">۹,۰۰۰,۰۰۰</p>
+                <div>
+                <p>تومان ۵,۰۹۰,۰۰۰</p>
+                <button type="button" class="add-to-cart" aria-label="افزودن به سبد خرید">+</button>
+            </div>
+            </article>
+        </div>
+    </section>
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h3>درباره هرمان شاپ</h3>
+                <p>تأمین‌کننده تجهیزات حرفه‌ای کمپینگ و طبیعت‌گردی برای تجربه‌ای امن و لذت‌بخش در دل طبیعت.</p>
+                <address>آدرس: تهران، خیابان ولیعصر، بالاتر از پارک وی، پلاک ۱۲</address>
+                <p id="contact">تلفن: <span dir="ltr">۰۲۱ - ۸۸۷۷۶۶۵۵</span></p>
+            </div>
+
+            <div class="footer-section links">
+                <h3>لینک دسته‌ها</h3>
+                <ul>
+                    <li><a href="#">چادر مسافرتی</a></li>
+                    <li><a href="#">کیسه خواب</a></li>
+                    <li><a href="#">لوازم آتش</a></li>
+                    <li><a href="#">کفش کوهنوردی</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section hours">
+                <h3>ساعت کاری</h3>
+                <p>شنبه تا چهارشنبه: ۹:۰۰ الی ۲۱:۰۰</p>
+                <p>پنجشنبه و جمعه: ۱۰:۰۰ الی ۱۸:۰۰</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 تمامی حقوق برای هرمان شاپ محفوظ است.</p>
+            <a href="#" class="back-to-top">بازگشت به بالا ⬆</a>
+        </div>
+    </footer>
 </body>
 </html>
