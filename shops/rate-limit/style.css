@@ -553,6 +553,60 @@ nav li#special-offer-button {
   transform: scale(0.95);
 }
 
+.add-to-cart:disabled {
+  background-color: #b2bec3;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.add-to-cart:disabled:hover {
+  background-color: #b2bec3;
+  transform: none;
+}
+
+.carousel-card-sells.out-of-stock {
+  opacity: 0.55;
+  filter: grayscale(0.4);
+}
+
+.carousel-card-sells.out-of-stock:hover {
+  transform: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.out-of-stock-badge {
+  position: absolute;
+  top: -10px;
+  right: -1px;
+  min-width: 56px;
+  height: 50px;
+  background-color: #6c757d;
+  color: white;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  font-size: 11.5px;
+  font-weight: 800;
+  text-align: center;
+  z-index: 2;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+.empty-message,
+.error-message {
+  width: 100%;
+  text-align: center;
+  padding: 30px 10px;
+  font-size: 14px;
+  color: #678b60;
+}
+
+.error-message {
+  color: #e63946;
+}
+
 .category-all,
 .special-offer,
 .snacks {
@@ -804,6 +858,16 @@ html:dir(ltr) {
   }
 
   .carousel-image-sells {
+    width: 120px;
+    height: 90px;
+  }
+
+  .skeleton-card {
+    width: 150px;
+    padding: 12px;
+  }
+
+  .skeleton-img {
     width: 120px;
     height: 90px;
   }
@@ -1103,5 +1167,67 @@ nav li a {
 
   to {
     transform: translateX(-50%);
+  }
+}
+
+.skeleton-card {
+  background: #ffffff;
+  border: 1px solid #f0f0f0;
+  border-radius: 16px;
+  width: 180px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-img {
+  width: 160px;
+  height: 110px;
+  border-radius: 10px;
+  background-color: #e9ecef;
+}
+
+.skeleton-title {
+  width: 85%;
+  height: 16px;
+  border-radius: 4px;
+  background-color: #e9ecef;
+}
+
+.skeleton-price {
+  width: 55%;
+  height: 14px;
+  border-radius: 4px;
+  background-color: #e9ecef;
+  margin-top: -2px;
+}
+
+.skeleton-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0,
+    rgba(255, 255, 255, 0.4) 20%,
+    rgba(255, 255, 255, 0.7) 60%,
+    rgba(255, 255, 255, 0)
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
   }
 }
