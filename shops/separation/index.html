@@ -1,29 +1,313 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت جداسازی دغدغه‌ها</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>یلدا استور</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>🗂️ سلام دنیا!</h1>
-  </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>جداسازی دغدغه‌ها</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p><bdi>Separation of Concerns</bdi> را ادسخر دایکسترا سال ۱۹۷۴ مطرح کرد: هر بخش برنامه فقط به یک دغدغه بپردازد. همین سوپرمارکت مثال خوبی است: <bdi>HTML</bdi> ساختار صفحه است، <bdi>CSS</bdi> ظاهرش و <bdi>JavaScript</bdi> رفتارش. هر کدام را می‌شود جدا عوض کرد.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
-    </section>
-  </main>
-  <footer>
-    <p dir="ltr">slug: <code>separation</code></p>
-  </footer>
+
+<body id="top">
+
+    <a class="skip" href="#main">
+        پرش به محتوای اصلی
+    </a>
+
+    <header>
+
+        <div class="top-bar">
+            ارسال رایگان برای خریدهای بالای ۳۰۰ هزار تومان
+        </div>
+
+        <div class="header-main">
+
+            <a href="#top" class="logo">
+                <svg viewBox="0 0 48 48" width="36" height="36" aria-hidden="true">
+                    <rect x="6" y="18" width="36" height="20" rx="6" fill="#9b5c70" />
+                    <path d="M12 18 L20 8 H28 L36 18 Z" fill="#f7e9ee" />
+                    <circle cx="24" cy="26" r="4" fill="#fff" />
+                </svg>
+                <span>یلدا استور</span>
+            </a>
+
+            <form class="search" role="search">
+                <label for="q" class="visually-hidden">
+                    جستجو
+                </label>
+                <input id="q" type="search" placeholder="جستجوی کالا">
+            </form>
+
+            <a href="#" class="cart">
+                سبد خرید ۲
+            </a>
+
+        </div>
+
+        <input type="checkbox" id="nav-toggle" hidden>
+
+        <label for="nav-toggle" class="burger">
+            ☰
+        </label>
+
+        <nav class="main-nav">
+            <ul>
+                <li class="has-sub">
+                    <a href="#categories">
+                        همه دسته‌ها
+                    </a>
+                    <ul class="sub">
+                        <li>
+                            <a href="#necklaces">گردنبند</a>
+                        </li>
+                        <li>
+                            <a href="#rings">انگشتر</a>
+                        </li>
+                        <li>
+                            <a href="#bracelets">دستبند</a>
+                        </li>
+                        <li>
+                            <a href="#earrings">گوشواره</a>
+                        </li>
+                        <li>
+                            <a href="#halfset">نیم‌ ست</a>
+                        </li>
+                        <li>
+                            <a href="#watch">ساعت</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#deal">پیشنهاد ویژه</a>
+                </li>
+                <li>
+                    <a href="#new">جدیدها</a>
+                </li>
+                <li>
+                    <a href="#about">درباره ما</a>
+                </li>
+            </ul>
+        </nav>
+
+    </header>
+
+    <main id="main">
+
+        <section class="hero">
+            <div class="hero-content">
+                <h1>
+                    زیبایی، در جزئیات توست
+                </h1>
+                <p>
+                    زیورآلاتی ظریف برای لحظه‌هایی که می‌خواهی خاص‌تر بدرخشی
+                </p>
+                <a href="#deal" class="hero-button">
+                    مشاهده محصولات
+                </a>
+            </div>
+        </section>
+
+        <section id="categories" class="section">
+            <h2>
+                دسته‌بندی‌های یلدا استور
+            </h2>
+
+            <div class="categories">
+                <a href="#necklaces" class="category">
+                    <span>📿</span>
+                    <span>گردنبند</span>
+                </a>
+                <a href="#rings" class="category">
+                    <span>💍</span>
+                    <span>انگشتر</span>
+                </a>
+                <a href="#bracelets" class="category">
+                    <span>✨</span>
+                    <span>دستبند</span>
+                </a>
+                <a href="#earrings" class="category">
+                    <span>💎</span>
+                    <span>گوشواره</span>
+                </a>
+                <a href="#halfset" class="category">
+                    <span>👑</span>
+                    <span>نیم‌ست</span>
+                </a>
+                <a href="#watch" class="category">
+                    <span>⌚</span>
+                    <span>ساعت</span>
+                </a>
+            </div>
+        </section>
+
+        <section id="deal" class="section">
+            <h2>
+                محبوب‌ترین‌ها
+            </h2>
+
+            <div class="car-nav">
+                <a href="#deal-1">ابتدا</a>
+                <a href="#deal-6">انتها</a>
+            </div>
+
+            <div class="car">
+                <article id="deal-1" class="product-card">
+                    <span class="badge">۲۰٪</span>
+                    <div class="product-image">💍</div>
+                    <h3>انگشتر مینیمال</h3>
+                    <p>نقره ۹۲۵</p>
+                    <p>۸۹۰٬۰۰۰ تومان</p>
+                    <button type="button">+</button>
+                </article>
+
+                <article id="necklaces" class="product-card">
+                    <div class="product-image">📿</div>
+                    <h3>گردنبند ظریف</h3>
+                    <p>روکش طلا</p>
+                    <p>۱٬۲۵۰٬۰۰۰ تومان</p>
+                    <button type="button">+</button>
+                </article>
+
+                <article id="earrings" class="product-card">
+                    <div class="product-image">💎</div>
+                    <h3>گوشواره مرواریدی</h3>
+                    <p>مناسب روزانه</p>
+                    <p>۹۸۰٬۰۰۰ تومان</p>
+                    <button type="button">+</button>
+                </article>
+
+                <article id="bracelets" class="product-card">
+                    <div class="product-image">✨</div>
+                    <h3>دستبند زنجیری</h3>
+                    <p>استیل ضد حساسیت</p>
+                    <p>۷۵۰٬۰۰۰ تومان</p>
+                    <button type="button">+</button>
+                </article>
+
+                <article id="halfset" class="product-card">
+                    <div class="product-image">👑</div>
+                    <h3>نیم‌ست نگین‌دار</h3>
+                    <p>روکش طلا</p>
+                    <p>۱٬۷۰۰٬۰۰۰ تومان</p>
+                    <button type="button">+</button>
+                </article>
+
+                <article id="deal-6" class="product-card">
+                    <div class="product-image">⌚</div>
+                    <h3>ساعت مینیمال</h3>
+                    <p>بند چرم</p>
+                    <p>۱٬۹۰۰٬۰۰۰ تومان</p>
+                    <button type="button">+</button>
+                </article>
+            </div>
+        </section>
+
+        <section id="new" class="section">
+            <h2>
+                جدیدترین‌ها
+            </h2>
+
+            <div class="car-nav">
+                <a href="#new-1">ابتدا</a>
+                <a href="#new-6">انتها</a>
+            </div>
+
+            <div class="car">
+                <article id="new-1" class="product-card">
+                    <div class="product-image">💍</div>
+                    <h3>انگشتر نگین آبی</h3>
+                    <p>نقره ۹۲۵</p>
+                    <p>۱٬۱۰۰٬۰۰۰ تومان</p>
+                    <button type="button">+</button>
+                </article>
+
+                <article id="rings" class="product-card">
+                    <div class="product-image">💍</div>
+                    <h3>انگشتر دوقلو</h3>
+                    <p>استیل</p>
+                    <p>۶۹۰٬۰۰۰ تومان</p>
+                    <button type="button">+</button>
+                </article>
+
+                <article id="watch" class="product-card">
+                    <div class="product-image">⌚</div>
+                    <h3>ساعت بند استیل</h3>
+                    <p>موتور ژاپن</p>
+                    <p>۲٬۴۰۰٬۰۰۰ تومان</p>
+                    <button type="button">+</button>
+                </article>
+
+                <article class="product-card">
+                    <div class="product-image">📿</div>
+                    <h3>گردنبند ماه</h3>
+                    <p>روکش طلا</p>
+                    <p>۸۵۰٬۰۰۰ تومان</p>
+                    <button type="button">+</button>
+                </article>
+
+                <article class="product-card">
+                    <div class="product-image">✨</div>
+                    <h3>دستبند النگویی</h3>
+                    <p>روکش طلا</p>
+                    <p>۹۲۰٬۰۰۰ تومان</p>
+                    <button type="button">+</button>
+                </article>
+
+                <article id="new-6" class="product-card">
+                    <div class="product-image">💎</div>
+                    <h3>گوشواره حلقه‌ای</h3>
+                    <p>استیل</p>
+                    <p>۵۸۰٬۰۰۰ تومان</p>
+                    <button type="button">+</button>
+                </article>
+            </div>
+        </section>
+
+        <section class="promo">
+            <div>
+                <h2>
+                    یک انتخاب ظریف برای خودت
+                </h2>
+                <p>
+                    این هفته روی مجموعه مینیمال تا ۲۰٪ تخفیف داریم
+                </p>
+            </div>
+            <a href="#deal">
+                مشاهده تخفیف‌ها
+            </a>
+        </section>
+
+    </main>
+
+    <footer id="about">
+        <div>
+            <h2>یلدا استور</h2>
+            <p>زیورآلاتی برای سلیقه‌های خاص</p>
+            <p>تهران، خیابان نمونه، پلاک ۳</p>
+        </div>
+
+        <div>
+            <h2>دسته‌بندی‌ها</h2>
+            <a href="#necklaces">گردنبند</a>
+            <a href="#rings">انگشتر</a>
+            <a href="#bracelets">دستبند</a>
+            <a href="#earrings">گوشواره</a>
+        </div>
+
+        <div>
+            <h2>راهنما</h2>
+            <a href="#">شرایط ارسال</a>
+            <a href="#">تعویض کالا</a>
+            <a href="#">پرسش‌های متداول</a>
+        </div>
+
+        <div>
+            <h2>ارتباط با ما</h2>
+            <p>شنبه تا پنجشنبه، ۹ تا ۲۱</p>
+            <p>۰۲۱-۱۲۳۴۵۶۷۸</p>
+        </div>
+    </footer>
+
 </body>
+
 </html>
