@@ -1,4 +1,4 @@
-type Product = {
+export type Product = {
   id: number;
   categoryId: number;
   name: string;
@@ -8,13 +8,13 @@ type Product = {
   tags: string[];
 };
 
-type Offer = {
+export type Offer = {
   productId: number;
   percent: number;
   label: string;
 };
 
-type Category = {
+export type Category = {
   id: number;
   slug: string;
   name: string;
@@ -22,12 +22,12 @@ type Category = {
   color: string;
 };
 
-type Stock = {
+export type Stock = {
   updatedAt: string;
   items: Record<number, number>;
 };
 
-type Shop = {
+export type Shop = {
   name: string;
   slogan: string;
   owner: string;
@@ -43,32 +43,22 @@ type Shop = {
   notice: string;
   about: string;
   address: string;
-  schedule: [
-    {
-      days: string;
-      time: string;
-    },
-    {
-      days: string;
-      time: string;
-    },
-  ];
-  menu: [
-    {
-      label: string;
-      href: string;
-    },
-  ];
-  help: [
-    {
-      label: string;
-      href: string;
-    },
-  ];
+  schedule: {
+    days: string;
+    time: string;
+  }[];
+  menu: {
+    label: string;
+    href: string;
+  }[];
+  help: {
+    label: string;
+    href: string;
+  }[];
   copyright: string;
 };
 
-type Home = {
+export type Home = {
   hero: {
     title: string;
     text: string;
@@ -87,18 +77,16 @@ type Home = {
       href: string;
     };
   };
-  promos: [
-    {
-      text: string;
-      emoji: string;
-      color: string;
-      href: string;
-    },
-  ];
+  promos: {
+    text: string;
+    emoji: string;
+    color: string;
+    href: string;
+  }[];
   carousels: Array<
     | { id: string; title: string; emoji: string; source: "offers" }
     | { id: string; title: string; emoji: string; categoryId: number }
   >;
 };
 
-type MakeItem = (product: Product) => HTMLElement;
+export type MakeItem = (product: Product) => HTMLElement;

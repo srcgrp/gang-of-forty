@@ -1,18 +1,19 @@
 import confetti from "canvas-confetti";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
-
+import { getJSON } from "./api";
+import type {
+  Category,
+  Home,
+  MakeItem,
+  Offer,
+  Product,
+  Shop,
+  Stock,
+} from "./types";
 const notyf = new Notyf();
 
-const API = "../../api/";
-
-async function getJSON<T>(url: string): Promise<T> {
-  const res: Response = await fetch(url);
-  if (!res.ok) {
-    throw new Error("bad response");
-  }
-  return await res.json();
-}
+const API = import.meta.env.VITE_API_URL;
 
 function findOffer(offers: Offer[], productId: number): Offer | null {
   const found = offers.find(function (item) {
@@ -29,7 +30,7 @@ function productLine(
   qty: number,
   offer: Offer | null,
   faNumber: Intl.NumberFormat,
-) {
+): string {
   let line = product.unit;
 
   if (qty === 0) {
@@ -49,7 +50,7 @@ function productLine(
   return line;
 }
 
-function addCatLinks(ul: HTMLUListElement, categories: Category[]) {
+function addCatLinks(ul: HTMLUListElement, categories: Category[]): void {
   for (const cat of categories) {
     const li: HTMLLIElement = document.createElement("li");
     const a: HTMLAnchorElement = document.createElement("a");
@@ -60,7 +61,7 @@ function addCatLinks(ul: HTMLUListElement, categories: Category[]) {
   }
 }
 
-function fillShop(shop: Shop) {
+function fillShop(shop: Shop): void {
   const notice = document.querySelector<HTMLParagraphElement>(".banner p");
   const slogan = document.querySelector<HTMLParagraphElement>(".slogan");
   const about = document.querySelector<HTMLParagraphElement>("#about");
@@ -94,7 +95,7 @@ function fillShop(shop: Shop) {
   copyRight.textContent = shop.copyright;
 }
 
-function fillMenu(shop: Shop, categories: Category[]) {
+function fillMenu(shop: Shop, categories: Category[]): void {
   const list = document.querySelector<HTMLUListElement>("#menu-list");
   if (!list) throw new Error("index.html is missing an element");
 
@@ -126,7 +127,7 @@ function fillMenu(shop: Shop, categories: Category[]) {
   list.appendChild(cartLi);
 }
 
-function fillFooter(shop: Shop, categories: Category[]) {
+function fillFooter(shop: Shop, categories: Category[]): void {
   const footerCats = document.querySelector<HTMLUListElement>("#footer-cats");
   const helpList = document.querySelector<HTMLUListElement>("#footer-help");
   if (!helpList || !footerCats)
@@ -144,7 +145,7 @@ function fillFooter(shop: Shop, categories: Category[]) {
   }
 }
 
-function fillCategories(categories: Category[]) {
+function fillCategories(categories: Category[]): void {
   const list = document.querySelector<HTMLUListElement>("#cat-list");
   if (!list) throw new Error("index.html is missing an element");
 
@@ -165,7 +166,7 @@ function fillCategories(categories: Category[]) {
   }
 }
 
-function fillHero(home: Home) {
+function fillHero(home: Home): void {
   const box = document.querySelector<HTMLElement>("#hero");
   if (!box) throw new Error("index.html is missing an element");
 
@@ -209,7 +210,7 @@ function fillHero(home: Home) {
   box.appendChild(side);
 }
 
-function fillPromos(home: Home) {
+function fillPromos(home: Home): void {
   const box = document.querySelector<HTMLElement>("#promos");
   if (!box) throw new Error("index.html is missing an element");
 
@@ -232,7 +233,10 @@ function fillPromos(home: Home) {
   }
 }
 
-function makeCarousel(id: string, title: string) {
+function makeCarousel(
+  id: string,
+  title: string,
+): { section: HTMLElement; row: HTMLUListElement } {
   const section: HTMLElement = document.createElement("section");
   section.id = id;
 
@@ -266,7 +270,7 @@ function addCards(
   makeItem: MakeItem,
   startId: string,
   endId: string,
-) {
+): void {
   for (let i = 0; i < products.length; i++) {
     const li = makeItem(products[i]);
     if (i === 0) {
@@ -285,7 +289,7 @@ function fillCarousels(
   products: Product[],
   offers: Offer[],
   makeItem: MakeItem,
-) {
+): void {
   const featured = document.querySelector<HTMLDivElement>("#featured");
   const more = document.querySelector<HTMLDivElement>("#carousels");
   const used: Record<string, boolean> = {};
@@ -323,7 +327,7 @@ function fillCarousels(
   }
 }
 
-function filterProducts(q: string) {
+function filterProducts(q: string): void {
   const items = document.querySelectorAll<HTMLLIElement>(
     "#featured li, #carousels li",
   );
@@ -353,7 +357,7 @@ function makePic(
   qty: number,
   offer: Offer | null,
   faNumber: Intl.NumberFormat,
-) {
+): HTMLDivElement {
   const pic: HTMLDivElement = document.createElement("div");
   pic.className = "pic";
 
@@ -380,7 +384,7 @@ function makeAmount(
   product: Product,
   qty: number,
   faNumber: Intl.NumberFormat,
-) {
+): HTMLParagraphElement {
   const amount: HTMLParagraphElement = document.createElement("p");
   amount.className = "amount";
   if (qty === 0) {
@@ -396,7 +400,7 @@ function makePrice(
   qty: number,
   offer: Offer | null,
   faNumber: Intl.NumberFormat,
-) {
+): HTMLParagraphElement {
   const price: HTMLParagraphElement = document.createElement("p");
   price.className = "price";
 
@@ -416,7 +420,7 @@ function makePrice(
   return price;
 }
 
-function makeButton(qty: number, onAdd: () => void) {
+function makeButton(qty: number, onAdd: () => void): HTMLButtonElement {
   const btn: HTMLButtonElement = document.createElement("button");
   btn.type = "button";
   if (qty === 0) {
@@ -429,7 +433,7 @@ function makeButton(qty: number, onAdd: () => void) {
   return btn;
 }
 
-async function loadPage() {
+async function loadPage(): Promise<void> {
   const status = document.querySelector<HTMLParagraphElement>("#status");
   if (!status) throw new Error("index.html is missing an element");
 
@@ -464,7 +468,7 @@ async function loadPage() {
     searchBoxInput.placeholder =
       "جستجو در میان " + faNumber.format(products.length) + " کالا…";
 
-    function updateCart() {
+    function updateCart(): void {
       if (!countEl || !cartText)
         throw new Error("index.html is missing an element");
       countEl.textContent = faNumber.format(count);
@@ -475,7 +479,7 @@ async function loadPage() {
       }
     }
 
-    function makeProductItem(product: Product) {
+    function makeProductItem(product: Product): HTMLLIElement {
       const li: HTMLLIElement = document.createElement("li");
       const qty = stock.items[product.id];
       const offer = findOffer(offers, product.id);
