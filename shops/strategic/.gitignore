@@ -1,0 +1,7 @@
+# Git Ignore Files & Folders
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
