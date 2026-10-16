@@ -1,0 +1,116 @@
+.mobile-menu__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1999;
+  background: rgba(15, 19, 25, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.25s var(--ease),
+    visibility 0s 0.25s;
+}
+
+.mobile-menu__overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 0.25s var(--ease),
+    visibility 0s 0s;
+}
+
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 80%;
+  max-width: 360px;
+  z-index: 2000;
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
+  transform: translateX(100%);
+  visibility: hidden;
+  transition:
+    transform 0.35s var(--ease),
+    visibility 0s 0.35s;
+}
+
+.mobile-menu.is-open {
+  transform: translateX(0);
+  visibility: visible;
+  overflow-y: auto;
+  transition:
+    transform 0.35s var(--ease),
+    visibility 0s 0s;
+}
+
+.mobile-menu__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-md);
+  border-bottom: 1px solid var(--border);
+}
+
+.mobile-menu__close {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.2s var(--ease);
+}
+
+.mobile-menu__close:hover {
+  background: var(--lime-soft);
+}
+
+.mobile-menu__close svg {
+  width: 22px;
+  height: 22px;
+  fill: var(--navy);
+}
+
+.mobile-menu__title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.mobile-menu__body {
+  padding: var(--sp-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-md);
+}
+
+.mobile-menu__list {
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-menu__list a {
+  display: block;
+  padding: 14px 4px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.2s var(--ease);
+}
+
+.mobile-menu__list a:hover {
+  color: var(--lime-dark);
+}
+
+@media (min-width: 768px) {
+  .mobile-menu,
+  .mobile-menu__overlay {
+    display: none;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}

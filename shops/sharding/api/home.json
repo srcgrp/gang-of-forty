@@ -1,0 +1,84 @@
+{
+  "hero": {
+    "title": "میوه تازه، فردا صبح دم خونه",
+    "text": "سفارش تا نیمه‌شب ثبت کن، فردا صبح تحویل بگیر",
+    "emoji": "🍉",
+    "cta": {
+      "label": "شروع خرید",
+      "href": "#fruits"
+    }
+  },
+  "side": {
+    "title": "تا ۲۰٪ تخفیف لبنیات",
+    "text": "فقط تا پایان هفته",
+    "emoji": "🧀",
+    "cta": {
+      "label": "دیدن محصولات",
+      "href": "#dairy"
+    }
+  },
+  "promos": [
+    {
+      "text": "سبد صبحانه خانواده",
+      "emoji": "🍳",
+      "color": "#e3f1e7",
+      "href": "#dairy"
+    },
+    {
+      "text": "نان داغ، هر روز ساعت ۷",
+      "emoji": "🥐",
+      "color": "#fde3dc",
+      "href": "#offers"
+    }
+  ],
+  "banners": [
+    {
+      "image": "assets/images/banners/banner-1.webp",
+      "alt": "میوه‌های فصل با ۳۰٪ تخفیف",
+      "href": "#fruits"
+    },
+    {
+      "image": "assets/images/banners/banner-2.webp",
+      "alt": "لبنیات و تخم‌مرغ",
+      "href": "#dairy"
+    },
+    {
+      "image": "assets/images/banners/banner-3.webp",
+      "alt": "خواروبار با تخفیف ویژه",
+      "href": "#offers"
+    },
+    {
+      "image": "assets/images/banners/banner-4.webp",
+      "alt": "نوشیدنی‌های خنک",
+      "href": "#offers"
+    },
+    {
+      "image": "assets/images/banners/banner-5.webp",
+      "alt": "پیشنهاد ویژه هفته",
+      "href": "#offers"
+    }
+  ],
+  "carousels": [
+    {
+      "id": "offers",
+      "title": "پیشنهادهای ویژه امروز",
+      "emoji": "🔥",
+      "source": "offers",
+      "sub": "تا پایان امشب، تا ۳۰٪ تخفیف"
+    },
+    {
+      "id": "fruits",
+      "title": "میوه و سبزیجات",
+      "emoji": "🥬",
+      "categoryId": 1
+    },
+    {
+      "id": "dairy",
+      "title": "لبنیات و تخم‌مرغ",
+      "emoji": "🥛",
+      "categoryId": 2
+    }
+  ],
+  "weeklyTitle": "پیشنهادهای ویژه هفته",
+  "categoriesTitle": "خرید از دسته‌بندی‌ها"
+}

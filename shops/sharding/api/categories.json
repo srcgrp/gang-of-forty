@@ -1,0 +1,21 @@
+[
+  { "id": 1,  "slug": "fruits",    "name": "میوه و سبزیجات",       "emoji": "🍎", "color": "#fde3dc", "image": "assets/images/categories/cat-fruits.webp" },
+  { "id": 2,  "slug": "dairy",     "name": "لبنیات و بستنی",       "emoji": "🥛", "color": "#e2eefc", "image": "assets/images/categories/cat-dairy.webp" },
+  { "id": 3,  "slug": "grocery",   "name": "خواربار و نان",        "emoji": "🥖", "color": "#fff0cc", "image": "assets/images/categories/cat-grocery.webp" },
+  { "id": 4,  "slug": "beverages", "name": "نوشیدنی",              "emoji": "🧃", "color": "#e0f5ef", "image": "assets/images/categories/cat-beverages.webp" },
+  { "id": 5,  "slug": "hygiene",   "name": "آرایشی و بهداشتی",     "emoji": "🧼", "color": "#e6f2e8", "image": "assets/images/categories/cat-hygiene.webp" },
+  { "id": 6,  "slug": "snacks",    "name": "تنقلات",               "emoji": "🍪", "color": "#f1e6fb", "image": "assets/images/categories/cat-snacks.webp" },
+  { "id": 7,  "slug": "breakfast", "name": "صبحانه",               "emoji": "🥐", "color": "#fdecd0", "image": "assets/images/categories/cat-breakfast.webp" },
+  { "id": 8,  "slug": "nuts",      "name": "خشکبار و شیرینی",      "emoji": "🥜", "color": "#fbe9d8", "image": "assets/images/categories/cat-nuts.webp" },
+  { "id": 9,  "slug": "protein",   "name": "پروتئین و تخم‌مرغ",     "emoji": "🍗", "color": "#fbe0e6", "image": "assets/images/categories/cat-meat.webp" },
+  { "id": 10, "slug": "canned",    "name": "کنسرو و غذای آماده",   "emoji": "🥫", "color": "#e7eef7", "image": "assets/images/categories/cat-canned.webp" },
+  { "id": 11, "slug": "spice",     "name": "چاشنی و افزودنی",      "emoji": "🧂", "color": "#f7e6da", "image": "assets/images/categories/cat-spice.webp" },
+  { "id": 12, "slug": "kalabarg",  "name": "محصولات کالابرگی",     "emoji": "🎁", "color": "#e9e6f7", "image": "assets/images/categories/cat-kalabarg.webp" },
+  { "id": 13, "slug": "baby",      "name": "کودک و نوزاد",         "emoji": "🍼", "color": "#fce6ef", "image": "assets/images/categories/cat-baby.webp" },
+  { "id": 14, "slug": "pet",       "name": "پت شاپ",               "emoji": "🐾", "color": "#e5f1ec", "image": "assets/images/categories/cat-pet.webp" },
+  { "id": 15, "slug": "tissue",    "name": "دستمال و شوینده",      "emoji": "🧻", "color": "#e3edf5", "image": "assets/images/categories/cat-tissue.webp" },
+  { "id": 16, "slug": "home",      "name": "خانه و سبک زندگی",     "emoji": "🏠", "color": "#f0e9e0", "image": "assets/images/categories/cat-home.webp" },
+  { "id": 17, "slug": "digital",   "name": "لوازم برقی",           "emoji": "🔌", "color": "#e0e8f0", "image": "assets/images/categories/cat-digital.webp" },
+  { "id": 18, "slug": "fashion",   "name": "مد و پوشاک",           "emoji": "👕", "color": "#f3e4ec", "image": "assets/images/categories/cat-fashion.webp" },
+  { "id": 19, "slug": "smoking",   "name": "دخانیات",              "emoji": "🚬", "color": "#e8e8e8", "image": "assets/images/categories/cat-smoking.webp" }
+]
