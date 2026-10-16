@@ -1,29 +1,894 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت کد تمیز</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>🧼 سلام دنیا!</h1>
-  </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>کد تمیز</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p><bdi>Clean Code</bdi> نام کتاب رابرت سی. مارتین (معروف به «عمو باب»، ۲۰۰۸) است. حرف اصلی‌اش این است که کد را آدم‌ها بیشتر از کامپیوترها می‌خوانند: اسم‌های گویا، تابع‌های کوچک که فقط یک کار می‌کنند، و کامنت کمتر چون خود کد باید گویا باشد.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
-    </section>
-  </main>
-  <footer>
-    <p dir="ltr">slug: <code>clean-code</code></p>
-  </footer>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>تمیزمارکت</title>
+    <meta name="author" content="Fateme Ahmadifard" />
+    <meta
+      name="description"
+      content="سوپرمارکت کد تمیز، لبنیات و خرید روزانه"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&amp;display=swap"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <a class="skip" href="#content">پرش به محتوای اصلی</a>
+
+    <div class="banner" id="top">
+      <img src="./images/truck.png" width="50" height="50" alt="" />
+      <p>ارسال رایگان برای خرید بالای <bdi dir="ltr">۵۰۰٬۰۰۰</bdi> تومان</p>
+    </div>
+
+    <header class="header">
+      <div class="box header-top">
+        <div class="brand">
+          <a href="#top">
+            <svg
+              class="logo"
+              viewBox="0 0 64 64"
+              role="img"
+              aria-labelledby="logo-title"
+            >
+              <title id="logo-title">سوپرمارکت کد تمیز</title>
+              <rect width="64" height="64" rx="14" fill="#de7272"></rect>
+              <circle
+                cx="32"
+                cy="22"
+                r="8"
+                fill="none"
+                stroke="#ffffff"
+                stroke-width="3"
+              ></circle>
+              <rect x="20" y="22" width="24" height="10" fill="#de7272"></rect>
+              <polygon
+                points="15,30 49,30 44,52 20,52"
+                fill="#ffffff"
+              ></polygon>
+            </svg>
+          </a>
+          <div>
+            <h1>سوپرمارکت کد تمیز</h1>
+            <p class="slogan">خرید روزانه، با قیمت روشن</p>
+          </div>
+        </div>
+
+        <form class="search" action="#content" method="get" role="search">
+          <label class="sr-only" for="q">جستجوی کالا</label>
+          <input id="q" type="search" name="q" placeholder="جستجوی کالا" />
+          <button type="submit">جستجو</button>
+        </form>
+
+        <a class="cart" href="#cart">
+          <span class="cart-label">سبد خرید</span>
+          <svg class="cart-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linejoin="round"
+              d="M6 7h15l-1.5 9h-12z"
+            ></path>
+            <path
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              d="M6 7 5 4H2"
+            ></path>
+            <circle cx="9" cy="20" r="1.4" fill="currentColor"></circle>
+            <circle cx="17" cy="20" r="1.4" fill="currentColor"></circle>
+          </svg>
+          <span class="cart-count">۳</span>
+        </a>
+        <input class="nav-toggle" id="nav-toggle" type="checkbox" />
+        <label class="menu-btn" for="nav-toggle">
+          <span class="sr-only">منو</span>
+          <svg class="icon-open" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M4 7h16M4 12h16M4 17h16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            ></path>
+          </svg>
+          <svg class="icon-close" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M6 6 18 18M18 6 6 18"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            ></path>
+          </svg>
+        </label>
+      </div>
+
+      <nav class="main-nav" id="menu" aria-label="منوی اصلی">
+        <ul class="box">
+          <li class="all-cats">
+            <a href="#categories">همه دسته‌ها</a>
+            <ul>
+              <li><a href="#dairy">لبنیات</a></li>
+              <li><a href="#fruit">میوه</a></li>
+              <li><a href="#veg">سبزی</a></li>
+              <li><a href="#bread">نان</a></li>
+              <li><a href="#drinks">نوشیدنی</a></li>
+              <li><a href="#pantry">خواربار</a></li>
+            </ul>
+          </li>
+          <li><a href="#offers">پیشنهاد ویژه</a></li>
+          <li><a href="#dairy">لبنیات</a></li>
+          <li><a href="#fruit">میوه</a></li>
+          <li><a href="#veg">سبزی</a></li>
+          <li><a href="#bread">نان</a></li>
+          <li><a href="#drinks">نوشیدنی</a></li>
+          <li><a href="#pantry">خواربار</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="content" tabindex="-1">
+      <div class="box">
+        <section class="hero">
+          <article class="promo fruit">
+            <h2>میوه‌های تازه،<br>هر روز صبح</h2>
+            <p>مستقیم از باغ‌های اطراف شهر، تا دو ساعت بعد دم در خانه شما.</p>
+            <a class="pill gold" href="#fruit">خرید میوه و سبزی</a>
+            <svg class="melon" viewBox="0 0 140 90" aria-hidden="true">
+              <path d="M8 24 A62 62 0 0 0 132 24 L120 24 A50 50 0 0 1 20 24 Z" fill="#2f7a32"></path>
+              <path d="M20 24 A50 50 0 0 0 120 24 L112 24 A42 42 0 0 1 28 24 Z" fill="#f4f7ea"></path>
+              <path d="M28 24 A42 42 0 0 0 112 24 Z" fill="#ee4b5a"></path>
+              <ellipse cx="58" cy="46" rx="3" ry="5" fill="#2a1618" transform="rotate(-18 58 46)"></ellipse>
+              <ellipse cx="78" cy="54" rx="3" ry="5" fill="#2a1618" transform="rotate(12 78 54)"></ellipse>
+              <ellipse cx="96" cy="44" rx="3" ry="5" fill="#2a1618" transform="rotate(24 96 44)"></ellipse>
+            </svg>
+          </article>
+          <article class="promo dairy-off">
+            <h3>۲۰٪ تخفیف لبنیات</h3>
+            <p>فقط تا پایان هفته</p>
+            <img class="cheese" src="images/cheese-wedge-svgrepo-com.svg" alt="">
+            <a class="pill" href="#dairy">دیدن محصولات</a>
+          </article>
+        </section>
+
+        <section id="categories">
+          <h2>دسته‌بندی‌ها</h2>
+          <ul class="cat-list">
+            <li>
+              <a href="#dairy"><span aria-hidden="true">🥛</span> لبنیات</a>
+            </li>
+            <li>
+              <a href="#fruit"><span aria-hidden="true">🍎</span> میوه</a>
+            </li>
+            <li>
+              <a href="#veg"><span aria-hidden="true">🥬</span> سبزی</a>
+            </li>
+            <li>
+              <a href="#bread"><span aria-hidden="true">🍞</span> نان</a>
+            </li>
+            <li>
+              <a href="#drinks"><span aria-hidden="true">🥤</span> نوشیدنی</a>
+            </li>
+            <li>
+              <a href="#pantry"><span aria-hidden="true">🍚</span> خواربار</a>
+            </li>
+          </ul>
+        </section>
+
+        <section id="offers">
+          <div class="offer-header">
+          <img src="./images/fire-svgrepo-com.svg" alt="" class="offer-header-image">
+          <h2>پیشنهاد ویژه امروز</h2>
+          </div>
+          <div class="row-nav">
+            <a href="#offer-start">ابتدای پیشنهادها</a>
+            <a href="#offer-end">انتهای پیشنهادها</a>
+          </div>
+          <ul class="row" tabindex="0" aria-label="پیشنهاد ویژه امروز">
+            <li id="offer-start">
+              <article class="product">
+                <div class="pic">
+                  <span aria-hidden="true">🥛</span>
+                  <span class="off">تخفیف</span>
+                </div>
+                <h3>شیر کم چرب ماهشام</h3>
+                <p class="amount">۱ لیتر</p>
+                <p class="price">
+                  <s
+                    ><span class="sr-only">قیمت قبلی</span>
+                    <bdi dir="ltr">۱۶۰٬۰۰۰</bdi></s
+                  >
+                  <b
+                    ><span class="sr-only">قیمت</span>
+                    <bdi dir="ltr">۱۴۰٬۰۰۰</bdi> تومان</b
+                  >
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li>
+              <article class="product">
+                <div class="pic bread"><span aria-hidden="true">🍞</span></div>
+                <h3>نان سنگک</h3>
+                <p class="amount">۱ عدد</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۲۵٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li>
+              <article class="product">
+                <div class="pic tomato">
+                  <span aria-hidden="true">🍅</span>
+                  <span class="off">تخفیف</span>
+                </div>
+                <h3>گوجه فرنگی</h3>
+                <p class="amount">۱ کیلوگرم</p>
+                <p class="price">
+                  <s
+                    ><span class="sr-only">قیمت قبلی</span>
+                    <bdi dir="ltr">۶۲٬۰۰۰</bdi></s
+                  >
+                  <b
+                    ><span class="sr-only">قیمت</span>
+                    <bdi dir="ltr">۴۸٬۰۰۰</bdi> تومان</b
+                  >
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li>
+              <article class="product">
+                <div class="pic egg"><span aria-hidden="true">🥚</span></div>
+                <h3>تخم مرغ</h3>
+                <p class="amount">۶ عدد</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۷۵٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li>
+              <article class="product">
+                <div class="pic rice"><span aria-hidden="true">🍚</span></div>
+                <h3>برنج هاشمی</h3>
+                <p class="amount">۱ کیلوگرم</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۱۸۵٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li id="offer-end">
+              <article class="product">
+                <div class="pic oil"><span aria-hidden="true">🛢️</span></div>
+                <h3>روغن آفتابگردان</h3>
+                <p class="amount">۸۱۰ گرم</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۹۸٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+          </ul>
+        </section>
+
+        <aside class="adv">
+          <a class="strip mint" href="#offers">
+            <span>سبد صبحانه خانواده</span>
+            <svg class="strip-icon" viewBox="0 0 64 64" aria-hidden="true">
+              <circle cx="26" cy="26" r="15" fill="#fff" stroke="#2a2a2a" stroke-width="3.5"></circle>
+              <ellipse cx="26" cy="27" rx="9" ry="6" fill="#fff8ea"></ellipse>
+              <circle cx="26" cy="27" r="3.6" fill="#f0b429"></circle>
+              <line x1="37" y1="37" x2="54" y2="54" stroke="#2a2a2a" stroke-width="5" stroke-linecap="round"></line>
+            </svg>
+          </a>
+          <a class="strip pink" href="#bread">
+            <span>نان داغ، هر روز ساعت ۷</span>
+            <svg class="strip-icon" viewBox="0 0 64 64" aria-hidden="true">
+              <path d="M8 40 C14 16 38 8 56 24 C42 16 26 22 16 42 C12 42 9 41 8 40 Z" fill="#e09432"></path>
+              <path d="M14 40 C20 24 38 16 52 26 C40 20 26 26 18 44 Z" fill="#f2c15a"></path>
+              <path d="M20 38 C26 28 38 24 48 30" fill="none" stroke="#c47820" stroke-width="1.6" stroke-linecap="round"></path>
+            </svg>
+          </a>
+        </aside>
+
+        <section id="dairy">
+          <h2>لبنیات</h2>
+          <div class="row-nav">
+            <a href="#dairy-start">ابتدای لبنیات</a>
+            <a href="#dairy-end">انتهای لبنیات</a>
+          </div>
+          <ul class="row" tabindex="0" aria-label="لبنیات">
+            <li id="dairy-start">
+              <article class="product">
+                <div class="pic">
+                  <span aria-hidden="true">🥛</span>
+                </div>
+                <h3>شیر کم چرب ماهشام</h3>
+                <p class="amount">۱ لیتر</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۱۴۰٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li>
+              <article class="product">
+                <div class="pic yogurt"><span aria-hidden="true">🥛</span></div>
+                <h3>ماست همزده</h3>
+                <p class="amount">۹۰۰ گرم</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۶۸٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li>
+              <article class="product">
+                <div class="pic cheese">
+                  <span aria-hidden="true">🧀</span>
+                  <span class="off">تخفیف</span>
+                </div>
+                <h3>پنیر سفید</h3>
+                <p class="amount">۴۰۰ گرم</p>
+                <p class="price">
+                  <s
+                    ><span class="sr-only">قیمت قبلی</span>
+                    <bdi dir="ltr">۱۱۰٬۰۰۰</bdi></s
+                  >
+                  <b
+                    ><span class="sr-only">قیمت</span>
+                    <bdi dir="ltr">۹۵٬۰۰۰</bdi> تومان</b
+                  >
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li>
+              <article class="product">
+                <div class="pic dough"><span aria-hidden="true">🥤</span></div>
+                <h3>دوغ گازدار</h3>
+                <p class="amount"><bdi dir="ltr">۱٫۵</bdi> لیتر</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۴۲٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li>
+              <article class="product namojud">
+                <div class="pic butter">
+                  <span aria-hidden="true">🧈</span>
+                  <span class="off sold">ناموجود</span>
+                </div>
+                <h3>کره حیوانی</h3>
+                <p class="amount">۱۰۰ گرم</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۷۲٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button" disabled>ناموجود</button>
+              </article>
+            </li>
+            <li id="dairy-end">
+              <article class="product">
+                <div class="pic cream"><span aria-hidden="true">🥛</span></div>
+                <h3>خامه صبحانه</h3>
+                <p class="amount">۲۰۰ میلی‌لیتر</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۵۴٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+          </ul>
+        </section>
+
+        <section id="fruit">
+          <h2>میوه</h2>
+          <div class="row-nav">
+            <a href="#fruit-start">ابتدای میوه</a>
+            <a href="#fruit-end">انتهای میوه</a>
+          </div>
+          <ul class="row" tabindex="0" aria-label="میوه">
+            <li id="fruit-start">
+              <article class="product">
+                <div class="pic tomato">
+                  <span aria-hidden="true">🍎</span>
+                  <span class="off">تخفیف</span>
+                </div>
+                <h3>سیب قرمز</h3>
+                <p class="amount">۱ کیلوگرم</p>
+                <p class="price">
+                  <s
+                    ><span class="sr-only">قیمت قبلی</span>
+                    <bdi dir="ltr">۹۸٬۰۰۰</bdi></s
+                  >
+                  <b
+                    ><span class="sr-only">قیمت</span>
+                    <bdi dir="ltr">۸۵٬۰۰۰</bdi> تومان</b
+                  >
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li>
+              <article class="product">
+                <div class="pic"><span aria-hidden="true">🍌</span></div>
+                <h3>موز</h3>
+                <p class="amount">۱ کیلوگرم</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۹۵٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li>
+              <article class="product">
+                <div class="pic">
+                  <span aria-hidden="true">🍊</span>
+                  <span class="off">تخفیف</span>
+                </div>
+                <h3>پرتقال</h3>
+                <p class="amount">۱ کیلوگرم</p>
+                <p class="price">
+                  <s
+                    ><span class="sr-only">قیمت قبلی</span>
+                    <bdi dir="ltr">۷۲٬۰۰۰</bdi></s
+                  >
+                  <b
+                    ><span class="sr-only">قیمت</span>
+                    <bdi dir="ltr">۶۰٬۰۰۰</bdi> تومان</b
+                  >
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li>
+              <article class="product">
+                <div class="pic"><span aria-hidden="true">🍉</span></div>
+                <h3>هندوانه</h3>
+                <p class="amount">۴ کیلوگرم</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۴۵٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li>
+              <article class="product">
+                <div class="pic"><span aria-hidden="true">🍇</span></div>
+                <h3>انگور</h3>
+                <p class="amount">۱ کیلوگرم</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۱۲۰٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li id="fruit-end">
+              <article class="product">
+                <div class="pic tomato"><span aria-hidden="true">🍎</span></div>
+                <h3>انار</h3>
+                <p class="amount">۱ کیلوگرم</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۸۹٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+          </ul>
+        </section>
+
+        <section id="veg">
+          <h2>سبزی</h2>
+          <div class="row-nav">
+            <a href="#veg-start">ابتدای سبزی</a>
+            <a href="#veg-end">انتهای سبزی</a>
+          </div>
+          <ul class="row" tabindex="0" aria-label="سبزی">
+            <li id="veg-start">
+              <article class="product">
+                <div class="pic"><span aria-hidden="true">🥒</span></div>
+                <h3>خیار</h3>
+                <p class="amount">۱ کیلوگرم</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۳۵٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li>
+              <article class="product">
+                <div class="pic"><span aria-hidden="true">🥬</span></div>
+                <h3>سبزی خوردن</h3>
+                <p class="amount">۱ بسته</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۲۸٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li>
+              <article class="product">
+                <div class="pic">
+                  <span aria-hidden="true">🥔</span>
+                  <span class="off">تخفیف</span>
+                </div>
+                <h3>سیب‌زمینی</h3>
+                <p class="amount">۱ کیلوگرم</p>
+                <p class="price">
+                  <s
+                    ><span class="sr-only">قیمت قبلی</span>
+                    <bdi dir="ltr">۴۰٬۰۰۰</bdi></s
+                  >
+                  <b
+                    ><span class="sr-only">قیمت</span>
+                    <bdi dir="ltr">۳۲٬۰۰۰</bdi> تومان</b
+                  >
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li>
+              <article class="product">
+                <div class="pic"><span aria-hidden="true">🧅</span></div>
+                <h3>پیاز</h3>
+                <p class="amount">۱ کیلوگرم</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۲۸٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li>
+              <article class="product">
+                <div class="pic"><span aria-hidden="true">🥕</span></div>
+                <h3>هویج</h3>
+                <p class="amount">۱ کیلوگرم</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۳۰٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li id="veg-end">
+              <article class="product">
+                <div class="pic"><span aria-hidden="true">🥬</span></div>
+                <h3>کاهو</h3>
+                <p class="amount">۱ عدد</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۲۲٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+          </ul>
+        </section>
+
+        <section id="bread">
+          <h2>نان</h2>
+          <div class="row-nav">
+            <a href="#bread-start">ابتدای نان</a>
+            <a href="#bread-end">انتهای نان</a>
+          </div>
+          <ul class="row" tabindex="0" aria-label="نان">
+            <li id="bread-start">
+              <article class="product">
+                <div class="pic bread"><span aria-hidden="true">🍞</span></div>
+                <h3>نان سنگک</h3>
+                <p class="amount">۱ عدد</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۲۵٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li>
+              <article class="product">
+                <div class="pic bread"><span aria-hidden="true">🥖</span></div>
+                <h3>نان بربری</h3>
+                <p class="amount">۱ عدد</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۲۰٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li>
+              <article class="product">
+                <div class="pic bread">
+                  <span aria-hidden="true">🫓</span>
+                  <span class="off">تخفیف</span>
+                </div>
+                <h3>نان لواش</h3>
+                <p class="amount">۱ بسته</p>
+                <p class="price">
+                  <s
+                    ><span class="sr-only">قیمت قبلی</span>
+                    <bdi dir="ltr">۱۸٬۰۰۰</bdi></s
+                  >
+                  <b
+                    ><span class="sr-only">قیمت</span>
+                    <bdi dir="ltr">۱۵٬۰۰۰</bdi> تومان</b
+                  >
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li>
+              <article class="product">
+                <div class="pic bread"><span aria-hidden="true">🍞</span></div>
+                <h3>نان تافتون</h3>
+                <p class="amount">۱ عدد</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۱۸٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li>
+              <article class="product">
+                <div class="pic bread"><span aria-hidden="true">🥖</span></div>
+                <h3>نان باگت</h3>
+                <p class="amount">۱ عدد</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۳۰٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li id="bread-end">
+              <article class="product">
+                <div class="pic bread"><span aria-hidden="true">🍞</span></div>
+                <h3>نان جو</h3>
+                <p class="amount">۱ بسته</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۳۵٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+          </ul>
+        </section>
+
+        <section id="drinks">
+          <h2>نوشیدنی</h2>
+          <div class="row-nav">
+            <a href="#drinks-start">ابتدای نوشیدنی</a>
+            <a href="#drinks-end">انتهای نوشیدنی</a>
+          </div>
+          <ul class="row" tabindex="0" aria-label="نوشیدنی">
+            <li id="drinks-start">
+              <article class="product">
+                <div class="pic dough"><span aria-hidden="true">💧</span></div>
+                <h3>آب معدنی</h3>
+                <p class="amount"><bdi dir="ltr">۱٫۵</bdi> لیتر</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۱۸٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li>
+              <article class="product">
+                <div class="pic dough"><span aria-hidden="true">🥤</span></div>
+                <h3>دوغ</h3>
+                <p class="amount"><bdi dir="ltr">۱٫۵</bdi> لیتر</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۴۲٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li>
+              <article class="product">
+                <div class="pic">
+                  <span aria-hidden="true">🥛</span>
+                  <span class="off">تخفیف</span>
+                </div>
+                <h3>شیر کاکائو</h3>
+                <p class="amount">۲۰۰ میلی‌لیتر</p>
+                <p class="price">
+                  <s
+                    ><span class="sr-only">قیمت قبلی</span>
+                    <bdi dir="ltr">۲۸٬۰۰۰</bdi></s
+                  >
+                  <b
+                    ><span class="sr-only">قیمت</span>
+                    <bdi dir="ltr">۲۲٬۰۰۰</bdi> تومان</b
+                  >
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li>
+              <article class="product">
+                <div class="pic tomato"><span aria-hidden="true">🍊</span></div>
+                <h3>آب پرتقال</h3>
+                <p class="amount">۱ لیتر</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۳۹٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li>
+              <article class="product">
+                <div class="pic"><span aria-hidden="true">🍵</span></div>
+                <h3>چای سیاه</h3>
+                <p class="amount">۴۵۰ گرم</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۱۲۵٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li id="drinks-end">
+              <article class="product">
+                <div class="pic dough"><span aria-hidden="true">🥤</span></div>
+                <h3>دلستر</h3>
+                <p class="amount">۱ لیتر</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۲۸٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+          </ul>
+        </section>
+
+        <section id="pantry">
+          <h2>خواربار</h2>
+          <div class="row-nav">
+            <a href="#pantry-start">ابتدای خواربار</a>
+            <a href="#pantry-end">انتهای خواربار</a>
+          </div>
+          <ul class="row" tabindex="0" aria-label="خواربار">
+            <li id="pantry-start">
+              <article class="product">
+                <div class="pic rice"><span aria-hidden="true">🍚</span></div>
+                <h3>برنج هاشمی</h3>
+                <p class="amount">۱ کیلوگرم</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۱۸۵٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li>
+              <article class="product">
+                <div class="pic"><span aria-hidden="true">🍝</span></div>
+                <h3>ماکارونی</h3>
+                <p class="amount">۵۰۰ گرم</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۳۸٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li>
+              <article class="product">
+                <div class="pic">
+                  <span aria-hidden="true">🫘</span>
+                  <span class="off">تخفیف</span>
+                </div>
+                <h3>عدس</h3>
+                <p class="amount">۹۰۰ گرم</p>
+                <p class="price">
+                  <s
+                    ><span class="sr-only">قیمت قبلی</span>
+                    <bdi dir="ltr">۹۰٬۰۰۰</bdi></s
+                  >
+                  <b
+                    ><span class="sr-only">قیمت</span>
+                    <bdi dir="ltr">۷۸٬۰۰۰</bdi> تومان</b
+                  >
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li>
+              <article class="product">
+                <div class="pic oil"><span aria-hidden="true">🛢️</span></div>
+                <h3>روغن آفتابگردان</h3>
+                <p class="amount">۸۱۰ گرم</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۹۸٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li>
+              <article class="product">
+                <div class="pic"><span aria-hidden="true">🍬</span></div>
+                <h3>شکر</h3>
+                <p class="amount">۱ کیلوگرم</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۵۲٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+            <li id="pantry-end">
+              <article class="product">
+                <div class="pic"><span aria-hidden="true">🫘</span></div>
+                <h3>لوبیا چیتی</h3>
+                <p class="amount">۹۰۰ گرم</p>
+                <p class="price">
+                  <b><bdi dir="ltr">۹۶٬۰۰۰</bdi> تومان</b>
+                </p>
+                <button type="button">افزودن به سبد</button>
+              </article>
+            </li>
+          </ul>
+        </section>
+
+        <section id="cart">
+          <h2>سبد خرید</h2>
+          <p>سبد این هفته فقط نمایشی است. الان ۳ کالا داخلش است.</p>
+        </section>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="box">
+        <div class="footer-cols">
+          <div>
+            <h2>سوپرمارکت کد تمیز</h2>
+            <p>از سال ۱۴۰۵ کنار شما هستیم؛ کالای تازه با قیمت مناسب.</p>
+            <p class="foot-line">
+              <svg viewBox="0 0 16 16" aria-hidden="true">
+                <path fill="#e23d4a" d="M8 1.2a4.2 4.2 0 0 0-4.2 4.2c0 3.2 4.2 8.4 4.2 8.4s4.2-5.2 4.2-8.4A4.2 4.2 0 0 0 8 1.2zm0 5.6a1.4 1.4 0 1 1 0-2.8 1.4 1.4 0 0 1 0 2.8z"></path>
+              </svg>
+              تهران، خیابان انقلاب، کوچه بهار، پلاک ۱۲
+            </p>
+            <p class="foot-line">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="#d5dfd2" d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .57 3.6 1 1 0 0 1-.25 1z"></path>
+              </svg>
+              <a href="tel:+982188776655" dir="ltr">۰۲۱&#8209;۸۸۷۷۶۶۵۵</a>
+            </p>
+          </div>
+          <nav aria-label="دسته‌ها در پابرگ">
+            <h2>دسته‌ها</h2>
+            <ul>
+              <li><a href="#dairy">لبنیات</a></li>
+              <li><a href="#fruit">میوه</a></li>
+              <li><a href="#veg">سبزی</a></li>
+              <li><a href="#bread">نان</a></li>
+              <li><a href="#drinks">نوشیدنی</a></li>
+              <li><a href="#pantry">خواربار</a></li>
+            </ul>
+          </nav>
+          <nav aria-label="راهنما">
+            <h2>راهنما</h2>
+            <ul>
+              <li><a href="#top">شیوه ارسال</a></li>
+              <li><a href="#cart">بازگشت کالا</a></li>
+              <li><a href="#content">پرسش‌های پرتکرار</a></li>
+            </ul>
+          </nav>
+          <div>
+            <h2>ساعت کاری</h2>
+            <p>شنبه تا پنجشنبه: ۸ تا ۲۲</p>
+            <p>جمعه: ۹ تا ۱۴</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p class="copy-right">
+            © ۱۴۰۵ سوپرمارکت کد تمیز ·
+            <a href="../../index.html">عضو دار و دسته چهل‌نفره</a>
+          </p>
+          <a class="go-up" href="#top">بازگشت به بالا ↑</a>
+        </div>
+      </div>
+    </footer>
+  </body>
 </html>
