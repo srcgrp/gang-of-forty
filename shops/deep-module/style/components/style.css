@@ -1,0 +1,595 @@
+/* ═══════════════════════════════════════════════════
+   Components — Badge, Card, Category, Carousel, Banner
+   نسخه ساده و زیبا
+   ═══════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════
+   BADGE — نشان تخفیف
+   ═══════════════════════════════════ */
+.badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 4px 12px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  border-radius: 999px;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35);
+  z-index: 2;
+  white-space: nowrap;
+}
+
+.badge--danger {
+  background: linear-gradient(135deg, #6b7280, #4b5563);
+  box-shadow: 0 4px 12px rgba(75, 85, 99, 0.3);
+}
+
+/* ═══════════════════════════════════
+   PRODUCT CARD — کارت محصول
+   ═══════════════════════════════════ */
+.product-card {
+  position: relative;
+  flex: 0 0 220px;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  min-width: 0;
+  transition:
+    transform 0.25s,
+    box-shadow 0.25s,
+    border-color 0.25s;
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+  border-color: #b9e1be;
+}
+
+.product-card__media {
+  display: grid;
+  place-items: center;
+  height: 150px;
+  padding: 12px;
+  background: linear-gradient(135deg, #f0f9f1, #dcf0de);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.product-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.4s;
+}
+
+.product-card:hover .product-card__media img {
+  transform: scale(1.08);
+}
+
+.product-card__title {
+  font-size: 0.94rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.product-card__meta {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.product-card__footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border-soft);
+}
+
+.product-card__price {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.product-card__price del {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.product-card__price ins {
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text);
+}
+
+/* دکمه افزودن */
+.btn-add {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3a9644, #246628);
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 300;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(46, 125, 50, 0.25);
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+.btn-add:hover {
+  transform: scale(1.1) rotate(90deg);
+  box-shadow: 0 8px 20px rgba(46, 125, 50, 0.35);
+}
+
+.btn-add:disabled {
+  background: #e5e9e6;
+  color: #9ca69f;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ناموجود */
+.product-card--unavailable {
+  opacity: 0.55;
+  filter: grayscale(0.5);
+}
+
+.product-card--unavailable:hover {
+  transform: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+/* ═══════════════════════════════════
+   CATEGORY CARD — کارت دسته‌بندی
+   ═══════════════════════════════════ */
+.category-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: 18px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  min-width: 0;
+  transition:
+    transform 0.25s,
+    box-shadow 0.25s,
+    border-color 0.25s;
+}
+
+.category-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+  border-color: #b9e1be;
+}
+
+.category-card__icon {
+  display: grid;
+  place-items: center;
+  width: 80px;
+  height: 80px;
+  background: #f0f9f1;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition:
+    transform 0.25s,
+    background 0.25s;
+}
+
+.category-card:hover .category-card__icon {
+  transform: scale(1.1);
+  background: #dcf0de;
+}
+
+.category-card__icon img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.category-card__title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+/* ═══════════════════════════════════
+   CAROUSEL — کاروسل
+   ═══════════════════════════════════ */
+.carousel {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding-block: 8px 20px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.carousel__track {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  padding-inline: 16px;
+}
+
+.carousel::-webkit-scrollbar {
+  height: 6px;
+}
+
+.carousel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.carousel::-webkit-scrollbar-thumb {
+  background: #e5e9e6;
+  border-radius: 999px;
+}
+
+.carousel::-webkit-scrollbar-thumb:hover {
+  background: #8bcc93;
+}
+
+/* ═══════════════════════════════════
+   BANNER — بنر تبلیغاتی
+   ═══════════════════════════════════ */
+.banner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
+  border-radius: 20px;
+  overflow: hidden;
+  min-width: 0;
+  transition:
+    transform 0.25s,
+    box-shadow 0.25s;
+}
+
+.banner:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+.banner--bakery {
+  background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+  color: #b45309;
+  border: 1px solid #ffd699;
+}
+
+.banner--breakfast {
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  color: #1b5e20;
+  border: 1px solid #b9e1be;
+}
+
+.banner__icon {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 14px;
+}
+
+.banner__icon img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.banner__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.banner__content strong {
+  font-size: 1rem;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.banner__content small {
+  font-size: 0.82rem;
+  opacity: 0.85;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.banner__arrow {
+  flex-shrink: 0;
+  font-size: 1.5rem;
+  opacity: 0.7;
+  transition: transform 0.25s;
+}
+
+.banner:hover .banner__arrow {
+  transform: translateX(-8px);
+  opacity: 1;
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE — ۳ سطح ساده
+   ═══════════════════════════════════════════════════ */
+
+/* ─── سطح ۱: تبلت (۱۰۲۴px) ─── */
+@media (max-width: 1024px) {
+  .product-card {
+    flex: 0 0 200px;
+  }
+  .product-card__media {
+    height: 135px;
+  }
+
+  .category-card__icon {
+    width: 70px;
+    height: 70px;
+  }
+  .category-card__icon img {
+    width: 42px;
+    height: 42px;
+  }
+
+  .banner {
+    padding: 20px;
+  }
+  .banner__icon {
+    width: 68px;
+    height: 68px;
+  }
+  .banner__icon img {
+    width: 52px;
+    height: 52px;
+  }
+}
+
+/* ─── سطح ۲: موبایل (۷۶۸px) ─── */
+@media (max-width: 768px) {
+  /* Badge */
+  .badge {
+    padding: 3px 10px;
+    font-size: 0.68rem;
+    top: 8px;
+    left: 8px;
+  }
+
+  /* Product Card */
+  .product-card {
+    flex: 0 0 170px;
+    padding: 12px;
+    gap: 6px;
+  }
+
+  .product-card__media {
+    height: 110px;
+    padding: 8px;
+  }
+  .product-card__title {
+    font-size: 0.85rem;
+  }
+  .product-card__meta {
+    font-size: 0.74rem;
+  }
+  .product-card__price del {
+    font-size: 0.7rem;
+  }
+  .product-card__price ins {
+    font-size: 0.9rem;
+  }
+
+  .btn-add {
+    width: 36px;
+    height: 36px;
+    font-size: 1.25rem;
+  }
+
+  /* Category Card */
+  .category-card {
+    padding: 14px 8px;
+    gap: 8px;
+    border-radius: 14px;
+  }
+
+  .category-card__icon {
+    width: 56px;
+    height: 56px;
+  }
+  .category-card__icon img {
+    width: 34px;
+    height: 34px;
+  }
+  .category-card__title {
+    font-size: 0.76rem;
+  }
+
+  /* Carousel */
+  .carousel__track {
+    padding-inline: 12px;
+    gap: 12px;
+  }
+
+  /* Banner */
+  .banner {
+    padding: 16px;
+    gap: 12px;
+    border-radius: 16px;
+  }
+
+  .banner__icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 10px;
+  }
+  .banner__icon img {
+    width: 42px;
+    height: 42px;
+  }
+  .banner__content strong {
+    font-size: 0.9rem;
+  }
+  .banner__content small {
+    font-size: 0.74rem;
+  }
+  .banner__arrow {
+    font-size: 1.25rem;
+  }
+}
+
+/* ─── سطح ۳: موبایل کوچک (۴۸۰px) ─── */
+@media (max-width: 480px) {
+  /* Badge */
+  .badge {
+    padding: 2px 8px;
+    font-size: 0.64rem;
+    top: 6px;
+    left: 6px;
+  }
+
+  /* Product Card */
+  .product-card {
+    flex: 0 0 155px;
+    padding: 10px;
+    gap: 4px;
+  }
+
+  .product-card__media {
+    height: 100px;
+  }
+  .product-card__title {
+    font-size: 0.8rem;
+  }
+  .product-card__meta {
+    font-size: 0.7rem;
+  }
+  .product-card__price del {
+    font-size: 0.66rem;
+  }
+  .product-card__price ins {
+    font-size: 0.86rem;
+  }
+
+  .btn-add {
+    width: 32px;
+    height: 32px;
+    font-size: 1.1rem;
+  }
+
+  /* Category Card */
+  .category-card {
+    padding: 12px 6px;
+    gap: 6px;
+  }
+  .category-card__icon {
+    width: 48px;
+    height: 48px;
+  }
+  .category-card__icon img {
+    width: 28px;
+    height: 28px;
+  }
+  .category-card__title {
+    font-size: 0.7rem;
+  }
+
+  /* Banner */
+  .banner {
+    padding: 14px;
+    gap: 10px;
+  }
+  .banner__icon {
+    width: 48px;
+    height: 48px;
+  }
+  .banner__icon img {
+    width: 36px;
+    height: 36px;
+  }
+  .banner__content strong {
+    font-size: 0.85rem;
+  }
+  .banner__content small {
+    font-size: 0.7rem;
+  }
+  .banner__arrow {
+    display: none;
+  }
+}
+
+/* ─── سطح ۴: موبایل خیلی کوچک (۳۶۰px) ─── */
+@media (max-width: 360px) {
+  .product-card {
+    flex: 0 0 140px;
+  }
+  .product-card__media {
+    height: 90px;
+  }
+  .product-card__title {
+    font-size: 0.76rem;
+  }
+
+  .btn-add {
+    width: 30px;
+    height: 30px;
+    font-size: 1rem;
+  }
+
+  .category-card__icon {
+    width: 44px;
+    height: 44px;
+  }
+  .category-card__icon img {
+    width: 26px;
+    height: 26px;
+  }
+  .category-card__title {
+    font-size: 0.66rem;
+  }
+
+  .banner__icon {
+    width: 42px;
+    height: 42px;
+  }
+  .banner__icon img {
+    width: 32px;
+    height: 32px;
+  }
+}

@@ -1,29 +1,871 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت ماژول عمیق</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>🧊 سلام دنیا!</h1>
-  </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>ماژول عمیق</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p>از کتاب <bdi>A Philosophy of Software Design</bdi> (جان اوسترهوت، ۲۰۱۸): ماژول عمیق رابط کوچک و ساده دارد ولی کار زیادی پشتش انجام می‌دهد؛ مثل کوه یخ. فایل‌سیستم یونیکس با پنج تابع (<bdi>open, read, write, lseek, close</bdi>) کل پیچیدگی دیسک را پنهان می‌کند. ماژول کم‌عمق رابطی تقریباً به پیچیدگی خودش دارد و چیزی را پنهان نمی‌کند.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
-    </section>
-  </main>
-  <footer>
-    <p dir="ltr">slug: <code>deep-module</code></p>
-  </footer>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>سبزکاله | تازه، روز، به‌روز</title>
+    <meta
+      name="description"
+      content="بهترین میوه، سبزی، لبنیات و مواد غذایی تازه"
+    />
+    <meta name="theme-color" content="#2e7d32" />
+
+    <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg" />
+    <link rel="stylesheet" href="style/style.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+
+    <!-- ═══════════════════════════════════════════
+       ۱. نوار اطلاع‌رسانی
+       ═══════════════════════════════════════════ -->
+    <div class="topbar" role="region" aria-label="اطلاع‌رسانی">
+      <div class="topbar__inner">
+        <span class="topbar__icon" aria-hidden="true">🚚</span>
+        <span>ارسال رایگان برای خریدهای بالای ۵۰۰ هزار تومان</span>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+       ۲. هدر اصلی
+       ═══════════════════════════════════════════ -->
+    <header class="site-header">
+      <div class="header__wrapper">
+        <a href="#main" class="brand" aria-label="سبزکاله — صفحه اصلی">
+          <span class="brand__icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64" focusable="false">
+              <circle cx="32" cy="32" r="30" fill="#2e7d32" />
+              <path
+                d="M32 12 C 18 20, 14 36, 24 48 C 34 56, 46 50, 48 38 C 50 26, 44 16, 32 12 Z"
+                fill="#a5d6a7"
+              />
+              <path
+                d="M32 14 L 32 48"
+                stroke="#1b5e20"
+                stroke-width="2.5"
+                fill="none"
+                stroke-linecap="round"
+              />
+              <path
+                d="M32 22 L 24 26 M32 30 L 22 34 M32 38 L 24 42"
+                stroke="#1b5e20"
+                stroke-width="2"
+                fill="none"
+                stroke-linecap="round"
+              />
+              <path
+                d="M32 26 L 40 30 M32 34 L 42 38"
+                stroke="#1b5e20"
+                stroke-width="2"
+                fill="none"
+                stroke-linecap="round"
+              />
+              <circle cx="40" cy="20" r="3" fill="#fff" opacity="0.9" />
+            </svg>
+          </span>
+          <span class="brand__name">
+            <strong>سبزکاله</strong>
+            <small>تازه، روز، به‌روز</small>
+          </span>
+        </a>
+
+        <form class="search" role="search" onsubmit="return false;">
+          <label for="site-search" class="visually-hidden"
+            >جستجو در محصولات</label
+          >
+          <span class="search__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path
+                d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-width="2"
+              />
+            </svg>
+          </span>
+          <input
+            id="site-search"
+            type="search"
+            name="q"
+            placeholder="جستجو در میان ۳۰۰۰ کالا..."
+            autocomplete="off"
+          />
+          <button type="submit" class="search__submit">جستجو</button>
+        </form>
+
+        <div class="header__actions">
+          <a href="#login" class="action-btn">
+            <span class="action-btn__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path
+                  d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+                <path
+                  d="M4 20c0-4 4-6 8-6s8 2 8 6"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </span>
+            <span class="action-btn__text">
+              <small>ورود | ثبت‌نام</small>
+            </span>
+          </a>
+
+          <span class="header__divider" aria-hidden="true"></span>
+
+          <a
+            href="#cart"
+            class="action-btn action-btn--cart"
+            aria-label="سبد خرید، ۲ کالا"
+          >
+            <span class="action-btn__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path
+                  d="M6 6h15l-2 9H8L6 6zm0 0L5 3H2"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <circle cx="9" cy="20" r="1.5" fill="currentColor" />
+                <circle cx="18" cy="20" r="1.5" fill="currentColor" />
+              </svg>
+            </span>
+            <span class="action-btn__badge" aria-hidden="true">۲</span>
+            <span class="action-btn__text">
+              <small>سبد خرید</small>
+            </span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════════
+       ۳. منوی دسته‌بندی
+       ═══════════════════════════════════════════ -->
+       <input
+      type="checkbox"
+      id="menu-toggle"
+      class="menu-toggle-input"
+      aria-hidden="true"
+    />
+    <nav class="main-nav" aria-label="منوی اصلی">
+      <div class="nav__wrapper">
+        <label
+          for="menu-toggle"
+          class="menu-toggle"
+          aria-label="باز و بسته کردن منو"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </label>
+        <div class="mega">
+          <button class="mega__trigger" aria-haspopup="true">
+            <span class="mega__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path
+                  d="M4 6h16M4 12h16M4 18h16"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </span>
+            <span>همه دسته‌ها</span>
+          </button>
+
+          <div class="mega__menu" role="menu" aria-label="دسته‌بندی‌ها">
+            <ul class="mega__list">
+              <li>
+                <a href="#fruits" role="menuitem"
+                  ><span aria-hidden="true">🍎</span> میوه و سبزی</a
+                >
+              </li>
+              <li>
+                <a href="#dairy" role="menuitem"
+                  ><span aria-hidden="true">🥛</span> لبنیات</a
+                >
+              </li>
+              <li>
+                <a href="#bakery" role="menuitem"
+                  ><span aria-hidden="true">🍞</span> نان و شیرینی</a
+                >
+              </li>
+              <li>
+                <a href="#protein" role="menuitem"
+                  ><span aria-hidden="true">🍗</span> پروتئین</a
+                >
+              </li>
+              <li>
+                <a href="#drinks" role="menuitem"
+                  ><span aria-hidden="true">🥤</span> نوشیدنی</a
+                >
+              </li>
+              <li>
+                <a href="#snacks" role="menuitem"
+                  ><span aria-hidden="true">🍪</span> تنقلات</a
+                >
+              </li>
+              <li>
+                <a href="#pantry" role="menuitem"
+                  ><span aria-hidden="true">🥫</span> خواروبار</a
+                >
+              </li>
+              <li>
+                <a href="#frozen" role="menuitem"
+                  ><span aria-hidden="true">🧊</span> منجمد</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <ul class="nav__links">
+          <li><a href="#special">🔥 پیشنهاد ویژه</a></li>
+          <li><a href="#fruits">میوه و سبزی</a></li>
+          <li><a href="#dairy">لبنیات</a></li>
+          <li><a href="#bakery">نان تازه</a></li>
+          <li><a href="#protein">گوشت و مرغ</a></li>
+          <li><a href="#drinks">نوشیدنی</a></li>
+          <li><a href="#contact">تماس با ما</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <main id="main">
+      <!-- ═══════════════════════════════════════════
+         ۴. بنر اصلی (Hero)
+         ═══════════════════════════════════════════ -->
+      <section id="hero" class="hero" aria-labelledby="hero-title">
+        <div class="hero__wrapper">
+          <article class="hero-card hero-card--primary">
+            <div class="hero-card__content">
+              <span class="hero-card__eyebrow">تازه از باغ</span>
+              <h1 id="hero-title" class="hero-card__title">
+                میوه‌های تازه،<br />هر روز صبح
+              </h1>
+              <p class="hero-card__text">
+                مستقیم از باغ‌های اطراف شهر؛ تازه به دست شما می‌رسد.
+              </p>
+              <a href="#fruits" class="hero-card__btn">
+                <span>خرید میوه و سبزی</span>
+                <span aria-hidden="true">←</span>
+              </a>
+            </div>
+            <div class="hero-card__art" aria-hidden="true">
+              <img
+                src="https://www.themealdb.com/images/ingredients/Tomato.png"
+                alt=""
+                width="220"
+                height="220"
+              />
+            </div>
+          </article>
+
+          <article class="hero-card hero-card--secondary">
+            <div class="hero-card__content">
+              <span class="hero-card__eyebrow hero-card__eyebrow--accent"
+                >۲۰٪ تخفیف</span
+              >
+              <h2 class="hero-card__title hero-card__title--sm">لبنیات تازه</h2>
+              <p class="hero-card__text hero-card__text--sm">
+                فقط تا پایان هفته
+              </p>
+              <a href="#dairy" class="hero-card__btn hero-card__btn--outline">
+                <span>دیدن محصولات</span>
+                <span aria-hidden="true">←</span>
+              </a>
+            </div>
+            <div class="hero-card__art hero-card__art--sm" aria-hidden="true">
+              <img
+                src="https://www.themealdb.com/images/ingredients/Cheese.png"
+                alt=""
+                loading="lazy"
+                width="140"
+                height="140"
+              />
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════
+         ۵. دسته‌بندی‌ها
+         ═══════════════════════════════════════════ -->
+      <section
+        id="categories"
+        class="categories"
+        aria-labelledby="categories-title"
+      >
+        <div class="categories__wrapper">
+          <header class="section-head">
+            <h2 id="categories-title" class="section-head__title">
+              دسته‌بندی‌ها
+            </h2>
+          </header>
+
+          <ul class="categories__grid">
+            <li>
+              <a href="#fruits" class="category-card">
+                <span class="category-card__icon" aria-hidden="true">
+                  <img
+                    src="https://www.themealdb.com/images/ingredients/Apple.png"
+                    alt=""
+                    loading="lazy"
+                    width="72"
+                    height="72"
+                  />
+                </span>
+                <span class="category-card__title">میوه و سبزی</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="#dairy" class="category-card">
+                <span class="category-card__icon" aria-hidden="true">
+                  <img
+                    src="https://www.themealdb.com/images/ingredients/Milk.png"
+                    alt=""
+                    loading="lazy"
+                    width="72"
+                    height="72"
+                  />
+                </span>
+                <span class="category-card__title">لبنیات</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="#bakery" class="category-card">
+                <span class="category-card__icon" aria-hidden="true">
+                  <img
+                    src="https://www.themealdb.com/images/ingredients/Bread.png"
+                    alt=""
+                    loading="lazy"
+                    width="72"
+                    height="72"
+                  />
+                </span>
+                <span class="category-card__title">نان و شیرینی</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="#protein" class="category-card">
+                <span class="category-card__icon" aria-hidden="true">
+                  <img
+                    src="https://www.themealdb.com/images/ingredients/Chicken.png"
+                    alt=""
+                    loading="lazy"
+                    width="72"
+                    height="72"
+                  />
+                </span>
+                <span class="category-card__title">پروتئین</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="#drinks" class="category-card">
+                <span class="category-card__icon" aria-hidden="true">
+                  <img
+                    src="https://www.themealdb.com/images/ingredients/Cola.png"
+                    alt=""
+                    loading="lazy"
+                    width="72"
+                    height="72"
+                  />
+                </span>
+                <span class="category-card__title">نوشیدنی</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="#snacks" class="category-card">
+                <span class="category-card__icon" aria-hidden="true">
+                  <img
+                    src="https://www.themealdb.com/images/ingredients/Potato Chips.png"
+                    alt=""
+                    loading="lazy"
+                    width="72"
+                    height="72"
+                  />
+                </span>
+                <span class="category-card__title">تنقلات</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════
+         ۶. کاروسل پیشنهاد ویژه
+         ═══════════════════════════════════════════ -->
+      <section
+        id="special"
+        class="carousel-section"
+        aria-labelledby="special-title"
+      >
+        <div class="carousel-section__head">
+          <h2 id="special-title" class="section-head__title">
+            <span aria-hidden="true">🔥</span> پیشنهاد ویژه امروز
+          </h2>
+          <a href="#all-special" class="section-head__link">مشاهده همه ←</a>
+        </div>
+
+        <div
+          class="carousel"
+          role="region"
+          aria-label="کاروسل پیشنهاد ویژه"
+          tabindex="0"
+        >
+          <ul class="carousel__track">
+            <li class="product-card">
+              <span class="badge">۲۰٪</span>
+              <div class="product-card__media">
+                <img
+                  src="https://www.themealdb.com/images/ingredients/Tomato.png"
+                  alt="گوجه‌فرنگی گلخانه‌ای"
+                  loading="lazy"
+                  width="200"
+                  height="200"
+                />
+              </div>
+              <h3 class="product-card__title">گوجه‌فرنگی گلخانه‌ای</h3>
+              <p class="product-card__meta">۱ کیلوگرم</p>
+              <div class="product-card__footer">
+                <div class="product-card__price">
+                  <del>۵۰٬۰۰۰</del>
+                  <ins>۴۵٬۰۰۰ تومان</ins>
+                </div>
+                <button class="btn-add" aria-label="افزودن گوجه‌فرنگی به سبد">
+                  +
+                </button>
+              </div>
+            </li>
+
+            <li class="product-card">
+              <span class="badge">۱۵٪</span>
+              <div class="product-card__media">
+                <img
+                  src="https://www.themealdb.com/images/ingredients/Milk.png"
+                  alt="شیر کم‌چرب"
+                  loading="lazy"
+                  width="200"
+                  height="200"
+                />
+              </div>
+              <h3 class="product-card__title">شیر کم‌چرب</h3>
+              <p class="product-card__meta">۱ لیتر</p>
+              <div class="product-card__footer">
+                <div class="product-card__price">
+                  <del>۴۰٬۰۰۰</del>
+                  <ins>۳۴٬۰۰۰ تومان</ins>
+                </div>
+                <button class="btn-add" aria-label="افزودن شیر به سبد">
+                  +
+                </button>
+              </div>
+            </li>
+
+            <li class="product-card">
+              <div class="product-card__media">
+                <img
+                  src="https://www.themealdb.com/images/ingredients/Banana.png"
+                  alt="موز اکوادور"
+                  loading="lazy"
+                  width="200"
+                  height="200"
+                />
+              </div>
+              <h3 class="product-card__title">موز اکوادور</h3>
+              <p class="product-card__meta">۱ کیلوگرم</p>
+              <div class="product-card__footer">
+                <div class="product-card__price">
+                  <ins>۹۸٬۰۰۰ تومان</ins>
+                </div>
+                <button class="btn-add" aria-label="افزودن موز به سبد">
+                  +
+                </button>
+              </div>
+            </li>
+
+            <li class="product-card">
+              <div class="product-card__media">
+                <img
+                  src="https://www.themealdb.com/images/ingredients/Cucumber.png"
+                  alt="خیار سالادی"
+                  loading="lazy"
+                  width="200"
+                  height="200"
+                />
+              </div>
+              <h3 class="product-card__title">خیار سالادی</h3>
+              <p class="product-card__meta">۱ کیلوگرم</p>
+              <div class="product-card__footer">
+                <div class="product-card__price">
+                  <ins>۳۵٬۰۰۰ تومان</ins>
+                </div>
+                <button class="btn-add" aria-label="افزودن خیار به سبد">
+                  +
+                </button>
+              </div>
+            </li>
+
+            <li class="product-card product-card--unavailable">
+              <span class="badge badge--danger">ناموجود</span>
+              <div class="product-card__media">
+                <img
+                  src="https://www.themealdb.com/images/ingredients/Chicken Legs.png"
+                  alt="ران مرغ"
+                  loading="lazy"
+                  width="200"
+                  height="200"
+                />
+              </div>
+              <h3 class="product-card__title">ران مرغ</h3>
+              <p class="product-card__meta">۱ کیلوگرم</p>
+              <div class="product-card__footer">
+                <div class="product-card__price">
+                  <ins>۲۱۰٬۰۰۰ تومان</ins>
+                </div>
+                <button class="btn-add" disabled aria-label="ناموجود">+</button>
+              </div>
+            </li>
+
+            <li class="product-card">
+              <div class="product-card__media">
+                <img
+                  src="https://www.themealdb.com/images/ingredients/Orange.png"
+                  alt="پرتقال شمال"
+                  loading="lazy"
+                  width="200"
+                  height="200"
+                />
+              </div>
+              <h3 class="product-card__title">پرتقال شمال</h3>
+              <p class="product-card__meta">۱ کیلوگرم</p>
+              <div class="product-card__footer">
+                <div class="product-card__price">
+                  <ins>۷۵٬۰۰۰ تومان</ins>
+                </div>
+                <button class="btn-add" aria-label="افزودن پرتقال به سبد">
+                  +
+                </button>
+              </div>
+            </li>
+
+            <li class="product-card">
+              <span class="badge">۱۰٪</span>
+              <div class="product-card__media">
+                <img
+                  src="https://www.themealdb.com/images/ingredients/Apple.png"
+                  alt="سیب قرمز"
+                  loading="lazy"
+                  width="200"
+                  height="200"
+                />
+              </div>
+              <h3 class="product-card__title">سیب قرمز دماوند</h3>
+              <p class="product-card__meta">۱ کیلوگرم</p>
+              <div class="product-card__footer">
+                <div class="product-card__price">
+                  <del>۷۰٬۰۰۰</del>
+                  <ins>۶۲٬۰۰۰ تومان</ins>
+                </div>
+                <button class="btn-add" aria-label="افزودن سیب به سبد">
+                  +
+                </button>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════
+         ۷. بنرهای تبلیغاتی
+         ═══════════════════════════════════════════ -->
+      <section class="banners" aria-label="بنرهای تبلیغاتی">
+        <div class="banners__wrapper">
+          <a href="#bakery" class="banner banner--bakery">
+            <span class="banner__icon" aria-hidden="true">
+              <img
+                src="https://www.themealdb.com/images/ingredients/Bread.png"
+                alt=""
+                loading="lazy"
+                width="80"
+                height="80"
+              />
+            </span>
+            <div class="banner__content">
+              <strong>نان داغ، هر روز ساعت ۷</strong>
+              <small>تازه از تنور سنتی</small>
+            </div>
+            <span class="banner__arrow" aria-hidden="true">←</span>
+          </a>
+
+          <a href="#dairy" class="banner banner--breakfast">
+            <span class="banner__icon" aria-hidden="true">
+              <img
+                src="https://www.themealdb.com/images/ingredients/Eggs.png"
+                alt=""
+                loading="lazy"
+                width="80"
+                height="80"
+              />
+            </span>
+            <div class="banner__content">
+              <strong>سبد صبحانه خانواده</strong>
+              <small>با ۲۰٪ تخفیف ویژه</small>
+            </div>
+            <span class="banner__arrow" aria-hidden="true">←</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════
+         ۸. کاروسل لبنیات
+         ═══════════════════════════════════════════ -->
+      <section
+        id="dairy"
+        class="carousel-section"
+        aria-labelledby="dairy-title"
+      >
+        <div class="carousel-section__head">
+          <h2 id="dairy-title" class="section-head__title">
+            <span aria-hidden="true">🥛</span> لبنیات
+          </h2>
+          <a href="#all-dairy" class="section-head__link">مشاهده همه ←</a>
+        </div>
+
+        <div
+          class="carousel"
+          role="region"
+          aria-label="کاروسل لبنیات"
+          tabindex="0"
+        >
+          <ul class="carousel__track">
+            <li class="product-card">
+              <div class="product-card__media">
+                <img
+                  src="https://www.themealdb.com/images/ingredients/Milk.png"
+                  alt="شیر پرچرب"
+                  loading="lazy"
+                  width="200"
+                  height="200"
+                />
+              </div>
+              <h3 class="product-card__title">شیر پرچرب</h3>
+              <p class="product-card__meta">۱ لیتر</p>
+              <div class="product-card__footer">
+                <div class="product-card__price"><ins>۵۸٬۰۰۰ تومان</ins></div>
+                <button class="btn-add" aria-label="افزودن شیر به سبد">
+                  +
+                </button>
+              </div>
+            </li>
+
+            <li class="product-card">
+              <span class="badge">۱۰٪</span>
+              <div class="product-card__media">
+                <img
+                  src="https://www.themealdb.com/images/ingredients/Cheese.png"
+                  alt="پنیر سفید"
+                  loading="lazy"
+                  width="200"
+                  height="200"
+                />
+              </div>
+              <h3 class="product-card__title">پنیر سفید</h3>
+              <p class="product-card__meta">۴۰۰ گرم</p>
+              <div class="product-card__footer">
+                <div class="product-card__price">
+                  <del>۹۵٬۰۰۰</del>
+                  <ins>۸۵٬۰۰۰ تومان</ins>
+                </div>
+                <button class="btn-add" aria-label="افزودن پنیر به سبد">
+                  +
+                </button>
+              </div>
+            </li>
+
+            <li class="product-card">
+              <div class="product-card__media">
+                <img
+                  src="https://www.themealdb.com/images/ingredients/Butter.png"
+                  alt="کره حیوانی"
+                  loading="lazy"
+                  width="200"
+                  height="200"
+                />
+              </div>
+              <h3 class="product-card__title">کره حیوانی</h3>
+              <p class="product-card__meta">۱۰۰ گرم</p>
+              <div class="product-card__footer">
+                <div class="product-card__price"><ins>۶۵٬۰۰۰ تومان</ins></div>
+                <button class="btn-add" aria-label="افزودن کره به سبد">
+                  +
+                </button>
+              </div>
+            </li>
+
+            <li class="product-card">
+              <div class="product-card__media">
+                <img
+                  src="https://www.themealdb.com/images/ingredients/Yogurt.png"
+                  alt="ماست پروبیوتیک"
+                  loading="lazy"
+                  width="200"
+                  height="200"
+                />
+              </div>
+              <h3 class="product-card__title">ماست پروبیوتیک</h3>
+              <p class="product-card__meta">۹۰۰ گرم</p>
+              <div class="product-card__footer">
+                <div class="product-card__price"><ins>۴۳٬۰۰۰ تومان</ins></div>
+                <button class="btn-add" aria-label="افزودن ماست به سبد">
+                  +
+                </button>
+              </div>
+            </li>
+
+            <li class="product-card">
+              <div class="product-card__media">
+                <img
+                  src="https://www.themealdb.com/images/ingredients/Ice Cream.png"
+                  alt="بستنی وانیلی"
+                  loading="lazy"
+                  width="200"
+                  height="200"
+                />
+              </div>
+              <h3 class="product-card__title">بستنی وانیلی</h3>
+              <p class="product-card__meta">۱ لیتر</p>
+              <div class="product-card__footer">
+                <div class="product-card__price"><ins>۱۱۰٬۰۰۰ تومان</ins></div>
+                <button class="btn-add" aria-label="افزودن بستنی به سبد">
+                  +
+                </button>
+              </div>
+            </li>
+
+            <li class="product-card">
+              <div class="product-card__media">
+                <img
+                  src="https://www.themealdb.com/images/ingredients/Eggs.png"
+                  alt="تخم‌مرغ"
+                  loading="lazy"
+                  width="200"
+                  height="200"
+                />
+              </div>
+              <h3 class="product-card__title">تخم‌مرغ</h3>
+              <p class="product-card__meta">۹ عدد</p>
+              <div class="product-card__footer">
+                <div class="product-card__price"><ins>۹۵٬۰۰۰ تومان</ins></div>
+                <button class="btn-add" aria-label="افزودن تخم‌مرغ به سبد">
+                  +
+                </button>
+              </div>
+            </li>
+
+            <li class="product-card">
+              <div class="product-card__media">
+                <img
+                  src="https://www.themealdb.com/images/ingredients/Cream.png"
+                  alt="خامه صبحانه"
+                  loading="lazy"
+                  width="200"
+                  height="200"
+                />
+              </div>
+              <h3 class="product-card__title">خامه صبحانه</h3>
+              <p class="product-card__meta">۲۰۰ گرم</p>
+              <div class="product-card__footer">
+                <div class="product-card__price"><ins>۳۸٬۰۰۰ تومان</ins></div>
+                <button class="btn-add" aria-label="افزودن خامه به سبد">
+                  +
+                </button>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <!-- ═══════════════════════════════════════════
+       ۹. فوتر
+       ═══════════════════════════════════════════ -->
+    <footer id="contact" class="site-footer">
+      <div class="footer__wrapper">
+        <div class="footer__grid">
+          <div class="footer__col">
+            <h2 class="footer__title">
+              <span class="footer__brand-icon" aria-hidden="true">
+                <svg viewBox="0 0 64 64" focusable="false">
+                  <circle cx="32" cy="32" r="30" fill="#a5d6a7" />
+                  <path
+                    d="M32 12 C 18 20, 14 36, 24 48 C 34 56, 46 50, 48 38 C 50 26, 44 16, 32 12 Z"
+                    fill="#2e7d32"
+                  />
+                  <circle cx="40" cy="20" r="3" fill="#fff" opacity="0.9" />
+                </svg>
+              </span>
+              سبزکاله
+            </h2>
+            <p class="footer__text">
+              از سال ۱۴۰۰، کنار شما هستیم. تازه، روز، به‌روز.
+            </p>
+            <p class="footer__contact">
+              <span aria-hidden="true">📞</span>
+              <a href="tel:+982112345678" dir="ltr">۰۲۱-۱۲۳۴۵۶۷۸</a>
+            </p>
+          </div>
+
+          <div class="footer__col">
+            <h2 class="footer__title">دسترسی‌ها</h2>
+            <ul class="footer__list">
+              <li><a href="#fruits">میوه و سبزی</a></li>
+              <li><a href="#dairy">لبنیات</a></li>
+              <li><a href="#bakery">نان تازه</a></li>
+              <li><a href="#protein">گوشت و مرغ</a></li>
+            </ul>
+          </div>
+
+          <div class="footer__col">
+            <h2 class="footer__title">راهنما</h2>
+            <ul class="footer__list">
+              <li><a href="#contact">تماس با ما</a></li>
+              <li><a href="#faq">سوالات متداول</a></li>
+              <li><a href="#returns">بازگشت کالا</a></li>
+              <li><a href="#privacy">حریم خصوصی</a></li>
+            </ul>
+          </div>
+
+          <div class="footer__col">
+            <h2 class="footer__title">ساعت کاری</h2>
+            <p class="footer__text">شنبه تا پنجشنبه<br />۸ صبح تا ۲۲</p>
+            <p class="footer__text">جمعه<br />۹ صبح تا ۱۴</p>
+          </div>
+        </div>
+
+        <div class="footer__bottom">
+          <p class="footer__copy">© ۱۴۰۴ سبزکاله — تمام حقوق محفوظ است.</p>
+          <a href="#" class="footer__top" aria-label="بازگشت به بالای صفحه">
+            بازگشت به بالا
+            <span aria-hidden="true">↑</span>
+          </a>
+        </div>
+      </div>
+    </footer>
+  </body>
 </html>

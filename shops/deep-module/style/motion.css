@@ -1,0 +1,32 @@
+/* ═══════════════════════════════════════════════════
+   Motion — کاهش حرکت
+   ═══════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .hero-card:hover,
+  .category-card:hover,
+  .product-card:hover,
+  .banner:hover,
+  .action-btn:hover,
+  .btn-add:hover {
+    transform: none !important;
+  }
+
+  .hero-card:hover .hero-card__art,
+  .product-card:hover .product-card__media img,
+  .category-card:hover .category-card__icon,
+  .category-card:hover .category-card__icon img,
+  .banner:hover .banner__icon img {
+    transform: none !important;
+  }
+
+  .mega:hover .mega__icon { transform: none !important; }
+  .truck-bounce, .pulse-dot, .badge-pop { animation: none !important; }
+}
