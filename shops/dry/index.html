@@ -3,27 +3,264 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت DRY</title>
+  <title>سوپرمارکت MARTO</title>
   <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
+  <meta name="author" content="AmirHossein Feizi">
   <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
+  <link rel="icon" href="data:,">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>🔁 سلام دنیا!</h1>
-  </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>DRY</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p><bdi>Don't Repeat Yourself</bdi> یعنی «خودت را تکرار نکن». این اصل از کتاب <bdi>The Pragmatic Programmer</bdi> (اندرو هانت و دیوید توماس، ۱۹۹۹) می‌آید: هر تکه دانش باید فقط یک جا در برنامه تعریف شود. اگر یک قیمت یا یک منطق را در ده جا کپی کنی، روزی که عوض شود یکی را جا می‌اندازی.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
-    </section>
-  </main>
-  <footer>
-    <p dir="ltr">slug: <code>dry</code></p>
-  </footer>
+
+<body id="top">
+
+  <a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+<svg class="svg-sprite" width="0" height="0" aria-hidden="true">
+  <g id="logo-shapes" direction="ltr">
+    <path d="M8 28h44l-6 26H14z" fill="currentColor"/>
+    <path d="M18 28c0-16 24-16 24 0" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="44" cy="14" r="7" fill="#C8A96A"/>
+    <text x="68" y="38" direction="ltr" font-family="Inter, Arial, sans-serif" font-size="32" font-weight="800" letter-spacing="4" fill="currentColor">MARTO</text>
+    <text x="70" y="56" direction="ltr" font-family="Inter, Arial, sans-serif" font-size="12" letter-spacing="2" fill="currentColor">Daily Market</text>
+  </g>
+</svg>
+
+<input type="checkbox" id="menu-toggle" class="menu-toggle" aria-label="باز و بسته کردن منوی دسته‌ها">
+
+<header class="header">
+
+  <label for="menu-toggle" class="menu-btn">☰</label>
+
+  <a href="#top" class="brand" aria-label="مارتو، بازگشت به بالای صفحه">
+    <svg class="logo" viewBox="0 0 270 64" role="img" aria-labelledby="logo-title">
+      <title id="logo-title">لوگوی مارتو</title>
+      <use href="#logo-shapes"/>
+    </svg>
+  </a>
+
+  <div class="header-actions">
+    <input type="search" placeholder="جستجوی محصولات..." aria-label="جستجوی محصولات">
+    <button type="button"><span aria-hidden="true">🛒</span> سبد خرید <span class="cart-count">۳</span></button>
+  </div>
+
+</header>
+
+ <nav class="category-nav" aria-label="منوی اصلی">
+  <a href="#offers">پیشنهاد ویژه</a>
+  <a href="#fruits">میوه و سبزی</a>
+  <a href="#dairy">لبنیات</a>
+  <a href="#categories">دسته‌بندی‌ها</a>
+  <a href="#blog">مجله</a>
+  <a href="#contact">تماس با ما</a>
+ </nav>
+
+ <main id="main">
+
+  <section class="hero">
+    <img class="hero-bg" src="./assets/banners/Hero-image.png" alt="محصولات MARTO">
+
+    <div class="hero-content">
+      <h1>
+        محصولات تازه
+        <br>
+        برای زندگی بهتر
+      </h1>
+
+      <p>
+      کیفیت، تنوع و خرید آسان برای زندگی روزمره شما
+      </p>
+
+      <button type="button">
+        مشاهده محصولات
+      </button>
+
+    </div>
+
+  </section>
+
+ <section class="categories" id="categories">
+
+  <h2>دسته‌بندی‌ها</h2>
+
+<div class="category-grid">
+
+  <a class="category-card" href="#fruits">
+    <img src="./assets/products/fruit-and-vegetables.png" alt="">
+    <h3>میوه و سبزی</h3>
+  </a>
+
+  <a class="category-card" href="#dairy">
+    <img src="./assets/products/Dairy-products.png" alt="">
+    <h3>لبنیات</h3>
+  </a>
+
+  <a class="category-card" href="#offers">
+    <img src="./assets/products/meat-and-protein.png" alt="">
+    <h3>گوشت و پروتئین</h3>
+  </a>
+
+  <a class="category-card" href="#offers">
+    <img src="./assets/products/dried-fruits-and-nuts.png" alt="">
+    <h3>خشکبار</h3>
+  </a>
+
+  <a class="category-card" href="#offers">
+    <img src="./assets/products/beverage.png" alt="">
+    <h3>نوشیدنی</h3>
+  </a>
+
+  <a class="category-card" href="#offers">
+    <img src="./assets/products/food-products.png" alt="">
+    <h3>مواد غذایی</h3>
+  </a>
+
+</div>
+
+</section>
+
+
+
+
+
+<section class="products" id="offers">
+
+  <div class="section-title">
+    <h2>پیشنهادهای ویژه</h2>
+    <div class="carousel-nav">
+      <a href="#offer-1" aria-label="ابتدای کاروسل">→</a>
+      <a href="#offer-6" aria-label="انتهای کاروسل">←</a>
+    </div>
+  </div>
+
+    <section class="carousel" aria-label="پیشنهادهای ویژه" tabindex="0"></section>
+
+</section>
+
+<section class="products" id="dairy">
+  <div class="section-title">
+    <h2>لبنیات</h2>
+    <div class="carousel-nav">
+      <a href="#dairy-1" aria-label="ابتدای کاروسل لبنیات">→</a>
+      <a href="#dairy-6" aria-label="انتهای کاروسل لبنیات">←</a>
+    </div>
+  </div>
+
+    <section class="carousel" aria-label="لبنیات" tabindex="0"></section>
+
+</section>
+
+
+  <section class="promo-banners">
+
+  <div class="promo-card" id="fruits">
+    <img src="./assets/products/fruites-cover.png" alt="میوه های تازه">
+    <div class="promo-content">
+      <h3>میوه‌های تازه</h3>
+      <p>مستقیم از مزرعه</p>
+      <button type="button">مشاهده بیشتر</button>
+    </div>
+  </div>
+
+  <div class="promo-card">
+    <img src="./assets/products/diary-products-cover.png" alt="لبنیات با کیفیت">
+    <div class="promo-content">
+      <h3>لبنیات با کیفیت</h3>
+      <p>برای خانواده شما</p>
+      <button type="button">مشاهده بیشتر</button>
+    </div>
+  </div>
+
+</section>
+
+<section class="blog" id="blog">
+
+  <div class="section-title">
+    <h2>مجله مارتو</h2>
+    <a href="#">مطالب بیشتر</a>
+  </div>
+
+  <div class="blog-grid">
+
+    <article class="blog-card">
+
+      <div class="blog-image">
+        <img src="./assets/banners/ghazaye-salem.png" alt="غذای سالم">
+      </div>
+
+      <h3>۱۰ دستور پخت سریع و سالم</h3>
+
+      <p>
+        ایده‌های ساده برای آشپزی روزانه
+      </p>
+
+    </article>
+
+    <article class="blog-card">
+
+      <div class="blog-image">
+        <img src="./assets/banners/morgh-gril.png" alt="مرغ گریل شده">
+      </div>
+
+      <h3>طرز تهیه مرغ گریل شده</h3>
+
+      <p>
+        یک غذای خوشمزه و سالم
+      </p>
+
+    </article>
+
+    <article class="blog-card">
+
+      <div class="blog-image">
+        <img src="./assets/banners/ghazaye-khanevade.png" alt="غذای مناسب خانواده">
+      </div>
+
+      <h3>غذاهای مناسب خانواده</h3>
+
+      <p>
+        پیشنهادهای جدید مارتو
+      </p>
+
+    </article>
+
+  </div>
+
+</section>
+
+ </main>
+
+<footer class="footer" id="contact">
+
+  <div class="footer-brand">
+    <svg class="logo" viewBox="0 0 270 64" aria-hidden="true"><use href="#logo-shapes"/></svg>
+    <p>مارتو، همراه شما برای خریدهای روزانه</p>
+    <address>
+      تهران، خیابان نمونه، پلاک ۴۰<br>
+      تلفن: <bdi dir="ltr">۰۲۱-۱۲۳۴۵۶۷۸</bdi>
+    </address>
+  </div>
+
+  <div class="footer-column">
+    <h3>دسته‌ها</h3>
+    <a href="#fruits">میوه و سبزی</a>
+    <a href="#dairy">لبنیات</a>
+    <a href="#offers">پیشنهادهای ویژه</a>
+    <a href="#blog">مجله</a>
+  </div>
+
+  <div class="footer-column">
+    <h3>ساعت کاری</h3>
+    <p>شنبه تا پنجشنبه: ۸ تا ۲۲</p>
+    <p>جمعه: ۹ تا ۱۴</p>
+  </div>
+
+  <div class="footer-bottom">
+    <span>© ۱۴۰۵ مارتو · عضو دار و دسته چهل‌نفره</span>
+    <a href="#top">↑ بازگشت به بالا</a>
+  </div>
+
+</footer>
+
+
+<script src="index.js" defer></script>
 </body>
 </html>
