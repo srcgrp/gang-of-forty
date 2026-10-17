@@ -1,3 +1,134 @@
+//canvas-confetti
+import confetti from "canvas-confetti";
+
+//notyf
+import { Notyf } from "notyf";
+// Create an instance of Notyf
+const notyf = new Notyf();
+
+//types
+interface CartItem {
+  productId: number;
+  name: string;
+  price: number;
+  quantity: number;
+}
+
+type Cart = CartItem[];
+interface Product {
+  id: number;
+  categoryId: number;
+  name: string;
+  emoji: string;
+  unit: string;
+  price: number;
+  tags: string[];
+}
+type Products =Product[]
+interface Stock {
+  updatedAt: string;
+  items: Record<string, number>;
+}
+interface Shop {
+  name: string;
+  slogan: string;
+  owner: string;
+  city: string;
+  phone: string;
+  hours: {
+    open: string;
+    close: string;
+  };
+  deliveryFee: number;
+  freeDeliveryOver: number;
+  currency: string;
+  notice: string;
+  about: string;
+  address: string;
+  schedule: Schedule[];
+  menu: MenuItem[];
+  help: HelpItem[];
+  copyright: string;
+}
+
+interface Schedule {
+  days: string;
+  time: string;
+}
+
+interface MenuItem {
+  label: string;
+  href: string;
+}
+
+interface HelpItem {
+  label: string;
+  href: string;
+}
+interface Category {
+  id: number;
+  slug: string;
+  name: string;
+  emoji: string;
+  color: string;
+}
+
+type Categories = Category[];
+
+interface Offer {
+  productId: number;
+  percent: number;
+  label: string;
+}
+
+type Offers = Offer[];
+
+interface ProductData {
+  products: Products;
+  offers: Offers;
+}
+
+interface SuggestionsData {
+  products: Products;
+  stock: Stock;
+  offers: Offers;
+}
+
+interface ShopData {
+  shop: Shop;
+  categories: Categories;
+}
+interface HomeSlide {
+  emoji: string;
+  title: string;
+  text: string;
+  cta: {
+    href: string;
+    label: string;
+  };
+}
+
+interface Promo {
+  href: string;
+  color: string;
+  emoji: string;
+  text: string;
+}
+
+interface HomeCarousel {
+  id: string;
+  title: string;
+  emoji: string;
+  source?: "offers";
+  categoryId?: number;
+}
+
+interface Home {
+  hero: HomeSlide;
+  side: HomeSlide;
+  promos: Promo[];
+  carousels: HomeCarousel[];
+}
 // update Cart on loading page
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -6,7 +137,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 //render error
 
-function renderError(container, retryFunction, messageText) {
+function renderError(  container: HTMLElement,
+  retryFunction: () => void,
+  messageText: string,) {
   const errorMessage = document.createElement("div");
   errorMessage.classList.add("product-error");
 
@@ -33,7 +166,7 @@ function renderError(container, retryFunction, messageText) {
 
 //skeletons
 
-function renderSkeletons(container, count = 6) {
+function renderSkeletons(container:HTMLElement, count:number = 6) {
   const fragment = document.createDocumentFragment();
 
   for (let i = 0; i < count; i++) {
@@ -99,7 +232,7 @@ function renderSkeletons(container, count = 6) {
   container.replaceChildren(fragment);
 }
 
-function renderCategorySkeletons(container, count = 7) {
+function renderCategorySkeletons(container:HTMLElement, count:number = 7) {
   const fragment = document.createDocumentFragment();
 
   for (let i = 0; i < count; i++) {
@@ -200,7 +333,7 @@ function renderPromoSkeletons() {
 // task 1- fetch and show  products in carousel
 ///////////////////////////////////
 
-async function getProducts() {
+async function getProducts(): Promise<ProductData> {
   const [productsResponse, offersResponse] = await Promise.all([
     fetch("../../api/products.json"),
     fetch("../../api/offers.json"),
@@ -215,10 +348,13 @@ async function getProducts() {
     offersResponse.json(),
   ]);
 
-  return { products, offers };
+  return {
+    products: products as Products,
+    offers: offers as Offers,
+  };
 }
-async function renderProducts(categoryId, containerSelector) {
-  const container = document.querySelector(containerSelector);
+async function renderProducts(categoryId:number, containerSelector:string): Promise<void>  {
+  const container = document.querySelector<HTMLElement>(containerSelector);
 
   if (!container) return;
 
@@ -228,7 +364,7 @@ async function renderProducts(categoryId, containerSelector) {
     const { products, offers } = await getProducts();
 
     const filteredProducts = products.filter(
-      (product) => product.categoryId === categoryId
+      (product:Product) => product.categoryId === categoryId
     );
 
     container.replaceChildren();
@@ -245,7 +381,7 @@ async function renderProducts(categoryId, containerSelector) {
     container.append(startAnchor);
 
 
-    filteredProducts.forEach((product) => {
+  filteredProducts.forEach((product: Product) => {
       const offer = offers.find(
         (item) => item.productId === product.id
       );
@@ -414,7 +550,7 @@ renderProducts(7, ".snacksProducts");
 // task 2 -fetch and show products in suggestions + search input placeholder count
 // /////////////////////////////////
 
-async function getSuggestions() {
+async function getSuggestions(): Promise<SuggestionsData> {
   const [productsResponse, stockResponse, offersResponse] =
     await Promise.all([
       fetch("../../api/products.json"),
@@ -437,14 +573,15 @@ async function getSuggestions() {
   ]);
 
   return {
-    products,
-    stock,
-    offers,
+    products: products as Products,
+    stock: stock as Stock,
+    offers: offers as Offers,
   };
 }
 
-async function renderSuggestions() {
-  const suggestions = document.querySelector(".suggestions");
+async function renderSuggestions(): Promise<void> {
+  const suggestions =
+    document.querySelector<HTMLElement>(".suggestions");
 
   if (!suggestions) return;
 
@@ -455,24 +592,22 @@ async function renderSuggestions() {
 
     suggestions.replaceChildren();
 
-    const formatNumber = (number) =>
+    const formatNumber = (number: number): string =>
       number.toLocaleString("fa-IR");
-
 
     // Search placeholder
 
-
     const searchInput =
-      document.querySelector(".header__search input");
+      document.querySelector<HTMLInputElement>(
+        ".header__search input"
+      );
 
     if (searchInput) {
       searchInput.placeholder =
         `می‌تونی بین ${formatNumber(products.length)} محصول جستجو کنی`;
     }
 
-
     // Carousel start anchor
-
 
     const startAnchor = document.createElement("span");
 
@@ -481,9 +616,7 @@ async function renderSuggestions() {
 
     suggestions.append(startAnchor);
 
-
     // Products with offers
-
 
     const suggestedProducts = products.filter((product) =>
       offers.some((offer) => offer.productId === product.id)
@@ -494,26 +627,22 @@ async function renderSuggestions() {
         (item) => item.productId === product.id
       );
 
+      // Safety check: skip products without an offer
 
-      // Stock
+      if (!offer) return;
 
-
-      const quantity =
-        stock.items[String(product.id)] ?? 0;
-
-      const isOutOfStock = quantity <= 0;
-
-  
       // Discounted price
-  
 
       const discountedPrice = Math.round(
         product.price * (1 - offer.percent / 100)
       );
 
-   
+      // Stock
+
+      const quantity = stock.items[String(product.id)] ?? 0;
+      const isOutOfStock = quantity <= 0;
+
       // Card
-   
 
       const card = document.createElement("div");
 
@@ -523,9 +652,7 @@ async function renderSuggestions() {
         card.classList.add("product-card--out-of-stock");
       }
 
-
       // Badges
-   
 
       const badges = document.createElement("div");
 
@@ -557,9 +684,7 @@ async function renderSuggestions() {
 
       card.append(badges);
 
-    
       // Thumbnail
-    
 
       const thumb = document.createElement("div");
 
@@ -574,9 +699,7 @@ async function renderSuggestions() {
 
       thumb.append(emoji);
 
-
       // Product info
-
 
       const info = document.createElement("div");
 
@@ -594,9 +717,7 @@ async function renderSuggestions() {
 
       info.append(name, unit);
 
-
       // Out-of-stock message
- 
 
       if (isOutOfStock) {
         const stockMessage = document.createElement("span");
@@ -607,9 +728,7 @@ async function renderSuggestions() {
         info.append(stockMessage);
       }
 
-
       // Footer
-
 
       const footer = document.createElement("div");
 
@@ -620,6 +739,7 @@ async function renderSuggestions() {
       pricing.classList.add("product-pricing");
 
       // Original price
+
       const oldPrice = document.createElement("span");
 
       oldPrice.classList.add("old-price");
@@ -629,6 +749,7 @@ async function renderSuggestions() {
       pricing.append(oldPrice);
 
       // Current price
+
       const currentPrice = document.createElement("span");
 
       currentPrice.classList.add("current-price");
@@ -637,9 +758,7 @@ async function renderSuggestions() {
 
       pricing.append(currentPrice);
 
-    
       // Add button
-
 
       const button = document.createElement("button");
 
@@ -660,20 +779,13 @@ async function renderSuggestions() {
 
       footer.append(pricing, button);
 
-  
       // Assemble card
- 
 
-      card.append(
-        thumb,
-        info,
-        footer
-      );
+      card.append(thumb, info, footer);
 
       suggestions.append(card);
     });
 
-    
     // Carousel end anchor
 
     const endAnchor = document.createElement("span");
@@ -682,9 +794,7 @@ async function renderSuggestions() {
     endAnchor.classList.add("anchor-section");
 
     suggestions.append(endAnchor);
-  } catch (error) {
-    console.error("Error loading suggestions:", error);
-
+  } catch {
     renderError(
       suggestions,
       renderSuggestions,
@@ -701,71 +811,68 @@ renderSuggestions();
 // task 3-fetch data from categories and show in homepage-navBar-footer  && footer and header info
 ///////////////////////////////////////////////
 
-async function getCategories() {
+async function getCategories(): Promise<Categories> {
   const response = await fetch("../../api/categories.json");
 
   if (!response.ok) {
     throw new Error("Failed to fetch categories");
   }
 
-  return response.json();
+  return (await response.json()) as Categories;
 }
-async function renderCategories() {
-  const categoriesGrid = document.querySelector("#categories-grid");
+async function renderCategories(): Promise<void> {
+  const categoriesGrid =
+    document.querySelector<HTMLElement>("#categories-grid");
+
+  if (!categoriesGrid) return;
+
   renderCategorySkeletons(categoriesGrid);
 
   try {
     const categories = await getCategories();
-
     const fragment = document.createDocumentFragment();
 
     categories.forEach((category) => {
       const card = document.createElement("a");
-
       card.classList.add("category-card");
       card.href = `#${category.slug}`;
 
       const image = document.createElement("span");
-
       image.classList.add("category-card__image");
       image.textContent = category.emoji;
       image.style.backgroundColor = category.color;
 
       const title = document.createElement("span");
-
       title.classList.add("category-card__title");
       title.textContent = category.name;
 
       card.append(image, title);
-
       fragment.append(card);
     });
 
     categoriesGrid.replaceChildren(fragment);
-   } catch (error) {
-  renderError(
-    categoriesGrid,
-    renderCategories,
-    "دریافت دسته‌بندی‌ها با خطا مواجه شد"
-  );
+  } catch {
+    renderError(
+      categoriesGrid,
+      renderCategories,
+      "دریافت دسته‌بندی‌ها با خطا مواجه شد"
+    );
   }
 }
+
+renderCategories();
 renderCategories()
 
 // footer navbar and header info
 
-async function getShop() {
+async function getShop(): Promise<ShopData> {
   const [shopResponse, categoriesResponse] = await Promise.all([
     fetch("../../api/shop.json"),
     fetch("../../api/categories.json"),
   ]);
 
-  if (!shopResponse.ok) {
-    throw new Error("Failed to fetch shop data");
-  }
-
-  if (!categoriesResponse.ok) {
-    throw new Error("Failed to fetch categories data");
+  if (!shopResponse.ok || !categoriesResponse.ok) {
+    throw new Error("Failed to fetch shop or categories data");
   }
 
   const [shop, categories] = await Promise.all([
@@ -773,7 +880,10 @@ async function getShop() {
     categoriesResponse.json(),
   ]);
 
-  return { shop, categories };
+  return {
+    shop: shop as Shop,
+    categories: categories as Categories,
+  };
 }
 
 async function renderShop() {
@@ -821,16 +931,25 @@ async function renderShop() {
       shopNameContainer.replaceChildren(heading);
     }
 
-    document.querySelector("#shop-about").textContent = shop.about;
-    document.querySelector("#shop-address").textContent = shop.address;
-    document.querySelector("#shop-phone").textContent = shop.phone;
+ const shopAbout =
+  document.querySelector<HTMLElement>("#shop-about");
+
+const shopAddress =
+  document.querySelector<HTMLElement>("#shop-address");
+
+const shopPhone =
+  document.querySelector<HTMLElement>("#shop-phone");
+
+if (shopAbout) shopAbout.textContent = shop.about;
+if (shopAddress) shopAddress.textContent = shop.address;
+if (shopPhone) shopPhone.textContent = shop.phone;
 
     // =========================
     // Navbar categories
     // =========================
 
-    const navbarCategories =
-      document.querySelector("#navbar-categories");
+const navbarCategories =
+  document.querySelector<HTMLElement>("#navbar-categories");
 
     const navbarCategoriesFragment =
       document.createDocumentFragment();
@@ -853,116 +972,135 @@ async function renderShop() {
       navbarCategoriesFragment.append(li);
     });
 
-    navbarCategories.replaceChildren(navbarCategoriesFragment);
+  if (navbarCategories) {
+  navbarCategories.replaceChildren(navbarCategoriesFragment);
+}
 
     // =========================
     // Navbar menu
     // =========================
 
-    const navbarList = document.querySelector("#navbar-list");
+ const navbarList =
+  document.querySelector<HTMLElement>("#navbar-list");
 
-    navbarList
-      .querySelectorAll(".navbar-menu-item")
-      .forEach((item) => item.remove());
+const navbarMenuFragment = document.createDocumentFragment();
 
-    const navbarMenuFragment =
-      document.createDocumentFragment();
+shop.menu.forEach((item) => {
+  const li = document.createElement("li");
+  li.classList.add("navbar-menu-item");
 
-    shop.menu.forEach((item) => {
-      const li = document.createElement("li");
-      li.classList.add("navbar-menu-item");
+  const link = document.createElement("a");
+  link.classList.add("nav-link");
+  link.href = item.href;
+  link.textContent = item.label;
 
-      const link = document.createElement("a");
+  li.append(link);
+  navbarMenuFragment.append(li);
+});
 
-      link.classList.add("nav-link");
-      link.href = item.href;
-      link.textContent = item.label;
+if (navbarList) {
+  navbarList
+    .querySelectorAll(".navbar-menu-item")
+    .forEach((item) => item.remove());
 
-      li.append(link);
-      navbarMenuFragment.append(li);
-    });
-
-    navbarList.append(navbarMenuFragment);
+  navbarList.append(navbarMenuFragment);
+}
 
     // =========================
     // Footer categories
     // =========================
 
-    const footerCategories =
-      document.querySelector("#footer-categories");
+const footerCategories =
+  document.querySelector<HTMLElement>("#footer-categories");
 
-    const categoriesFragment =
-      document.createDocumentFragment();
+const categoriesFragment = document.createDocumentFragment();
 
-    categories.forEach((category) => {
-      const li = document.createElement("li");
-      const link = document.createElement("a");
+categories.forEach((category) => {
+  const li = document.createElement("li");
+  const link = document.createElement("a");
 
-      link.href = `#${category.slug}`;
-      link.textContent = category.name;
+  link.href = `#${category.slug}`;
+  link.textContent = category.name;
 
-      li.append(link);
-      categoriesFragment.append(li);
-    });
+  li.append(link);
+  categoriesFragment.append(li);
+});
 
-    footerCategories.replaceChildren(categoriesFragment);
+if (footerCategories) {
+  footerCategories.replaceChildren(categoriesFragment);
+}
 
-    // =========================
+  
     // Footer help
-    // =========================
+   
 
-    const helpList = document.querySelector("#footer-help");
-    const helpFragment = document.createDocumentFragment();
+const helpList =
+  document.querySelector<HTMLElement>("#footer-help");
 
-    shop.help.forEach((item) => {
-      const li = document.createElement("li");
-      const link = document.createElement("a");
+const helpFragment = document.createDocumentFragment();
 
-      link.href = item.href;
-      link.textContent = item.label;
+shop.help.forEach((item) => {
+  const li = document.createElement("li");
+  const link = document.createElement("a");
 
-      li.append(link);
-      helpFragment.append(li);
-    });
+  link.href = item.href;
+  link.textContent = item.label;
 
-    helpList.replaceChildren(helpFragment);
+  li.append(link);
+  helpFragment.append(li);
+});
+
+if (helpList) {
+  helpList.replaceChildren(helpFragment);
+}
 
     // =========================
     // Shop schedule
     // =========================
 
-    const schedule = document.querySelector("#shop-schedule");
+const schedule =
+  document.querySelector<HTMLElement>("#shop-schedule");
 
-    const scheduleFragment =
-      document.createDocumentFragment();
+const scheduleFragment = document.createDocumentFragment();
 
-    shop.schedule.forEach((item) => {
-      const p = document.createElement("p");
-      const strong = document.createElement("strong");
-      const time = document.createElement("span");
+shop.schedule.forEach((item) => {
+  const p = document.createElement("p");
+  const strong = document.createElement("strong");
+  const time = document.createElement("span");
 
-      strong.textContent = `${item.days}:`;
-      time.textContent = item.time;
+  strong.textContent = `${item.days}:`;
+  time.textContent = item.time;
 
-      p.append(strong, " ", time);
-      scheduleFragment.append(p);
-    });
+  p.append(strong, " ", time);
+  scheduleFragment.append(p);
+});
 
-    schedule.replaceChildren(scheduleFragment);
+if (schedule) {
+  schedule.replaceChildren(scheduleFragment);
+}
 
     // =========================
     // Copyright
     // =========================
 
-    document.querySelector("#shop-copyright").textContent =
-      shop.copyright;
-  } catch (error) {
+const copyright =
+  document.querySelector<HTMLElement>("#shop-copyright");
+
+if (copyright) {
+  copyright.textContent = shop.copyright;
+}
+
+} catch {
+  const footer = document.querySelector<HTMLElement>("#footer");
+
+  if (footer) {
     renderError(
-      document.querySelector("#footer"),
+      footer,
       renderShop,
       "بارگذاری اطلاعات فروشگاه ناموفق بود"
     );
   }
+}
 }
 
 renderShop();
@@ -970,30 +1108,38 @@ renderShop();
 /////////////////////////////////////////////////////
 // fetch from home.json create banners and promos && add button+Cart and localSorage
 ///////////////////////////////////////////////////////
-async function getHome() {
+async function getHome(): Promise<Home> {
   const response = await fetch("../../api/home.json");
 
   if (!response.ok) {
     throw new Error("Failed to fetch home data");
   }
 
-  return response.json();
+  return (await response.json()) as Home;
 }
-async function renderHome() {
+
+async function renderHome(): Promise<void> {
   renderBannerSkeleton();
   renderPromoSkeletons();
 
   try {
     const home = await getHome();
 
-    const banner = document.querySelector("#banner");
+    const banner = document.querySelector<HTMLElement>("#banner");
+
+    if (!banner) return;
 
     const bannerTrack =
-      banner.querySelector(".banner__track");
+      banner.querySelector<HTMLElement>(".banner__track");
 
-    const slides = [home.hero, home.side];
+    if (!bannerTrack) return;
 
-    const createSlide = (slide, isDuplicate = false) => {
+    const slides: HomeSlide[] = [home.hero, home.side];
+
+    const createSlide = (
+      slide: HomeSlide,
+      isDuplicate = false
+    ): HTMLAnchorElement => {
       const link = document.createElement("a");
 
       link.classList.add("banner__slide");
@@ -1034,8 +1180,7 @@ async function renderHome() {
       return link;
     };
 
-    const bannerFragment =
-      document.createDocumentFragment();
+    const bannerFragment = document.createDocumentFragment();
 
     // Original slides
     slides.forEach((slide) => {
@@ -1049,16 +1194,14 @@ async function renderHome() {
 
     bannerTrack.replaceChildren(bannerFragment);
 
-
-
+    // Promotions
     home.promos.forEach((promo, index) => {
-      const advertisement = document.querySelector(
-        `#advertisement-${index + 1}`
-      );
+      const advertisement =
+        document.querySelector<HTMLElement>(
+          `#advertisement-${index + 1}`
+        );
 
-      if (!advertisement) {
-        return;
-      }
+      if (!advertisement) return;
 
       const link = document.createElement("a");
 
@@ -1080,12 +1223,16 @@ async function renderHome() {
 
       advertisement.replaceChildren(link);
     });
-  } catch (error) {
-    renderError(
-      document.querySelector("#banner"),
-      renderHome,
-      "بارگذاری اطلاعات صفحه اصلی ناموفق بود"
-    );
+  } catch {
+    const banner = document.querySelector<HTMLElement>("#banner");
+
+    if (banner) {
+      renderError(
+        banner,
+        renderHome,
+        "بارگذاری اطلاعات صفحه اصلی ناموفق بود"
+      );
+    }
   }
 }
 renderHome();
@@ -1094,15 +1241,31 @@ renderHome();
 
 const CART_KEY = "yagni-cart";
 
-function getCart() {
-  return JSON.parse(localStorage.getItem(CART_KEY)) || [];
+function getCart(): Cart {
+  const storedCart = localStorage.getItem(CART_KEY);
+
+  if (!storedCart) {
+    return [];
+  }
+
+  try {
+    const cart: unknown = JSON.parse(storedCart);
+
+    if (!Array.isArray(cart)) {
+      return [];
+    }
+
+    return cart as Cart;
+  } catch {
+    return [];
+  }
 }
 
-function saveCart(cart) {
+function saveCart(cart: Cart): void {
   localStorage.setItem(CART_KEY, JSON.stringify(cart));
 }
 
-function updateCartUI() {
+function updateCartUI(): void {
   const cart = getCart();
 
   const count = cart.reduce(
@@ -1111,28 +1274,28 @@ function updateCartUI() {
   );
 
   const total = cart.reduce(
-    (total, item) =>
-      total + item.price * item.quantity,
+    (total, item) => total + item.price * item.quantity,
     0
   );
 
-  const cartCount =
-    document.querySelector(".header__cart-count");
+  const cartCount = document.querySelector<HTMLElement>(
+    ".header__cart-count"
+  );
 
-  const cartTotal =
-    document.querySelector(".header__cart-content strong");
+  const cartTotal = document.querySelector<HTMLElement>(
+    ".header__cart-content strong"
+  );
 
   if (cartCount) {
     cartCount.textContent = count.toLocaleString("fa-IR");
   }
 
   if (cartTotal) {
-    cartTotal.textContent =
-      `${total.toLocaleString("fa-IR")} تومان`;
+    cartTotal.textContent = `${total.toLocaleString("fa-IR")} تومان`;
   }
 }
 
-function addToCart(product, price) {
+function addToCart(product: Product, price: number): void {
   const cart = getCart();
 
   const existingItem = cart.find(
@@ -1150,6 +1313,9 @@ function addToCart(product, price) {
     });
   }
 
-  saveCart(cart);
-  updateCartUI();
+saveCart(cart);
+updateCartUI();
+
+notyf.success("محصول به سبد خرید اضافه شد");
+confetti();
 }
