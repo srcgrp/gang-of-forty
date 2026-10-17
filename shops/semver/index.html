@@ -1,29 +1,414 @@
-<!doctype html>
+<!doctype html">
 <html lang="fa" dir="rtl">
-<head>
+  <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>سوپرمارکت نسخه‌بندی معنایی</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
+  <meta name="author" content="Amirhossein Nasr">
   <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>🏷️ سلام دنیا!</h1>
-  </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>نسخه‌بندی معنایی</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p><bdi>Semantic Versioning</bdi> را تام پرستون-ورنر، هم‌بنیان‌گذار گیت‌هاب، نوشت. نسخه سه عدد دارد: <bdi>MAJOR.MINOR.PATCH</bdi> مثل <bdi>2.4.1</bdi>. تغییری که کد دیگران را بشکند عدد اول را بالا می‌برد، قابلیت جدید سازگار عدد دوم را، و رفع باگ عدد سوم را. با یک نگاه می‌فهمی به‌روزرسانی خطرناک است یا نه.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
+  <link 
+      rel="stylesheet"      
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css"
+    />
+  </head>
+  <body>
+    <header>
+      <!-- <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a> -->
+      <article>
+        <section id="news">
+          <P>ارسال رایگان با خرید بالای 500 هزارتومان</P>
+        </section>
+      </article>
+      <nav>
+      <section id="nav-section">
+        <div id="site-brand">
+          <img id="logo" src="./image/new logo-02.svg" alt="metron shop logo">
+          <section id="site-name">
+          <p id="title">فـروشگاه متـرون</p>
+          <p id="tagline">دقیـق مثـل مترونـوم</p>
+          </section>
+        </div>
+        <input id="search-input" type="text" placeholder="جستجـو کنیـد ...">
+        <button id="shoping-card-btn">سبد خرید <i class="ph ph-shopping-cart-simple"></i></button>
+      </section>
+      </nav>
+          <section id="header-categories">
+      <ul id="btn-categories">
+        <!-- آیتم بازشونده -->
+        <li class="has-dropdown">
+          <details>
+            <summary class="dropdown-toggle"><i class="ph ph-list"></i> همه دسته ها</summary>
+            <ul class="dropdown-menu">
+              <li><a href="#">کلاسیک</a></li>
+              <li><a href="#">اسپرت و روزمره</a></li>
+              <li><a href="#">ساعت های هوشمند</a></li>
+              <li><a href="#">لوکس و جواهری</a></li>
+            </ul>
+          </details>
+        </li>
+
+        <li>پیشنهاد ویژه</li>
+        <li>پرتخفیف ها</li>
+        <li>جدیدترین‌ها</li>
+        <li>تماس با ما</li>
+      </ul>
     </section>
-  </main>
-  <footer>
-    <p dir="ltr">slug: <code>semver</code></p>
+
+      <article class="hero-container">
+        <section id="hero-right">
+          <div id="hero-title1">
+          <h1 id="hero-h1">زمان، بازتابی از اصالت شماست</h1>
+          <p id="hero-p">انتخابی برای کسانی که به جزئیات اهمیت می‌دهند</p>
+          <button id="cta">مشاهده محصولات</button>
+          </div>
+        </section>
+        <section id="hero-left">
+          <div id="hero-title2">
+          <h1 id="hero-h2">زمان، بازتابی از اصالت شماست</h1>
+          <p id="hero-p2">انتخابی برای کسانی که به جزئیات اهمیت می‌دهند</p>
+          </div>
+        </section>
+      </article>
+    </header>
+      <main> 
+        <div id="categories">
+          دسته‌بندی‌ها
+        </div>
+        <article class="flex-item-categories">
+          <section class="item">
+          <img class="img-categories" src="./image/omega.avif" alt="">
+          <p>omega</p>
+          </section>
+          <section class="item">
+          <img class="img-categories" src="./image/swatch.avif" alt="">
+          <p>omega</p>
+          </section>
+          <section class="item">
+          <img class="img-categories" src="./image/swatch pay.avif" alt="">
+          <p>omega</p>
+          </section>
+          <section class="item">
+          <img class="img-categories" src="./image/SO29Z157_sa200_er005.avif" alt="">
+          <p>omega</p>
+          </section>
+          <section class="item">
+          <img class="img-categories" src="./image/nouveau.avif" alt="">
+          <p>omega</p>
+          </section>
+          <section class="item">
+          <img class="img-categories" src="./image/omega.avif" alt="">
+          <p>omega</p>
+          </section>
+        </article>
+
+        <div id="categories">  
+          پرتخفیف‌ترین‌ها
+        </div>
+          <!-- ==================== بخش پرتخفیف ها ==================== -->
+
+        <article  class="flex-item-product">
+          <section class="product-cart">
+          <section class="img">
+            <section class="img-label">
+              <p class="img-label-p">15%</p>
+            </section>
+            <img class="img-product" src="./image/1/watch-collection-longines-dolcevita-l5-255-5-70-7-d4f2ee-hero.avif" alt="watch">
+          </section>
+          <section class="discription-cart">
+            <h5>Metron</h5>
+            <h3>CONQUEST</h3>
+            <p class="discription-product">ساعت کوارتز، قطر ۴۱.۰۰ میلی‌متر، تمام</p>
+            <section class="card-btn">
+            <label class="price-label">27,000,000 تومان</label>
+            <button class="buynow-btn" type="button">+</button>
+            </section>
+          </section>
+          </section>
+          <section class="product-cart">
+          <section class="img">
+            <section class="img-label">
+              <p class="img-label-p">15%</p>
+            </section>
+            <img class="img-product" src="./image/1/watch-collection-longines-dolcevita-l5-512-4-08-2-ebf2b9-hero.avif" alt="watch">
+          </section>
+          <section class="discription-cart">
+            <h5>Metron</h5>
+            <h3>CONQUEST</h3>
+            <p class="discription-product">ساعت کوارتز، قطر ۴۱.۰۰ میلی‌متر، تمام</p>
+            <section class="card-btn">
+            <label class="price-label">27,000,000 تومان</label>
+            <button class="buynow-btn" type="button">+</button>
+            </section>
+          </section>
+          </section>
+          <section class="product-cart">
+          <section class="img">
+            <section class="img-label">
+              <p class="img-label-p">15%</p>
+            </section>
+            <img class="img-product" src="./watch-collection-conquest.png" alt="watch">
+          </section>
+          <section class="discription-cart">
+            <h5>Metron</h5>
+            <h3>CONQUEST</h3>
+            <p class="discription-product">ساعت کوارتز، قطر ۴۱.۰۰ میلی‌متر، تمام</p>
+            <section class="card-btn">
+            <label class="price-label">27,000,000 تومان</label>
+            <button class="buynow-btn" type="button">+</button>
+            </section>
+          </section>
+          </section>
+          <section class="product-cart">
+          <section class="img">
+            <section class="img-label">
+              <p class="img-label-p">15%</p>
+            </section>
+            <img class="img-product" src="./image/1/watch-collection-longines-master-collection-gmt-l2-844-6-71-2-04b98b-hero.avif" alt="watch">
+          </section>
+          <section class="discription-cart">
+            <h5>Metron</h5>
+            <h3>CONQUEST</h3>
+            <p class="discription-product">ساعت کوارتز، قطر ۴۱.۰۰ میلی‌متر، تمام</p>
+            <section class="card-btn">
+            <label class="price-label">27,000,000 تومان</label>
+            <button class="buynow-btn" type="button">+</button>
+            </section>
+          </section>
+          </section>
+          <section class="product-cart">
+          <section class="img">
+            <section class="img-label">
+              <p class="img-label-p">15%</p>
+            </section>
+            <img class="img-product" src="./image/1/watch-collection-longines-master-collection-l2-450-4-87-6-feaa6a-hero.avif" alt="watch">
+          </section>
+          <section class="discription-cart">
+            <h5>Metron</h5>
+            <h3>CONQUEST</h3>
+            <p class="discription-product">ساعت کوارتز، قطر ۴۱.۰۰ میلی‌متر، تمام</p>
+            <section class="card-btn">
+            <label class="price-label">27,000,000 تومان</label>
+            <button class="buynow-btn" type="button">+</button>
+            </section>
+          </section>
+          </section>
+          <section class="product-cart">
+          <section class="img">
+            <section class="img-label">
+              <p class="img-label-p">15%</p>
+            </section>
+            <img class="img-product" src="./image/1/watch-collection-longines-master-collection-l2-450-5-87-2-96f809-hero.avif" alt="watch">
+          </section>
+          <section class="discription-cart">
+            <h5>Metron</h5>
+            <h3>CONQUEST</h3>
+            <p class="discription-product">ساعت کوارتز، قطر ۴۱.۰۰ میلی‌متر، تمام</p>
+            <section class="card-btn">
+            <label class="price-label">27,000,000 تومان</label>
+            <button class="buynow-btn" type="button">+</button>
+            </section>
+          </section>
+          </section>
+          <section class="product-cart">
+          <section class="img">
+            <section class="img-label">
+              <p class="img-label-p">15%</p>
+            </section>
+            <img class="img-product" src="./image/1/watch-collection-longines-master-collection-l2-793-4-78-3-91049a-hero.avif" alt="watch">
+          </section>
+          <section class="discription-cart">
+            <h5>Metron</h5>
+            <h3>CONQUEST</h3>
+            <p class="discription-product">ساعت کوارتز، قطر ۴۱.۰۰ میلی‌متر، تمام</p>
+            <section class="card-btn">
+            <label class="price-label">27,000,000 تومان</label>
+            <button class="buynow-btn" type="button">+</button>
+            </section>
+          </section>
+          </section>
+        </article>
+      </main>
+        <!-- ====================  بخش بنرها ==================== -->
+
+      <article class="hero-container">
+        <section class="feature-left"><p class="title-feature-left">جزئیاتی که استایل شمارا کامل میکند</p></section>
+        <section class="feature-right"><p class="title-feature-right">اصالت، در بندبندِ انتخاب شماست</p></section>
+      </article>
+        
+        <!-- ====================  بخش جدیدترین ها ==================== -->
+      <div id="categories">  
+          پرتخفیف‌ترین‌ها
+        </div>
+        <article  class="flex-item-product">
+          <section class="product-cart">
+          <section class="img">
+            <section class="img-label">
+            </section>
+            <img class="img-product" src="./image/2/watch-collection-longines-evidenza-l2-142-4-70-2-61eb63-hero.avif" alt="watch">
+          </section>
+          <section class="discription-cart">
+            <h5>Metron</h5>
+            <h3>CONQUEST</h3>
+            <p class="discription-product">ساعت کوارتز، قطر ۴۱.۰۰ میلی‌متر، تمام</p>
+            <section class="card-btn">
+            <label class="price-label">27,000,000 تومان</label>
+            <button class="buynow-btn" type="button">+</button>
+            </section>
+          </section>
+          </section>
+          <section class="product-cart">
+          <section class="img">
+            <section class="img-label">
+            </section>
+            <img class="img-product" src="./image/1/watch-collection-longines-master-collection-l2-949-4-99-2-d08fbd-hero.avif" alt="watch">
+          </section>
+          <section class="discription-cart">
+            <h5>Metron</h5>
+            <h3>LONGINES PILOT</h3>
+            <p class="discription-product">ساعت کوارتز، قطر ۴۱.۰۰ میلی‌متر، تمام</p>
+            <section class="card-btn">
+            <label class="price-label">27,000,000 تومان</label>
+            <button class="buynow-btn" type="button">+</button>
+            </section>
+          </section>
+          </section>
+          <section class="product-cart">
+          <section class="img">
+            <section class="img-label">
+             
+            </section>
+            <img class="img-product" src="./image/2/watch-collection-conquest-classic-l2-286-0-72-6-a52513-hero.avif" alt="watch">
+          </section>
+          <section class="discription-cart">
+            <h5>Metron</h5>
+            <h3>HERITAGE</h3>
+            <p class="discription-product">ساعت کوارتز، قطر ۴۱.۰۰ میلی‌متر، تمام</p>
+            <section class="card-btn">
+            <label class="price-label">27,000,000 تومان</label>
+            <button class="buynow-btn" type="button">+</button>
+            </section>
+          </section>
+          </section>
+          <section class="product-cart">
+          <section class="img">
+            <section class="img-label">
+              
+            </section>
+            <img class="img-product" src="./image/2/watch-collection-longines-legend-diver-59-l3-795-4-59-9-1fd94b-hero.avif" alt="watch">
+          </section>
+          <section class="discription-cart">
+            <h5>Metron</h5>
+            <h3>THE LONGINES</h3>
+            <p class="discription-product">ساعت کوارتز، قطر ۴۱.۰۰ میلی‌متر، تمام</p>
+            <section class="card-btn">
+            <label class="price-label">27,000,000 تومان</label>
+            <button class="buynow-btn" type="button">+</button>
+            </section>
+          </section>
+          </section>
+          <section class="product-cart">
+          <section class="img">
+            <section class="img-label">
+            </section>
+            <img class="img-product" src="./image/2/watch-collection-longines-spirit-zulu-time-1925-l3-803-5-53-6-fdc6b9-hero.avif" alt="watch">
+          </section>
+          <section class="discription-cart">
+            <h5>Metron</h5>
+            <h3>LONGINES SPIRIT</h3>
+            <p class="discription-product">ساعت کوارتز، قطر ۴۱.۰۰ میلی‌متر، تمام</p>
+            <section class="card-btn">
+            <label class="price-label">27,000,000 تومان</label>
+            <button class="buynow-btn" type="button">+</button>
+            </section>
+          </section>
+          </section>
+          <section class="product-cart">
+          <section class="img">
+            <section class="img-label">    
+            </section>
+            <img class="img-product" src="./image/2/watch-collection-longines-tuxedo-l2-830-4-93-0-c2881f-hero.avif" alt="watch">
+          </section>
+          <section class="discription-cart">
+            <h5>Metron</h5>
+            <h3>Rolex</h3>
+            <p class="discription-product">ساعت کوارتز، قطر ۴۱.۰۰ میلی‌متر، تمام</p>
+            <section class="card-btn">
+            <label class="price-label">27,000,000 تومان</label>
+            <button class="buynow-btn" type="button">+</button>
+            </section>
+          </section>
+          </section>
+          <section class="product-cart">
+          <section class="img">
+            <section class="img-label">
+            </section>
+            <img class="img-product" src="./watch-collection-conquest.png" alt="watch">
+          </section>
+          <section class="discription-cart">
+            <h5>Metron</h5>
+            <h3>Casio</h3>
+            <p class="discription-product">ساعت کوارتز، قطر ۴۱.۰۰ میلی‌متر، تمام</p>
+            <section class="card-btn">
+            <label class="price-label">27,000,000 تومان</label>
+            <button class="buynow-btn" type="button">+</button>
+            </section>
+          </section>
+          </section>
+        </article>
+      <footer>
+        <article id="footer-section">
+            <!-- ==================== بخش فوتر ==================== -->
+  <footer id="main-footer">
+    <div class="footer-container">
+      
+      <div class="footer-grid">
+        
+        <div class="footer-col footer-about">
+          <h3>ساعت مترون</h3>
+          <p class="about-text">از سال ۱۴۰۵ کنار شما هستیم؛ کالای تازه با قیمت منصفانه.</p>
+          <p class="footer-info">تهران، خیابان نمونه، پلاک ۴۰</p>
+          <p class="footer-phone" dir="ltr">۰۲۱-۱۲۳۴۵۶۷۸</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>دسته‌ها</h4>
+          <ul class="footer-links">
+            <li><a href="#categories">کلاسیک</a></li>
+            <li><a href="#categories">اسپرت  و روزمره</a></li>
+            <li><a href="#categories">ساعت های هوشمند</a></li>
+            <li><a href="#categories">لوکس و جواهری</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>راهنما</h4>
+          <ul class="footer-links">
+            <li><a href="#">شیوه ارسال</a></li>
+            <li><a href="#">بازگشت کالا</a></li>
+            <li><a href="#">پرسش‌های پرتکرار</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>ساعت کاری</h4>
+          <div class="working-hours">
+            <p>شنبه تا پنجشنبه: ۸ تا ۲۲</p>
+            <p>جمعه: ۹ تا ۱۳</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p class="copyright">© ۱۴۰۵ ساعت مترون - عضو دار و دسته چهل‌نفره</p>
+        <a href="#news" class="back-to-top">بازگشت به بالا ↑</a>
+      </div>
+
+    </div>
   </footer>
-</body>
+
+        </article>
+      </footer>
+  </body>
 </html>

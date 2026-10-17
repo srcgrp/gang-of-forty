@@ -1,13 +1,1009 @@
 /* Your shop's styles. Week 1: make it yours! */
+
+@font-face {
+  font-family: iranyekan;
+  src: url(./font/IRANYekanXVF.ttf);
+}
+
+@font-face {
+  font-family: vazirmatn;
+  src: url(./font/Vazirmatn-VariableFont_wght.ttf);
+}
+
 body {
-  font-family: Vazirmatn, Tahoma, sans-serif;
+  background: #F8FAFC;
+  margin: 0 auto;
+  
+}
+
+main{
+  padding: 0 16px; 
+}
+
+#news{
+  display: block;
+  background-color: black;
+  color: #f7faf5;
+  padding: 12px;
+  margin: 0px 0;
+  text-align: center;
+  font-size: 14px;
+  font-family: iranyekan;
+
+}
+
+nav{
+  background-color: #1C2B33;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+}
+
+#nav-section{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1440px;
+  margin: auto auto; 
+  
+}
+
+#site-brand{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  width: auto;
+  max-width: 1440px;
+  margin: 0 0; 
+  color: #ffffff;
+  
+  
+  
+  
+
+}
+
+#site-name{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  
+}
+
+#title{
   margin: 0;
-  padding: 1rem;
-  line-height: 1.8;
-  background: #f7faf5;
-  color: #1f2a1c;
+  font-family: iranyekan;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+#tagline{
+  margin: 0;
+  font-family: iranyekan;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+#logo{
+  width: 50px;
+  
+}
+
+#search-input{
+  width: 100%;
+  max-width: 700px;
+  padding: 12px 12px;
+  border-radius: 8px;
+  border: 2PX solid #0F5132;
+  font-family: iranyekan;
+  
+}
+
+#shoping-card-btn{
+  color: #adb5bd;
+  text-decoration: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-family: iranyekan, Vazirmatn, sans-serif;
+  background-color: #1C2B33;
+  
+
+
+  
+}
+
+#shoping-card-btn:hover{
+
+      color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: #51cf66;
+}
+
+.ph{
+  font-size: 24px;
+  color: #2e7d32;
+}
+
+#header-categories{
+  
+  border-top: 2px solid black;
+  border-bottom: 2px solid black
+}
+
+#btn-categories {  
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 70px;
+  font-family: vazirmatn;
+  font-size: 14px;
+  list-style: none;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0px auto;
+  padding: 10px;
+  
+}
+
+.has-dropdown {
+  position: relative;
+}
+
+.dropdown-toggle{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/*  استایل کادر بازشونده */
+.dropdown-menu {
+  display: none;                /* به صورت پیش‌فرض مخفی است */
+  position: absolute;
+  top: 100%;
+  right: 0;                     /* از سمت راست تراز شود */
+  background-color: #ffffff;
+  min-width: 200px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  padding: 10px 0;
+  list-style: none;
+  z-index: 999;                 /* بسیار مهم: برای اینکه روی بنر هیرو بیفتد و زیر آن نرود */
+  border: 1px solid #eaeaea;
+}
+
+/*  استایل آیتم‌های داخل زیرمنو */
+.dropdown-menu li {
+  display: block;
+  width: 100%;
+}
+
+.dropdown-menu li a {
+  display: block;
+  padding: 10px 16px;
+  color: #333333;
+  font-size: 13px;
+  font-family: iranyekan, sans-serif;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  text-align: right;
+}
+
+.dropdown-menu li a:hover {
+  background-color: #f2f7f4;
+  color: #0F5132;               /* رنگ سبز هماهنگ با سایت */
+}
+
+/*  ظاهر شدن منو هنگام هاور ماوس */
+.has-dropdown:hover .dropdown-menu,
+.has-dropdown:focus-within .dropdown-menu,
+.has-dropdown details[open] .dropdown-menu {
+  display: block;
+}
+
+li{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hero-container{
+  display: flex;
+  gap: 24px;
+  max-width: 1440px;
+  margin: 24px auto;
+  width: 100%;
+  background-color: rgba(196, 205, 211, 0.608);
+  align-items: center;
+  padding: 24px;
+  border-radius: 8px;
+  
+}
+
+#hero-title1{
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: start;
+  margin-top: 130px;
+  margin-right: 120px;
+
+}
+
+#hero-title2{
+   display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: center;
+  margin-top: 200px;
+  margin-right: 0px;
+}
+
+#hero-h1{
+  font-family: iranyekan;
+  font-size: 48px;
+  color: #eaeaea;
+  font-weight: 800;
+}
+
+#hero-h2{
+  font-family: iranyekan;
+  font-size: 28px;
+  color: #eaeaea;
+  font-weight: 800;
+}
+
+#hero-p{
+  font-family: iranyekan;
+  font-size: 24px;
+  color: #eaeaea;
+}
+
+#hero-p2{
+  font-family: iranyekan;
+  font-size: 18px;
+  color: #eaeaea;
+}
+
+#cta{
+  color: #161616;
+  text-decoration: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  margin-top: 36px;
+  font-size: 24px;
+  font-weight: 600;
+  padding: 16px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-family: iranyekan, Vazirmatn, sans-serif;
+  background-color:rgb(189, 224, 246);
+}
+
+
+
+#hero-right{
+  flex: 2;
+  background-image: url(./image/hunters-race-hNoSCxPWYII-unsplash.jpg);
+  background-color: rgb(112, 136, 151);
+  background-blend-mode: multiply;
+  background-size: cover;
+  height: 550px;
+  margin-left: auto;
+  border-radius: 8px;
+}
+
+#hero-left{
+  flex: 1;
+  background-image: url(./image/laurenz-heymann-al6s6JpnZis-unsplash.jpg);
+  background-color: rgb(112, 136, 151);
+  background-blend-mode: multiply;
+  background-size: cover;
+  height: 550px;
+  border-radius: 8px;
+  background-position: center;
+}
+
+#categories{
+  width: 100%;
+  max-width: 1440px; 
+  margin-top: 24px;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: vazirmatn;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.flex-item-product{
+  display: flex;
+  justify-content: flex-start;  
+  gap: 36px;
+  max-width: 1440px;
+  margin: 0px auto;
+  padding-bottom: 16px;  
+  padding-right: 12px; 
+  padding-left: 18px;    
+  overflow-x: auto;
+  
+}
+
+.flex-item-categories{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 100%;
+  max-width: 1440px; 
+  margin: 0 auto;
+  background-color: rgba(196, 205, 211, 0.608);
+  margin-top: 12px;
+  border-radius: 8px;
+  font-weight: 700;
+  padding-bottom: 4px;
+  
+  
+}
+
+.item{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: iranyekan;
+  gap: 8px;
+  padding: 10px 32px;
+  margin-top: 12px;
+  margin-bottom: 12px;
+
+}
+
+
+.img-categories{
+  width: 100px;
+  border-radius: 6px;
+  filter: drop-shadow(0px 0px 12px #1c2b3374);
+  transition: all 0.2s ease;
+}
+
+.img-categories:hover{
+  filter: drop-shadow(2px 2px 18px #0F5132);
 }
 
 h1 {
   color: #2e7d32;
+}
+
+.product-cart{
+  flex-shrink: 0;
+  width: 200px;
+  padding: 20px;
+  background-color: rgba(196, 205, 211, 0.608);
+  border-radius: 6px;
+  color:  rgb(39, 64, 80);
+  margin-top: 12px;
+  transition: all 0.2s ease;
+
+}
+
+.product-cart:hover{
+  box-shadow: 0 0 12px #0F5132;
+}
+
+.img{
+  background-color: rgb(248, 242, 234);
+  border-radius: 8px;
+  padding-top: 14px;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+  text-align: center;
+  
+}
+
+.img-product{
+  width: 160px;
+  
+  
+}
+
+.img-label{
+  text-align: left;
+  margin: 0 0;
+}
+
+.img-label-p{
+  margin: 12px;
+  border: 1px solid black;
+  border-radius: 50px;
+  display: inline;
+  padding: 6px 12px;
+  background-color: rgb(17, 39, 53);
+  color: #f7faf5;
+  text-align: left;
+  font-size: 10px;
+  font-family: iranyekan;
+  
+
+}
+
+.buynow-btn{
+  padding: 8px 14px;
+  background-color: rgb(39, 64, 80);
+  color: #f7faf5;
+  border-radius: 6px;
+  border: none;
+  font-size: 18px;
+  
+}
+
+.card-btn{
+  display: flex;
+  justify-content: space-between;
+  align-items:center;
+}
+
+.price-label{
+  font-family: iranyekan;
+  font-size: 14px;
+  font-weight:700;
+  
+
+}
+
+.discription-cart{
+  display: flex;
+  flex-direction: column;
+  margin-top: 18px;
+  
+  
+}
+
+h5, h3, p{
+  margin: 0;
+}
+
+.discription-product{
+  margin-top: 12px;
+  font-size: 10px;
+  font-weight: 500;
+  font-family: iranyekan;
+}
+
+.feature-left{
+  width: 100%;
+  height: 250px;
+  display: flex;
+  background-color: rgb(91, 104, 113);
+  gap: 12px;
+
+  border-radius: 8px;
+  background-image: url(./image/feature-Banner\ strap\ desktop.webp);
+  background-blend-mode: multiply;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+.title-feature-left{
+  color:#ffffff;
+  font-family: iranyekan;
+  font-size: 28px;
+  font-weight: 600;
+  text-shadow: 2PX 2PX 2PX black;
+  
+  
+}
+
+.feature-right{
+  width: 100%;
+  height: 250px;
+  display: flex;
+  background-color: rgb(91, 104, 113);
+  gap: 12px;
+  border-radius: 8px;
+  background-image: url(./image/feature-All-straps-desktop.webp);
+  background-blend-mode: multiply;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+.title-feature-right{
+  color:#ffffff;
+  font-family: iranyekan;
+  font-size: 28px;
+  font-weight: 600;
+  text-shadow: 2PX 2PX 2PX black;
+}
+
+footer{
+  background-color: #1C2B33;
+}
+
+#footer-section{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ==================== استایل‌های بخش فوتر ==================== */
+#main-footer {
+  color: #e9ecef;
+  padding-top: 50px;
+  padding-bottom: 25px;
+  margin-top: 60px;
+  font-family: iranyekan, Vazirmatn, sans-serif;
+  width: 100%;
+  max-width: 1440px;
+  margin: auto auto; 
+}
+
+/* کانتینر اصلی با ماکسیمم عرض ۱۴۴۰ پیکسل */
+.footer-container {
+    max-width: 1440px;
+    margin: auto auto;
+    padding: 0 24px;                   /* حاشیه ایمن برای نچسبیدن به لبه صفحه */
+    box-sizing: border-box;
+}
+
+/* شبکه ستون‌ها با CSS Grid */
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr; /* ستون اول و چهارم کمی عریض‌تر برای متن و ساعت */
+    gap: 40px;
+    align-items: start;
+}
+
+/* استایل سرفصل‌ها */
+.footer-col h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 16px;
+}
+
+.footer-col h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 16px;
+    position: relative;
+    padding-bottom: 8px;
+}
+
+/* خط تزیینی زیر عنوان‌های ستون */
+.footer-col h4::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 30px;
+    height: 2px;
+    background-color: #0F5132;         /* سبز سازمانی فروشگاه */
+    border-radius: 2px;
+}
+
+/* استایل متون */
+.footer-about .about-text {
+    font-size: 14px;
+    line-height: 1.8;
+    color: #adb5bd;
+    margin-bottom: 14px;
+}
+
+.footer-info {
+    font-size: 13px;
+    color: #ced4da;
+    margin-bottom: 8px;
+}
+
+.footer-phone {
+    font-size: 14px;
+    font-weight: bold;
+    color: #51cf66;                    /* رنگ متمایز برای شماره */
+    text-align: right;
+    margin-top: 6px;
+}
+
+/* استایل لینک‌های ستون دسته‌ها و راهنما */
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 10px;
+    display: block;                    /* برای لغو flex پیش‌فرض تگ li عمومی */
+}
+
+.footer-links li a {
+    color: #adb5bd;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s ease, padding-right 0.2s ease;
+    display: inline-block;
+}
+
+.footer-links li a:hover {
+    color: #ffffff;
+    padding-right: 4px;                /* حرکت جزئی هنگام هاور */
+}
+
+/* ساعت کاری */
+.working-hours p {
+    font-size: 13px;
+    color: #adb5bd;
+    margin-bottom: 8px;
+    line-height: 1.6;
+}
+
+/* ردیف پایینی (کپی‌رایت و بازگشت به بالا) */
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 40px;
+    padding-top: 20px;
+}
+
+.footer-bottom .copyright {
+    font-size: 13px;
+    color: #868e96;
+}
+
+.back-to-top {
+    color: #adb5bd;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.back-to-top:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: #51cf66;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.flex-item-product::-webkit-scrollbar {
+  height: 5px;
+}
+.flex-item-product::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+/* Responsive layout */
+html,
+body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+.hero-container,
+#nav-section,
+#btn-categories,
+#search-input,
+#hero-title1,
+#hero-title2,
+.feature-left,
+.feature-right {
+  box-sizing: border-box;
+}
+
+#header-categories {
+  position: relative;
+  z-index: 20;
+  overflow: visible;
+}
+
+
+.flex-item-product {
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+}
+
+@media (max-width: 1200px) {
+  #nav-section {
+    gap: 16px;
+    padding-inline: 20px;
+  }
+
+  #search-input {
+    min-width: 0;
+  }
+
+  #btn-categories {
+    gap: clamp(16px, 4vw, 48px);
+    padding-inline: 20px;
+  }
+
+  .hero-container {
+    gap: 16px;
+    padding-inline: 20px;
+  }
+
+  #hero-right,
+  #hero-left {
+    display: flex;
+    align-items: center;
+    height: clamp(280px, 42vw, 420px);
+  }
+
+  #hero-title1,
+  #hero-title2 {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: clamp(16px, 3vw, 40px);
+  }
+
+  #hero-h1 {
+    font-size: clamp(28px, 4vw, 44px);
+    line-height: 1.4;
+  }
+
+  #hero-h2 {
+    font-size: clamp(22px, 3vw, 34px);
+    line-height: 1.4;
+  }
+
+  #hero-p {
+    font-size: clamp(16px, 2vw, 22px);
+    line-height: 1.7;
+  }
+
+  #hero-p2 {
+    font-size: clamp(14px, 1.7vw, 18px);
+    line-height: 1.7;
+  }
+
+  #cta {
+    margin-top: clamp(16px, 3vw, 28px);
+    padding: 12px 16px;
+    font-size: clamp(16px, 2.2vw, 20px);
+  }
+
+  .feature-left,
+  .feature-right {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  main {
+    padding-inline: 12px;
+  }
+
+  nav {
+    height: auto;
+    padding-block: 12px;
+  }
+
+  #nav-section {
+    flex-wrap: wrap;
+    row-gap: 12px;
+  }
+
+  #site-brand {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  #search-input {
+    order: 1;
+    flex: 1 0 100%;
+    width: 100%;
+  }
+
+  #shoping-card-btn {
+    flex: 0 0 auto;
+  }
+
+  #btn-categories {
+    flex-wrap: wrap;
+    width: 100%;
+    min-width: 0;
+    gap: 12px 20px;
+    padding: 10px 16px;
+    white-space: normal;
+  }
+
+  .hero-container {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  #hero-right,
+  #hero-left {
+    flex: none;
+    width: 100%;
+    height: clamp(220px, 62vw, 360px);
+    margin: 0;
+  }
+
+  #hero-title1,
+  #hero-title2 {
+    padding: clamp(16px, 5vw, 32px);
+  }
+
+  #hero-h1 {
+    font-size: clamp(24px, 6vw, 36px);
+  }
+
+  #hero-h2 {
+    font-size: clamp(20px, 5vw, 30px);
+  }
+
+  #hero-p {
+    font-size: clamp(14px, 3.8vw, 18px);
+  }
+
+  #hero-p2 {
+    font-size: clamp(13px, 3.4vw, 16px);
+  }
+
+  #cta {
+    margin-top: 16px;
+    padding: 10px 14px;
+    font-size: clamp(14px, 3.8vw, 18px);
+  }
+
+  .item {
+    padding-inline: clamp(12px, 4vw, 24px);
+  }
+
+  .feature-left,
+  .feature-right {
+    flex: none;
+    width: 100%;
+    height: clamp(180px, 42vw, 230px);
+    padding: 16px;
+    text-align: center;
+  }
+
+  .title-feature-left,
+  .title-feature-right {
+    max-width: 100%;
+    font-size: clamp(18px, 4vw, 24px);
+    line-height: 1.5;
+  }
+
+  .footer-container {
+    padding-inline: 20px;
+  }
+
+  .footer-bottom {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  #news {
+    font-size: 12px;
+  }
+
+  #logo {
+    width: 42px;
+  }
+
+  #title {
+    font-size: 14px;
+  }
+
+  #tagline {
+    font-size: 11px;
+  }
+
+  #shoping-card-btn {
+    padding: 8px;
+    font-size: 12px;
+  }
+
+  .flex-item-product {
+    gap: 12px;
+    scroll-snap-type: x mandatory;
+  }
+
+  .product-cart {
+    scroll-snap-align: start;
+  }
+
+  .flex-item-categories {
+    justify-content: center;
+  }
+
+  .img-categories {
+    width: 80px;
+  }
+
+  .footer-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 28px;
+  }
+
+  .footer-container {
+    padding-inline: 16px;
+  }
 }
