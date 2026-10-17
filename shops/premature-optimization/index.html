@@ -1,29 +1,812 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>سوپرمارکت بهینه‌سازی زودرس</title>
   <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
+  <meta name="author" content="Eleena">
   <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
   <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>🏎️ سلام دنیا!</h1>
-  </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>بهینه‌سازی زودرس</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p>دونالد کنوت سال ۱۹۷۴ نوشت: «بهینه‌سازی زودرس ریشه همه بدی‌هاست.» یعنی قبل از اینکه بدانی کجای برنامه واقعاً کند است، کد را برای سرعت پیچیده نکن. اول درست و خوانا بنویس، بعد اندازه بگیر، بعد فقط همان تکه کُند را سریع کن.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
+
+    <article class="announcement">
+      <svg class="announcement-icon">
+        <use href="./svgs/announcement.svg"></use>
+      </svg>
+      <p>ارسال رایگان برای خریدهای بالای ۱ میلیون تومان</p>
+    </article>
+
+    <!-- Logo & Title -->
+    <section class="header-part">
+      <section class="brand">
+        <svg class="logo">
+          <use href="./svgs/logo.svg"></use>
+        </svg>
+        <section class="page-brand">
+          <h1 class="page-title">سوپرینو</h1>
+          <p class="page-description">سوپرمارکتی تازه و نو</p>
+        </section>
+      </section>
+
+
+      <!-- Search -->
+      <section class="search">
+        <svg class="search-icon">
+          <use href="./svgs/search.svg"></use>
+        </svg>
+        <input class="search-entry" type="search" placeholder="جستجو در محصولات..." aria-label="جستجو در محصولات">
+      </section>
+
+
+      <!-- Cart Button -->
+      <button class="cart-button" type="button">
+        <svg class="cart-icon">
+          <use href="./svgs/cart.svg"></use>
+        </svg>
+        <span class="cart-text">سبد خرید</span>
+        <span class="cart-notification">0</span>
+      </button>
     </section>
+
+    <nav class="navigation">
+      <div class="menu-categories">
+        <span class="menu-categories-span">
+          <svg class="menu-categories-icon">
+            <use href="./svgs/categories.svg"></use>
+          </svg>
+          همه دسته‌ها
+        </span>
+        <div class="hidden-content">
+          <a class="hidden-content-links" href="">
+            لبنیات
+            <svg class="left-icon">
+              <use href="./svgs/left.svg"></use>
+            </svg>
+          </a>
+          <a class="hidden-content-links" href="">
+            تنقلات
+            <svg class="left-icon">
+              <use href="./svgs/left.svg"></use>
+            </svg>
+          </a>
+          <a class="hidden-content-links" href="">
+            نوشیدنی
+            <svg class="left-icon">
+              <use href="./svgs/left.svg"></use>
+            </svg>
+          </a>
+          <a class="hidden-content-links" href="">
+            خواربار و نان
+            <svg class="left-icon">
+              <use href="./svgs/left.svg"></use>
+            </svg>
+          </a>
+          <a class="hidden-content-links" href="">
+            میوه و سبزیجات
+            <svg class="left-icon">
+              <use href="./svgs/left.svg"></use>
+            </svg>
+          </a>
+          <a class="hidden-content-links" href="">
+            پروتئین و تخم‌مرغ
+            <svg class="left-icon">
+              <use href="./svgs/left.svg"></use>
+            </svg>
+          </a>
+          <a class="hidden-content-links" href="">
+            دستمال و شوینده
+            <svg class="left-icon">
+              <use href="./svgs/left.svg"></use>
+            </svg>
+          </a>
+          <a class="hidden-content-links" href="">
+            آرایشی و بهداشتی
+            <svg class="left-icon">
+              <use href="./svgs/left.svg"></use>
+            </svg>
+          </a>
+          <a class="hidden-content-links" href="">
+            کنسرو و غذای آماده
+            <svg class="left-icon">
+              <use href="./svgs/left.svg"></use>
+            </svg>
+          </a>
+          <a class="hidden-content-links" href="">
+            چاشنی و افزودنی
+            <svg class="left-icon">
+              <use href="./svgs/left.svg"></use>
+            </svg>
+          </a>
+          <a class="hidden-content-links" href="">
+            دسر و خشکبار
+            <svg class="left-icon">
+              <use href="./svgs/left.svg"></use>
+            </svg>
+          </a>
+          <a class="hidden-content-links" href="">
+            لوازم برقی
+            <svg class="left-icon">
+              <use href="./svgs/left.svg"></use>
+            </svg>
+          </a>
+        </div>
+      </div>
+      <a class="menu-texts" href="">پیشنهاد ویژه</a>
+      <a class="menu-texts" href="">نان تازه</a>
+      <a class="menu-texts" href="">لبنیات</a>
+      <a class="menu-texts" href="">تماس با ما</a>
+    </nav>
+
+  </header>
+
+  <main>
+
+    <!--Advertize-->
+    <section class="banner">
+      <article class="banner-fruit">
+        <section class="banner-content-fruit">
+          <h3 class="banner-title-fruit">
+            میوه‌های ارکانیگ، سبزی‌های تازه
+          </h3>
+          <p class="banner-details-fruit">
+            گل‌چین از بهترین باغ‌های اطراف
+          </p>
+          <button type="button" class="banner-button-fruit">
+            خرید میوه و سبزی
+          </button>
+        </section>
+        <svg class="banner-icon-fruit">
+          <use href="./svgs/bannerFruit.svg"></use>
+        </svg>
+      </article>
+
+      <article class="banner-sale">
+        <section class="banner-content-sale">
+          <h3 class="banner-title-sale">
+            ۲۰٪ تخفیف لبنیات
+          </h3>
+          <p class="banner-details-sale">
+            فقط تا پایان امروز
+          </p>
+          <button type="button" class="banner-button-sale">
+            دیدن محصولات
+          </button>
+        </section>
+        <svg class="banner-icon-sale">
+          <use href="./svgs/bannerDairy.svg"></use>
+        </svg>
+      </article>
+    </section>
+
+    <!--Categories-->
+    <section class="categories">
+      <h2 class="categories-title">
+        دسته‌بندی‌ها
+      </h2>
+      <section class="categories-section">
+        <a class="categories-box" href="">
+          <svg class="categories-icon">
+            <use href="./svgs/dairies.svg"></use>
+          </svg>
+          <p class="categories-name">لبنیات</p>
+        </a>
+        <a class="categories-box" href="">
+          <svg class="categories-icon">
+            <use href="./svgs/snacks.svg"></use>
+          </svg>
+          <p class="categories-name">تنقلات</p>
+        </a>
+        <a class="categories-box" href="">
+          <svg class="categories-icon">
+            <use href="./svgs/drinks.svg"></use>
+          </svg>
+          <p class="categories-name">نوشیدنی</p>
+        </a>
+        <a class="categories-box" href="">
+          <svg class="categories-icon">
+            <use href="./svgs/bread.svg"></use>
+          </svg>
+          <p class="categories-name">خواربار و نان</p>
+        </a>
+        <a class="categories-box" href="">
+          <svg class="categories-icon">
+            <use href="./svgs/fruits.svg"></use>
+          </svg>
+          <p class="categories-name">میوه و سبزیجات</p>
+        </a>
+        <a class="categories-box" href="">
+          <svg class="categories-icon">
+            <use href="./svgs/eggs.svg"></use>
+          </svg>
+          <p class="categories-name">پروتئین و تخم‌مرغ</p>
+        </a>
+        <a class="categories-box" href="">
+          <svg class="categories-icon">
+            <use href="./svgs/cleaner.svg"></use>
+          </svg>
+          <p class="categories-name">دستمال و شوینده</p>
+        </a>
+        <a class="categories-box" href="">
+          <svg class="categories-icon">
+            <use href="./svgs/makeup.svg"></use>
+          </svg>
+          <p class="categories-name">آرایشی و بهداشتی</p>
+        </a>
+        <a class="categories-box" href="">
+          <svg class="categories-icon">
+            <use href="./svgs/canned.svg"></use>
+          </svg>
+          <p class="categories-name">کنسرو و غذای آماده </p>
+        </a>
+        <a class="categories-box" href="">
+          <svg class="categories-icon">
+            <use href="./svgs/sauce.svg"></use>
+          </svg>
+          <p class="categories-name">چاشنی و افزودنی</p>
+        </a>
+        <a class="categories-box" href="">
+          <svg class="categories-icon">
+            <use href="./svgs/dessert.svg"></use>
+          </svg>
+          <p class="categories-name">دسر و خشکبار</p>
+        </a>
+        <a class="categories-box" href="">
+          <svg class="categories-icon">
+            <use href="./svgs/electronic.svg"></use>
+          </svg>
+          <p class="categories-name">لوازم برقی</p>
+        </a>
+      </section>
+    </section>
+
+
+    <!-- Recommendation Carousel -->
+    <section class="recommendation">
+
+      <h2 class="recommendation-title">
+        <svg class="fire-icon">
+          <use href="./svgs/fire.svg"></use>
+        </svg>
+        پیشنهاد ویژه
+      </h2>
+
+      <div class="carousel">
+        <input type="radio" name="carousel" id="slide-1" checked>
+        <input type="radio" name="carousel" id="slide-2">
+
+        <div class="carousel-viewport">
+          <div class="products">
+
+            <!-- Product 1 -->
+            <article class="product-item">
+              <span class="product-discount">۲۵٪</span>
+              <svg class="product-icon">
+                <use href="./svgs/peril.svg"></use>
+              </svg>
+              <p class="item-tag">دستمال و شوینده</p>
+              <h3 class="item-title">مایع لباسشویی پرسیل </h3>
+              <p class="item-description">
+                لاوندر - ۲.۷ کیلوگرمی
+              </p>
+              <p class="item-old-price">
+                ۸۱۶,۰۷۸
+              </p>
+              <div class="item-buy">
+                <span class="item-price">
+                  ۶۴۴,۷۰۲ تومان
+                </span>
+                <button class="buy-button" type="button">
+                  +
+                </button>
+              </div>
+            </article>
+
+            <!-- Product 2 -->
+            <article class="product-item">
+              <span class="product-discount">۳۱٪</span>
+              <svg class="product-icon">
+                <use href="./svgs/cheese.svg"></use>
+              </svg>
+              <p class="item-tag">لبنیات</p>
+              <h3 class="item-title">پنیر خامه‌ای پرچرب کاله</h3>
+              <p class="item-description">
+                پنج ستاره آمل کلاسیک 350 گرمی
+              </p>
+              <p class="item-old-price">
+                ۲۴۹,۰۰۰
+              </p>
+              <div class="item-buy">
+                <span class="item-price">
+                  ۱۷۱,۸۱۰ تومان
+                </span>
+                <button class="buy-button" type="button">
+                  +
+                </button>
+              </div>
+            </article>
+
+            <!-- Product 3 -->
+            <article class="product-item">
+              <span class="product-discount">۴۰٪</span>
+              <svg class="product-icon">
+                <use href="./svgs/nescafe.svg"></use>
+              </svg>
+              <p class="item-tag">نوشیدنی</p>
+              <h3 class="item-title">پودر کاپوچینو فوری نسکافه </h3>
+              <p class="item-description">
+                ۲۰ عددی
+              </p>
+              <p class="item-old-price">
+                ۱,۴۹۰,۰۰۰
+              </p>
+              <div class="item-buy">
+                <span class="item-price">
+                  ۸۹۴,۰۰۰ تومان
+                </span>
+                <button class="buy-button" type="button">
+                  +
+                </button>
+              </div>
+            </article>
+
+            <!-- Product 4 -->
+            <article class="product-item">
+              <span class="product-discount">۱۰٪</span>
+              <svg class="product-icon">
+                <use href="./svgs/chitoz.svg"></use>
+              </svg>
+              <p class="item-tag">تنقلات</p>
+              <h3 class="item-title">اسنک پنیری موتوری چی توز </h3>
+              <p class="item-description">
+                ۹۵ گرمی
+              </p>
+              <p class="item-old-price">
+                ۹۰,۰۰۰
+              </p>
+              <div class="item-buy">
+                <span class="item-price">
+                  ۸۱,۰۰۰ تومان
+                </span>
+                <button class="buy-button" type="button">
+                  +
+                </button>
+              </div>
+            </article>
+
+            <!-- Product 5 -->
+            <article class="product-item">
+              <span class="product-discount">۱۰٪</span>
+              <svg class="product-icon">
+                <use href="./svgs/banana.svg"></use>
+              </svg>
+              <p class="item-tag">میوه و سبزیجات</p>
+              <h3 class="item-title">موز</h3>
+              <p class="item-description">
+                ۱ کیلوگرمی
+              </p>
+              <p class="item-old-price">
+                ۵۷۰,۰۰۰
+              </p>
+              <div class="item-buy">
+                <span class="item-price">
+                  ۵۱۳,۰۰۰ تومان
+                </span>
+                <button class="buy-button" type="button">
+                  +
+                </button>
+              </div>
+            </article>
+
+            <!-- Product 6 -->
+            <article class="product-item">
+              <span class="product-discount">۲٪</span>
+              <svg class="product-icon">
+                <use href="./svgs/suassage.svg"></use>
+              </svg>
+              <p class="item-tag">پروتئین و تخم‌مرغ </p>
+              <h3 class="item-title">کوکتل ژاپنی گوشت ۲۰۲</h3>
+              <p class="item-description">
+                گوشت ۶۰٪ - ۵۰۰ گرمی
+              </p>
+              <p class="item-old-price">
+                ۷۸۵,۰۰۰
+              </p>
+              <div class="item-buy">
+                <span class="item-price">
+                  ۷۴۲,۸۴۰ تومان
+                </span>
+                <button class="buy-button" type="button">
+                  +
+                </button>
+              </div>
+            </article>
+
+            <!-- Product 7 -->
+            <article class="product-item">
+              <span class="product-discount">۳۵٪</span>
+              <svg class="product-icon">
+                <use href="./svgs/battery.svg"></use>
+              </svg>
+              <p class="item-tag">لوازم برقی</p>
+              <h3 class="item-title">باتری قلمی موربیت</h3>
+              <p class="item-description">
+                دو عدد
+              </p>
+              <p class="item-old-price">
+                ۱۲۹,۸۰۰
+              </p>
+              <div class="item-buy">
+                <span class="item-price">
+                  ۸۴,۳۷۰ تومان
+                </span>
+                <button class="buy-button" type="button">
+                  +
+                </button>
+              </div>
+            </article>
+
+            <!-- Product 8 -->
+            <article class="product-item">
+              <span class="product-discount">۱۴٪</span>
+              <svg class="product-icon">
+                <use href="./svgs/noodle.svg"></use>
+              </svg>
+              <p class="item-tag">کنسرو و غذای آماده</p>
+              <h3 class="item-title">نودل قارچ و پنیر الیت</h3>
+              <p class="item-description">
+                ۷۵ گرمی
+              </p>
+              <p class="item-old-price">
+                ۶۵,۰۰۰
+              </p>
+              <div class="item-buy">
+                <span class="item-price">
+                  ۵۵,۹۰۰ تومان
+                </span>
+                <button class="buy-button" type="button">
+                  +
+                </button>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Next buttons -->
+        <div class="carousel-controls">
+          <label class="prev-button prev-2" for="slide-1">
+            →
+          </label>
+
+          <label class="next-button next-1" for="slide-2">
+            ←
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!--Banners-->
+    <section class="banner-down">
+      <article class="banner-bread">
+        <section class="banner-content-bread">
+          <h3 class="banner-title-bread">
+            نان داغ تازه
+          </h3>
+          <p class="banner-details-bread">
+            هر روز ۷ صبح تا ۱۱ صبح
+          </p>
+        </section>
+        <svg class="banner-icon-bread">
+          <use href="./svgs/bread-banner.svg"></use>
+        </svg>
+      </article>
+
+      <article class="banner-breakfast">
+        <section class="banner-content-breakfast">
+          <h3 class="banner-title-breakfast">
+            سبد صبحانه خانواده
+          </h3>
+          <p class="banner-details-breakfast">
+            تخفیف محصولات صبحانه برای خانواده‌های بالای دو نفر
+          </p>
+        </section>
+        <svg class="banner-icon-breakfast">
+          <use href="./svgs/breakfast.svg"></use>
+        </svg>
+      </article>
+    </section>
+
+
+    <section class="recommendation">
+
+      <h2 class="recommendation-title">
+        لبنیات
+      </h2>
+
+      <div class="dairy-carousel">
+        <input type="radio" name="dairy-carousel" id="slide-2-1" checked>
+        <input type="radio" name="dairy-carousel" id="slide-2-2">
+
+        <div class="dairy-carousel-viewport">
+          <div class="products">
+
+            <!-- Product 1 -->
+            <article class="product-item">
+              <span class="product-discount">۳۱٪</span>
+              <svg class="product-icon">
+                <use href="./svgs/cheese.svg"></use>
+              </svg>
+              <p class="item-tag">لبنیات</p>
+              <h3 class="item-title">پنیر خامه‌ای پرچرب کاله</h3>
+              <p class="item-description">
+                پنج ستاره آمل کلاسیک 350 گرمی
+              </p>
+              <p class="item-old-price">
+                ۲۴۹,۰۰۰
+              </p>
+              <div class="item-buy">
+                <span class="item-price">
+                  ۱۷۱,۸۱۰ تومان
+                </span>
+                <button class="buy-button" type="button">
+                  +
+                </button>
+              </div>
+            </article>
+
+            <!-- Product 2 -->
+            <article class="product-item">
+              <img class="product-icon" src="./svgs/milk.png" alt="milk">
+              <h3 class="item-title">شیر پرچرب مدت دار میهن </h3>
+              <p class="item-description">
+                ۱ لیتری
+              </p>
+              <div class="item-buy">
+                <span class="item-price">
+                  ۱۶۰,۰۰۰ تومان
+                </span>
+                <button class="buy-button" type="button">
+                  +
+                </button>
+              </div>
+            </article>
+
+            <!-- Product 3 -->
+            <article class="product-item">
+              <img class="product-icon" src="./svgs/yogurt.png" alt="yogurt">
+              <h3 class="item-title">ماست موسیر چکیده پرچرب کاله</h3>
+              <p class="item-description">
+                ۲۵۰ گرمی
+              </p>
+              <div class="item-buy">
+                <span class="item-price">
+                  ۱۲۵,۰۰۰ تومان
+                </span>
+                <button class="buy-button" type="button">
+                  +
+                </button>
+              </div>
+            </article>
+
+            <!-- Product 4 -->
+            <article class="product-item">
+              <span class="product-discount">۳۱٪</span>
+              <svg class="product-icon">
+                <use href="./svgs/cheese.svg"></use>
+              </svg>
+              <p class="item-tag">لبنیات</p>
+              <h3 class="item-title">پنیر خامه‌ای پرچرب کاله</h3>
+              <p class="item-description">
+                پنج ستاره آمل کلاسیک 350 گرمی
+              </p>
+              <p class="item-old-price">
+                ۲۴۹,۰۰۰
+              </p>
+              <div class="item-buy">
+                <span class="item-price">
+                  ۱۷۱,۸۱۰ تومان
+                </span>
+                <button class="buy-button" type="button">
+                  +
+                </button>
+              </div>
+            </article>
+
+            <!-- Product 5 -->
+            <article class="product-item">
+              <span class="product-discount">۳۱٪</span>
+              <svg class="product-icon">
+                <use href="./svgs/cheese.svg"></use>
+              </svg>
+              <p class="item-tag">لبنیات</p>
+              <h3 class="item-title">پنیر خامه‌ای پرچرب کاله</h3>
+              <p class="item-description">
+                پنج ستاره آمل کلاسیک 350 گرمی
+              </p>
+              <p class="item-old-price">
+                ۲۴۹,۰۰۰
+              </p>
+              <div class="item-buy">
+                <span class="item-price">
+                  ۱۷۱,۸۱۰ تومان
+                </span>
+                <button class="buy-button" type="button">
+                  +
+                </button>
+              </div>
+            </article>
+
+            <!-- Product 6 -->
+            <article class="product-item">
+              <span class="product-discount">۳۱٪</span>
+              <svg class="product-icon">
+                <use href="./svgs/cheese.svg"></use>
+              </svg>
+              <p class="item-tag">لبنیات</p>
+              <h3 class="item-title">پنیر خامه‌ای پرچرب کاله</h3>
+              <p class="item-description">
+                پنج ستاره آمل کلاسیک 350 گرمی
+              </p>
+              <p class="item-old-price">
+                ۲۴۹,۰۰۰
+              </p>
+              <div class="item-buy">
+                <span class="item-price">
+                  ۱۷۱,۸۱۰ تومان
+                </span>
+                <button class="buy-button" type="button">
+                  +
+                </button>
+              </div>
+            </article>
+
+            <!-- Product 7 -->
+            <article class="product-item">
+              <span class="product-discount">۳۱٪</span>
+              <svg class="product-icon">
+                <use href="./svgs/cheese.svg"></use>
+              </svg>
+              <p class="item-tag">لبنیات</p>
+              <h3 class="item-title">پنیر خامه‌ای پرچرب کاله</h3>
+              <p class="item-description">
+                پنج ستاره آمل کلاسیک 350 گرمی
+              </p>
+              <p class="item-old-price">
+                ۲۴۹,۰۰۰
+              </p>
+              <div class="item-buy">
+                <span class="item-price">
+                  ۱۷۱,۸۱۰ تومان
+                </span>
+                <button class="buy-button" type="button">
+                  +
+                </button>
+              </div>
+            </article>
+
+            <!-- Product 8 -->
+            <article class="product-item">
+              <span class="product-discount">۳۱٪</span>
+              <svg class="product-icon">
+                <use href="./svgs/cheese.svg"></use>
+              </svg>
+              <p class="item-tag">لبنیات</p>
+              <h3 class="item-title">پنیر خامه‌ای پرچرب کاله</h3>
+              <p class="item-description">
+                پنج ستاره آمل کلاسیک 350 گرمی
+              </p>
+              <p class="item-old-price">
+                ۲۴۹,۰۰۰
+              </p>
+              <div class="item-buy">
+                <span class="item-price">
+                  ۱۷۱,۸۱۰ تومان
+                </span>
+                <button class="buy-button" type="button">
+                  +
+                </button>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Next buttons -->
+        <div class="dairy-carousel-controls">
+          <label class="dairy-prev-button prev-2" for="slide-2-1">
+            →
+          </label>
+
+          <label class="dairy-next-button next-1" for="slide-2-2">
+            ←
+          </label>
+        </div>
+      </div>
+    </section>
+
+
+
   </main>
+
+
   <footer>
-    <p dir="ltr">slug: <code>premature-optimization</code></p>
+    <div class="upper">
+      <!-- About Us -->
+      <section class="about-us">
+        <h4 class="upper-titles">
+          سوپرینو
+        </h4>
+        <section class="about-details">
+          <p>کالاهای باکیفیت و تازه با قیمتی منصفانه</p>
+          <section class="address">
+            <svg class="address-icon">
+              <use href="./svgs/address.svg"></use>
+            </svg>
+            <address> تهران، خیابان استاد معین، پلاک ۳۸</address>
+          </section>
+          <section class="phone-number">
+            <svg class="phone-icon">
+              <use href="./svgs/phone.svg"></use>
+            </svg>
+            <p class="number">۲۱-۶۶۵۶۲۲۱۰+</p>
+          </section>
+        </section>
+      </section>
+
+      <!-- Links to Categories -->
+      <section class="links-categories">
+        <h4 class="upper-titles">
+          دسته‌ها
+        </h4>
+        <section class="links-link">
+          <a href="">لبنیات</a>
+          <a href="">تنقلات</a>
+          <a href="">نوشیدنی</a>
+          <a href="">خواربار و نان</a>
+          <a href="">میوه و سبزیجات</a>
+          <a href="">پروتئین و تخم‌مرغ</a>
+          <a href="">دستمال و شوینده</a>
+          <a href="">آرایشی و بهداشتی</a>
+          <a href="">کنسرو و غذای آماده </a>
+          <a href="">چاشنی و افزودنی</a>
+          <a href="">دسر و خشکبار</a>
+          <a href="">لوازم برقی</a>
+        </section>
+      </section>
+
+      <!-- Work Hours -->
+      <section class="hours">
+        <h4 class="upper-titles">
+          ساعت کاری
+        </h4>
+        <section class="hours-details">
+          <p>شنبه تا چهارشنبه: ۸ تا ۲۲</p>
+          <p>پنجشنبه و جمعه: ۱۰ تا ۲۰</p>
+        </section>
+      </section>
+    </div>
+
+    <!-- Copy right & Back to up -->
+    <section class="down">
+      <section class="copyright">
+        <p>
+          <svg class="copyright-icon">
+            <use href="./svgs/copyright.svg"></use>
+          </svg>
+          ۱۴۰۵ سوپرینو، سوپرمارکتی تازه و نو
+        </p>
+      </section>
+      <section class="back-tp-up">
+        <a class="up" href="">بازگشت به بالا</a>
+        <svg class="up-icon">
+          <use href="./svgs/up.svg"></use>
+        </svg>
+      </section>
+    </section>
   </footer>
 </body>
+
 </html>
