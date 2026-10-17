@@ -322,21 +322,6 @@ function renderLinks(list, items) {
     });
 }
 
-/* hero and side banner */
-function renderBanner(section, banner) {
-    const title = section.querySelector("h2");
-    const text = section.querySelector("p");
-    const link = section.querySelector("a");
-    const emoji = section.querySelector("span")
-
-    title.textContent = banner.title;
-    emoji.textContent = banner.emoji
-    emoji.append(title);
-    text.textContent = banner.text;
-    link.textContent = banner.cta.label;
-    link.href = banner.cta.href;
-}
-
 /* promos */
 function renderPromos(container, promos) {
     container.replaceChildren();
@@ -353,6 +338,7 @@ function renderPromos(container, promos) {
     });
 }
 
+/* hero and side banner */
 function renderBanner(section, banner) {
     const title = section.querySelector("h2");
     const text = section.querySelector("p");
