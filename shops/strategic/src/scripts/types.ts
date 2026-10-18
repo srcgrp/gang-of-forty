@@ -1,3 +1,7 @@
+/* Amirhossein (Armin) Panahi */
+/* Week 3 - Strategic Supermarket - TS & Vite */
+
+
 export type Product = {
   id: number;
   categoryId: number;

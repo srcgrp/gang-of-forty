@@ -1,7 +1,10 @@
-/* Amirhossein (Armin) Panahi | Week 3: TypeScript + Vite */
+/* Amirhossein (Armin) Panahi */
+/* Week 3 - Strategic Supermarket - TS & Vite */
 
 
 
+
+// ===== Imports =====
 import confetti from 'canvas-confetti';
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
@@ -15,12 +18,13 @@ import type {
   ShopModel,
 } from './types';
 
-// ===== 1. Config =====
-const SLOW_AFTER_MS: number = 3000;     // "the connection is slow" message
-const SEARCH_DELAY_MS: number = 150;    // wait for the visitor to pause typing
+
+// ===== Config =====
+const SLOW_AFTER_MS: number = 3000;
+const SEARCH_DELAY_MS: number = 150;
 const CART_KEY: string = 'armin-market:cart';
-const OFFERS_VIEW: string = 'offers';   // ?cat=offers lists every discounted product
-const SHOW_REMAINING_CATEGORIES: boolean = true; // categories that home.json does not list still get their own shelf
+const OFFERS_VIEW: string = 'offers';   
+const SHOW_REMAINING_CATEGORIES: boolean = true; 
 const IMG: string = './assets/images/';
 
 const BRAND = {
@@ -39,8 +43,7 @@ const BRAND = {
   copyright: '© ۱۴۰۵ تمامی حقوق برای سوپرمارکت آرمین محفوظ است.',
 };
 
-// Every emoji of the API is replaced by one of these images. Tables are matched on the
-// normalised text (see searchKey): the first match wins, `null` = "no image on purpose".
+
 type HeroArt = readonly [name: string, alt: string, width: number, height: number];
 type ProductArtRule = readonly [file: string | null, pattern: RegExp];
 type CategoryArtRule = readonly [file: string, slugPattern: RegExp, namePattern: RegExp];
@@ -109,7 +112,6 @@ const PRODUCT_ART: ProductArtRule[] = [
   ['cucumber', /خیار/],
 ];
 
-// [image, matched on the slug, matched on the Persian name]
 const CATEGORY_ART: CategoryArtRule[] = [
   ['produce', /fruit|produce|vegetable/i, /میوه|سبزی/],
   ['dairy', /dairy/i, /لبنیات/],
@@ -120,7 +122,6 @@ const CATEGORY_ART: CategoryArtRule[] = [
   ['snacks', /snack/i, /تنقلات/],
 ];
 
-// [image, text test, width, height]
 const BANNER_ART: BannerArt[] = [
   ['hero/breakfast-basket.webp', /صبحانه/, 1536, 1024],
   ['hero/hot-bread.webp', /نان|شیرینی/, 1536, 1024],
@@ -137,7 +138,7 @@ const ERROR_TEXT: Record<ApiError['kind'], string> = {
 };
 
 
-// ===== 2. DOM references & helpers =====
+// ===== DOM References & Helpers =====
 const $ = <T extends Element>(selector: string, root: ParentNode = document): T | null => root.querySelector<T>(selector);
 
 function required<T extends Element>(selector: string, root: ParentNode = document): T {
@@ -146,7 +147,7 @@ function required<T extends Element>(selector: string, root: ParentNode = docume
   return node;
 }
 
-// Looked up once; every later read uses these
+// ===== Looked Up Once =====
 const dom = {
   main: required<HTMLElement>('#main'),
   live: required<HTMLElement>('#live'),
@@ -171,16 +172,12 @@ const dom = {
 
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const coarsePointer = window.matchMedia('(pointer: coarse)');
-
 const SVG_NS = 'http://www.w3.org/2000/svg';
-
 const numberFa = new Intl.NumberFormat('fa-IR');
 const formatNumber = (value: number) => numberFa.format(value);
 const formatPrice = (value: number) => `${numberFa.format(value)} تومان`;
 const toFaDigits = (value: string | number): string => String(value).replace(/\d/g, (digit) => '۰۱۲۳۴۵۶۷۸۹'[Number(digit)] ?? digit);
 
-// Build an element. Text is ALWAYS set as plain text (textContent / text nodes), never parsed as HTML.
-// props: { class, text, HTML attributes } · children: nodes/text (null/false are skipped)
 type ElementProps = Record<string, string | number | boolean | null | undefined>;
 type Child = Node | string | number | false | null | undefined;
 type Children = Child | readonly Child[];
@@ -218,7 +215,6 @@ function icon(name: string, extraClass = ''): SVGSVGElement {
   return svg;
 }
 
-// <img> with its real size (no layout shift); `priority` marks the one image that matters for the first paint
 type ImageOptions = { alt?: string; width?: number; height?: number; className?: string; lazy?: boolean; priority?: boolean };
 
 function image(src: string, { alt = '', width, height, className, lazy = true, priority = false }: ImageOptions = {}): HTMLImageElement {
@@ -234,11 +230,10 @@ function image(src: string, { alt = '', width, height, className, lazy = true, p
   });
 }
 
-// Persian text from the API may carry emoji; the shop never shows emoji
 const stripEmoji = (text: unknown) =>
   String(text ?? '').replace(/[\p{Extended_Pictographic}\uFE0F\u200D]/gu, '').replace(/\s+/g, ' ').trim();
 
-// Only in-page / relative links, http(s), mailto and tel are allowed from data
+
 function safeHref(href: string | null | undefined): string {
   if (!href) return '#';
   try {
@@ -252,7 +247,6 @@ function safeHref(href: string | null | undefined): string {
 const safeColor = (value: unknown): string | null =>
   typeof value === 'string' && /^#[0-9a-f]{3,8}$/i.test(value) ? value : null;
 
-// Screen-reader announcements (the empty-then-fill trick makes a repeated message read again)
 let liveTimer: number | undefined;
 function announce(message: string): void {
   clearTimeout(liveTimer);
@@ -261,9 +255,7 @@ function announce(message: string): void {
 }
 
 
-// ===== 3. Text & art helpers =====
-// Persian/Arabic letter variants, diacritics, the half-space and the two digit styles are made equal.
-// Used for the search AND for matching a product name with its image.
+// ===== Text & Art Helpers =====
 const searchKey = (value: unknown): string =>
   String(value ?? '')
     .replace(/[يى]/g, 'ی')
@@ -278,15 +270,12 @@ const searchKey = (value: unknown): string =>
     .toLowerCase();
 
 const findProductArt = (key: string): string | null => PRODUCT_ART.find(([, test]) => test.test(key))?.[0] ?? null;
-
 const findCategoryArt = (category: Category): string | null => {
   const name = searchKey(category.name);
   return CATEGORY_ART.find(([, slugTest, nameTest]) => slugTest.test(category.slug) || nameTest.test(name))?.[0] ?? null;
 };
 
 const findBannerArt = (text: string): BannerArt => BANNER_ART.find(([, test]) => test !== null && test.test(text)) ?? FALLBACK_BANNER;
-
-// Discounted prices are rounded to the nearest 1,000 Toman (like the sample page)
 const salePrice = (price: number, percent: number): number => Math.min(price, Math.round((price * (100 - percent)) / 100 / 1000) * 1000);
 
 
@@ -306,20 +295,20 @@ const createEmptyModel = (): ShopModel => ({
 
 let model: ShopModel = createEmptyModel();
 let modelReady = false;
-let cart: Record<string, number> = loadCart(); // product id -> quantity
+let cart: Record<string, number> = loadCart(); 
 const notyf = new Notyf({ duration: 2200, position: { x: 'left', y: 'bottom' }, dismissible: true, ripple: false });
 
 const ui: { renderedSearch: string; cartPinned: boolean; cartCloseTimer: number; searchTimer: number; pendingQuery: string; scrollFrame: number } = {
-  renderedSearch: location.search, // the ?query of the view on screen
-  cartPinned: false,               // the cart summary was opened by a click and stays open
+  renderedSearch: location.search, 
+  cartPinned: false,   
   cartCloseTimer: 0,
   searchTimer: 0,
-  pendingQuery: '',                // typed before the data arrived
+  pendingQuery: '',        
   scrollFrame: 0,
 };
 
 
-// ===== 4. Cart (localStorage) =====
+// ===== Cart (localStorage) =====
 function loadCart(): Record<string, number> {
   try {
     const stored = localStorage.getItem(CART_KEY);
@@ -332,7 +321,7 @@ function loadCart(): Record<string, number> {
     }
     return clean;
   } catch {
-    return {}; // empty, blocked or corrupted storage: start with an empty cart
+    return {}; 
   }
 }
 
@@ -340,7 +329,7 @@ function saveCart(): void {
   try {
     localStorage.setItem(CART_KEY, JSON.stringify(cart));
   } catch {
-    /* storage is full or blocked: the cart still works until the page closes */
+    /* Storage Is Full or Blocked... */
   }
 }
 
@@ -353,12 +342,12 @@ function renderCartBadge(bump = false): void {
   dom.cartButton.setAttribute('aria-label', `سبد خرید، ${formatNumber(count)} کالا`);
   if (bump) {
     dom.cartCount.classList.remove('is-bump');
-    void dom.cartCount.offsetWidth; // restart the CSS animation
+    void dom.cartCount.offsetWidth; 
     dom.cartCount.classList.add('is-bump');
   }
 }
 
-// The only place where the cart changes: + / - / trash all end up here
+
 function setQty(id: number, wanted: number, source: 'add-button' | 'stepper' = 'stepper'): void {
   const item = model.items.get(id);
   if (!item) return;
@@ -388,7 +377,7 @@ function setQty(id: number, wanted: number, source: 'add-button' | 'stepper' = '
     : `تعداد ${name} در سبد: ${formatNumber(after)}. کل کالاهای سبد: ${formatNumber(cartCount())}`);
 }
 
-// Products that disappeared (or ran out) since the last visit must not stay in the cart
+
 function reconcileCart(): void {
   let changed = false;
   for (const id of Object.keys(cart)) {
@@ -401,8 +390,7 @@ function reconcileCart(): void {
 }
 
 
-// ===== 5. Loading data =====
-// Promise.race: if the answer takes longer than SLOW_AFTER_MS, tell the visitor, then keep waiting
+// ===== Loading Data =====
 const SLOW = Symbol('slow');
 async function loadWithSlowNotice(onSlow: () => void): Promise<ApiData> {
   const request = loadApiData();
@@ -421,8 +409,7 @@ async function loadWithSlowNotice(onSlow: () => void): Promise<ApiData> {
 }
 
 
-// ===== 6. Model: join the files by id (Maps), compute everything once =====
-// A file can be valid JSON and still have the wrong shape
+// ===== Model =====
 function buildModel(raw: ApiData): ShopModel {
   const { products, categories, offers, shop, home } = raw;
 
@@ -434,7 +421,6 @@ function buildModel(raw: ApiData): ShopModel {
     return Number.isFinite(value) && value > 0 ? value : 0;
   };
 
-  // one "item" per product: everything a card needs, joined from the four files
   const items = new Map<number, ProductItem>();
   const itemsByCategory = new Map<number, ProductItem[]>(categories.map((category): [number, ProductItem[]] => [category.id, []]));
   const searchIndex: SearchIndexEntry[] = [];
@@ -482,9 +468,7 @@ function buildModel(raw: ApiData): ShopModel {
   };
 }
 
-// A product matches when EVERY word of the query is found in its name, unit or tags.
-// The category name only counts as a whole word, so «شیر» does not pull in all of «نان و شیرینی».
-// Products whose name contains all the words come first (the sort is stable).
+
 function searchProducts(query: string): ProductItem[] {
   const terms = searchKey(query).split(' ').filter(Boolean);
   if (!terms.length) return [];
@@ -496,18 +480,16 @@ function searchProducts(query: string): ProductItem[] {
 }
 
 
-// ===== 7. Views: pieces =====
+// ===== Views: Pieces =====
 const catalogUrl = (slug: string): string => `?cat=${encodeURIComponent(slug)}`;
-
 const placeholderPic = () => el('span', { class: 'pic__empty' }, [icon('bag')]);
 
-// A category's round picture (null when the category has none)
 function categoryImage(category: Category, className: string, lazy = true): HTMLImageElement | null {
   const art = model.categoryArt.get(category.id);
   return art ? image(`${IMG}categories/${art}.webp`, { className, width: 96, height: 96, lazy }) : null;
 }
 
-// ----- The capsule:  [ + | 1 | trash ]  (trash at 1, minus above 1). Built the first time a product enters the cart. -----
+// ===== The Capsule =====
 function stepper(product: Product): HTMLDivElement {
   return el('div', { class: 'stepper', role: 'group', 'aria-label': `تعداد ${product.name} در سبد خرید`, 'data-id': product.id }, [
     // RTL: the first child is on the right, so "+" sits on the right and the trash on the left
@@ -531,7 +513,7 @@ function updateStepper(box: HTMLElement, item: ProductItem, quantity: number): v
   else inc.removeAttribute('aria-disabled');
 }
 
-// A card's control: the round "+" while the product is not in the cart, the capsule once it is
+// ===== Card's Control =====
 function buyControl(product: Product, soldOut: boolean): HTMLDivElement {
   return el('div', { class: 'buy__control', 'data-id': product.id }, [
     el('button', {
@@ -551,7 +533,7 @@ function updateSlot(slot: HTMLElement): void {
   if (!item) return;
   const quantity = qtyOf(id);
   let box = $<HTMLDivElement>('.stepper', slot);
-  if (!box && quantity === 0) return; // still showing the round "+": nothing to change
+  if (!box && quantity === 0) return; 
   const add = $<HTMLButtonElement>('.add', slot);
   if (!add) return;
 
@@ -567,7 +549,7 @@ function updateSlot(slot: HTMLElement): void {
   box.hidden = quantity === 0;
   if (quantity > 0) updateStepper(box, item, quantity);
 
-  if (hadFocus) { // the focused button may have just been hidden: keep the keyboard where it was
+  if (hadFocus) { 
     const next = quantity === 0 ? add : $<HTMLButtonElement>(pressed === 'dec' ? '[data-step="dec"]' : '[data-step="inc"]', box);
     next?.focus({ preventScroll: true });
   }
@@ -581,12 +563,11 @@ function syncAllControls(): void {
   document.querySelectorAll<HTMLElement>('.buy__control').forEach(updateSlot);
 }
 
-// after a page is drawn every control starts as "+": only the products in the cart need work
 function syncCartControls(): void {
   Object.keys(cart).forEach((id) => syncControls(Number(id)));
 }
 
-// ----- One product card: <li class="card"><article class="card__body"> ... </article></li> -----
+// ===== Product Card =====
 function productCard(item: ProductItem): HTMLLIElement {
   const { product, art, soldOut, percent, oldPrice, price } = item;
 
@@ -611,7 +592,6 @@ function productCard(item: ProductItem): HTMLLIElement {
   ]);
 }
 
-// The last card of a carousel: "مشاهده همه" (opens ?cat=<slug>)
 const seeAllCard = (slug: string, title: string): HTMLLIElement =>
   el('li', { class: 'card card--all' }, [
     el('a', { class: 'offer-all', href: catalogUrl(slug), 'data-route': true }, [
@@ -628,11 +608,13 @@ const arrowButton = (direction: number, label: string, extraClass: string): HTML
     'aria-label': label,
   }, [icon('arrow-right')]);
 
-// ----- Carousel behaviour (one click = one card) -----
+
+// ===== Carousel Behaviour =====
 const carouselScroller = (section: Element | null): HTMLElement | null =>
   section ? $<HTMLElement>('.offers__scroller, .rail', section) : null;
-const carouselUpdaters = new WeakMap<HTMLElement, () => void>(); // scroller -> function that refreshes its arrows
-// ONE observer for every carousel; it is disconnected whenever the page is redrawn
+
+const carouselUpdaters = new WeakMap<HTMLElement, () => void>();
+
 const carouselObserver = new ResizeObserver((entries: ResizeObserverEntry[]) => {
   for (const { target } of entries) {
     if (target instanceof HTMLElement) carouselUpdaters.get(target)?.();
@@ -644,7 +626,6 @@ function initCarousel(section: HTMLElement): void {
   if (!scroller) return;
   const buttons = [...section.querySelectorAll<HTMLButtonElement>('button[data-dir]')];
 
-  // the arrows are disabled at the two ends (scrollLeft is 0 at the start in LTR and RTL alike)
   const update = () => {
     const max = scroller.scrollWidth - scroller.clientWidth;
     const position = Math.abs(scroller.scrollLeft);
@@ -673,11 +654,11 @@ function scrollCarousel(section: HTMLElement | null, direction: number): void {
   const gap = parseFloat(getComputedStyle(cardParent).columnGap) || 12;
   const step = card.getBoundingClientRect().width + gap;
   const rtl = getComputedStyle(scroller).direction === 'rtl';
-  scroller.scrollBy({ left: direction * (rtl ? -1 : 1) * step }); // smooth when the visitor allows motion (see CSS)
+  scroller.scrollBy({ left: direction * (rtl ? -1 : 1) * step }); 
 }
 
 
-// ----- Header -----
+// ===== Header =====
 function renderNotice(): void {
   const text = stripEmoji(model.shop.notice);
   dom.notice.replaceChildren(...(text ? [icon('truck', 'icon--mirror'), el('span', { text })] : []));
@@ -701,8 +682,7 @@ function renderNav(): void {
 }
 
 
-// ----- Hero (home.json -> hero + side) -----
-// the discounted, in-stock product that is also pictured in the hero art (the biggest discount wins)
+// ===== Hero =====
 function heroTag(): ProductItem | null {
   let best = null;
   for (const item of model.offerItems) {
@@ -759,12 +739,12 @@ function renderHero(): HTMLElement {
 }
 
 
-// ----- Categories grid (categories.json) -----
+// ===== Categories Grid =====
 function renderCategories(): HTMLElement {
   const tiles = model.categories.map((category) => {
     const color = safeColor(category.color);
     const iconBox = el('span', { class: 'cat__icon-wrap' }, [categoryImage(category, 'cat__icon', false) ?? icon('bag')]);
-    if (color) iconBox.style.setProperty('--cat-bg', color); // CSSOM, not an inline attribute in the HTML
+    if (color) iconBox.style.setProperty('--cat-bg', color); 
     return el('li', {}, [el('a', { class: 'cat', href: `#${category.slug}` }, [iconBox, category.name])]);
   });
 
@@ -775,7 +755,7 @@ function renderCategories(): HTMLElement {
 }
 
 
-// ----- Carousels (home.json -> carousels) and promo banners (home.json -> promos) -----
+// ===== Carousels =====
 function offersCarousel(def: ShopModel['carousels'][number]): HTMLElement {
   const title = stripEmoji(def.title);
   const words = title.split(' ').flatMap((word, index) => (index ? [' ', el('span', { text: word })] : [el('span', { text: word })]));
@@ -811,8 +791,7 @@ function categoryCarousel(id: string, category: Category, title: string): HTMLEl
   ]);
 }
 
-// The order and the content of the carousels come from home.json.
-// A new entry in home.json -> a new carousel, with no change in the HTML.
+
 function renderCarousels(): HTMLElement[] {
   const sections: HTMLElement[] = [];
   const usedIds = new Set<string>(['categories', 'contact', 'top', 'main']);
@@ -832,7 +811,6 @@ function renderCarousels(): HTMLElement[] {
     }
   }
 
-  // Every category tile links to #<slug>, so every category needs a section to land on
   if (SHOW_REMAINING_CATEGORIES) {
     for (const category of model.categories) {
       if (!coveredCategories.has(category.id) && !usedIds.has(category.slug)) {
@@ -843,7 +821,6 @@ function renderCarousels(): HTMLElement[] {
   return sections;
 }
 
-// Promo banners sit after the first carousel, like the sample page
 function renderPromos(): HTMLElement | null {
   const promos = Array.isArray(model.home.promos) ? model.home.promos : [];
   if (!promos.length) return null;
@@ -856,7 +833,7 @@ function renderPromos(): HTMLElement | null {
 }
 
 
-// ----- Footer (brand data + categories.json + shop.json) -----
+// ===== Footer =====
 function renderFooterBrand(): void {
   const { footer } = dom;
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(BRAND.address)}`;
@@ -880,7 +857,7 @@ function renderFooterBrand(): void {
   footer.social.replaceChildren(...BRAND.social.map((net) =>
     el('li', {}, [el('a', { href: net.href }, [icon(net.icon), ` ${net.label}`])])));
 
-  footer.copy.textContent = BRAND.copyright; // our own line, not the sample shop's
+  footer.copy.textContent = BRAND.copyright;
 }
 
 function renderFooterData(): void {
@@ -892,7 +869,6 @@ function renderFooterData(): void {
   footer.cats.replaceChildren(...model.categories.map((category) =>
     el('li', {}, [el('a', { href: `#${category.slug}`, text: category.name })])));
 
-  // help links with a real address are links; "#" placeholders stay plain text
   footer.help.replaceChildren(...(Array.isArray(shop.help) ? shop.help : []).map((item) => {
     const label = stripEmoji(item.label);
     return el('li', {}, [item.href && item.href !== '#' ? el('a', { href: safeHref(item.href), text: label }) : label]);
@@ -903,7 +879,7 @@ function renderFooterData(): void {
 }
 
 
-// ===== 8. Views: pages (each returns { title, nodes }; title null = the home page) =====
+// ===== Views =====
 function renderHome(): { title: null; nodes: HTMLElement[] } {
   const sections = renderCarousels();
   const promos = renderPromos();
@@ -911,14 +887,11 @@ function renderHome(): { title: null; nodes: HTMLElement[] } {
   return { title: null, nodes: [renderHero(), renderCategories(), ...sections] };
 }
 
-// "بازگشت": goes back to the page the visitor came from (the home page, at the same scroll position).
-// The href is the home page, so the button also works in a new tab.
 const backBar = (): HTMLElement =>
   el('div', { class: 'back-bar' }, [
     el('a', { class: 'back-btn', href: location.pathname, 'data-back': true }, [icon('arrow-right'), 'بازگشت به صفحه اصلی']),
   ]);
 
-// Title + count, then the product grid (shared by the catalog and the search results)
 const resultsSection = (title: HTMLElement, items: readonly ProductItem[], content: HTMLElement[]): HTMLElement =>
   el('section', { class: 'catalog', 'aria-labelledby': 'catalog-t' }, [
     el('div', { class: 'sec-head' }, [title, el('p', { class: 'catalog__count', text: `${formatNumber(items.length)} کالا` })]),
@@ -977,7 +950,7 @@ function notFound(): HTMLElement {
 }
 
 
-// ----- Loading skeleton & error state -----
+// ===== Loading Skeleton & Error State =====
 const skeletonCard = (): HTMLElement =>
   el('li', { class: 'card card--skeleton' }, [
     el('div', { class: 'card__body' }, [
@@ -1031,7 +1004,7 @@ function renderError(error: ApiError): void {
 }
 
 
-// ===== 9. Cart summary (opens on hover / click of the cart button) =====
+// ===== Cart Summary =====
 const cartIsOpen = (): boolean => dom.cartWrap.classList.contains('is-open');
 
 function openCart({ pin = false }: { pin?: boolean } = {}): void {
@@ -1039,7 +1012,6 @@ function openCart({ pin = false }: { pin?: boolean } = {}): void {
   if (pin) ui.cartPinned = true;
   if (cartIsOpen()) return;
   renderMiniCart();
-  // on phones the panel is fixed under the header; tell the CSS where the button ends
   dom.cartWrap.style.setProperty('--cart-top', `${Math.round(dom.cartButton.getBoundingClientRect().bottom + 8)}px`);
   dom.cartWrap.classList.add('is-open');
   dom.cartButton.setAttribute('aria-expanded', 'true');
@@ -1057,7 +1029,6 @@ function closeCart({ returnFocus = false }: { returnFocus?: boolean } = {}): voi
 const priceText = (value: number): HTMLElement =>
   el('span', { class: 'mini-price' }, [el('strong', { text: formatNumber(value) }), el('small', { text: 'تومان' })]);
 
-// old price + discount badge, only when something is discounted
 function discountLine(oldValue: number, newValue: number, percent = Math.round(((oldValue - newValue) / oldValue) * 100)): HTMLElement | null {
   if (oldValue <= newValue) return null;
   return el('div', { class: 'mini-old' }, [
@@ -1125,7 +1096,7 @@ function renderMiniCart(): void {
   ]));
 }
 
-// After the list is rebuilt, keep the keyboard on the same stepper button and the list where it was scrolled
+
 function refreshMiniCart(): void {
   if (!cartIsOpen()) return;
   const { cartPanel } = dom;
@@ -1146,11 +1117,9 @@ function refreshMiniCart(): void {
 }
 
 
-// ===== 10. Motion, URL & history =====
+// ===== Motion & URL & History =====
 const easeInOutCubic = (t: number): number => (t < 0.5 ? 4 * t * t * t : 1 - ((-2 * t + 2) ** 3) / 2);
 
-// One smooth, eased scroll whose length follows the distance (instead of the browser's own jump).
-// Any wheel / touch / key / mouse press by the visitor stops it at once.
 function smoothScrollTo(top: number): Promise<void> {
   cancelAnimationFrame(ui.scrollFrame);
   const from = window.scrollY;
@@ -1189,11 +1158,10 @@ function scrollToElement(target: HTMLElement): Promise<void> {
   const top = target.getBoundingClientRect().top + window.scrollY - margin;
   return smoothScrollTo(top).then(() => {
     if (!target.hasAttribute('tabindex') && !/^(a|button|input)$/i.test(target.tagName)) target.setAttribute('tabindex', '-1');
-    target.focus({ preventScroll: true }); // keyboard and screen-reader users arrive where the page scrolled to
+    target.focus({ preventScroll: true });
   });
 }
 
-// Content change: the old view fades out, the new one slides in
 const ENTER_FRAMES = [{ opacity: 0, transform: 'translateY(14px)' }, { opacity: 1, transform: 'none' }];
 const ENTER_TIMING = { duration: 320, easing: 'cubic-bezier(.2, .7, .2, 1)' };
 
@@ -1207,13 +1175,13 @@ async function swapView(update: () => void): Promise<void> {
     return;
   }
   const out = dom.main.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 140, easing: 'ease-in', fill: 'forwards' });
-  try { await out.finished; } catch { /* cancelled: carry on */ }
+  try { await out.finished; } catch { /* Cancelled: Carry On */ }
   update();
   out.cancel();
   playEnter();
 }
 
-// ----- Routes:  ?cat=<slug> (one category)  ·  ?q=<text> (search)  ·  #<id> (a section of the home page) -----
+// ===== Routes =====
 type Route = { type: 'home' } | { type: 'catalog'; slug: string } | { type: 'search'; query: string };
 
 function parseRoute(): Route {
@@ -1233,8 +1201,7 @@ function currentHashId(): string {
   }
 }
 
-// The sections are created after the page has loaded, so the browser cannot jump to the
-// #fragment by itself: do it here, and mark where the visitor is.
+
 function syncLocation({ scroll = false, smooth = false }: { scroll?: boolean; smooth?: boolean } = {}): void {
   const id = currentHashId();
   const target = id ? document.getElementById(id) : null;
@@ -1252,7 +1219,7 @@ function syncLocation({ scroll = false, smooth = false }: { scroll?: boolean; sm
   else target.scrollIntoView({ block: 'start', behavior: 'instant' });
 }
 
-// The search box always shows what the address says (never rewrite what the visitor is typing)
+
 function syncSearchBox(route: Route): void {
   const shown = route.type === 'search' ? route.query : ui.pendingQuery ? dom.search.value.trim() : '';
   if (dom.search.value.trim().replace(/\s+/g, ' ') !== shown) dom.search.value = shown;
@@ -1267,7 +1234,7 @@ function renderRoute({ focus = false, smooth = false }: { focus?: boolean; smoot
   const view = route.type === 'catalog' ? renderCatalog(route.slug) : route.type === 'search' ? renderSearch(route.query) : renderHome();
   document.title = view.title ? `${view.title} | ${BRAND.name}` : BRAND.name;
 
-  carouselObserver.disconnect(); // the old carousels are about to be thrown away
+  carouselObserver.disconnect(); 
   dom.main.replaceChildren(...view.nodes);
   dom.main.removeAttribute('aria-busy');
   dom.main.querySelectorAll<HTMLElement>('.shelf').forEach(initCarousel);
@@ -1276,7 +1243,7 @@ function renderRoute({ focus = false, smooth = false }: { focus?: boolean; smoot
   if (focus && !currentHashId()) dom.main.focus({ preventScroll: true });
 }
 
-// Remember where the visitor was on this page, so "back" can bring them to the same spot
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
@@ -1287,14 +1254,13 @@ function rememberScroll(): void {
   history.replaceState({ ...state, scrollY: window.scrollY }, '');
 }
 
-// focus: move the keyboard focus to the new content (links and buttons do; the search box must NOT)
-// animate: fade the old view out first (the search shows its results at once)
+
 async function navigate(url: string, { replace = false, focus = true, animate = true }: { replace?: boolean; focus?: boolean; animate?: boolean } = {}): Promise<void> {
   if (replace) {
     history.replaceState({ app: true }, '', url);
   } else {
     rememberScroll();
-    history.pushState({ app: true }, '', url); // { app: true } = the previous entry is a page of this shop
+    history.pushState({ app: true }, '', url); 
   }
   closeCart();
   const show = () => {
@@ -1312,10 +1278,9 @@ async function navigate(url: string, { replace = false, focus = true, animate = 
 function goBack(): void {
   const state: unknown = history.state;
   if (isRecord(state) && state.app === true) history.back();
-  else navigate(location.pathname, { replace: true }); // opened from a shared link: there is no page before this one
+  else navigate(location.pathname, { replace: true }); 
 }
 
-// A link to a section of the page: scroll there smoothly and keep the address bar in step
 function goToSection(href: string, target: HTMLElement): void {
   closeCart();
   if (location.hash !== href) history.pushState(null, '', href);
@@ -1324,14 +1289,14 @@ function goToSection(href: string, target: HTMLElement): void {
 }
 
 
-// ===== 11. Search box & events =====
+// ===== Search Box & Events =====
 function announceResults(text: string): void {
   announce(`${formatNumber(searchProducts(text).length)} نتیجه برای ${text}`);
 }
 
 function showSearch(query: string): void {
   if (!modelReady) {
-    ui.pendingQuery = query; // the data is still loading: run the search as soon as it arrives
+    ui.pendingQuery = query; 
     return;
   }
   const text = query.trim().replace(/\s+/g, ' ');
@@ -1340,19 +1305,18 @@ function showSearch(query: string): void {
   if (!text) {
     if (route.type !== 'search') return;
     const state: unknown = history.state;
-  if (isRecord(state) && state.app === true) history.back(); // back to the page the search started from
+  if (isRecord(state) && state.app === true) history.back(); 
     else navigate(location.pathname, { replace: true, focus: false, animate: false });
     return;
   }
 
   const url = `${location.pathname}?q=${encodeURIComponent(text)}`;
   if (route.type === 'search') {
-    // still typing: update the same history entry, so "back" is not flooded with every letter
     history.replaceState(history.state, '', url);
     renderRoute();
   } else {
     closeCart();
-    navigate(url, { focus: false, animate: false }); // the visitor is still typing: keep the focus in the box
+    navigate(url, { focus: false, animate: false }); 
   }
   announceResults(text);
 }
@@ -1373,7 +1337,7 @@ dom.search.addEventListener('keydown', (event: KeyboardEvent) => {
     event.preventDefault();
     clearTimeout(ui.searchTimer);
     showSearch(dom.search.value);
-    if (coarsePointer.matches) dom.search.blur(); // phones: hide the keyboard so the results are visible
+    if (coarsePointer.matches) dom.search.blur(); 
   } else if (event.key === 'Escape' && dom.search.value) {
     event.stopPropagation();
     clearSearch();
@@ -1381,7 +1345,7 @@ dom.search.addEventListener('keydown', (event: KeyboardEvent) => {
 });
 
 
-// ----- Clicks: one listener for the whole page -----
+// ===== Clicks =====
 const onAddClick = (button: HTMLElement): void => {
   if (!(button instanceof HTMLButtonElement) || button.disabled) return;
   const id = Number(button.dataset.id);
@@ -1401,21 +1365,20 @@ function onCheckoutClick(): void {
   announce('ثبت سفارش در این مرحله از پروژه فعال نیست.');
   const note = required<HTMLElement>('#mini-note', dom.cartPanel);
   note.classList.remove('is-flash');
-  void note.offsetWidth; // restart the CSS animation
+  void note.offsetWidth; 
   note.classList.add('is-flash');
 }
 
 function onCartButtonClick(): void {
-  // hovering already opened it: the first click keeps it open, the next one closes it
   if (!cartIsOpen() || !ui.cartPinned) openCart({ pin: true });
   else closeCart();
 }
 
-// links: back button, in-app views (?cat=), sections of the home page (#id)
+
 function onLinkClick(node: HTMLElement, event: MouseEvent): void {
   if (!(node instanceof HTMLAnchorElement)) return;
   const link = node;
-  if (link.closest('.main-nav')) dom.menuToggle.checked = false; // close the phone menu after a choice
+  if (link.closest('.main-nav')) dom.menuToggle.checked = false; 
 
   const plainClick = event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
   if (!plainClick || link.target === '_blank') return;
@@ -1434,14 +1397,13 @@ function onLinkClick(node: HTMLElement, event: MouseEvent): void {
       event.preventDefault();
       goToSection(href, section);
     } else if (parseRoute().type !== 'home') {
-      // the home sections are not on this view: go home first, then slide to the section
       event.preventDefault();
       navigate(location.pathname + href);
     }
   }
 }
 
-// [selector, handler]: the first rule that matches the clicked element wins
+
 const CART_RULES: ClickRule[] = [
   ['.add', onAddClick],
   ['[data-step]', onStepClick],
@@ -1476,7 +1438,7 @@ document.addEventListener('click', (event: MouseEvent) => {
   matchRule(PAGE_RULES, target, event);
 });
 
-// hover opens the cart summary on a mouse; touch and keyboard use the click above
+
 dom.cartWrap.addEventListener('pointerenter', (event: PointerEvent) => {
   if (event.pointerType === 'mouse') openCart();
 });
@@ -1502,20 +1464,20 @@ document.addEventListener('keydown', (event: KeyboardEvent) => {
 window.addEventListener('popstate', (event: PopStateEvent) => {
   closeCart();
   if (location.search === ui.renderedSearch) {
-    syncLocation(); // only the #fragment changed: the browser has already scrolled
+    syncLocation(); 
     return;
   }
   const state: unknown = event.state;
   const saved = isRecord(state) ? state.scrollY : undefined;
   swapView(() => {
     renderRoute();
-    if (typeof saved === 'number') window.scrollTo({ top: saved, behavior: 'instant' }); // back to the same spot
+    if (typeof saved === 'number') window.scrollTo({ top: saved, behavior: 'instant' });
     else if (!location.hash) window.scrollTo({ top: 0, behavior: 'instant' });
   });
 });
 window.addEventListener('hashchange', () => syncLocation());
 
-// the cart changed in another tab
+
 window.addEventListener('storage', (event: StorageEvent) => {
   if (event.key !== CART_KEY) return;
   cart = loadCart();
@@ -1525,7 +1487,7 @@ window.addEventListener('storage', (event: StorageEvent) => {
 });
 
 
-// ===== 12. Start-up =====
+// ===== Start-Up =====
 async function start(): Promise<void> {
   renderLoading();
   try {
@@ -1547,7 +1509,7 @@ async function start(): Promise<void> {
   }
 }
 
-renderFooterBrand(); // our own contact details need no API
-renderCartBadge();   // the cart comes from localStorage, so it shows at once
+renderFooterBrand(); 
+renderCartBadge(); 
 syncLocation();
 start();

@@ -1,3 +1,7 @@
+/* Amirhossein (Armin) Panahi */
+/* Week 3 - Strategic Supermarket - TS & Vite */
+
+
 import type {
   ApiData,
   CallToAction,
