@@ -1,44 +1,97 @@
-@keyframes drawWedge {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes fillWedge {
-  to {
-    fill-opacity: 1;
-  }
-}
-
-@keyframes popTopping {
-  0% {
+@keyframes card-in {
+  from {
     opacity: 0;
-    transform: scale(0.2);
+    transform: translateY(10px);
   }
-  70% {
+  to {
     opacity: 1;
-    transform: scale(1.15);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
+    transform: none;
   }
 }
 
-@keyframes sliceOut {
-  0% {
-    transform: translate(0, 0);
-  }
-  35% {
-    transform: translate(var(--dx), var(--dy));
-  }
-  55% {
-    transform: translate(var(--dx), var(--dy));
-  }
-  100% {
-    transform: translate(0, 0);
-  }
+.product:not(.product--skeleton) {
+  animation: card-in 0.35s var(--ease) both;
 }
+
+.products__item:nth-child(1) .product { animation-delay: 0.04s; }
+.products__item:nth-child(2) .product { animation-delay: 0.08s; }
+.products__item:nth-child(3) .product { animation-delay: 0.12s; }
+.products__item:nth-child(4) .product { animation-delay: 0.16s; }
+.products__item:nth-child(5) .product { animation-delay: 0.20s; }
+.products__item:nth-child(6) .product { animation-delay: 0.24s; }
+.products__item:nth-child(7) .product { animation-delay: 0.28s; }
+.products__item:nth-child(8) .product { animation-delay: 0.32s; }
+.products__item:nth-child(9) .product { animation-delay: 0.36s; }
+.products__item:nth-child(10) .product { animation-delay: 0.40s; }
+
+.category {
+  animation: card-in 0.35s var(--ease) both;
+}
+
+.categories__list > li:nth-child(1) .category { animation-delay: 0.04s; }
+.categories__list > li:nth-child(2) .category { animation-delay: 0.08s; }
+.categories__list > li:nth-child(3) .category { animation-delay: 0.12s; }
+.categories__list > li:nth-child(4) .category { animation-delay: 0.16s; }
+.categories__list > li:nth-child(5) .category { animation-delay: 0.20s; }
+.categories__list > li:nth-child(6) .category { animation-delay: 0.24s; }
+.categories__list > li:nth-child(7) .category { animation-delay: 0.28s; }
+.categories__list > li:nth-child(8) .category { animation-delay: 0.32s; }
+.categories__list > li:nth-child(9) .category { animation-delay: 0.36s; }
+.categories__list > li:nth-child(10) .category { animation-delay: 0.40s; }
+.categories__list > li:nth-child(11) .category { animation-delay: 0.44s; }
+.categories__list > li:nth-child(12) .category { animation-delay: 0.48s; }
+
+.hero-carousel__slide {
+  animation: card-in 0.4s var(--ease) both;
+}
+
+.hero-carousel__slide:nth-child(1) { animation-delay: 0.06s; }
+.hero-carousel__slide:nth-child(2) { animation-delay: 0.12s; }
+.hero-carousel__slide:nth-child(3) { animation-delay: 0.18s; }
+.hero-carousel__slide:nth-child(4) { animation-delay: 0.24s; }
+.hero-carousel__slide:nth-child(5) { animation-delay: 0.30s; }
+
+.hero-video--skeleton .hero-video__title {
+  animation: card-in 0.35s var(--ease) both, skeleton-shimmer 1.4s ease-in-out infinite;
+  animation-delay: 0.04s, 0s;
+}
+
+.hero-video--skeleton .hero-video__desc {
+  animation: card-in 0.35s var(--ease) both, skeleton-shimmer 1.4s ease-in-out infinite;
+  animation-delay: 0.10s, 0s;
+}
+
+.hero-video--skeleton .hero-video__cta {
+  animation: card-in 0.35s var(--ease) both, skeleton-shimmer 1.4s ease-in-out infinite;
+  animation-delay: 0.16s, 0s;
+}
+
+.skeleton-text--nav,
+.skeleton-text--mobile,
+.skeleton-text--link,
+.skeleton-text--topbar {
+  animation: card-in 0.3s var(--ease) both, skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+.nav > li:nth-child(1) .skeleton-text--nav { animation-delay: 0.04s, 0s; }
+.nav > li:nth-child(2) .skeleton-text--nav { animation-delay: 0.08s, 0s; }
+.nav > li:nth-child(3) .skeleton-text--nav { animation-delay: 0.12s, 0s; }
+.nav > li:nth-child(4) .skeleton-text--nav { animation-delay: 0.16s, 0s; }
+.nav > li:nth-child(5) .skeleton-text--nav { animation-delay: 0.20s, 0s; }
+.nav > li:nth-child(6) .skeleton-text--nav { animation-delay: 0.24s, 0s; }
+.nav > li:nth-child(7) .skeleton-text--nav { animation-delay: 0.28s, 0s; }
+
+.topbar__links .skeleton-text--link:nth-child(1) { animation-delay: 0.04s, 0s; }
+.topbar__links .skeleton-text--link:nth-child(2) { animation-delay: 0.08s, 0s; }
+.topbar__links .skeleton-text--link:nth-child(3) { animation-delay: 0.12s, 0s; }
+
+.mobile-menu__list > li:nth-child(1) .skeleton-text--mobile { animation-delay: 0.04s, 0s; }
+.mobile-menu__list > li:nth-child(2) .skeleton-text--mobile { animation-delay: 0.08s, 0s; }
+.mobile-menu__list > li:nth-child(3) .skeleton-text--mobile { animation-delay: 0.12s, 0s; }
+.mobile-menu__list > li:nth-child(4) .skeleton-text--mobile { animation-delay: 0.16s, 0s; }
+.mobile-menu__list > li:nth-child(5) .skeleton-text--mobile { animation-delay: 0.20s, 0s; }
+.mobile-menu__list > li:nth-child(6) .skeleton-text--mobile { animation-delay: 0.24s, 0s; }
+.mobile-menu__list > li:nth-child(7) .skeleton-text--mobile { animation-delay: 0.28s, 0s; }
 
 @media (prefers-reduced-motion: reduce) {
   html {
