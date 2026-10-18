@@ -828,3 +828,12 @@ main:focus {
     transform: none;
   }
 }
+
+/* Give each card its own compositor layer up front, so hover/focus only
+   composites (no repaint of the whole carousel). */
+.card {
+  will-change: transform;
+}
+.card::after {
+  will-change: opacity;
+}
