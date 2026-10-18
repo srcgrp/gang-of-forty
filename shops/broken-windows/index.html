@@ -1,29 +1,589 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت پنجره شکسته</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='16' fill='%230F6E56'/><path d='M24 26 V22 A8 8 0 0 1 40 22 V26' fill='none' stroke='%23FBEAF0' stroke-width='3' stroke-linecap='round'/><rect x='16' y='24' width='32' height='26' rx='5' fill='%23fff'/><path d='M32 44 C25 39 25 32 29.5 32 C31 32 32 33 32 34 C32 33 33 32 34.5 32 C39 32 39 39 32 44 Z' fill='%23D4537E'/></svg>">
+    <title>سارا مارکت</title>
 </head>
-<body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>🪟 سلام دنیا!</h1>
-  </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>پنجره شکسته</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p>نظریه پنجره شکسته از جرم‌شناسی آمده و در کتاب <bdi>The Pragmatic Programmer</bdi> به نرم‌افزار رسیده: ساختمانی که یک پنجره شکسته‌اش تعمیر نشود، زود پر از پنجره شکسته می‌شود. کد بد را رها نکن؛ وقتی یک جا شلخته باشد، بقیه هم بی‌خیال می‌شوند.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
-    </section>
-  </main>
-  <footer>
-    <p dir="ltr">slug: <code>broken-windows</code></p>
-  </footer>
+
+<body id="top">
+    <input type="checkbox" id="menu-toggle" class="menu-toggle" aria-label="باز و بسته کردن منو">
+    <div class="discount"> &#x1F381; ارسال رایگان برای خرید های بالای 400 هزار تومان &#x1F381;</div>
+    <div class="header" id="header">
+        <label for="menu-toggle" class="menu-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                aria-hidden="true">
+                <path d="M4 6h16" />
+                <path d="M4 12h16" />
+                <path d="M4 18h16" />
+            </svg></label>
+        <a class="brand" href="#top" title="پرش به ابتدای صفحه" aria-label="فروشگاه سارا مارکت">
+            <svg class="brand-logos" aria-hidden="true" viewBox="0 0 64 64" width="64" height="64">
+                <rect width="64" height="64" rx="16" fill="#0F6E56" />
+                <path d="M24 26 V22 A8 8 0 0 1 40 22 V26" fill="none" stroke="#FBEAF0" stroke-width="3"
+                    stroke-linecap="round" />
+                <rect x="16" y="24" width="32" height="26" rx="5" fill="#fff" />
+                <path d="M32 44 C25 39 25 32 29.5 32 C31 32 32 33 32 34 C32 33 33 32 34.5 32 C39 32 39 39 32 44 Z"
+                    fill="#D4537E" />
+            </svg>
+            <div class="brand-text">
+                <p class="brand-name"> <b>سارا مارکت</b></p>
+                <p class="brand-text">انتخاب های سارا برای شما</p>
+            </div>
+        </a>
+        <form class="search-form" action="#" method="get">
+            <input aria-label="جستجو" class="search-input" type="search" id="search" name="q"
+                placeholder="دنبال چی می‌گردی؟">
+            <button type="submit" class="visually-hidden">جستجو</button>
+        </form>
+        <a class="user-account" href="#" aria-label="ورود به حساب کاربری">
+            <svg aria-hidden="true" class="user-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                <path d="M9 10a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
+            </svg>
+            <span class="user-account-label">ورود</span></a>
+        <a class="cart" href="#" aria-label="سبد خرید">
+            <svg aria-hidden="true" class="cart-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M4 19a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                <path d="M15 19a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                <path d="M17 17h-11v-14h-2" />
+                <path d="M6 5l14 1l-1 7h-13" />
+            </svg>
+            <span class="cart-label">سبد خرید</span>
+            <span class="cart-count">۳</span></a>
+    </div>
+    <nav class="navigation" id="navigation">
+        <ul class="nav">
+            <li id="allcategory"><a href="#categories">همه دسته ها</a>
+                <ul class="dropdown">
+                    <li><a href="#categories">
+                            <span class="dropdown-emoji">&#x1F968;</span> تنقلات</a></li>
+                    <li><a href="#categories"><span class="dropdown-emoji">&#x1F95B;</span> لبنیات و بستنی</a></li>
+                    <li><a href="#categories"><span class="dropdown-emoji">&#x1F34E;</span> میوه و سبزی</a></li>
+                    <li><a href="#categories"><span class="dropdown-emoji">&#x1F35E;</span> خواربار و نان </a></li>
+                    <li><a href="#categories"><span class="dropdown-emoji">&#x1F9C3;</span> نوشیدنی</a></li>
+                    <li><a href="#categories"><span class="dropdown-emoji">&#x1F373;</span>صبحانه</a></li>
+                    <li><a href="#special-offer-nuts"><span class="dropdown-emoji">&#x1F36A;</span>خشکبار و دسر</a></li>
+                    <li><a href="#categories"><span class="dropdown-emoji">&#x1F96B;</span> غذای آماده </a></li>
+                    <li><a href="#categories"><span class="dropdown-emoji">&#x1F4B0;</span> پک به صرفه !</a></li>
+                </ul>
+            </li>
+            <li><a href="#categories">تنقلات</a></li>
+            <li><a href="#categories">لبنیات و بستنی</a></li>
+            <li><a href="#categories">میوه و سبزیجات تازه</a></li>
+            <li><a href="#categories">خواربار و نان</a></li>
+            <li><a href="#categories">نوشیدنی</a></li>
+            <li><a href="#categories">صبحانه</a></li>
+            <li><a href="#special-offer-nuts">خشکبار، دسر و شیرینی</a></li>
+            <li><a href="#pack">پک به صرفه</a></li>
+        </ul>
+    </nav>
+    <main class="site-main">
+        <section class="banner" id="banner">
+            <div class="main-content">
+                <h1 class="main-content-title"> هرچی لازم داری همینجاست</h1>
+                <p class="main-content-text">بیش از ۱۰ هزار کالا با ارسال کمتر از ۹۰ دقیقه</p>
+                <a href="#special-offer" class="main-content-button" aria-label="شروع خرید">شروع خرید</a>
+            </div>
+            <img class="main-content-banner" src="./images/banner.svg" alt="">
+        </section>
+        <div class="benefit" id="benefit">
+            <div class="benefit-box"><span class="benefit-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                        height="24" viewBox="0 0 24 24" fill="none" stroke="#D4537E" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round"
+                        class="icon icon-tabler icons-tabler-outline icon-tabler-car">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M5 17a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M15 17a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M5 17h-2v-6l2 -5h9l4 5h1a2 2 0 0 1 2 2v4h-2m-4 0h-6m-6 -6h15m-6 0v-5" />
+                    </svg></span>
+                <p class="benefit-text">ارسال سریع</p>
+            </div>
+            <div class="benefit-box"><span class="benefit-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                        height="24" viewBox="0 0 24 24" fill="none" stroke="#D4537E" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round"
+                        class="icon icon-tabler icons-tabler-outline icon-tabler-basket-check">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M17 10l-2 -6" />
+                        <path d="M7 10l2 -6" />
+                        <path
+                            d="M11 20h-3.756a3 3 0 0 1 -2.965 -2.544l-1.255 -7.152a2 2 0 0 1 1.977 -2.304h13.999a2 2 0 0 1 1.977 2.304l-.479 2.729" />
+                        <path d="M10 14a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                        <path d="M15 19l2 2l4 -4" />
+                    </svg></span>
+                <p class="benefit-text">تضمین کیفیت</p>
+            </div>
+            <div class="benefit-box"><span class="benefit-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                        height="24" viewBox="0 0 24 24" fill="none" stroke="#D4537E" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round"
+                        class="icon icon-tabler icons-tabler-outline icon-tabler-truck-return">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M5 17a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M15 17a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M5 17h-2v-11a1 1 0 0 1 1 -1h9v6h-5l2 2m0 -4l-2 2" />
+                        <path d="M9 17l6 0" />
+                        <path d="M13 6h5l3 5v6h-2" />
+                    </svg></span>
+                <p class="benefit-text">بازگشت آسان کالا</p>
+            </div>
+        </div>
+        <section class="categories" id="categories">
+            <h2 class="items-header">دسته بندی ها</h2>
+            <div class="all-items">
+                <div class="items">
+                    <a href="#categories" class="items-link"> <span aria-hidden="true" class="items-icon">🥨</span>
+                        <p class="items-title">تنقلات</p>
+                    </a>
+                </div>
+                <div class="items">
+                    <a href="#categories" class="items-link"><span aria-hidden="true" class="items-icon">🥛</span>
+                        <p class="items-title">لبنیات و بستنی</p>
+                    </a>
+                </div>
+                <div class="items">
+                    <a href="#banana" class="items-link"><span aria-hidden="true" class="items-icon">🍎</span>
+                        <p class="items-title">میوه و سبزی</p>
+                    </a>
+                </div>
+                <div class="items">
+                    <a href="#categories" class="items-link"><span aria-hidden="true" class="items-icon">🍞</span>
+                        <p class="items-title">خواربار و نان</p>
+                    </a>
+                </div>
+                <div class="items">
+                    <a href="#categories" class="items-link"><span aria-hidden="true" class="items-icon">🥤</span>
+                        <p class="items-title">نوشیدنی</p>
+                    </a>
+                </div>
+                <div class="items">
+                    <a href="#categories" class="items-link"><span aria-hidden="true" class="items-icon">🍳</span>
+                        <p class="items-title">صبحانه</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+        <article class="special-offer" id="special-offer">
+            <div class="special-offer-title">
+                <h2 class="items-header">پرفروش‌های امروز</h2>
+                <a class="items-header-link" href="#frozen"><span>مشاهده همه</span>
+                    <span><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none" stroke="#D4537E" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-left">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M5 12l14 0" />
+                            <path d="M5 12l4 4" />
+                            <path d="M5 12l4 -4" />
+                        </svg></span></a>
+            </div>
+            <div class="special-offer-items">
+                <div class="special-offer-item">
+                    <div class="special-offer-image"><img src="./images/milk-bottle.png" alt=""></div>
+                    <h3 class="special-offer-name">شیر پرچرب</h3>
+                    <p class="special-offer-unit">۹۴۶ میلی‌لیتری</p>
+                    <div class="special-offer-item-details">
+                        <p class="special-offer-price">۱۱۸,۰۰۰ تومان</p><button type="button" class="add-button"
+                            aria-label="افزودن شیر پرچرب به سبد خرید">+</button>
+                    </div>
+                </div>
+                <div class="special-offer-item" id="banana">
+                    <div class="special-offer-image">
+                        <span class="discount-badge">۱۵٪</span><img src="./images/banana.png" alt="موز ایرانی">
+                    </div>
+                    <h3 class="special-offer-name"> موز درجه یک ایرانی</h3>
+                    <p class="special-offer-unit">۱ کیلوگرم</p>
+                    <div class="special-offer-item-details">
+                        <div class="special-offer-item-prices">
+                            <del class="price-old">۶۹۰,۰۰۰</del>
+                            <p class="special-offer-price">۵۸۶,۵۰۰ تومان</p>
+                        </div>
+                        <button type="button" class="add-button" aria-label="افزودن موز به سبد خرید">+</button>
+                    </div>
+                </div>
+                <div class="special-offer-item">
+                    <div class="special-offer-image"><img src="./images/snack.png" alt="اسنک پنیری"></div>
+                    <h3 class="special-offer-name">اسنک پنیری </h3>
+                    <p class="special-offer-unit"> وزن خالص :۴۰ گرم</p>
+                    <div class="special-offer-item-details">
+                        <p class="special-offer-price">۴۰,۰۰۰ تومان</p>
+                        <button type="button" class="add-button"
+                            aria-label="افزودن اسنک پنیری کوچک به سبد خرید">+</button>
+                    </div>
+                </div>
+                <div class="special-offer-item">
+                    <div class="special-offer-image"><img src="./images/egg-carton.png" alt="تخم مرغ زرده طلا"></div>
+                    <h3 class="special-offer-name">تخم مرغ دانه درشت</h3>
+                    <p class="special-offer-unit">۶ عددی</p>
+                    <div class="special-offer-item-details">
+                        <p class="special-offer-price">۱۴۴,۰۰۰ تومان</p>
+                        <button type="button" class="add-button" aria-label="افزودن تخم مرغ به سبد خرید">+</button>
+                    </div>
+                </div>
+                <div class="special-offer-item">
+                    <div class="special-offer-image">
+                        <span class="discount-badge">۳٪</span><img src="./images/bedikas-chametz.png"
+                            alt="نان تست سبوسدار">
+                    </div>
+                    <h3 class="special-offer-name"> نان تست سبوسدار رژیمی</h3>
+                    <p class="special-offer-unit">۲۸۰ گرمی</p>
+                    <div class="special-offer-item-details">
+                        <div class="special-offer-item-prices">
+                            <del class="price-old">۸۸,۰۰۰</del>
+                            <p class="special-offer-price">۸۵,۳۶۰تومان</p>
+                        </div>
+                        <button type="button" class="add-button" aria-label="افزودن نان به سبد خرید">+</button>
+                    </div>
+                </div>
+                <div class="special-offer-item">
+                    <div class="special-offer-image">
+                        <span class="discount-badge">۵٪</span><img src="./images/canned-food.png" alt="تن ماهی ">
+                    </div>
+                    <h3 class="special-offer-name">تن ماهی در روغن گیاهی</h3>
+                    <p class="special-offer-unit">۱۲۰گرمی</p>
+                    <div class="special-offer-item-details">
+                        <div class="special-offer-item-prices">
+                            <del class="price-old">۲۹۰,۰۰۰</del>
+                            <p class="special-offer-price">۲۷۲,۷۰۰ تومان</p>
+                        </div>
+                        <button type="button" class="add-button" aria-label="افزودن تن ماهی به سبد خرید">+</button>
+                    </div>
+                </div>
+                <div class="special-offer-item">
+                    <div class="special-offer-image"><img src="./images/honey.png" alt="عسل"></div>
+                    <h3 class="special-offer-name">عسل بدون موم چهل گیاه</h3>
+                    <p class="special-offer-unit">۵۰۰ گرمی</p>
+                    <div class="special-offer-item-details">
+                        <p class="special-offer-price">۱,۲۴۰,۰۰۰ تومان</p>
+                        <button type="button" class="add-button" aria-label="افزودن عسل به سبد خرید">+</button>
+                    </div>
+                </div>
+                <div class="special-offer-item" id="pack">
+                    <div class="special-offer-image"><img src="./images/fruits.png" alt="پک میوه"></div>
+                    <h3 class="special-offer-name">پک میوه به صرفه</h3>
+                    <p class="special-offer-unit">شامل۳عددخیار،۴عددسیب و ۲عددموز</p>
+                    <div class="special-offer-item-details">
+                        <p class="special-offer-price">۳۰۷,۰۰۰تومان</p>
+                        <button type="button" class="add-button" aria-label="افزودن پک میوه به سبد خرید">+</button>
+                    </div>
+                </div>
+                <div class="special-offer-item">
+                    <div class="special-offer-image"><img src="./images/dairy-products.png" alt="پک صبحانه دونفره">
+                    </div>
+                    <h3 class="special-offer-name">پک به صرفه صبحانه دو نفری</h3>
+                    <p class="special-offer-unit">شامل ۳ عدد تخم مرغ،۱۰۰ گرم نان جو،۲ عدد پنیر صبحانه تک نفره و۲عدد تی
+                        بگ</p>
+                    <div class="special-offer-item-details">
+                        <p class="special-offer-price">۳۴۹,۰۰۰ تومان</p>
+                        <button type="button" class="add-button" aria-label="افزودن پک صبحانه به سبد خرید">+</button>
+                    </div>
+                </div>
+                <div class="special-offer-item" id="frozen">
+                    <div class="special-offer-image">
+                        <span class="discount-badge">۲۵٪</span>
+                        <img src="./images/frozen.png" alt="سبزیجات منجمد">
+                    </div>
+                    <h3 class="special-offer-name">سبزیجات منجمد</h3>
+                    <p class="special-offer-unit">شامل ذرت، هویج و نخودفرنگی. ۴۰۰ گرمی</p>
+                    <div class="special-offer-item-details">
+                        <div class="special-offer-item-prices">
+                            <del class="price-old">۳۴۸,۷۰۰</del>
+                            <p class="special-offer-price">۲۶۰,۸۹۷تومان</p>
+                        </div>
+                        <button type="button" class="add-button"
+                            aria-label="افزودن سبزیجات منجمد به سبد خرید">+</button>
+                    </div>
+                </div>
+                <div class="special-offer-item">
+                    <div class="special-offer-image"><img src="./images/bread.png" alt="نان باگت"></div>
+                    <h3 class="special-offer-name">نان باگت متوسط</h3>
+                    <p class="special-offer-unit">بسته ۸ عددی</p>
+                    <div class="special-offer-item-details">
+                        <p class="special-offer-price">۱۷۰,۰۰۰ تومان</p>
+                        <button type="button" class="add-button" aria-label="افزودن نان باگت به سبد خرید">+</button>
+                    </div>
+                </div>
+                <div class="special-offer-item">
+                    <div class="special-offer-image">
+                        <span class="discount-badge">۲۲٪</span>
+                        <img src="./images/cheese.png" alt="پنیر خامه ای">
+                    </div>
+                    <h3 class="special-offer-name">پنیر خامه ای</h3>
+                    <p class="special-offer-unit">۴۰۰ گرمی</p>
+                    <div class="special-offer-item-details">
+                        <div class="special-offer-item-prices">
+                            <del class="price-old">۲۰۳,۰۰۰</del>
+                            <p class="special-offer-price">۱۵۷,۵۰۰تومان</p>
+                        </div>
+                        <button type="button" class="add-button" aria-label="افزودن پنیر به سبد خرید">+</button>
+                    </div>
+                </div>
+            </div>
+        </article>
+        <section class="middle" id="middle">
+            <div class="broken-window">
+                <img class="broken-window-image" src="./images/broken-window.svg" alt="">
+                <div class="broken-window-details">
+                    <h3 class="broken-window-header">یک ایراد کوچیک دیدی؟</h3>
+                    <p class="broken-window-subtitle">قبل اینکه بزرگ بشه گزارشش کن</p>
+                    <p class="broken-window-text">کالای آسیب دیده؟همون لحظه عوضش میکنیم.</p>
+                </div>
+                <a href="#phonenumber" class="broken-window-button">گزارش مشکل</a>
+            </div>
+            <div class="eggs"><img class="eggs-image" src="images/egg.png" alt="">
+                <div class="eggs-details">
+                    <h3 class="eggs-title">تخم مرغ تازه هر روز ساعت ۷ صبح</h3>
+                    <p class="eggs-text">مستقیم از مزرعه به سبد شما</p>
+                </div>
+            </div>
+        </section>
+        <article class="special-offer" id="special-offer-nuts">
+            <div class="special-offer-title">
+                <h2 class="items-header">خشکبار، دسر و شیرینی</h2>
+                <a class="items-header-link" href="#candy"><span>مشاهده همه</span>
+                    <span><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none" stroke="#D4537E" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-left">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M5 12l14 0" />
+                            <path d="M5 12l4 4" />
+                            <path d="M5 12l4 -4" />
+                        </svg></span></a>
+            </div>
+            <div class="special-offer-items">
+                <div class="special-offer-item">
+                    <div class="special-offer-image"><img src="./images/pistachio.png" alt="pistachio"></div>
+                    <h3 class="special-offer-name">پسته اکبری نمکی دو آتیشه فوق ممتاز</h3>
+                    <p class="special-offer-unit">۱ کیلوکرم</p>
+                    <div class="special-offer-item-details">
+                        <p class="special-offer-price">۴,۹۹۹,۰۰۰تومان</p><button type="button" class="add-button"
+                            aria-label="افزودن پسته دو آتیشه به سبد خرید">+</button>
+                    </div>
+                </div>
+                <div class="special-offer-item">
+                    <div class="special-offer-image"><img src="./images/almond.png" alt="almond"></div>
+                    <h3 class="special-offer-name">بادام درختی شیرین ایرانی</h3>
+                    <p class="special-offer-unit">۱ کیلوگرم</p>
+                    <div class="special-offer-item-details">
+                        <p class="special-offer-price">۳,۵۹۹,۰۰۰ تومان</p><button type="button" class="add-button"
+                            aria-label="افزودن بادام به سبد خرید">+</button>
+                    </div>
+                </div>
+                <div class="special-offer-item">
+                    <div class="special-offer-image">
+                        <span class="discount-badge">۱۰٪</span><img src="./images/chestnut.png" alt="hazelnut">
+                    </div>
+                    <h3 class="special-offer-name">مغز فندق شور ایرانی</h3>
+                    <p class="special-offer-unit">۱ کیلوگرم</p>
+                    <div class="special-offer-item-details">
+                        <div class="special-offer-item-prices">
+                            <del class="price-old">۳,۹۹۰,۰۰۰</del>
+                            <p class="special-offer-price">۳,۵۹۱,۰۰۰ تومان</p>
+                        </div>
+                        <button type="button" class="add-button" aria-label="افزودن فندوق به سبد خرید">+</button>
+                    </div>
+                </div>
+                <div class="special-offer-item">
+                    <div class="special-offer-image"><img src="./images/peanut.png" alt="peanut"></div>
+                    <h3 class="special-offer-name">بادام زمینی شور</h3>
+                    <p class="special-offer-unit">۱ کیلوگرم</p>
+                    <div class="special-offer-item-details">
+                        <p class="special-offer-price">۹۹۹,۰۰۰ تومان</p><button type="button" class="add-button"
+                            aria-label="افزودن بادام زمینی شور به سبد خرید">+</button>
+                    </div>
+                </div>
+                <div class="special-offer-item unavailable">
+                    <div class="special-offer-image">
+                        <span class="unavailable-badge">ناموجود</span><img src="./images/walnut.png" alt="walnut">
+                    </div>
+                    <h3 class="special-offer-name">مغز گردو اعلا</h3>
+                    <p class="special-offer-unit">۴۰۰ گرم</p>
+                    <div class="special-offer-item-details">
+                        <p class="special-offer-price">۸۹۹,۰۰۰ تومان</p><button type="submit" disabled
+                            class="add-button" aria-label="گردو ناموجود است">+</button>
+                    </div>
+                </div>
+                <div class="special-offer-item">
+                    <div class="special-offer-image"><img src="./images/nuts.png" alt="combinational nuts"></div>
+                    <h3 class="special-offer-name">آجیل سه مغز</h3>
+                    <p class="special-offer-unit">ترکیبات این محصول شامل پسته اکبری زعفرانی،بادام هندی شور،بادام درختی
+                        خارجی شور میباشد. ۱ کیلوگرم</p>
+                    <div class="special-offer-item-details">
+                        <p class="special-offer-price">۴,۵۹۹,۰۰۰ تومان</p><button type="button" class="add-button"
+                            aria-label="افزودن آجیل سه مغز به سبد خرید">+</button>
+                    </div>
+                </div>
+                <div class="special-offer-item">
+                    <div class="special-offer-image">
+                        <span class="discount-badge">۴۰٪</span><img src="./images/strawberry-cake.png"
+                            alt="strawberry cake">
+                    </div>
+                    <h3 class="special-offer-name">کیک توت فرنگی</h3>
+                    <p class="special-offer-unit"> یک اسلایس</p>
+                    <div class="special-offer-item-details">
+                        <div class="special-offer-item-prices">
+                            <del class="price-old">۷۵۵,۰۰۰</del>
+                            <p class="special-offer-price">۴۵۳,۰۰۰تومان</p>
+                        </div>
+                        <button type="button" class="add-button" aria-label="افزودن کیک توتفرنگی به سبد خرید">+</button>
+                    </div>
+                </div>
+                <div class="special-offer-item">
+                    <div class="special-offer-image"><img src="./images/cake.png" alt="choclate cake"></div>
+                    <h3 class="special-offer-name">کیک براونی</h3>
+                    <p class="special-offer-unit">یک اسلایس</p>
+                    <div class="special-offer-item-details">
+                        <p class="special-offer-price">۸۲۵,۰۰۰تومان</p><button type="button" class="add-button"
+                            aria-label="افزودن کیک براونی به سبد خرید">+</button>
+                    </div>
+                </div>
+                <div class="special-offer-item" id="candy">
+                    <div class="special-offer-image"><img src="./images/cotton-candy.png" alt="cotton candy"></div>
+                    <h3 class="special-offer-name">پشمک وانیلی حاج عبدالله</h3>
+                    <p class="special-offer-unit">۱۸۰ گرمی</p>
+                    <div class="special-offer-item-details">
+                        <p class="special-offer-price">۱۶۰,۰۰۰ تومان</p><button type="button" class="add-button"
+                            aria-label="افزودن پشمک به سبد خرید">+</button>
+                    </div>
+                </div>
+            </div>
+        </article>
+        <section class="notification" id="notification">
+            <div class="notification-text">
+                <h3>از شگفتانه های ویژه سارا مارکت جا نمونی!</h3>
+                <p>عضو شو تا اولین نفری که خبردار میشه خودت باشی</p>
+            </div>
+            <form class="notification-signingin" action="#" method="post">
+                <input class="notification-input" type="email" id="email" name="email"
+                    placeholder="ایمیل خود را وارد کنید" aria-label="ایمیل برای عضویت در سایت">
+                <button class="notification-button" type="submit">عضویت</button>
+            </form>
+        </section>
+    </main>
+    <footer id="footer">
+        <div class="footer">
+            <div class="footer-top">
+                <div class="footer-top-info">
+                    <h3 class="footer-top-info-header">سارا مارکت</h3>
+                    <p class="footer-top-info-text">از سال ۱۴۰۵ کنار شما هستیم؛ هر چی لازم داری، با قیمت منصفانه و ارسال
+                        سریع. ایراد کوچیک رو همون لحظه درست می‌کنیم.</p>
+                    <div class="footer-top-info-icon">
+                        <a title="تلگرام" href="#" aria-label="ایدی تلگرام سارا مارکت"> <svg aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="footer-icon-social">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M10 14l11 -11" />
+                                <path d="M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5" />
+                            </svg></a>
+                        <a title="اینستاگرام" href="#" aria-label="ایدی اینستا سارا مارکت"><svg aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="footer-icon-social">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path
+                                    d="M4 8a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4l0 -8" />
+                                <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+                                <path d="M16.5 7.5v.01" />
+                            </svg></a>
+                        <a title="واتساپ" href="#" aria-label="ایدی واتسپ سارا مارکت"><svg aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="footer-icon-social">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9" />
+                                <path
+                                    d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1" />
+                            </svg></a>
+                    </div>
+                </div>
+                <div class="footer-top-categories">
+                    <h4 class="footer-top-header">دسته ها</h4>
+                    <ul class="footer-top-categories-list">
+                        <li class="footer-top-categories-list-item"><a href="#categories">تنقلات</a></li>
+                        <li class="footer-top-categories-list-item"><a href="#categories">لبنیات و بستنی</a></li>
+                        <li class="footer-top-categories-list-item"><a href="#categories">میوه و سبزی</a></li>
+                        <li class="footer-top-categories-list-item"><a href="#categories">خواربار و نان</a></li>
+                        <li class="footer-top-categories-list-item"><a href="#categories">نوشیدنی</a></li>
+                        <li class="footer-top-categories-list-item"><a href="#categories">صبحانه</a></li>
+                        <li class="footer-top-categories-list-item"><a href="#special-offer-nuts">آجیل دسر و شیرینی</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-top-contact">
+                    <h4 class="footer-top-header">تماس با ما</h4>
+                    <div class="footer-top-contact-address">
+                        <a href="#" aria-label="آدرس سارا مارکت در نقشه"><svg aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="#FBEAF0" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="footer-icon">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+                                <path
+                                    d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0" />
+                            </svg></a>
+                        <address class="address">تهران، خیابان ولیعصر، پلاک 128.</address>
+                    </div>
+                    <div class="footer-top-contact-phone">
+                        <a href="#" aria-label="شماره تلفن سارا مارکت"><svg aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="#FBEAF0" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="footer-icon">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path
+                                    d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" />
+                            </svg></a>
+                        <a class="footer-top-contact-phonenumber" href="tel:+989294493433" dir="ltr"
+                            id="phonenumber">۰۲۱&#8209;۱۲۳۴۵۶۷۸</a>
+                    </div>
+                </div>
+                <div class="footer-top-openhours">
+                    <h4 class="footer-top-header"> ساعت کاری</h4>
+                    <div class="footer-top-openhours-box">
+                        <div class="footer-top-openhours-box-clock">
+                            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="#F4A6B8" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-clock-hour-4">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                                <path d="M12 12l3 2" />
+                                <path d="M12 7v5" />
+                            </svg>
+                            <p class="footer-top-openhours-box-title">همه روزه باز هستیم</p>
+                        </div>
+                        <p class="footer-top-openhours-box-text">شنبه تا پنجشنبه ۸ تا ۲۴</p>
+                        <p class="footer-top-openhours-box-text">جمعه ها ۱۰ تا ۲۴</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-buttom">
+                <div class="footer-buttom-right">
+                    <p>&copy; ۱۴۰۵ سارامارکت. همه حقوق محفوظ است. | پنجره شکسته، از دار و دسته‌ی چهل‌نفره</p>
+                </div>
+                <div class="footer-buttom-left">
+                    <a class="footer-buttom-left-link" aria-label="بازگشت به ابتدای صفحه" href="#top"><svg
+                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none" stroke="#FBEAF0" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-up">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M12 5l0 14" />
+                            <path d="M16 9l-4 -4" />
+                            <path d="M8 9l4 -4" />
+                        </svg>بازگشت به بالا</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
+
 </html>

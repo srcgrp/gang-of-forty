@@ -1,29 +1,683 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت ترکیب به جای وراثت</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>🧩 سلام دنیا!</h1>
-  </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>ترکیب به جای وراثت</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p><bdi>Composition over Inheritance</bdi> از کتاب معروف <bdi>Design Patterns</bdi> (۱۹۹۴) می‌آید که چهار نویسنده‌اش به <bdi>Gang of Four</bdi> یا «دار و دسته چهارنفره» معروف‌اند. به جای اینکه کلاس‌ها را در درخت‌های عمیق وراثت از هم مشتق کنی، اشیای کوچک را کنار هم بگذار و ترکیبشان کن؛ مثل لگو.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
-    </section>
-  </main>
-  <footer>
-    <p dir="ltr">slug: <code>composition</code></p>
-  </footer>
-</body>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>بت‌شاپ | یه پرواز تا خرید روزانه</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+    <div class="announcement">
+      تازه‌های محله، هر روز در بت‌شاپ
+      <span>ارسال رایگان خریدهای بالای ۵۰۰٬۰۰۰ تومان</span>
+    </div>
+
+    <header class="site-header">
+      <div class="header-top wrap">
+        <a class="brand" href="#top">
+          <svg viewBox="0 0 120 80" width="64" height="44" role="img" aria-labelledby="bat-title">
+            <title id="bat-title">بت‌شاپ؛ بازگشت به بالای صفحه</title>
+            <polygon points="60,34 42,22 8,12 16,42 32,39 40,57 52,51 60,70 68,51 80,57 88,39 104,42 112,12 78,22" fill="currentColor">
+            </polygon>
+            <ellipse cx="60" cy="39" rx="14" ry="20" fill="currentColor">
+            </ellipse>
+            <polygon points="48,28 49,8 59,25 71,8 72,28" fill="currentColor">
+            </polygon>
+            <circle cx="55" cy="32" r="2" fill="#20221f">
+            </circle>
+            <circle cx="65" cy="32" r="2" fill="#20221f">
+            </circle>
+          </svg>
+          <span>
+            <strong>بت‌شاپ</strong>
+            <small>یه پرواز تا خرید روزانه</small>
+          </span>
+        </a>
+        <div class="search-box">
+          <label for="product-search">جست‌وجوی محصولات</label>
+          <input id="product-search" type="search" placeholder="دنبال چی می‌گردی؟">
+        </div>
+        <button class="cart-button" type="button" aria-label="سبد خرید، ۰ کالا">
+          <img src="icons/shopping-cart.svg" alt="" width="48" height="48">
+          <span>سبد خرید</span>
+          <b>۰</b>
+        </button>
+        <details class="mobile-menu">
+          <summary aria-label="باز و بسته کردن منوی اصلی">
+            <img src="icons/menu-2.svg" alt="" width="48" height="48">
+          </summary>
+          <nav aria-label="منوی موبایل">
+            <a href="#fruits">میوه و سبزی</a>
+            <a href="#dairy">لبنیات</a>
+            <a href="#bakery">نان و شیرینی</a>
+            <a href="#protein">پروتئین</a>
+            <a href="#drinks">نوشیدنی</a>
+            <a href="#snacks">تنقلات</a>
+            <a href="#contact">تماس با ما</a>
+          </nav>
+        </details>
+      </div>
+      <nav class="desktop-nav wrap" aria-label="منوی اصلی">
+        <div class="category-menu">
+          <button class="category-trigger" type="button">☰ همهٔ دسته‌ها</button>
+          <div class="category-links">
+            <a href="#fruits">میوه و سبزی</a>
+            <a href="#dairy">لبنیات</a>
+            <a href="#bakery">نان و شیرینی</a>
+            <a href="#protein">پروتئین</a>
+            <a href="#drinks">نوشیدنی</a>
+            <a href="#snacks">تنقلات</a>
+          </div>
+        </div>
+        <a href="#fruits">میوه‌های تازه</a>
+        <a href="#dairy">لبنیات</a>
+        <a href="#bakery">نان و شیرینی</a>
+        <a href="#contact">تماس با ما</a>
+      </nav>
+    </header>
+    <main id="main" class="wrap" tabindex="-1">
+
+      <section class="hero" aria-labelledby="hero-title">
+        <h1 id="hero-title">سوپرمارکت بت‌شاپ</h1>
+        <p>
+          از میوه‌های رنگارنگ تا نان صبحانه؛
+          <br>
+          خوشمزه‌های محله همین‌جاست.
+        </p>
+        <a class="primary-link" href="#categories">بریم سراغ خرید</a>
+      </section>
+      <section id="categories" class="categories-section" aria-labelledby="categories-title">
+        <div class="section-heading">
+          <h2 id="categories-title">از اینجا شروع کن</h2>
+          <p>شش دسته، کلی انتخاب تازه</p>
+        </div>
+        <div class="categories">
+          <a class="category-tile" href="#fruits">
+            <span>
+              <img src="icons/apple.svg" alt="" width="48" height="48">
+            </span>
+            <strong>میوه و سبزی</strong>
+          </a>
+          <a class="category-tile" href="#dairy">
+            <span>
+              <img src="icons/milk.svg" alt="" width="48" height="48">
+            </span>
+            <strong>لبنیات</strong>
+          </a>
+          <a class="category-tile" href="#bakery">
+            <span>
+              <img src="icons/bread.svg" alt="" width="48" height="48">
+            </span>
+            <strong>نان و شیرینی</strong>
+          </a>
+          <a class="category-tile" href="#protein">
+            <span>
+              <img src="icons/egg.svg" alt="" width="48" height="48">
+            </span>
+            <strong>پروتئین</strong>
+          </a>
+          <a class="category-tile" href="#drinks">
+            <span>
+              <img src="icons/cup.svg" alt="" width="48" height="48">
+            </span>
+            <strong>نوشیدنی</strong>
+          </a>
+          <a class="category-tile" href="#snacks">
+            <span>
+              <img src="icons/cookie.svg" alt="" width="48" height="48">
+            </span>
+            <strong>تنقلات</strong>
+          </a>
+        </div>
+      </section>
+
+      <section id="fruits" class="product-section" aria-labelledby="fruits-title">
+        <div class="section-heading">
+          <h2 id="fruits-title">میوه و سبزی</h2>
+          <div class="carousel-controls" role="group" aria-label="کنترل محصولات میوه و سبزی">
+            <a href="#fruits-first" aria-label="ابتدای محصولات میوه و سبزی">ابتدا</a>
+            <a href="#fruits-last" aria-label="انتهای محصولات میوه و سبزی">انتها</a>
+          </div>
+        </div>
+        <div class="products" tabindex="0" role="group" aria-label="محصولات میوه و سبزی؛ برای پیمایش از کلیدهای جهت استفاده کنید">
+          <article class="product-card" id="fruits-first">
+            <div class="product-image">
+              <img src="icons/apple.svg" alt="" width="48" height="48">
+            </div>
+            <h3>سیب سرخ</h3>
+            <p class="unit">۱ کیلوگرم</p>
+            <div class="price">
+              <strong>۱۰۰٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن سیب سرخ به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+          <article class="product-card" id="fruits-2">
+            <div class="product-image">
+              <img src="icons/banana.svg" alt="" width="48" height="48">
+            </div>
+            <h3>موز</h3>
+            <p class="unit">۱ کیلوگرم</p>
+            <div class="price">
+              <strong>۱۵۰٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن موز به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+          <article class="product-card" id="fruits-3">
+            <div class="product-image">
+              <img src="icons/lemon.svg" alt="" width="48" height="48">
+            </div>
+            <span class="discount-badge">۲۰٪ تخفیف</span>
+            <h3>پرتقال</h3>
+            <p class="unit">۱ کیلوگرم</p>
+            <div class="price">
+              <del>۱۰۰٬۰۰۰ تومان</del>
+              <strong>۸۰٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن پرتقال به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+          <article class="product-card" id="fruits-4">
+            <div class="product-image">
+              <img src="icons/grape.svg" alt="" width="48" height="48">
+            </div>
+            <h3>انگور</h3>
+            <p class="unit">۱ کیلوگرم</p>
+            <div class="price">
+              <strong>۱۳۰٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن انگور به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+          <article class="product-card" id="fruits-5">
+            <div class="product-image">
+              <img src="icons/carrot.svg" alt="" width="48" height="48">
+            </div>
+            <h3>هویج</h3>
+            <p class="unit">۱ کیلوگرم</p>
+            <div class="price">
+              <strong>۴۵٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن هویج به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+          <article class="product-card" id="fruits-last">
+            <div class="product-image">
+              <img src="icons/cherry.svg" alt="" width="48" height="48">
+            </div>
+            <h3>گیلاس</h3>
+            <p class="unit">۱ کیلوگرم</p>
+            <div class="price">
+              <strong>۱۸۰٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن گیلاس به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+        </div>
+      </section>
+
+      <section id="dairy" class="product-section" aria-labelledby="dairy-title">
+        <div class="section-heading">
+          <h2 id="dairy-title">لبنیات</h2>
+          <div class="carousel-controls" role="group" aria-label="کنترل محصولات لبنیات">
+            <a href="#dairy-first" aria-label="ابتدای محصولات لبنیات">ابتدا</a>
+            <a href="#dairy-last" aria-label="انتهای محصولات لبنیات">انتها</a>
+          </div>
+        </div>
+        <div class="products" tabindex="0" role="group" aria-label="محصولات لبنیات؛ برای پیمایش از کلیدهای جهت استفاده کنید">
+          <article class="product-card" id="dairy-first">
+            <div class="product-image">
+              <img src="icons/milk.svg" alt="" width="48" height="48">
+            </div>
+            <span class="discount-badge">۱۵٪ تخفیف</span>
+            <h3>شیر کم‌چرب</h3>
+            <p class="unit">۱ لیتر</p>
+            <div class="price">
+              <del>۴۰٬۰۰۰ تومان</del>
+              <strong>۳۴٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن شیر کم‌چرب به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+          <article class="product-card" id="dairy-2">
+            <div class="product-image">
+              <img src="icons/cheese.svg" alt="" width="48" height="48">
+            </div>
+            <h3>پنیر سفید</h3>
+            <p class="unit">۱ بسته</p>
+            <div class="price">
+              <strong>۸۵٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن پنیر سفید به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+          <article class="product-card" id="dairy-3">
+            <div class="product-image">
+              <img src="icons/bowl-spoon.svg" alt="" width="48" height="48">
+            </div>
+            <h3>ماست تازه</h3>
+            <p class="unit">۱ بسته</p>
+            <div class="price">
+              <strong>۶۳٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن ماست تازه به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+          <article class="product-card" id="dairy-4">
+            <div class="product-image">
+              <img src="icons/cheese.svg" alt="" width="48" height="48">
+            </div>
+            <span class="discount-badge">۲۰٪ تخفیف</span>
+            <h3>کره حیوانی</h3>
+            <p class="unit">۱ بسته</p>
+            <div class="price">
+              <del>۷۰٬۰۰۰ تومان</del>
+              <strong>۵۶٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن کره حیوانی به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+          <article class="product-card" id="dairy-5">
+            <div class="product-image">
+              <img src="icons/bottle.svg" alt="" width="48" height="48">
+            </div>
+            <h3>دوغ سنتی</h3>
+            <p class="unit">۱ لیتر</p>
+            <div class="price">
+              <strong>۴۲٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن دوغ سنتی به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+          <article class="product-card" id="dairy-last">
+            <div class="product-image">
+              <img src="icons/bowl-spoon.svg" alt="" width="48" height="48">
+            </div>
+            <h3>خامه صبحانه</h3>
+            <p class="unit">۱ بسته</p>
+            <div class="price">
+              <strong>۴۸٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن خامه صبحانه به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+        </div>
+      </section>
+
+      <section id="bakery" class="product-section" aria-labelledby="bakery-title">
+        <div class="section-heading">
+          <h2 id="bakery-title">نان و شیرینی</h2>
+        </div>
+        <div class="sample-products">
+          <article class="product-card" id="bakery-first">
+            <div class="product-image">
+              <img src="icons/fresh-loaf.svg" alt="" width="48" height="48">
+            </div>
+            <h3>نان تازه</h3>
+            <p class="unit">۱ بسته</p>
+            <div class="price">
+              <strong>۲۵٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن نان تازه به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+          <article class="product-card" id="bakery-2">
+            <div class="product-image">
+              <img src="icons/toast-slices.svg" alt="" width="48" height="48">
+            </div>
+            <h3>نان تست</h3>
+            <p class="unit">۱ بسته</p>
+            <div class="price">
+              <strong>۴۵٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن نان تست به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+          <article class="product-card" id="bakery-3">
+            <div class="product-image">
+              <img src="icons/wholegrain-loaf.svg" alt="" width="48" height="48">
+            </div>
+            <h3>نان سبوس‌دار</h3>
+            <p class="unit">۱ بسته</p>
+            <div class="price">
+              <strong>۵۵٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن نان سبوس‌دار به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+          <article class="product-card" id="bakery-4">
+            <div class="product-image">
+              <img src="icons/chocolate-cake.svg" alt="" width="48" height="48">
+            </div>
+            <h3>کیک شکلاتی</h3>
+            <p class="unit">۲۵۰ گرم</p>
+            <div class="price">
+              <strong>۹۰٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن کیک شکلاتی به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+          <article class="product-card" id="bakery-5">
+            <div class="product-image">
+              <img src="icons/vanilla-cake.svg" alt="" width="48" height="48">
+            </div>
+            <h3>کیک وانیلی</h3>
+            <p class="unit">۲۵۰ گرم</p>
+            <div class="price">
+              <strong>۸۰٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن کیک وانیلی به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+        </div>
+      </section>
+
+      <section id="protein" class="product-section" aria-labelledby="protein-title">
+        <div class="section-heading">
+          <h2 id="protein-title">پروتئین</h2>
+        </div>
+        <div class="sample-products">
+          <article class="product-card" id="protein-first">
+            <div class="product-image">
+              <img src="icons/egg-carton.svg" alt="" width="48" height="48">
+            </div>
+            <h3>تخم‌مرغ</h3>
+            <p class="unit">۶ عدد</p>
+            <div class="price">
+              <strong>۹۵٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن تخم‌مرغ به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+          <article class="product-card" id="protein-2">
+            <div class="product-image">
+              <img src="icons/beef-steak.svg" alt="" width="48" height="48">
+            </div>
+            <h3>گوشت گوساله</h3>
+            <p class="unit">۵۰۰ گرم</p>
+            <div class="price">
+              <strong>۳۵۰٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن گوشت گوساله به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+          <article class="product-card" id="protein-3">
+            <div class="product-image">
+              <img src="icons/lamb-chop.svg" alt="" width="48" height="48">
+            </div>
+            <h3>گوشت گوسفندی</h3>
+            <p class="unit">۵۰۰ گرم</p>
+            <div class="price">
+              <strong>۴۲۰٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن گوشت گوسفندی به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+          <article class="product-card" id="protein-4">
+            <div class="product-image">
+              <img src="icons/minced-meat.svg" alt="" width="48" height="48">
+            </div>
+            <h3>گوشت چرخ‌کرده</h3>
+            <p class="unit">۵۰۰ گرم</p>
+            <div class="price">
+              <strong>۳۲۰٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن گوشت چرخ‌کرده به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+          <article class="product-card" id="protein-5">
+            <div class="product-image">
+              <img src="icons/rainbow-trout.svg" alt="" width="48" height="48">
+            </div>
+            <h3>ماهی قزل‌آلا</h3>
+            <p class="unit">۱ کیلوگرم</p>
+            <div class="price">
+              <strong>۲۸۰٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن ماهی قزل‌آلا به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+        </div>
+      </section>
+
+      <section id="drinks" class="product-section" aria-labelledby="drinks-title">
+        <div class="section-heading">
+          <h2 id="drinks-title">نوشیدنی</h2>
+        </div>
+        <div class="sample-products">
+          <article class="product-card" id="drinks-first">
+            <div class="product-image">
+              <img src="icons/mineral-water.svg" alt="" width="48" height="48">
+            </div>
+            <h3>آب معدنی</h3>
+            <p class="unit">۱ لیتر</p>
+            <div class="price">
+              <strong>۱۵٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن آب معدنی به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+          <article class="product-card" id="drinks-2">
+            <div class="product-image">
+              <img src="icons/orange-juice.svg" alt="" width="48" height="48">
+            </div>
+            <h3>آب‌پرتقال</h3>
+            <p class="unit">۱ لیتر</p>
+            <div class="price">
+              <strong>۷۵٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن آب‌پرتقال به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+          <article class="product-card" id="drinks-3">
+            <div class="product-image">
+              <img src="icons/apple-juice.svg" alt="" width="48" height="48">
+            </div>
+            <h3>آب‌سیب</h3>
+            <p class="unit">۱ لیتر</p>
+            <div class="price">
+              <strong>۷۰٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن آب‌سیب به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+          <article class="product-card" id="drinks-4">
+            <div class="product-image">
+              <img src="icons/soda-bottle.svg" alt="" width="48" height="48">
+            </div>
+            <h3>نوشابه</h3>
+            <p class="unit">۱ لیتر</p>
+            <div class="price">
+              <strong>۴۵٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن نوشابه به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+          <article class="product-card" id="drinks-5">
+            <div class="product-image">
+              <img src="icons/malt-drink.svg" alt="" width="48" height="48">
+            </div>
+            <h3>ماءالشعیر</h3>
+            <p class="unit">۱ لیتر</p>
+            <div class="price">
+              <strong>۵۵٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن ماءالشعیر به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+        </div>
+      </section>
+
+      <section id="snacks" class="product-section" aria-labelledby="snacks-title">
+        <div class="section-heading">
+          <h2 id="snacks-title">تنقلات</h2>
+        </div>
+        <div class="sample-products">
+          <article class="product-card" id="snacks-first">
+            <div class="product-image">
+              <img src="icons/chocolate-cookie.svg" alt="" width="48" height="48">
+            </div>
+            <h3>کوکی</h3>
+            <p class="unit">۱ بسته</p>
+            <div class="price">
+              <strong>۶۵٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن کوکی به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+          <article class="product-card" id="snacks-2">
+            <div class="product-image">
+              <img src="icons/butter-biscuits.svg" alt="" width="48" height="48">
+            </div>
+            <h3>بیسکویت کره‌ای</h3>
+            <p class="unit">۲۰۰ گرم</p>
+            <div class="price">
+              <strong>۴۰٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن بیسکویت کره‌ای به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+          <article class="product-card" id="snacks-3">
+            <div class="product-image">
+              <img src="icons/salt-crackers.svg" alt="" width="48" height="48">
+            </div>
+            <h3>کراکر نمکی</h3>
+            <p class="unit">۱۵۰ گرم</p>
+            <div class="price">
+              <strong>۳۵٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن کراکر نمکی به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+          <article class="product-card" id="snacks-4">
+            <div class="product-image">
+              <img src="icons/walnut-pastry.svg" alt="" width="48" height="48">
+            </div>
+            <h3>کلوچه گردویی</h3>
+            <p class="unit">۲ عدد</p>
+            <div class="price">
+              <strong>۵۰٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن کلوچه گردویی به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+          <article class="product-card" id="snacks-5">
+            <div class="product-image">
+              <img src="icons/raisin-cake.svg" alt="" width="48" height="48">
+            </div>
+            <h3>کیک کشمشی</h3>
+            <p class="unit">۱ عدد</p>
+            <div class="price">
+              <strong>۳۰٬۰۰۰ تومان</strong>
+            </div>
+            <button type="button" aria-label="افزودن کیک کشمشی به سبد">
+              افزودن به سبد
+              <span aria-hidden="true">＋</span>
+            </button>
+          </article>
+        </div>
+      </section>
+    </main>
+    <footer id="contact">
+      <div class="wrap footer-grid">
+        <div>
+          <h2>بت‌شاپ</h2>
+          <p>یه پرواز تا خرید روزانه</p>
+          <p>فروشگاه تمرینی بت شاپ؛ تازه، نزدیک و خوش‌قیمت.</p>
+          <address>
+            نشانی نمونه: تهران، خیابان بهار، پلاک ۱۲
+            <br>
+            تلفن نمونه:
+            <a href="tel:+982100000000">
+              <bdi dir="ltr">۰۲۱–۰۰۰۰۰۰۰۰</bdi>
+            </a>
+          </address>
+        </div>
+        <nav aria-label="دسته‌بندی‌های پایین صفحه">
+          <h2>دسته‌بندی‌ها</h2>
+          <a href="#fruits">میوه و سبزی</a>
+          <a href="#dairy">لبنیات</a>
+          <a href="#bakery">نان و شیرینی</a>
+          <a href="#protein">پروتئین</a>
+          <a href="#drinks">نوشیدنی</a>
+          <a href="#snacks">تنقلات</a>
+        </nav>
+        <div>
+          <h2>ساعت کاری</h2>
+          <p>شنبه تا پنجشنبه: ۸ تا ۲۲</p>
+          <p>جمعه: ۹ تا ۲۰</p>
+          <p>قیمت‌ها به تومان هستند.</p>
+          <a href="../../index.html">دار و دستهٔ چهل‌نفره</a>
+        </div>
+      </div>
+      <div class="wrap footer-bottom">
+        <p>© ۱۴۰۵ بت‌شاپ؛ ساخته‌شده به سختی در بوت کمپ همراه.</p>
+        <a href="#top">بازگشت به بالا ↑</a>
+      </div>
+    </footer>
+  </body>
 </html>
