@@ -2,6 +2,80 @@ import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
 import Fuse from "fuse.js";
 
+type Product = {
+  id: number;
+  name: string;
+  categoryId: number;
+  price: number;
+  unit: string;
+  emoji?: string;
+};
+
+type Offer = {
+  productId: number;
+  percent: number;
+  label: string;
+};
+
+type Stock = {
+  items: Record<number, number>;
+};
+
+type Hero = {
+  title: string;
+  text: string;
+  cta: {
+    label: string;
+    href: string;
+  };
+};
+
+type HomeCarousel = {
+  id: string;
+  title: string;
+  source?: string;
+  categoryId?: number;
+};
+
+type Category = {
+  id: number;
+  name: string;
+  slug: string;
+};
+
+type Promo = {
+  href: string;
+  text: string;
+};
+
+type LinkItem = {
+  href: string;
+  label: string;
+};
+
+type Shop = {
+  help: LinkItem[];
+  menu: LinkItem[];
+
+  about: string;
+  schedule: {
+    days: string;
+    time: string;
+  }[];
+  phone: string;
+  address: string;
+  name: string;
+  copyright: string;
+  notice: string;
+};
+
+type Home = {
+  hero: Hero;
+  side: Hero;
+  promos: Promo[];
+  carousels: HomeCarousel[];
+};
+
 const notyf = new Notyf({
   duration: 2500,
   position: {
@@ -21,72 +95,72 @@ const notyf = new Notyf({
   ],
 });
 
-let productSearch: Fuse<{ id: number; name:string}> | null=null;
+let productSearch: Fuse<Product> | null=null;
 const priceFormatter = new Intl.NumberFormat("fa-IR");
-const categoryImages = {
-  1: "./asset/products/fruits-and-vegetables.png",
-  2: "./asset/products/breakfast-and-dairy.png",
-  3: "./asset/products/bakery.webp",
-  4: "./asset/products/pantry.webp",
-  5: "./asset/products/drinks.png",
-  6: "./asset/products/proteins.png",
-  7: "./asset/products/snacks.webp",
+const categoryImages: Partial<Record<number,string>> = {
+  1: "/asset/products/fruits-and-vegetables.png",
+  2: "/asset/products/breakfast-and-dairy.png",
+  3: "/asset/products/bakery.webp",
+  4: "/asset/products/pantry.webp",
+  5: "/asset/products/drinks.png",
+  6: "/asset/products/proteins.png",
+  7: "/asset/products/snacks.webp",
 };
 
-const productImages = {
+const productImages: Partial<Record<number,string>> = {
   // Fruits & Vegetables
-  101: "./asset/products/apple.webp",
-  102: "./asset/products/oranges.png",
-  103: "./asset/products/bananas.png",
-  104: "./asset/products/tomatos.webp",
-  105: "./asset/products/cucumber.webp",
-  106: "./asset/products/grapes.webp",
-  107: "./asset/products/watermelon.png",
+  101: "/asset/products/apple.webp",
+  102: "/asset/products/oranges.png",
+  103: "/asset/products/bananas.png",
+  104: "/asset/products/tomatos.webp",
+  105: "/asset/products/cucumber.webp",
+  106: "/asset/products/grapes.webp",
+  107: "/asset/products/watermelon.png",
   // Dairy & Breakfast
-  201: "./asset/products/milk.png",
-  202: "./asset/products/cheese.png",
-  203: "./asset/products/yogurt.png",
-  204: "./asset/products/butter.png",
-  205: "./asset/products/ice-cream.webp",
-  206: "./asset/products/eggs.png",
+  201: "/asset/products/milk.png",
+  202: "/asset/products/cheese.png",
+  203: "/asset/products/yogurt.png",
+  204: "/asset/products/butter.png",
+  205: "/asset/products/ice-cream.webp",
+  206: "/asset/products/eggs.png",
   // Bakery
-  301: "./asset/products/sangak.webp",
-  302: "./asset/products/buget.webp",
-  303: "./asset/products/cake.png",
-  304: "./asset/products/croissant.webp",
-  305: "./asset/products/toast.webp",
-  306: "./asset/products/fooman-cookie.webp",
+  301: "/asset/products/sangak.webp",
+  302: "/asset/products/buget.webp",
+  303: "/asset/products/cake.png",
+  304: "/asset/products/croissant.webp",
+  305: "/asset/products/toast.webp",
+  306: "/asset/products/fooman-cookie.webp",
   // Pantry
-  401: "./asset/products/rice.webp",
-  402: "./asset/products/honey.png",
-  403: "./asset/products/saffaron.webp",
-  404: "./asset/products/oil.webp",
-  405: "./asset/products/pasta.webp",
-  406: "./asset/products/lentils.webp",
+  401: "/asset/products/rice.webp",
+  402: "/asset/products/honey.png",
+  403: "/asset/products/saffaron.webp",
+  404: "/asset/products/oil.webp",
+  405: "/asset/products/pasta.webp",
+  406: "/asset/products/lentils.webp",
   // Drinks
-  501: "./asset/products/tea.png",
-  502: "./asset/products/doogh.png",
-  503: "./asset/products/water.webp",
-  504: "./asset/products/orange-juice.png",
-  505: "./asset/products/coffee.png",
-  506: "./asset/products/cherry-juice.webp",
+  501: "/asset/products/tea.png",
+  502: "/asset/products/doogh.png",
+  503: "/asset/products/water.webp",
+  504: "/asset/products/orange-juice.png",
+  505: "/asset/products/coffee.png",
+  506: "/asset/products/cherry-juice.webp",
   // Protein
-  601: "./asset/products/chicken.png",
-  602: "./asset/products/meat.png",
-  603: "./asset/products/fish.png",
-  604: "./asset/products/shrimp.png",
-  605: "./asset/products/chicken-fillet.webp",
-  606: "./asset/products/tuna.webp",
+  601: "/asset/products/chicken.png",
+  602: "/asset/products/meat.png",
+  603: "/asset/products/fish.png",
+  604: "/asset/products/shrimp.png",
+  605: "/asset/products/chicken-fillet.webp",
+  606: "/asset/products/tuna.webp",
   // Snacks & Sweets
-  701: "./asset/products/popcorn.webp",
-  702: "./asset/products/chips.webp",
-  703: "./asset/products/chocolate.png",
-  704: "./asset/products/cookie.png",
-  705: "./asset/products/nuts.png",
-  706: "./asset/products/gaz.webp",
+  701: "/asset/products/popcorn.webp",
+  702: "/asset/products/chips.webp",
+  703: "/asset/products/chocolate.png",
+  704: "/asset/products/cookie.png",
+  705: "/asset/products/nuts.png",
+  706: "/asset/products/gaz.webp",
 };
 
-function createProductMedia(product) {
+function createProductMedia(product : Product) {
   const imagePath = productImages[product.id];
   if (imagePath) {
     const image = document.createElement("img");
@@ -102,7 +176,7 @@ function createProductMedia(product) {
   emoji.setAttribute("aria-hidden", "true");
   return emoji;
 }
-function createProductCard(product, offersMap, stock) {
+function createProductCard(product: Product, offersMap: Map<number,Offer>, stock: Stock) {
   const offer = offersMap.get(product.id);
   const quantity = stock.items[product.id] ?? 0;
   const isAvailable = quantity > 0;
@@ -154,7 +228,7 @@ function createProductCard(product, offersMap, stock) {
   card.append(media, name, unit, priceBox, button);
   return card;
 }
-function renderProductCarousel(container, products, offersMap, stock) {
+function renderProductCarousel(container: HTMLElement, products: Product[], offersMap: Map<number,Offer>, stock: Stock) {
   const cards = products.map((product) => {
     return createProductCard(product, offersMap, stock);
   });
@@ -162,7 +236,7 @@ function renderProductCarousel(container, products, offersMap, stock) {
   container.replaceChildren(...cards);
   container.setAttribute("aria-busy", "false");
 }
-function showError(container, messageText) {
+function showError(container: Element | null, messageText: string) {
   if (!container) {
     return;
   }
@@ -173,14 +247,14 @@ function showError(container, messageText) {
   container.replaceChildren(message);
   container.setAttribute("aria-busy", "false");
 }
-async function fetchJSON(url) {
+async function fetchJSON<T>(url: string): Promise<T> {
   const response = await fetch(url);
   if (!response.ok) {
     throw new Error(`Failed to fetch ${url}: HTTP ${response.status}`);
   }
   return response.json();
 }
-function renderHero(hero) {
+function renderHero(hero: Hero) {
   const title = document.querySelector("#hero-title");
   const text = document.querySelector("#hero-text");
   const cta = document.querySelector<HTMLAnchorElement>("#hero-cta");
@@ -192,7 +266,7 @@ function renderHero(hero) {
   cta.textContent = hero.cta.label;
   cta.href = hero.cta.href;
 }
-function getCarouselProducts(carousel, products, offersMap) {
+function getCarouselProducts(carousel: HomeCarousel, products: Product[], offersMap: Map<number,Offer>): Product[] {
   if (carousel.source === "offers") {
     return products.filter((product) => offersMap.has(product.id));
   }
@@ -206,7 +280,7 @@ function getCarouselProducts(carousel, products, offersMap) {
   return [];
 }
 
-function createHomeCarousel(carousel, products, offersMap, stock) {
+function createHomeCarousel(carousel: HomeCarousel, products:Product[], offersMap: Map<number,Offer>, stock:Stock):HTMLElement {
   const section = document.createElement("section");
   section.className = "product-section home-carousel-section";
   section.id = carousel.id;
@@ -238,7 +312,7 @@ function createHomeCarousel(carousel, products, offersMap, stock) {
   return section;
 }
 
-function renderHomeCarousels(carousels,products,offersMap,stock, categories,) {
+function renderHomeCarousels(carousels: HomeCarousel[],products:Product[],offersMap: Map<number,Offer>,stock:Stock, categories:Category[]) {
   const featuredContainer = document.querySelector("#home-featured-carousels");
   const categoryContainer = document.querySelector("#home-category-carousels");
   if(!featuredContainer || !categoryContainer){
@@ -278,7 +352,7 @@ function renderHomeCarousels(carousels,products,offersMap,stock, categories,) {
   categoryContainer.replaceChildren(...categorySections);
 }
 
-function renderSideBanner(side) {
+function renderSideBanner(side: Hero) {
   const container = document.querySelector("#home-side");
   if(!container){
     return;
@@ -296,7 +370,7 @@ function renderSideBanner(side) {
   banner.append(title, text, link);
   container.replaceChildren(banner);
 }
-function renderPromoBanners(promos) {
+function renderPromoBanners(promos: Promo[]) {
   const container = document.querySelector("#home-promos");
   if(!container){
     return;
@@ -344,7 +418,7 @@ updateCartCount();
 function showCartToast(){
   notyf.success("محصول به سبد خرید اضافه شد");
 }
-function updateSearchPlaceholder(productCount) {
+function updateSearchPlaceholder(productCount: number) {
   const searchInput =
     document.querySelector<HTMLInputElement>("#site-search");
 
@@ -354,12 +428,12 @@ function updateSearchPlaceholder(productCount) {
 
   searchInput.placeholder = `جستجو در میان ${priceFormatter.format(productCount)} کالا...`;
 }
-function createCategoryCard(category) {
+function createCategoryCard(category: Category) {
   const card = document.createElement("a");
   card.classList.add("category-card");
   card.href = `#${category.slug}`;
   const image = document.createElement("img");
-  image.src = categoryImages[category.id];
+  image.src = categoryImages[category.id] ?? "";
   image.alt = "";
   image.setAttribute("aria-hidden", "true");
   const name = document.createElement("span");
@@ -367,7 +441,7 @@ function createCategoryCard(category) {
   card.append(image, name);
   return card;
 }
-function renderCategories(categories) {
+function renderCategories(categories:Category[]) {
   const container = document.querySelector("#category-grid");
   if(!container){
     return
@@ -378,7 +452,7 @@ function renderCategories(categories) {
   container.replaceChildren(...cards);
   container.setAttribute("aria-busy", "false");
 }
-function renderCategoryDropdown(categories) {
+function renderCategoryDropdown(categories:Category[]) {
   const dropdown = document.querySelector("#category-dropdown");
    if(!dropdown){
     return;
@@ -396,7 +470,7 @@ function renderCategoryDropdown(categories) {
 
   dropdown.replaceChildren(...apiLinks, ...customLinks);
 }
-function renderFooterCategories(categories) {
+function renderFooterCategories(categories:Category[]) {
   const container = document.querySelector("#footer-categories");
   if(!container){
     return;
@@ -415,7 +489,7 @@ function renderFooterCategories(categories) {
   });
   container.replaceChildren(...apiLinks, ...customLinks);
 }
-function renderShopHelp(shop) {
+function renderShopHelp(shop:Shop) {
   const container = document.querySelector("#footer-help");
   if(!container){
     return
@@ -428,7 +502,10 @@ function renderShopHelp(shop) {
   });
   container.replaceChildren(...links);
 }
-function renderShopMenu(container, menuItems) {
+function renderShopMenu(container:Element | null, menuItems:LinkItem[]) {
+  if (!container) {
+  return;
+}
   const categoryHrefs = new Set([
     "#fruits",
     "#dairy",
@@ -459,20 +536,20 @@ function renderShopMenu(container, menuItems) {
   });
   container.replaceChildren(...links);
 }
-function renderShopMenus(shop) {
+function renderShopMenus(shop:Shop) {
   const desktopMenu = document.querySelector("#shop-desktop-menu");
   const mobileMenu = document.querySelector("#shop-mobile-menu");
   renderShopMenu(desktopMenu, shop.menu);
   renderShopMenu(mobileMenu, shop.menu);
 }
-function renderShopAbout(shop) {
+function renderShopAbout(shop:Shop) {
   const aboutElement = document.querySelector("#shop-about");
   if(!aboutElement){
     return
   }
   aboutElement.textContent = shop.about;
 }
-function renderShopSchedule(shop) {
+function renderShopSchedule(shop:Shop) {
   const container = document.querySelector("#shop-schedule");
   if(!container){
     return
@@ -487,7 +564,7 @@ function renderShopSchedule(shop) {
   container.replaceChildren(title, ...scheduleItems);
 }
 
-function renderShopContact(shop) {
+function renderShopContact(shop:Shop) {
   const phoneElement = document.querySelector("#shop-phone");
   const addressElement = document.querySelector("#shop-address");
   const phoneLink = document.querySelector<HTMLAnchorElement>( '.footer-social-link[aria-label="تماس تلفنی"]', );
@@ -500,21 +577,21 @@ function renderShopContact(shop) {
   phoneLink.href = `tel:${normalizedPhone}`;
 }
 
-function renderShopCopyright(shop) {
+function renderShopCopyright(shop: Shop) {
   const copyrightElement = document.querySelector("#shop-copyright");
     if(!copyrightElement){
     return
   }
   copyrightElement.textContent = shop.copyright.replace(shop.name, "تازه‌خانه");
 }
-function renderShopNotice(shop) {
+function renderShopNotice(shop: Shop) {
   const noticeElement = document.querySelector("#shop-notice");
     if(!noticeElement){
     return
   }
   noticeElement.textContent = shop.notice;
 }
-function setupCarouselControls(container, startButton, endButton) {
+function setupCarouselControls(container:HTMLElement, startButton:HTMLButtonElement, endButton:HTMLButtonElement) {
   startButton.addEventListener("click", () => {
     container.scrollTo({
       left: 0,
@@ -532,12 +609,12 @@ async function loadAllData() {
   try {
     const [products, offers, stock, shop, categories, home] = await Promise.all(
       [
-        fetchJSON("/api/products.json"),
-        fetchJSON("/api/offers.json"),
-        fetchJSON("/api/stock.json"),
-        fetchJSON("/api/shop.json"),
-        fetchJSON("/api/categories.json"),
-        fetchJSON("/api/home.json"),
+        fetchJSON<Product[]>("/api/products.json"),
+        fetchJSON<Offer[]>("/api/offers.json"),
+        fetchJSON<Stock>("/api/stock.json"),
+        fetchJSON<Shop>("/api/shop.json"),
+        fetchJSON<Category[]>("/api/categories.json"),
+        fetchJSON<Home>("/api/home.json"),
       ],
     );
     const offersMap = new Map(offers.map((offer) => [offer.productId, offer]));
@@ -584,7 +661,7 @@ async function loadAllData() {
 loadAllData();
 const lightButton = document.querySelector<HTMLButtonElement>("#theme-light-button");
 const darkButton = document.querySelector<HTMLButtonElement>("#theme-dark-button");
-function setTheme(theme) {
+function setTheme(theme:"light"| "dark") {
   document.documentElement.dataset.theme = theme;
   lightButton?.setAttribute("aria-pressed", String(theme === "light"));
   darkButton?.setAttribute("aria-pressed", String(theme === "dark"));
