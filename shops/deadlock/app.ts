@@ -80,9 +80,11 @@ function showMessage(container, text){
 }
 const textmsg = 'در حال بارگذاری...'
 async function loadProducts(){
-    const offersContainer = document.querySelector('#special-offers .carousel') 
-    const container = document.querySelector('#tents .carousel')
-    
+    const offersContainer = document.querySelector<HTMLDivElement>('#special-offers .carousel') 
+    const container = document.querySelector<HTMLDivElement>('#tents .carousel')
+    if(!offersContainer || !container){
+        throw new Error('cannot find')
+    }
     const pantryLoading = showMessage(container, textmsg)
     const offersLoading = showMessage(offersContainer, textmsg)
     try {
@@ -93,16 +95,26 @@ async function loadProducts(){
         offersLoading.remove()
         renderProducts(container, pantryProducts, stock, offers)
         renderProducts(offersContainer, offerProducts, stock, offers)
-        offersContainer.firstElementChild.id = 'offer-first'
-        offersContainer.lastElementChild.id = 'offer-last'
+        const firstOffer = offersContainer.firstElementChild
+        const lastOffer = offersContainer.lastElementChild
+        if(firstOffer && lastOffer){
+            firstOffer.id = 'offer-first'
+            lastOffer.id = 'offer-last'
+        }
 
     } catch (error) {
         pantryLoading.remove()
         offersLoading.remove()
-        console.log(error.message)       
         const errorText = 'متأسفانه محصولات بارگذاری نشد. لطفاً دوباره تلاش کنید.'    
         showMessage(container, errorText) 
         showMessage(offersContainer, errorText)
+        if(error instanceof Error){
+            console.log(error.message)       
+            
+        }
+        else{
+            console.log('یه خطای ناشناخته پیش اومد')
+        }
     }
     
     
