@@ -1,3 +1,27 @@
+import { Notyf } from "notyf";
+import "notyf/notyf.min.css";
+import Fuse from "fuse.js";
+
+const notyf = new Notyf({
+  duration: 2500,
+  position: {
+    x: "center",
+    y: "top",
+  },
+  types: [
+    {
+      type: "success",
+      background: "#07566b",
+      icon: {
+        className: "notyf__icon--success",
+        tagName: "i",
+        color: "#07566b",
+      },
+    },
+  ],
+});
+
+let productSearch: Fuse<{ id: number; name:string}> | null=null;
 const priceFormatter = new Intl.NumberFormat("fa-IR");
 const categoryImages = {
   1: "./asset/products/fruits-and-vegetables.png",
@@ -159,7 +183,10 @@ async function fetchJSON(url) {
 function renderHero(hero) {
   const title = document.querySelector("#hero-title");
   const text = document.querySelector("#hero-text");
-  const cta = document.querySelector("#hero-cta");
+  const cta = document.querySelector<HTMLAnchorElement>("#hero-cta");
+  if(!title ||!text||!cta){
+    return;
+  }
   title.textContent = hero.title;
   text.textContent = hero.text;
   cta.textContent = hero.cta.label;
@@ -211,15 +238,12 @@ function createHomeCarousel(carousel, products, offersMap, stock) {
   return section;
 }
 
-function renderHomeCarousels(
-  carousels,
-  products,
-  offersMap,
-  stock,
-  categories,
-) {
+function renderHomeCarousels(carousels,products,offersMap,stock, categories,) {
   const featuredContainer = document.querySelector("#home-featured-carousels");
   const categoryContainer = document.querySelector("#home-category-carousels");
+  if(!featuredContainer || !categoryContainer){
+    return;
+  }
 
   const featured = carousels.filter((item) => item.source === "offers");
   const configuredCategories = carousels.filter(
@@ -256,6 +280,9 @@ function renderHomeCarousels(
 
 function renderSideBanner(side) {
   const container = document.querySelector("#home-side");
+  if(!container){
+    return;
+  }
   const banner = document.createElement("article");
   banner.className = "home-side-banner";
   const title = document.createElement("h2");
@@ -271,6 +298,9 @@ function renderSideBanner(side) {
 }
 function renderPromoBanners(promos) {
   const container = document.querySelector("#home-promos");
+  if(!container){
+    return;
+  }
   const cards = promos.map((promo) => {
     const link = document.createElement("a");
     link.className = "home-promo-card";
@@ -287,6 +317,9 @@ const savedCartCount = Number(localStorage.getItem("cartCount"));
 let cartCount =
   Number.isFinite(savedCartCount) && savedCartCount >= 0 ? savedCartCount : 0;
 function updateCartCount() {
+  if(!cartCountElement){
+    return;
+  }
   cartCountElement.textContent = priceFormatter.format(cartCount);
 }
 function addToCart() {
@@ -296,24 +329,29 @@ function addToCart() {
   showCartToast();
 }
 document.addEventListener("click", (event) => {
-  const button = event.target.closest(".product-card button");
+  const target=event.target;
+  if(!(target instanceof Element)){
+    return;
+  }
+  const button = target.closest<HTMLButtonElement>(".product-card button");
   if (!button || button.disabled) {
     return;
   }
   addToCart();
 });
 updateCartCount();
-const cartToast = document.querySelector(".cart-toast");
-let toastTimeout;
-function showCartToast() {
-  cartToast.classList.add("show");
-  clearTimeout(toastTimeout);
-  toastTimeout = setTimeout(() => {
-    cartToast.classList.remove("show");
-  }, 2000);
+
+function showCartToast(){
+  notyf.success("محصول به سبد خرید اضافه شد");
 }
 function updateSearchPlaceholder(productCount) {
-  const searchInput = document.querySelector("#site-search");
+  const searchInput =
+    document.querySelector<HTMLInputElement>("#site-search");
+
+  if (!searchInput) {
+    return;
+  }
+
   searchInput.placeholder = `جستجو در میان ${priceFormatter.format(productCount)} کالا...`;
 }
 function createCategoryCard(category) {
@@ -331,6 +369,9 @@ function createCategoryCard(category) {
 }
 function renderCategories(categories) {
   const container = document.querySelector("#category-grid");
+  if(!container){
+    return
+  }
   const cards = categories.map((category) => {
     return createCategoryCard(category);
   });
@@ -339,6 +380,9 @@ function renderCategories(categories) {
 }
 function renderCategoryDropdown(categories) {
   const dropdown = document.querySelector("#category-dropdown");
+   if(!dropdown){
+    return;
+   }
   const apiLinks = categories.map((category) => {
     const link = document.createElement("a");
     link.classList.add("dropdown-item");
@@ -348,12 +392,15 @@ function renderCategoryDropdown(categories) {
     return link;
   });
   const customLinks = Array.from(
-    dropdown.querySelectorAll(":scope > a:not([data-api-category])"),
-  );
+    dropdown.querySelectorAll(":scope > a:not([data-api-category])"),);
+
   dropdown.replaceChildren(...apiLinks, ...customLinks);
 }
 function renderFooterCategories(categories) {
   const container = document.querySelector("#footer-categories");
+  if(!container){
+    return;
+  }
   const apiLinks = categories.map((category) => {
     const link = document.createElement("a");
     link.href = `#${category.slug}`;
@@ -370,6 +417,9 @@ function renderFooterCategories(categories) {
 }
 function renderShopHelp(shop) {
   const container = document.querySelector("#footer-help");
+  if(!container){
+    return
+  }
   const links = shop.help.map((item) => {
     const link = document.createElement("a");
     link.href = item.href;
@@ -417,10 +467,16 @@ function renderShopMenus(shop) {
 }
 function renderShopAbout(shop) {
   const aboutElement = document.querySelector("#shop-about");
+  if(!aboutElement){
+    return
+  }
   aboutElement.textContent = shop.about;
 }
 function renderShopSchedule(shop) {
   const container = document.querySelector("#shop-schedule");
+  if(!container){
+    return
+  }
   const title = document.createElement("p");
   title.textContent = "ساعات کاری:";
   const scheduleItems = shop.schedule.map((item) => {
@@ -434,24 +490,28 @@ function renderShopSchedule(shop) {
 function renderShopContact(shop) {
   const phoneElement = document.querySelector("#shop-phone");
   const addressElement = document.querySelector("#shop-address");
-
+  const phoneLink = document.querySelector<HTMLAnchorElement>( '.footer-social-link[aria-label="تماس تلفنی"]', );
+    if(!phoneElement||!addressElement||!phoneLink){
+    return
+  }
   phoneElement.textContent = shop.phone;
   addressElement.textContent = shop.address;
-
-  const phoneLink = document.querySelector(
-    '.footer-social-link[aria-label="تماس تلفنی"]',
-  );
-
   const normalizedPhone = shop.phone.replace(/[^\d+]/g, "");
   phoneLink.href = `tel:${normalizedPhone}`;
 }
 
 function renderShopCopyright(shop) {
   const copyrightElement = document.querySelector("#shop-copyright");
+    if(!copyrightElement){
+    return
+  }
   copyrightElement.textContent = shop.copyright.replace(shop.name, "تازه‌خانه");
 }
 function renderShopNotice(shop) {
   const noticeElement = document.querySelector("#shop-notice");
+    if(!noticeElement){
+    return
+  }
   noticeElement.textContent = shop.notice;
 }
 function setupCarouselControls(container, startButton, endButton) {
@@ -472,15 +532,20 @@ async function loadAllData() {
   try {
     const [products, offers, stock, shop, categories, home] = await Promise.all(
       [
-        fetchJSON("../../api/products.json"),
-        fetchJSON("../../api/offers.json"),
-        fetchJSON("../../api/stock.json"),
-        fetchJSON("../../api/shop.json"),
-        fetchJSON("../../api/categories.json"),
-        fetchJSON("../../api/home.json"),
+        fetchJSON("/api/products.json"),
+        fetchJSON("/api/offers.json"),
+        fetchJSON("/api/stock.json"),
+        fetchJSON("/api/shop.json"),
+        fetchJSON("/api/categories.json"),
+        fetchJSON("/api/home.json"),
       ],
     );
     const offersMap = new Map(offers.map((offer) => [offer.productId, offer]));
+    productSearch =new Fuse(products,{
+      keys: ["name"],
+      threshold: 0.35,
+      ignoreLocation:true,
+    });
     updateSearchPlaceholder(products.length);
     renderShopNotice(shop);
     renderShopMenus(shop);
@@ -517,20 +582,86 @@ async function loadAllData() {
   }
 }
 loadAllData();
-const lightButton = document.querySelector("#theme-light-button");
-const darkButton = document.querySelector("#theme-dark-button");
+const lightButton = document.querySelector<HTMLButtonElement>("#theme-light-button");
+const darkButton = document.querySelector<HTMLButtonElement>("#theme-dark-button");
 function setTheme(theme) {
   document.documentElement.dataset.theme = theme;
-  lightButton.setAttribute("aria-pressed", String(theme === "light"));
-  darkButton.setAttribute("aria-pressed", String(theme === "dark"));
+  lightButton?.setAttribute("aria-pressed", String(theme === "light"));
+  darkButton?.setAttribute("aria-pressed", String(theme === "dark"));
 }
-lightButton.addEventListener("click", () => {
+lightButton?.addEventListener("click", () => {
   setTheme("light");
 });
-darkButton.addEventListener("click", () => {
+darkButton?.addEventListener("click", () => {
   setTheme("dark");
 });
 setTheme("light");
 document.querySelector(".search")?.addEventListener("submit", (event) => {
   event.preventDefault();
 });
+
+function setupProductsSearch(){
+  const searchInput=document.querySelector<HTMLInputElement>("#site-search");
+  const resultContainer=document.querySelector<HTMLDivElement>("#search-result");
+  if(!searchInput || !resultContainer){
+    return;
+  }
+  searchInput.addEventListener("input", () => {
+    const query =searchInput.value.trim();
+    if(!query || !productSearch){
+      resultContainer.replaceChildren();
+      resultContainer.hidden=true;
+      return;
+    }
+
+    const matches=productSearch.search(query, {limit:4
+    });
+    resultContainer.replaceChildren();
+    if(matches.length===0){
+      const message=document.createElement("p");
+      message.textContent="محصولی پیدا نشد."
+      resultContainer.append(message);
+    }else{
+      matches.forEach(({ item }) => {
+        const result=document.createElement("div");
+        result.className="search-result-item";
+        result.textContent=item.name;
+        result.addEventListener("click", () => {
+          resultContainer.hidden=true;
+
+          const productCard=document.querySelector<HTMLElement>(`.product-card[data-api-product="${item.id}"]`);
+           if(!productCard){
+            return;
+          }
+          productCard.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+            inline: "nearest",
+          });
+          productCard.classList.add("product-highlight");
+          setTimeout(() => {
+            productCard.classList.remove("product-highlight");
+          },2500);
+        });
+        resultContainer.append(result);
+      });
+    }
+    resultContainer.hidden=false;
+  });
+searchInput.addEventListener("click", () => {
+  if (searchInput.value.trim() && resultContainer.hasChildNodes()) {
+    resultContainer.hidden = false;
+  }
+});
+const searchForm=searchInput.closest(".search");
+  document.addEventListener("click", (event) => {
+    const target=event.target;
+    if(!(target instanceof Node) || !searchForm){
+      return;
+    }
+    if (!searchForm.contains(target)) {
+    resultContainer.hidden = true;
+  }
+  });
+}
+setupProductsSearch();

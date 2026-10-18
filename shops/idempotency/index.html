@@ -61,14 +61,14 @@
       <form class="search" role="search">
         <label for="site-search">جستجو در تازه‌خانه</label>
         <div class="search-box">
-          <input type="search" placeholder="جستجوی محصولات..."
-                 id="site-search">
+          <input type="search" placeholder="جستجوی محصولات..." id="site-search" autocomplete="off">
           <button type="submit" class="search-icon"
                   aria-label="جستجو">
             <img src="./asset/icons/search.svg"
                  alt="" aria-hidden="true">
           </button>
         </div>
+          <div id="search-result" class="search-results" aria-live="polite" hidden></div>
       </form>
     </div>
     <nav class="main-nav desktop-nav" aria-label="منوی اصلی">
@@ -208,6 +208,6 @@
   <div class="cart-toast" role="status" aria-live="polite">
     محصول به سبد خرید اضافه شد ✓
   </div>
-  <script src="./app.js"></script>
+  <script  type="module" src="./app.ts"></script>
 </body>
 </html>
