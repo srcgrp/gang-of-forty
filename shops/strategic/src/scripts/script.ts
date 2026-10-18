@@ -1,23 +1,27 @@
-/* Amirhossein (Armin) Panahi */
-/* Week 2 - Strategic Supermarket - API */
+/* Amirhossein (Armin) Panahi | Week 3: TypeScript + Vite */
 
 
-(() => {
-  
-// ===== Strict Mode =====
-"use strict";
 
+import confetti from 'canvas-confetti';
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
+import { ApiError, loadApiData } from './api';
+import type {
+  ApiData,
+  Category,
+  Product,
+  ProductItem,
+  SearchIndexEntry,
+  ShopModel,
+} from './types';
 
-// ===== Config =====
-const API_BASE = '../../api/';
-const API_FILES = ['products', 'categories', 'stock', 'offers', 'shop', 'home'];
-const SLOW_AFTER_MS = 3000;  
-const HARD_TIMEOUT_MS = 30000; 
-const SEARCH_DELAY_MS = 150; 
-const CART_KEY = 'armin-market:cart';
-const OFFERS_VIEW = 'offers'; 
-const SHOW_REMAINING_CATEGORIES = true; 
-const IMG = './assets/images/';
+// ===== 1. Config =====
+const SLOW_AFTER_MS: number = 3000;     // "the connection is slow" message
+const SEARCH_DELAY_MS: number = 150;    // wait for the visitor to pause typing
+const CART_KEY: string = 'armin-market:cart';
+const OFFERS_VIEW: string = 'offers';   // ?cat=offers lists every discounted product
+const SHOW_REMAINING_CATEGORIES: boolean = true; // categories that home.json does not list still get their own shelf
+const IMG: string = './assets/images/';
 
 const BRAND = {
   name: 'سوپرمارکت آرمین',
@@ -35,7 +39,14 @@ const BRAND = {
   copyright: '© ۱۴۰۵ تمامی حقوق برای سوپرمارکت آرمین محفوظ است.',
 };
 
-const HERO_ART = [
+// Every emoji of the API is replaced by one of these images. Tables are matched on the
+// normalised text (see searchKey): the first match wins, `null` = "no image on purpose".
+type HeroArt = readonly [name: string, alt: string, width: number, height: number];
+type ProductArtRule = readonly [file: string | null, pattern: RegExp];
+type CategoryArtRule = readonly [file: string, slugPattern: RegExp, namePattern: RegExp];
+type BannerArt = readonly [file: string, pattern: RegExp | null, width: number, height: number];
+
+const HERO_ART: HeroArt[] = [
   ['broccoli', 'کلم بروکلی', 560, 559],
   ['carrot', 'هویج', 357, 560],
   ['pepper', 'فلفل دلمه‌ای', 502, 560],
@@ -43,9 +54,9 @@ const HERO_ART = [
   ['orange', 'پرتقال تامسون', 560, 466],
   ['strawberry', 'توت‌فرنگی', 518, 560],
 ];
-const HERO_NAMES = new Set(HERO_ART.map(([name]) => name));
+const HERO_NAMES: Set<string> = new Set(HERO_ART.map(([name]) => name));
 
-const PRODUCT_ART = [
+const PRODUCT_ART: ProductArtRule[] = [
   [null, /سیب ?زمینی/],
   ['strawberry', /چیپس ?توت/],
   ['plain-chips', /چیپس|لواشک/],
@@ -98,7 +109,8 @@ const PRODUCT_ART = [
   ['cucumber', /خیار/],
 ];
 
-const CATEGORY_ART = [
+// [image, matched on the slug, matched on the Persian name]
+const CATEGORY_ART: CategoryArtRule[] = [
   ['produce', /fruit|produce|vegetable/i, /میوه|سبزی/],
   ['dairy', /dairy/i, /لبنیات/],
   ['bakery', /bakery|bread/i, /نان|شیرینی/],
@@ -108,14 +120,15 @@ const CATEGORY_ART = [
   ['snacks', /snack/i, /تنقلات/],
 ];
 
-const BANNER_ART = [
+// [image, text test, width, height]
+const BANNER_ART: BannerArt[] = [
   ['hero/breakfast-basket.webp', /صبحانه/, 1536, 1024],
   ['hero/hot-bread.webp', /نان|شیرینی/, 1536, 1024],
   ['hero/dairy.webp', /لبنیات|شیر|پنیر|ماست/, 560, 348],
 ];
-const FALLBACK_BANNER = ['hero/offer.webp', null, 1536, 1024];
+const FALLBACK_BANNER: BannerArt = ['hero/offer.webp', null, 1536, 1024];
 
-const ERROR_TEXT = {
+const ERROR_TEXT: Record<ApiError['kind'], string> = {
   network: 'ارتباط با سرور برقرار نشد. اتصال اینترنت خود را بررسی کنید و دوباره تلاش کنید.',
   http: 'سرور فایل مورد نیاز را پیدا نکرد یا پاسخ درستی نداد.',
   parse: 'اطلاعات دریافتی از سرور خراب است و خوانده نمی‌شود.',
@@ -124,28 +137,35 @@ const ERROR_TEXT = {
 };
 
 
-// ===== DOM References & Helpers =====
-const $ = (selector, root = document) => root.querySelector(selector);
+// ===== 2. DOM references & helpers =====
+const $ = <T extends Element>(selector: string, root: ParentNode = document): T | null => root.querySelector<T>(selector);
 
+function required<T extends Element>(selector: string, root: ParentNode = document): T {
+  const node = root.querySelector<T>(selector);
+  if (!node) throw new Error(`Missing required HTML element: ${selector}`);
+  return node;
+}
+
+// Looked up once; every later read uses these
 const dom = {
-  main: $('#main'),
-  live: $('#live'),
-  notice: $('#notice'),
-  navList: $('#nav-list'),
-  search: $('#q'),
-  menuToggle: $('#menu-toggle'),
-  cartWrap: $('#cart-wrap'),
-  cartButton: $('#cart-btn'),
-  cartCount: $('#cart-count'),
-  cartPanel: $('#cart-panel'),
+  main: required<HTMLElement>('#main'),
+  live: required<HTMLElement>('#live'),
+  notice: required<HTMLElement>('#notice'),
+  navList: required<HTMLUListElement>('#nav-list'),
+  search: required<HTMLInputElement>('#q'),
+  menuToggle: required<HTMLInputElement>('#menu-toggle'),
+  cartWrap: required<HTMLElement>('#cart-wrap'),
+  cartButton: required<HTMLButtonElement>('#cart-btn'),
+  cartCount: required<HTMLElement>('#cart-count'),
+  cartPanel: required<HTMLElement>('#cart-panel'),
   footer: {
-    about: $('#foot-about'),
-    contact: $('#foot-contact'),
-    social: $('#foot-social'),
-    copy: $('#foot-copy'),
-    cats: $('#foot-cats'),
-    help: $('#foot-help'),
-    hours: $('#foot-hours'),
+    about: required<HTMLElement>('#foot-about'),
+    contact: required<HTMLElement>('#foot-contact'),
+    social: required<HTMLUListElement>('#foot-social'),
+    copy: required<HTMLElement>('#foot-copy'),
+    cats: required<HTMLUListElement>('#foot-cats'),
+    help: required<HTMLUListElement>('#foot-help'),
+    hours: required<HTMLUListElement>('#foot-hours'),
   },
 };
 
@@ -155,30 +175,39 @@ const coarsePointer = window.matchMedia('(pointer: coarse)');
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
 const numberFa = new Intl.NumberFormat('fa-IR');
-const formatNumber = (value) => numberFa.format(value);
-const formatPrice = (value) => `${numberFa.format(value)} تومان`;
-const toFaDigits = (text) => String(text).replace(/\d/g, (digit) => '۰۱۲۳۴۵۶۷۸۹'[digit]);
+const formatNumber = (value: number) => numberFa.format(value);
+const formatPrice = (value: number) => `${numberFa.format(value)} تومان`;
+const toFaDigits = (value: string | number): string => String(value).replace(/\d/g, (digit) => '۰۱۲۳۴۵۶۷۸۹'[Number(digit)] ?? digit);
 
-function el(tag, props, children) {
+// Build an element. Text is ALWAYS set as plain text (textContent / text nodes), never parsed as HTML.
+// props: { class, text, HTML attributes } · children: nodes/text (null/false are skipped)
+type ElementProps = Record<string, string | number | boolean | null | undefined>;
+type Child = Node | string | number | false | null | undefined;
+type Children = Child | readonly Child[];
+
+function el<K extends keyof HTMLElementTagNameMap>(tag: K, props?: ElementProps, children?: Children): HTMLElementTagNameMap[K] {
   const node = document.createElement(tag);
   if (props) {
     for (const key in props) {
       const value = props[key];
       if (value === undefined || value === null || value === false) continue;
-      if (key === 'class') node.className = value;
-      else if (key === 'text') node.textContent = value;
-      else node.setAttribute(key, value === true ? '' : value);
+      if (key === 'class') node.className = String(value);
+      else if (key === 'text') node.textContent = String(value);
+      else node.setAttribute(key, value === true ? '' : String(value));
     }
   }
   if (children !== undefined) {
-    for (const child of Array.isArray(children) ? children : [children]) {
-      if (child !== null && child !== undefined && child !== false) node.append(child);
+    const childList: readonly Child[] = Array.isArray(children) ? children : [children];
+    for (const child of childList) {
+      if (child === null || child === undefined || child === false) continue;
+      if (child instanceof Node) node.append(child);
+      else node.append(document.createTextNode(String(child)));
     }
   }
   return node;
 }
 
-function icon(name, extraClass = '') {
+function icon(name: string, extraClass = ''): SVGSVGElement {
   const svg = document.createElementNS(SVG_NS, 'svg');
   svg.setAttribute('class', `icon ${extraClass}`.trim());
   svg.setAttribute('aria-hidden', 'true');
@@ -189,7 +218,10 @@ function icon(name, extraClass = '') {
   return svg;
 }
 
-function image(src, { alt = '', width, height, className, lazy = true, priority = false } = {}) {
+// <img> with its real size (no layout shift); `priority` marks the one image that matters for the first paint
+type ImageOptions = { alt?: string; width?: number; height?: number; className?: string; lazy?: boolean; priority?: boolean };
+
+function image(src: string, { alt = '', width, height, className, lazy = true, priority = false }: ImageOptions = {}): HTMLImageElement {
   return el('img', {
     class: className,
     src,
@@ -202,10 +234,13 @@ function image(src, { alt = '', width, height, className, lazy = true, priority 
   });
 }
 
-const stripEmoji = (text) =>
+// Persian text from the API may carry emoji; the shop never shows emoji
+const stripEmoji = (text: unknown) =>
   String(text ?? '').replace(/[\p{Extended_Pictographic}\uFE0F\u200D]/gu, '').replace(/\s+/g, ' ').trim();
 
-function safeHref(href) {
+// Only in-page / relative links, http(s), mailto and tel are allowed from data
+function safeHref(href: string | null | undefined): string {
+  if (!href) return '#';
   try {
     const { protocol } = new URL(href, location.href);
     return [location.protocol, 'http:', 'https:', 'mailto:', 'tel:'].includes(protocol) ? href : '#';
@@ -214,96 +249,118 @@ function safeHref(href) {
   }
 }
 
-const safeColor = (value) => (/^#[0-9a-f]{3,8}$/i.test(String(value)) ? value : null);
+const safeColor = (value: unknown): string | null =>
+  typeof value === 'string' && /^#[0-9a-f]{3,8}$/i.test(value) ? value : null;
 
-let liveTimer = 0;
-function announce(message) {
+// Screen-reader announcements (the empty-then-fill trick makes a repeated message read again)
+let liveTimer: number | undefined;
+function announce(message: string): void {
   clearTimeout(liveTimer);
   dom.live.textContent = '';
   liveTimer = setTimeout(() => { dom.live.textContent = message; }, 60);
 }
 
 
-// ===== Text & Art Helpers =====
-const searchKey = (value) =>
+// ===== 3. Text & art helpers =====
+// Persian/Arabic letter variants, diacritics, the half-space and the two digit styles are made equal.
+// Used for the search AND for matching a product name with its image.
+const searchKey = (value: unknown): string =>
   String(value ?? '')
     .replace(/[يى]/g, 'ی')
     .replace(/ك/g, 'ک')
     .replace(/ة/g, 'ه')
     .replace(/[\u200c\u200d\u200e\u200f]/g, ' ')
     .replace(/[\u064b-\u065f\u0670]/g, '')
-    .replace(/[۰-۹]/g, (digit) => '۰۱۲۳۴۵۶۷۸۹'.indexOf(digit))
-    .replace(/[٠-٩]/g, (digit) => '٠١٢٣٤٥٦٧٨٩'.indexOf(digit))
+    .replace(/[۰-۹]/g, (digit) => String('۰۱۲۳۴۵۶۷۸۹'.indexOf(digit)))
+    .replace(/[٠-٩]/g, (digit) => String('٠١٢٣٤٥٦٧٨٩'.indexOf(digit)))
     .replace(/\s+/g, ' ')
     .trim()
     .toLowerCase();
 
-const findProductArt = (key) => PRODUCT_ART.find(([, test]) => test.test(key))?.[0] ?? null;
+const findProductArt = (key: string): string | null => PRODUCT_ART.find(([, test]) => test.test(key))?.[0] ?? null;
 
-const findCategoryArt = (category) => {
+const findCategoryArt = (category: Category): string | null => {
   const name = searchKey(category.name);
   return CATEGORY_ART.find(([, slugTest, nameTest]) => slugTest.test(category.slug) || nameTest.test(name))?.[0] ?? null;
 };
 
-const findBannerArt = (text) => BANNER_ART.find(([, test]) => test.test(text)) ?? FALLBACK_BANNER;
+const findBannerArt = (text: string): BannerArt => BANNER_ART.find(([, test]) => test !== null && test.test(text)) ?? FALLBACK_BANNER;
 
-const salePrice = (price, percent) => Math.min(price, Math.round((price * (100 - percent)) / 100 / 1000) * 1000);
+// Discounted prices are rounded to the nearest 1,000 Toman (like the sample page)
+const salePrice = (price: number, percent: number): number => Math.min(price, Math.round((price * (100 - percent)) / 100 / 1000) * 1000);
 
 
 // ===== State =====
-let model = null; 
-let cart = loadCart(); 
+const createEmptyModel = (): ShopModel => ({
+  products: [], categories: [], offers: [], shop: {},
+  home: { hero: { title: '', text: '' }, side: { title: '', text: '' }, carousels: [], promos: [] },
+  stockOf: (_id: number): number => 0,
+  items: new Map<number, ProductItem>(),
+  itemsByCategory: new Map<number, ProductItem[]>(),
+  searchIndex: [],
+  categoryById: new Map<number, Category>(),
+  categoryBySlug: new Map<string, Category>(),
+  categoryArt: new Map<number, string | null>(),
+  offerItems: [], carousels: [],
+});
 
-const ui = {
-  renderedSearch: location.search, 
-  cartPinned: false,              
+let model: ShopModel = createEmptyModel();
+let modelReady = false;
+let cart: Record<string, number> = loadCart(); // product id -> quantity
+const notyf = new Notyf({ duration: 2200, position: { x: 'left', y: 'bottom' }, dismissible: true, ripple: false });
+
+const ui: { renderedSearch: string; cartPinned: boolean; cartCloseTimer: number; searchTimer: number; pendingQuery: string; scrollFrame: number } = {
+  renderedSearch: location.search, // the ?query of the view on screen
+  cartPinned: false,               // the cart summary was opened by a click and stays open
   cartCloseTimer: 0,
   searchTimer: 0,
-  pendingQuery: '',    
+  pendingQuery: '',                // typed before the data arrived
   scrollFrame: 0,
 };
 
 
-// ===== Cart (localStorage) =====
-function loadCart() {
+// ===== 4. Cart (localStorage) =====
+function loadCart(): Record<string, number> {
   try {
-    const parsed = JSON.parse(localStorage.getItem(CART_KEY));
+    const stored = localStorage.getItem(CART_KEY);
+    if (!stored) return {};
+    const parsed: unknown = JSON.parse(stored);
     if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {};
-    const clean = {};
+    const clean: Record<string, number> = {};
     for (const [id, quantity] of Object.entries(parsed)) {
-      if (Number.isInteger(quantity) && quantity > 0) clean[id] = quantity;
+      if (typeof quantity === 'number' && Number.isInteger(quantity) && quantity > 0) clean[id] = quantity;
     }
     return clean;
   } catch {
-    return {};
+    return {}; // empty, blocked or corrupted storage: start with an empty cart
   }
 }
 
-function saveCart() {
+function saveCart(): void {
   try {
     localStorage.setItem(CART_KEY, JSON.stringify(cart));
   } catch {
-    /* storage is full... */
+    /* storage is full or blocked: the cart still works until the page closes */
   }
 }
 
-const qtyOf = (id) => cart[id] || 0;
-const cartCount = () => Object.values(cart).reduce((sum, quantity) => sum + quantity, 0);
+const qtyOf = (id: number): number => cart[String(id)] || 0;
+const cartCount = (): number => Object.values(cart).reduce((sum, quantity) => sum + quantity, 0);
 
-function renderCartBadge(bump = false) {
+function renderCartBadge(bump = false): void {
   const count = cartCount();
   dom.cartCount.textContent = formatNumber(count);
   dom.cartButton.setAttribute('aria-label', `سبد خرید، ${formatNumber(count)} کالا`);
   if (bump) {
     dom.cartCount.classList.remove('is-bump');
-    void dom.cartCount.offsetWidth;
+    void dom.cartCount.offsetWidth; // restart the CSS animation
     dom.cartCount.classList.add('is-bump');
   }
 }
 
-
-function setQty(id, wanted) {
-  const item = model && model.items.get(id);
+// The only place where the cart changes: + / - / trash all end up here
+function setQty(id: number, wanted: number, source: 'add-button' | 'stepper' = 'stepper'): void {
+  const item = model.items.get(id);
   if (!item) return;
   const { name } = item.product;
   const before = qtyOf(id);
@@ -313,10 +370,16 @@ function setQty(id, wanted) {
     if (wanted > item.stock) announce(`موجودی ${name} بیشتر از این نیست؛ همه‌ی موجودی در سبد شما است.`);
     return;
   }
-  if (after === 0) delete cart[id];
-  else cart[id] = after;
+  if (after === 0) delete cart[String(id)];
+  else cart[String(id)] = after;
 
   saveCart();
+  if (after > before) {
+    notyf.success(`${name} به سبد اضافه شد`);
+    if (source === 'add-button' && !reducedMotion.matches) {
+      confetti({ particleCount: 44, spread: 66, startVelocity: 26, origin: { y: 0.72 }, disableForReducedMotion: true });
+    }
+  }
   renderCartBadge(after > before);
   syncControls(id);
   refreshMiniCart();
@@ -325,8 +388,8 @@ function setQty(id, wanted) {
     : `تعداد ${name} در سبد: ${formatNumber(after)}. کل کالاهای سبد: ${formatNumber(cartCount())}`);
 }
 
-
-function reconcileCart() {
+// Products that disappeared (or ran out) since the last visit must not stay in the cart
+function reconcileCart(): void {
   let changed = false;
   for (const id of Object.keys(cart)) {
     const limit = model.items.get(Number(id))?.stock ?? 0;
@@ -338,100 +401,50 @@ function reconcileCart() {
 }
 
 
-// ===== Loading Data =====
-class ApiError extends Error {
-  constructor(kind, file, status) {
-    super(`${kind}: ${file}${status ? ` (${status})` : ''}`);
-    this.kind = kind;
-    this.file = file;
-    this.status = status;
-  }
-}
-
-
-async function fetchJson(file, signal) {
-  const name = `${file}.json`;
-  let res;
-  try {
-    res = await fetch(API_BASE + name, { signal });
-  } catch {
-    throw new ApiError(signal.aborted ? 'timeout' : 'network', name);
-  }
-  if (!res.ok) throw new ApiError('http', name, res.status);
-  try {
-    return await res.json();
-  } catch {
-    throw new ApiError('parse', name);
-  }
-}
-
-
-async function loadData() {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), HARD_TIMEOUT_MS);
-  try {
-    const results = await Promise.all(API_FILES.map((file) => fetchJson(file, controller.signal)));
-    return Object.fromEntries(API_FILES.map((file, index) => [file, results[index]]));
-  } catch (error) {
-    controller.abort(); 
-    throw error;
-  } finally {
-    clearTimeout(timer);
-  }
-}
-
-
+// ===== 5. Loading data =====
+// Promise.race: if the answer takes longer than SLOW_AFTER_MS, tell the visitor, then keep waiting
 const SLOW = Symbol('slow');
-async function loadWithSlowNotice(onSlow) {
-  const request = loadData();
-  let timerId;
-  const slow = new Promise((resolve) => { timerId = setTimeout(resolve, SLOW_AFTER_MS, SLOW); });
+async function loadWithSlowNotice(onSlow: () => void): Promise<ApiData> {
+  const request = loadApiData();
+  let timerId: number | undefined;
+  const slow = new Promise<typeof SLOW>((resolve) => {
+    timerId = window.setTimeout(() => resolve(SLOW), SLOW_AFTER_MS);
+  });
   try {
     const first = await Promise.race([request, slow]);
     if (first !== SLOW) return first;
     onSlow();
     return await request;
   } finally {
-    clearTimeout(timerId);
+    if (timerId !== undefined) window.clearTimeout(timerId);
   }
 }
 
 
-// ===== Model =====
-function assertShape(raw) {
-  const ok =
-    Array.isArray(raw.products) &&
-    Array.isArray(raw.categories) &&
-    Array.isArray(raw.offers) &&
-    raw.stock && typeof raw.stock.items === 'object' &&
-    raw.shop && typeof raw.shop === 'object' &&
-    raw.home && typeof raw.home === 'object';
-  if (!ok) throw new ApiError('shape', 'api');
-}
-
-function buildModel(raw) {
-  assertShape(raw);
+// ===== 6. Model: join the files by id (Maps), compute everything once =====
+// A file can be valid JSON and still have the wrong shape
+function buildModel(raw: ApiData): ShopModel {
   const { products, categories, offers, shop, home } = raw;
 
-  const offerByProductId = new Map(offers.map((offer) => [offer.productId, offer]));
-  const categoryById = new Map(categories.map((category) => [category.id, category]));
+  const offerByProductId = new Map<number, ApiData['offers'][number]>(offers.map((offer): [number, ApiData['offers'][number]] => [offer.productId, offer]));
+  const categoryById = new Map<number, Category>(categories.map((category): [number, Category] => [category.id, category]));
 
-  const stockOf = (id) => {
+  const stockOf = (id: number): number => {
     const value = Number(raw.stock.items[id]);
     return Number.isFinite(value) && value > 0 ? value : 0;
   };
 
-
-  const items = new Map();
-  const itemsByCategory = new Map(categories.map((category) => [category.id, []]));
-  const searchIndex = [];
+  // one "item" per product: everything a card needs, joined from the four files
+  const items = new Map<number, ProductItem>();
+  const itemsByCategory = new Map<number, ProductItem[]>(categories.map((category): [number, ProductItem[]] => [category.id, []]));
+  const searchIndex: SearchIndexEntry[] = [];
 
   for (const product of products) {
     const offer = offerByProductId.get(product.id);
     const percent = offer && offer.percent > 0 && offer.percent < 100 ? offer.percent : 0;
     const stock = stockOf(product.id);
     const nameKey = searchKey(product.name);
-    const item = {
+    const item: ProductItem = {
       product,
       art: findProductArt(nameKey),
       stock,
@@ -446,7 +459,7 @@ function buildModel(raw) {
     searchIndex.push({
       item,
       name: nameKey,
-      text: searchKey([product.name, product.unit, ...(product.tags || [])].join(' ')),
+      text: searchKey([product.name, product.unit, ...(product.tags ?? [])].join(' ')),
       categoryWords: searchKey(categoryById.get(product.categoryId)?.name).split(' '),
     });
   }
@@ -462,18 +475,20 @@ function buildModel(raw) {
     itemsByCategory,
     searchIndex,
     categoryById,
-    categoryBySlug: new Map(categories.map((category) => [category.slug, category])),
-    categoryArt: new Map(categories.map((category) => [category.id, findCategoryArt(category)])),
-    offerItems: offers.map((offer) => items.get(offer.productId)).filter(Boolean),
+    categoryBySlug: new Map<string, Category>(categories.map((category): [string, Category] => [category.slug, category])),
+    categoryArt: new Map<number, string | null>(categories.map((category): [number, string | null] => [category.id, findCategoryArt(category)])),
+    offerItems: offers.map((offer) => items.get(offer.productId)).filter((item): item is ProductItem => item !== undefined),
     carousels: Array.isArray(home.carousels) ? home.carousels : [],
   };
 }
 
-
-function searchProducts(query) {
+// A product matches when EVERY word of the query is found in its name, unit or tags.
+// The category name only counts as a whole word, so «شیر» does not pull in all of «نان و شیرینی».
+// Products whose name contains all the words come first (the sort is stable).
+function searchProducts(query: string): ProductItem[] {
   const terms = searchKey(query).split(' ').filter(Boolean);
   if (!terms.length) return [];
-  const inName = (entry) => terms.every((term) => entry.name.includes(term));
+  const inName = (entry: SearchIndexEntry): boolean => terms.every((term) => entry.name.includes(term));
   return model.searchIndex
     .filter((entry) => terms.every((term) => entry.text.includes(term) || entry.categoryWords.includes(term)))
     .sort((first, second) => Number(inName(second)) - Number(inName(first)))
@@ -481,40 +496,43 @@ function searchProducts(query) {
 }
 
 
-// ===== Views =====
-const catalogUrl = (slug) => `?cat=${encodeURIComponent(slug)}`;
+// ===== 7. Views: pieces =====
+const catalogUrl = (slug: string): string => `?cat=${encodeURIComponent(slug)}`;
 
 const placeholderPic = () => el('span', { class: 'pic__empty' }, [icon('bag')]);
 
-function categoryImage(category, className, lazy = true) {
+// A category's round picture (null when the category has none)
+function categoryImage(category: Category, className: string, lazy = true): HTMLImageElement | null {
   const art = model.categoryArt.get(category.id);
   return art ? image(`${IMG}categories/${art}.webp`, { className, width: 96, height: 96, lazy }) : null;
 }
 
-
-function stepper(product) {
+// ----- The capsule:  [ + | 1 | trash ]  (trash at 1, minus above 1). Built the first time a product enters the cart. -----
+function stepper(product: Product): HTMLDivElement {
   return el('div', { class: 'stepper', role: 'group', 'aria-label': `تعداد ${product.name} در سبد خرید`, 'data-id': product.id }, [
+    // RTL: the first child is on the right, so "+" sits on the right and the trash on the left
     el('button', { class: 'stepper__btn', type: 'button', 'data-step': 'inc', 'aria-label': `افزودن یک عدد ${product.name}` }, [icon('plus')]),
     el('span', { class: 'stepper__qty' }),
     el('button', { class: 'stepper__btn', type: 'button', 'data-step': 'dec' }, [icon('minus')]),
   ]);
 }
 
-function updateStepper(box, item, quantity) {
+function updateStepper(box: HTMLElement, item: ProductItem, quantity: number): void {
   const { product } = item;
-  const dec = $('[data-step="dec"]', box);
-  const inc = $('[data-step="inc"]', box);
+  const dec = required<HTMLButtonElement>('[data-step="dec"]', box);
+  const inc = required<HTMLButtonElement>('[data-step="inc"]', box);
+  const quantityLabel = required<HTMLElement>('.stepper__qty', box);
   const trash = quantity === 1;
-  $('.stepper__qty', box).textContent = formatNumber(quantity);
+  quantityLabel.textContent = formatNumber(quantity);
   dec.setAttribute('aria-label', trash ? `حذف ${product.name} از سبد خرید` : `کم کردن یک عدد ${product.name}`);
   dec.classList.toggle('is-trash', trash);
-  $('use', dec).setAttribute('href', trash ? '#i-trash' : '#i-minus');
+  required<SVGUseElement>('use', dec).setAttribute('href', trash ? '#i-trash' : '#i-minus');
   if (quantity >= item.stock) inc.setAttribute('aria-disabled', 'true');
   else inc.removeAttribute('aria-disabled');
 }
 
-
-function buyControl(product, soldOut) {
+// A card's control: the round "+" while the product is not in the cart, the capsule once it is
+function buyControl(product: Product, soldOut: boolean): HTMLDivElement {
   return el('div', { class: 'buy__control', 'data-id': product.id }, [
     el('button', {
       class: 'add',
@@ -527,18 +545,19 @@ function buyControl(product, soldOut) {
   ]);
 }
 
-function updateSlot(slot) {
+function updateSlot(slot: HTMLElement): void {
   const id = Number(slot.dataset.id);
   const item = model.items.get(id);
   if (!item) return;
   const quantity = qtyOf(id);
-  let box = $('.stepper', slot);
-  if (!box && quantity === 0) return; 
-  const add = $('.add', slot);
+  let box = $<HTMLDivElement>('.stepper', slot);
+  if (!box && quantity === 0) return; // still showing the round "+": nothing to change
+  const add = $<HTMLButtonElement>('.add', slot);
+  if (!add) return;
 
   const active = document.activeElement;
   const hadFocus = slot.contains(active);
-  const pressed = hadFocus && active.dataset ? active.dataset.step : '';
+  const pressed = hadFocus && active instanceof HTMLElement ? active.dataset.step ?? '' : '';
 
   if (!box) {
     box = stepper(item.product);
@@ -548,27 +567,27 @@ function updateSlot(slot) {
   box.hidden = quantity === 0;
   if (quantity > 0) updateStepper(box, item, quantity);
 
-  if (hadFocus) { 
-    const next = quantity === 0 ? add : $(pressed === 'dec' ? '[data-step="dec"]' : '[data-step="inc"]', box);
-    next.focus({ preventScroll: true });
+  if (hadFocus) { // the focused button may have just been hidden: keep the keyboard where it was
+    const next = quantity === 0 ? add : $<HTMLButtonElement>(pressed === 'dec' ? '[data-step="dec"]' : '[data-step="inc"]', box);
+    next?.focus({ preventScroll: true });
   }
 }
 
-function syncControls(id) {
-  document.querySelectorAll(`.buy__control[data-id="${id}"]`).forEach(updateSlot);
+function syncControls(id: number): void {
+  document.querySelectorAll<HTMLElement>(`.buy__control[data-id="${id}"]`).forEach(updateSlot);
 }
 
-function syncAllControls() {
-  document.querySelectorAll('.buy__control').forEach(updateSlot);
+function syncAllControls(): void {
+  document.querySelectorAll<HTMLElement>('.buy__control').forEach(updateSlot);
 }
 
-
-function syncCartControls() {
-  Object.keys(cart).forEach(syncControls);
+// after a page is drawn every control starts as "+": only the products in the cart need work
+function syncCartControls(): void {
+  Object.keys(cart).forEach((id) => syncControls(Number(id)));
 }
 
-
-function productCard(item) {
+// ----- One product card: <li class="card"><article class="card__body"> ... </article></li> -----
+function productCard(item: ProductItem): HTMLLIElement {
   const { product, art, soldOut, percent, oldPrice, price } = item;
 
   let badge = null;
@@ -592,8 +611,8 @@ function productCard(item) {
   ]);
 }
 
-
-const seeAllCard = (slug, title) =>
+// The last card of a carousel: "مشاهده همه" (opens ?cat=<slug>)
+const seeAllCard = (slug: string, title: string): HTMLLIElement =>
   el('li', { class: 'card card--all' }, [
     el('a', { class: 'offer-all', href: catalogUrl(slug), 'data-route': true }, [
       el('span', { class: 'offer-all__circle' }, [icon('arrow-right', 'icon--mirror')]),
@@ -601,7 +620,7 @@ const seeAllCard = (slug, title) =>
     ]),
   ]);
 
-const arrowButton = (direction, label, extraClass) =>
+const arrowButton = (direction: number, label: string, extraClass: string): HTMLButtonElement =>
   el('button', {
     class: `${extraClass} ${direction < 0 ? 'arr--start' : 'arr--end'}`,
     type: 'button',
@@ -609,17 +628,23 @@ const arrowButton = (direction, label, extraClass) =>
     'aria-label': label,
   }, [icon('arrow-right')]);
 
-
-const carouselScroller = (section) => $('.offers__scroller, .rail', section);
-const carouselUpdaters = new WeakMap();
-const carouselObserver = new ResizeObserver((entries) => {
-  for (const { target } of entries) carouselUpdaters.get(target)?.();
+// ----- Carousel behaviour (one click = one card) -----
+const carouselScroller = (section: Element | null): HTMLElement | null =>
+  section ? $<HTMLElement>('.offers__scroller, .rail', section) : null;
+const carouselUpdaters = new WeakMap<HTMLElement, () => void>(); // scroller -> function that refreshes its arrows
+// ONE observer for every carousel; it is disconnected whenever the page is redrawn
+const carouselObserver = new ResizeObserver((entries: ResizeObserverEntry[]) => {
+  for (const { target } of entries) {
+    if (target instanceof HTMLElement) carouselUpdaters.get(target)?.();
+  }
 });
 
-function initCarousel(section) {
+function initCarousel(section: HTMLElement): void {
   const scroller = carouselScroller(section);
-  const buttons = [...section.querySelectorAll('button[data-dir]')];
+  if (!scroller) return;
+  const buttons = [...section.querySelectorAll<HTMLButtonElement>('button[data-dir]')];
 
+  // the arrows are disabled at the two ends (scrollLeft is 0 at the start in LTR and RTL alike)
   const update = () => {
     const max = scroller.scrollWidth - scroller.clientWidth;
     const position = Math.abs(scroller.scrollLeft);
@@ -639,24 +664,26 @@ function initCarousel(section) {
   update();
 }
 
-function scrollCarousel(section, direction) {
+function scrollCarousel(section: HTMLElement | null, direction: number): void {
   const scroller = carouselScroller(section);
-  const card = $('.card', scroller);
-  if (!card) return;
-  const gap = parseFloat(getComputedStyle(card.parentElement).columnGap) || 12;
+  if (!scroller) return;
+  const card = $<HTMLElement>('.card', scroller);
+  const cardParent = card?.parentElement;
+  if (!card || !cardParent) return;
+  const gap = parseFloat(getComputedStyle(cardParent).columnGap) || 12;
   const step = card.getBoundingClientRect().width + gap;
   const rtl = getComputedStyle(scroller).direction === 'rtl';
-  scroller.scrollBy({ left: direction * (rtl ? -1 : 1) * step });
+  scroller.scrollBy({ left: direction * (rtl ? -1 : 1) * step }); // smooth when the visitor allows motion (see CSS)
 }
 
 
-// ===== Header =====
-function renderNotice() {
+// ----- Header -----
+function renderNotice(): void {
   const text = stripEmoji(model.shop.notice);
   dom.notice.replaceChildren(...(text ? [icon('truck', 'icon--mirror'), el('span', { text })] : []));
 }
 
-function renderNav() {
+function renderNav(): void {
   const megaLinks = model.categories.map((category) =>
     el('li', {}, [el('a', { href: `#${category.slug}` }, [categoryImage(category, 'cat__icon cat__icon--menu'), category.name])]));
 
@@ -674,16 +701,17 @@ function renderNav() {
 }
 
 
-// ===== Hero =====
-function heroTag() {
+// ----- Hero (home.json -> hero + side) -----
+// the discounted, in-stock product that is also pictured in the hero art (the biggest discount wins)
+function heroTag(): ProductItem | null {
   let best = null;
   for (const item of model.offerItems) {
-    if (item.percent && !item.soldOut && HERO_NAMES.has(item.art) && (!best || item.percent > best.percent)) best = item;
+    if (item.percent && !item.soldOut && item.art && HERO_NAMES.has(item.art) && (!best || item.percent > best.percent)) best = item;
   }
   return best;
 }
 
-function renderHero() {
+function renderHero(): HTMLElement {
   const { hero, side } = model.home;
   const offersDef = model.carousels.find((carousel) => carousel.source === 'offers');
   const tag = heroTag();
@@ -731,8 +759,8 @@ function renderHero() {
 }
 
 
-// ===== Categories =====
-function renderCategories() {
+// ----- Categories grid (categories.json) -----
+function renderCategories(): HTMLElement {
   const tiles = model.categories.map((category) => {
     const color = safeColor(category.color);
     const iconBox = el('span', { class: 'cat__icon-wrap' }, [categoryImage(category, 'cat__icon', false) ?? icon('bag')]);
@@ -747,8 +775,8 @@ function renderCategories() {
 }
 
 
-// ===== Carousels =====
-function offersCarousel(def) {
+// ----- Carousels (home.json -> carousels) and promo banners (home.json -> promos) -----
+function offersCarousel(def: ShopModel['carousels'][number]): HTMLElement {
   const title = stripEmoji(def.title);
   const words = title.split(' ').flatMap((word, index) => (index ? [' ', el('span', { text: word })] : [el('span', { text: word })]));
   const [artFile, , artWidth, artHeight] = FALLBACK_BANNER;
@@ -770,7 +798,7 @@ function offersCarousel(def) {
   ]);
 }
 
-function categoryCarousel(id, category, title) {
+function categoryCarousel(id: string, category: Category, title: string): HTMLElement {
   return el('section', { class: 'shelf', id, 'aria-labelledby': `${id}-t` }, [
     el('div', { class: 'sec-head' }, [
       el('h2', { id: `${id}-t` }, [categoryImage(category, 'cat__icon cat__icon--head', false), title]),
@@ -779,29 +807,32 @@ function categoryCarousel(id, category, title) {
         arrowButton(1, `محصولات بعدی «${title}»`, 'arr'),
       ]),
     ]),
-    el('ul', { class: 'rail' }, [...model.itemsByCategory.get(category.id).map(productCard), seeAllCard(category.slug, title)]),
+    el('ul', { class: 'rail' }, [...(model.itemsByCategory.get(category.id) ?? []).map(productCard), seeAllCard(category.slug, title)]),
   ]);
 }
 
-
-function renderCarousels() {
-  const sections = [];
-  const usedIds = new Set(['categories', 'contact', 'top', 'main']);
-  const coveredCategories = new Set();
+// The order and the content of the carousels come from home.json.
+// A new entry in home.json -> a new carousel, with no change in the HTML.
+function renderCarousels(): HTMLElement[] {
+  const sections: HTMLElement[] = [];
+  const usedIds = new Set<string>(['categories', 'contact', 'top', 'main']);
+  const coveredCategories = new Set<number>();
 
   for (const def of model.carousels) {
     if (!def || !def.id || usedIds.has(def.id)) continue;
     if (def.source === 'offers') {
       sections.push(offersCarousel(def));
       usedIds.add(def.id);
-    } else if (model.categoryById.has(def.categoryId)) {
+    } else if (typeof def.categoryId === 'number') {
       const category = model.categoryById.get(def.categoryId);
+      if (!category) continue;
       sections.push(categoryCarousel(def.id, category, stripEmoji(def.title) || category.name));
       coveredCategories.add(category.id);
       usedIds.add(def.id);
     }
   }
 
+  // Every category tile links to #<slug>, so every category needs a section to land on
   if (SHOW_REMAINING_CATEGORIES) {
     for (const category of model.categories) {
       if (!coveredCategories.has(category.id) && !usedIds.has(category.slug)) {
@@ -812,8 +843,8 @@ function renderCarousels() {
   return sections;
 }
 
-
-function renderPromos() {
+// Promo banners sit after the first carousel, like the sample page
+function renderPromos(): HTMLElement | null {
   const promos = Array.isArray(model.home.promos) ? model.home.promos : [];
   if (!promos.length) return null;
   const links = promos.map((promo) => {
@@ -825,11 +856,11 @@ function renderPromos() {
 }
 
 
-// ===== Footer =====
-function renderFooterBrand() {
+// ----- Footer (brand data + categories.json + shop.json) -----
+function renderFooterBrand(): void {
   const { footer } = dom;
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(BRAND.address)}`;
-  const contactLink = (href, iconName, label, text) =>
+  const contactLink = (href: string, iconName: string, label: string, text: string): HTMLAnchorElement =>
     el('a', { href }, [
       icon(iconName), ' ',
       el('span', { class: 'sr-only', text: label }),
@@ -849,10 +880,10 @@ function renderFooterBrand() {
   footer.social.replaceChildren(...BRAND.social.map((net) =>
     el('li', {}, [el('a', { href: net.href }, [icon(net.icon), ` ${net.label}`])])));
 
-  footer.copy.textContent = BRAND.copyright;
+  footer.copy.textContent = BRAND.copyright; // our own line, not the sample shop's
 }
 
-function renderFooterData() {
+function renderFooterData(): void {
   const { footer } = dom;
   const { shop } = model;
 
@@ -861,7 +892,7 @@ function renderFooterData() {
   footer.cats.replaceChildren(...model.categories.map((category) =>
     el('li', {}, [el('a', { href: `#${category.slug}`, text: category.name })])));
 
-
+  // help links with a real address are links; "#" placeholders stay plain text
   footer.help.replaceChildren(...(Array.isArray(shop.help) ? shop.help : []).map((item) => {
     const label = stripEmoji(item.label);
     return el('li', {}, [item.href && item.href !== '#' ? el('a', { href: safeHref(item.href), text: label }) : label]);
@@ -872,40 +903,43 @@ function renderFooterData() {
 }
 
 
-// ===== Views =====
-function renderHome() {
+// ===== 8. Views: pages (each returns { title, nodes }; title null = the home page) =====
+function renderHome(): { title: null; nodes: HTMLElement[] } {
   const sections = renderCarousels();
   const promos = renderPromos();
   if (promos) sections.splice(1, 0, promos);
   return { title: null, nodes: [renderHero(), renderCategories(), ...sections] };
 }
 
-
-const backBar = () =>
+// "بازگشت": goes back to the page the visitor came from (the home page, at the same scroll position).
+// The href is the home page, so the button also works in a new tab.
+const backBar = (): HTMLElement =>
   el('div', { class: 'back-bar' }, [
     el('a', { class: 'back-btn', href: location.pathname, 'data-back': true }, [icon('arrow-right'), 'بازگشت به صفحه اصلی']),
   ]);
 
-
-const resultsSection = (title, items, content) =>
+// Title + count, then the product grid (shared by the catalog and the search results)
+const resultsSection = (title: HTMLElement, items: readonly ProductItem[], content: HTMLElement[]): HTMLElement =>
   el('section', { class: 'catalog', 'aria-labelledby': 'catalog-t' }, [
     el('div', { class: 'sec-head' }, [title, el('p', { class: 'catalog__count', text: `${formatNumber(items.length)} کالا` })]),
     ...content,
   ]);
 
-function renderCatalog(slug) {
-  let title;
-  let items;
-  let category = null;
+function renderCatalog(slug: string): { title: string; nodes: HTMLElement[] } {
+  let title: string;
+  let items: ProductItem[];
+  let category: Category | null = null;
 
   if (slug === OFFERS_VIEW) {
     const def = model.carousels.find((carousel) => carousel.source === 'offers');
     title = (def && stripEmoji(def.title)) || 'پیشنهاد ویژه';
     items = model.offerItems;
   } else if (model.categoryBySlug.has(slug)) {
-    category = model.categoryBySlug.get(slug);
-    title = category.name;
-    items = model.itemsByCategory.get(category.id);
+    const foundCategory = model.categoryBySlug.get(slug);
+    if (!foundCategory) return { title: 'دسته پیدا نشد', nodes: [notFound()] };
+    category = foundCategory;
+    title = foundCategory.name;
+    items = model.itemsByCategory.get(foundCategory.id) ?? [];
   } else {
     return { title: 'دسته پیدا نشد', nodes: [notFound()] };
   }
@@ -921,7 +955,7 @@ function renderCatalog(slug) {
   return { title, nodes: [backBar(), resultsSection(heading, items, content)] };
 }
 
-function renderSearch(query) {
+function renderSearch(query: string): { title: string; nodes: HTMLElement[] } {
   const items = searchProducts(query);
   const heading = el('h1', { id: 'catalog-t', class: 'catalog__title', text: `نتایج جستجو برای «${query}»` });
   const content = items.length
@@ -934,7 +968,7 @@ function renderSearch(query) {
   return { title: `جستجو: ${query}`, nodes: [resultsSection(heading, items, content)] };
 }
 
-function notFound() {
+function notFound(): HTMLElement {
   return el('section', { class: 'state', 'aria-labelledby': 'nf-t' }, [
     el('h1', { id: 'nf-t', class: 'state__title', text: 'این دسته را پیدا نکردیم' }),
     el('p', { text: 'آدرسی که باز کردید دسته‌ای با این نام ندارد.' }),
@@ -943,8 +977,8 @@ function notFound() {
 }
 
 
-// ===== Loading Skeleton & Error State =====
-const skeletonCard = () =>
+// ----- Loading skeleton & error state -----
+const skeletonCard = (): HTMLElement =>
   el('li', { class: 'card card--skeleton' }, [
     el('div', { class: 'card__body' }, [
       el('div', { class: 'pic skeleton' }),
@@ -953,7 +987,7 @@ const skeletonCard = () =>
     ]),
   ]);
 
-function renderLoading() {
+function renderLoading(): void {
   dom.main.setAttribute('aria-busy', 'true');
   dom.main.replaceChildren(
     el('section', { class: 'hero hero--skeleton', 'aria-hidden': 'true' }, [
@@ -970,15 +1004,15 @@ function renderLoading() {
   announce('در حال بارگذاری محصولات…');
 }
 
-function showSlowNotice() {
-  const text = $('#loading-text');
+function showSlowNotice(): void {
+  const text = $<HTMLElement>('#loading-text');
   if (!text) return;
   text.textContent = 'اتصال کند است؛ هنوز در حال دریافت اطلاعات هستیم…';
   text.classList.add('state-text--slow');
   announce('اتصال کند است؛ هنوز در حال دریافت اطلاعات هستیم.');
 }
 
-function renderError(error) {
+function renderError(error: ApiError): void {
   const known = error instanceof ApiError;
   const detail = known && error.file
     ? el('p', { class: 'state__detail' }, [el('bdi', { dir: 'ltr', text: error.file }), error.status ? ` · ${toFaDigits(error.status)}` : null])
@@ -997,21 +1031,21 @@ function renderError(error) {
 }
 
 
-// ===== Cart Summary =====
-const cartIsOpen = () => dom.cartWrap.classList.contains('is-open');
+// ===== 9. Cart summary (opens on hover / click of the cart button) =====
+const cartIsOpen = (): boolean => dom.cartWrap.classList.contains('is-open');
 
-function openCart({ pin = false } = {}) {
+function openCart({ pin = false }: { pin?: boolean } = {}): void {
   clearTimeout(ui.cartCloseTimer);
   if (pin) ui.cartPinned = true;
   if (cartIsOpen()) return;
   renderMiniCart();
-
+  // on phones the panel is fixed under the header; tell the CSS where the button ends
   dom.cartWrap.style.setProperty('--cart-top', `${Math.round(dom.cartButton.getBoundingClientRect().bottom + 8)}px`);
   dom.cartWrap.classList.add('is-open');
   dom.cartButton.setAttribute('aria-expanded', 'true');
 }
 
-function closeCart({ returnFocus = false } = {}) {
+function closeCart({ returnFocus = false }: { returnFocus?: boolean } = {}): void {
   clearTimeout(ui.cartCloseTimer);
   ui.cartPinned = false;
   if (!cartIsOpen()) return;
@@ -1020,11 +1054,11 @@ function closeCart({ returnFocus = false } = {}) {
   if (returnFocus) dom.cartButton.focus();
 }
 
-const priceText = (value) =>
+const priceText = (value: number): HTMLElement =>
   el('span', { class: 'mini-price' }, [el('strong', { text: formatNumber(value) }), el('small', { text: 'تومان' })]);
 
-
-function discountLine(oldValue, newValue, percent = Math.round(((oldValue - newValue) / oldValue) * 100)) {
+// old price + discount badge, only when something is discounted
+function discountLine(oldValue: number, newValue: number, percent = Math.round(((oldValue - newValue) / oldValue) * 100)): HTMLElement | null {
   if (oldValue <= newValue) return null;
   return el('div', { class: 'mini-old' }, [
     percent > 0 && el('span', { class: 'badge badge--sm' }, [`${formatNumber(percent)}٪`, el('span', { class: 'sr-only', text: ' تخفیف' })]),
@@ -1032,7 +1066,7 @@ function discountLine(oldValue, newValue, percent = Math.round(((oldValue - newV
   ]);
 }
 
-function miniItem(row) {
+function miniItem(row: ProductItem & { quantity: number; oldPrice: number }): HTMLLIElement {
   const { product, art, quantity } = row;
   const box = stepper(product);
   updateStepper(box, row, quantity);
@@ -1052,15 +1086,15 @@ function miniItem(row) {
   ]);
 }
 
-function renderMiniCart() {
+function renderMiniCart(): void {
   const title = el('h2', { class: 'mini__title', text: 'خلاصه سبد خرید شما' });
   const count = cartCount();
 
-  if (!model || count === 0) {
+  if (!modelReady || count === 0) {
     dom.cartPanel.replaceChildren(el('div', { class: 'mini mini--empty' }, [
       title,
       icon('cart', 'mini__empty-icon'),
-      el('p', { text: model ? 'سبد خرید شما خالی است.' : 'تا بارگذاری محصولات، جزئیات سبد را نمی‌توان نشان داد.' }),
+      el('p', { text: modelReady ? 'سبد خرید شما خالی است.' : 'تا بارگذاری محصولات، جزئیات سبد را نمی‌توان نشان داد.' }),
     ]));
     return;
   }
@@ -1071,7 +1105,7 @@ function renderMiniCart() {
     .map(Number)
     .sort((a, b) => a - b)
     .map((id) => model.items.get(id))
-    .filter(Boolean)
+    .filter((item): item is ProductItem => item !== undefined)
     .map((item) => {
       const quantity = qtyOf(item.product.id);
       const oldPrice = item.oldPrice || item.price;
@@ -1091,31 +1125,33 @@ function renderMiniCart() {
   ]));
 }
 
-
-function refreshMiniCart() {
+// After the list is rebuilt, keep the keyboard on the same stepper button and the list where it was scrolled
+function refreshMiniCart(): void {
   if (!cartIsOpen()) return;
   const { cartPanel } = dom;
   const active = document.activeElement;
-  const inPanel = cartPanel.contains(active);
-  const row = inPanel ? active.closest('.mini-item') : null;
-  const id = row ? row.dataset.id : null;
-  const step = inPanel && active.dataset ? active.dataset.step : null;
-  const scrollTop = $('.mini__list', cartPanel)?.scrollTop ?? 0;
+  const inPanel = active instanceof HTMLElement && cartPanel.contains(active);
+  const row = inPanel && active instanceof HTMLElement ? active.closest<HTMLElement>('.mini-item') : null;
+  const id = row?.dataset.id ?? null;
+  const step = inPanel && active instanceof HTMLElement ? active.dataset.step ?? null : null;
+  const scrollTop = $<HTMLUListElement>('.mini__list', cartPanel)?.scrollTop ?? 0;
 
   renderMiniCart();
 
-  const list = $('.mini__list', cartPanel);
+  const list = $<HTMLUListElement>('ul.mini__list', cartPanel);
   if (list) list.scrollTop = scrollTop;
   if (!inPanel) return;
-  const same = id && $(`.mini-item[data-id="${id}"] [data-step="${step}"]`, cartPanel);
-  (same || $('.mini-item [data-step="dec"]', cartPanel) || cartPanel).focus({ preventScroll: true });
+  const same = id && $<HTMLElement>(`.mini-item[data-id="${id}"] [data-step="${step}"]`, cartPanel);
+  (same || $<HTMLElement>('.mini-item [data-step="dec"]', cartPanel) || cartPanel).focus({ preventScroll: true });
 }
 
 
-// ===== Motion & URL & History =====
-const easeInOutCubic = (t) => (t < 0.5 ? 4 * t * t * t : 1 - ((-2 * t + 2) ** 3) / 2);
+// ===== 10. Motion, URL & history =====
+const easeInOutCubic = (t: number): number => (t < 0.5 ? 4 * t * t * t : 1 - ((-2 * t + 2) ** 3) / 2);
 
-function smoothScrollTo(top) {
+// One smooth, eased scroll whose length follows the distance (instead of the browser's own jump).
+// Any wheel / touch / key / mouse press by the visitor stops it at once.
+function smoothScrollTo(top: number): Promise<void> {
   cancelAnimationFrame(ui.scrollFrame);
   const from = window.scrollY;
   const to = Math.max(0, Math.min(top, document.documentElement.scrollHeight - window.innerHeight));
@@ -1129,7 +1165,7 @@ function smoothScrollTo(top) {
   const duration = Math.min(1000, Math.max(500, Math.abs(distance) * 0.4));
   const stopEvents = ['wheel', 'touchstart', 'keydown', 'mousedown'];
 
-  return new Promise((resolve) => {
+  return new Promise<void>((resolve) => {
     const stop = () => {
       cancelAnimationFrame(ui.scrollFrame);
       stopEvents.forEach((name) => window.removeEventListener(name, stop));
@@ -1138,7 +1174,7 @@ function smoothScrollTo(top) {
     stopEvents.forEach((name) => window.addEventListener(name, stop, { passive: true, once: true }));
 
     const startTime = performance.now();
-    const step = (now) => {
+    const step: FrameRequestCallback = (now: number): void => {
       const progress = Math.min(1, (now - startTime) / duration);
       window.scrollTo({ top: from + distance * easeInOutCubic(progress), behavior: 'instant' });
       if (progress < 1) ui.scrollFrame = requestAnimationFrame(step);
@@ -1148,38 +1184,39 @@ function smoothScrollTo(top) {
   });
 }
 
-function scrollToElement(target) {
+function scrollToElement(target: HTMLElement): Promise<void> {
   const margin = parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
   const top = target.getBoundingClientRect().top + window.scrollY - margin;
   return smoothScrollTo(top).then(() => {
     if (!target.hasAttribute('tabindex') && !/^(a|button|input)$/i.test(target.tagName)) target.setAttribute('tabindex', '-1');
-    target.focus({ preventScroll: true });
+    target.focus({ preventScroll: true }); // keyboard and screen-reader users arrive where the page scrolled to
   });
 }
 
-
+// Content change: the old view fades out, the new one slides in
 const ENTER_FRAMES = [{ opacity: 0, transform: 'translateY(14px)' }, { opacity: 1, transform: 'none' }];
 const ENTER_TIMING = { duration: 320, easing: 'cubic-bezier(.2, .7, .2, 1)' };
 
-function playEnter() {
+function playEnter(): void {
   if (!reducedMotion.matches) dom.main.animate(ENTER_FRAMES, ENTER_TIMING);
 }
 
-async function swapView(update) {
+async function swapView(update: () => void): Promise<void> {
   if (reducedMotion.matches) {
     update();
     return;
   }
   const out = dom.main.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 140, easing: 'ease-in', fill: 'forwards' });
-  try { await out.finished; } catch { /* Cancelled... */ }
+  try { await out.finished; } catch { /* cancelled: carry on */ }
   update();
   out.cancel();
   playEnter();
 }
 
+// ----- Routes:  ?cat=<slug> (one category)  ·  ?q=<text> (search)  ·  #<id> (a section of the home page) -----
+type Route = { type: 'home' } | { type: 'catalog'; slug: string } | { type: 'search'; query: string };
 
-// ===== Routes =====
-function parseRoute() {
+function parseRoute(): Route {
   const params = new URLSearchParams(location.search);
   const slug = params.get('cat');
   const query = (params.get('q') || '').trim();
@@ -1188,7 +1225,7 @@ function parseRoute() {
   return { type: 'home' };
 }
 
-function currentHashId() {
+function currentHashId(): string {
   try {
     return decodeURIComponent(location.hash.slice(1));
   } catch {
@@ -1196,15 +1233,16 @@ function currentHashId() {
   }
 }
 
-
-function syncLocation({ scroll = false, smooth = false } = {}) {
+// The sections are created after the page has loaded, so the browser cannot jump to the
+// #fragment by itself: do it here, and mark where the visitor is.
+function syncLocation({ scroll = false, smooth = false }: { scroll?: boolean; smooth?: boolean } = {}): void {
   const id = currentHashId();
   const target = id ? document.getElementById(id) : null;
 
-  dom.main.querySelectorAll('[data-here]').forEach((node) => node.removeAttribute('data-here'));
+  dom.main.querySelectorAll<HTMLElement>('[data-here]').forEach((node) => node.removeAttribute('data-here'));
   if (target && target.matches('.shelf, #categories')) target.setAttribute('data-here', '');
 
-  document.querySelectorAll('.main-nav a').forEach((link) => {
+  document.querySelectorAll<HTMLAnchorElement>('.main-nav a').forEach((link) => {
     if (id && link.getAttribute('href') === `#${id}`) link.setAttribute('aria-current', 'location');
     else link.removeAttribute('aria-current');
   });
@@ -1214,14 +1252,14 @@ function syncLocation({ scroll = false, smooth = false } = {}) {
   else target.scrollIntoView({ block: 'start', behavior: 'instant' });
 }
 
-
-function syncSearchBox(route) {
+// The search box always shows what the address says (never rewrite what the visitor is typing)
+function syncSearchBox(route: Route): void {
   const shown = route.type === 'search' ? route.query : ui.pendingQuery ? dom.search.value.trim() : '';
   if (dom.search.value.trim().replace(/\s+/g, ' ') !== shown) dom.search.value = shown;
 }
 
-function renderRoute({ focus = false, smooth = false } = {}) {
-  if (!model) return;
+function renderRoute({ focus = false, smooth = false }: { focus?: boolean; smooth?: boolean } = {}): void {
+  if (!modelReady) return;
   const route = parseRoute();
   ui.renderedSearch = location.search;
   syncSearchBox(route);
@@ -1229,27 +1267,34 @@ function renderRoute({ focus = false, smooth = false } = {}) {
   const view = route.type === 'catalog' ? renderCatalog(route.slug) : route.type === 'search' ? renderSearch(route.query) : renderHome();
   document.title = view.title ? `${view.title} | ${BRAND.name}` : BRAND.name;
 
-  carouselObserver.disconnect(); 
+  carouselObserver.disconnect(); // the old carousels are about to be thrown away
   dom.main.replaceChildren(...view.nodes);
   dom.main.removeAttribute('aria-busy');
-  dom.main.querySelectorAll('.shelf').forEach(initCarousel);
+  dom.main.querySelectorAll<HTMLElement>('.shelf').forEach(initCarousel);
   syncCartControls();
   syncLocation({ scroll: true, smooth });
   if (focus && !currentHashId()) dom.main.focus({ preventScroll: true });
 }
 
-
-function rememberScroll() {
-  history.replaceState({ ...(history.state || {}), scrollY: window.scrollY }, '');
+// Remember where the visitor was on this page, so "back" can bring them to the same spot
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
+function rememberScroll(): void {
+  const previousState: unknown = history.state;
+  const state = isRecord(previousState) ? previousState : {};
+  history.replaceState({ ...state, scrollY: window.scrollY }, '');
+}
 
-async function navigate(url, { replace = false, focus = true, animate = true } = {}) {
+// focus: move the keyboard focus to the new content (links and buttons do; the search box must NOT)
+// animate: fade the old view out first (the search shows its results at once)
+async function navigate(url: string, { replace = false, focus = true, animate = true }: { replace?: boolean; focus?: boolean; animate?: boolean } = {}): Promise<void> {
   if (replace) {
     history.replaceState({ app: true }, '', url);
   } else {
     rememberScroll();
-    history.pushState({ app: true }, '', url); 
+    history.pushState({ app: true }, '', url); // { app: true } = the previous entry is a page of this shop
   }
   closeCart();
   const show = () => {
@@ -1264,13 +1309,14 @@ async function navigate(url, { replace = false, focus = true, animate = true } =
   }
 }
 
-function goBack() {
-  if (history.state && history.state.app) history.back();
-  else navigate(location.pathname, { replace: true }); 
+function goBack(): void {
+  const state: unknown = history.state;
+  if (isRecord(state) && state.app === true) history.back();
+  else navigate(location.pathname, { replace: true }); // opened from a shared link: there is no page before this one
 }
 
-
-function goToSection(href, target) {
+// A link to a section of the page: scroll there smoothly and keep the address bar in step
+function goToSection(href: string, target: HTMLElement): void {
   closeCart();
   if (location.hash !== href) history.pushState(null, '', href);
   syncLocation();
@@ -1278,14 +1324,14 @@ function goToSection(href, target) {
 }
 
 
-// ===== Search Box & Events =====
-function announceResults(text) {
+// ===== 11. Search box & events =====
+function announceResults(text: string): void {
   announce(`${formatNumber(searchProducts(text).length)} نتیجه برای ${text}`);
 }
 
-function showSearch(query) {
-  if (!model) {
-    ui.pendingQuery = query;
+function showSearch(query: string): void {
+  if (!modelReady) {
+    ui.pendingQuery = query; // the data is still loading: run the search as soon as it arrives
     return;
   }
   const text = query.trim().replace(/\s+/g, ' ');
@@ -1293,39 +1339,41 @@ function showSearch(query) {
 
   if (!text) {
     if (route.type !== 'search') return;
-    if (history.state && history.state.app) history.back(); 
+    const state: unknown = history.state;
+  if (isRecord(state) && state.app === true) history.back(); // back to the page the search started from
     else navigate(location.pathname, { replace: true, focus: false, animate: false });
     return;
   }
 
   const url = `${location.pathname}?q=${encodeURIComponent(text)}`;
   if (route.type === 'search') {
+    // still typing: update the same history entry, so "back" is not flooded with every letter
     history.replaceState(history.state, '', url);
     renderRoute();
   } else {
     closeCart();
-    navigate(url, { focus: false, animate: false });
+    navigate(url, { focus: false, animate: false }); // the visitor is still typing: keep the focus in the box
   }
   announceResults(text);
 }
 
-function clearSearch() {
+function clearSearch(): void {
   dom.search.value = '';
   clearTimeout(ui.searchTimer);
   showSearch('');
 }
 
-dom.search.addEventListener('input', () => {
+dom.search.addEventListener('input', (): void => {
   clearTimeout(ui.searchTimer);
   ui.searchTimer = setTimeout(() => showSearch(dom.search.value), SEARCH_DELAY_MS);
 });
 
-dom.search.addEventListener('keydown', (event) => {
+dom.search.addEventListener('keydown', (event: KeyboardEvent) => {
   if (event.key === 'Enter') {
     event.preventDefault();
     clearTimeout(ui.searchTimer);
     showSearch(dom.search.value);
-    if (coarsePointer.matches) dom.search.blur(); 
+    if (coarsePointer.matches) dom.search.blur(); // phones: hide the keyboard so the results are visible
   } else if (event.key === 'Escape' && dom.search.value) {
     event.stopPropagation();
     clearSearch();
@@ -1333,39 +1381,47 @@ dom.search.addEventListener('keydown', (event) => {
 });
 
 
-// ===== Clicks =====
-const onAddClick = (button) => {
-  if (button.disabled) return;
+// ----- Clicks: one listener for the whole page -----
+const onAddClick = (button: HTMLElement): void => {
+  if (!(button instanceof HTMLButtonElement) || button.disabled) return;
   const id = Number(button.dataset.id);
-  setQty(id, qtyOf(id) + 1);
+  if (!Number.isSafeInteger(id)) return;
+  setQty(id, qtyOf(id) + 1, 'add-button');
 };
 
-const onStepClick = (button) => {
-  const id = Number(button.closest('.stepper').dataset.id);
+const onStepClick = (button: HTMLElement): void => {
+  const stepper = button.closest<HTMLElement>('.stepper');
+  if (!stepper) return;
+  const id = Number(stepper.dataset.id);
+  if (!Number.isSafeInteger(id)) return;
   setQty(id, qtyOf(id) + (button.dataset.step === 'inc' ? 1 : -1));
 };
 
-function onCheckoutClick() {
+function onCheckoutClick(): void {
   announce('ثبت سفارش در این مرحله از پروژه فعال نیست.');
-  const note = $('#mini-note', dom.cartPanel);
+  const note = required<HTMLElement>('#mini-note', dom.cartPanel);
   note.classList.remove('is-flash');
-  void note.offsetWidth;
+  void note.offsetWidth; // restart the CSS animation
   note.classList.add('is-flash');
 }
 
-function onCartButtonClick() {
+function onCartButtonClick(): void {
+  // hovering already opened it: the first click keeps it open, the next one closes it
   if (!cartIsOpen() || !ui.cartPinned) openCart({ pin: true });
   else closeCart();
 }
 
-
-function onLinkClick(link, event) {
-  if (link.closest('.main-nav')) dom.menuToggle.checked = false; 
+// links: back button, in-app views (?cat=), sections of the home page (#id)
+function onLinkClick(node: HTMLElement, event: MouseEvent): void {
+  if (!(node instanceof HTMLAnchorElement)) return;
+  const link = node;
+  if (link.closest('.main-nav')) dom.menuToggle.checked = false; // close the phone menu after a choice
 
   const plainClick = event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
   if (!plainClick || link.target === '_blank') return;
 
   const href = link.getAttribute('href');
+  if (!href) return;
   if (link.hasAttribute('data-back')) {
     event.preventDefault();
     goBack();
@@ -1378,29 +1434,33 @@ function onLinkClick(link, event) {
       event.preventDefault();
       goToSection(href, section);
     } else if (parseRoute().type !== 'home') {
+      // the home sections are not on this view: go home first, then slide to the section
       event.preventDefault();
       navigate(location.pathname + href);
     }
   }
 }
 
-
-const CART_RULES = [
+// [selector, handler]: the first rule that matches the clicked element wins
+const CART_RULES: ClickRule[] = [
   ['.add', onAddClick],
   ['[data-step]', onStepClick],
   ['[data-action="checkout"]', onCheckoutClick],
   ['#cart-btn', onCartButtonClick],
 ];
-const PAGE_RULES = [
-  ['button[data-dir]', (arrow) => scrollCarousel(arrow.closest('.shelf'), Number(arrow.dataset.dir))],
+const PAGE_RULES: ClickRule[] = [
+  ['button[data-dir]', (arrow) => scrollCarousel(arrow.closest<HTMLElement>('.shelf'), Number(arrow.dataset.dir))],
   ['[data-clear-search]', () => { clearSearch(); dom.search.focus(); }],
   ['[data-action="retry"]', () => start()],
   ['a[href]', onLinkClick],
 ];
 
-function matchRule(rules, target, event) {
+type ClickHandler = (node: HTMLElement, event: MouseEvent) => void;
+type ClickRule = readonly [selector: string, handler: ClickHandler];
+
+function matchRule(rules: readonly ClickRule[], target: Element, event: MouseEvent): boolean {
   for (const [selector, handler] of rules) {
-    const node = target.closest(selector);
+    const node = target.closest<HTMLElement>(selector);
     if (node) {
       handler(node, event);
       return true;
@@ -1409,27 +1469,27 @@ function matchRule(rules, target, event) {
   return false;
 }
 
-document.addEventListener('click', (event) => {
+document.addEventListener('click', (event: MouseEvent) => {
   const { target } = event;
   if (!(target instanceof Element) || matchRule(CART_RULES, target, event)) return;
-  if (cartIsOpen() && !target.closest('#cart-wrap')) closeCart();
+  if (cartIsOpen() && !target.closest('#cart-wrap')) closeCart(); // a click anywhere else closes the summary
   matchRule(PAGE_RULES, target, event);
 });
 
-
-dom.cartWrap.addEventListener('pointerenter', (event) => {
+// hover opens the cart summary on a mouse; touch and keyboard use the click above
+dom.cartWrap.addEventListener('pointerenter', (event: PointerEvent) => {
   if (event.pointerType === 'mouse') openCart();
 });
-dom.cartWrap.addEventListener('pointerleave', (event) => {
+dom.cartWrap.addEventListener('pointerleave', (event: PointerEvent) => {
   if (event.pointerType !== 'mouse' || ui.cartPinned) return;
   ui.cartCloseTimer = setTimeout(closeCart, 220);
 });
-dom.cartWrap.addEventListener('focusout', (event) => {
+dom.cartWrap.addEventListener('focusout', (event: FocusEvent) => {
   const next = event.relatedTarget;
-  if (cartIsOpen() && next && !dom.cartWrap.contains(next)) closeCart();
+  if (cartIsOpen() && next instanceof Node && !dom.cartWrap.contains(next)) closeCart();
 });
 
-document.addEventListener('keydown', (event) => {
+document.addEventListener('keydown', (event: KeyboardEvent) => {
   if (event.key !== 'Escape') return;
   if (cartIsOpen()) {
     closeCart({ returnFocus: dom.cartWrap.contains(document.activeElement) });
@@ -1439,34 +1499,38 @@ document.addEventListener('keydown', (event) => {
   }
 });
 
-window.addEventListener('popstate', (event) => {
+window.addEventListener('popstate', (event: PopStateEvent) => {
   closeCart();
   if (location.search === ui.renderedSearch) {
+    syncLocation(); // only the #fragment changed: the browser has already scrolled
     return;
   }
-  const saved = event.state && event.state.scrollY;
+  const state: unknown = event.state;
+  const saved = isRecord(state) ? state.scrollY : undefined;
   swapView(() => {
     renderRoute();
-    if (typeof saved === 'number') window.scrollTo({ top: saved, behavior: 'instant' }); 
+    if (typeof saved === 'number') window.scrollTo({ top: saved, behavior: 'instant' }); // back to the same spot
     else if (!location.hash) window.scrollTo({ top: 0, behavior: 'instant' });
   });
 });
 window.addEventListener('hashchange', () => syncLocation());
 
-window.addEventListener('storage', (event) => {
+// the cart changed in another tab
+window.addEventListener('storage', (event: StorageEvent) => {
   if (event.key !== CART_KEY) return;
   cart = loadCart();
   renderCartBadge();
-  if (model) syncAllControls();
+  if (modelReady) syncAllControls();
   refreshMiniCart();
 });
 
 
-// ===== Start-Up =====
-async function start() {
+// ===== 12. Start-up =====
+async function start(): Promise<void> {
   renderLoading();
   try {
     model = buildModel(await loadWithSlowNotice(showSlowNotice));
+    modelReady = true;
     renderNotice();
     renderNav();
     renderFooterData();
@@ -1476,14 +1540,14 @@ async function start() {
     if (ui.pendingQuery && parseRoute().type === 'home') showSearch(ui.pendingQuery);
     ui.pendingQuery = '';
   } catch (error) {
-    model = null;
-    renderError(error instanceof ApiError ? error : new ApiError('shape', ''));
+    model = createEmptyModel();
+    modelReady = false;
+    renderError(error instanceof ApiError ? error : new ApiError('shape', 'api'));
     announce('بارگذاری محصولات ممکن نشد.');
   }
 }
 
-renderFooterBrand(); 
-renderCartBadge();
+renderFooterBrand(); // our own contact details need no API
+renderCartBadge();   // the cart comes from localStorage, so it shows at once
 syncLocation();
 start();
-})();

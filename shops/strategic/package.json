@@ -1,22 +1,25 @@
 {
-  "name": "strategic",
+  "name": "armin-supermarket",
   "version": "1.0.0",
-  "description": "A responsive Persian supermarket website featuring product search, product categories, special offers, and a shopping cart.",
-  "main": "index.js",
   "private": true,
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "check": "tsc --noEmit"
   },
-  "keywords": ["supermarket","strategic","armin"],
-  "author": "Armin Panahi",
-  "license": "ISC",
-  "type": "module",
+  "dependencies": {
+    "canvas-confetti": "^1.9.4",
+    "notyf": "^3.10.0"
+  },
   "devDependencies": {
+    "@types/canvas-confetti": "^1.9.0",
     "typescript": "^7.0.2",
     "vite": "^8.3.4"
+  },
+  "description": "A responsive Persian supermarket storefront built with TypeScript, Vite, and npm packages.",
+  "engines": {
+    "node": ">=22.12.0"
   }
 }
