@@ -6,8 +6,19 @@ body {
   line-height: 1.8;
   background: #f7faf5;
   color: #1f2a1c;
+  text-align: center;
+  /* display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; */
 }
 
 h1 {
   color: #2e7d32;
+  margin: 5rem 0;
+}
+
+img {
+  width: 20rem;
+  height: 20rem;
 }
