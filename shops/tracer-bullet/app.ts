@@ -139,8 +139,8 @@ function renderSpecialOffers(carousel, data, idPrefix) {
             label: offer.label,
             stock: productStock,
         };
-    }) .filter(Boolean);
-     
+    }).filter(Boolean);
+
     carousel.replaceChildren();
     specialProducts.forEach((item, index) => {
         const card = createCard(item);
@@ -158,13 +158,16 @@ function renderSpecialOffers(carousel, data, idPrefix) {
 let cartCount = Number(localStorage.getItem("cartCount")) || 0;
 
 function renderCartCount() {
-    document.querySelector(".cartCount").textContent = formatNumber(cartCount);
-    document.querySelector(".cartCountText").textContent = `${formatNumber(cartCount)} کالا در سبد`;
+    const cartCountEl = document.querySelector<HTMLElement>(".cartCount");
+    const cartCountTextEl = document.querySelector<HTMLElement>(".cartCountText");
+    if (!cartCountEl || !cartCountTextEl) throw new Error("missing cart elements");
+    cartCountEl.textContent = formatNumber(cartCount);
+    cartCountTextEl.textContent = `${formatNumber(cartCount)} کالا در سبد`;
 }
 
 function addToCart() {
     cartCount++;
-    localStorage.setItem("cartCount", cartCount);
+    localStorage.setItem("cartCount", String(cartCount));
     renderCartCount();
 }
 
@@ -298,13 +301,19 @@ function renderCategoryLinks(list, categories) {
 
 /* read shop.json */
 function renderShopTexts(shop) {
-    document.querySelector("header .notice").textContent = shop.notice;
-    document.querySelector("footer .address").textContent = shop.address;
-    const phoneLink = document.querySelector("footer .phone a");
+    const notice = document.querySelector<HTMLElement>("header .notice");
+    const address = document.querySelector<HTMLElement>("footer .address");
+    const about = document.querySelector<HTMLElement>("footer .about");
+    const phoneLink = document.querySelector<HTMLAnchorElement>("footer .phone a");
+    const slogan = document.querySelector<HTMLElement>("header .logo-text .slogan");
+
+    if (!notice || !address || !about || !phoneLink || !slogan) throw new Error("missing elements");
+    notice.textContent = shop.notice;
+    address.textContent = shop.address;
+    about.textContent = shop.about;
     phoneLink.textContent = shop.phone;
     phoneLink.href = `tel:${shop.phone}`;
-    document.querySelector("footer .about").textContent = shop.about;
-    document.querySelector("header .logo-text .slogan").textContent = shop.slogan;
+    slogan.textContent = shop.slogan;
 }
 
 function createLinkItem(label, href) {
