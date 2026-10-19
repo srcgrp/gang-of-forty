@@ -1,739 +1,1126 @@
-'use strict';
+"use strict"
 
-const API = '../../api/';
-const SHOP_NAME = 'سوپرمارکت بوی کد';
-const numberFormat = new Intl.NumberFormat('fa-IR');
-const CART_KEY = 'code-smell-cart-v1';
-let products = [];
-let categories = [];
-let stock = {};
-let offersById = new Map();
-let shop = null;
-let home = null;
-let ready = false;
-let loading = false;
-let cart = readCart();
+const api = "../../api/"
+const shopName = "سوپرمارکت بوی کد"
+const persianNumberFormat = new Intl.NumberFormat("fa-IR")
+const cartKey = "code-smell-shopping-cart"
+let products = []
+let categories = []
+let stockByProductId = {}
+let offers = []
+let shopData = null
+let homeData = null
+let isPageReady = false
+const cart = readCart()
 
-function element(tag, className, text) {
-    const node = document.createElement(tag);
-    if (className) node.className = className;
-    if (text !== undefined) node.textContent = String(text);
-    return node;
-}
-
-function emoji(value, className) {
-    const node = element('span', className, value);
-    node.setAttribute('aria-hidden', 'true');
-    return node;
-}
-
-function image(filename, className, size, alt = '') {
-    const node = element('img', className);
-    node.src = filename;
-    node.alt = alt;
-    node.width = size;
-    node.height = size;
-    node.decoding = 'async';
-    if (!alt) node.setAttribute('aria-hidden', 'true');
-    return node;
-}
-
-function safeHref(value) {
-    if (typeof value !== 'string' || !/^#[a-zA-Z0-9_-]*$/.test(value)) return '#categories';
-    return value;
-}
-
-function link(label, href, className) {
-    const node = element('a', className, label);
-    node.href = safeHref(href);
-    return node;
-}
-
-function categoryIcon(category, className) {
-    const node = element('span', className);
-    node.setAttribute('aria-hidden', 'true');
-    if (/^#[0-9a-f]{6}$/i.test(category.color)) node.style.backgroundColor = category.color;
-    node.append(emoji(category.emoji, 'category-icon__emoji'));
-    return node;
-}
-
-function sectionHeader(title, id, subtitle = '') {
-    const header = element('header', 'section__header');
-    const heading = element('h2', 'section__title', title);
-    heading.id = id;
-    header.append(heading);
-    if (subtitle) header.append(element('p', 'section__subtitle', subtitle));
-    return header;
-}
-
+//Cart 
 function readCart() {
     try {
-        const saved = JSON.parse(localStorage.getItem(CART_KEY) || '{}');
-        if (!saved || typeof saved !== 'object' || Array.isArray(saved)) return {};
-        const result = {};
-        Object.entries(saved).forEach(([id, count]) => {
-            if (/^\d+$/.test(id) && Number.isSafeInteger(count) && count > 0) result[id] = count;
-        });
-        return result;
+        return JSON.parse(localStorage.getItem(cartKey) || "{}")
     } catch {
-        return {};
+        return {}
     }
 }
 
-function persistCart() {
-    try {
-        localStorage.setItem(CART_KEY, JSON.stringify(cart));
-        return true;
-    } catch {
-        return false;
-    }
+function updateCartCount() {
+    let count = 0
+    Object.values(cart).forEach(function (quantity) {
+        count += quantity
+    })
+    document.querySelector(".cart-button__badge").textContent = persianNumberFormat.format(count)
+    document.querySelector(".cart-button").setAttribute(
+        "aria-label", "سبد خرید:"+ " "+ persianNumberFormat.format(count) +" "+ "کالا"
+    )
 }
 
-function updateCart() {
-    const count = Object.values(cart).reduce((total, quantity) => total + quantity, 0);
-    document.querySelector('.cart-button__badge').textContent = numberFormat.format(count);
-    document.querySelector('.cart-button').setAttribute('aria-label', `سبد خرید: ${numberFormat.format(count)} کالا`);
+function addToCart(product) {
+    cart[product.id] = (cart[product.id] || 0) + 1
+    updateCartCount()
+    localStorage.setItem(cartKey, JSON.stringify(cart))
 }
 
-function reconcileCart() {
-    const next = {};
-    products.forEach((product) => {
-        const quantity = Math.min(cart[product.id] || 0, stock[product.id] || 0);
-        if (quantity > 0) next[product.id] = quantity;
-    });
-    cart = next;
-    persistCart();
-    updateCart();
-}
-
-function announce(message) {
-    document.querySelector('#cart-status').textContent = message;
-}
-
-function addToCart(product, button) {
-    const available = stock[product.id] ?? 0;
-    if ((cart[product.id] || 0) >= available) {
-        announce(' موجودی این کالا تمام شده است.');
-        return;
-    }
-    cart[product.id] = (cart[product.id] || 0) + 1;
-    const saved = persistCart();
-    updateCart();
-    announce(`${product.name} به سبد خرید اضافه شد.${saved ? '' : ' ذخیره در سبد خرید ممکن نیست.'}`);
-    button.setAttribute('aria-label', `افزودن به سبد خرید: ${product.name}؛ ${numberFormat.format(cart[product.id])} عدد در سبد`);
-}
-
+// header
 function initializeHeader() {
-    const brand = document.querySelector('#brand-text');
-    brand.append(element('strong', 'brand__name', SHOP_NAME));
-    brand.append(element('span', 'brand__tagline'));
-    const search = document.querySelector('#search-root');
-    const label = element('label', 'sr-only', 'جستجوی کالا');
-    label.htmlFor = 'product-search';
-    const input = element('input', 'search__input');
-    input.id = 'product-search';
-    input.name = 'q';
-    input.type = 'search';
-    input.autocomplete = 'off';
-    input.setAttribute('enterkeyhint', 'search');
-    input.placeholder = 'جستجوی کالا...';
-    input.disabled = true;
-    input.addEventListener('input', () => { if (ready) renderCatalog(); });
-    search.append(label, image('svg/magnifying-glass.svg', 'search__icon', 18), input);
-    document.querySelector('#cart-button').append(
-        image('svg/shopping-cart.svg', 'cart-button__icon', 20),
-        element('span', 'cart-button__label', 'سبد خرید'),
-        element('span', 'cart-button__badge', '۰')
-    );
-    const status = element('p', 'sr-only');
-    status.id = 'cart-status';
-    status.setAttribute('role', 'status');
-    status.setAttribute('aria-live', 'polite');
-    document.querySelector('#header-bar').append(status);
-    updateCart();
+    document.querySelector(".brand").addEventListener("click", navigate)
+    const brand = document.querySelector("#brand-text")
+    const brandName = document.createElement("strong")
+    brandName.className = "brand__name"
+    brandName.textContent = shopName
+    const brandTagline = document.createElement("span")
+    brandTagline.className = "brand__tagline"
+    brand.append(brandName, brandTagline)
+    const searchContainer = document.querySelector("#search-root")
+    const label = document.createElement("label")
+    label.className = "sr-only"
+    label.textContent = "جستجوی کالا"
+    label.htmlFor = "product-search"
+    const searchInput = document.createElement("input")
+    searchInput.className = "search__input"
+    searchInput.id = "product-search"
+    searchInput.type = "search"
+    searchInput.placeholder = "جستجوی کالا..."
+    searchInput.disabled = true
+    const searchIcon = document.createElement("img")
+    searchIcon.className = "search__icon"
+    searchIcon.src = "svg/magnifying-glass.svg"
+    searchIcon.alt = ""
+    searchIcon.width = 18
+    searchIcon.height = 18
+    searchIcon.setAttribute("aria-hidden", "true")
+    searchContainer.append(label, searchIcon, searchInput)
+    const cartButtonIcon = document.createElement("img")
+    cartButtonIcon.className = "cart-button__icon"
+    cartButtonIcon.src = "svg/shopping-cart.svg"
+    cartButtonIcon.alt = ""
+    cartButtonIcon.width = 20
+    cartButtonIcon.height = 20
+    cartButtonIcon.setAttribute("aria-hidden", "true")
+    const cartButtonLabel = document.createElement("span")
+    cartButtonLabel.className = "cart-button__label"
+    cartButtonLabel.textContent = "سبد خرید"
+    const cartButtonBadge = document.createElement("span")
+    cartButtonBadge.className = "cart-button__badge"
+    cartButtonBadge.textContent = "۰"
+    document.querySelector("#cart-button").append(
+        cartButtonIcon,
+        cartButtonLabel,
+        cartButtonBadge
+    )
+    updateCartCount()
 }
 
-function categoryMenu(mobile) {
-    const item = element('li', 'category-menu');
-    const wrapper = mobile ? element('details', 'mobile-category-menu') : item;
-    const toggle = mobile
-        ? element('summary', 'category-menu__toggle', 'دسته‌‌بندی کالاها')
-        : link('دسته‌بندی کالاها', '#categories', 'category-menu__toggle');
-    const arrow = image('svg/caret-left.svg', 'category-menu__chevron menu-chevron', 16);
-    toggle.append(arrow);
-    const list = element('ul', mobile ? 'mobile-categories' : 'category-menu__list');
-    categories.forEach((category) => {
-        const row = element('li');
-        const anchor = link('', `#${category.slug}`, 'menu-link');
-        anchor.append(categoryIcon(category, 'menu-link__icon category-visual'), document.createTextNode(category.name));
-        row.append(anchor);
-        list.append(row);
-    });
-    wrapper.append(toggle, list);
-    if (mobile) item.append(wrapper);
-    return item;
+function createCategoryMenu(isMobile) {
+    const item = document.createElement("li")
+    item.className = "category-menu"
+    let wrapper = item
+    let toggle
+    if (isMobile) {
+        wrapper = document.createElement("details")
+        wrapper.className = "mobile-category-menu"
+        toggle = document.createElement("summary")
+    } else {
+        toggle = document.createElement("a")
+        toggle.href = "#categories"
+        toggle.addEventListener("click", navigate)
+    }
+    toggle.className = "category-menu__toggle"
+    toggle.textContent = "دسته‌بندی کالاها"
+    const arrow = document.createElement("img")
+    arrow.className = "category-menu__chevron menu-chevron"
+    arrow.src = "svg/caret-left.svg"
+    arrow.alt = ""
+    arrow.width = 16
+    arrow.height = 16
+    arrow.setAttribute("aria-hidden", "true")
+    toggle.append(arrow)
+    const list = document.createElement("ul")
+    list.className = isMobile ? "mobile-categories" : "category-menu__list"
+    categories.forEach(function (category) {
+        const row = document.createElement("li")
+        const anchor = document.createElement("a")
+        anchor.className = "menu-link"
+        anchor.href = "#" + category.slug
+        anchor.addEventListener("click", navigate)
+        const categoryIcon = document.createElement("span")
+        categoryIcon.className = "menu-link__icon category-visual"
+        categoryIcon.setAttribute("aria-hidden", "true")
+        categoryIcon.style.backgroundColor = category.color
+        const categoryEmoji = document.createElement("span")
+        categoryEmoji.className = "category-icon__emoji"
+        categoryEmoji.textContent = category.emoji
+        categoryEmoji.setAttribute("aria-hidden", "true")
+        categoryIcon.append(categoryEmoji)
+        anchor.append(categoryIcon, document.createTextNode(category.name))
+        row.append(anchor)
+        list.append(row)
+    })
+    wrapper.append(toggle, list)
+    if (isMobile) {
+        item.append(wrapper)
+    }
+    return item
 }
 
-function mainMenu(mobile) {
-    const list = element('ul', 'site-nav__list container');
-    list.append(categoryMenu(mobile));
-    shop.menu.forEach((entry) => {
-        const item = element('li');
-        item.append(link(entry.label, entry.href, 'site-nav__link'));
-        list.append(item);
-    });
-    return list;
+function createMainMenu(isMobile) {
+    const list = document.createElement("ul")
+    list.className = "site-nav__list container"
+    list.append(createCategoryMenu(isMobile))
+    shopData.menu.forEach(function (entry) {
+        const item = document.createElement("li")
+        const navigationLink = document.createElement("a")
+        navigationLink.className = "site-nav__link"
+        navigationLink.textContent = entry.label
+        navigationLink.href = entry.href
+        navigationLink.addEventListener("click", navigate)
+        item.append(navigationLink)
+        list.append(item)
+    })
+    return list
 }
 
 function renderHeader() {
-    document.querySelector('#announcement').textContent = shop.notice;
-    document.querySelector('.brand__name').textContent = SHOP_NAME;
-    document.querySelector('.brand__tagline').textContent = shop.slogan;
-    document.querySelector('.brand').setAttribute('aria-label', `${SHOP_NAME}، بازگشت به بالای صفحه`);
-    document.title = `${SHOP_NAME} | خرید آنلاین کالاهای تازه`;
-    document.querySelector('meta[name="description"]').content = shop.about;
-    document.querySelector('meta[property="og:site_name"]').content = SHOP_NAME;
-    document.querySelector('meta[property="og:title"]').content = SHOP_NAME;
-    document.querySelector('meta[property="og:description"]').content = shop.about;
-    document.querySelector('#site-nav').replaceChildren(mainMenu(false));
-    const mobile = document.querySelector('#mobile-menu');
-    const summary = element('summary', 'menu-toggle', '☰');
-    summary.setAttribute('aria-label', 'منوی اصلی');
-    const nav = element('nav', 'mobile-nav');
-    nav.setAttribute('aria-label', 'منوی اصلی موبایل');
-    nav.append(mainMenu(true));
-    mobile.replaceChildren(summary, nav);
-    const search = document.querySelector('#product-search');
-    search.disabled = false;
-    search.placeholder = `جستجو در میان ${numberFormat.format(products.length)} کالا...`;
+    document.querySelector("#announcement").textContent = shopData.notice
+    document.querySelector(".brand__tagline").textContent = shopData.slogan
+    document.querySelector("#site-nav").replaceChildren(
+        createMainMenu(false)
+    )
+    const mobileMenu = document.querySelector("#mobile-menu")
+    const summary = document.createElement("summary")
+    summary.className = "menu-toggle"
+    summary.textContent = "☰"
+    summary.setAttribute("aria-label", "منوی اصلی")
+    const mobileNav = document.createElement("nav")
+    mobileNav.className = "mobile-nav"
+    mobileNav.setAttribute("aria-label", "منوی اصلی موبایل")
+    mobileNav.append(createMainMenu(true))
+    mobileMenu.replaceChildren(summary, mobileNav)
+    const search = document.querySelector("#product-search")
+    search.disabled = false
+    search.placeholder =
+        "جستجو در میان"+" " +
+        persianNumberFormat.format(products.length) +
+        " "+"کالا..."
 }
 
+
+// Hero
 function renderHero() {
-    const section = document.querySelector('#hero');
-    section.setAttribute('aria-labelledby', 'hero-title');
-    const container = element('div', 'hero__inner container');
-    const content = element('div', 'hero__content');
-    const heading = element('h1', 'hero__title', home.hero.title);
-    heading.id = 'hero-title';
-    heading.prepend(emoji(home.hero.emoji, 'hero-title__emoji'), document.createTextNode(' '));
-    const actions = element('div', 'hero__actions');
-    actions.append(link(home.hero.cta.label, home.hero.cta.href, 'button button--primary'));
-    actions.append(link('دسته‌بندی کالاها', '#categories', 'button button--secondary'));
-    const features = element('ul', 'hero__features');
-    const localTime = (value) => value.replace(/\d/g, digit => '۰۱۲۳۴۵۶۷۸۹'[digit]);
-    [
-        `ارسال در ${shop.city}`,
-        `ساعت فعالیت: ${localTime(shop.hours.open)} تا ${localTime(shop.hours.close)}`,
-        `ارسال رایگان از ${numberFormat.format(shop.freeDeliveryOver)} ${shop.currency}`
-    ].forEach((text) => features.append(element('li', '', text)));
-    content.append(element('p', 'hero__eyebrow', SHOP_NAME), heading,
-        element('p', 'hero__text', home.hero.text), actions, features);
-    const media = element('div', 'hero__image-wrap');
-    media.append(image('images/Golden%20Tote.webp', 'hero__image', 320));
-    // Only the decorative illustration and logo belong to the local design.
-    container.append(content, media);
-    section.replaceChildren(container);
-    section.hidden = false;
+    const section = document.querySelector("#hero")
+    section.setAttribute("aria-labelledby", "hero-title")
+    const container = document.createElement("div")
+    container.className = "hero__inner container"
+    const content = document.createElement("div")
+    content.className = "hero__content"
+    const heading = document.createElement("h1")
+    heading.className = "hero__title"
+    heading.textContent = homeData.hero.title
+    heading.id = "hero-title"
+    const heroTitleEmoji = document.createElement("span")
+    heroTitleEmoji.className = "hero-title__emoji"
+    heroTitleEmoji.textContent = homeData.hero.emoji
+    heroTitleEmoji.setAttribute("aria-hidden", "true")
+    heading.prepend(heroTitleEmoji, document.createTextNode(" "))
+    const actions = document.createElement("div")
+    actions.className = "hero__actions"
+    const heroLink = document.createElement("a")
+    heroLink.className = "button button--primary"
+    heroLink.textContent = homeData.hero.cta.label
+    heroLink.href = homeData.hero.cta.href
+    heroLink.addEventListener("click", navigate)
+    actions.append(heroLink)
+    const categoriesLink = document.createElement("a")
+    categoriesLink.className = "button button--secondary"
+    categoriesLink.textContent = "دسته‌بندی کالاها"
+    categoriesLink.href = "#categories"
+    categoriesLink.addEventListener("click", navigate)
+    actions.append(categoriesLink)
+    const features = document.createElement("ul")
+    features.className = "hero__features"
+    const featureTexts = [
+        "ارسال در"+ " " + shopData.city,
+        "ساعت فعالیت:"+" "+ shopData.hours.open +" "+ "تا"+" " + shopData.hours.close,
+        "ارسال رایگان از"+" "+ persianNumberFormat.format(shopData.freeDeliveryOver) + " " + shopData.currency
+    ]
+    featureTexts.forEach(function (text) {
+        const textNode = document.createElement("li")
+        textNode.textContent = text
+        features.append(textNode)
+    })
+    const heroEyebrow = document.createElement("p")
+    heroEyebrow.className = "hero__eyebrow"
+    heroEyebrow.textContent = shopName
+    const heroText = document.createElement("p")
+    heroText.className = "hero__text"
+    heroText.textContent = homeData.hero.text
+    content.append(heroEyebrow, heading, heroText, actions, features)
+    const media = document.createElement("div")
+    media.className = "hero__image-wrap"
+    const heroImage = document.createElement("img")
+    heroImage.className = "hero__image"
+    heroImage.src = "images/Golden%20Tote.webp"
+    heroImage.alt = ""
+    heroImage.width = 320
+    heroImage.height = 320
+    heroImage.setAttribute("aria-hidden", "true")
+    media.append(heroImage)
+    container.append(content, media)
+    section.replaceChildren(container)
+    section.hidden = false
 }
 
-function sideBanner() {
-    const side = element('article', 'hero-side promo-side');
-    const heading = element('h3', 'hero-side__title', home.side.title);
-    heading.prepend(emoji(home.side.emoji, 'hero-side__emoji'));
-    side.append(heading, element('p', 'hero-side__text', home.side.text),
-        link(home.side.cta.label, home.side.cta.href, 'button button--primary'));
-    return side;
-}
-
+// Categories
 function renderCategories() {
-    const section = document.querySelector('#categories');
-    section.setAttribute('aria-labelledby', 'categories-title');
-    const container = element('div', 'container');
-    container.append(sectionHeader('دسته‌بندی کالاها', 'categories-title',
-        'برای خرید روزانه، دسته بندی مورد نظر را انتخاب کنید.'));
-    const list = element('ul', 'category-grid');
-    categories.forEach((category) => {
-        const item = element('li', 'category-card');
-        item.id = `category-${category.slug}`;
-        const anchor = link('', `#${category.slug}`, 'category-card__link');
-        anchor.append(categoryIcon(category, 'category-card__icon category-visual'),
-            element('h3', 'category-card__title', category.name),
-            element('p', 'category-card__meta', 'دیدن کالاها ←'));
-        item.append(anchor);
-        list.append(item);
-    });
-    const reset = link('نمایش همه دسته‌ها', '#categories', 'button button--secondary category-reset');
-    reset.dataset.resetCategory = 'true';
-    container.append(list, reset);
-    section.replaceChildren(container);
-    section.hidden = false;
+    const section = document.querySelector("#categories")
+    section.setAttribute("aria-labelledby", "categories-title")
+    const container = document.createElement("div")
+    container.className = "container"
+    const sectionHeader = document.createElement("header")
+    sectionHeader.className = "section__header"
+    const sectionTitle = document.createElement("h2")
+    sectionTitle.className = "section__title"
+    sectionTitle.textContent = "دسته‌بندی کالاها"
+    sectionTitle.id = "categories-title"
+    sectionHeader.append(sectionTitle)
+    const sectionSubtitle = document.createElement("p")
+    sectionSubtitle.className = "section__subtitle"
+    sectionSubtitle.textContent = "برای خرید راحتتر، دسته بندی مورد نظرتان را انتخاب کنید."
+    sectionHeader.append(sectionSubtitle)
+    container.append(sectionHeader)
+    const list = document.createElement("ul")
+    list.className = "category-grid"
+    categories.forEach(function (category) {
+        const item = document.createElement("li")
+        item.className = "category-card"
+        item.id = "category-" + category.slug
+        const anchor = document.createElement("a")
+        anchor.className = "category-card__link"
+        anchor.href = "#" + category.slug
+        anchor.addEventListener("click", navigate)
+        const categoryIcon = document.createElement("span")
+        categoryIcon.className = "category-card__icon category-visual"
+        categoryIcon.setAttribute("aria-hidden", "true")
+        categoryIcon.style.backgroundColor = category.color
+        const categoryEmoji = document.createElement("span")
+        categoryEmoji.className = "category-icon__emoji"
+        categoryEmoji.textContent = category.emoji
+        categoryEmoji.setAttribute("aria-hidden", "true")
+        categoryIcon.append(categoryEmoji)
+        const categoryCardTitle = document.createElement("h3")
+        categoryCardTitle.className = "category-card__title"
+        categoryCardTitle.textContent = category.name
+        const categoryCardMeta = document.createElement("p")
+        categoryCardMeta.className = "category-card__meta"
+        categoryCardMeta.textContent = "دیدن کالاها ←"
+        anchor.append(categoryIcon, categoryCardTitle, categoryCardMeta)
+        item.append(anchor)
+        list.append(item)
+    })
+    const reset = document.createElement("a")
+    reset.className = "button button--secondary category-reset"
+    reset.textContent = "نمایش همه دسته‌ها"
+    reset.href = "#categories"
+    reset.addEventListener("click", navigate)
+    container.append(list, reset)
+    section.replaceChildren(container)
+    section.hidden = false
+}
+
+//Banner
+function createSideBanner() {
+    const side = document.createElement("article")
+    side.className = "hero-side promo-side"
+    const heading = document.createElement("h3")
+    heading.className = "hero-side__title"
+    heading.textContent = homeData.side.title
+    const heroSideEmoji = document.createElement("span")
+    heroSideEmoji.className = "hero-side__emoji"
+    heroSideEmoji.textContent = homeData.side.emoji
+    heroSideEmoji.setAttribute("aria-hidden", "true")
+    heading.prepend(heroSideEmoji)
+    const heroSideText = document.createElement("p")
+    heroSideText.className = "hero-side__text"
+    heroSideText.textContent = homeData.side.text
+    const sideLink = document.createElement("a")
+    sideLink.className = "button button--primary"
+    sideLink.textContent = homeData.side.cta.label
+    sideLink.href = homeData.side.cta.href
+    sideLink.addEventListener("click", navigate)
+    side.append(heading, heroSideText, sideLink)
+    return side
 }
 
 function renderPromos() {
-    const section = document.querySelector('#special-offers');
-    section.setAttribute('aria-labelledby', 'special-offers-title');
-    const container = element('div', 'container');
-    container.append(sectionHeader('پیشنهاد ویژه', 'special-offers-title'));
-    const grid = element('div', 'promo-grid');
-    home.promos.forEach((promo) => {
-        const card = element('article', 'promo-card promo-card--api');
-        if (/^#[0-9a-f]{6}$/i.test(promo.color)) card.style.backgroundColor = promo.color;
-        const heading = element('h3', 'promo-card__title', promo.text);
-        card.append(heading, link('مشاهده کالاها', promo.href, 'button button--dark'));
-        card.append(emoji(promo.emoji, 'promo-card__art promo-card__emoji'));
-        grid.append(card);
-    });
-    grid.append(sideBanner());
-    container.append(grid);
-    section.replaceChildren(container);
-    section.hidden = false;
+    const section = document.querySelector("#special-offers")
+    section.setAttribute("aria-labelledby", "special-offers-title")
+    const container = document.createElement("div")
+    container.className = "container"
+    const sectionHeader = document.createElement("header")
+    sectionHeader.className = "section__header"
+    const sectionTitle = document.createElement("h2")
+    sectionTitle.className = "section__title"
+    sectionTitle.textContent = "پیشنهاد ویژه"
+    sectionTitle.id = "special-offers-title"
+    sectionHeader.append(sectionTitle)
+    container.append(sectionHeader)
+    const grid = document.createElement("div")
+    grid.className = "promo-grid"
+    homeData.promos.forEach(function (promo) {
+        const card = document.createElement("article")
+        card.className = "promo-card promo-card--api"
+        card.style.backgroundColor = promo.color
+        const heading = document.createElement("h3")
+        heading.className = "promo-card__title"
+        heading.textContent = promo.text
+        const navigationLink = document.createElement("a")
+        navigationLink.className = "button button--dark"
+        navigationLink.textContent = "مشاهده کالاها"
+        navigationLink.href = promo.href
+        navigationLink.addEventListener("click", navigate)
+        card.append(heading, navigationLink)
+        const promoCardArt = document.createElement("span")
+        promoCardArt.className = "promo-card__art promo-card__emoji"
+        promoCardArt.textContent = promo.emoji
+        promoCardArt.setAttribute("aria-hidden", "true")
+        card.append(promoCardArt)
+        grid.append(card)
+    })
+    grid.append(createSideBanner())
+    container.append(grid)
+    section.replaceChildren(container)
+    section.hidden = false
 }
 
-function renderGuide() {
-    const data = SHOP_CONTENT.guide;
-    const section = document.querySelector('#shopping-guide');
-    section.setAttribute('aria-labelledby', 'shopping-guide-title');
-    const container = element('div', 'container');
-    container.append(sectionHeader(data.title, 'shopping-guide-title', data.subtitle));
-    const guide = element('div', 'guide');
-    const cards = element('div', 'guide__cards');
-    data.cards.forEach((item) => {
-        const card = element('article', 'info-card');
-        card.id = item.id;
-        const schedule = shop.schedule.map((entry) => `${entry.days} از ${entry.time}`).join(' و ');
-        const text = item.id === 'shipping'
-            ? `سفارش‌ها در بازه‌های دوساعته ارسال می‌شوند؛ ${schedule}. ارسال سفارش‌های بالای ${numberFormat.format(shop.freeDeliveryOver)} ${shop.currency} رایگان است.`
-            : item.text;
-        card.append(element('h3', 'info-card__title', item.title), element('p', 'info-card__text', text));
-        cards.append(card);
-    });
-    const faq = element('div', 'faq');
-    faq.id = 'faq';
-    faq.append(element('h3', 'faq__title', data.faqTitle));
-    data.questions.forEach((item, index) => {
-        const details = element('details', 'faq__item');
-        details.setAttribute('name', 'faq');
-        const answer = index === 0
-            ? `ارسال برای سفارش‌های بالای ${numberFormat.format(shop.freeDeliveryOver)} ${shop.currency} رایگان است و برای سایر سفارش‌ها ${numberFormat.format(shop.deliveryFee)} ${shop.currency} هزینه دارد.`
-            : item.answer;
-        details.append(element('summary', 'faq__question', item.question), element('p', 'faq__answer', answer));
-        faq.append(details);
-    });
-    guide.append(cards, faq);
-    container.append(guide);
-    section.replaceChildren(container);
-    section.hidden = false;
+//carousel
+function getProductOffer(productId) {
+    return offers.find(function (offer) {
+        return offer.productId === productId
+    })
 }
 
-function footerColumn(tag, title, id) {
-    const column = element(tag, 'footer-column');
-    column.setAttribute('aria-labelledby', id);
-    const heading = element('h2', 'footer-column__title', title);
-    heading.id = id;
-    column.append(heading);
-    return column;
-}
+function createProductMedia(product, offer, isUnavailable) {
+    const media = document.createElement("div")
+    media.className = "product-card__media"
+    const productEmoji = document.createElement("span")
+    productEmoji.className = "product-card__emoji"
+    productEmoji.textContent = product.emoji
+    productEmoji.setAttribute("aria-hidden", "true")
+    media.append(productEmoji)
 
-function footerLink(label, href) {
-    const item = element('li');
-    const anchor = link('', href, 'footer-link');
-    anchor.append(image('svg/caret-left.svg', 'footer-link__icon', 13), document.createTextNode(label));
-    item.append(anchor);
-    return item;
-}
-
-function renderFooter() {
-    const footer = document.querySelector('#footer');
-    const grid = element('div', 'site-footer__grid container');
-    const about = footerColumn('section', SHOP_NAME, 'footer-about-title');
-    const heading = about.querySelector('h2');
-    heading.classList.add('footer-brand');
-    const logo = document.querySelector('.brand__logo').cloneNode(true);
-    logo.removeAttribute('aria-labelledby');
-    logo.removeAttribute('role');
-    logo.setAttribute('aria-hidden', 'true');
-    logo.querySelector('title').remove();
-    logo.classList.replace('brand__logo', 'footer-brand__logo');
-    heading.prepend(logo);
-    about.append(element('p', 'footer-column__text', shop.about));
-    if (shop.owner) about.append(element('p', 'footer-column__text', `مدیریت: ${shop.owner}`));
-    const address = element('address', 'footer-contact');
-    const location = element('p', 'footer-contact__item');
-    location.append(image('svg/map-pin.svg', 'footer-icon', 18), document.createTextNode(shop.address));
-    const telephone = element('p', 'footer-contact__item');
-    const phone = element('a', 'footer-contact__link', shop.phone.replace(/\d/g, digit => '۰۱۲۳۴۵۶۷۸۹'[digit]).replaceAll('-', '‑'));
-    phone.href = `tel:${shop.phone.replace(/[^+\d]/g, '')}`;
-    phone.dir = 'ltr';
-    telephone.append(image('svg/phone.svg', 'footer-icon', 18), phone);
-    address.append(location, telephone);
-    about.append(address);
-    const categoryColumn = footerColumn('nav', 'دسته‌بندی کالاها', 'footer-categories-title');
-    const categoryList = element('ul', 'footer-links');
-    categories.forEach((category) => categoryList.append(footerLink(category.name, `#${category.slug}`)));
-    categoryColumn.append(categoryList);
-    const help = footerColumn('nav', 'راهنمای خرید', 'footer-guide-title');
-    const helpList = element('ul', 'footer-links');
-    const localTargets = ['#shipping', '#returns', '#faq'];
-    shop.help.forEach((entry, index) => helpList.append(footerLink(entry.label,
-        entry.href === '#' ? localTargets[index] || '#shopping-guide' : entry.href)));
-    help.append(helpList);
-    const hours = footerColumn('section', 'ساعت کاری', 'footer-hours-title');
-    const schedule = element('ul', 'footer-hours');
-    shop.schedule.forEach((entry) => {
-        const item = element('li', 'footer-hours__item');
-        item.append(image('svg/calendar-dots.svg', 'footer-icon', 18), element('span', '', `${entry.days}: ${entry.time}`));
-        schedule.append(item);
-    });
-    hours.append(schedule);
-    grid.append(about, categoryColumn, help, hours);
-    const bottom = element('div', 'site-footer__bottom container');
-    bottom.append(element('p', 'copyright', shop.copyright.split(shop.name).join(SHOP_NAME)), link('بازگشت به بالا', '#top', 'back-to-top'));
-    const contact = element('span', 'category-anchor');
-    contact.id = 'contact';
-    footer.replaceChildren(contact, grid, bottom);
-    footer.hidden = false;
-}
-function createCard(product, sectionId, index) {
-    const offer = offersById.get(product.id);
-    const unavailable = (stock[product.id] ?? 0) === 0;
-    const item = element('li');
-    item.id = `${sectionId}-item-${index + 1}`;
-    item.tabIndex = -1;
-    const card = element('article', `product-card${unavailable ? ' product-card--unavailable' : ''}`);
-    card.dataset.productId = product.id;
-    const media = element('div', 'product-card__media');
-    media.append(emoji(product.emoji, 'product-card__emoji'));
     if (offer) {
-        const badge = element('span', 'badge product-card__badge', `${numberFormat.format(offer.percent)}٪ تخفیف`);
-        badge.title = offer.label;
-        media.append(badge);
+        const badge = document.createElement("span")
+        badge.className = "badge product-card__badge"
+        badge.textContent = persianNumberFormat.format(offer.percent) + "٪ تخفیف"
+        media.append(badge)
     }
-    if (unavailable) media.append(element('span', 'badge product-card__stock', 'ناموجود'));
-    card.append(media);
-    const category = categories.find((item) => item.id === product.categoryId);
-    card.append(element('p', 'product-card__category', category ? category.name : 'کالا'));
-    card.append(element('h3', 'product-card__title', product.name));
-    card.append(element('p', 'product-card__unit', product.unit));
-    const tags = element('p', 'product-card__tags', product.tags.join(' · '));
-    tags.hidden = product.tags.length === 0;
-    card.append(tags);
-    const footer = element('div', 'product-card__footer');
-    const price = element('p', 'price');
+
+    if (isUnavailable) {
+        const badge = document.createElement("span")
+        badge.className = "badge product-card__stock"
+        badge.textContent = "ناموجود"
+        media.append(badge)
+    }
+    return media
+}
+
+function createProductPrice(product, offer) {
+    const price = document.createElement("p")
+    price.className = "price"
+    let finalPrice = product.price
     if (offer) {
-        const oldPrice = element('del', 'price__old');
-        oldPrice.append(element('span', 'sr-only', 'قیمت قبلی: '));
-        oldPrice.append(document.createTextNode(numberFormat.format(product.price)));
-        price.append(oldPrice);
+        const oldPrice = document.createElement("del")
+        oldPrice.className = "price__old"
+        oldPrice.textContent = persianNumberFormat.format(product.price)
+        price.append(oldPrice)
+
+        finalPrice = Math.round(product.price * (100 - offer.percent) / 100)
     }
-    const finalPrice = offer ? Math.round(product.price * (100 - offer.percent) / 100) : product.price;
-    const currentPrice = element('span', 'price__current');
-    currentPrice.append(document.createTextNode(`${numberFormat.format(finalPrice)} `));
-    currentPrice.append(element('span', 'price__unit', shop.currency));
-    price.append(currentPrice);
-    const button = element('button', 'button button--secondary button--block');
-    button.type = 'button';
-    button.disabled = unavailable;
-    button.setAttribute('aria-label', unavailable ? `${product.name}: ناموجود` : `افزودن به سبد خرید: ${product.name}`);
-    const plus = element('span', '', '+');
-    plus.setAttribute('aria-hidden', 'true');
-    button.append(plus, element('span', '', unavailable ? 'ناموجود' : 'افزودن به سبد خرید'));
-    button.addEventListener('click', () => addToCart(product, button));
-    footer.append(price, button);
-    card.append(footer);
-    item.append(card);
-    return item;
+
+    const currentPrice = document.createElement("span")
+    currentPrice.className = "price__current"
+    currentPrice.textContent = persianNumberFormat.format(finalPrice) + " "
+    const priceUnit = document.createElement("span")
+    priceUnit.className = "price__unit"
+    priceUnit.textContent = shopData.currency
+    currentPrice.append(priceUnit)
+    price.append(currentPrice)
+    return price
 }
 
-function makeCarousel(spec, index = 0) {
-    const section = element('section', `section${index % 2 === 0 ? ' section--muted' : ''}`);
-    section.id = spec.id;
-    section.dataset.carousel = 'true';
-    section.setAttribute('aria-labelledby', `${spec.id}-title`);
-    const container = element('div', 'container');
-    const header = sectionHeader(spec.title, `${spec.id}-title`);
-    if (spec.emoji) header.querySelector('h2').prepend(emoji(spec.emoji, 'carousel-title__emoji'), document.createTextNode(' '));
-    header.classList.add('section__header--carousel');
-    const row = element('div', 'carousel-heading-row');
-    row.append(element('p', 'section__subtitle', spec.source === 'offers'
-        ? 'قیمت‌های ویژه روی کالاهای پرمصرف.' : 'خرید روزانه، تازه و به‌صرفه.'));
-    const controls = element('nav', 'carousel-controls');
-    controls.setAttribute('aria-label', `کنترل کاروسل ${spec.title}`);
-    ['start', 'end'].forEach((direction) => {
-        const control = link('', `#${spec.id}-item-1`, '');
-        control.dataset.carouselDirection = direction;
-        control.setAttribute('aria-label', `${direction === 'start' ? 'ابتدای' : 'انتهای'} کاروسل ${spec.title}`);
-        control.title = control.getAttribute('aria-label');
-        control.append(image(`svg/caret-${direction === 'start' ? 'right' : 'left'}.svg`, 'carousel-arrow', 13));
-        controls.append(control);
-    });
-    row.append(controls);
-    header.append(row);
-    const status = element('p', 'catalog-status');
-    status.id = `${spec.id}-status`;
-    status.setAttribute('role', 'status');
-    const list = element('ul', 'product-grid');
-    list.tabIndex = 0;
-    list.setAttribute('aria-label', `کاروسل ${spec.title}`);
-    list.setAttribute('aria-describedby', status.id);
-    container.append(header);
-    container.append(status, list);
-    section.append(container);
-    return section;
+function createAddButton(product, isUnavailable) {
+    const button = document.createElement("button")
+    button.className = "button button--secondary button--block"
+    button.type = "button"
+    button.disabled = isUnavailable
+
+    const buttonLabel = isUnavailable
+        ? product.name + ": ناموجود"
+        : "افزودن به سبد خرید:"+" " + product.name
+
+    button.setAttribute("aria-label", buttonLabel)
+
+    const plus = document.createElement("span")
+    plus.textContent = "+"
+    plus.setAttribute("aria-hidden", "true")
+
+    const text = document.createElement("span")
+    text.textContent = isUnavailable
+        ? "ناموجود"
+        : "افزودن به سبد خرید"
+
+    button.append(plus, text)
+
+    button.addEventListener("click", function () {
+        addToCart(product)
+    })
+
+    return button
 }
 
-function renderCarousel(section, selection) {
-    const list = section.querySelector('.product-grid');
-    const status = section.querySelector('.catalog-status');
-    const fragment = document.createDocumentFragment();
-    selection.forEach((product, index) => fragment.append(createCard(product, section.id, index)));
-    list.replaceChildren(fragment);
-    list.hidden = selection.length === 0;
-    list.setAttribute('aria-busy', 'false');
-    status.textContent = selection.length ? '' : 'کالایی برای نمایش پیدا نشد.';
-    status.hidden = selection.length > 0;
-    section.querySelectorAll('.carousel-controls a').forEach((control, index) => {
-        control.href = `#${section.id}-item-${index === 0 ? 1 : selection.length || 1}`;
-        if (selection.length) control.removeAttribute('aria-disabled');
-        else control.setAttribute('aria-disabled', 'true');
-        control.tabIndex = selection.length ? 0 : -1;
-    });
-    list.scrollLeft = 0;
+function createProductCard(product, sectionId, index) {
+    const offer = getProductOffer(product.id)
+    const isUnavailable = stockByProductId[product.id] === 0
+
+    const category = categories.find(function (category) {
+        return category.id === product.categoryId
+    })
+
+    const item = document.createElement("li")
+    item.id = sectionId + "-item-" + (index + 1)
+    item.tabIndex = -1
+
+    const card = document.createElement("article")
+    card.className = "product-card"
+
+    if (isUnavailable) {
+        card.classList.add("product-card--unavailable")
+    }
+
+    const tags = document.createElement("p")
+    tags.className = "product-card__tags"
+    tags.textContent = product.tags.join(" · ")
+    tags.hidden = product.tags.length === 0
+
+    const productCardCategory = document.createElement("p")
+    productCardCategory.className = "product-card__category"
+    productCardCategory.textContent = category.name
+
+    const productCardTitle = document.createElement("h3")
+    productCardTitle.className = "product-card__title"
+    productCardTitle.textContent = product.name
+
+    const productCardUnit = document.createElement("p")
+    productCardUnit.className = "product-card__unit"
+    productCardUnit.textContent = product.unit
+
+    card.append(
+        createProductMedia(product, offer, isUnavailable),
+        productCardCategory,
+        productCardTitle,
+        productCardUnit,
+        tags
+    )
+
+    const footer = document.createElement("div")
+    footer.className = "product-card__footer"
+    footer.append(
+        createProductPrice(product, offer),
+        createAddButton(product, isUnavailable)
+    )
+
+    card.append(footer)
+    item.append(card)
+    return item
+}
+function scrollCarousel(section, direction) {
+    const cards = section.querySelectorAll(".product-grid > li")
+    let target
+    if (direction === "start") {
+        target = cards[0]
+    } else {
+        target = cards[cards.length - 1]
+    }
+    if (target) {
+        target.scrollIntoView({
+            block: "nearest",
+            inline: "start"
+        })
+        target.focus({
+            preventScroll: true
+        })
+    }
 }
 
-function getSelectedCategory() {
-    const params = new URLSearchParams(location.search);
-    const fragment = location.hash.slice(1).replace(/^category-/, '');
-    const slug = params.has('cat') ? params.get('cat') : fragment;
-    return categories.find((category) => category.slug === slug) || null;
+function createCarouselControls(section, title) {
+    const controls = document.createElement("nav")
+    controls.className = "carousel-controls"
+    controls.setAttribute("aria-label", "کنترل کاروسل " + title)
+    const directions = ["start", "end"]
+    directions.forEach(function (direction) {
+        const control = document.createElement("a")
+        control.href = "#" + section.id + "-item-1"
+        const positionLabel = direction === "start" ? "ابتدای" : "انتهای"
+        control.setAttribute("aria-label", positionLabel + " کاروسل " + title)
+        control.title = control.getAttribute("aria-label")
+        const arrowDirection = direction === "start" ? "right" : "left"
+        const carouselArrow = document.createElement("img")
+        carouselArrow.className = "carousel-arrow"
+        carouselArrow.src = "svg/caret-" + arrowDirection + ".svg"
+        carouselArrow.alt = ""
+        carouselArrow.width = 13
+        carouselArrow.height = 13
+        carouselArrow.setAttribute("aria-hidden", "true")
+        control.append(carouselArrow)
+        control.addEventListener("click", function (event) {
+            event.preventDefault()
+            scrollCarousel(section, direction)
+        })
+        controls.append(control)
+    })
+    return controls
+}
+function createCarousel(carouselData, index = 0) {
+    const section = document.createElement("section")
+    section.className = "section"
+
+    if (index % 2 === 0) {
+        section.classList.add("section--muted")
+    }
+
+    section.id = carouselData.id
+    section.setAttribute("aria-labelledby", carouselData.id + "-title")
+
+    const container = document.createElement("div")
+    container.className = "container"
+
+    const header = document.createElement("header")
+    header.className = "section__header section__header--carousel"
+
+    const sectionTitle = document.createElement("h2")
+    sectionTitle.className = "section__title"
+    sectionTitle.textContent = carouselData.title
+    sectionTitle.id = carouselData.id + "-title"
+    header.append(sectionTitle)
+
+    if (carouselData.emoji) {
+        const carouselTitleEmoji = document.createElement("span")
+        carouselTitleEmoji.className = "carousel-title__emoji"
+        carouselTitleEmoji.textContent = carouselData.emoji
+        carouselTitleEmoji.setAttribute("aria-hidden", "true")
+
+        sectionTitle.prepend(
+            carouselTitleEmoji,
+            document.createTextNode(" ")
+        )
+    }
+
+    const row = document.createElement("div")
+    row.className = "carousel-heading-row"
+
+    let subtitle = "خرید روزانه، تازه و به‌صرفه."
+
+    if (carouselData.source === "offers") {
+        subtitle = "قیمت‌های ویژه روی کالاهای پرمصرف."
+    }
+
+    const sectionSubtitle = document.createElement("p")
+    sectionSubtitle.className = "section__subtitle"
+    sectionSubtitle.textContent = subtitle
+
+    row.append(
+        sectionSubtitle,
+        createCarouselControls(section, carouselData.title)
+    )
+    header.append(row)
+
+    const status = document.createElement("p")
+    status.className = "catalog-status"
+    status.id = carouselData.id + "-status"
+    status.setAttribute("role", "status")
+
+    const list = document.createElement("ul")
+    list.className = "product-grid"
+    list.tabIndex = 0
+    list.setAttribute("aria-label", "کاروسل"+" " + carouselData.title)
+    list.setAttribute("aria-describedby", status.id)
+
+    container.append(header, status, list)
+    section.append(container)
+
+    return section
+}
+
+function renderCarousel(section, selectedProducts) {
+    const list = section.querySelector(".product-grid")
+    const status = section.querySelector(".catalog-status")
+
+    list.replaceChildren()
+
+    selectedProducts.forEach(function (product, index) {
+        list.append(createProductCard(product, section.id, index))
+    })
+
+    list.hidden = selectedProducts.length === 0
+    status.textContent = selectedProducts.length ? "" : "کالایی برای نمایش پیدا نشد."
+    status.hidden = selectedProducts.length > 0
+
+    section.querySelectorAll(".carousel-controls a").forEach(function (control, index) {
+        control.href = "#" + section.id + "-item-" + (index === 0 ? 1 : selectedProducts.length || 1)
+
+        if (selectedProducts.length > 0) {
+            control.removeAttribute("aria-disabled")
+        } else {
+            control.setAttribute("aria-disabled", "true")
+        }
+
+        control.tabIndex = selectedProducts.length ? 0 : -1
+    })
+
+    list.scrollLeft = 0
+}
+function getCarouselProducts(carouselData) {
+    let selectedProducts = products
+    if (carouselData.source === "offers") {
+        selectedProducts = products.filter(function (product) {
+            return getProductOffer(product.id)
+        })
+    } else if (carouselData.categoryId !== undefined) {
+        selectedProducts = products.filter(function (product) {
+            return product.categoryId === carouselData.categoryId
+        })
+    }
+    return selectedProducts
+}
+
+function renderHomeCarousels() {
+    const root = document.querySelector("#carousels-root")
+    root.replaceChildren()
+    homeData.carousels.forEach(function (carouselData, index) {
+        const section = createCarousel(carouselData, index)
+        renderCarousel(section, getCarouselProducts(carouselData))
+        root.append(section)
+    })
+}
+
+function renderFilteredProducts(activeCategory) {
+    const selectedProducts = products.filter(function (product) {
+        return product.categoryId === activeCategory.id
+    })
+    const carouselData = {
+        id: "filtered-products",
+        title: activeCategory.name,
+        emoji: activeCategory.emoji
+    }
+    const section = createCarousel(carouselData)
+    const categoryAnchor = document.createElement("span")
+    categoryAnchor.className = "category-anchor"
+    categoryAnchor.id = activeCategory.slug
+    section.prepend(categoryAnchor)
+    const summary = persianNumberFormat.format(selectedProducts.length) +" " +"کالا در دسته ی"+" " + activeCategory.name
+    const summaryText = document.createElement("p")
+    summaryText.className = "filter-summary"
+    summaryText.textContent = summary
+    const resetLink = document.createElement("a")
+    resetLink.className = "button button--secondary"
+    resetLink.textContent = "نمایش همه دسته‌ها"
+    resetLink.href = "#categories"
+    resetLink.addEventListener("click", navigate)
+    summaryText.append(resetLink)
+    section.querySelector(".container").prepend(summaryText)
+    renderCarousel(section, selectedProducts)
+    document.querySelector("#results-root").replaceChildren(section)
 }
 
 function renderCatalog() {
-    const active = getSelectedCategory();
-    const query = document.querySelector('#product-search').value.trim();
-    const matches = (product) => product.name.includes(query);
-    const root = document.querySelector('#carousels-root');
-    const results = document.querySelector('#results-root');
-    root.hidden = Boolean(active || query);
-    results.hidden = !active && !query;
-    categories.forEach((category) => {
-        document.querySelectorAll(`a[href="#${category.slug}"]`).forEach((anchor) => {
-            if (active && active.id === category.id) anchor.setAttribute('aria-current', 'true');
-            else anchor.removeAttribute('aria-current');
-        });
-    });
-    if (active || query) {
-        const spec = { id: 'filtered-products', title: active ? active.name : 'نتایج جستجو', emoji: active?.emoji };
-        const section = makeCarousel(spec);
-        const count = element('p', 'filter-summary');
-        const selection = products.filter((product) => (!active || product.categoryId === active.id)
-            && matches(product));
-        count.textContent = `${numberFormat.format(selection.length)} کالا${active ? ` در دستهٔ ${active.name}` : ''}`;
-        const reset = link('نمایش همه دسته‌ها', '#categories', 'button button--secondary');
-        reset.dataset.resetCategory = 'true';
-        count.append(reset);
-        section.querySelector('.container').prepend(count);
-        // Fragment anchors for categories that have no home carousel.
-        const anchor = element('span', 'category-anchor');
-        if (active && !home.carousels.some((entry) => entry.id === active.slug)) anchor.id = active.slug;
-        section.prepend(anchor);
-        results.replaceChildren(section);
-        renderCarousel(section, selection);
+    const activeCategory = getSelectedCategory()
+    const carouselsRoot = document.querySelector("#carousels-root")
+    const resultsRoot = document.querySelector("#results-root")
+    updateCategoryLinks(activeCategory)
+    if (activeCategory) {
+        carouselsRoot.hidden = true
+        carouselsRoot.replaceChildren()
+        resultsRoot.hidden = false
+        renderFilteredProducts(activeCategory)
     } else {
-        results.replaceChildren();
-        home.carousels.forEach((spec) => {
-            const section = document.getElementById(spec.id);
-            let selection = products;
-            if (spec.source === 'offers') selection = selection.filter((product) => offersById.has(product.id));
-            else if (spec.categoryId !== undefined) selection = selection.filter((product) => product.categoryId === spec.categoryId);
-            else if (spec.source === 'fresh') selection = selection.filter((product) => (product.tags || []).includes('تازه'));
-            renderCarousel(section, selection);
-        });
+        carouselsRoot.hidden = false
+        resultsRoot.hidden = true
+        resultsRoot.replaceChildren()
+        renderHomeCarousels()
     }
 }
 
-function followRoute(scroll = false) {
-    if (!ready) return;
-    renderCatalog();
-    if (!scroll) return;
-    requestAnimationFrame(() => {
-        if (getSelectedCategory()) {
-            document.querySelector('#filtered-products').scrollIntoView({ block: 'start' });
-        } else {
-            const id = location.hash.slice(1);
-            const target = id ? document.getElementById(id) : null;
-            if (target) target.scrollIntoView({ block: 'start', inline: 'start' });
+//Guide
+function renderGuide() {
+    const data = shopContent.guide
+    const section = document.querySelector("#shopping-guide")
+    section.setAttribute("aria-labelledby", "shopping-guide-title")
+    const container = document.createElement("div")
+    container.className = "container"
+    const sectionHeader = document.createElement("header")
+    sectionHeader.className = "section__header"
+    const sectionTitle = document.createElement("h2")
+    sectionTitle.className = "section__title"
+    sectionTitle.textContent = data.title
+    sectionTitle.id = "shopping-guide-title"
+    sectionHeader.append(sectionTitle)
+    const sectionSubtitle = document.createElement("p")
+    sectionSubtitle.className = "section__subtitle"
+    sectionSubtitle.textContent = data.subtitle
+    sectionHeader.append(sectionSubtitle)
+    container.append(sectionHeader)
+    const guide = document.createElement("div")
+    guide.className = "guide"
+    const cards = document.createElement("div")
+    cards.className = "guide__cards"
+    const schedule = shopData.schedule.map(function (entry) {
+        return entry.days + " از " + entry.time
+    }).join(" و ")
+    data.cards.forEach(function (item) {
+        const card = document.createElement("article")
+        card.className = "info-card"
+        card.id = item.id
+        let text = item.text
+        if (item.id === "shipping") {
+            text = "سفارش‌ها در بازه‌های دوساعته ارسال می‌شوند؛" +" "+ schedule +
+                ". ارسال سفارش‌های بالای" +" "+ persianNumberFormat.format(shopData.freeDeliveryOver) +
+                " " + shopData.currency + " "+"رایگان است."
         }
-    });
+        const infoCardTitle = document.createElement("h3")
+        infoCardTitle.className = "info-card__title"
+        infoCardTitle.textContent = item.title
+        const infoCardText = document.createElement("p")
+        infoCardText.className = "info-card__text"
+        infoCardText.textContent = text
+        card.append(infoCardTitle, infoCardText)
+        cards.append(card)
+    })
+    const faq = document.createElement("div")
+    faq.className = "faq"
+    faq.id = "faq"
+    const faqTitle = document.createElement("h3")
+    faqTitle.className = "faq__title"
+    faqTitle.textContent = data.faqTitle
+    faq.append(faqTitle)
+    data.questions.forEach(function (item, index) {
+        const details = document.createElement("details")
+        details.className = "faq__item"
+        details.setAttribute("name", "faq")
+        let answer = item.answer
+        if (index === 0) {
+            answer = "ارسال برای سفارش‌های بالای" +" "+ persianNumberFormat.format(shopData.freeDeliveryOver) +
+                " " + shopData.currency + " رایگان است و برای سایر سفارش‌ها"+ " "+
+                persianNumberFormat.format(shopData.deliveryFee) + " " + shopData.currency + " "+"هزینه دارد."
+        }
+        const faqQuestion = document.createElement("summary")
+        faqQuestion.className = "faq__question"
+        faqQuestion.textContent = item.question
+        const faqAnswer = document.createElement("p")
+        faqAnswer.className = "faq__answer"
+        faqAnswer.textContent = answer
+        details.append(faqQuestion, faqAnswer)
+        faq.append(details)
+    })
+    guide.append(cards, faq)
+    container.append(guide)
+    section.replaceChildren(container)
+    section.hidden = false
+}
+
+//Footer
+function createFooterAbout() {
+    const about = document.createElement("section")
+    about.className = "footer-column"
+    about.setAttribute("aria-labelledby", "footer-about-title")
+    const heading = document.createElement("h2")
+    heading.className = "footer-column__title footer-brand"
+    heading.textContent = shopName
+    heading.id = "footer-about-title"
+    about.append(heading)
+    const logo = document.querySelector(".brand__logo").cloneNode(true)
+    logo.removeAttribute("aria-labelledby")
+    logo.removeAttribute("role")
+    logo.setAttribute("aria-hidden", "true")
+    logo.querySelector("title").remove()
+    logo.classList.replace("brand__logo", "footer-brand__logo")
+    heading.prepend(logo)
+    const footerColumnText = document.createElement("p")
+    footerColumnText.className = "footer-column__text"
+    footerColumnText.textContent = shopData.about
+    about.append(footerColumnText)
+    const address = document.createElement("address")
+    address.className = "footer-contact"
+    const locationRow = document.createElement("p")
+    locationRow.className = "footer-contact__item"
+    const locationIcon = document.createElement("img")
+    locationIcon.className = "footer-icon"
+    locationIcon.src = "svg/map-pin.svg"
+    locationIcon.alt = ""
+    locationIcon.width = 18
+    locationIcon.height = 18
+    locationIcon.setAttribute("aria-hidden", "true")
+    locationRow.append(locationIcon, document.createTextNode(shopData.address))
+    const phoneRow = document.createElement("p")
+    phoneRow.className = "footer-contact__item"
+    const phoneLink = document.createElement("a")
+    phoneLink.className = "footer-contact__link"
+    phoneLink.textContent = shopData.phone.replaceAll("-", "‑")
+    phoneLink.href = "tel:" + shopData.phone.replaceAll("-", "")
+    phoneLink.dir = "ltr"
+    const phoneIcon = document.createElement("img")
+    phoneIcon.className = "footer-icon"
+    phoneIcon.src = "svg/phone.svg"
+    phoneIcon.alt = ""
+    phoneIcon.width = 18
+    phoneIcon.height = 18
+    phoneIcon.setAttribute("aria-hidden", "true")
+    phoneRow.append(phoneIcon, phoneLink)
+    address.append(locationRow, phoneRow)
+    about.append(address)
+    return about
+}
+
+function createFooterLinks(title, headingId, entries) {
+    const column = document.createElement("nav")
+    column.className = "footer-column"
+    column.setAttribute("aria-labelledby", headingId)
+    const heading = document.createElement("h2")
+    heading.className = "footer-column__title"
+    heading.id = headingId
+    heading.textContent = title
+    const list = document.createElement("ul")
+    list.className = "footer-links"
+    entries.forEach(function (entry) {
+        const item = document.createElement("li")
+        const link = document.createElement("a")
+        link.className = "footer-link"
+        link.href = entry.href
+        link.addEventListener("click", navigate)
+        const arrow = document.createElement("img")
+        arrow.className = "footer-link__icon"
+        arrow.src = "svg/caret-left.svg"
+        arrow.alt = ""
+        arrow.width = 13
+        arrow.height = 13
+        arrow.setAttribute("aria-hidden", "true")
+        link.append(arrow, document.createTextNode(entry.label))
+        item.append(link)
+        list.append(item)
+    })
+    column.append(heading, list)
+    return column
+}
+
+function createFooterHours() {
+    const hours = document.createElement("section")
+    hours.className = "footer-column"
+    hours.setAttribute("aria-labelledby", "footer-hours-title")
+    const columnTitle = document.createElement("h2")
+    columnTitle.className = "footer-column__title"
+    columnTitle.textContent = "ساعت کاری"
+    columnTitle.id = "footer-hours-title"
+    hours.append(columnTitle)
+    const schedule = document.createElement("ul")
+    schedule.className = "footer-hours"
+    shopData.schedule.forEach(function (entry) {
+        const item = document.createElement("li")
+        item.className = "footer-hours__item"
+        const footerIcon = document.createElement("img")
+        footerIcon.className = "footer-icon"
+        footerIcon.src = "svg/calendar-dots.svg"
+        footerIcon.alt = ""
+        footerIcon.width = 18
+        footerIcon.height = 18
+        footerIcon.setAttribute("aria-hidden", "true")
+        const textNode = document.createElement("span")
+        textNode.textContent = entry.days + ": " + entry.time
+        item.append(footerIcon, textNode)
+        schedule.append(item)
+    })
+    hours.append(schedule)
+    return hours
+}
+
+function renderFooter() {
+    const categoryLinks = categories.map(function (category) {
+        return {
+            label: category.name,
+            href: "#" + category.slug
+        }
+    })
+    const helpTargets = ["#shipping", "#returns", "#faq"]
+    const helpLinks = shopData.help.map(function (entry, index) {
+        return {
+            label: entry.label,
+            href: entry.href === "#" ? helpTargets[index] : entry.href
+        }
+    })
+    const footer = document.querySelector("#footer")
+    const grid = document.createElement("div")
+    grid.className = "site-footer__grid container"
+    grid.append(
+        createFooterAbout(),
+        createFooterLinks("دسته‌بندی کالاها", "footer-categories-title", categoryLinks),
+        createFooterLinks("راهنمای خرید", "footer-guide-title", helpLinks),
+        createFooterHours()
+    )
+    const bottom = document.createElement("div")
+    bottom.className = "site-footer__bottom container"
+    const copyright = document.createElement("p")
+    copyright.className = "copyright"
+    copyright.textContent = shopData.copyright.replaceAll(shopData.name, shopName)
+    const backToTopLink = document.createElement("a")
+    backToTopLink.className = "back-to-top"
+    backToTopLink.textContent = "بازگشت به بالا"
+    backToTopLink.href = "#top"
+    backToTopLink.addEventListener("click", navigate)
+    bottom.append(copyright, backToTopLink)
+    const contactAnchor = document.createElement("span")
+    contactAnchor.className = "category-anchor"
+    contactAnchor.id = "contact"
+    footer.replaceChildren(contactAnchor, grid, bottom)
+    footer.hidden = false
+}
+
+// closeMenu
+function closeMenus() {
+    document.querySelectorAll(".mobile-menu, .mobile-category-menu").forEach(function (menu) {
+        menu.open = false
+    })
+}
+
+function navigate(event) {
+    const href = event.currentTarget.getAttribute("href")
+    event.preventDefault()
+    const category = categories.find(function (item) {
+        return "#" + item.slug === href
+    })
+    if (category) {
+        changeCategory(category)
+    } else {
+        showAll(href)
+    }
+    closeMenus()
+}
+
+function getSelectedCategory() {
+    const params = new URLSearchParams(location.search)
+    const fragment = location.hash.slice(1)
+    const slug = params.has("cat") ? params.get("cat") : fragment
+    return categories.find(function (category) {
+        return category.slug === slug
+    }) || null
+}
+
+function updateCategoryLinks(activeCategory) {
+    categories.forEach(function (category) {
+        document.querySelectorAll("a[href=\"#" + category.slug + "\"]").forEach(function (anchor) {
+            if (activeCategory && activeCategory.id === category.id) {
+                anchor.setAttribute("aria-current", "true")
+            } else {
+                anchor.removeAttribute("aria-current")
+            }
+        })
+    })
+}
+
+function scrollToCurrentSection() {
+    let target
+    if (getSelectedCategory()) {
+        target = document.querySelector("#filtered-products")
+    } else {
+        target = document.getElementById(location.hash.slice(1))
+    }
+    if (target) {
+        target.scrollIntoView({
+            block: "start",
+            inline: "start"
+        })
+    }
+}
+
+function followRoute(shouldScroll = false) {
+    if (isPageReady) {
+        renderCatalog()
+        if (shouldScroll) {
+            scrollToCurrentSection()
+        }
+    }
 }
 
 function changeCategory(category) {
-    const url = new URL(location.href);
-    url.searchParams.set('cat', category.slug);
-    url.hash = '';
-    history.pushState({ category: category.slug }, '', url);
-    followRoute(true);
+    const url = new URL(location.href)
+    url.searchParams.set("cat", category.slug)
+    url.hash = ""
+    history.pushState(null, "", url)
+    followRoute(true)
 }
 
-function showAll(href = '#categories') {
-    const url = new URL(location.href);
-    url.searchParams.delete('cat');
-    url.hash = safeHref(href).slice(1);
-    history.pushState(null, '', url);
-    document.querySelector('#product-search').value = '';
-    followRoute(true);
+function showAll(href = "#categories") {
+    const url = new URL(location.href)
+    url.searchParams.delete("cat")
+    url.hash = href.slice(1)
+    history.pushState(null, "", url)
+    document.querySelector("#product-search").value = ""
+    followRoute(true)
 }
 
-function setPageState(message, busy, retry = false) {
-    const status = document.querySelector('#page-status');
-    status.classList.add('page-status');
-    status.hidden = false;
-    status.setAttribute('aria-busy', String(busy));
-    status.replaceChildren(element('p', '', message));
-    if (retry) {
-        const button = element('button', 'button button--secondary', 'تلاش دوباره');
-        button.type = 'button';
-        button.addEventListener('click', loadPage);
-        status.append(button);
+// Isloading
+function setPageState(message, isLoading) {
+    const status = document.querySelector("#page-status")
+    status.classList.add("page-status")
+    status.hidden = false
+    status.setAttribute("aria-busy", String(isLoading))
+    const messageText = document.createElement("p")
+    messageText.textContent = message
+    status.replaceChildren(messageText)
+}
+
+async function fetchJson(fileName) {
+    const response = await fetch(api + fileName)
+    if (!response.ok) {
+        throw new Error("HTTP " + response.status)
     }
+    return response.json()
 }
 
-async function fetchJSON(filename, signal) {
-    const response = await fetch(`${API}${filename}`, { signal });
-    // fetch resolves on HTTP 404; explicitly check response.ok.
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    return response.json();
-}
-
-function validateData(data) {
-    const validId = (id) => typeof id === 'string' && /^[a-z][a-z0-9-]*$/.test(id);
-    const isText = (value) => typeof value === 'string';
-    const isLink = (entry) => entry && isText(entry.label) && isText(entry.href);
-    const [productData, stockData, offerData, categoryData, shopData, homeData] = data;
-    if (!Array.isArray(productData) || !Array.isArray(offerData) || !Array.isArray(categoryData)
-        || !stockData || !stockData.items || !shopData || !homeData) throw new Error('Invalid API data');
-    if (!productData.every((product) => product && Number.isInteger(product.id) && Number.isInteger(product.categoryId)
-        && isText(product.name) && isText(product.unit) && isText(product.emoji) && Number.isFinite(product.price) && product.price >= 0
-        && Array.isArray(product.tags) && product.tags.every(isText))
-        || !categoryData.every((category) => category && Number.isInteger(category.id) && validId(category.slug)
-            && isText(category.name) && isText(category.emoji) && isText(category.color))
-        || !offerData.every((offer) => offer && Number.isInteger(offer.productId) && Number.isFinite(offer.percent)
-            && offer.percent >= 0 && offer.percent <= 100 && isText(offer.label))) throw new Error('Invalid product data');
-    const categoryIds = new Set(categoryData.map((category) => category.id));
-    const productIds = new Set(productData.map((product) => product.id));
-    if (categoryIds.size !== categoryData.length || productIds.size !== productData.length
-        || new Set(categoryData.map((category) => category.slug)).size !== categoryData.length
-        || !productData.every((product) => categoryIds.has(product.categoryId) && Number.isInteger(stockData.items[product.id]) && stockData.items[product.id] >= 0)
-        || !offerData.every((offer) => productIds.has(offer.productId))) throw new Error('Invalid API relationships');
-    if (!['name', 'slogan', 'notice', 'about', 'address', 'phone', 'copyright', 'city', 'owner', 'currency'].every((key) => isText(shopData[key]))
-        || !shopData.hours || !['open', 'close'].every((key) => isText(shopData.hours[key]))
-        || !['deliveryFee', 'freeDeliveryOver'].every((key) => Number.isFinite(shopData[key]) && shopData[key] >= 0)
-        || !Array.isArray(shopData.menu) || !shopData.menu.every(isLink)
-        || !Array.isArray(shopData.help) || !shopData.help.every(isLink)
-        || !Array.isArray(shopData.schedule) || !shopData.schedule.every((entry) => entry && isText(entry.days) && isText(entry.time))) {
-        throw new Error('Invalid shop data');
-    }
-    if (![homeData.hero, homeData.side].every((banner) => banner && isText(banner.title) && isText(banner.text) && isText(banner.emoji) && isLink(banner.cta))
-        || !Array.isArray(homeData.promos) || !homeData.promos.every((promo) => promo && isText(promo.text) && isText(promo.emoji) && isText(promo.href) && isText(promo.color))
-        || !Array.isArray(homeData.carousels)) throw new Error('Invalid home data');
-    const reserved = new Set(['top', 'main-content', 'hero', 'categories', 'special-offers', 'shopping-guide', 'footer', 'contact', 'filtered-products', 'shipping', 'returns', 'faq']);
-    const ids = new Set();
-    homeData.carousels.forEach((spec) => {
-        if (!spec || !validId(spec.id) || !isText(spec.title) || (spec.emoji !== undefined && !isText(spec.emoji)) || reserved.has(spec.id) || ids.has(spec.id)
-            || (spec.categoryId !== undefined && !categoryIds.has(spec.categoryId))) throw new Error('Invalid carousel data');
-        ids.add(spec.id);
-    });
+function renderPage() {
+    renderHeader()
+    renderHero()
+    renderCategories()
+    renderPromos()
+    renderCatalog()
+    renderGuide()
+    renderFooter()
 }
 
 async function loadPage() {
-    if (loading) return;
-    loading = true;
-    ready = false;
-    document.querySelector('#product-search').disabled = true;
-    setPageState('در حال بارگذاری فروشگاه...', true);
-    const controller = new AbortController();
-    let slowTimer;
+    isPageReady = false
+    document.querySelector("#product-search").disabled = true
+    setPageState("در حال بارگذاری فروشگاه...", true)
+    let slowTimer
     try {
-        // All six independent requests start together in this single Promise.all.
         const allRequests = Promise.all([
-            fetchJSON('products.json', controller.signal),
-            fetchJSON('stock.json', controller.signal),
-            fetchJSON('offers.json', controller.signal),
-            fetchJSON('categories.json', controller.signal),
-            fetchJSON('shop.json', controller.signal),
-            fetchJSON('home.json', controller.signal)
-        ]);
-        const SLOW = Symbol('slow');
-        const slowConnection = new Promise((resolve) => {
-            slowTimer = setTimeout(() => resolve(SLOW), 3000);
-        });
-        let data = await Promise.race([allRequests, slowConnection]);
-        if (data === SLOW) {
-            setPageState('اتصال کند است؛ هنوز در حال دریافت اطلاعات فروشگاه هستیم...', true);
-            // A slow connection is not a failed request: keep waiting for success.
-            data = await allRequests;
+            fetchJson("products.json"),
+            fetchJson("stock.json"),
+            fetchJson("offers.json"),
+            fetchJson("categories.json"),
+            fetchJson("shop.json"),
+            fetchJson("home.json")
+        ])
+        const slowConnection = new Promise(function (resolve) {
+            slowTimer = setTimeout(function () {
+                resolve("slow")
+            }, 3000)
+        })
+        let data = await Promise.race([allRequests, slowConnection])
+        if (data === "slow") {
+            setPageState("اتصال کند است؛ هنوز در حال دریافت اطلاعات فروشگاه هستیم...", true)
+            data = await allRequests
         }
-        validateData(data);
-        [products, stock, , categories, shop, home] = data;
-        stock = stock.items;
-        offersById = new Map(data[2].map((offer) => [offer.productId, offer]));
-        reconcileCart();
-        renderHeader();
-        renderHero();
-        renderCategories();
-        renderPromos();
-        renderGuide();
-        renderFooter();
-        const fragment = document.createDocumentFragment();
-        home.carousels.forEach((spec, index) => fragment.append(makeCarousel(spec, index)));
-        document.querySelector('#carousels-root').replaceChildren(fragment);
-        ready = true;
-        document.querySelector('#page-status').hidden = true;
-        followRoute(Boolean(location.hash || new URLSearchParams(location.search).has('cat')));
+        [products, stockByProductId, offers, categories, shopData, homeData] = data
+        stockByProductId = stockByProductId.items
+        renderPage()
+        isPageReady = true
+        document.querySelector("#page-status").hidden = true
+        if (location.hash || location.search) {
+            scrollToCurrentSection()
+        }
     } catch {
-        controller.abort();
-        setPageState(location.protocol === 'file:'
-            ? 'برای دریافت اطلاعات، فروشگاه را با Live Server یا npx serve . اجرا کنید.'
-            : 'دریافت اطلاعات فروشگاه انجام نشد. اتصال اینترنت را بررسی کنید و دوباره تلاش کنید.', false, true);
+        let message = "دریافت اطلاعات فروشگاه انجام نشد. لطفاً صفحه را دوباره بارگذاری کنید."
+        if (location.protocol === "file:") {
+            message = "برای دریافت اطلاعات، پروژه را با Live Server یا npx serve . اجرا کنید."
+        }
+        setPageState(message, false)
     } finally {
-        clearTimeout(slowTimer);
-        loading = false;
+        clearTimeout(slowTimer)
     }
 }
 
-// Delegation also handles carousels and links added dynamically in the future.
-document.addEventListener('click', (event) => {
-    const anchor = event.target.closest('a[href^="#"]');
-    if (!anchor || !ready || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
-    if (anchor.dataset.carouselDirection) {
-        event.preventDefault();
-        if (anchor.getAttribute('aria-disabled') === 'true') return;
-        const section = anchor.closest('[data-carousel]');
-        const items = section.querySelectorAll('.product-grid > li');
-        const target = anchor.dataset.carouselDirection === 'start' ? items[0] : items[items.length - 1];
-        if (target) {
-            target.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest', inline: 'start' });
-            target.focus({ preventScroll: true });
-        }
-        return;
-    }
-    const id = anchor.hash.slice(1).replace(/^category-/, '');
-    const category = categories.find((entry) => entry.slug === id);
-    if (category || anchor.dataset.resetCategory || id === 'categories' || id === 'top'
-        || id === 'special-offers' || id === 'footer' || id === 'contact'
-        || home.carousels.some((spec) => spec.id === id)) {
-        event.preventDefault();
-        if (category) changeCategory(category);
-        else showAll(anchor.hash);
-        document.querySelectorAll('.mobile-menu, .mobile-category-menu').forEach((menu) => { menu.open = false; });
-    }
-});
-window.addEventListener('hashchange', () => followRoute(true));
-window.addEventListener('popstate', () => followRoute(true));
-window.addEventListener('storage', (event) => {
-    if (event.key === CART_KEY || event.key === null) {
-        cart = readCart();
-        updateCart();
-    }
-});
-initializeHeader();
-loadPage();
+
+function handleRouteChange() {
+    followRoute(true)
+}
+
+window.addEventListener("hashchange", handleRouteChange)
+window.addEventListener("popstate", handleRouteChange)
+initializeHeader()
+loadPage()
