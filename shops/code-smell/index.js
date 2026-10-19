@@ -1,5 +1,5 @@
 "use strict"
-
+import { shopContent } from "./shop-content.js"
 const api = "../../api/"
 const shopName = "سوپرمارکت بوی کد"
 const persianNumberFormat = new Intl.NumberFormat("fa-IR")

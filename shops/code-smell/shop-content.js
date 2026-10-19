@@ -1,7 +1,7 @@
 'use strict';
 
-const SHOP_CONTENT = Object.freeze({
-    "guide": {
+export const shopContent = {
+        "guide": {
         "title": "راهنمای خرید",
         "subtitle": "پیش از ثبت سفارش، پاسخ پرسش‌های رایج را اینجا ببینید.",
         "cards": [
@@ -36,4 +36,4 @@ const SHOP_CONTENT = Object.freeze({
             }
         ]
     }
-});
+};

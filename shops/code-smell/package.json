@@ -1,0 +1,22 @@
+{
+  "name": "code-smell",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "",
+  "main": "index.js",
+"scripts": {
+  "dev": "vite",
+  "check": "tsc --noEmit",
+  "build": "tsc --noEmit && vite build",
+  "preview": "vite preview"
+},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+
+  "devDependencies": {
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4"
+  }
+}
