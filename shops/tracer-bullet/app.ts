@@ -4,9 +4,9 @@ function formatNumber(n) {
 function formatPrice(price) {
     return `${formatNumber(price)} تومان`;
 }
-function renderSchedule(section, schedule) {
+function renderSchedule(section: HTMLElement, schedule) {
     schedule.forEach(row => {
-        const p = document.createElement("p");
+        const p: HTMLParagraphElement = document.createElement("p");
         p.textContent = `${row.days}: ${row.time}`;
         section.append(p);
     });
@@ -25,35 +25,35 @@ function scrollToHash() {
 
 function createCard(product) {
     const outOfStock = product.stock === 0;
-    const li = document.createElement("li");
+    const li: HTMLLIElement = document.createElement("li");
 
     if (outOfStock) {
         li.classList.add("out-of-stock");
     }
 
-    const icon = document.createElement("span");
+    const icon: HTMLElement = document.createElement("span");
     icon.classList.add("emoji");
     icon.setAttribute("aria-hidden", "true");
     icon.textContent = product.emoji;
 
-    const name = document.createElement("h3");
+    const name: HTMLElement = document.createElement("h3");
     name.textContent = product.name;
 
-    const meta = document.createElement("p");
+    const meta: HTMLParagraphElement = document.createElement("p");
     meta.classList.add("meta")
     meta.textContent = product.unit;
 
-    const price = document.createElement("p");
+    const price: HTMLParagraphElement = document.createElement("p");
     price.classList.add("price")
 
     if (product.newPrice) {
-        const del = document.createElement("del");
-        const oldPriceLabel = document.createElement("span");
+        const del: HTMLElement = document.createElement("del");
+        const oldPriceLabel: HTMLElement = document.createElement("span");
         oldPriceLabel.classList.add("visually-hidden");
         oldPriceLabel.textContent = "قیمت قبلی";
         del.append(oldPriceLabel, " ", formatNumber(product.price))
 
-        const newPriceLabel = document.createElement("span");
+        const newPriceLabel: HTMLElement = document.createElement("span");
         newPriceLabel.classList.add("visually-hidden");
         newPriceLabel.textContent = "قیمت با تخفیف";
         price.append(del, newPriceLabel, " ", formatPrice(product.newPrice))
@@ -61,7 +61,7 @@ function createCard(product) {
         price.textContent = formatPrice(product.price);
     }
 
-    const button = document.createElement("button")
+    const button: HTMLButtonElement = document.createElement("button")
     button.type = "button";
     button.textContent = "+";
     button.disabled = outOfStock;
@@ -71,15 +71,15 @@ function createCard(product) {
     li.append(icon);
 
     if (outOfStock) {
-        const stockBadge = document.createElement("p");
+        const stockBadge: HTMLParagraphElement = document.createElement("p");
         stockBadge.classList.add("badge");
         stockBadge.textContent = "ناموجود";
         li.append(stockBadge);
     } else if (product.percent) {
-        const badge = document.createElement("p");
+        const badge: HTMLParagraphElement = document.createElement("p");
         badge.classList.add("badge");
 
-        const hidden = document.createElement("span");
+        const hidden: HTMLElement = document.createElement("span");
         hidden.classList.add("visually-hidden");
         hidden.textContent = "تخفیف";
         badge.append(hidden, " ", `${formatNumber(product.percent)}٪`);
@@ -91,16 +91,16 @@ function createCard(product) {
 }
 
 /* replace everything in the carousel with one message */
-function showMessage(carousel, text) {
+function showMessage(carousel: HTMLElement, text) {
     carousel.replaceChildren();
-    const li = document.createElement("li");
+    const li: HTMLLIElement = document.createElement("li");
     li.textContent = text;
     li.classList.add("message");
     carousel.append(li);
 }
 
 /* drawing functions */
-function renderCategoryCarousel(carousel, data, categoryId, idPrefix) {
+function renderCategoryCarousel(carousel: HTMLUListElement, data, categoryId, idPrefix) {
     const { products, offers, stock } = data;
     const items = products
         .filter(p => p.categoryId === categoryId)
@@ -118,7 +118,7 @@ function renderCategoryCarousel(carousel, data, categoryId, idPrefix) {
     });
 }
 
-function renderSpecialOffers(carousel, data, idPrefix) {
+function renderSpecialOffers(carousel: HTMLUListElement, data, idPrefix) {
     const { products, offers, stock } = data;
     const specialProducts = offers.map(offer => {
         const product = products.find(p => p.id === offer.productId);
@@ -174,18 +174,19 @@ function addToCart() {
 /* loading, show the messages, call drawing functions */
 async function init() {
 
-    const categoryList = document.querySelector("#categories .category-list")
-    const dropDown = document.querySelector(".dropdown-menu")
-    const footerCategories = document.querySelector("footer .footer-categories")
-    const mainMenu = document.querySelector(".main-nav > ul");
-    const helpList = document.querySelector(".footer-help");
-    const hoursSection = document.querySelector("#working-hours");
-    const hero = document.querySelector('#hero');
-    const promo = document.querySelector('#promo')
-    const banners = document.querySelector('#banners')
-    const carouselsContainer = document.querySelector("#carousels");
-    const searchInput = document.querySelector("#search");
+    const categoryList = document.querySelector<HTMLElement>("#categories .category-list")
+    const dropDown = document.querySelector<HTMLElement>(".dropdown-menu")
+    const footerCategories = document.querySelector<HTMLElement>("footer .footer-categories")
+    const mainMenu = document.querySelector<HTMLElement>(".main-nav > ul");
+    const helpList = document.querySelector<HTMLElement>(".footer-help");
+    const hoursSection = document.querySelector<HTMLElement>("#working-hours");
+    const hero = document.querySelector<HTMLElement>('#hero');
+    const promo = document.querySelector<HTMLElement>('#promo')
+    const banners = document.querySelector<HTMLElement>('#banners')
+    const carouselsContainer = document.querySelector<HTMLElement>("#carousels");
+    const searchInput = document.querySelector<HTMLInputElement>("#search");
     const errorText = "دسترسی به اینترنت را بررسی و صفحه را دوباره بارگذاری کنید";
+    if (!categoryList || !dropDown || !footerCategories || !mainMenu || !helpList || !hoursSection || !hero || !promo || !banners || !carouselsContainer || !searchInput) throw new Error("index.html is missing an element");
     showMessage(categoryList, "در حال بارگذاری");
     showBlockMessage(carouselsContainer, "در حال بارگذاری");
 
@@ -207,15 +208,15 @@ async function init() {
         scrollToHash();
     } catch (error) {
         console.error(error);
-        showMessage(categoryList, "دسترسی به اینترنت را بررسی و صفحه را دوباره بارگذاری کنید");
-        showBlockMessage(carouselsContainer, "دسترسی به اینترنت را برسی و صفحه را دوباره بارگذاری کنید");
+        showMessage(categoryList, errorText);
+        showBlockMessage(carouselsContainer, errorText);
     }
 }
 init();
 
-function showBlockMessage(container, text) {
+function showBlockMessage(container: HTMLElement, text) {
     container.replaceChildren();
-    const p = document.createElement("p");
+    const p: HTMLParagraphElement = document.createElement("p");
     p.textContent = text;
     p.classList.add("message")
     container.append(p);
@@ -262,12 +263,12 @@ function withOfferAndStock(product, offers, stock) {
 /* categories */
 
 function createCategoryItem(category) {
-    const li = document.createElement("li");
+    const li: HTMLLIElement = document.createElement("li");
 
-    const link = document.createElement("a");
+    const link: HTMLAnchorElement = document.createElement("a");
     link.href = `#${category.slug}`;
 
-    const icon = document.createElement("span");
+    const icon: HTMLElement = document.createElement("span");
     icon.setAttribute("aria-hidden", "true");
     icon.textContent = category.emoji;
     icon.style.background = category.color;
@@ -277,7 +278,7 @@ function createCategoryItem(category) {
     return li;
 }
 
-function renderCategories(list, categories) {
+function renderCategories(list: HTMLElement, categories) {
     list.replaceChildren();
     categories.forEach(category => {
         list.append(createCategoryItem(category));
@@ -285,15 +286,15 @@ function renderCategories(list, categories) {
 }
 
 function createCategoryLink(category) {
-    const li = document.createElement("li");
-    const link = document.createElement("a");
+    const li: HTMLLIElement = document.createElement("li");
+    const link: HTMLAnchorElement = document.createElement("a");
     link.href = `#${category.slug}`;
     link.textContent = category.name;
     li.append(link);
     return li;
 }
 
-function renderCategoryLinks(list, categories) {
+function renderCategoryLinks(list: HTMLElement, categories) {
     categories.forEach(category => {
         list.append(createCategoryLink(category));
     })
@@ -317,28 +318,28 @@ function renderShopTexts(shop) {
 }
 
 function createLinkItem(label, href) {
-    const li = document.createElement("li");
-    const link = document.createElement("a");
+    const li: HTMLLIElement = document.createElement("li");
+    const link: HTMLAnchorElement = document.createElement("a");
     link.href = href;
     link.textContent = label;
     li.append(link);
     return li;
 }
 
-function renderLinks(list, items) {
+function renderLinks(list: HTMLElement, items) {
     items.forEach(item => {
         list.append(createLinkItem(item.label, item.href));
     });
 }
 
 /* promos */
-function renderPromos(container, promos) {
+function renderPromos(container: HTMLElement, promos) {
     container.replaceChildren();
     promos.forEach(promo => {
-        const link = document.createElement("a");
+        const link: HTMLAnchorElement = document.createElement("a");
         link.href = promo.href;
 
-        const emoji = document.createElement("span");
+        const emoji: HTMLElement = document.createElement("span");
         emoji.setAttribute("aria-hidden", "true");
         emoji.textContent = promo.emoji;
 
@@ -348,12 +349,14 @@ function renderPromos(container, promos) {
 }
 
 /* hero and side banner */
-function renderBanner(section, banner) {
-    const title = section.querySelector("h2");
-    const text = section.querySelector("p");
-    const link = section.querySelector("a");
+function renderBanner(section: HTMLElement, banner) {
+    const title = section.querySelector<HTMLElement>("h2");
+    const text = section.querySelector<HTMLParagraphElement>("p");
+    const link = section.querySelector<HTMLAnchorElement>("a");
 
-    const emoji = document.createElement("span");
+    if (!title || !text || !link) throw new Error("missing elements");
+
+    const emoji: HTMLElement = document.createElement("span");
     emoji.setAttribute("aria-hidden", "true");
     emoji.textContent = banner.emoji;
 
@@ -367,14 +370,14 @@ function renderBanner(section, banner) {
 /* build carousels */
 /* arrow link */
 function createArrowLink(href, arrow, hiddenText) {
-    const link = document.createElement("a");
+    const link: HTMLAnchorElement = document.createElement("a");
     link.href = href;
 
-    const arrowSpan = document.createElement("span");
+    const arrowSpan: HTMLElement = document.createElement("span");
     arrowSpan.setAttribute("aria-hidden", "true");
     arrowSpan.textContent = arrow;
 
-    const textSpan = document.createElement("span");
+    const textSpan: HTMLElement = document.createElement("span");
     textSpan.classList.add("visually-hidden");
     textSpan.textContent = hiddenText;
 
@@ -383,27 +386,27 @@ function createArrowLink(href, arrow, hiddenText) {
 }
 
 function createCarouselSection(def) {
-    const section = document.createElement("section");
+    const section: HTMLElement = document.createElement("section");
     section.id = def.id;
     section.setAttribute("aria-labelledby", `${def.id}-title`);
 
-    const head = document.createElement("div");
+    const head: HTMLElement = document.createElement("div");
     head.classList.add("section-head");
 
-    const heading = document.createElement("h2");
+    const heading: HTMLElement = document.createElement("h2");
     heading.id = `${def.id}-title`;
-    const emoji = document.createElement("span");
+    const emoji: HTMLElement = document.createElement("span");
     emoji.setAttribute("aria-hidden", "true");
     emoji.textContent = def.emoji;
     heading.append(emoji, " ", def.title);
 
-    const nav = document.createElement("div");
+    const nav: HTMLElement = document.createElement("div");
     nav.classList.add("carousel-nav");
     nav.append(
         createArrowLink(`#${def.id}-first`, "→", `رفتن به ابتدای ${def.title}`),
         createArrowLink(`#${def.id}-last`, "←", `رفتن به انتهای ${def.title}`)
     );
-    const list = document.createElement("ul");
+    const list: HTMLUListElement = document.createElement("ul");
     list.classList.add("carousel");
 
     head.append(heading, nav);
@@ -411,7 +414,7 @@ function createCarouselSection(def) {
     return { section, list };
 }
 
-function renderCarousels(container, data) {
+function renderCarousels(container: HTMLElement, data) {
     container.replaceChildren();
     data.home.carousels.forEach(def => {
         const { section, list } = createCarouselSection(def);
@@ -426,6 +429,6 @@ function renderCarousels(container, data) {
 }
 
 /* render search placeholder */
-function renderSearchPlaceholder(input, count) {
+function renderSearchPlaceholder(input: HTMLInputElement, count) {
     input.placeholder = `جستجو در میان ${formatNumber(count)} کالا…`;
 }
