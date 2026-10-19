@@ -14,6 +14,7 @@
     "vite": "^8.3.4"
   },
   "dependencies": {
+    "fuse.js": "^7.5.0",
     "notyf": "^3.10.0"
   }
 }

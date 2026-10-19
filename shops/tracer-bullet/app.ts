@@ -1,5 +1,15 @@
 import { Notyf } from 'notyf'
 import 'notyf/notyf.min.css'
+import Fuse from 'fuse.js'
+type Product = {
+    id: number
+    categoryId: number
+    name: string
+    emoji: string
+    unit: string
+    price: number
+    tags: string[]
+}
 
 function formatNumber(n) {
     return new Intl.NumberFormat('fa-IR').format(n);
@@ -196,12 +206,15 @@ async function init() {
     const searchInput = document.querySelector<HTMLInputElement>("#search");
     const errorText = "دسترسی به اینترنت را بررسی و صفحه را دوباره بارگذاری کنید";
     if (!categoryList || !dropDown || !footerCategories || !mainMenu || !helpList || !hoursSection || !hero || !promo || !banners || !carouselsContainer || !searchInput) throw new Error("index.html is missing an element");
+    const resultsList: HTMLUListElement = document.createElement("ul");
+    resultsList.classList.add("search-results");
+    searchInput.insertAdjacentElement("afterend", resultsList);
+
     showMessage(categoryList, "در حال بارگذاری");
     showBlockMessage(carouselsContainer, "در حال بارگذاری");
 
     try {
         const data = await loadData();
-        renderSearchPlaceholder(searchInput, data.products.length);
         renderCartCount();
         renderCarousels(carouselsContainer, data);
         renderCategories(categoryList, data.categories);
@@ -215,6 +228,31 @@ async function init() {
         renderBanner(promo, data.home.side);
         renderPromos(banners, data.home.promos);
         scrollToHash();
+        const fuse = new Fuse<Product>(data.products, { keys: ["name"], threshold: 0.3 });
+
+        searchInput.addEventListener("input", (e: Event) => {
+            const query = searchInput.value.trim();
+
+            if (query === "") {
+                resultsList.replaceChildren();
+                return;
+            }
+
+            const results = fuse.search(query);
+
+            if (results.length === 0) {
+                showMessage(resultsList, "محصول یافت نشد")
+            } else {
+                resultsList.replaceChildren();
+                results.forEach(result => {
+                    const li: HTMLLIElement = document.createElement("li");
+                    li.textContent = result.item.name;
+                    resultsList.append(li);
+                });
+            }
+        });
+        renderSearchPlaceholder(searchInput, data.products.length);
+
     } catch (error) {
         console.error(error);
         showMessage(categoryList, errorText);
