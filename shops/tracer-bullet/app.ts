@@ -2,13 +2,13 @@ import { Notyf } from 'notyf'
 import 'notyf/notyf.min.css'
 import Fuse from 'fuse.js'
 type Product = {
-    id: number
-    categoryId: number
-    name: string
-    emoji: string
-    unit: string
-    price: number
-    tags: string[]
+    id: number;
+    categoryId: number;
+    name: string;
+    emoji: string;
+    unit: string;
+    price: number;
+    tags: string[];
 }
 
 function formatNumber(n) {
@@ -53,28 +53,28 @@ function createCard(product) {
     name.textContent = product.name;
 
     const meta: HTMLParagraphElement = document.createElement("p");
-    meta.classList.add("meta")
+    meta.classList.add("meta");
     meta.textContent = product.unit;
 
     const price: HTMLParagraphElement = document.createElement("p");
-    price.classList.add("price")
+    price.classList.add("price");
 
     if (product.newPrice) {
         const del: HTMLElement = document.createElement("del");
         const oldPriceLabel: HTMLElement = document.createElement("span");
         oldPriceLabel.classList.add("visually-hidden");
         oldPriceLabel.textContent = "قیمت قبلی";
-        del.append(oldPriceLabel, " ", formatNumber(product.price))
+        del.append(oldPriceLabel, " ", formatNumber(product.price));
 
         const newPriceLabel: HTMLElement = document.createElement("span");
         newPriceLabel.classList.add("visually-hidden");
         newPriceLabel.textContent = "قیمت با تخفیف";
-        price.append(del, newPriceLabel, " ", formatPrice(product.newPrice))
+        price.append(del, newPriceLabel, " ", formatPrice(product.newPrice));
     } else {
         price.textContent = formatPrice(product.price);
     }
 
-    const button: HTMLButtonElement = document.createElement("button")
+    const button: HTMLButtonElement = document.createElement("button");
     button.type = "button";
     button.textContent = "+";
     button.dataset.name = product.name;
@@ -193,15 +193,15 @@ function addToCart(e: MouseEvent) {
 /* loading, show the messages, call drawing functions */
 async function init() {
 
-    const categoryList = document.querySelector<HTMLElement>("#categories .category-list")
-    const dropDown = document.querySelector<HTMLElement>(".dropdown-menu")
-    const footerCategories = document.querySelector<HTMLElement>("footer .footer-categories")
-    const mainMenu = document.querySelector<HTMLElement>(".main-nav > ul");
-    const helpList = document.querySelector<HTMLElement>(".footer-help");
+    const categoryList = document.querySelector<HTMLUListElement>("#categories .category-list");
+    const dropDown = document.querySelector<HTMLUListElement>(".dropdown-menu");
+    const footerCategories = document.querySelector<HTMLUListElement>("footer .footer-categories");
+    const mainMenu = document.querySelector<HTMLUListElement>(".main-nav > ul");
+    const helpList = document.querySelector<HTMLUListElement>(".footer-help");
     const hoursSection = document.querySelector<HTMLElement>("#working-hours");
     const hero = document.querySelector<HTMLElement>('#hero');
-    const promo = document.querySelector<HTMLElement>('#promo')
-    const banners = document.querySelector<HTMLElement>('#banners')
+    const promo = document.querySelector<HTMLElement>('#promo');
+    const banners = document.querySelector<HTMLElement>('#banners');
     const carouselsContainer = document.querySelector<HTMLElement>("#carousels");
     const searchInput = document.querySelector<HTMLInputElement>("#search");
     const errorText = "دسترسی به اینترنت را بررسی و صفحه را دوباره بارگذاری کنید";
@@ -209,7 +209,7 @@ async function init() {
     const resultsList: HTMLUListElement = document.createElement("ul");
     resultsList.classList.add("search-results");
     searchInput.insertAdjacentElement("afterend", resultsList);
-    
+
     const searchForm = searchInput.closest<HTMLFormElement>("form");
     if (!searchForm) throw new Error("search form is missing");
     searchForm.addEventListener("submit", (e: SubmitEvent) => {
@@ -247,7 +247,7 @@ async function init() {
             const results = fuse.search(query);
 
             if (results.length === 0) {
-                showMessage(resultsList, "محصول یافت نشد")
+                showMessage(resultsList, "محصول یافت نشد");
             } else {
                 resultsList.replaceChildren();
                 results.forEach(result => {
@@ -271,7 +271,7 @@ function showBlockMessage(container: HTMLElement, text) {
     container.replaceChildren();
     const p: HTMLParagraphElement = document.createElement("p");
     p.textContent = text;
-    p.classList.add("message")
+    p.classList.add("message");
     container.append(p);
 }
 
@@ -287,7 +287,7 @@ async function loadData() {
         fetch("../../api/home.json"),
     ]);
     if (!productsRes.ok || !offersRes.ok || !stockRes.ok || !categoriesRes.ok || !shopRes.ok || !homeRes.ok) {
-        throw new Error("Request failed")
+        throw new Error("Request failed");
     }
     const [products, offers, stock, categories, shop, home] = await Promise.all([
         productsRes.json(),
@@ -355,9 +355,9 @@ function renderCategoryLinks(list: HTMLElement, categories) {
 
 /* read shop.json */
 function renderShopTexts(shop) {
-    const notice = document.querySelector<HTMLElement>("header .notice");
-    const address = document.querySelector<HTMLElement>("footer .address");
-    const about = document.querySelector<HTMLElement>("footer .about");
+    const notice = document.querySelector<HTMLParagraphElement>("header .notice");
+    const address = document.querySelector<HTMLParagraphElement>("footer .address");
+    const about = document.querySelector<HTMLParagraphElement>("footer .about");
     const phoneLink = document.querySelector<HTMLAnchorElement>("footer .phone a");
     const slogan = document.querySelector<HTMLElement>("header .logo-text .slogan");
 
