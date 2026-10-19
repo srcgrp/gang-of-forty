@@ -209,6 +209,12 @@ async function init() {
     const resultsList: HTMLUListElement = document.createElement("ul");
     resultsList.classList.add("search-results");
     searchInput.insertAdjacentElement("afterend", resultsList);
+    
+    const searchForm = searchInput.closest<HTMLFormElement>("form");
+    if (!searchForm) throw new Error("search form is missing");
+    searchForm.addEventListener("submit", (e: SubmitEvent) => {
+        e.preventDefault();
+    });
 
     showMessage(categoryList, "در حال بارگذاری");
     showBlockMessage(carouselsContainer, "در حال بارگذاری");
