@@ -1,3 +1,6 @@
+import { Notyf } from 'notyf'
+import 'notyf/notyf.min.css'
+
 function formatNumber(n) {
     return new Intl.NumberFormat('fa-IR').format(n);
 }
@@ -64,6 +67,7 @@ function createCard(product) {
     const button: HTMLButtonElement = document.createElement("button")
     button.type = "button";
     button.textContent = "+";
+    button.dataset.name = product.name;
     button.disabled = outOfStock;
     button.setAttribute("aria-label", outOfStock ? `${product.name}: ناموجود` : `افزودن ${product.name} به سبد خرید`);
     button.addEventListener("click", addToCart);
@@ -156,6 +160,7 @@ function renderSpecialOffers(carousel: HTMLUListElement, data, idPrefix) {
 
 /* cart */
 let cartCount = Number(localStorage.getItem("cartCount")) || 0;
+const notyf = new Notyf();
 
 function renderCartCount() {
     const cartCountEl = document.querySelector<HTMLElement>(".cartCount");
@@ -165,10 +170,14 @@ function renderCartCount() {
     cartCountTextEl.textContent = `${formatNumber(cartCount)} کالا در سبد`;
 }
 
-function addToCart() {
+function addToCart(e: MouseEvent) {
+    if (!(e.currentTarget instanceof HTMLButtonElement)) return;
+    const name = e.currentTarget.dataset.name ?? "محصول";
+
     cartCount++;
     localStorage.setItem("cartCount", String(cartCount));
     renderCartCount();
+    notyf.success(`${name} به سبد خرید اضافه شد`);
 }
 
 /* loading, show the messages, call drawing functions */
