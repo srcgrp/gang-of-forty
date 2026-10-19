@@ -1514,3 +1514,6 @@ html {
     }
 
 }
+@media (prefers-reduced-motion: no-preference) {
+.product-grid { scroll-behavior: smooth; }
+}

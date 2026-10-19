@@ -8,7 +8,97 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧺</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&amp;display=swap">
-  <link rel="stylesheet" href="assets/landing.css">
+  <style>
+    :root {
+      --bg: #fbf8f1;
+      --ink: #1f2a1c;
+      --muted: #5f6b5a;
+      --green: #2e7d32;
+      --green-soft: #e3f1e0;
+      --orange: #ef6c00;
+      --card: #ffffff;
+      --line: #e7e1d3;
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Vazirmatn, Tahoma, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.8;
+    }
+
+    a { color: inherit; }
+
+    .top {
+      display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap;
+      padding: 1rem clamp(1rem, 4vw, 3rem);
+      border-bottom: 1px solid var(--line);
+      background: var(--card);
+    }
+    .brand { font-size: 1.5rem; font-weight: 800; text-decoration: none; color: var(--green); }
+    .tag { margin: 0; color: var(--muted); }
+
+    main { max-width: 1200px; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 3rem) 3rem; }
+
+    .hero { padding: clamp(2rem, 6vw, 4rem) 0 2rem; }
+    .hero h1 { font-size: clamp(1.8rem, 5vw, 3rem); line-height: 1.4; margin: 0 0 0.5rem; }
+    .hero h1 span { color: var(--orange); }
+    .hero p { max-width: 60ch; color: var(--muted); margin: 0 0 0.5rem; }
+    .stats { display: inline-block; background: var(--green-soft); color: var(--green); font-weight: 700; padding: 0.3rem 0.9rem; border-radius: 999px; }
+
+    .shops-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    .shops-head h2 { margin: 0; }
+    .search input {
+      font: inherit; width: min(320px, 80vw); padding: 0.55rem 0.9rem;
+      border: 1px solid var(--line); border-radius: 999px; background: var(--card);
+    }
+    .search input:focus-visible { outline: 3px solid var(--green); outline-offset: 2px; }
+
+    .shops {
+      list-style: none; margin: 0; padding: 0;
+      display: grid; gap: 1rem;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
+    .shop a {
+      display: grid; gap: 0.25rem; height: 100%;
+      padding: 1.1rem; text-decoration: none;
+      background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+      transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+    }
+    .shop a:hover, .shop a:focus-visible {
+      transform: translateY(-3px);
+      border-color: var(--green);
+      box-shadow: 0 10px 24px rgb(46 125 50 / 0.12);
+      outline: none;
+    }
+    .emoji { font-size: 2.4rem; line-height: 1.2; }
+    .name { font-size: 1.1rem; }
+    .desc { color: var(--muted); font-size: 0.9rem; min-height: 1.5em; }
+    .owner { font-size: 0.85rem; font-weight: 600; color: var(--green); }
+    .owner.free { color: var(--orange); }
+    .slug { justify-self: start; direction: ltr; font-size: 0.8rem; color: var(--muted); background: var(--bg); padding: 0.05rem 0.5rem; border-radius: 6px; }
+
+    .bottom { text-align: center; color: var(--muted); padding: 2rem 1rem; border-top: 1px solid var(--line); }
+
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px; overflow: hidden;
+      clip-path: inset(50%); white-space: nowrap;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .shop a { transition: none; }
+      .shop a:hover { transform: none; }
+    }
+
+    /* ☆ favourite button: works once JavaScript is wired (live coding) */
+    .shop { position: relative; }
+    .fav { position: absolute; top: 0.6rem; left: 0.6rem; z-index: 1; border: 0; background: none; font-size: 1.5rem; line-height: 1; color: var(--orange); cursor: pointer; }
+    .fav:focus-visible { outline: 3px solid var(--green); border-radius: 6px; }
+  </style>
 </head>
 <body>
   <header class="top">
@@ -26,9 +116,14 @@
     <section aria-labelledby="shops-title">
       <div class="shops-head">
         <h2 id="shops-title">سوپرمارکت‌ها</h2>
+        <label class="search">
+          <span class="visually-hidden">جستجوی سوپرمارکت</span>
+          <input id="search" type="search" placeholder="جستجو: نام، slug یا صاحب غرفه" autocomplete="off">
+        </label>
       </div>
       <ul class="shops" id="shops">
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/dry/index.html">
           <span class="emoji" aria-hidden="true">🔁</span>
           <strong class="name">سوپرمارکت DRY</strong>
@@ -38,6 +133,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/kiss/index.html">
           <span class="emoji" aria-hidden="true">🪶</span>
           <strong class="name">سوپرمارکت KISS</strong>
@@ -47,6 +143,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/yagni/index.html">
           <span class="emoji" aria-hidden="true">✂️</span>
           <strong class="name">سوپرمارکت YAGNI</strong>
@@ -56,6 +153,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/composition/index.html">
           <span class="emoji" aria-hidden="true">🧩</span>
           <strong class="name">سوپرمارکت ترکیب به جای وراثت</strong>
@@ -65,6 +163,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/tdd/index.html">
           <span class="emoji" aria-hidden="true">✅</span>
           <strong class="name">سوپرمارکت TDD</strong>
@@ -74,6 +173,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/clean-code/index.html">
           <span class="emoji" aria-hidden="true">🧼</span>
           <strong class="name">سوپرمارکت کد تمیز</strong>
@@ -83,6 +183,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/refactor/index.html">
           <span class="emoji" aria-hidden="true">🛠️</span>
           <strong class="name">سوپرمارکت ریفکتور</strong>
@@ -92,6 +193,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/code-smell/index.html">
           <span class="emoji" aria-hidden="true">👃</span>
           <strong class="name">سوپرمارکت بوی کد</strong>
@@ -101,6 +203,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/boy-scout/index.html">
           <span class="emoji" aria-hidden="true">⛺</span>
           <strong class="name">سوپرمارکت قانون پیشاهنگ</strong>
@@ -110,6 +213,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/demeter/index.html">
           <span class="emoji" aria-hidden="true">📨</span>
           <strong class="name">سوپرمارکت قانون دیمیتر</strong>
@@ -119,6 +223,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/liskov/index.html">
           <span class="emoji" aria-hidden="true">🔄</span>
           <strong class="name">سوپرمارکت لیسکوف</strong>
@@ -128,6 +233,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/open-closed/index.html">
           <span class="emoji" aria-hidden="true">🚪</span>
           <strong class="name">سوپرمارکت باز-بسته</strong>
@@ -137,6 +243,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/fail-fast/index.html">
           <span class="emoji" aria-hidden="true">💥</span>
           <strong class="name">سوپرمارکت شکست سریع</strong>
@@ -146,6 +253,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/rubber-duck/index.html">
           <span class="emoji" aria-hidden="true">🦆</span>
           <strong class="name">سوپرمارکت اردک پلاستیکی</strong>
@@ -155,6 +263,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/broken-windows/index.html">
           <span class="emoji" aria-hidden="true">🪟</span>
           <strong class="name">سوپرمارکت پنجره شکسته</strong>
@@ -164,6 +273,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/tracer-bullet/index.html">
           <span class="emoji" aria-hidden="true">🎯</span>
           <strong class="name">سوپرمارکت گلوله رسام</strong>
@@ -173,6 +283,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/orthogonality/index.html">
           <span class="emoji" aria-hidden="true">📐</span>
           <strong class="name">سوپرمارکت تعامد</strong>
@@ -182,6 +293,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/big-o/index.html">
           <span class="emoji" aria-hidden="true">⏱️</span>
           <strong class="name">سوپرمارکت بیگ‌او</strong>
@@ -191,6 +303,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/conway/index.html">
           <span class="emoji" aria-hidden="true">🏢</span>
           <strong class="name">سوپرمارکت قانون کانوی</strong>
@@ -200,6 +313,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/brooks/index.html">
           <span class="emoji" aria-hidden="true">📅</span>
           <strong class="name">سوپرمارکت قانون بروکس</strong>
@@ -209,6 +323,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/separation/index.html">
           <span class="emoji" aria-hidden="true">🗂️</span>
           <strong class="name">سوپرمارکت جداسازی دغدغه‌ها</strong>
@@ -218,6 +333,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/least-surprise/index.html">
           <span class="emoji" aria-hidden="true">😮</span>
           <strong class="name">سوپرمارکت کمترین شگفتی</strong>
@@ -227,6 +343,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/premature-optimization/index.html">
           <span class="emoji" aria-hidden="true">🏎️</span>
           <strong class="name">سوپرمارکت بهینه‌سازی زودرس</strong>
@@ -236,6 +353,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/convention/index.html">
           <span class="emoji" aria-hidden="true">🛤️</span>
           <strong class="name">سوپرمارکت قرارداد به جای پیکربندی</strong>
@@ -245,6 +363,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/semver/index.html">
           <span class="emoji" aria-hidden="true">🏷️</span>
           <strong class="name">سوپرمارکت نسخه‌بندی معنایی</strong>
@@ -254,6 +373,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/cap/index.html">
           <span class="emoji" aria-hidden="true">🔺</span>
           <strong class="name">سوپرمارکت قضیه CAP</strong>
@@ -263,6 +383,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/idempotency/index.html">
           <span class="emoji" aria-hidden="true">🔂</span>
           <strong class="name">سوپرمارکت خودتوانی</strong>
@@ -272,6 +393,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/cache/index.html">
           <span class="emoji" aria-hidden="true">🗄️</span>
           <strong class="name">سوپرمارکت کش</strong>
@@ -281,6 +403,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/load-balancer/index.html">
           <span class="emoji" aria-hidden="true">⚖️</span>
           <strong class="name">سوپرمارکت متعادل‌کننده بار</strong>
@@ -290,6 +413,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/rate-limit/index.html">
           <span class="emoji" aria-hidden="true">🚦</span>
           <strong class="name">سوپرمارکت محدودیت نرخ</strong>
@@ -299,6 +423,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/deep-module/index.html">
           <span class="emoji" aria-hidden="true">🧊</span>
           <strong class="name">سوپرمارکت ماژول عمیق</strong>
@@ -308,6 +433,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/info-hiding/index.html">
           <span class="emoji" aria-hidden="true">🙈</span>
           <strong class="name">سوپرمارکت پنهان‌سازی اطلاعات</strong>
@@ -317,6 +443,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/strategic/index.html">
           <span class="emoji" aria-hidden="true">🗺️</span>
           <strong class="name">سوپرمارکت برنامه‌نویسی راهبردی</strong>
@@ -326,6 +453,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/define-errors-out/index.html">
           <span class="emoji" aria-hidden="true">🧯</span>
           <strong class="name">سوپرمارکت حذف خطا از ریشه</strong>
@@ -335,6 +463,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/race-condition/index.html">
           <span class="emoji" aria-hidden="true">🏁</span>
           <strong class="name">سوپرمارکت شرایط رقابتی</strong>
@@ -344,6 +473,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/deadlock/index.html">
           <span class="emoji" aria-hidden="true">🔒</span>
           <strong class="name">سوپرمارکت بن‌بست</strong>
@@ -353,6 +483,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/message-broker/index.html">
           <span class="emoji" aria-hidden="true">📬</span>
           <strong class="name">سوپرمارکت کارگزار پیام</strong>
@@ -362,6 +493,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/circuit-breaker/index.html">
           <span class="emoji" aria-hidden="true">🔌</span>
           <strong class="name">سوپرمارکت قطع‌کننده مدار</strong>
@@ -371,6 +503,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/acid/index.html">
           <span class="emoji" aria-hidden="true">🧪</span>
           <strong class="name">سوپرمارکت ACID</strong>
@@ -380,6 +513,7 @@
         </a>
       </li>
       <li class="shop">
+        <button class="fav" type="button" aria-label="نشان کردن">☆</button>
         <a href="shops/sharding/index.html">
           <span class="emoji" aria-hidden="true">🍕</span>
           <strong class="name">سوپرمارکت شاردینگ</strong>
@@ -389,6 +523,20 @@
         </a>
       </li>
       </ul>
+
+      <!-- One empty card. JavaScript copies it for every shop in api/shops.json -->
+      <template id="shop-card">
+        <li class="shop">
+          <button class="fav" type="button" aria-label="نشان کردن">☆</button>
+          <a>
+            <span class="emoji" aria-hidden="true"></span>
+            <strong class="name"></strong>
+            <span class="desc"></span>
+            <span class="owner"></span>
+            <code class="slug"></code>
+          </a>
+        </li>
+      </template>
     </section>
   </main>
 
@@ -396,5 +544,6 @@
     <p>ساخته‌شده با ❤️ در بوت‌کمپ فرانت‌اند · <a href="README.md">راهنمای مشارکت</a></p>
   </footer>
 
+  <script src="assets/landing.js"></script>
 </body>
 </html>
