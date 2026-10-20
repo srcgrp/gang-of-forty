@@ -1,0 +1,104 @@
+.categories {
+  position: relative;
+  overflow: hidden;
+  padding: 40px 32px;
+}
+
+.categories::before,
+.categories::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 220px;
+  height: 220px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.categories::before {
+  left: 0;
+  background-image: url("../asset/decorations/corner-light-top-left.png");
+}
+
+.categories::after {
+  right: 0;
+  background-image: url("../asset/decorations/corner-light-top-right.png");
+}
+
+.categories>* {
+  position: relative;
+  z-index: 1;
+}
+
+.categories h2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 24px;
+  text-align: center;
+  white-space: nowrap;
+  color: var(--color-primary);
+  font-family: "Lalezar", sans-serif;
+  font-size: 32px;
+}
+
+.categories h2::before,
+.categories h2::after {
+  content: "";
+  display: block;
+  width: 120px;
+  height: 34px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+.categories h2::before {
+  background-image: url("../asset/decorations/title-right.png");
+}
+
+.categories h2::after {
+  background-image: url("../asset/decorations/title-left.png");
+}
+
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.category-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 10px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  color: var(--color-text);
+  text-decoration: none;
+  box-shadow: 0 2px 2px rgb(184, 183, 183);
+}
+
+.category-card img {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  margin-bottom: 8px;
+}
+
+.category-card span {
+  font-weight: 600;
+  text-align: center;
+}
+
+.category-card:hover,
+.category-card:focus-visible {
+  transform: translateY(-4px);
+  border-color: var(--color-secondary);
+  box-shadow: 0 8px 20px rgba(43, 33, 29, 0.12);
+}

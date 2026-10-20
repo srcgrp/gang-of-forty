@@ -1,0 +1,125 @@
+
+.categories,
+.product-section,
+#about,
+#contact {
+  scroll-margin-top: 170px;
+}
+
+.product-section {
+  position: relative;
+  overflow: hidden;
+  padding: 40px 32px;
+}
+
+.categories:target,
+.product-section:target,
+#about:target,
+#contact:target {
+  animation: target-highlight 1.8s ease-out;
+}
+
+@keyframes target-highlight {
+  0% {
+    box-shadow: inset 0 0 0 3px var(--color-gold);
+  }
+
+  70% {
+    box-shadow: inset 0 0 0 3px var(--color-gold);
+  }
+
+  100% {
+    box-shadow: inset 0 0 0 3px transparent;
+  }
+}
+
+.product-section::before,
+.product-section::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 200px;
+  height: 200px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.product-section::before {
+  left: 0;
+  background-image: url("../asset/decorations/corner-light-top-left.png");
+}
+
+.product-section::after {
+  right: 0;
+  background-image: url("../asset/decorations/corner-light-top-right.png");
+}
+
+.product-section>* {
+  position: relative;
+  z-index: 1;
+}
+
+.product-section h2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  white-space: nowrap;
+  margin: 0 0 24px;
+  color: var(--color-primary);
+  font-family: "Lalezar", sans-serif;
+  font-size: 32px;
+}
+
+.product-section h2::before,
+.product-section h2::after {
+  content: "";
+  display: block;
+  width: 110px;
+  height: 32px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+.product-section h2::before {
+  background-image: url("../asset/decorations/title-right.png");
+}
+
+.product-section h2::after {
+  background-image: url("../asset/decorations/title-left.png");
+}
+
+.target-location {
+  position: absolute;
+  top: 12px;
+  inset-inline-start: 16px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  background-color: var(--color-primary);
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.categories:target .target-location,
+.product-section:target .target-location,
+#about:target .target-location,
+#contact:target .target-location {
+  animation: target-location-show 1.8s ease-out;
+}
+
+@keyframes target-location-show {
+  0%,
+  70% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

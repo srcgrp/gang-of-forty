@@ -1,6 +1,7 @@
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
 import Fuse from "fuse.js";
+import confetti from "canvas-confetti";
 
 type Product = {
   id: number;
@@ -254,6 +255,65 @@ async function fetchJSON<T>(url: string): Promise<T> {
   }
   return response.json();
 }
+
+function createHeroSlides(hero: Hero) {
+  return [
+    {
+      ...hero,
+      image: "/asset/banners/bg1.png",
+    },
+  {
+  ...hero,
+  title: "صبحی خوش‌طعم با تازه‌خانه",
+  text: "از نان تازه تا لبنیات و خوراکی‌های خوشمزه، همه برای یک صبحانه دلچسب.",
+  cta: {
+    label: "خرید محصولات صبحانه",
+    href: "#dairy",
+  },
+  image: "/asset/banners/bg3.webp",
+},
+  {
+  ...hero,
+  title: "طراوت با نوشیدنی های تازه‌خانه",
+  text: "از تازگی طبیعت تا سفره خانه شما، هر روز همراه لحظه‌های خوش.",
+  cta: {
+    label: "کشف محصولات تازه",
+    href: "#drinks",
+  },
+  image: "/asset/banners/bg4.webp",
+},
+  ];
+}
+
+function showHeroSlide(slide: Hero & { image: string }) {
+  renderHero(slide);
+  
+
+  const heroSection = document.querySelector<HTMLElement>(".hero");
+  if (heroSection) {
+  heroSection.classList.toggle(
+    "hero-slide-three",
+    slide.image === "/asset/banners/bg4.webp"
+  );
+}
+  if (!heroSection) {
+    return;
+  }
+
+  heroSection.style.backgroundImage = `url("${slide.image}")`;
+}
+
+function startHeroSlider(hero: Hero) {
+  const slides = createHeroSlides(hero);
+  let currentIndex = 0;
+
+  showHeroSlide(slides[currentIndex]);
+
+  setInterval(() => {
+    currentIndex = (currentIndex + 1) % slides.length;
+    showHeroSlide(slides[currentIndex]);
+  }, 5000);
+}
 function renderHero(hero: Hero) {
   const title = document.querySelector("#hero-title");
   const text = document.querySelector("#hero-text");
@@ -363,11 +423,15 @@ function renderSideBanner(side: Hero) {
   title.textContent = side.title;
   const text = document.createElement("p");
   text.textContent = side.text;
+  const percent=document.createElement("span");
+  percent.className="banner-percent";
+  percent.textContent="٪"
+  percent.setAttribute("aria-hidden","true");
   const link = document.createElement("a");
   link.className = "home-banner-link";
   link.href = side.cta.href;
   link.textContent = side.cta.label;
-  banner.append(title, text, link);
+  banner.append(title, text, link,percent);
   container.replaceChildren(banner);
 }
 function renderPromoBanners(promos: Promo[]) {
@@ -525,7 +589,6 @@ function renderShopMenu(container:Element | null, menuItems:LinkItem[]) {
     return link;
   });
   const customLinks = [
-    { label: "تخفیف‌های ویژه", href: "#offers" },
     { label: "درباره ما", href: "#about" },
   ];
   customLinks.forEach((item) => {
@@ -605,6 +668,51 @@ function setupCarouselControls(container:HTMLElement, startButton:HTMLButtonElem
     });
   });
 }
+
+function showOffersConfetti() {
+  const title = document.querySelector<HTMLElement>(
+    "#carousel-title-offers"
+  );
+
+  if (!title) {
+    return;
+  }
+  const rect = title.getBoundingClientRect();
+
+const centerX = rect.left + rect.width / 2;
+const centerY = rect.top + rect.height / 2;
+
+const originX = centerX / window.innerWidth;
+const originY = centerY / window.innerHeight;
+
+confetti({
+  particleCount: 30,
+  spread: 70,
+  startVelocity: 18,
+  gravity: 0.8,
+  scalar: 0.9,
+  ticks: 90,
+  shapes: ["circle"],
+  colors: ["#7C1021", "#075568", "#6C9B60", "#D6AA54"],
+  origin: {
+    x: originX,
+    y: originY,
+  },
+});}
+document.addEventListener("click", (event)=>{
+  const target=event.target;
+  if(!(target instanceof Element)){
+    return;
+  }
+  const offersLink=target.closest<HTMLAnchorElement>('a[href="#offers"]');
+   if (!offersLink) {
+    return;
+  }
+
+  setTimeout(() => {
+  showOffersConfetti();
+}, 500);
+})
 async function loadAllData() {
   try {
     const [products, offers, stock, shop, categories, home] = await Promise.all(
@@ -634,7 +742,7 @@ async function loadAllData() {
     renderCategories(categories);
     renderCategoryDropdown(categories);
     renderFooterCategories(categories);
-    renderHero(home.hero);
+    startHeroSlider(home.hero);
     renderSideBanner(home.side);
     renderPromoBanners(home.promos);
     renderHomeCarousels(home.carousels, products, offersMap, stock, categories);

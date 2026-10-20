@@ -1,0 +1,62 @@
+
+/* Promo Banner*/
+
+.promo {
+  width: 100%;
+  aspect-ratio: 4 / 1;
+  margin: 32px 0;
+  padding: 48px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-image: url("../asset/banners/bg2.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: none;
+  border-radius: 0;
+  border-bottom: 3px solid var(--color-primary);
+  border-top: 3px solid var(--color-primary);
+}
+
+.promo-content {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.promo h2 {
+  margin: 0 0 8px;
+  font-family: "Lalezar", sans-serif;
+  font-size: 30px;
+  color: var(--color-primary);
+}
+
+.promo p {
+  margin: 0;
+  color: var(--color-text-soft);
+}
+
+.promo-button {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 9px 16px;
+  background-color: var(--color-secondary);
+  color: white;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.promo-ornament {
+  display: block;
+  width: 100%;
+  max-width: 650px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.promo-ornament-bottom {
+  transform: rotate(180deg);
+}

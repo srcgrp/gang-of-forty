@@ -1,0 +1,63 @@
+
+html[data-theme="dark"] .top-bar {
+  background-color: #F7EEDC;
+  color: #740D18;
+}
+
+html[data-theme="dark"] .categories h2,
+html[data-theme="dark"] .product-section h2,
+html[data-theme="dark"] .product-price {
+  color: #F7EEDC;
+}
+
+html[data-theme="dark"] .brand,
+html[data-theme="dark"] .cart-summary,
+html[data-theme="dark"] .carousel-arrow {
+  color: #F7EEDC;
+}
+
+html[data-theme="dark"] .cart-summary {
+  border-color: #F7EEDC;
+}
+
+html[data-theme="dark"] .mobile-nav summary {
+  color: #F7EEDC;
+  border-color: #F7EEDC;
+  background-color: rgba(247, 238, 220, 0.06);
+}
+
+/*corner decorations*/
+
+html[data-theme="dark"] .categories::before,
+html[data-theme="dark"] .product-section::before {
+  background-image: url("/asset/decorations/corner-dark-top-left.png");
+}
+
+html[data-theme="dark"] .categories::after,
+html[data-theme="dark"] .product-section::after {
+  background-image: url("/asset/decorations/corner-dark-top-right.png");
+}
+
+
+/* Dark mode */
+
+html[data-theme="dark"] .search input {
+    background-color: var(--color-primary);
+    color: var(--color-text);
+    border-color: var(--color-border);
+}
+
+html[data-theme="dark"] .header-main {
+    background-color: var(--color-primary);
+}
+
+html[data-theme="dark"] .home-side-banner h2,
+html[data-theme="dark"] .home-promo-card {
+    color: var(--color-text);
+}
+
+html[data-theme="dark"] .product-card.product-highlight {
+  outline-color: #F7EEDC;
+}
+
+
