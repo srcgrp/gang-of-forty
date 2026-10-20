@@ -740,11 +740,11 @@ footer section:target {
 .strip > li:hover,
 .strip > li:focus-within {
   transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgb(0 0 0 / 0.15);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
 }
 
 .carousel {
-  padding-block: var(--space-m) var(--space-l);
+  padding-block: var(--space-m);
 }
 
 .carousel button,
@@ -1041,4 +1041,8 @@ form.search {
 
 .search-results:empty {
   display: none;
+}
+
+#carousels > section {
+  margin-block-end: var(--space-l);
 }
