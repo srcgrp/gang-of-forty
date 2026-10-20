@@ -110,10 +110,10 @@ type CardProduct = {
     label?: string
 }
 
-function formatNumber(n: number) {
+function formatNumber(n: number): string {
     return new Intl.NumberFormat('fa-IR').format(n);
 }
-function formatPrice(price: number) {
+function formatPrice(price: number): string {
     return `${formatNumber(price)} تومان`;
 }
 function renderSchedule(section: HTMLElement, schedule: ScheduleRow[]) {
@@ -135,7 +135,7 @@ function scrollToHash() {
     }
 }
 
-function createCard(product: CardProduct) {
+function createCard(product: CardProduct): HTMLLIElement {
     const outOfStock = product.stock === 0;
     const li: HTMLLIElement = document.createElement("li");
 
@@ -290,7 +290,7 @@ function addToCart(e: MouseEvent) {
 }
 
 /* loading, show the messages, call drawing functions */
-async function init() {
+async function init(): Promise<void> {
 
     const categoryList = document.querySelector<HTMLUListElement>("#categories .category-list");
     const dropDown = document.querySelector<HTMLUListElement>(".dropdown-menu");
@@ -358,7 +358,7 @@ async function init() {
         });
         renderSearchPlaceholder(searchInput, data.products.length);
 
-    } catch (error) {
+    } catch (error: unknown) {
         console.error(error);
         showMessage(categoryList, errorText);
         showBlockMessage(carouselsContainer, errorText);
@@ -414,7 +414,7 @@ function withOfferAndStock(product: Product, offers: Offer[], stock: Stock): Car
 
 /* categories */
 
-function createCategoryItem(category: Category) {
+function createCategoryItem(category: Category): HTMLLIElement {
     const li: HTMLLIElement = document.createElement("li");
 
     const link: HTMLAnchorElement = document.createElement("a");
@@ -437,7 +437,7 @@ function renderCategories(list: HTMLElement, categories: Category[]) {
     })
 }
 
-function createCategoryLink(category: Category) {
+function createCategoryLink(category: Category): HTMLLIElement {
     const li: HTMLLIElement = document.createElement("li");
     const link: HTMLAnchorElement = document.createElement("a");
     link.href = `#${category.slug}`;
@@ -469,7 +469,7 @@ function renderShopTexts(shop: Shop) {
     slogan.textContent = shop.slogan;
 }
 
-function createLinkItem(label: string, href: string) {
+function createLinkItem(label: string, href: string): HTMLLIElement {
     const li: HTMLLIElement = document.createElement("li");
     const link: HTMLAnchorElement = document.createElement("a");
     link.href = href;
@@ -521,7 +521,7 @@ function renderBanner(section: HTMLElement, banner: Banner) {
 
 /* build carousels */
 /* arrow link */
-function createArrowLink(href: string, arrow: string, hiddenText: string) {
+function createArrowLink(href: string, arrow: string, hiddenText: string): HTMLAnchorElement {
     const link: HTMLAnchorElement = document.createElement("a");
     link.href = href;
 
@@ -537,7 +537,7 @@ function createArrowLink(href: string, arrow: string, hiddenText: string) {
     return link;
 }
 
-function createCarouselSection(def: Carousel) {
+function createCarouselSection(def: Carousel): { section: HTMLElement; list: HTMLUListElement } {
     const section: HTMLElement = document.createElement("section");
     section.id = def.id;
     section.setAttribute("aria-labelledby", `${def.id}-title`);
