@@ -12,7 +12,7 @@
             "vite/client"
         ],
         "strict": true,
-        "noImplicitAny": false,
+        /* "noImplicitAny": false, */
         "noEmit": true,
         "skipLibCheck": true
     },

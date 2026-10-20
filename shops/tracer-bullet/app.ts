@@ -1,6 +1,7 @@
 import { Notyf } from 'notyf'
 import 'notyf/notyf.min.css'
 import Fuse from 'fuse.js'
+
 type Product = {
     id: number;
     categoryId: number;
@@ -11,13 +12,111 @@ type Product = {
     tags: string[];
 }
 
-function formatNumber(n) {
+type Offer = {
+    productId: number
+    percent: number
+    label: string
+}
+
+type Link = {
+    label: string
+    href: string
+}
+
+type ScheduleRow = {
+    days: string
+    time: string
+}
+
+type Category = {
+    id: number
+    slug: string
+    name: string
+    emoji: string
+    color: string
+}
+
+type Stock = {
+    updatedAt: string
+    items: Record<number, number>
+}
+
+type Promo = {
+    text: string
+    emoji: string
+    color: string
+    href: string
+}
+
+type Banner = {
+    title: string
+    text: string
+    emoji: string
+    cta: Link
+}
+
+type Shop = {
+    slogan: string
+    phone: string
+    notice: string
+    about: string
+    address: string
+    schedule: ScheduleRow[]
+    menu: Link[]
+    help: Link[]
+}
+
+type OffersCarousel = {
+    id: string
+    title: string
+    emoji: string
+    source: string
+}
+
+type CategoryCarousel = {
+    id: string
+    title: string
+    emoji: string
+    categoryId: number
+}
+
+type Carousel = OffersCarousel | CategoryCarousel
+
+type Home = {
+    hero: Banner
+    side: Banner
+    promos: Promo[]
+    carousels: Carousel[]
+}
+
+type Data = {
+    products: Product[]
+    offers: Offer[]
+    stock: Stock
+    categories: Category[]
+    shop: Shop
+    home: Home
+}
+
+type CardProduct = {
+    id: number
+    name: string
+    emoji: string
+    unit: string
+    price: number
+    stock: number
+    newPrice?: number
+    percent?: number
+    label?: string
+}
+
+function formatNumber(n: number) {
     return new Intl.NumberFormat('fa-IR').format(n);
 }
-function formatPrice(price) {
+function formatPrice(price: number) {
     return `${formatNumber(price)} تومان`;
 }
-function renderSchedule(section: HTMLElement, schedule) {
+function renderSchedule(section: HTMLElement, schedule: ScheduleRow[]) {
     schedule.forEach(row => {
         const p: HTMLParagraphElement = document.createElement("p");
         p.textContent = `${row.days}: ${row.time}`;
@@ -36,7 +135,7 @@ function scrollToHash() {
     }
 }
 
-function createCard(product) {
+function createCard(product: CardProduct) {
     const outOfStock = product.stock === 0;
     const li: HTMLLIElement = document.createElement("li");
 
@@ -105,7 +204,7 @@ function createCard(product) {
 }
 
 /* replace everything in the carousel with one message */
-function showMessage(carousel: HTMLElement, text) {
+function showMessage(carousel: HTMLElement, text: string) {
     carousel.replaceChildren();
     const li: HTMLLIElement = document.createElement("li");
     li.textContent = text;
@@ -114,7 +213,7 @@ function showMessage(carousel: HTMLElement, text) {
 }
 
 /* drawing functions */
-function renderCategoryCarousel(carousel: HTMLUListElement, data, categoryId, idPrefix) {
+function renderCategoryCarousel(carousel: HTMLUListElement, data: Data, categoryId: number, idPrefix: string) {
     const { products, offers, stock } = data;
     const items = products
         .filter(p => p.categoryId === categoryId)
@@ -132,7 +231,7 @@ function renderCategoryCarousel(carousel: HTMLUListElement, data, categoryId, id
     });
 }
 
-function renderSpecialOffers(carousel: HTMLUListElement, data, idPrefix) {
+function renderSpecialOffers(carousel: HTMLUListElement, data: Data, idPrefix: string) {
     const { products, offers, stock } = data;
     const specialProducts = offers.map(offer => {
         const product = products.find(p => p.id === offer.productId);
@@ -153,7 +252,7 @@ function renderSpecialOffers(carousel: HTMLUListElement, data, idPrefix) {
             label: offer.label,
             stock: productStock,
         };
-    }).filter(Boolean);
+    }).filter(item => item !== null);
 
     carousel.replaceChildren();
     specialProducts.forEach((item, index) => {
@@ -267,7 +366,7 @@ async function init() {
 }
 init();
 
-function showBlockMessage(container: HTMLElement, text) {
+function showBlockMessage(container: HTMLElement, text: string) {
     container.replaceChildren();
     const p: HTMLParagraphElement = document.createElement("p");
     p.textContent = text;
@@ -277,7 +376,7 @@ function showBlockMessage(container: HTMLElement, text) {
 
 /* share the data */
 
-async function loadData() {
+async function loadData(): Promise<Data> {
     const [productsRes, offersRes, stockRes, categoriesRes, shopRes, homeRes] = await Promise.all([
         fetch("../../api/products.json"),
         fetch("../../api/offers.json"),
@@ -302,9 +401,9 @@ async function loadData() {
 }
 
 
-function withOfferAndStock(product, offers, stock) {
+function withOfferAndStock(product: Product, offers: Offer[], stock: Stock): CardProduct {
     const offer = offers.find(o => o.productId === product.id);
-    const result = { ...product, stock: stock.items[product.id] };
+    const result: CardProduct = { ...product, stock: stock.items[product.id] };
     if (offer) {
         result.percent = offer.percent
         result.label = offer.label
@@ -315,7 +414,7 @@ function withOfferAndStock(product, offers, stock) {
 
 /* categories */
 
-function createCategoryItem(category) {
+function createCategoryItem(category: Category) {
     const li: HTMLLIElement = document.createElement("li");
 
     const link: HTMLAnchorElement = document.createElement("a");
@@ -331,14 +430,14 @@ function createCategoryItem(category) {
     return li;
 }
 
-function renderCategories(list: HTMLElement, categories) {
+function renderCategories(list: HTMLElement, categories: Category[]) {
     list.replaceChildren();
     categories.forEach(category => {
         list.append(createCategoryItem(category));
     })
 }
 
-function createCategoryLink(category) {
+function createCategoryLink(category: Category) {
     const li: HTMLLIElement = document.createElement("li");
     const link: HTMLAnchorElement = document.createElement("a");
     link.href = `#${category.slug}`;
@@ -347,14 +446,14 @@ function createCategoryLink(category) {
     return li;
 }
 
-function renderCategoryLinks(list: HTMLElement, categories) {
+function renderCategoryLinks(list: HTMLElement, categories: Category[]) {
     categories.forEach(category => {
         list.append(createCategoryLink(category));
     })
 }
 
 /* read shop.json */
-function renderShopTexts(shop) {
+function renderShopTexts(shop: Shop) {
     const notice = document.querySelector<HTMLParagraphElement>("header .notice");
     const address = document.querySelector<HTMLParagraphElement>("footer .address");
     const about = document.querySelector<HTMLParagraphElement>("footer .about");
@@ -370,7 +469,7 @@ function renderShopTexts(shop) {
     slogan.textContent = shop.slogan;
 }
 
-function createLinkItem(label, href) {
+function createLinkItem(label: string, href: string) {
     const li: HTMLLIElement = document.createElement("li");
     const link: HTMLAnchorElement = document.createElement("a");
     link.href = href;
@@ -379,14 +478,14 @@ function createLinkItem(label, href) {
     return li;
 }
 
-function renderLinks(list: HTMLElement, items) {
+function renderLinks(list: HTMLElement, items: Link[]) {
     items.forEach(item => {
         list.append(createLinkItem(item.label, item.href));
     });
 }
 
 /* promos */
-function renderPromos(container: HTMLElement, promos) {
+function renderPromos(container: HTMLElement, promos: Promo[]) {
     container.replaceChildren();
     promos.forEach(promo => {
         const link: HTMLAnchorElement = document.createElement("a");
@@ -402,7 +501,7 @@ function renderPromos(container: HTMLElement, promos) {
 }
 
 /* hero and side banner */
-function renderBanner(section: HTMLElement, banner) {
+function renderBanner(section: HTMLElement, banner: Banner) {
     const title = section.querySelector<HTMLElement>("h2");
     const text = section.querySelector<HTMLParagraphElement>("p");
     const link = section.querySelector<HTMLAnchorElement>("a");
@@ -422,7 +521,7 @@ function renderBanner(section: HTMLElement, banner) {
 
 /* build carousels */
 /* arrow link */
-function createArrowLink(href, arrow, hiddenText) {
+function createArrowLink(href: string, arrow: string, hiddenText: string) {
     const link: HTMLAnchorElement = document.createElement("a");
     link.href = href;
 
@@ -438,7 +537,7 @@ function createArrowLink(href, arrow, hiddenText) {
     return link;
 }
 
-function createCarouselSection(def) {
+function createCarouselSection(def: Carousel) {
     const section: HTMLElement = document.createElement("section");
     section.id = def.id;
     section.setAttribute("aria-labelledby", `${def.id}-title`);
@@ -467,13 +566,13 @@ function createCarouselSection(def) {
     return { section, list };
 }
 
-function renderCarousels(container: HTMLElement, data) {
+function renderCarousels(container: HTMLElement, data: Data) {
     container.replaceChildren();
     data.home.carousels.forEach(def => {
         const { section, list } = createCarouselSection(def);
         container.append(section);
 
-        if (def.source === "offers") {
+        if ("source" in def) {
             renderSpecialOffers(list, data, def.id);
         } else {
             renderCategoryCarousel(list, data, def.categoryId, def.id);
@@ -482,6 +581,6 @@ function renderCarousels(container: HTMLElement, data) {
 }
 
 /* render search placeholder */
-function renderSearchPlaceholder(input: HTMLInputElement, count) {
+function renderSearchPlaceholder(input: HTMLInputElement, count: number) {
     input.placeholder = `جستجو در میان ${formatNumber(count)} کالا…`;
 }
