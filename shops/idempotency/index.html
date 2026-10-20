@@ -1,29 +1,422 @@
 <!doctype html>
+
 <html lang="fa" dir="rtl">
+
 <head>
+
   <meta charset="utf-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت خودتوانی</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
-  <link rel="stylesheet" href="style.css">
+
+  <title>سوپر مارکت آنلاین | تازه خانه</title>
+
+  <link rel="stylesheet" href="./style.css">
+
 </head>
-<body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>🔂 سلام دنیا!</h1>
+
+<body id="top">
+
+  <a class="skip-link" href="#main-content">پرش به محتوای اصلی</a>
+
+  <header class="site-header">
+
+    <div class="top-bar">
+
+      <p id="shop-notice"></p>
+
+    </div>
+
+    <div class="header-main">
+
+      <div class="brand-menu">
+
+        <a class="brand" href="#top" aria-label="تازه‌خانه، بازگشت به بالای صفحه">
+
+          <svg class="brand-logo" viewBox="0 0 64 64"
+
+               role="img" aria-labelledby="logo-title">
+
+            <title id="logo-title">لوگوی تازه‌خانه</title>
+
+            <circle class="logo-bg-circle" cx="32" cy="32" r="30"></circle>
+
+            <path class="logo-arch"
+
+                  d="M 12 50 V 30 Q 12 20 22 20 Q 24 12 32 8
+
+                     Q 40 12 42 20 Q 52 20 52 30 V 50"></path>
+
+            <path class="logo-house"
+
+                  d="M 22 34 L 32 25 L 43 34 V 48 H 22 Z"></path>
+
+            <rect class="logo-door" x="29" y="38"
+
+                  width="6" height="12" rx="1"></rect>
+
+            <ellipse class="logo-leaf-bottom" cx="35" cy="22"
+
+                     rx="4" ry="2.5"
+
+                     transform="rotate(-35 39 19)"></ellipse>
+
+            <ellipse class="logo-leaf-top" cx="38" cy="13"
+
+                     rx="4" ry="2.5"
+
+                     transform="rotate(-100 39 19)"></ellipse>
+
+          </svg>
+
+          <span class="brand-name">تازه خانه</span>
+
+        </a>
+
+        <details class="mobile-nav">
+
+          <summary>☰ منو</summary>
+
+          <nav class="mobile-nav-menu" aria-label="منوی موبایل">
+
+            <a href="#categories">همه دسته‌ها</a>
+
+            <div id="shop-mobile-menu" class="shop-mobile-menu-links">
+          </div>
+
+          </nav>
+
+        </details>
+
+      </div>
+
+      <div class="cart-summary">
+
+        <img class="cart-icon" src="./asset/icons/cart.svg"
+
+             alt="" aria-hidden="true">
+
+        <span>سبد خرید</span>
+
+        <span class="cart-count" id="cart-count">۰</span>
+
+      </div>
+
+      <div class="theme-toggle" aria-label="انتخاب تم">
+
+        <button type="button" class="theme-button"
+
+                id="theme-light-button" aria-pressed="true"
+
+                aria-label="حالت روشن">☀</button>
+
+        <button type="button" class="theme-button"
+
+                id="theme-dark-button" aria-pressed="false"
+
+                aria-label="حالت تاریک">☾</button>
+
+      </div>
+
+      <form class="search" role="search">
+
+        <label for="site-search">جستجو در تازه‌خانه</label>
+
+        <div class="search-box">
+
+          <input type="search" placeholder="جستجوی محصولات..."
+
+                 id="site-search">
+
+          <button type="submit" class="search-icon"
+
+                  aria-label="جستجو">
+
+            <img src="./asset/icons/search.svg"
+
+                 alt="" aria-hidden="true">
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+    <nav class="main-nav desktop-nav" aria-label="منوی اصلی">
+
+      <div class="nav-dropdown">
+
+        <a class="categories-link" href="#categories">همه دسته‌ها</a>
+
+        <div class="dropdown-menu" id="category-dropdown">
+
+          <a class="dropdown-item" href="#nuts">آجیل</a>
+
+          <a class="dropdown-item" href="#offers">پیشنهاد روز</a>
+
+          <a class="dropdown-item" href="#offers">
+
+            تخفیف‌های ویژه
+
+          </a>
+
+          <a class="dropdown-item" href="#best-sellers">منتخب‌ها</a>
+
+        </div>
+
+      </div>
+
+      <div id="shop-desktop-menu" class="shop-menu-links">
+      </div>
+
+    </nav>
+
   </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>خودتوانی</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p>عملیاتی <bdi>idempotent</bdi> (خودتوان) است که یک بار یا ده بار انجام دادنش نتیجه یکسان دارد. اگر مشتری دو بار روی «پرداخت» بزند، نباید دو بار پول کم شود. در <bdi>HTTP</bdi> متدهای <bdi>GET</bdi>، <bdi>PUT</bdi> و <bdi>DELETE</bdi> خودتوان‌اند ولی <bdi>POST</bdi> نیست.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
+
+<main id="main-content" tabindex="-1">
+  <section class="hero" aria-labelledby="hero-title">
+
+      <img class="hero-ornament"
+
+           src="./asset/banners/border.png"
+
+           alt="" aria-hidden="true">
+
+      <div class="hero-content">
+
+        <h1 id="hero-title">تازگی، هر روز در خانه شما</h1>
+
+        <p id="hero-text">
+
+          انتخابی تازه از محصولات روزمره با حال‌ و هوای ایرانی.
+
+        </p>
+
+        <a class="hero-button" id="hero-cta" href="#offers">
+
+          مشاهده پیشنهادهای امروز
+
+        </a>
+
+      </div>
+
+      <img class="hero-ornament hero-ornament-bottom"
+
+           src="./asset/banners/border.png"
+
+           alt="" aria-hidden="true">
+
     </section>
-  </main>
-  <footer>
-    <p dir="ltr">slug: <code>idempotency</code></p>
+
+  <div class="home-banners">
+    <div id="home-side"></div>
+    <div id="home-promos"></div>
+  </div>
+
+  <div id="home-featured-carousels"></div>
+
+  <section id="categories" class="categories"
+
+             aria-labelledby="categories-title">
+
+      <h2 id="categories-title">دسته‌بندی‌ها</h2>
+
+      <span class="target-location" aria-hidden="true">
+
+        اینجا هستید
+
+      </span>
+
+      <div class="category-grid" id="category-grid" aria-busy="true">
+
+        <p class="loading-message" role="status">
+
+          در حال بارگذاری دسته‌بندی‌ها...
+
+        </p>
+
+      </div>
+
+    </section>
+
+  <div id="home-category-carousels"></div>
+</main>
+
+  <footer class="site-footer">
+
+    <div class="footer-grid">
+
+      <section id="about" class="footer-section">
+
+        <h2 class="footer-title">
+
+          <img src="./asset/icons/shop.png" alt=""
+
+               aria-hidden="true" class="footer-title-icon">
+
+          درباره تازه‌خانه
+
+        </h2>
+
+        <span class="target-location" aria-hidden="true">
+
+          اینجا هستید
+
+        </span>
+
+        <p id="shop-about">
+
+          فروشگاهی برای خرید ساده، تازه و روزمره با حال‌وهوای ایرانی.
+
+        </p>
+
+        <div class="footer-socials">
+
+          <a href="#" class="footer-social-link" aria-label="تلگرام">
+
+            <img src="./asset/icons/telegram.png"
+
+                 alt="" aria-hidden="true">
+
+          </a>
+
+          <a href="#" class="footer-social-link" aria-label="اینستاگرام">
+
+            <img src="./asset/icons/instagram.png"
+
+                 alt="" aria-hidden="true">
+
+          </a>
+
+          <a href="#" class="footer-social-link" aria-label="واتساپ">
+
+            <img src="./asset/icons/whatsapp.png"
+
+                 alt="" aria-hidden="true">
+
+          </a>
+
+          <a href="tel:+982112345678" class="footer-social-link"
+
+             aria-label="تماس تلفنی">
+
+            <img src="./asset/icons/social-phone.png"
+
+                 alt="" aria-hidden="true">
+
+          </a>
+
+        </div>
+
+      </section>
+
+      <section class="footer-section">
+
+        <h2 class="footer-title">
+
+          <img src="./asset/icons/leaf.png" alt=""
+
+               aria-hidden="true" class="footer-title-icon">
+
+          دسته‌بندی‌ها
+
+        </h2>
+
+        <nav id="footer-categories" aria-label="دسته‌بندی‌های فوتر">
+
+          <a href="#nuts">آجیل</a>
+
+        </nav>
+
+      </section>
+
+      <section class="footer-section"
+
+               aria-labelledby="footer-help-title">
+
+        <h2 class="footer-title" id="footer-help-title">
+
+          راهنمای مشتریان
+
+        </h2>
+
+        <nav id="footer-help" aria-label="راهنمای مشتریان">
+
+          <p class="loading-message">
+
+            در حال دریافت لینک‌های راهنما...
+
+          </p>
+
+        </nav>
+
+      </section>
+
+      <section id="contact" class="footer-section">
+
+        <h2 class="footer-title">
+
+          <img src="./asset/icons/phone.png" alt=""
+
+               aria-hidden="true" class="footer-title-icon">
+
+          تماس با ما
+
+        </h2>
+
+        <span class="target-location" aria-hidden="true">
+
+          اینجا هستید
+
+        </span>
+
+        <div class="footer-info">
+
+          <img src="./asset/icons/clock.png" alt=""
+
+               aria-hidden="true" class="footer-info-icon">
+
+          <div id="shop-schedule">
+
+            <p>ساعات پاسخگویی:</p>
+
+            <p>شنبه تا پنجشنبه، ۹ تا ۲۰</p>
+
+          </div>
+
+        </div>
+
+        <p class="footer-phone" id="shop-phone">۰۲۱-۱۲۳۴۵۶۷۸</p>
+
+        <address class="footer-address" id="shop-address">
+
+          تهران، خیابان ولیعصر، پلاک ۱۲۳
+
+        </address>
+
+      </section>
+
+    </div>
+
+    <div class="footer-bottom">
+
+      <p id="shop-copyright">© ۱۴۰۵ تازه‌خانه</p>
+
+      <a href="#top">بازگشت به بالا ↑</a>
+
+    </div>
+
   </footer>
+
+  <div class="cart-toast" role="status" aria-live="polite">
+
+    محصول به سبد خرید اضافه شد ✓
+
+  </div>
+
+  <script src="./app.js"></script>
+
 </body>
+
 </html>
