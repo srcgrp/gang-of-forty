@@ -6,28 +6,33 @@
     <title>سبزکاله | تازه، روز، به‌روز</title>
     <meta
       name="description"
-      content="بهترین میوه، سبزی، لبنیات و مواد غذایی تازه"
+      content="بهترین میوه، سبزی، لبنیات و مواد غذایی تازه، مستقیم از باغ"
     />
     <meta name="theme-color" content="#2e7d32" />
+    <meta name="color-scheme" content="light dark" />
+
+    <!-- شبکه‌های اجتماعی -->
+    <meta property="og:title" content="سبزکاله | تازه، روز، به‌روز" />
+    <meta
+      property="og:description"
+      content="بهترین میوه، سبزی، لبنیات و مواد غذایی تازه"
+    />
+    <meta property="og:type" content="website" />
 
     <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg" />
-    <link rel="stylesheet" href="style/style.css" />
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+    <!-- بقیه محتوا... -->
 
-    <!-- ═══════════════════════════════════════════
-         ۱. نوار اطلاع‌رسانی
-         ═══════════════════════════════════════════ -->
+    <!-- نوار اطلاع‌رسانی -->
     <div class="topbar" role="region" aria-label="اطلاع‌رسانی">
       <div class="topbar__inner">
         <span id="topbar-text"></span>
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════
-         ۲. هدر اصلی
-         ═══════════════════════════════════════════ -->
+    <!-- هدر -->
     <header class="site-header">
       <div class="header__wrapper">
         <a href="#main" class="brand" aria-label="صفحه اصلی">
@@ -68,7 +73,7 @@
           </span>
         </a>
 
-        <form class="search" role="search" onsubmit="return false;">
+        <form class="search" role="search" id="search-form">
           <label for="site-search" class="visually-hidden"
             >جستجو در محصولات</label
           >
@@ -89,12 +94,28 @@
             name="q"
             placeholder="جستجو در میان ۳۰۰۰ کالا..."
             autocomplete="off"
+            aria-label="جستجو در محصولات"
+            aria-controls="search-suggestions"
+            aria-expanded="false"
           />
+          <button
+            type="button"
+            class="search__clear"
+            id="search-clear"
+            aria-label="پاک کردن"
+            hidden
+          >
+            ✕
+          </button>
           <button type="submit" class="search__submit">جستجو</button>
+          <div
+            class="search__suggestions"
+            id="search-suggestions"
+            role="listbox"
+            aria-label="پیشنهادهای جستجو"
+          ></div>
         </form>
-
         <div class="header__actions">
-          <!-- 🌙 دکمه دارک مد -->
           <button
             type="button"
             class="theme-btn"
@@ -128,7 +149,6 @@
 
           <span class="header__divider" aria-hidden="true"></span>
 
-          <!-- 🛒 دکمه سبد خرید (id اضافه شد) -->
           <a
             href="#cart"
             class="action-btn action-btn--cart"
@@ -158,9 +178,7 @@
       </div>
     </header>
 
-    <!-- ═══════════════════════════════════════════
-         ۳. منوی دسته‌بندی
-         ═══════════════════════════════════════════ -->
+    <!-- منو -->
     <input
       type="checkbox"
       id="menu-toggle"
@@ -201,12 +219,9 @@
     </nav>
 
     <main id="main">
-      <!-- ═══════════════════════════════════════════
-           ۴. Hero
-           ═══════════════════════════════════════════ -->
+      <!-- هیرو -->
       <section id="hero" class="hero" aria-labelledby="hero-title">
         <div class="hero__wrapper">
-          <!-- کارت اصلی -->
           <article class="hero-card hero-card--primary">
             <div class="hero-card__content">
               <span class="hero-card__eyebrow">تازه از باغ</span>
@@ -222,7 +237,6 @@
               </a>
             </div>
 
-            <!-- 🍉 هندوانه SVG -->
             <div class="hero-card__art" aria-hidden="true">
               <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
                 <ellipse
@@ -274,7 +288,6 @@
             </div>
           </article>
 
-          <!-- کارت فرعی -->
           <article class="hero-card hero-card--secondary">
             <div class="hero-card__content">
               <span class="hero-card__eyebrow hero-card__eyebrow--accent"
@@ -290,7 +303,6 @@
               </a>
             </div>
 
-            <!-- 🧀 پنیر SVG -->
             <div class="hero-card__art hero-card__art--sm" aria-hidden="true">
               <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
                 <ellipse
@@ -309,35 +321,10 @@
                   opacity=".3"
                 />
                 <ellipse cx="60" cy="125" rx="10" ry="6" fill="#ff8f00" />
-                <ellipse
-                  cx="60"
-                  cy="125"
-                  rx="7"
-                  ry="4"
-                  fill="#e65100"
-                  opacity=".6"
-                />
                 <ellipse cx="130" cy="125" rx="8" ry="5" fill="#ff8f00" />
-                <ellipse
-                  cx="130"
-                  cy="125"
-                  rx="5.5"
-                  ry="3"
-                  fill="#e65100"
-                  opacity=".6"
-                />
                 <ellipse cx="90" cy="100" rx="6" ry="3.5" fill="#ff8f00" />
-                <ellipse
-                  cx="90"
-                  cy="100"
-                  rx="4"
-                  ry="2"
-                  fill="#e65100"
-                  opacity=".6"
-                />
                 <ellipse cx="75" cy="140" rx="7" ry="4" fill="#ff8f00" />
                 <ellipse cx="110" cy="142" rx="6" ry="3.5" fill="#ff8f00" />
-                <ellipse cx="145" cy="138" rx="5" ry="3" fill="#ff8f00" />
                 <path
                   d="M25 130 L100 155 L175 130"
                   stroke="#e6a500"
@@ -350,9 +337,7 @@
         </div>
       </section>
 
-      <!-- ═══════════════════════════════════════════
-           ۵. دسته‌بندی‌ها
-           ═══════════════════════════════════════════ -->
+      <!-- دسته‌بندی‌ها -->
       <section
         id="categories"
         class="categories"
@@ -368,9 +353,7 @@
         </div>
       </section>
 
-      <!-- ═══════════════════════════════════════════
-           ۶. پیشنهاد ویژه
-           ═══════════════════════════════════════════ -->
+      <!-- پیشنهاد ویژه -->
       <section
         id="special"
         class="carousel-section"
@@ -392,21 +375,14 @@
         </div>
       </section>
 
-      <!-- ═══════════════════════════════════════════
-           ۷. بنرهای تبلیغاتی
-           ═══════════════════════════════════════════ -->
+      <!-- بنرها -->
       <section class="banners" aria-label="بنرهای تبلیغاتی">
         <div class="banners__wrapper" id="banners-wrapper"></div>
       </section>
 
-      <!-- ═══════════════════════════════════════════
-           ۸. کاروسل هر دسته (JS می‌سازه)
-           ═══════════════════════════════════════════ -->
       <div id="category-sections"></div>
 
-      <!-- ═══════════════════════════════════════════
-           ۹. تمام محصولات (گرید)
-           ═══════════════════════════════════════════ -->
+      <!-- همه محصولات -->
       <section
         id="all-products"
         class="products-section"
@@ -420,7 +396,6 @@
           <div class="products-section__actions">
             <span class="section-head__count" id="all-count"></span>
 
-            <!-- دکمه فیلتر -->
             <button
               type="button"
               class="filter-btn"
@@ -452,7 +427,7 @@
         <ul class="products-grid" id="all-track"></ul>
       </section>
 
-      <!-- ═══ مودال فیلتر ═══ -->
+      <!-- مودال فیلتر -->
       <div
         class="modal"
         id="filter-modal"
@@ -477,15 +452,11 @@
           </header>
 
           <div class="modal__body">
-            <!-- دسته‌بندی -->
             <div class="filter-group">
               <h3 class="filter-group__title">دسته‌بندی</h3>
-              <div class="filter-chips" id="filter-categories">
-                <!-- JS پر می‌کنه -->
-              </div>
+              <div class="filter-chips" id="filter-categories"></div>
             </div>
 
-            <!-- موجودی -->
             <div class="filter-group">
               <h3 class="filter-group__title">وضعیت موجودی</h3>
               <div class="filter-chips" id="filter-availability">
@@ -505,7 +476,6 @@
               </div>
             </div>
 
-            <!-- تخفیف -->
             <div class="filter-group">
               <h3 class="filter-group__title">تخفیف</h3>
               <div class="filter-chips" id="filter-discount">
@@ -522,7 +492,6 @@
               </div>
             </div>
 
-            <!-- مرتب‌سازی -->
             <div class="filter-group">
               <h3 class="filter-group__title">مرتب‌سازی</h3>
               <div class="filter-chips" id="filter-sort">
@@ -561,9 +530,7 @@
         </div>
       </div>
 
-      <!-- ═══════════════════════════════════════════
-           ۱۰. مودال سبد خرید  ← جدید
-           ═══════════════════════════════════════════ -->
+      <!-- مودال سبد -->
       <div
         class="modal"
         id="cart-modal"
@@ -575,8 +542,7 @@
         <div class="modal__content modal__content--cart">
           <header class="modal__header">
             <h2 class="modal__title" id="cart-modal-title">
-              <span aria-hidden="true">🛒</span>
-              سبد خرید
+              <span aria-hidden="true">🛒</span> سبد خرید
             </h2>
             <button
               type="button"
@@ -587,16 +553,12 @@
               ✕
             </button>
           </header>
-
           <div class="modal__body" id="cart-body"></div>
-
           <footer class="modal__footer" id="cart-footer"></footer>
         </div>
       </div>
 
-      <!-- ═══════════════════════════════════════════
-           ۱۱. مودال جزئیات محصول  ← جدید
-           ═══════════════════════════════════════════ -->
+      <!-- مودال جزئیات -->
       <div
         class="modal"
         id="product-modal"
@@ -622,9 +584,7 @@
       </div>
     </main>
 
-    <!-- ═══════════════════════════════════════════
-         ۱۲. فوتر
-         ═══════════════════════════════════════════ -->
+    <!-- فوتر -->
     <footer id="contact" class="site-footer">
       <div class="footer__wrapper">
         <div class="footer__grid">
@@ -678,7 +638,6 @@
         </div>
       </div>
     </footer>
-    <script src="js/darkMode.js"></script>
-    <script type="module" src="js/main.js"></script>
+    <script type="module" src="script.ts"></script>
   </body>
 </html>

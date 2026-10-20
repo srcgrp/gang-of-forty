@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="a" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 800 800">
+  <defs>
+    <filter id="b" data-name="drop-shadow-1" x="179.7" y="110.03" width="451.2" height="577.44" filterUnits="userSpaceOnUse">
+      <feOffset dx="4.98" dy="4.98"/>
+      <feGaussianBlur result="c" stdDeviation="4.98"/>
+      <feFlood flood-color="#000" flood-opacity=".2"/>
+      <feComposite in2="c" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <circle cx="400" cy="400" r="364.74" fill="#f78d0f"/>
+  <g filter="url(#b)">
+    <g>
+      <path d="M603.28,456.47c0,112.26-91.01,203.28-203.28,203.28s-203.28-91.02-203.28-203.28,91.01-203.29,203.28-203.29,203.28,91.02,203.28,203.29Z" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="14"/>
+      <path d="M232.62,456.47c0-92.44,74.94-167.38,167.39-167.38" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="14"/>
+    </g>
+    <g>
+      <path d="M409.16,221.09s13.18-102.25,120.88-93.55c0,0-15.49,108.77-120.88,93.55Z" fill="#a8d626" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="14"/>
+      <path d="M390.84,221.09s-13.18-102.25-120.88-93.55c0,0,15.49,108.77,120.88,93.55Z" fill="#a8d626" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="14"/>
+    </g>
+  </g>
+</svg>
