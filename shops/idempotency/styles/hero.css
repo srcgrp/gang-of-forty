@@ -33,7 +33,7 @@
   text-align: center;
   border-top: 3px solid var(--color-primary);
   border-bottom: 3px solid var(--color-primary);
-  background-image: url("../asset/banners/bg1.png");
+  background-image: url("/asset/banners/bg1.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

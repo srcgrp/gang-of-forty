@@ -28,13 +28,13 @@
 .site-footer::before {
   left: 0;
   background-image:
-    url("../asset/decorations/footer-leaf-left.png");
+    url("/asset/decorations/footer-leaf-left.png");
 }
 
 .site-footer::after {
   right: 0;
   background-image:
-    url("../asset/decorations/footer-leaf-right.png");
+    url("/asset/decorations/footer-leaf-right.png");
 }
 
 .footer-grid,
