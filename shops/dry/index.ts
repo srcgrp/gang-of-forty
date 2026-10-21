@@ -13,7 +13,6 @@ import honeyImg from './assets/products/honey.png'
 const notyf: Notyf = new Notyf()
 
 const API: string = '../../api/'
-const DAIRY_CATEGORY_ID: number = 2
 const CART_KEY: string = 'dry-cart'
 
 type Product = {
@@ -30,6 +29,18 @@ type Offer = {
   productId: number
   percent: number
   label: string
+}
+type Category = {
+  id: number
+  slug: string
+  name: string
+  emoji: string
+  color: string
+}
+
+type CategorySection = {
+  section: HTMLElement
+  box: HTMLElement
 }
 
 type Stock = {
@@ -149,6 +160,29 @@ function createCard(product: Product, inStock: boolean, offer: Offer | undefined
   return card
 }
 
+function creatSection(category: Category): CategorySection {
+  const section: HTMLElement = el('section', 'products')
+  section.id = category.slug
+
+  const first: HTMLAnchorElement = el('a', '', '→')
+  const last: HTMLAnchorElement = el('a', '', '←')
+  first.setAttribute('aria-label', `ابتدای کاروسل ${category.name}`)
+  last.setAttribute('aria-label', `انتهای کاروسل ${category.name}`)
+
+  const nav: HTMLDivElement = el('div', 'carousel-nav')
+  nav.append(first, last)
+
+  const title: HTMLDivElement = el('div', 'section-title')
+  title.append(el('h2', '', category.name), nav)
+
+  const box: HTMLElement = el('section', 'carousel')
+  box.setAttribute('aria-label', category.name)
+  box.tabIndex = 0
+
+  section.append(title, box)
+  return { section, box}
+}
+
 function showStatus(box: HTMLElement, message: string, isError: boolean = false): void {
   const p: HTMLParagraphElement = el('p', isError ? 'status error' : 'status', message)
   p.setAttribute('role', isError ? 'alert' : 'status')
@@ -174,21 +208,20 @@ function renderCarousel(box: HTMLElement, cards: HTMLDivElement[], prefix: strin
 }
 
 async function init(): Promise<void> {
-  const dairyBox: HTMLElement | null = document.querySelector<HTMLElement>('#dairy .carousel')
   const offersBox: HTMLElement | null = document.querySelector<HTMLElement>('#offers .carousel')
-  const dairySection: HTMLElement | null = document.querySelector<HTMLElement>('#dairy')
   const offersSection: HTMLElement | null = document.querySelector<HTMLElement>('#offers')
+  const sectionsHost: HTMLElement | null = document.querySelector<HTMLElement>('#category-sections')
   const searchInput: HTMLInputElement | null = document.querySelector<HTMLInputElement>('#search')
   const resultsSection: HTMLElement | null = document.querySelector<HTMLElement>('#search-results')
   const resultsBox: HTMLElement | null = document.querySelector<HTMLElement>('#results')
   const resultsStatus: HTMLElement | null = document.querySelector<HTMLElement>('#results-status')
   if (
-    !dairyBox || !offersBox || !dairySection || !offersSection ||
-    !searchInput || !resultsSection || !resultsBox || !resultsStatus
+   !offersBox || !offersSection || !sectionsHost ||
+   !searchInput || !resultsSection || !resultsBox || !resultsStatus
   ) {
     throw new Error('index.html is missing an element')
   }
-  const boxes: HTMLElement[] = [dairyBox, offersBox]
+  const boxes: HTMLElement[] = [offersBox]
 
   for (const box of boxes) {
     box.addEventListener('click', onAddClick)
@@ -196,12 +229,14 @@ async function init(): Promise<void> {
     showStatus(box, 'در حال بارگذاری…')
   }
   resultsBox.addEventListener('click', onAddClick)
+  sectionsHost.addEventListener('click', onAddClick)
 
   try {
-    const [products, stock, offers]: [Product[], Stock, Offer[]] = await Promise.all([
+    const [products, stock, offers, categories]: [Product[], Stock, Offer[], Category[]] = await Promise.all([
       getJSON<Product[]>('products.json'),
       getJSON<Stock>('stock.json'),
       getJSON<Offer[]>('offers.json'),
+      getJSON<Category[]>('categories.json'),
     ])
 
     const offerByProduct: Map<number, Offer> = new Map<number, Offer>(
@@ -210,16 +245,22 @@ async function init(): Promise<void> {
     const makeCard = (p: Product): HTMLDivElement =>
       createCard(p, (stock.items[p.id] ?? 0) > 0, offerByProduct.get(p.id))
 
-    const dairy: HTMLDivElement[] = products
-      .filter((p: Product): boolean => p.categoryId === DAIRY_CATEGORY_ID)
-      .map(makeCard)
+   
     const offered: HTMLDivElement[] = products
       .filter((p: Product): boolean => offerByProduct.has(p.id))
       .map(makeCard)
-
-    renderCarousel(dairyBox, dairy, 'dairy')
     renderCarousel(offersBox, offered, 'offer')
 
+    for (const category of categories) {
+      const cards: HTMLDivElement[] = products
+      .filter((p: Product): boolean => p.categoryId === category.id)
+      .map(makeCard)
+    if (cards.length === 0) continue
+
+    const parts: CategorySection = creatSection(category)
+    sectionsHost.append(parts.section)
+    renderCarousel(parts.box, cards, category.slug)
+    }
 
       const searchItems: SearchItem[] = products.map(
       (p: Product): SearchItem => ({
@@ -242,7 +283,7 @@ async function init(): Promise<void> {
       if (query === '') {
         resultsSection.hidden = true
         offersSection.hidden = false
-        dairySection.hidden = false
+        sectionsHost.hidden = false
         return
       }
 
@@ -258,7 +299,7 @@ async function init(): Promise<void> {
 
       resultsSection.hidden = false
       offersSection.hidden = true
-      dairySection.hidden = true
+      sectionsHost.hidden = true
     }
 
     searchInput.addEventListener('input', runSearch)
