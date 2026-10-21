@@ -1,27 +1,46 @@
 
-const carousel = document.querySelector(".products-carousel");
+type Product = {
+    id: number;
+    categoryId: number;
+    name: string;
+    emoji: string;
+    unit: string;
+    price: number;
+};
+
+import confetti from "canvas-confetti";
+import { Notyf } from "notyf";
+import "notyf/notyf.min.css";
+
+const notyf = new Notyf({
+    duration: 2500,
+    position: {
+        x: "left",
+        y: "top"
+    }
+});
+
 
 const categoryId = 2;
 
-const formatPrice = (price) => {
+const formatPrice = (price: number): string => {
     return new Intl.NumberFormat("fa-IR").format(price);
 };
 
-function showMessage(message) {
+function showMessage(
+    carousel: HTMLElement,
+    message: string
+): void {
     const messageElement = document.createElement("p");
-
     messageElement.className = "carousel-message";
     messageElement.textContent = message;
-
     carousel.replaceChildren(messageElement);
 }
 
-function createProductCard(product) {
-    // کارت اصلی
+function createProductCard(product: Product): HTMLElement {
     const card = document.createElement("article");
     card.className = "product-card";
 
-    // بخش تصویر و ایموجی محصول
     const imageContainer = document.createElement("div");
     imageContainer.className = "product-image";
 
@@ -32,7 +51,6 @@ function createProductCard(product) {
 
     imageContainer.append(emoji);
 
-    // اطلاعات محصول
     const info = document.createElement("div");
     info.className = "product-info";
 
@@ -43,7 +61,6 @@ function createProductCard(product) {
     unit.className = "product-size";
     unit.textContent = product.unit;
 
-    // قیمت
     const priceContainer = document.createElement("div");
     priceContainer.className = "product-price";
 
@@ -52,21 +69,28 @@ function createProductCard(product) {
 
     priceContainer.append(price);
 
-    // دکمه افزودن به سبد
     const button = document.createElement("button");
     button.className = "add-to-cart";
     button.type = "button";
     button.textContent = "افزودن به سبد";
+    button.addEventListener("click", () => {
+    notyf.success(`${product.name} به سبد خرید اضافه شد`);
 
-    // اتصال بخش‌های کارت
+    confetti({
+        particleCount: 60,
+        spread: 70,
+        origin: { y: 0.7 }
+    });
+});
+
     info.append(name, unit, priceContainer, button);
     card.append(imageContainer, info);
 
     return card;
 }
 
-async function loadProducts() {
-    showMessage("در حال بارگذاری محصولات...");
+async function loadProducts(carousel: HTMLElement): Promise<void> {
+    showMessage(carousel, "در حال بارگذاری محصولات...");
 
     try {
         const response = await fetch("../../api/products.json");
@@ -75,30 +99,40 @@ async function loadProducts() {
             throw new Error(`خطای HTTP: ${response.status}`);
         }
 
-        const products = await response.json();
+        const products: Product[] = await response.json();
 
         const filteredProducts = products.filter(
-            (product) => product.categoryId === categoryId
+            (product: Product) => product.categoryId === categoryId
         );
 
         if (filteredProducts.length === 0) {
-            showMessage("محصولی در این دسته‌بندی پیدا نشد.");
+            showMessage(carousel, "محصولی در این دسته‌بندی پیدا نشد.");
             return;
         }
 
         const fragment = document.createDocumentFragment();
 
-        filteredProducts.forEach((product) => {
+        filteredProducts.forEach((product: Product) => {
             const card = createProductCard(product);
             fragment.append(card);
         });
 
         carousel.replaceChildren(fragment);
-
-    } catch (error) {
+    } catch (error: unknown) {
         console.error("خطا در دریافت محصولات:", error);
-        showMessage("دریافت محصولات ناموفق بود. لطفاً صفحه را دوباره بارگذاری کنید.");
+        showMessage(
+            carousel,
+            "دریافت محصولات ناموفق بود. لطفاً صفحه را دوباره بارگذاری کنید."
+        );
     }
 }
 
-loadProducts();
+const carouselElement = document.querySelector<HTMLElement>(
+    ".products-carousel"
+);
+
+if (!carouselElement) {
+    throw new Error("عنصر products-carousel در HTML پیدا نشد");
+}
+
+loadProducts(carouselElement);
