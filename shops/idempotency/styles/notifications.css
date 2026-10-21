@@ -1,0 +1,60 @@
+
+.cart-toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-15px);
+  padding: 12px 20px;
+  background-color: var(--color-secondary);
+  color: white;
+  border: 1px solid var(--color-gold);
+  border-radius: 10px;
+  font-weight: 600;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 2000;
+  transition:
+    opacity 200ms ease 1.5s,
+    transform 200ms ease 1.5s,
+    visibility 0s linear 1.7s;
+}
+
+.cart-toast.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+@starting-style {
+  .cart-toast {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-50%) translateY(-15px);
+  }
+}
+
+.notyf__toast {
+  border-radius: 14px !important;
+  box-shadow: 0 8px 24px rgba(45, 35, 30, 0.18) !important;
+  font-family: inherit;
+}
+
+.notyf__wrapper {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 10px;
+}
+
+.notyf__message {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  direction: rtl;
+  text-align: center;
+}
+
+.notyf__icon {
+  margin-left: 0px;
+}
