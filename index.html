@@ -8,7 +8,46 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧺</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&amp;display=swap">
-  <link rel="stylesheet" href="assets/landing.css">
+  
+  <!-- Note: The external CSS file (landing.css) is still linked here. 
+       If it doesn't exist, the page will still work with the inline styles below. -->
+  <link rel="stylesheet" href="assets/landing.css"> 
+
+  <!-- Inline styles to make the dynamic content look good immediately -->
+  <style>
+    body { font-family: 'Vazirmatn', sans-serif; line-height: 1.6; margin: 0; padding: 0; background: #f9f9f9; color: #333; }
+    .top { background: #fff; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .brand { text-decoration: none; font-weight: 800; color: #2c3e50; font-size: 1.2rem; }
+    main { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+    .hero { text-align: center; margin-bottom: 3rem; background: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .hero h1 span { color: #e74c3c; }
+    
+    /* Challenge 1: Categories */
+    #categories { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 2rem; justify-content: center; }
+    #categories button { padding: 8px 16px; border: 1px solid #ddd; border-radius: 20px; background: #fff; cursor: pointer; font-family: inherit; transition: 0.2s; }
+    #categories button:hover { background: #f0f0f0; }
+    
+    /* Challenge 2: Shop Info */
+    #shop-info { background: #e8f4fd; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; border-right: 4px solid #3498db; }
+    #shop-info h2 { margin-top: 0; }
+    
+    /* Challenge 3 & 4: Products */
+    #status { font-weight: bold; color: #e67e22; text-align: center; margin: 1rem 0; }
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; }
+    .card { background: #fff; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); text-align: center; display: flex; flex-direction: column; justify-content: space-between; }
+    .card h3 { margin: 0.5rem 0; font-size: 1.1rem; }
+    .card p { margin: 0.3rem 0; color: #666; }
+    .card button { margin-top: 1rem; padding: 8px; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer; font-family: inherit; }
+    .card button:disabled { background: #bdc3c7; cursor: not-allowed; }
+    
+    /* Out of stock state */
+    .card.out { opacity: 0.6; background: #fdf2f2; }
+    .card.out h3 { text-decoration: line-through; color: #c0392b; }
+    .card.out .price { color: #c0392b; }
+    
+    .shops { list-style: none; padding: 0; display: flex; gap: 1rem; flex-wrap: wrap; }
+    .bottom { text-align: center; padding: 2rem; color: #7f8c8d; font-size: 0.9rem; }
+  </style>
 </head>
 <body>
   <header class="top">
@@ -17,7 +56,28 @@
   </header>
 
   <main>
-    <section class="hero" aria-labelledby="hero-title">
+    <!-- Challenge 2: Shop Info (Initially hidden) -->
+    <section id="shop-info" style="display: none;" aria-labelledby="shop-name">
+      <h2 id="shop-name"></h2>
+      <p id="shop-slogan"></p>
+      <p id="shop-hours"></p>
+    </section>
+
+    <!-- Challenge 1: Categories -->
+    <section aria-labelledby="categories-title">
+      <h2 id="categories-title" style="text-align: center;">دسته‌بندی‌ها</h2>
+      <div id="categories"></div>
+    </section>
+
+    <!-- Challenge 3 & 4: Products -->
+    <section aria-labelledby="products-title">
+      <h2 id="products-title">محصولات</h2>
+      <p id="status" aria-live="polite"></p>
+      <div id="products" class="products-grid"></div>
+    </section>
+
+    <!-- Existing sections -->
+    <section class="hero" aria-labelledby="hero-title" style="margin-top: 2rem;">
       <h1 id="hero-title">هر چی بخوای، از <span>۴۰ سوپرمارکت</span> محله</h1>
       <p>میوه، سبزی، لبنیات و نون تازه. هر غرفه را یکی از شرکت‌کنندگان بوت‌کمپ هفته به هفته می‌سازد.</p>
       <p class="stats" id="stats" aria-live="polite"></p>
@@ -42,5 +102,144 @@
 
   <script src="assets/shops.js"></script>
   <script src="assets/landing.js"></script>
+  
+  <script>
+    // ==========================================
+    // Setup & Helpers
+    // ==========================================
+    const API = 'https://gof.zzb.cx/api/';    
+    const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    const toman = (n) => new Intl.NumberFormat('fa-IR').format(n) + ' تومان';
+    const $ = (sel) => document.querySelector(sel);
+
+    // ==========================================
+    // Challenge 1: fetch with .then
+    // ==========================================
+    function loadCategories() {
+      fetch(API + 'categories.json')
+        .then(res => {
+          console.log('Challenge 1 - Status:', res.status, 'OK:', res.ok);
+          return res.json();
+        })
+        .then(categories => {
+          const container = $('#categories');
+          container.innerHTML = ''; // Clear existing
+          categories.forEach(cat => {
+            const btn = document.createElement('button');
+            // Defensive check: if categories are objects with a name, use it. Otherwise use the string itself.
+            btn.textContent = cat.name ? cat.name : cat; 
+            container.appendChild(btn);
+          });
+        })
+        .catch(err => console.error('Challenge 1 Error:', err));
+    }
+
+    // ==========================================
+    // Challenge 2: getJSON(url)
+    // ==========================================
+    function getJSON(url) {
+      return fetch(url).then(res => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error('HTTP ' + res.status);
+        }
+      });
+    }
+
+    function loadShopInfo() {
+      getJSON(API + 'shop.json')
+        .then(shop => {
+          $('#shop-name').textContent = shop.name || 'سوپرمارکت بدون نام';
+          $('#shop-slogan').textContent = shop.slogan || '';
+          $('#shop-hours').textContent = shop.hours || '';
+          $('#shop-info').style.display = 'block';
+        })
+        .catch(err => {
+          console.error('Challenge 2 Error:', err);
+          $('#shop-name').textContent = 'خطا در دریافت اطلاعات فروشگاه';
+          $('#shop-info').style.display = 'block';
+        });
+    }
+
+    // ==========================================
+    // Challenge 3 & 4: async / await + Promise.all
+    // ==========================================
+    async function loadProducts() {
+      const statusEl = $('#status');
+      const productsContainer = $('#products');
+      
+      try {
+        // Challenge 3: Show loading state
+        statusEl.textContent = "در حال بارگذاری محصولات...";
+        statusEl.style.display = 'block';
+        
+        // Simulate a slight delay just so you can see the loading text (Optional)
+        // await wait(500); 
+
+        // Challenge 4: Load products, stock, and offers AT THE SAME TIME
+        const [products, stock, offers] = await Promise.all([
+          getJSON(API + 'products.json'),
+          getJSON(API + 'stock.json'),
+          getJSON(API + 'offers.json')
+        ]);
+
+        productsContainer.innerHTML = ''; // Clear previous
+
+        // Merge and render
+        products.forEach(prod => {
+          // Join by id: product.id -> stock.items[product.id] -> offer.productId
+          const stockCount = (stock.items && stock.items[prod.id]) ? stock.items[prod.id] : 0;
+          const offer = offers.find(o => o.productId === prod.id);
+
+          const card = document.createElement('div');
+          card.className = 'card';
+          
+          if (stockCount === 0) {
+            card.classList.add('out');
+          }
+
+          // Create Add to Cart button
+          const btn = document.createElement('button');
+          btn.textContent = 'افزودن به سبد';
+          
+          if (stockCount === 0) {
+            btn.disabled = true;
+            btn.textContent = 'ناموجود'; // Out of stock
+          }
+
+          // Build the card HTML
+          card.innerHTML = `
+            <div>
+              <div style="font-size: 2rem;">${prod.emoji || '📦'}</div>
+              <h3>${prod.name}</h3>
+              <p>${prod.unit}</p>
+              <p class="price">${toman(prod.price)}</p>
+              ${offer ? `<p style="color: #e74c3c; font-size: 0.85rem;">🎉 پیشنهاد ویژه!</p>` : ''}
+            </div>
+          `;
+          
+          card.appendChild(btn);
+          productsContainer.appendChild(card);
+        });
+
+      } catch (err) {
+        console.error('Challenge 3/4 Error:', err);
+        statusEl.textContent = "خطا در بارگذاری محصولات.";
+      } finally {
+        // Challenge 3: Hide loading status when done
+        statusEl.style.display = 'none';
+      }
+    }
+
+    // ==========================================
+    // Initialize everything when the page loads
+    // ==========================================
+    document.addEventListener('DOMContentLoaded', () => {
+      loadCategories();
+      loadShopInfo();
+      loadProducts();
+    });
+  </script>
 </body>
 </html>
