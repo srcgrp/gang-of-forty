@@ -29,7 +29,6 @@ export interface Category {
   color?: string;
 }
 
-// امن کردن متن
 export function escapeHTML(str: string | null | undefined): string {
   if (str == null) return "";
   return String(str)
@@ -40,14 +39,12 @@ export function escapeHTML(str: string | null | undefined): string {
     .replace(/'/g, "&#39;");
 }
 
-// قیمت فارسی
 export function formatPrice(num: number): string {
   const n = Number(num);
   if (!Number.isFinite(n) || n < 0) return "۰ تومان";
   return n.toLocaleString("fa-IR") + " تومان";
 }
 
-// تبدیل امن به عدد
 export function safeInt(
   value: unknown,
   min = 0,
@@ -58,7 +55,6 @@ export function safeInt(
   return Math.min(Math.max(n, min), max);
 }
 
-// چک لینک
 export function safeHref(url: string | null | undefined): string {
   if (!url) return "#";
   const t = url.trim();
@@ -68,7 +64,6 @@ export function safeHref(url: string | null | undefined): string {
   return "#";
 }
 
-// چک محصول
 export function isValidProduct(p: unknown): p is Product {
   if (!p || typeof p !== "object") return false;
   const o = p as Record<string, unknown>;
@@ -84,7 +79,6 @@ export function isValidProduct(p: unknown): p is Product {
   );
 }
 
-// چک دسته‌بندی
 export function isValidCategory(c: unknown): c is Category {
   if (!c || typeof c !== "object") return false;
   const o = c as Record<string, unknown>;
@@ -97,7 +91,6 @@ export function isValidCategory(c: unknown): c is Category {
   );
 }
 
-// ساختن المان
 function h<K extends keyof HTMLElementTagNameMap>(
   tag: K,
   className?: string,
@@ -109,7 +102,6 @@ function h<K extends keyof HTMLElementTagNameMap>(
   return el;
 }
 
-// نوع خطا
 export type ErrorType =
   | "offline"
   | "timeout"
@@ -127,7 +119,6 @@ interface OptionsError {
   errorType?: ErrorType;
 }
 
-// نمایش خطا
 export function renderError(
   container: HTMLElement | null,
   options: OptionsError = {},
@@ -209,7 +200,6 @@ interface OptionEvent {
   icon?: string;
 }
 
-// نمایش خالی
 export function renderEmpty(
   container: HTMLElement | null,
   options: OptionEvent = {},
@@ -233,7 +223,6 @@ export function renderEmpty(
   container.replaceChildren(li);
 }
 
-// اسکلتون محصول
 export function renderSkeletonProducts(
   container: HTMLElement | null,
   count: number = 4,
@@ -254,7 +243,6 @@ export function renderSkeletonProducts(
   container.replaceChildren(frag);
 }
 
-// اسکلتون دسته
 export function renderSkeletonCategories(
   container: HTMLElement | null,
   count: number = 7,
@@ -275,7 +263,6 @@ export function renderSkeletonCategories(
 
 let offlineBannerEl: HTMLDivElement | null = null;
 
-// بنر آفلاین
 export function showOfflineBanner(): void {
   if (offlineBannerEl) return;
   const banner = h("div", "offline-banner");
@@ -314,7 +301,6 @@ interface RetryToastElement extends HTMLDivElement {
   _timer?: ReturnType<typeof setTimeout>;
 }
 
-// توست تلاش مجدد
 export function showRetryToast({
   attempt,
   total,
@@ -357,7 +343,6 @@ export interface CartItem extends Product {
   quantity: number;
 }
 
-// پاک‌سازی آیتم
 function validateCartItem(item: unknown): CartItem | null {
   if (!item || typeof item !== "object") return null;
   const raw = item as Record<string, unknown>;
@@ -378,7 +363,6 @@ function validateCartItem(item: unknown): CartItem | null {
   };
 }
 
-// گرفتن سبد
 export function getCart(): CartItem[] {
   try {
     const raw = localStorage.getItem(CART_KEY);
@@ -396,7 +380,6 @@ export function getCart(): CartItem[] {
   }
 }
 
-// ذخیره سبد
 function saveCart(cart: CartItem[]): void {
   const safeCart = cart
     .slice(0, MAX_ITEMS)
@@ -413,37 +396,12 @@ function saveCart(cart: CartItem[]): void {
   );
 }
 
-// اضافه به سبد
-export function addToCart(product: Product): CartItem[] {
-  if (!isValidProduct(product)) return getCart();
-  const cart = getCart();
-  const existing = cart.find((item) => item.id === product.id);
-  if (existing) {
-    if (existing.quantity >= MAX_QUANTITY) return cart;
-    existing.quantity += 1;
-  } else {
-    if (cart.length >= MAX_ITEMS) return cart;
-    cart.push({
-      id: product.id,
-      name: String(product.name).slice(0, 100),
-      emoji: String(product.emoji || "📦").slice(0, 8),
-      price: safeInt(product.price, 0),
-      unit: String(product.unit || "").slice(0, 50),
-      quantity: 1,
-    });
-  }
-  saveCart(cart);
-  return cart;
-}
-
-// حذف
 export function removeFromCart(id: number): void {
   const safeId = safeInt(id, 0);
   if (safeId <= 0) return;
   saveCart(getCart().filter((item) => item.id !== safeId));
 }
 
-// کم کردن تعداد
 export function decreaseQuantity(id: number): void {
   const safeId = safeInt(id, 0);
   if (safeId <= 0) return;
@@ -458,7 +416,6 @@ export function decreaseQuantity(id: number): void {
   }
 }
 
-// جمع کل
 export function getCartTotal(): number {
   return getCart().reduce(
     (s, i) => s + safeInt(i.price, 0) * safeInt(i.quantity, 0),
@@ -466,7 +423,6 @@ export function getCartTotal(): number {
   );
 }
 
-// تعداد کل
 export function getCartCount(): number {
   return getCart().reduce((s, i) => s + safeInt(i.quantity, 0), 0);
 }
@@ -475,7 +431,6 @@ export function clearCart(): void {
   saveCart([]);
 }
 
-// آپدیت UI سبد
 function updateCartUI(): void {
   const count = getCartCount();
   const badge = document.getElementById("cart-count");
@@ -486,7 +441,6 @@ function updateCartUI(): void {
   renderCartModal();
 }
 
-// مودال سبد
 function renderCartModal(): void {
   const body = document.getElementById("cart-body");
   const footer = document.getElementById("cart-footer");
@@ -520,6 +474,18 @@ function renderCartModal(): void {
       h("p", "cart-item__unit", item.unit ?? ""),
     );
 
+    // نمایش موجودی انبار
+    const itemStock = getStockLabel(item.id);
+    if (itemStock.type !== "unknown") {
+      info.appendChild(
+        h(
+          "p",
+          `cart-item__stock cart-item__stock--${itemStock.type}`,
+          itemStock.text,
+        ),
+      );
+    }
+
     const controls = h("div", "cart-item__controls");
 
     const minusBtn = h("button", "cart-item__btn", "−");
@@ -539,6 +505,13 @@ function renderCartModal(): void {
     plusBtn.dataset.action = "increase";
     plusBtn.dataset.id = String(item.id);
     plusBtn.setAttribute("aria-label", "زیاد کردن");
+
+    const maxStock = getAvailableStock(item.id);
+    if (maxStock !== Number.POSITIVE_INFINITY && item.quantity >= maxStock) {
+      plusBtn.disabled = true;
+      plusBtn.setAttribute("aria-label", "حداکثر موجودی رسیده");
+      plusBtn.title = `فقط ${maxStock.toLocaleString("fa-IR")} عدد در انبار`;
+    }
 
     controls.append(minusBtn, qty, plusBtn);
 
@@ -568,21 +541,48 @@ function renderCartModal(): void {
   checkoutBtn.type = "button";
 
   checkoutBtn.addEventListener("click", () => {
+    const items = getCart();
+    if (items.length === 0) return;
+
+    for (const item of items) {
+      const avail = getAvailableStock(item.id);
+      if (avail !== Number.POSITIVE_INFINITY && item.quantity > avail) {
+        notyf.error(
+          `موجودی ${item.name} کافی نیست — فقط ${avail.toLocaleString(
+            "fa-IR",
+          )} عدد موجود است`,
+        );
+        return;
+      }
+    }
+
+    const consumed = loadConsumedStock();
+    for (const item of items) {
+      if (Number.isFinite(allStockItems[item.id])) {
+        allStockItems[item.id] = Math.max(
+          0,
+          allStockItems[item.id] - item.quantity,
+        );
+      }
+      consumed[item.id] = (consumed[item.id] || 0) + item.quantity;
+    }
+    saveConsumedStock(consumed);
+
     confetti({
       particleCount: 150,
       spread: 80,
       origin: { y: 0.6 },
-      colors: ["#2e7d32", "#a5d6a7", "#ffd470", "#f9a825"],
+      colors: ["#d7ff00", "#b8dc00", "#111318", "#4da3ff"],
     });
     notyf.success("سفارش شما با موفقیت ثبت شد! 🎉");
     clearCart();
     closeModal("cart-modal");
+    refreshStockUI();
   });
 
   footer.append(totalBox, checkoutBtn);
 }
 
-// باز کردن مودال
 export function openModal(id: string): void {
   const modal = document.getElementById(id);
   if (!modal) return;
@@ -590,7 +590,6 @@ export function openModal(id: string): void {
   document.body.style.overflow = "hidden";
 }
 
-// بستن مودال
 export function closeModal(id: string): void {
   const modal = document.getElementById(id);
   if (!modal) return;
@@ -600,7 +599,6 @@ export function closeModal(id: string): void {
   }
 }
 
-// کلیک سراسری
 document.addEventListener("click", (e: MouseEvent) => {
   if (!(e.target instanceof Element)) return;
 
@@ -640,7 +638,6 @@ document.addEventListener("click", (e: MouseEvent) => {
   }
 });
 
-// بستن با ESC
 document.addEventListener("keydown", (e: KeyboardEvent) => {
   if (e.key !== "Escape") return;
   document.querySelectorAll<HTMLElement>(".modal--open").forEach((m) => {
@@ -667,18 +664,34 @@ interface DetailProduct {
   price: number;
 }
 
-// نمایش جزئیات
 export function openProductDetail(product: DetailProduct): void {
   const modal = document.getElementById("product-modal");
   if (!modal) return;
   const body = modal.querySelector<HTMLDivElement>(".modal__body");
   if (!body) return;
 
+  const stockLabel = getStockLabel(product.id);
+  const isOut = stockLabel.type === "out";
+
   const container = h("div", "product-detail");
   const media = h("div", "product-detail__media");
   media.appendChild(h("span", "product-detail__emoji", product.emoji || "📦"));
 
   const info = h("div", "product-detail__info");
+
+  const stockBadge = h(
+    "div",
+    `product-detail__stock product-detail__stock--${stockLabel.type}`,
+  );
+  const stockIcon = h(
+    "span",
+    "product-detail__stock-icon",
+    stockLabel.type === "out" ? "❌" : stockLabel.type === "low" ? "⚠️" : "✓",
+  );
+  stockIcon.setAttribute("aria-hidden", "true");
+  const stockText = h("span", "product-detail__stock-text", stockLabel.text);
+  stockBadge.append(stockIcon, stockText);
+  if (stockLabel.type === "unknown") stockBadge.hidden = true;
 
   const priceDiv = h("div", "product-detail__price");
   priceDiv.appendChild(
@@ -688,13 +701,18 @@ export function openProductDetail(product: DetailProduct): void {
   const addBtn = h("button", "btn btn--primary product-detail__add");
   addBtn.type = "button";
   addBtn.dataset.id = String(product.id);
-  const btnIcon = h("span", undefined, "🛒");
+  const btnIcon = h("span", undefined, isOut ? "🚫" : "🛒");
   btnIcon.setAttribute("aria-hidden", "true");
-  addBtn.append(btnIcon, " افزودن به سبد خرید");
+  addBtn.append(btnIcon, isOut ? " ناموجود" : " افزودن به سبد خرید");
+  if (isOut) {
+    addBtn.disabled = true;
+    addBtn.setAttribute("aria-label", "ناموجود");
+  }
 
   info.append(
     h("h2", "product-detail__title", product.name),
     h("p", "product-detail__unit", product.unit || ""),
+    stockBadge,
     h(
       "p",
       "product-detail__desc",
@@ -708,17 +726,38 @@ export function openProductDetail(product: DetailProduct): void {
   body.replaceChildren(container);
 
   addBtn.addEventListener("click", () => {
-    addToCart(product);
+    const result = addToCartDetailed(product);
+    if (!result.added) {
+      const freshLabel = getStockLabel(product.id);
+      stockBadge.className = `product-detail__stock product-detail__stock--${freshLabel.type}`;
+      stockText.textContent = freshLabel.text;
+      if (freshLabel.type === "out") {
+        addBtn.disabled = true;
+        addBtn.textContent = "🚫 ناموجود";
+      }
+      return;
+    }
+
     notyf.success(`${product.name} به سبد اضافه شد`);
+
+    const freshLabel = getStockLabel(product.id);
+    stockBadge.className = `product-detail__stock product-detail__stock--${freshLabel.type}`;
+    stockText.textContent = freshLabel.text;
+
     addBtn.textContent = "✓ اضافه شد";
     addBtn.classList.add("btn--success");
     setTimeout(() => {
-      if (addBtn.isConnected) {
-        const icon = h("span", undefined, "🛒");
-        icon.setAttribute("aria-hidden", "true");
-        addBtn.replaceChildren(icon, " افزودن به سبد خرید");
+      if (!addBtn.isConnected) return;
+      if (freshLabel.type === "out") {
+        addBtn.disabled = true;
+        addBtn.textContent = "🚫 ناموجود";
         addBtn.classList.remove("btn--success");
+        return;
       }
+      const icon = h("span", undefined, "🛒");
+      icon.setAttribute("aria-hidden", "true");
+      addBtn.replaceChildren(icon, " افزودن به سبد خرید");
+      addBtn.classList.remove("btn--success");
     }, 1500);
   });
 
@@ -1116,6 +1155,122 @@ let allCategoriesData: Category[] = [];
 let lastLoadError: ApiError | null = null;
 let isLoading = false;
 
+/* ========== موجودی (Stock) ========== */
+
+const STOCK_CONSUMED_KEY = "shop_stock_consumed";
+
+function loadConsumedStock(): Record<number, number> {
+  try {
+    const raw = localStorage.getItem(STOCK_CONSUMED_KEY);
+    if (!raw) return {};
+    const parsed = JSON.parse(raw) as Record<string, number>;
+    const result: Record<number, number> = {};
+    for (const [k, v] of Object.entries(parsed)) {
+      const id = Number(k);
+      const qty = Number(v);
+      if (Number.isInteger(id) && id > 0 && Number.isFinite(qty) && qty > 0) {
+        result[id] = Math.floor(qty);
+      }
+    }
+    return result;
+  } catch {
+    return {};
+  }
+}
+
+function saveConsumedStock(data: Record<number, number>): void {
+  try {
+    localStorage.setItem(STOCK_CONSUMED_KEY, JSON.stringify(data));
+  } catch {
+    /* ignore */
+  }
+}
+
+function getAvailableStock(productId: number): number {
+  const stock = allStockItems[productId];
+  return Number.isFinite(stock) ? Math.max(0, stock) : Number.POSITIVE_INFINITY;
+}
+
+function getStockLabel(productId: number): {
+  text: string;
+  type: "out" | "low" | "ok" | "unknown";
+  count: number;
+} {
+  const stock = getAvailableStock(productId);
+  if (stock === Number.POSITIVE_INFINITY) {
+    return { text: "", type: "unknown", count: -1 };
+  }
+  if (stock === 0) {
+    return { text: "ناموجود", type: "out", count: 0 };
+  }
+  if (stock <= 5) {
+    return {
+      text: `فقط ${stock.toLocaleString("fa-IR")} عدد در انبار باقی مانده`,
+      type: "low",
+      count: stock,
+    };
+  }
+  return {
+    text: `${stock.toLocaleString("fa-IR")} عدد در انبار`,
+    type: "ok",
+    count: stock,
+  };
+}
+
+export function addToCart(product: Product): CartItem[] {
+  return addToCartDetailed(product).cart;
+}
+
+export function addToCartDetailed(product: Product): {
+  cart: CartItem[];
+  added: boolean;
+  reason?: "out-of-stock" | "limit-reached";
+  max?: number;
+} {
+  if (!isValidProduct(product)) {
+    return { cart: getCart(), added: false, reason: "out-of-stock" };
+  }
+
+  const cart = getCart();
+  const existing = cart.find((item) => item.id === product.id);
+  const currentQty = existing ? existing.quantity : 0;
+  const available = getAvailableStock(product.id);
+
+  if (available !== Number.POSITIVE_INFINITY && currentQty >= available) {
+    const reason = available === 0 ? "out-of-stock" : "limit-reached";
+    notyf.error(
+      available === 0
+        ? `${product.name} موجود نیست`
+        : `موجودی ${product.name} کافی نیست — فقط ${available.toLocaleString(
+            "fa-IR",
+          )} عدد در انبار`,
+    );
+    return { cart, added: false, reason, max: available };
+  }
+
+  if (existing) {
+    if (existing.quantity >= MAX_QUANTITY) {
+      return { cart, added: false, reason: "limit-reached" };
+    }
+    existing.quantity += 1;
+  } else {
+    if (cart.length >= MAX_ITEMS) {
+      return { cart, added: false, reason: "limit-reached" };
+    }
+    cart.push({
+      id: product.id,
+      name: String(product.name).slice(0, 100),
+      emoji: String(product.emoji || "📦").slice(0, 8),
+      price: safeInt(product.price, 0),
+      unit: String(product.unit || "").slice(0, 50),
+      quantity: 1,
+    });
+  }
+
+  saveCart(cart);
+  return { cart, added: true };
+}
+
 // Fuse
 let fuseInstance: Fuse<Product> | null = null;
 
@@ -1129,7 +1284,6 @@ function initFuse(): void {
   });
 }
 
-// فلش SVG
 function createArrowSvg(): SVGElement {
   const NS = "http://www.w3.org/2000/svg";
   const svg = document.createElementNS(NS, "svg");
@@ -1147,13 +1301,13 @@ function createArrowSvg(): SVGElement {
   return svg;
 }
 
-// ساخت کارت محصول
 function createProductCard(
   product: Product,
   offer: Offer | null = null,
   quantity: number | null = null,
 ): HTMLLIElement {
-  const isOut = quantity === 0;
+  const stockLabel = getStockLabel(product.id);
+  const isOut = stockLabel.type === "out";
 
   const li = h(
     "li",
@@ -1197,16 +1351,24 @@ function createProductCard(
   addBtn.disabled = isOut;
 
   footer.append(priceDiv, addBtn);
+
+  const stockEl = h(
+    "p",
+    `product-card__stock product-card__stock--${stockLabel.type}`,
+    stockLabel.text,
+  );
+  if (stockLabel.type === "unknown") stockEl.hidden = true;
+
   li.append(
     media,
     h("h3", "product-card__title", product.name),
     h("p", "product-card__meta", product.unit || ""),
+    stockEl,
     footer,
   );
   return li;
 }
 
-// وصل کردن رویدادها
 function attachProductEvents(
   container: HTMLElement | null,
   products: Product[],
@@ -1222,7 +1384,10 @@ function attachProductEvents(
     if (addBtn && !addBtn.disabled) {
       addBtn.addEventListener("click", (e: MouseEvent) => {
         e.stopPropagation();
-        addToCart(product);
+
+        const result = addToCartDetailed(product);
+        if (!result.added) return;
+
         notyf.success(`${product.name} به سبد اضافه شد`);
         addBtn.classList.add("btn-add--added");
         addBtn.textContent = "✓";
@@ -1237,7 +1402,69 @@ function attachProductEvents(
   });
 }
 
-// نمایش محصولات فیلترشده
+function refreshStockUI(): void {
+  document
+    .querySelectorAll<HTMLElement>(".product-card[data-id]")
+    .forEach((card) => {
+      const id = Number(card.dataset.id);
+      if (!id) return;
+      const stock = allStockItems[id];
+      if (stock === undefined) return;
+
+      const label = getStockLabel(id);
+      const stockEl = card.querySelector<HTMLElement>(".product-card__stock");
+      if (stockEl) {
+        stockEl.className = `product-card__stock product-card__stock--${label.type}`;
+        stockEl.textContent = label.text;
+        stockEl.hidden = label.type === "unknown";
+      }
+
+      const isOut = stock <= 0;
+      const isCurrentlyOut = card.classList.contains(
+        "product-card--unavailable",
+      );
+      if (isOut === isCurrentlyOut) return;
+
+      const addBtn = card.querySelector<HTMLButtonElement>(".btn-add");
+      const existingBadge = card.querySelector<HTMLElement>(".badge");
+
+      if (isOut) {
+        card.classList.add("product-card--unavailable");
+        if (addBtn) {
+          addBtn.disabled = true;
+          addBtn.setAttribute("aria-label", "ناموجود");
+        }
+        if (existingBadge) {
+          existingBadge.className = "badge badge--danger";
+          existingBadge.textContent = "ناموجود";
+        } else {
+          card.insertBefore(
+            h("span", "badge badge--danger", "ناموجود"),
+            card.firstChild,
+          );
+        }
+      } else {
+        card.classList.remove("product-card--unavailable");
+        if (addBtn) {
+          addBtn.disabled = false;
+          const name =
+            card.querySelector(".product-card__title")?.textContent ?? "";
+          addBtn.setAttribute("aria-label", `افزودن ${name} به سبد`);
+        }
+        const offer = allOffersData.find((o) => o.productId === id);
+        if (offer) {
+          const pct = Math.min(Math.max(Number(offer.percent), 0), 99);
+          if (existingBadge) {
+            existingBadge.className = "badge";
+            existingBadge.textContent = `${pct.toLocaleString("fa-IR")}٪`;
+          }
+        } else if (existingBadge) {
+          existingBadge.remove();
+        }
+      }
+    });
+}
+
 function renderFilteredProducts(): void {
   const track = document.getElementById("all-track");
   const countEl = document.getElementById("all-count");
@@ -1258,7 +1485,6 @@ function renderFilteredProducts(): void {
       allOffersData.some((o) => o.productId === p.id),
     );
 
-  // جستجو با Fuse
   if (searchQuery) {
     if (fuseInstance) {
       const matchedIds = new Set(
@@ -1326,7 +1552,6 @@ function renderFilteredProducts(): void {
   }
 }
 
-// مودال فیلتر
 function setupFilterModal(): void {
   const filterBtn = document.getElementById("filter-btn");
   const filterModal = document.querySelector<HTMLElement>("#filter-modal");
@@ -1417,7 +1642,6 @@ function setupFilterModal(): void {
   });
 }
 
-// رندر همه
 function renderAll({
   products,
   categories,
@@ -1426,23 +1650,34 @@ function renderAll({
   offers,
   stock,
 }: RenderData): void {
-  const stockItems =
+  const stockItemsRaw =
     stock?.items && typeof stock.items === "object" ? stock.items : {};
+
+  const consumed = loadConsumedStock();
+  const stockItems: Record<number, number> = {};
+  for (const [k, v] of Object.entries(stockItemsRaw)) {
+    const id = Number(k);
+    const qty = Number(v);
+    if (Number.isFinite(id) && id > 0 && Number.isFinite(qty)) {
+      stockItems[id] = Math.max(0, qty - (consumed[id] || 0));
+    }
+  }
 
   allProductsData = products;
   allOffersData = offers;
   allStockItems = stockItems;
   allCategoriesData = categories;
 
-  // Fuse رو بساز
+  console.info(
+    `📦 داده‌های بارگذاری‌شده: ${products.length} محصول، ${categories.length} دسته، ${offers.length} پیشنهاد`,
+  );
+
   initFuse();
 
-  // تاپ‌بار
   const topbarText = document.getElementById("topbar-text");
   if (topbarText && shop?.notice)
     topbarText.textContent = String(shop.notice).slice(0, 200);
 
-  // برند
   const brandName = document.getElementById("brand-name");
   if (brandName && shop?.name)
     brandName.textContent = String(shop.name).slice(0, 50);
@@ -1450,7 +1685,6 @@ function renderAll({
   if (brandSlogan && shop?.slogan)
     brandSlogan.textContent = String(shop.slogan).slice(0, 100);
 
-  // منو
   const navLinks = document.getElementById("nav-links");
   if (navLinks && Array.isArray(shop?.menu)) {
     navLinks.replaceChildren();
@@ -1464,7 +1698,6 @@ function renderAll({
     });
   }
 
-  // مگا منو
   const megaList = document.getElementById("mega-list");
   if (megaList && categories.length) {
     megaList.replaceChildren();
@@ -1483,7 +1716,6 @@ function renderAll({
     megaList.appendChild(frag);
   }
 
-  // هیرو
   if (home?.hero && typeof home.hero === "object") {
     const heroTitle = document.getElementById("hero-title");
     if (heroTitle && typeof home.hero.title === "string") {
@@ -1512,7 +1744,6 @@ function renderAll({
     }
   }
 
-  // هیرو دوم
   if (home?.side && typeof home.side === "object") {
     const sideTitle = document.querySelector<HTMLElement>(
       ".hero-card--secondary .hero-card__title",
@@ -1537,7 +1768,6 @@ function renderAll({
     }
   }
 
-  // دسته‌بندی‌ها
   const categoriesGrid = document.getElementById("categories-grid");
   if (categoriesGrid) {
     if (categories.length === 0) {
@@ -1577,7 +1807,6 @@ function renderAll({
     }
   }
 
-  // پیشنهاد ویژه
   const specialTrack = document.getElementById("special-track");
   if (specialTrack) {
     if (offers.length === 0) {
@@ -1589,19 +1818,30 @@ function renderAll({
     } else {
       specialTrack.replaceChildren();
       const frag = document.createDocumentFragment();
+      let skipped = 0;
       offers.forEach((offer) => {
         const product = products.find((p) => p.id === offer.productId);
-        if (!product) return;
+        if (!product) {
+          skipped++;
+          console.warn(
+            `⚠️ پیشنهاد برای محصول ناموجود نادیده گرفته شد — productId=${offer.productId}`,
+          );
+          return;
+        }
         frag.appendChild(
           createProductCard(product, offer, stockItems[product.id] ?? null),
         );
       });
+      if (skipped > 0) {
+        console.warn(
+          `⚠️ ${skipped} پیشنهاد از ${offers.length} پیشنهاد به دلیل نبود محصول نمایش داده نشدند`,
+        );
+      }
       specialTrack.appendChild(frag);
       attachProductEvents(specialTrack, products);
     }
   }
 
-  // بنرها
   const bannersWrapper = document.getElementById("banners-wrapper");
   if (bannersWrapper) {
     bannersWrapper.replaceChildren();
@@ -1624,7 +1864,6 @@ function renderAll({
     }
   }
 
-  // کاروسل دسته‌ها
   const categorySections = document.getElementById("category-sections");
   if (categorySections) {
     categorySections.replaceChildren();
@@ -1674,7 +1913,6 @@ function renderAll({
   setupFilterModal();
   renderFilteredProducts();
 
-  // فوتر
   if (shop && typeof shop === "object") {
     const footerName = document.getElementById("footer-name");
     if (footerName && shop.name)
@@ -1740,7 +1978,6 @@ function renderAll({
   }
 }
 
-// نمایش خطا
 function showErrorState(error: ApiError | null): void {
   const type: ErrorType = (error?.type as ErrorType) || "unknown";
   const msg = error?.userMessage || "ارتباط با سرور برقرار نشد.";
@@ -1802,7 +2039,6 @@ function showErrorState(error: ApiError | null): void {
   }
 }
 
-// حالت خالی
 function showEmptyState(): void {
   renderEmpty(document.getElementById("categories-grid"), {
     icon: "📂",
@@ -1825,7 +2061,6 @@ function showEmptyState(): void {
   if (catSections) catSections.replaceChildren();
 }
 
-// بارگذاری
 async function loadAndRender(): Promise<void> {
   if (isLoading) return;
   isLoading = true;
@@ -1861,12 +2096,23 @@ async function loadAndRender(): Promise<void> {
       ],
     );
 
+    // ✅ لاگ کردن محصولات نامعتبر برای پیدا کردن علت «۱۰ فقط ۹»
     const validProducts: Product[] = Array.isArray(products)
-      ? products.filter(isValidProduct)
+      ? products.filter((p, i) => {
+          if (isValidProduct(p)) return true;
+          console.warn(`⚠️ محصول نامعتبر در ایندکس ${i} حذف شد:`, p);
+          return false;
+        })
       : [];
+
     const validCategories: Category[] = Array.isArray(categories)
-      ? categories.filter(isValidCategory)
+      ? categories.filter((c, i) => {
+          if (isValidCategory(c)) return true;
+          console.warn(`⚠️ دسته نامعتبر در ایندکس ${i} حذف شد:`, c);
+          return false;
+        })
       : [];
+
     const validOffers: Offer[] = Array.isArray(offers)
       ? offers.filter(
           (o): o is Offer =>
@@ -1879,6 +2125,14 @@ async function loadAndRender(): Promise<void> {
             (o as Offer).percent < 100,
         )
       : [];
+
+    const rawProductsCount = Array.isArray(products) ? products.length : 0;
+    const validProductsCount = validProducts.length;
+    if (rawProductsCount !== validProductsCount) {
+      console.warn(
+        `⚠️ از ${rawProductsCount} محصول دریافتی، فقط ${validProductsCount} معتبر بودند`,
+      );
+    }
 
     data = {
       products: validProducts,
@@ -1912,7 +2166,6 @@ async function loadAndRender(): Promise<void> {
   initCart();
 }
 
-// چک آنلاین/آفلاین
 watchConnectivity({
   onOffline: (): void => {
     showOfflineBanner();
@@ -1941,7 +2194,6 @@ const searchClear = document.getElementById("search-clear");
 let searchQuery = "";
 let activeSuggestionIndex = -1;
 
-// debounce
 function debounce<T extends (...args: never[]) => void>(
   fn: T,
   delay: number,
@@ -1953,7 +2205,6 @@ function debounce<T extends (...args: never[]) => void>(
   }) as T;
 }
 
-// نتایج جستجو با Fuse
 function getSearchResults(query: string, limit = 8): Product[] {
   const q = query.trim();
   if (!q) return [];
@@ -1970,7 +2221,6 @@ function getSearchResults(query: string, limit = 8): Product[] {
     .map((result) => result.item);
 }
 
-// آیتم پیشنهاد
 function createSuggestionItem(product: Product): HTMLButtonElement {
   const item = h("button", "search-suggestion");
   item.type = "button";
@@ -2003,7 +2253,6 @@ function createSuggestionItem(product: Product): HTMLButtonElement {
   return item;
 }
 
-// بستن
 function closeSuggestions(): void {
   if (!searchSuggestions) return;
   searchSuggestions.classList.remove("search__suggestions--visible");
@@ -2012,7 +2261,6 @@ function closeSuggestions(): void {
   searchInput?.setAttribute("aria-expanded", "false");
 }
 
-// نمایش پیشنهادها
 function renderSearchSuggestions(query: string): void {
   if (!searchSuggestions) return;
   searchSuggestions.replaceChildren();
@@ -2045,7 +2293,6 @@ function renderSearchSuggestions(query: string): void {
   searchInput?.setAttribute("aria-expanded", "true");
 }
 
-// فیلتر
 function applySearchFilter(query: string): void {
   searchQuery = query.trim();
 
@@ -2082,13 +2329,11 @@ function applySearchFilter(query: string): void {
   renderFilteredProducts();
 }
 
-// دکمه پاک کردن
 function updateClearButton(): void {
   if (!searchClear || !searchInput) return;
   searchClear.hidden = searchInput.value.trim().length === 0;
 }
 
-// تایپ
 if (searchInput) {
   const debouncedFilter = debounce(() => {
     if (!searchInput) return;
