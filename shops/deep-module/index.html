@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
   <head>
-    
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>سبزکاله | تازه، روز، به‌روز</title>
@@ -9,10 +8,19 @@
       name="description"
       content="بهترین میوه، سبزی، لبنیات و مواد غذایی تازه، مستقیم از باغ"
     />
-    <meta name="theme-color" content="#2e7d32" />
+    <meta
+      name="theme-color"
+      content="#d7ff00"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#070b0a"
+      media="(prefers-color-scheme: dark)"
+    />
+    <meta name="author" content="Arman gholamly" />
     <meta name="color-scheme" content="light dark" />
 
-    <!-- شبکه‌های اجتماعی -->
     <meta property="og:title" content="سبزکاله | تازه، روز، به‌روز" />
     <meta
       property="og:description"
@@ -24,43 +32,53 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <!-- بقیه محتوا... -->
+    <a href="#main" class="skip-link">پرش به محتوا</a>
 
-    <!-- نوار اطلاع‌رسانی -->
     <div class="topbar" role="region" aria-label="اطلاع‌رسانی">
-      <div class="topbar__inner">
-        <span id="topbar-text"></span>
-      </div>
+      <div class="topbar__inner"><span id="topbar-text"></span></div>
     </div>
 
-    <!-- هدر -->
     <header class="site-header">
       <div class="header__wrapper">
         <a href="#main" class="brand" aria-label="صفحه اصلی">
           <span class="brand__icon" aria-hidden="true">
             <svg viewBox="0 0 64 64" focusable="false">
-              <circle cx="32" cy="32" r="30" fill="#2e7d32" />
+              <defs>
+                <linearGradient
+                  id="brand-grad"
+                  x1="8"
+                  y1="6"
+                  x2="56"
+                  y2="58"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop offset="0" stop-color="#d7ff00" />
+                  <stop offset=".55" stop-color="#a7d500" />
+                  <stop offset="1" stop-color="#8bdc65" />
+                </linearGradient>
+              </defs>
+              <circle cx="32" cy="32" r="30" fill="url(#brand-grad)" />
               <path
                 d="M32 12 C 18 20, 14 36, 24 48 C 34 56, 46 50, 48 38 C 50 26, 44 16, 32 12 Z"
-                fill="#a5d6a7"
+                fill="#111318"
               />
               <path
                 d="M32 14 L 32 48"
-                stroke="#1b5e20"
+                stroke="#d7ff00"
                 stroke-width="2.5"
                 fill="none"
                 stroke-linecap="round"
               />
               <path
                 d="M32 22 L 24 26 M32 30 L 22 34 M32 38 L 24 42"
-                stroke="#1b5e20"
+                stroke="#d7ff00"
                 stroke-width="2"
                 fill="none"
                 stroke-linecap="round"
               />
               <path
                 d="M32 26 L 40 30 M32 34 L 42 38"
-                stroke="#1b5e20"
+                stroke="#d7ff00"
                 stroke-width="2"
                 fill="none"
                 stroke-linecap="round"
@@ -95,6 +113,7 @@
             name="q"
             placeholder="جستجو در میان ۳۰۰۰ کالا..."
             autocomplete="off"
+            enterkeyhint="search"
             aria-label="جستجو در محصولات"
             aria-controls="search-suggestions"
             aria-expanded="false"
@@ -116,6 +135,7 @@
             aria-label="پیشنهادهای جستجو"
           ></div>
         </form>
+
         <div class="header__actions">
           <button
             type="button"
@@ -179,7 +199,6 @@
       </div>
     </header>
 
-    <!-- منو -->
     <input
       type="checkbox"
       id="menu-toggle"
@@ -192,9 +211,8 @@
           for="menu-toggle"
           class="menu-toggle"
           aria-label="باز و بسته کردن منو"
-        >
-          <span></span><span></span><span></span>
-        </label>
+          ><span></span><span></span><span></span
+        ></label>
 
         <div class="mega">
           <button class="mega__trigger" aria-haspopup="true">
@@ -219,25 +237,102 @@
       </div>
     </nav>
 
-    <main id="main">
-      <!-- هیرو -->
-      <section id="hero" class="hero" aria-labelledby="hero-title">
+    <main id="main" tabindex="-1">
+      <!-- هیروی ایموجی -->
+      <section class="hero section-wrap">
+        <div class="hero__copy">
+          <span class="eyebrow"
+            ><span class="eyebrow__dot"></span> تازه‌چینیِ هر روز</span
+          >
+          <h1>طعم تازگی،<br /><span>با یک انتخاب سبز.</span></h1>
+          <p>
+            میوه‌های خوش‌رنگ، سبزی‌های تازه و خوراکی‌های روزانه؛ باکیفیت و با
+            دقت انتخاب‌شده برای سفره‌ی شما.
+          </p>
+          <div class="hero__actions">
+            <a class="button button--lime" href="#products"
+              >شروع خرید <span aria-hidden="true">←</span></a
+            >
+            <a class="text-link" href="#categories"
+              >کاوش دسته‌بندی‌ها <span aria-hidden="true">↙</span></a
+            >
+          </div>
+          <div class="hero__proof">
+            <div class="avatar-stack" aria-hidden="true">
+              <span>🍋</span><span>🍓</span><span>🥑</span>
+            </div>
+            <div>
+              <strong>تازگی که حس می‌شود</strong
+              ><small>انتخاب روزانه، کیفیت قابل اعتماد</small>
+            </div>
+            <span class="proof-star">✳</span>
+          </div>
+        </div>
+        <div class="hero__visual">
+          <div class="hero__halo"></div>
+          <div class="hero__orbit hero__orbit--outer"></div>
+          <div class="hero__orbit hero__orbit--inner"></div>
+          <div
+            class="hero__fruit hero__fruit--main"
+            role="img"
+            aria-label="سیب سرخ تازه"
+          >
+            🍎
+          </div>
+          <div
+            class="hero__fruit hero__fruit--avocado"
+            role="img"
+            aria-label="آووکادو تازه"
+          >
+            🥑
+          </div>
+          <div
+            class="hero__fruit hero__fruit--lemon"
+            role="img"
+            aria-label="لیمو تازه"
+          >
+            🍋
+          </div>
+          <div class="floating-note floating-note--top">
+            <span>✦</span>
+            <div>
+              <strong>۱۰۰٪ تازه</strong><small>هر روز انتخاب می‌شود</small>
+            </div>
+          </div>
+          <div class="floating-note floating-note--bottom">
+            <span class="note-icon">↗</span>
+            <div>
+              <strong>از مزرعه تا خانه</strong><small>با وسواس در کیفیت</small>
+            </div>
+          </div>
+          <div class="visual-index">FRESH / 01</div>
+        </div>
+        <div class="hero__bottom-line">
+          <span>خوبی‌های کوچک، حالِ بهتر</span><span>SCROLL TO DISCOVER ↓</span>
+        </div>
+      </section>
+
+      <!-- دو کارت پروموشن -->
+      <section
+        id="hero-cards"
+        class="hero-cards"
+        aria-labelledby="hero-cards-title"
+      >
         <div class="hero__wrapper">
           <article class="hero-card hero-card--primary">
             <div class="hero-card__content">
               <span class="hero-card__eyebrow">تازه از باغ</span>
-              <h1 id="hero-title" class="hero-card__title">
+              <h2 id="hero-cards-title" class="hero-card__title">
                 میوه‌های تازه،<br />هر روز صبح
-              </h1>
+              </h2>
               <p class="hero-card__text">
                 مستقیم از باغ‌های اطراف شهر؛ تازه به دست شما می‌رسد.
               </p>
-              <a href="#fruits" class="hero-card__btn">
-                <span>خرید میوه و سبزی</span>
-                <span aria-hidden="true">←</span>
-              </a>
+              <a href="#fruits" class="hero-card__btn"
+                ><span>خرید میوه و سبزی</span
+                ><span aria-hidden="true">←</span></a
+              >
             </div>
-
             <div class="hero-card__art" aria-hidden="true">
               <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
                 <ellipse
@@ -298,12 +393,10 @@
               <p class="hero-card__text hero-card__text--sm">
                 فقط تا پایان هفته
               </p>
-              <a href="#dairy" class="hero-card__btn hero-card__btn--outline">
-                <span>دیدن محصولات</span>
-                <span aria-hidden="true">←</span>
-              </a>
+              <a href="#dairy" class="hero-card__btn hero-card__btn--outline"
+                ><span>دیدن محصولات</span><span aria-hidden="true">←</span></a
+              >
             </div>
-
             <div class="hero-card__art hero-card__art--sm" aria-hidden="true">
               <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
                 <ellipse
@@ -338,7 +431,6 @@
         </div>
       </section>
 
-      <!-- دسته‌بندی‌ها -->
       <section
         id="categories"
         class="categories"
@@ -354,7 +446,6 @@
         </div>
       </section>
 
-      <!-- پیشنهاد ویژه -->
       <section
         id="special"
         class="carousel-section"
@@ -376,14 +467,12 @@
         </div>
       </section>
 
-      <!-- بنرها -->
       <section class="banners" aria-label="بنرهای تبلیغاتی">
         <div class="banners__wrapper" id="banners-wrapper"></div>
       </section>
 
       <div id="category-sections"></div>
 
-      <!-- همه محصولات -->
       <section
         id="all-products"
         class="products-section"
@@ -393,10 +482,8 @@
           <h2 id="all-products-title" class="section-head__title">
             <span aria-hidden="true">🛒</span> تمام محصولات
           </h2>
-
           <div class="products-section__actions">
             <span class="section-head__count" id="all-count"></span>
-
             <button
               type="button"
               class="filter-btn"
@@ -424,11 +511,9 @@
             </button>
           </div>
         </div>
-
         <ul class="products-grid" id="all-track"></ul>
       </section>
 
-      <!-- مودال فیلتر -->
       <div
         class="modal"
         id="filter-modal"
@@ -451,13 +536,11 @@
               ✕
             </button>
           </header>
-
           <div class="modal__body">
             <div class="filter-group">
               <h3 class="filter-group__title">دسته‌بندی</h3>
               <div class="filter-chips" id="filter-categories"></div>
             </div>
-
             <div class="filter-group">
               <h3 class="filter-group__title">وضعیت موجودی</h3>
               <div class="filter-chips" id="filter-availability">
@@ -476,7 +559,6 @@
                 </button>
               </div>
             </div>
-
             <div class="filter-group">
               <h3 class="filter-group__title">تخفیف</h3>
               <div class="filter-chips" id="filter-discount">
@@ -492,7 +574,6 @@
                 </button>
               </div>
             </div>
-
             <div class="filter-group">
               <h3 class="filter-group__title">مرتب‌سازی</h3>
               <div class="filter-chips" id="filter-sort">
@@ -519,7 +600,6 @@
               </div>
             </div>
           </div>
-
           <footer class="modal__footer modal__footer--filter">
             <button type="button" class="btn btn--ghost" id="filter-reset">
               پاک کردن
@@ -531,7 +611,6 @@
         </div>
       </div>
 
-      <!-- مودال سبد -->
       <div
         class="modal"
         id="cart-modal"
@@ -559,7 +638,6 @@
         </div>
       </div>
 
-      <!-- مودال جزئیات -->
       <div
         class="modal"
         id="product-modal"
@@ -585,7 +663,6 @@
       </div>
     </main>
 
-    <!-- فوتر -->
     <footer id="contact" class="site-footer">
       <div class="footer__wrapper">
         <div class="footer__grid">
@@ -593,10 +670,10 @@
             <h2 class="footer__title">
               <span class="footer__brand-icon" aria-hidden="true">
                 <svg viewBox="0 0 64 64" focusable="false">
-                  <circle cx="32" cy="32" r="30" fill="#a5d6a7" />
+                  <circle cx="32" cy="32" r="30" fill="url(#brand-grad)" />
                   <path
                     d="M32 12 C 18 20, 14 36, 24 48 C 34 56, 46 50, 48 38 C 50 26, 44 16, 32 12 Z"
-                    fill="#2e7d32"
+                    fill="#111318"
                   />
                   <circle cx="40" cy="20" r="3" fill="#fff" opacity="0.9" />
                 </svg>
@@ -614,15 +691,15 @@
             </p>
           </div>
 
-          <div class="footer__col">
+          <nav class="footer__col" aria-label="دسترسی‌ها">
             <h2 class="footer__title">دسترسی‌ها</h2>
             <ul class="footer__list" id="footer-links"></ul>
-          </div>
+          </nav>
 
-          <div class="footer__col">
+          <nav class="footer__col" aria-label="راهنما">
             <h2 class="footer__title">راهنما</h2>
             <ul class="footer__list" id="footer-help"></ul>
-          </div>
+          </nav>
 
           <div class="footer__col">
             <h2 class="footer__title">ساعت کاری</h2>
@@ -632,10 +709,9 @@
 
         <div class="footer__bottom">
           <p class="footer__copy" id="footer-copy">© ۱۴۰۴ سبزکاله</p>
-          <a href="#" class="footer__top" aria-label="بازگشت به بالای صفحه">
-            بازگشت به بالا
-            <span aria-hidden="true">↑</span>
-          </a>
+          <a href="#" class="footer__top" aria-label="بازگشت به بالای صفحه"
+            >بازگشت به بالا <span aria-hidden="true">↑</span></a
+          >
         </div>
       </div>
     </footer>
