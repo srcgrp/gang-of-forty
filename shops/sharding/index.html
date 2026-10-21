@@ -3,27 +3,1142 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت شاردینگ</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
-  <link rel="stylesheet" href="style.css">
+  <title>شاردینگ مارکت | سوپرمارکت فوری محله شما</title>
+  <meta name="description" content="خرید آنلاین و ارسال سریع محصولات سوپرمارکتی با تخفیف از شاردینگ مارکت">
+
+  <link rel="preload" href="assets/fonts/Vazirmatn-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/Vazirmatn-Bold.woff2" as="font" type="font/woff2" crossorigin>
+
+  <link rel="stylesheet" href="styles/fonts.css">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/hero.css">
+  <link rel="stylesheet" href="styles/categories.css">
+  <link rel="stylesheet" href="styles/mega-menu.css">
+  <link rel="stylesheet" href="styles/products.css">
+  <link rel="stylesheet" href="styles/animations.css">
+  <link rel="stylesheet" href="styles/responsive.css">
 </head>
 <body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>🍕 سلام دنیا!</h1>
+
+  <input type="checkbox" id="menu-toggle" class="menu-toggle" hidden aria-hidden="true">
+
+  <a href="#main-content" class="skip-link">
+    <span class="container">پرش به محتوای اصلی</span>
+  </a>
+
+  <div class="topbar">
+    <div class="container topbar__inner">
+      <p class="topbar__note">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M1 3h15v13H1V3zm16 5h4l3 3v5h-7V8zM5.5 21a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm13 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+        </svg>
+        ارسال رایگان برای سفارش‌های بالای ۵۰۰٬۰۰۰ تومان
+      </p>
+      <nav class="topbar__links" aria-label="لینک‌های کمکی">
+        <a href="#">پیگیری سفارش</a>
+        <a href="#">سؤالات متداول</a>
+        <a href="#">تماس با پشتیبانی</a>
+      </nav>
+    </div>
+  </div>
+
+  <header class="header">
+    <div class="container header__inner">
+
+      <label for="menu-toggle" class="menu-btn">
+        <span class="visually-hidden">باز کردن منو</span>
+        <svg class="menu-btn__icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/>
+        </svg>
+      </label>
+
+      <a href="#main-content" class="brand" aria-label="شاردینگ مارکت — صفحه اصلی">
+        <span class="brand__mark" aria-hidden="true">
+          <svg class="logo" viewBox="0 0 240 240">
+            <g class="logo__shard" style="--i: 0; --dx:  18px; --dy: -31px;">
+              <path class="logo__wedge" d="M 120 120 L 120 24 A 96 96 0 0 1 203.14 72 Z"/>
+              <circle class="logo__topping" cx="137" cy="73" r="11"/>
+              <circle class="logo__topping" cx="168" cy="63" r="11"/>
+            </g>
+            <g class="logo__shard" style="--i: 1; --dx:  36px; --dy:   0px;">
+              <path class="logo__wedge" d="M 120 120 L 203.14 72 A 96 96 0 0 1 203.14 168 Z"/>
+              <circle class="logo__topping" cx="172" cy="101" r="11"/>
+              <circle class="logo__topping" cx="194" cy="133" r="11"/>
+            </g>
+            <g class="logo__shard" style="--i: 2; --dx:  18px; --dy:  31px;">
+              <path class="logo__wedge" d="M 120 120 L 203.14 168 A 96 96 0 0 1 120 216 Z"/>
+              <circle class="logo__topping" cx="158" cy="152" r="11"/>
+              <circle class="logo__topping" cx="146" cy="190" r="11"/>
+            </g>
+            <g class="logo__shard" style="--i: 3; --dx: -18px; --dy:  31px;">
+              <path class="logo__wedge" d="M 120 120 L 120 216 A 96 96 0 0 1 36.86 168 Z"/>
+              <circle class="logo__topping" cx="103" cy="167" r="11"/>
+              <circle class="logo__topping" cx="72" cy="178" r="11"/>
+            </g>
+            <g class="logo__shard" style="--i: 4; --dx: -36px; --dy:   0px;">
+              <path class="logo__wedge" d="M 120 120 L 36.86 168 A 96 96 0 0 1 36.86 72 Z"/>
+              <circle class="logo__topping" cx="68" cy="139" r="11"/>
+              <circle class="logo__topping" cx="46" cy="107" r="11"/>
+            </g>
+            <g class="logo__shard" style="--i: 5; --dx: -18px; --dy: -31px;">
+              <path class="logo__wedge" d="M 120 120 L 36.86 72 A 96 96 0 0 1 120 24 Z"/>
+              <circle class="logo__topping" cx="82" cy="88" r="11"/>
+              <circle class="logo__topping" cx="94" cy="49" r="11"/>
+            </g>
+          </svg>
+        </span>
+        <span class="brand__text">
+          <span class="brand__name">شاردینگ مارکت</span>
+          <span class="brand__tagline">سوپرمارکت فوری محله شما</span>
+        </span>
+      </a>
+
+      <form class="search" role="search">
+        <label for="search-input" class="visually-hidden">جستجو در محصولات</label>
+
+        <span class="search__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0A4.5 4.5 0 1 1 14 9.5 4.5 4.5 0 0 1 9.5 14z"/>
+          </svg>
+        </span>
+
+        <input
+          id="search-input"
+          class="search__input"
+          type="search"
+          placeholder="جستجوی محصول، برند یا دسته‌بندی…"
+          autocomplete="off">
+
+        <button type="submit" class="visually-hidden">جستجو</button>
+      </form>
+
+      <div class="actions">
+        <a href="#" class="action action--location">
+          <svg class="action__icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 14.5 9 2.5 2.5 0 0 1 12 11.5z"/>
+          </svg>
+          <span class="action__label">موقعیت</span>
+        </a>
+        <a href="#" class="action action--account">
+          <svg class="action__icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+          </svg>
+          <span class="action__label">حساب من</span>
+        </a>
+        <a href="#" class="action action--cart">
+          <svg class="action__icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7 18a2 2 0 1 0 2 2 2 2 0 0 0-2-2zM1 2v2h2l3.6 7.59-1.35 2.45A1.96 1.96 0 0 0 5 15a2 2 0 0 0 2 2h12v-2H7.42a.25.25 0 0 1-.25-.25l.03-.12.9-1.63h7.45a2 2 0 0 0 1.75-1.03l3.58-6.49A1 1 0 0 0 19.88 4H5.21l-.94-2H1zm16 16a2 2 0 1 0 2 2 2 2 0 0 0-2-2z"/>
+          </svg>
+          <span class="action__label">سبد خرید</span>
+          <span class="badge">
+            <span class="visually-hidden">۰ مورد</span>۰
+          </span>
+        </a>
+      </div>
+
+    </div>
+
+    <nav class="header-nav" aria-label="ناوبری اصلی">
+      <div class="container header-nav__inner">
+
+        <div class="dept">
+          <input type="checkbox" id="dept-toggle" class="dept-toggle">
+
+          <label for="dept-toggle" class="dept-btn">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+            </svg>
+            <span>همه دسته‌بندی‌ها</span>
+          </label>
+
+          <div class="dept-panel">
+            <ul class="dept-menu">
+              <li class="dept-menu__item dept-menu__item--fruits">
+                <a href="#fruits" class="dept-menu__link">میوه و سبزیجات</a>
+                <div class="dept-sub dept-sub--fruits">
+                  <div class="dept-sub__cols">
+                    <div>
+                      <h4 class="dept-sub__title">میوه تازه</h4>
+                      <ul class="dept-sub__list">
+                        <li><a href="#fruits">سیب</a></li>
+                        <li><a href="#fruits">موز</a></li>
+                        <li><a href="#fruits">پرتقال</a></li>
+                        <li><a href="#fruits">انگور</a></li>
+                        <li><a href="#fruits">کیوی</a></li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 class="dept-sub__title">سبزیجات</h4>
+                      <ul class="dept-sub__list">
+                        <li><a href="#fruits">کاهو</a></li>
+                        <li><a href="#fruits">اسفناج</a></li>
+                        <li><a href="#fruits">جعفری</a></li>
+                        <li><a href="#fruits">ریحان</a></li>
+                        <li><a href="#fruits">تره</a></li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 class="dept-sub__title">صیفی‌جات</h4>
+                      <ul class="dept-sub__list">
+                        <li><a href="#fruits">گوجه</a></li>
+                        <li><a href="#fruits">خیار</a></li>
+                        <li><a href="#fruits">فلفل دلمه</a></li>
+                        <li><a href="#fruits">بادمجان</a></li>
+                        <li><a href="#fruits">کدو</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <a href="#fruits" class="dept-promo dept-promo--fruits">
+                  <span class="dept-promo__media" aria-hidden="true">
+                    <img src="assets/promo-fruits.webp" alt="" loading="lazy" decoding="async" width="400" height="600">
+                  </span>
+                  <span class="dept-promo__body">
+                    <span class="dept-promo__title">تازه از مزرعه</span>
+                    <span class="dept-promo__desc">تا ۳۰٪ تخفیف روی میوه‌های فصل</span>
+                  </span>
+                </a>
+              </li>
+
+              <li class="dept-menu__item dept-menu__item--dairy">
+                <a href="#dairy" class="dept-menu__link">لبنیات و تخم‌مرغ</a>
+                <div class="dept-sub dept-sub--dairy">
+                  <div class="dept-sub__cols">
+                    <div>
+                      <h4 class="dept-sub__title">شیر و خامه</h4>
+                      <ul class="dept-sub__list">
+                        <li><a href="#dairy">شیر پرچرب</a></li>
+                        <li><a href="#dairy">شیر کم‌چرب</a></li>
+                        <li><a href="#dairy">خامه صبحانه</a></li>
+                        <li><a href="#dairy">خامه قنادی</a></li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 class="dept-sub__title">پنیر</h4>
+                      <ul class="dept-sub__list">
+                        <li><a href="#dairy">پنیر سفید</a></li>
+                        <li><a href="#dairy">پنیر پیتزا</a></li>
+                        <li><a href="#dairy">پنیر خامه‌ای</a></li>
+                        <li><a href="#dairy">پنیر لیقوان</a></li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 class="dept-sub__title">ماست و تخم‌مرغ</h4>
+                      <ul class="dept-sub__list">
+                        <li><a href="#dairy">ماست پرچرب</a></li>
+                        <li><a href="#dairy">ماست کم‌چرب</a></li>
+                        <li><a href="#dairy">دوغ سنتی</a></li>
+                        <li><a href="#dairy">تخم‌مرغ محلی</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <a href="#dairy" class="dept-promo dept-promo--dairy">
+                  <span class="dept-promo__media" aria-hidden="true">
+                    <img src="assets/promo-dairy.webp" alt="" loading="lazy" decoding="async" width="400" height="600">
+                  </span>
+                  <span class="dept-promo__body">
+                    <span class="dept-promo__title">لبنیات و تخم‌مرغ</span>
+                    <span class="dept-promo__desc">ارسال روزانه از دامداری‌های محلی</span>
+                  </span>
+                </a>
+              </li>
+
+              <li class="dept-menu__item dept-menu__item--grocery">
+                <a href="#grocery" class="dept-menu__link">خواروبار</a>
+                <div class="dept-sub dept-sub--grocery">
+                  <div class="dept-sub__cols">
+                    <div>
+                      <h4 class="dept-sub__title">برنج و حبوبات</h4>
+                      <ul class="dept-sub__list">
+                        <li><a href="#grocery">برنج هاشمی</a></li>
+                        <li><a href="#grocery">برنج طارم</a></li>
+                        <li><a href="#grocery">لوبیا چیتی</a></li>
+                        <li><a href="#grocery">عدس</a></li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 class="dept-sub__title">روغن و سرکه</h4>
+                      <ul class="dept-sub__list">
+                        <li><a href="#grocery">روغن زیتون</a></li>
+                        <li><a href="#grocery">روغن آفتابگردان</a></li>
+                        <li><a href="#grocery">سرکه سیب</a></li>
+                        <li><a href="#grocery">سرکه بالزامیک</a></li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 class="dept-sub__title">ماکارونی و ادویه</h4>
+                      <ul class="dept-sub__list">
+                        <li><a href="#grocery">ماکارونی رشته</a></li>
+                        <li><a href="#grocery">ماکارونی فرمی</a></li>
+                        <li><a href="#grocery">زردچوبه</a></li>
+                        <li><a href="#grocery">فلفل سیاه</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <a href="#grocery" class="dept-promo dept-promo--grocery">
+                  <span class="dept-promo__media" aria-hidden="true">
+                    <img src="assets/promo-grocery.webp" alt="" loading="lazy" decoding="async" width="400" height="600">
+                  </span>
+                  <span class="dept-promo__body">
+                    <span class="dept-promo__title">خرید عمده</span>
+                    <span class="dept-promo__desc">تخفیف ویژه روی بسته‌های خانواده</span>
+                  </span>
+                </a>
+              </li>
+
+              <li class="dept-menu__item dept-menu__item--beverages">
+                <a href="#beverages" class="dept-menu__link">نوشیدنی</a>
+                <div class="dept-sub dept-sub--beverages">
+                  <div class="dept-sub__cols">
+                    <div>
+                      <h4 class="dept-sub__title">آبمیوه</h4>
+                      <ul class="dept-sub__list">
+                        <li><a href="#beverages">آب‌پرتقال</a></li>
+                        <li><a href="#beverages">آب‌سیب</a></li>
+                        <li><a href="#beverages">آب‌انار</a></li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 class="dept-sub__title">چای و قهوه</h4>
+                      <ul class="dept-sub__list">
+                        <li><a href="#beverages">چای سیاه</a></li>
+                        <li><a href="#beverages">چای سبز</a></li>
+                        <li><a href="#beverages">قهوه ترک</a></li>
+                        <li><a href="#beverages">قهوه اسپرسو</a></li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 class="dept-sub__title">نوشابه و آب</h4>
+                      <ul class="dept-sub__list">
+                        <li><a href="#beverages">نوشابه خانواده</a></li>
+                        <li><a href="#beverages">آب معدنی</a></li>
+                        <li><a href="#beverages">دمنوش گیاهی</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <a href="#beverages" class="dept-promo dept-promo--beverages">
+                  <span class="dept-promo__media" aria-hidden="true">
+                    <img src="assets/promo-beverages.webp" alt="" loading="lazy" decoding="async" width="400" height="600">
+                  </span>
+                  <span class="dept-promo__body">
+                    <span class="dept-promo__title">خنک و تازه</span>
+                    <span class="dept-promo__desc">نوشیدنی‌های سرد با تخفیف ویژه</span>
+                  </span>
+                </a>
+              </li>
+
+              <li class="dept-menu__item dept-menu__item--hygiene">
+                <a href="#hygiene" class="dept-menu__link">شوینده و بهداشتی</a>
+                <div class="dept-sub dept-sub--hygiene">
+                  <div class="dept-sub__cols">
+                    <div>
+                      <h4 class="dept-sub__title">شوینده ظرف</h4>
+                      <ul class="dept-sub__list">
+                        <li><a href="#hygiene">مایع ظرفشویی</a></li>
+                        <li><a href="#hygiene">اسفنج</a></li>
+                        <li><a href="#hygiene">دستکش</a></li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 class="dept-sub__title">شوینده لباس</h4>
+                      <ul class="dept-sub__list">
+                        <li><a href="#hygiene">پودر ماشین</a></li>
+                        <li><a href="#hygiene">مایع دستشویی</a></li>
+                        <li><a href="#hygiene">نرم‌کننده</a></li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 class="dept-sub__title">بهداشت شخصی</h4>
+                      <ul class="dept-sub__list">
+                        <li><a href="#hygiene">شامپو</a></li>
+                        <li><a href="#hygiene">صابون</a></li>
+                        <li><a href="#hygiene">خمیردندان</a></li>
+                        <li><a href="#hygiene">دستمال کاغذی</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <a href="#hygiene" class="dept-promo dept-promo--hygiene">
+                  <span class="dept-promo__media" aria-hidden="true">
+                    <img src="assets/promo-hygiene.webp" alt="" loading="lazy" decoding="async" width="400" height="600">
+                  </span>
+                  <span class="dept-promo__body">
+                    <span class="dept-promo__title">خانه تمیز</span>
+                    <span class="dept-promo__desc">ست کامل شوینده با قیمت ویژه</span>
+                  </span>
+                </a>
+              </li>
+
+              <li class="dept-menu__item dept-menu__item--deals">
+                <a href="#deals" class="dept-menu__link">تخفیف‌ها و پیشنهادها</a>
+                <div class="dept-sub dept-sub--deals">
+                  <div class="dept-sub__cols">
+                    <div>
+                      <h4 class="dept-sub__title">پیشنهاد روز</h4>
+                      <ul class="dept-sub__list">
+                        <li><a href="#deals">تخفیف میوه</a></li>
+                        <li><a href="#deals">تخفیف لبنیات</a></li>
+                        <li><a href="#deals">تخفیف نوشیدنی</a></li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 class="dept-sub__title">پیشنهاد هفته</h4>
+                      <ul class="dept-sub__list">
+                        <li><a href="#deals">جعبه میوه</a></li>
+                        <li><a href="#deals">سبد صبحانه</a></li>
+                        <li><a href="#deals">بسته خانواده</a></li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 class="dept-sub__title">کوپن‌ها</h4>
+                      <ul class="dept-sub__list">
+                        <li><a href="#deals">کوپن تخفیف</a></li>
+                        <li><a href="#deals">ارسال رایگان</a></li>
+                        <li><a href="#deals">هدیه خرید</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <a href="#deals" class="dept-promo dept-promo--deals">
+                  <span class="dept-promo__media" aria-hidden="true">
+                    <img src="assets/promo-deals.webp" alt="" loading="lazy" decoding="async" width="400" height="600">
+                  </span>
+                  <span class="dept-promo__body">
+                    <span class="dept-promo__title">تا ۴۰٪ تخفیف</span>
+                    <span class="dept-promo__desc">فرصت محدود — همین حالا خرید کنید</span>
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <ul class="nav">
+          <li><a href="#main-content" class="is-active" aria-current="page">خانه</a></li>
+          <li><a href="#fruits">میوه و سبزیجات</a></li>
+          <li><a href="#dairy">لبنیات و تخم‌مرغ</a></li>
+          <li><a href="#grocery">خواروبار</a></li>
+          <li><a href="#beverages">نوشیدنی</a></li>
+          <li><a href="#hygiene">شوینده و بهداشتی</a></li>
+          <li><a href="#deals">تخفیف‌ها و پیشنهادها</a></li>
+        </ul>
+
+      </div>
+    </nav>
   </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>شاردینگ</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p><bdi>Sharding</bdi> یعنی تقسیم یک پایگاه داده بزرگ به تکه‌ها (<bdi>shard</bdi>) روی چند سرور؛ مثل برش‌های پیتزا. مثلاً مشتری‌هایی که نامشان با «الف» تا «ژ» شروع می‌شود روی سرور ۱ و بقیه روی سرور ۲. هر سرور بار کمتری دارد، ولی انتخاب کلید تقسیم و جست‌وجو روی همه تکه‌ها سخت‌تر می‌شود.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
+
+  <div class="mobile-menu__overlay"></div>
+
+  <div class="mobile-menu">
+    <div class="mobile-menu__head">
+      <label for="menu-toggle" class="mobile-menu__close">
+        <span class="visually-hidden">بستن منو</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+        </svg>
+      </label>
+      <span class="mobile-menu__title">منو</span>
+      <span class="mobile-menu__logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 2C7 2 3 6 3 11c0 3 1.5 5.5 3.5 7L7 22h10l.5-4c2-1.5 3.5-4 3.5-7 0-5-4-9-9-9z"/>
+        </svg>
+      </span>
+    </div>
+
+    <div class="mobile-menu__body">
+      <a href="#deals" class="mobile-menu__banner">
+        <span class="mobile-menu__banner-text">
+          <span class="mobile-menu__banner-title">تا ۹۰٪ تخفیف، ویژه خرید اول!</span>
+          <br>
+          <span class="mobile-menu__banner-desc">برای دسترسی به همه امکانات</span>
+          <span class="mobile-menu__banner-desc">و ادامه خرید با ۹۰٪ تخفیف وارد شوید.</span>
+        </span>
+        <span class="mobile-menu__banner-cta">ورود / ثبت‌نام</span>
+      </a>
+
+      <ul class="mobile-menu__list">
+        <li><a href="#main-content">خانه</a></li>
+        <li><a href="#fruits">میوه و سبزیجات</a></li>
+        <li><a href="#dairy">لبنیات و تخم‌مرغ</a></li>
+        <li><a href="#grocery">خواروبار</a></li>
+        <li><a href="#beverages">نوشیدنی</a></li>
+        <li><a href="#hygiene">شوینده و بهداشتی</a></li>
+        <li><a href="#deals">تخفیف‌ها و پیشنهادها</a></li>
+      </ul>
+
+      <div class="mobile-menu__apps">
+        <span class="mobile-menu__apps-title">خرید راحت‌تر با اپلیکیشن</span>
+        <div class="mobile-menu__apps-buttons">
+          <a href="#" class="mobile-menu__app">App Store</a>
+          <a href="#" class="mobile-menu__app">Google Play</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="container">
+
+      <div class="hero-video">
+        <!-- [html-validate-disable-next no-autoplay] -->
+        <video
+          class="hero-video__media"
+          autoplay
+          loop
+          muted
+          playsinline
+          preload="none"
+          poster="assets/hero-poster.webp"
+          fetchpriority="high"
+          aria-hidden="true">
+          <source src="assets/hero.mp4" type="video/mp4">
+        </video>
+        <div class="hero-video__overlay">
+          <h1 class="hero-video__title">میوه تازه، فردا صبح دم خونه</h1>
+          <p class="hero-video__desc">سفارش تا نیمه‌شب ثبت کن، فردا صبح تحویل بگیر</p>
+          <a href="#fruits" class="hero-video__cta">
+            شروع خرید
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-carousel">
+        <div class="hero-carousel__head">
+          <h2 class="hero-carousel__title">پیشنهادهای ویژه امروز</h2>
+        </div>
+
+        <ul class="hero-carousel__track" tabindex="0" aria-label="کاروسل پیشنهادهای ویژه">
+          <li class="hero-carousel__slide is-active">
+            <a href="#fruits" class="hero-banner">
+              <img src="assets/banner-1.webp"
+                  alt="میوه‌های فصل با ۳۰٪ تخفیف"
+                  width="800" height="500"
+                  fetchpriority="high"
+                  decoding="async">
+            </a>
+          </li>
+          <li class="hero-carousel__slide">
+            <a href="#dairy" class="hero-banner">
+              <img src="assets/banner-2.webp" alt="لبنیات و تخم‌مرغ" loading="lazy" decoding="async" width="800" height="500">
+            </a>
+          </li>
+          <li class="hero-carousel__slide">
+            <a href="#grocery" class="hero-banner">
+              <img src="assets/banner-3.webp" alt="خواروبار با تخفیف ویژه" loading="lazy" decoding="async" width="800" height="500">
+            </a>
+          </li>
+          <li class="hero-carousel__slide">
+            <a href="#beverages" class="hero-banner">
+              <img src="assets/banner-4.webp" alt="نوشیدنی‌های خنک" loading="lazy" decoding="async" width="800" height="500">
+            </a>
+          </li>
+          <li class="hero-carousel__slide">
+            <a href="#deals" class="hero-banner">
+              <img src="assets/banner-5.webp" alt="پیشنهاد ویژه هفته" loading="lazy" decoding="async" width="800" height="500">
+            </a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <main id="main-content" tabindex="-1">
+
+    <section class="categories" aria-labelledby="categories-title">
+      <div class="container">
+
+        <div class="categories__head">
+          <h2 id="categories-title" class="categories__title">خرید از دسته‌بندی‌ها</h2>
+        </div>
+
+        <ul class="categories__list" tabindex="0" aria-label="دسته‌بندی محصولات">
+          <li>
+            <a href="#fruits" class="category">
+              <span class="category__img">
+                <img src="assets/cat-fruits.webp" alt="میوه و سبزیجات" loading="lazy" decoding="async" width="200" height="200">
+              </span>
+              <span class="category__name">میوه و سبزیجات</span>
+            </a>
+          </li>
+          <li>
+            <a href="#dairy" class="category">
+              <span class="category__img">
+                <img src="assets/cat-dairy.webp" alt="لبنیات و بستنی" loading="lazy" decoding="async" width="200" height="200">
+              </span>
+              <span class="category__name">لبنیات و بستنی</span>
+            </a>
+          </li>
+          <li>
+            <a href="#grocery" class="category">
+              <span class="category__img">
+                <img src="assets/cat-grocery.webp" alt="خواربار و نان" loading="lazy" decoding="async" width="200" height="200">
+              </span>
+              <span class="category__name">خواربار و نان</span>
+            </a>
+          </li>
+          <li>
+            <a href="#beverages" class="category">
+              <span class="category__img">
+                <img src="assets/cat-beverages.webp" alt="نوشیدنی" loading="lazy" decoding="async" width="200" height="200">
+              </span>
+              <span class="category__name">نوشیدنی</span>
+            </a>
+          </li>
+          <li>
+            <a href="#hygiene" class="category">
+              <span class="category__img">
+                <img src="assets/cat-hygiene.webp" alt="آرایشی و بهداشتی" loading="lazy" decoding="async" width="200" height="200">
+              </span>
+              <span class="category__name">آرایشی و بهداشتی</span>
+            </a>
+          </li>
+          <li>
+            <a href="#deals" class="category">
+              <span class="category__img">
+                <img src="assets/cat-snacks.webp" alt="تنقلات" loading="lazy" decoding="async" width="200" height="200">
+              </span>
+              <span class="category__name">تنقلات</span>
+            </a>
+          </li>
+          <li>
+            <a href="#deals" class="category">
+              <span class="category__img">
+                <img src="assets/cat-breakfast.webp" alt="صبحانه" loading="lazy" decoding="async" width="200" height="200">
+              </span>
+              <span class="category__name">صبحانه</span>
+            </a>
+          </li>
+          <li>
+            <a href="#deals" class="category">
+              <span class="category__img">
+                <img src="assets/cat-nuts.webp" alt="خشکبار و شیرینی" loading="lazy" decoding="async" width="200" height="200">
+              </span>
+              <span class="category__name">خشکبار و شیرینی</span>
+            </a>
+          </li>
+          <li>
+            <a href="#deals" class="category">
+              <span class="category__img">
+                <img src="assets/cat-meat.webp" alt="پروتئین و تخم‌مرغ" loading="lazy" decoding="async" width="200" height="200">
+              </span>
+              <span class="category__name">پروتئین و تخم‌مرغ</span>
+            </a>
+          </li>
+          <li>
+            <a href="#deals" class="category">
+              <span class="category__img">
+                <img src="assets/cat-canned.webp" alt="کنسرو و غذای آماده" loading="lazy" decoding="async" width="200" height="200">
+              </span>
+              <span class="category__name">کنسرو و غذای آماده</span>
+            </a>
+          </li>
+          <li>
+            <a href="#deals" class="category">
+              <span class="category__img">
+                <img src="assets/cat-spice.webp" alt="چاشنی و افزودنی" loading="lazy" decoding="async" width="200" height="200">
+              </span>
+              <span class="category__name">چاشنی و افزودنی</span>
+            </a>
+          </li>
+          <li>
+            <a href="#deals" class="category">
+              <span class="category__img">
+                <img src="assets/cat-kalabarg.webp" alt="محصولات کالابرگی" loading="lazy" decoding="async" width="200" height="200">
+              </span>
+              <span class="category__name">محصولات کالابرگی</span>
+            </a>
+          </li>
+          <li>
+            <a href="#deals" class="category">
+              <span class="category__img">
+                <img src="assets/cat-baby.webp" alt="کودک و نوزاد" loading="lazy" decoding="async" width="200" height="200">
+              </span>
+              <span class="category__name">کودک و نوزاد</span>
+            </a>
+          </li>
+          <li>
+            <a href="#deals" class="category">
+              <span class="category__img">
+                <img src="assets/cat-pet.webp" alt="پت شاپ" loading="lazy" decoding="async" width="200" height="200">
+              </span>
+              <span class="category__name">پت شاپ</span>
+            </a>
+          </li>
+          <li>
+            <a href="#deals" class="category">
+              <span class="category__img">
+                <img src="assets/cat-tissue.webp" alt="دستمال و شوینده" loading="lazy" decoding="async" width="200" height="200">
+              </span>
+              <span class="category__name">دستمال و شوینده</span>
+            </a>
+          </li>
+          <li>
+            <a href="#deals" class="category">
+              <span class="category__img">
+                <img src="assets/cat-home.webp" alt="خانه و سبک زندگی" loading="lazy" decoding="async" width="200" height="200">
+              </span>
+              <span class="category__name">خانه و سبک زندگی</span>
+            </a>
+          </li>
+          <li>
+            <a href="#deals" class="category">
+              <span class="category__img">
+                <img src="assets/cat-digital.webp" alt="لوازم برقی" loading="lazy" decoding="async" width="200" height="200">
+              </span>
+              <span class="category__name">لوازم برقی</span>
+            </a>
+          </li>
+          <li>
+            <a href="#deals" class="category">
+              <span class="category__img">
+                <img src="assets/cat-fashion.webp" alt="مد و پوشاک" loading="lazy" decoding="async" width="200" height="200">
+              </span>
+              <span class="category__name">مد و پوشاک</span>
+            </a>
+          </li>
+          <li>
+            <a href="#deals" class="category">
+              <span class="category__img">
+                <img src="assets/cat-smoking.webp" alt="دخانیات" loading="lazy" decoding="async" width="200" height="200">
+              </span>
+              <span class="category__name">دخانیات</span>
+            </a>
+          </li>
+        </ul>
+
+      </div>
     </section>
+
+    <section class="products" id="fruits" aria-labelledby="fruits-title">
+      <div class="container">
+        <div class="products__inner">
+
+          <div class="products__main">
+
+            <div class="products__head">
+              <h2 id="fruits-title" class="products__title">میوه و سبزیجات</h2>
+            </div>
+
+            <ul class="products__grid" tabindex="0" aria-label="محصولات میوه و سبزیجات">
+              <li class="products__item">
+                <article class="product">
+                  <a href="#" class="product__link">
+                    <span class="product__img">
+                      <img src="assets/p-strawberry.webp" alt="توت‌فرنگی" loading="lazy" decoding="async" width="200" height="150">
+                    </span>
+                    <h3 class="product__name">توت‌فرنگی — ۵۰۰ گرم</h3>
+                  </a>
+                  <div class="product__footer">
+                    <span class="product__price">
+                      <span class="product__current">۱۸۷٬۵۰۰</span>
+                      <span class="product__unit">تومان</span>
+                    </span>
+                    <button type="button" class="product__add" aria-label="افزودن توت‌فرنگی به سبد خرید">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                      </svg>
+                    </button>
+                  </div>
+                </article>
+              </li>
+              <li class="products__item">
+                <article class="product">
+                  <a href="#" class="product__link">
+                    <span class="product__img">
+                      <img src="assets/p-apple.webp" alt="سیب سرخ" loading="lazy" decoding="async" width="200" height="150">
+                    </span>
+                    <h3 class="product__name">سیب سرخ — ۱ کیلو</h3>
+                  </a>
+                  <div class="product__footer">
+                    <span class="product__price">
+                      <span class="product__current">۵۸٬۰۰۰</span>
+                      <span class="product__unit">تومان</span>
+                    </span>
+                    <button type="button" class="product__add" aria-label="افزودن سیب سرخ به سبد خرید">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                      </svg>
+                    </button>
+                  </div>
+                </article>
+              </li>
+              <li class="products__item">
+                <article class="product product--out-of-stock">
+                  <a href="#" class="product__link">
+                    <span class="product__img">
+                      <img src="assets/p-banana.webp" alt="موز" loading="lazy" decoding="async" width="200" height="150">
+                      <span class="product__badge-stock">ناموجود</span>
+                    </span>
+                    <h3 class="product__name">موز — ۱ کیلو</h3>
+                  </a>
+                  <div class="product__footer">
+                    <span class="product__price">
+                      <span class="product__current">۴۵٬۰۰۰</span>
+                      <span class="product__unit">تومان</span>
+                    </span>
+                    <button type="button" class="product__add" aria-label="افزودن موز به سبد خرید" disabled>
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                      </svg>
+                    </button>
+                  </div>
+                </article>
+              </li>
+              <li class="products__item">
+                <article class="product">
+                  <a href="#" class="product__link">
+                    <span class="product__img">
+                      <img src="assets/p-grape.webp" alt="انگور" loading="lazy" decoding="async" width="200" height="150">
+                    </span>
+                    <h3 class="product__name">انگور بی‌دانه — ۵۰۰ گرم</h3>
+                  </a>
+                  <div class="product__footer">
+                    <span class="product__price">
+                      <span class="product__discount">۱۵٪</span>
+                      <span class="product__old">۹۳٬۰۰۰</span>
+                      <span class="product__current">۷۹٬۰۰۰</span>
+                      <span class="product__unit">تومان</span>
+                    </span>
+                    <button type="button" class="product__add" aria-label="افزودن انگور بی‌دانه به سبد خرید">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                      </svg>
+                    </button>
+                  </div>
+                </article>
+              </li>
+              <li class="products__item">
+                <article class="product product--out-of-stock">
+                  <a href="#" class="product__link">
+                    <span class="product__img">
+                      <img src="assets/p-orange.webp" alt="پرتقال" loading="lazy" decoding="async" width="200" height="150">
+                      <span class="product__badge-stock">ناموجود</span>
+                    </span>
+                    <h3 class="product__name">پرتقال شمال — ۲ کیلو</h3>
+                  </a>
+                  <div class="product__footer">
+                    <span class="product__price">
+                      <span class="product__current">۹۸٬۰۰۰</span>
+                      <span class="product__unit">تومان</span>
+                    </span>
+                    <button type="button" class="product__add" aria-label="افزودن پرتقال شمال به سبد خرید" disabled>
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                      </svg>
+                    </button>
+                  </div>
+                </article>
+              </li>
+              <li class="products__item">
+                <article class="product">
+                  <a href="#" class="product__link">
+                    <span class="product__img">
+                      <img src="assets/p-kiwi.webp" alt="کیوی" loading="lazy" decoding="async" width="200" height="150">
+                    </span>
+                    <h3 class="product__name">کیوی — ۵۰۰ گرم</h3>
+                  </a>
+                  <div class="product__footer">
+                    <span class="product__price">
+                      <span class="product__current">۶۵٬۰۰۰</span>
+                      <span class="product__unit">تومان</span>
+                    </span>
+                    <button type="button" class="product__add" aria-label="افزودن کیوی به سبد خرید">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                      </svg>
+                    </button>
+                  </div>
+                </article>
+              </li>
+              <li class="products__item">
+                <article class="product">
+                  <a href="#" class="product__link">
+                    <span class="product__img">
+                      <img src="assets/p-mango.webp" alt="انبه" loading="lazy" decoding="async" width="200" height="150">
+                    </span>
+                    <h3 class="product__name">انبه — ۱ کیلو</h3>
+                  </a>
+                  <div class="product__footer">
+                    <span class="product__price">
+                      <span class="product__current">۱۵۵٬۰۰۰</span>
+                      <span class="product__unit">تومان</span>
+                    </span>
+                    <button type="button" class="product__add" aria-label="افزودن انبه به سبد خرید">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                      </svg>
+                    </button>
+                  </div>
+                </article>
+              </li>
+            </ul>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="products" id="dairy" aria-labelledby="dairy-title">
+      <div class="container">
+        <div class="products__inner">
+
+          <div class="products__main">
+
+            <div class="products__head">
+              <h2 id="dairy-title" class="products__title">لبنیات و تخم‌مرغ</h2>
+            </div>
+
+            <ul class="products__grid" tabindex="0" aria-label="محصولات لبنیات">
+              <li class="products__item">
+                <article class="product">
+                  <a href="#" class="product__link">
+                    <span class="product__img">
+                      <img src="assets/p-milk.webp" alt="شیر پرچرب" loading="lazy" decoding="async" width="200" height="150">
+                    </span>
+                    <h3 class="product__name">شیر پرچرب — ۱ لیتر</h3>
+                  </a>
+                  <div class="product__footer">
+                    <span class="product__price">
+                      <span class="product__current">۳۲٬۰۰۰</span>
+                      <span class="product__unit">تومان</span>
+                    </span>
+                    <button type="button" class="product__add" aria-label="افزودن شیر پرچرب به سبد خرید">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                    </button>
+                  </div>
+                </article>
+              </li>
+              <li class="products__item">
+                <article class="product">
+                  <a href="#" class="product__link">
+                    <span class="product__img">
+                      <img src="assets/p-yogurt.webp" alt="ماست پرچرب" loading="lazy" decoding="async" width="200" height="150">
+                    </span>
+                    <h3 class="product__name">ماست پرچرب — ۲ کیلو</h3>
+                  </a>
+                  <div class="product__footer">
+                    <span class="product__price">
+                      <span class="product__discount">۱۰٪</span>
+                      <span class="product__old">۸۵٬۰۰۰</span>
+                      <span class="product__current">۷۶٬۵۰۰</span>
+                      <span class="product__unit">تومان</span>
+                    </span>
+                    <button type="button" class="product__add" aria-label="افزودن ماست پرچرب به سبد خرید">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                    </button>
+                  </div>
+                </article>
+              </li>
+              <li class="products__item">
+                <article class="product">
+                  <a href="#" class="product__link">
+                    <span class="product__img">
+                      <img src="assets/p-cheese.webp" alt="پنیر سفید" loading="lazy" decoding="async" width="200" height="150">
+                    </span>
+                    <h3 class="product__name">پنیر سفید — ۴۰۰ گرم</h3>
+                  </a>
+                  <div class="product__footer">
+                    <span class="product__price">
+                      <span class="product__current">۶۸٬۰۰۰</span>
+                      <span class="product__unit">تومان</span>
+                    </span>
+                    <button type="button" class="product__add" aria-label="افزودن پنیر سفید به سبد خرید">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                    </button>
+                  </div>
+                </article>
+              </li>
+              <li class="products__item">
+                <article class="product">
+                  <a href="#" class="product__link">
+                    <span class="product__img">
+                      <img src="assets/p-butter.webp" alt="کره حیوانی" loading="lazy" decoding="async" width="200" height="150">
+                    </span>
+                    <h3 class="product__name">کره حیوانی — ۱۰۰ گرم</h3>
+                  </a>
+                  <div class="product__footer">
+                    <span class="product__price">
+                      <span class="product__current">۴۸٬۰۰۰</span>
+                      <span class="product__unit">تومان</span>
+                    </span>
+                    <button type="button" class="product__add" aria-label="افزودن کره حیوانی به سبد خرید">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                    </button>
+                  </div>
+                </article>
+              </li>
+              <li class="products__item">
+                <article class="product">
+                  <a href="#" class="product__link">
+                    <span class="product__img">
+                      <img src="assets/p-cream.webp" alt="خامه صبحانه" loading="lazy" decoding="async" width="200" height="150">
+                    </span>
+                    <h3 class="product__name">خامه صبحانه — ۲۰۰ گرم</h3>
+                  </a>
+                  <div class="product__footer">
+                    <span class="product__price">
+                      <span class="product__current">۵۵٬۰۰۰</span>
+                      <span class="product__unit">تومان</span>
+                    </span>
+                    <button type="button" class="product__add" aria-label="افزودن خامه صبحانه به سبد خرید">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                    </button>
+                  </div>
+                </article>
+              </li>
+              <li class="products__item">
+                <article class="product">
+                  <a href="#" class="product__link">
+                    <span class="product__img">
+                      <img src="assets/p-egg.webp" alt="تخم‌مرغ محلی" loading="lazy" decoding="async" width="200" height="150">
+                    </span>
+                    <h3 class="product__name">تخم‌مرغ — ۹ عدد</h3>
+                  </a>
+                  <div class="product__footer">
+                    <span class="product__price">
+                      <span class="product__discount">۲۰٪</span>
+                      <span class="product__old">۱۲۵٬۰۰۰</span>
+                      <span class="product__current">۱۰۰٬۰۰۰</span>
+                      <span class="product__unit">تومان</span>
+                    </span>
+                    <button type="button" class="product__add" aria-label="افزودن تخم‌مرغ محلی به سبد خرید">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                    </button>
+                  </div>
+                </article>
+              </li>
+              <li class="products__item">
+                <article class="product">
+                  <a href="#" class="product__link">
+                    <span class="product__img">
+                      <img src="assets/p-dough.webp" alt="دوغ سنتی" loading="lazy" decoding="async" width="200" height="150">
+                    </span>
+                    <h3 class="product__name">دوغ سنتی — ۱.۵ لیتر</h3>
+                  </a>
+                  <div class="product__footer">
+                    <span class="product__price">
+                      <span class="product__current">۴۲٬۰۰۰</span>
+                      <span class="product__unit">تومان</span>
+                    </span>
+                    <button type="button" class="product__add" aria-label="افزودن دوغ سنتی به سبد خرید">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                    </button>
+                  </div>
+                </article>
+              </li>
+            </ul>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
   </main>
-  <footer>
-    <p dir="ltr">slug: <code>sharding</code></p>
+
+  <footer class="footer">
+    <div class="container">
+
+      <div class="footer__main">
+
+        <div class="footer__brand">
+          <a href="#main-content" class="brand" aria-label="شاردینگ مارکت">
+            <span class="brand__mark" aria-hidden="true">
+              <svg class="logo" viewBox="0 0 240 240">
+                <g class="logo__shard" style="--i: 0; --dx:  18px; --dy: -31px;">
+                  <path class="logo__wedge" d="M 120 120 L 120 24 A 96 96 0 0 1 203.14 72 Z"/>
+                  <circle class="logo__topping" cx="137" cy="73" r="11"/>
+                  <circle class="logo__topping" cx="168" cy="63" r="11"/>
+                </g>
+                <g class="logo__shard" style="--i: 1; --dx:  36px; --dy:   0px;">
+                  <path class="logo__wedge" d="M 120 120 L 203.14 72 A 96 96 0 0 1 203.14 168 Z"/>
+                  <circle class="logo__topping" cx="172" cy="101" r="11"/>
+                  <circle class="logo__topping" cx="194" cy="133" r="11"/>
+                </g>
+                <g class="logo__shard" style="--i: 2; --dx:  18px; --dy:  31px;">
+                  <path class="logo__wedge" d="M 120 120 L 203.14 168 A 96 96 0 0 1 120 216 Z"/>
+                  <circle class="logo__topping" cx="158" cy="152" r="11"/>
+                  <circle class="logo__topping" cx="146" cy="190" r="11"/>
+                </g>
+                <g class="logo__shard" style="--i: 3; --dx: -18px; --dy:  31px;">
+                  <path class="logo__wedge" d="M 120 120 L 120 216 A 96 96 0 0 1 36.86 168 Z"/>
+                  <circle class="logo__topping" cx="103" cy="167" r="11"/>
+                  <circle class="logo__topping" cx="72" cy="178" r="11"/>
+                </g>
+                <g class="logo__shard" style="--i: 4; --dx: -36px; --dy:   0px;">
+                  <path class="logo__wedge" d="M 120 120 L 36.86 168 A 96 96 0 0 1 36.86 72 Z"/>
+                  <circle class="logo__topping" cx="68" cy="139" r="11"/>
+                  <circle class="logo__topping" cx="46" cy="107" r="11"/>
+                </g>
+                <g class="logo__shard" style="--i: 5; --dx: -18px; --dy: -31px;">
+                  <path class="logo__wedge" d="M 120 120 L 36.86 72 A 96 96 0 0 1 120 24 Z"/>
+                  <circle class="logo__topping" cx="82" cy="88" r="11"/>
+                  <circle class="logo__topping" cx="94" cy="49" r="11"/>
+                </g>
+              </svg>
+            </span>
+            <span class="brand__text">
+              <span class="brand__name">شاردینگ مارکت</span>
+              <span class="brand__tagline">سوپرمارکت فوری محله شما</span>
+            </span>
+          </a>
+
+          <p class="footer__about">
+            سوپرمارکت فوری محله شما با ارسال سریع و تازه. سفارش خود را تا نیمه‌شب ثبت کنید و فردا صبح تحویل بگیرید.
+          </p>
+        </div>
+
+        <div class="footer__links">
+
+          <div class="footer__col">
+            <h3 class="footer__title">خدمات مشتریان</h3>
+            <ul class="footer__list">
+              <li><a href="#">پیگیری سفارش</a></li>
+              <li><a href="#">رویه بازگشت کالا</a></li>
+              <li><a href="#">سؤالات متداول</a></li>
+              <li><a href="#">حریم خصوصی</a></li>
+              <li><a href="#">قوانین و مقررات</a></li>
+            </ul>
+          </div>
+
+          <div class="footer__col">
+            <h3 class="footer__title">تماس با ما</h3>
+            <ul class="footer__list">
+              <li><a href="tel:+982191000000" dir="ltr">۰۲۱&#8209;۹۱۰۰۰۰۰۰</a></li>
+              <li><a href="mailto:support@sharding.ir" dir="ltr">support@sharding.ir</a></li>
+              <li>تهران، خیابان ولیعصر</li>
+            </ul>
+            <h3 class="footer__title footer__title--mt">ساعت کاری</h3>
+            <p class="footer__hours">شنبه تا پنجشنبه<br>۸ صبح تا ۱۰ شب</p>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="footer__bottom">
+        <p class="footer__copy">
+          کلیه حقوق اين سايت متعلق به شرکت فناوران شاردینگ است.
+        </p>
+        <a href="#main-content" class="footer__top">
+          بازگشت به بالا
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 4l7 7-1.41 1.41L13 7.83V20h-2V7.83l-4.59 4.58L5 11l7-7z"/>
+          </svg>
+        </a>
+      </div>
+
+    </div>
   </footer>
+
 </body>
 </html>
