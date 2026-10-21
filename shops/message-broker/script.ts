@@ -1,3 +1,9 @@
+import { Notyf } from 'notyf'
+import 'notyf/notyf.min.css'
+import confetti from 'canvas-confetti'
+
+const notyf = new Notyf()
+
 const categoriesNav = document.querySelector<HTMLElement>('#categories')
 const submenu = document.querySelector<HTMLUListElement>('#submenu')
 const mainMenu = document.querySelector<HTMLUListElement>('#main-menu')
@@ -221,6 +227,7 @@ function createCard(product, offer, stockCount) {
 
     const button = document.createElement('button')
     button.type = 'button'
+    button.dataset.name = product.name
     button.textContent = 'افزودن'
     button.disabled = soldOut
     article.appendChild(button)
@@ -265,6 +272,15 @@ const init = async () => {
         showMessage('بارگذاری محصولات ممکن نشد. اتصال اینترنت را بررسی کنید و صفحه را دوباره باز کنید.')
     }
 }
+
+container.addEventListener('click', (e: MouseEvent) => {
+    if (!(e.target instanceof Element)) return
+    const button = e.target.closest<HTMLButtonElement>('button')
+    if (!button || button.disabled) return
+
+    notyf.success((button.dataset.name ?? 'کالا') + ' به سبد اضافه شد')
+    confetti({ particleCount: 60, spread: 70 })
+})
 // ===================== Start =====================
 
 init()
