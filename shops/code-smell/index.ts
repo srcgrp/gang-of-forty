@@ -1,9 +1,15 @@
 "use strict"
 import { shopContent } from "./shop-content"
+import Typed from "typed.js"
+import { Fireworks } from "fireworks-js"
 const api = "../../api/"
 const shopName = "سوپرمارکت بوی کد"
 const persianNumberFormat = new Intl.NumberFormat("fa-IR")
 const cartKey = "code-smell-shopping-cart"
+const carouselsRoot = document.querySelector<HTMLDivElement>("#carousels-root")
+const resultsRoot = document.querySelector<HTMLDivElement>("#results-root")
+const pageStatus = document.querySelector<HTMLDivElement>("#page-status")
+const cartButton = document.querySelector<HTMLButtonElement>("#cart-button")
 let products: productInfo[] = []
 let categories: categoryData[] = []
 let stockByProductId: Record<number, number> = {}
@@ -101,6 +107,10 @@ type stockInfo = {
     items: Record<number, number>
 }
 
+type linkInfo = {
+    label: string
+    href: string
+}
 //Cart 
 function readCart(): Record<number, number> {
     try {
@@ -118,7 +128,6 @@ function updateCartCount(): void {
     })
 
     const cartBadge = document.querySelector<HTMLSpanElement>(".cart-button__badge")
-    const cartButton = document.querySelector<HTMLButtonElement>(".cart-button")
 
     if (cartBadge && cartButton) {
         cartBadge.textContent = persianNumberFormat.format(count)
@@ -129,14 +138,14 @@ function updateCartCount(): void {
     }
 }
 
-function addToCart(product) {
+function addToCart(product: productInfo): void {
     cart[product.id] = (cart[product.id] || 0) + 1
     updateCartCount()
     localStorage.setItem(cartKey, JSON.stringify(cart))
 }
 
 // header
-function initializeHeader() {
+function initializeHeader(): void {
     const brandLink = document.querySelector<HTMLAnchorElement>(".brand")
 
     if (brandLink) {
@@ -185,7 +194,7 @@ function initializeHeader() {
     const cartButtonBadge = document.createElement("span")
     cartButtonBadge.className = "cart-button__badge"
     cartButtonBadge.textContent = "۰"
-    const cartButton = document.querySelector<HTMLButtonElement>("#cart-button")
+
 
     if (cartButton) {
         cartButton.append(cartButtonIcon, cartButtonLabel, cartButtonBadge)
@@ -193,7 +202,7 @@ function initializeHeader() {
     updateCartCount()
 }
 
-function createCategoryMenu(isMobile) {
+function createCategoryMenu(isMobile: boolean): HTMLLIElement {
 
     const item = document.createElement("li")
     item.className = "category-menu"
@@ -271,13 +280,21 @@ function createMainMenu(isMobile: boolean): HTMLUListElement {
     return list
 }
 
-function renderHeader() {
+function renderHeader(): void {
     const announcement = document.querySelector<HTMLParagraphElement>("#announcement")
     const brandTagline = document.querySelector<HTMLSpanElement>(".brand__tagline")
     const siteNav = document.querySelector<HTMLElement>("#site-nav")
 
     if (shopData && announcement && brandTagline && siteNav) {
-        announcement.textContent = shopData.notice
+        announcement.textContent = ""
+
+        new Typed(announcement, {
+            strings: [shopData.notice],
+            typeSpeed: 30,
+            loop: true,
+            showCursor: false,
+            contentType: "null"
+        })
         brandTagline.textContent = shopData.slogan
         siteNav.replaceChildren(createMainMenu(false))
     }
@@ -349,12 +366,14 @@ function renderHero(): void {
         features.className = "hero__features"
 
         const featureTexts = [
-            "ارسال در " + shopData.city,
-            "ساعت فعالیت:" + " " + shopData.hours.open + " " + "تا" + " " + shopData.hours.close,
+            "ارسال در" + " " + shopData.city,
+
+            "ساعت فعالیت:" + " " + shopData.hours.open +
+            " " + "تا" + " " + shopData.hours.close,
+
             "ارسال رایگان از" + " " +
             persianNumberFormat.format(shopData.freeDeliveryOver) +
-            " " +
-            shopData.currency
+            " " + shopData.currency
         ]
 
         featureTexts.forEach(function (text) {
@@ -405,11 +424,14 @@ function renderCategories(): void {
         sectionTitle.className = "section__title"
         sectionTitle.textContent = "دسته‌بندی کالاها"
         sectionTitle.id = "categories-title"
-        sectionHeader.append(sectionTitle)
+        const categoryHeading = document.createElement("div")
+        categoryHeading.className = "category-heading"
+        categoryHeading.append(sectionTitle)
+        sectionHeader.append(categoryHeading)
         const sectionSubtitle = document.createElement("p")
         sectionSubtitle.className = "section__subtitle"
         sectionSubtitle.textContent = "برای خرید راحتتر، دسته بندی مورد نظرتان را انتخاب کنید."
-        sectionHeader.append(sectionSubtitle)
+        categoryHeading.append(sectionSubtitle)
         container.append(sectionHeader)
         const list = document.createElement("ul")
         list.className = "category-grid"
@@ -442,10 +464,11 @@ function renderCategories(): void {
         })
         const reset = document.createElement("a")
         reset.className = "button button--secondary category-reset"
-        reset.textContent = "نمایش همه دسته‌ها"
+        reset.textContent = "مشاهده همه‌ی دسته‌ها"
         reset.href = "#categories"
         reset.addEventListener("click", navigate)
-        container.append(list, reset)
+        sectionHeader.append(reset)
+        container.append(list)
         section.replaceChildren(container)
         section.hidden = false
     }
@@ -480,6 +503,79 @@ function createSideBanner(sideData: bannerInfo): HTMLElement {
     return side
 }
 
+function showOfferFireworks(card: HTMLElement): void {
+    const layer = document.createElement("div")
+    layer.className = "offer-fireworks"
+    layer.setAttribute("aria-hidden", "true")
+    card.append(layer)
+
+    const fireworks = new Fireworks(layer, {
+        particles: 30
+    })
+
+    fireworks.start()
+
+    window.setTimeout(function () {
+        fireworks.stop(true)
+        layer.remove()
+    }, 2500)
+}
+
+function createDiscountCard(): HTMLElement {
+    const card = document.createElement("article")
+    card.className = "promo-card promo-card--dark"
+
+    const label = document.createElement("span")
+    label.className = "promo-card__eyebrow"
+    label.textContent = "ویژه خرید اول"
+
+    const heading = document.createElement("h3")
+    heading.className = "promo-card__title"
+    heading.textContent =
+        persianNumberFormat.format(100000) + " " + "تومان هدیه"
+
+    const description = document.createElement("p")
+    description.className = "promo-card__text"
+    description.textContent =
+        "برای اولین سفارش بالای" + " " +
+        persianNumberFormat.format(400000) + " " +
+        "تومان، این کد را هنگام پرداخت وارد کنید."
+
+    const button = document.createElement("button")
+    button.className = "button button--primary"
+    button.type = "button"
+    button.textContent = "دریافت کد تخفیف"
+
+    const discountCode = document.createElement("p")
+    discountCode.className = "promo-card__code"
+    discountCode.id = "first-order-discount"
+    discountCode.hidden = true
+
+    const codeValue = document.createElement("code")
+    codeValue.textContent = "SMELL100"
+    codeValue.dir = "ltr"
+    discountCode.append("کد تخفیف:" + " ", codeValue)
+
+    button.setAttribute("aria-controls", discountCode.id)
+    button.setAttribute("aria-expanded", "false")
+
+    button.addEventListener("click", function () {
+        discountCode.hidden = false
+        button.setAttribute("aria-expanded", "true")
+        showOfferFireworks(card)
+    })
+
+    const image = document.createElement("img")
+    image.className = "promo-card__art"
+    image.src = "images/Gift%20Box.webp"
+    image.alt = ""
+    image.setAttribute("aria-hidden", "true")
+
+    card.append(label, heading, description, button, discountCode, image)
+
+    return card
+}
+
 function renderPromos(): void {
     const section = document.querySelector<HTMLElement>("#special-offers")
     if (section && homeData) {
@@ -492,7 +588,11 @@ function renderPromos(): void {
         sectionTitle.className = "section__title"
         sectionTitle.textContent = "پیشنهاد ویژه"
         sectionTitle.id = "special-offers-title"
-        sectionHeader.append(sectionTitle)
+        const sectionSubtitle = document.createElement("p")
+        sectionSubtitle.className = "section__subtitle"
+        sectionSubtitle.textContent = "فرصت‌های محدود این هفته را از دست ندهید."
+
+        sectionHeader.append(sectionTitle, sectionSubtitle)
         container.append(sectionHeader)
         const grid = document.createElement("div")
         grid.className = "promo-grid"
@@ -516,8 +616,10 @@ function renderPromos(): void {
             card.append(promoCardArt)
             grid.append(card)
         })
+        grid.append(createDiscountCard())
         grid.append(createSideBanner(homeData.side))
         container.append(grid)
+
         section.replaceChildren(container)
         section.hidden = false
     }
@@ -530,7 +632,11 @@ function getProductOffer(productId: number): offerInfo | undefined {
     })
 }
 
-function createProductMedia(product, offer, isUnavailable) {
+function createProductMedia(
+    product: productInfo,
+    offer: offerInfo | undefined,
+    isUnavailable: boolean
+): HTMLDivElement {
     const media = document.createElement("div")
     media.className = "product-card__media"
     const productEmoji = document.createElement("span")
@@ -555,7 +661,10 @@ function createProductMedia(product, offer, isUnavailable) {
     return media
 }
 
-function createProductPrice(product, offer) {
+function createProductPrice(
+    product: productInfo,
+    offer: offerInfo | undefined
+): HTMLParagraphElement {
     const price = document.createElement("p")
     price.className = "price"
     let finalPrice = product.price
@@ -581,7 +690,10 @@ function createProductPrice(product, offer) {
     return price
 }
 
-function createAddButton(product, isUnavailable) {
+function createAddButton(
+    product: productInfo,
+    isUnavailable: boolean
+): HTMLButtonElement {
     const button = document.createElement("button")
     button.className = "button button--secondary button--block"
     button.type = "button"
@@ -611,7 +723,11 @@ function createAddButton(product, isUnavailable) {
     return button
 }
 
-function createProductCard(product, sectionId, index) {
+function createProductCard(
+    product: productInfo,
+    sectionId: string,
+    index: number
+): HTMLLIElement {
     const offer = getProductOffer(product.id)
     const isUnavailable = stockByProductId[product.id] === 0
 
@@ -703,7 +819,7 @@ function createCarouselControls(section: HTMLElement, title: string): HTMLElemen
         control.href = "#" + section.id + "-item-1"
 
         const positionLabel = direction === "start" ? "ابتدای" : "انتهای"
-        const controlLabel = positionLabel + " کاروسل " + title
+        const controlLabel = positionLabel + " " + "کاروسل" + " " + title
 
         control.setAttribute("aria-label", controlLabel)
         control.title = controlLabel
@@ -730,7 +846,10 @@ function createCarouselControls(section: HTMLElement, title: string): HTMLElemen
     return controls
 }
 
-function createCarousel(carouselData, index = 0) {
+function createCarousel(
+    carouselData: carouselInfo,
+    index: number = 0
+): HTMLElement {
     const section = document.createElement("section")
     section.className = "section"
 
@@ -815,7 +934,7 @@ function renderCarousel(section: HTMLElement, selectedProducts: productInfo[]): 
         const hasProducts = selectedProducts.length > 0
 
         list.hidden = !hasProducts
-        status.textContent = hasProducts ? "" : "کالایی برای نمایش پیدا نشد."
+        status.textContent = hasProducts ? "" : "کالایی پیدا نشد!"
         status.hidden = hasProducts
 
         section.querySelectorAll<HTMLAnchorElement>(".carousel-controls a")
@@ -836,7 +955,9 @@ function renderCarousel(section: HTMLElement, selectedProducts: productInfo[]): 
     }
 }
 
-function getCarouselProducts(carouselData) {
+function getCarouselProducts(
+    carouselData: carouselInfo
+): productInfo[] {
     let selectedProducts = products
     if (carouselData.source === "offers") {
         selectedProducts = products.filter(function (product) {
@@ -851,20 +972,19 @@ function getCarouselProducts(carouselData) {
 }
 
 function renderHomeCarousels(): void {
-    const root = document.querySelector<HTMLDivElement>("#carousels-root")
 
-    if (root && homeData) {
-        root.replaceChildren()
+    if (carouselsRoot && homeData) {
+        carouselsRoot.replaceChildren()
 
         homeData.carousels.forEach(function (carouselData, index) {
             const section = createCarousel(carouselData, index)
             renderCarousel(section, getCarouselProducts(carouselData))
-            root.append(section)
+            carouselsRoot.append(section)
         })
     }
 }
 
-function renderFilteredProducts(activeCategory) {
+function renderFilteredProducts(activeCategory: categoryData): void {
     const selectedProducts = products.filter(function (product) {
         return product.categoryId === activeCategory.id
     })
@@ -884,17 +1004,28 @@ function renderFilteredProducts(activeCategory) {
     summaryText.textContent = summary
     const resetLink = document.createElement("a")
     resetLink.className = "button button--secondary"
-    resetLink.textContent = "نمایش همه دسته‌ها"
+    resetLink.textContent = "مشاهده‌ همه‌ی دسته‌ها"
     resetLink.href = "#categories"
     resetLink.addEventListener("click", navigate)
-    summaryText.append(resetLink)
-    const container = section.querySelector<HTMLDivElement>(".container")
+    const title = section.querySelector<HTMLHeadingElement>(".section__title")
+    const subtitle = section.querySelector<HTMLParagraphElement>(".section__subtitle")
 
-    if (container) {
-        container.prepend(summaryText)
+    if (title) {
+        const titleRow = document.createElement("div")
+        titleRow.className = "filtered-heading"
+
+        title.before(titleRow)
+        titleRow.append(title, resetLink)
+    }
+
+    if (subtitle) {
+        const description = document.createElement("div")
+        description.className = "filtered-description"
+        description.append(summaryText)
+
+        subtitle.replaceWith(description)
     }
     renderCarousel(section, selectedProducts)
-    const resultsRoot = document.querySelector<HTMLDivElement>("#results-root")
 
     if (resultsRoot) {
         resultsRoot.replaceChildren(section)
@@ -903,8 +1034,6 @@ function renderFilteredProducts(activeCategory) {
 
 function renderCatalog(): void {
     const activeCategory = getSelectedCategory()
-    const carouselsRoot = document.querySelector<HTMLDivElement>("#carousels-root")
-    const resultsRoot = document.querySelector<HTMLDivElement>("#results-root")
 
     updateCategoryLinks(activeCategory)
 
@@ -1073,7 +1202,11 @@ function createFooterAbout(currentShop: shopInfo): HTMLElement {
     return about
 }
 
-function createFooterLinks(title, headingId, entries) {
+function createFooterLinks(
+    title: string,
+    headingId: string,
+    entries: linkInfo[]
+): HTMLElement {
     const column = document.createElement("nav")
     column.className = "footer-column"
     column.setAttribute("aria-labelledby", headingId)
@@ -1220,7 +1353,7 @@ function navigate(event: MouseEvent): void {
     }
 }
 
-function getSelectedCategory() {
+function getSelectedCategory(): categoryData | null {
     const params = new URLSearchParams(location.search)
     const fragment = location.hash.slice(1)
     const slug = params.has("cat") ? params.get("cat") : fragment
@@ -1229,9 +1362,13 @@ function getSelectedCategory() {
     }) || null
 }
 
-function updateCategoryLinks(activeCategory) {
+function updateCategoryLinks(activeCategory: categoryData | null): void {
     categories.forEach(function (category) {
-        document.querySelectorAll("a[href=\"#" + category.slug + "\"]").forEach(function (anchor) {
+        const links = document.querySelectorAll<HTMLAnchorElement>(
+            "a[href=\"#" + category.slug + "\"]"
+        )
+
+        links.forEach(function (anchor) {
             if (activeCategory && activeCategory.id === category.id) {
                 anchor.setAttribute("aria-current", "true")
             } else {
@@ -1241,13 +1378,15 @@ function updateCategoryLinks(activeCategory) {
     })
 }
 
-function scrollToCurrentSection() {
-    let target
+function scrollToCurrentSection(): void {
+    let target: HTMLElement | null
+
     if (getSelectedCategory()) {
-        target = document.querySelector("#filtered-products")
+        target = document.querySelector<HTMLElement>("#filtered-products")
     } else {
         target = document.getElementById(location.hash.slice(1))
     }
+
     if (target) {
         target.scrollIntoView({
             block: "start",
@@ -1256,7 +1395,7 @@ function scrollToCurrentSection() {
     }
 }
 
-function followRoute(shouldScroll = false) {
+function followRoute(shouldScroll: boolean = false): void {
     if (isPageReady) {
         renderCatalog()
         if (shouldScroll) {
@@ -1265,7 +1404,7 @@ function followRoute(shouldScroll = false) {
     }
 }
 
-function changeCategory(category) {
+function changeCategory(category: categoryData): void {
     const url = new URL(location.href)
     url.searchParams.set("cat", category.slug)
     url.hash = ""
@@ -1273,7 +1412,7 @@ function changeCategory(category) {
     followRoute(true)
 }
 
-function showAll(href = "#categories") {
+function showAll(href: string = "#categories"): void {
     const url = new URL(location.href)
     url.searchParams.delete("cat")
     url.hash = href.slice(1)
@@ -1288,17 +1427,17 @@ function showAll(href = "#categories") {
 
 // Isloading
 function setPageState(message: string, isLoading: boolean): void {
-    const status = document.querySelector<HTMLDivElement>("#page-status")
 
-    if (status) {
-        status.classList.add("page-status")
-        status.hidden = false
-        status.setAttribute("aria-busy", String(isLoading))
+
+    if (pageStatus) {
+        pageStatus.classList.add("page-status")
+        pageStatus.hidden = false
+        pageStatus.setAttribute("aria-busy", String(isLoading))
 
         const messageText = document.createElement("p")
         messageText.textContent = message
 
-        status.replaceChildren(messageText)
+        pageStatus.replaceChildren(messageText)
     }
 }
 
@@ -1312,7 +1451,7 @@ async function fetchJson<dataType>(fileName: string): Promise<dataType> {
     return response.json()
 }
 
-function renderPage() {
+function renderPage(): void {
     renderHeader()
     renderHero()
     renderCategories()
@@ -1373,8 +1512,6 @@ async function loadPage(): Promise<void> {
         renderPage()
         isPageReady = true
 
-        const pageStatus = document.querySelector<HTMLDivElement>("#page-status")
-
         if (pageStatus) {
             pageStatus.hidden = true
         }
@@ -1386,7 +1523,7 @@ async function loadPage(): Promise<void> {
         let message = "دریافت اطلاعات فروشگاه انجام نشد. لطفاً صفحه را دوباره بارگذاری کنید."
 
         if (location.protocol === "file:") {
-            message = "برای دریافت اطلاعات، پروژه را با Live Server یا npx serve . اجرا کنید."
+            message = "npm run dev را اجرا کنید."
         }
 
         setPageState(message, false)
@@ -1396,7 +1533,7 @@ async function loadPage(): Promise<void> {
 }
 
 
-function handleRouteChange() {
+function handleRouteChange(): void {
     followRoute(true)
 }
 
