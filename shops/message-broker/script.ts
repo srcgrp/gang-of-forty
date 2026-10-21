@@ -1,4 +1,24 @@
-// ===================== Layout (header, menu, footer, posters) =====================
+const categoriesNav = document.querySelector<HTMLElement>('#categories')
+const submenu = document.querySelector<HTMLUListElement>('#submenu')
+const mainMenu = document.querySelector<HTMLUListElement>('#main-menu')
+const notice = document.querySelector<HTMLParagraphElement>('#notice')
+const about = document.querySelector<HTMLParagraphElement>('#about')
+const address = document.querySelector<HTMLParagraphElement>('#address')
+const phone = document.querySelector<HTMLParagraphElement>('#phone')
+const footerCategories = document.querySelector<HTMLUListElement>('#footer-categories')
+const footerHelp = document.querySelector<HTMLUListElement>('#footer-help')
+const schedule = document.querySelector<HTMLUListElement>('#schedule')
+const posters = document.querySelector<HTMLElement>('#posters')
+const posters2 = document.querySelector<HTMLElement>('#posters-2')
+const container = document.querySelector<HTMLUListElement>('#best-carousel')
+
+if (
+    !categoriesNav || !submenu || !mainMenu || !notice || !about || !address ||
+    !phone || !footerCategories || !footerHelp || !schedule || !posters ||
+    !posters2 || !container
+) {
+    throw new Error('index.html is missing an element')
+}
 
 const LAYOUT_BASE = '../../api/'
 
@@ -18,10 +38,9 @@ function makeLink(text, href) {
     li.appendChild(a)
     return li
 }
-
-function renderCategories(categories) {
-    const nav = document.getElementById('categories')
-    nav.textContent = ''
+ 
+const renderCategories = (categories) => {
+    categoriesNav.textContent = ''
 
     categories.forEach(c => {
         const a = document.createElement('a')
@@ -40,44 +59,36 @@ function renderCategories(categories) {
         name.textContent = c.name
 
         a.append(emoji, name)
-        nav.appendChild(a)
+        categoriesNav.appendChild(a)
     })
 }
 
-function renderMenu(shop, categories) {
-    const sub = document.getElementById('submenu')
-    sub.textContent = ''
-    categories.forEach(c => sub.appendChild(makeLink(c.name, '#' + c.slug)))
+const renderMenu = (shop, categories) => {
+    submenu.textContent = ''
+    categories.forEach(c => submenu.appendChild(makeLink(c.name, '#' + c.slug)))
 
-    const menu = document.getElementById('main-menu')
-    shop.menu.forEach(m => menu.appendChild(makeLink(m.label, m.href)))
+    shop.menu.forEach(m => mainMenu.appendChild(makeLink(m.label, m.href)))
 }
 
-function renderFooter(shop, categories) {
-    document.getElementById('notice').textContent = shop.notice
-    document.getElementById('about').textContent = shop.about
-    document.getElementById('address').textContent = shop.address
-    document.getElementById('phone').textContent = 'تلفن: ' + shop.phone
+ const renderFooter = (shop, categories) => {
+    notice.textContent = shop.notice
+    about.textContent = shop.about
+    address.textContent = shop.address
+    phone.textContent = 'تلفن: ' + shop.phone
 
-    const cats = document.getElementById('footer-categories')
-    categories.forEach(c => cats.appendChild(makeLink(c.name, '#' + c.slug)))
+    categories.forEach(c => footerCategories.appendChild(makeLink(c.name, '#' + c.slug)))
 
-    const help = document.getElementById('footer-help')
-    shop.help.forEach(h => help.appendChild(makeLink(h.label, h.href)))
+    shop.help.forEach(h => footerHelp.appendChild(makeLink(h.label, h.href)))
 
-    const schedule = document.getElementById('schedule')
     shop.schedule.forEach(s => {
         const li = document.createElement('li')
         li.textContent = s.days + ': ' + s.time
         schedule.appendChild(li)
     })
 }
-
-function renderPosters(home) {
-    const box = document.getElementById('posters')
-    box.textContent = ''
-    const box2 = document.getElementById('posters-2')
-    box2.textContent = ''
+ const renderPosters = (home) => {
+    posters.textContent = ''
+    posters2.textContent = ''
     function makeBanner(data, className) {
         const a = document.createElement('a')
         a.className = 'poster ' + className
@@ -99,8 +110,8 @@ function renderPosters(home) {
         return a
     }
 
-    box.appendChild(makeBanner(home.hero, 'poster-1'))
-    box.appendChild(makeBanner(home.side, 'poster-2'))
+    posters.appendChild(makeBanner(home.hero, 'poster-1'))
+    posters.appendChild(makeBanner(home.side, 'poster-2'))
 
     home.promos.forEach((p, i) => {
         const a = document.createElement('a')
@@ -115,11 +126,11 @@ function renderPosters(home) {
         text.textContent = p.text
 
         a.append(emoji, text)
-        box2.appendChild(a)
+        posters2.appendChild(a)
     })
 }
 
-async function initLayout() {
+const initLayout = async () => {
     try {
         const [categories, shop, home] = await Promise.all([
             loadLayoutJSON('categories.json'),
@@ -135,16 +146,16 @@ async function initLayout() {
         if (location.hash) {
             document.getElementById(location.hash.slice(1))?.scrollIntoView()
         }
-    } catch (err) {
+    } catch (err: unknown) {
         console.error(err)
-        const nav = document.getElementById('categories')
-        nav.textContent = 'خطا: ' + err.message
+        categoriesNav.textContent = 'خطا: ' + (err instanceof Error ? err.message : String(err))
     }
 }
+  
 
 // ===================== Best-selling carousel (cards) =====================
 
-const container = document.getElementById('best-carousel')
+ 
 const BASE = '../../api/'
 
 async function loadJSON(name) {
@@ -218,14 +229,14 @@ function createCard(product, offer, stockCount) {
     return li
 }
 
-function showMessage(text) {
+const showMessage = (text: string) => {
     container.textContent = ''
     const li = document.createElement('li')
     li.textContent = text
     container.appendChild(li)
 }
 
-async function init() {
+const init = async () => {
     showMessage('در حال بارگذاری...')
 
     try {
@@ -245,14 +256,15 @@ async function init() {
             )
         })
 
-        container.firstElementChild.id = 'b1'
-        container.lastElementChild.id = 'b6'
+        const first = container.firstElementChild
+        const last = container.lastElementChild
+        if (first) first.id = 'b1'
+        if (last) last.id = 'b6'
     } catch (err) {
         console.error(err)
         showMessage('بارگذاری محصولات ممکن نشد. اتصال اینترنت را بررسی کنید و صفحه را دوباره باز کنید.')
     }
 }
-
 // ===================== Start =====================
 
 init()
