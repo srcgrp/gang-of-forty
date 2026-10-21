@@ -268,8 +268,8 @@ function renderSpecialOffers(carousel: HTMLUListElement, data: Data, idPrefix: s
 }
 
 /* cart */
-let cartCount = Number(localStorage.getItem("cartCount")) || 0;
-const notyf = new Notyf();
+let cartCount: number = Number(localStorage.getItem("cartCount")) || 0;
+const notyf: Notyf = new Notyf();
 
 function renderCartCount(): void {
     const cartCountEl = document.querySelector<HTMLElement>(".cartCount");
@@ -388,7 +388,7 @@ async function loadData(): Promise<Data> {
     if (!productsRes.ok || !offersRes.ok || !stockRes.ok || !categoriesRes.ok || !shopRes.ok || !homeRes.ok) {
         throw new Error("Request failed");
     }
-    const [products, offers, stock, categories, shop, home] = await Promise.all([
+    const [products, offers, stock, categories, shop, home]: [Product[], Offer[], Stock, Category[], Shop, Home] = await Promise.all([
         productsRes.json(),
         offersRes.json(),
         stockRes.json(),
