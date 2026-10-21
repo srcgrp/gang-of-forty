@@ -1,27 +1,44 @@
+ 
 import { Notyf } from 'notyf'
 import 'notyf/notyf.min.css'
 import confetti from 'canvas-confetti'
-  
-type Category = { slug: string; name: string; emoji: string; color: string }
+
+type Category = {
+    id: number
+    slug: string
+    name: string
+    emoji: string
+    color: string
+}
+
 type Link = { label: string; href: string }
 type Schedule = { days: string; time: string }
+
 type Shop = {
-  notice: string
-  about: string
-  address: string
-  phone: string
-  menu: Link[]
-  help: Link[]
-  schedule: Schedule[]
+    notice: string
+    about: string
+    address: string
+    phone: string
+    menu: Link[]
+    help: Link[]
+    schedule: Schedule[]
 }
+
 type Banner = { emoji: string; title: string; text: string; cta: Link }
 type Promo = { href: string; color: string; emoji: string; text: string }
 type Home = { hero: Banner; side: Banner; promos: Promo[] }
 
-type Product = { id: number; name: string; emoji: string; unit: string; price: number }
+type Product = {
+    id: number
+    categoryId: number
+    name: string
+    emoji: string
+    unit: string
+    price: number
+}
+
 type Offer = { productId: number; percent: number }
 type Stock = { items: Record<number, number> }
-
 
 const notyf = new Notyf()
 
@@ -38,6 +55,8 @@ const schedule = document.querySelector<HTMLUListElement>('#schedule')
 const posters = document.querySelector<HTMLElement>('#posters')
 const posters2 = document.querySelector<HTMLElement>('#posters-2')
 const container = document.querySelector<HTMLUListElement>('#best-carousel')
+const searchForm = document.querySelector<HTMLFormElement>('.search')
+const searchInput = document.querySelector<HTMLInputElement>('.search input')
 
 if (
     !categoriesNav || !submenu || !mainMenu || !notice || !about || !address ||
@@ -48,15 +67,19 @@ if (
 }
 
 const LAYOUT_BASE = '../../api/'
+const BASE = '../../api/'
 
 async function loadLayoutJSON<T>(name: string): Promise<T> {
-    const res: Response = await fetch(LAYOUT_BASE + name)
-    if (!res.ok) {
-        throw new Error(name + ': HTTP ' + res.status)
-    }
+    const res = await fetch(LAYOUT_BASE + name)
+    if (!res.ok) throw new Error(name + ': HTTP ' + res.status)
     return res.json()
 }
 
+async function loadJSON<T>(name: string): Promise<T> {
+    const res = await fetch(BASE + name)
+    if (!res.ok) throw new Error(name + ': HTTP ' + res.status)
+    return res.json()
+}
 
 function makeLink(text: string, href: string): HTMLLIElement {
     const li = document.createElement('li')
@@ -66,7 +89,7 @@ function makeLink(text: string, href: string): HTMLLIElement {
     li.appendChild(a)
     return li
 }
- 
+
 const renderCategories = (categories: Category[]): void => {
     categoriesNav.textContent = ''
 
@@ -93,20 +116,34 @@ const renderCategories = (categories: Category[]): void => {
 
 const renderMenu = (shop: Shop, categories: Category[]): void => {
     submenu.textContent = ''
-    categories.forEach(c => submenu.appendChild(makeLink(c.name, '#' + c.slug)))
+    mainMenu.textContent = ''
 
-    shop.menu.forEach(m => mainMenu.appendChild(makeLink(m.label, m.href)))
+    categories.forEach(c => {
+        submenu.appendChild(makeLink(c.name, '#' + c.slug))
+    })
+
+    shop.menu.forEach(m => {
+        mainMenu.appendChild(makeLink(m.label, m.href))
+    })
 }
 
- const renderFooter = (shop: Shop, categories: Category[]): void => {
+const renderFooter = (shop: Shop, categories: Category[]): void => {
     notice.textContent = shop.notice
     about.textContent = shop.about
     address.textContent = shop.address
     phone.textContent = 'تلفن: ' + shop.phone
 
-    categories.forEach(c => footerCategories.appendChild(makeLink(c.name, '#' + c.slug)))
+    footerCategories.textContent = ''
+    footerHelp.textContent = ''
+    schedule.textContent = ''
 
-    shop.help.forEach(h => footerHelp.appendChild(makeLink(h.label, h.href)))
+    categories.forEach(c => {
+        footerCategories.appendChild(makeLink(c.name, '#' + c.slug))
+    })
+
+    shop.help.forEach(h => {
+        footerHelp.appendChild(makeLink(h.label, h.href))
+    })
 
     shop.schedule.forEach(s => {
         const li = document.createElement('li')
@@ -114,9 +151,11 @@ const renderMenu = (shop: Shop, categories: Category[]): void => {
         schedule.appendChild(li)
     })
 }
- const renderPosters = (home: Home): void => {
+
+const renderPosters = (home: Home): void => {
     posters.textContent = ''
     posters2.textContent = ''
+
     function makeBanner(data: Banner, className: string): HTMLAnchorElement {
         const a = document.createElement('a')
         a.className = 'poster ' + className
@@ -161,9 +200,9 @@ const renderMenu = (shop: Shop, categories: Category[]): void => {
 const initLayout = async () => {
     try {
         const [categories, shop, home] = await Promise.all([
-             loadLayoutJSON<Category[]>('categories.json'),
-             loadLayoutJSON<Shop>('shop.json'),
-             loadLayoutJSON<Home>('home.json')
+            loadLayoutJSON<Category[]>('categories.json'),
+            loadLayoutJSON<Shop>('shop.json'),
+            loadLayoutJSON<Home>('home.json')
         ])
 
         renderCategories(categories)
@@ -176,29 +215,20 @@ const initLayout = async () => {
         }
     } catch (err: unknown) {
         console.error(err)
-        categoriesNav.textContent = 'خطا: ' + (err instanceof Error ? err.message : String(err))
+        categoriesNav.textContent =
+            'خطا: ' + (err instanceof Error ? err.message : String(err))
     }
-}
-  
-
-// ===================== Best-selling carousel (cards) =====================
-
- 
-const BASE = '../../api/'
-
- async function loadJSON<T>(name: string): Promise<T> {
-    const res: Response = await fetch(BASE + name)
-    if (!res.ok) {
-        throw new Error(name + ': HTTP ' + res.status)
-    }
-    return res.json()
 }
 
 function formatPrice(n: number): string {
     return new Intl.NumberFormat('fa-IR').format(n) + ' تومان'
 }
 
-function createCard(product: Product, offer: Offer | undefined, stockCount: number): HTMLElement {
+function createCard(
+    product: Product,
+    offer: Offer | undefined,
+    stockCount: number
+): HTMLElement {
     const soldOut = stockCount === 0
 
     const li = document.createElement('li')
@@ -218,10 +248,13 @@ function createCard(product: Product, offer: Offer | undefined, stockCount: numb
     unit.textContent = product.unit
 
     const price = document.createElement('p')
+
     if (offer) {
         const newPrice = Math.round(product.price * (100 - offer.percent) / 100)
+
         const old = document.createElement('s')
         old.textContent = new Intl.NumberFormat('fa-IR').format(product.price)
+
         const b = document.createElement('b')
         b.textContent = ' ' + formatPrice(newPrice)
         price.append(old, b)
@@ -236,7 +269,8 @@ function createCard(product: Product, offer: Offer | undefined, stockCount: numb
     if (offer) {
         const off = document.createElement('span')
         off.className = 'off'
-        off.textContent = new Intl.NumberFormat('fa-IR').format(offer.percent) + '٪ تخفیف'
+        off.textContent =
+            new Intl.NumberFormat('fa-IR').format(offer.percent) + '٪ تخفیف'
         article.appendChild(off)
     }
 
@@ -269,41 +303,86 @@ const init = async () => {
     showMessage('در حال بارگذاری...')
 
     try {
-        const [products, stock, offers] = await Promise.all([
-              loadJSON<Product[]>('products.json'),
-              loadJSON<Stock>('stock.json'),
-              loadJSON<Offer[]>('offers.json')
+        const [products, stock, offers, categories] = await Promise.all([
+            loadJSON<Product[]>('products.json'),
+            loadJSON<Stock>('stock.json'),
+            loadJSON<Offer[]>('offers.json'),
+            loadLayoutJSON<Category[]>('categories.json')
         ])
 
         const offerMap = new Map(offers.map(o => [o.productId, o]))
+        const categoryMap = new Map(categories.map(c => [c.id, c.name]))
         const items = products.filter(p => offerMap.has(p.id))
 
-        container.textContent = ''
-        items.forEach(p => {
-            container.appendChild(
-                createCard(p, offerMap.get(p.id), stock.items[p.id])
-            )
-        })
+        const renderProducts = (list: Product[]) => {
+            container.textContent = ''
+
+            if (list.length === 0) {
+                showMessage('محصولی پیدا نشد.')
+                return
+            }
+
+            list.forEach(product => {
+                container.appendChild(
+                    createCard(
+                        product,
+                        offerMap.get(product.id),
+                        stock.items[product.id] ?? 0
+                    )
+                )
+            })
+        }
+
+        renderProducts(items)
+
+        if (searchForm && searchInput) {
+            searchForm.addEventListener('submit', (e: SubmitEvent) => {
+                e.preventDefault()
+
+                const query = searchInput.value.trim().toLocaleLowerCase('fa-IR')
+
+                if (!query) {
+                    renderProducts(items)
+                    return
+                }
+
+                const matchedProducts = products.filter(product => {
+                    const productName = product.name.toLocaleLowerCase('fa-IR')
+                    const categoryName = categoryMap.get(product.categoryId) ?? ''
+
+                    return productName.includes(query) ||
+                        categoryName.toLocaleLowerCase('fa-IR').includes(query)
+                })
+
+                renderProducts(matchedProducts)
+
+                const title = document.querySelector<HTMLHeadingElement>('#best-title')
+                if (title) title.textContent = 'نتایج جست‌وجو'
+            })
+        }
 
         const first = container.firstElementChild
         const last = container.lastElementChild
+
         if (first) first.id = 'b1'
         if (last) last.id = 'b6'
     } catch (err: unknown) {
         console.error(err)
-        showMessage('بارگذاری محصولات ممکن نشد. اتصال اینترنت را بررسی کنید و صفحه را دوباره باز کنید.')
+        showMessage(
+            'بارگذاری محصولات ممکن نشد. اتصال اینترنت را بررسی کنید و صفحه را دوباره باز کنید.'
+        )
     }
 }
 
 container.addEventListener('click', (e: MouseEvent) => {
     if (!(e.target instanceof Element)) return
+
     const button = e.target.closest<HTMLButtonElement>('button')
     if (!button || button.disabled) return
 
     notyf.success((button.dataset.name ?? 'کالا') + ' به سبد اضافه شد')
     confetti({ particleCount: 60, spread: 70 })
 })
-// ===================== Start =====================
 
 init()
 initLayout()
