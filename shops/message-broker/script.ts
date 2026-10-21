@@ -1,6 +1,27 @@
 import { Notyf } from 'notyf'
 import 'notyf/notyf.min.css'
 import confetti from 'canvas-confetti'
+  
+type Category = { slug: string; name: string; emoji: string; color: string }
+type Link = { label: string; href: string }
+type Schedule = { days: string; time: string }
+type Shop = {
+  notice: string
+  about: string
+  address: string
+  phone: string
+  menu: Link[]
+  help: Link[]
+  schedule: Schedule[]
+}
+type Banner = { emoji: string; title: string; text: string; cta: Link }
+type Promo = { href: string; color: string; emoji: string; text: string }
+type Home = { hero: Banner; side: Banner; promos: Promo[] }
+
+type Product = { id: number; name: string; emoji: string; unit: string; price: number }
+type Offer = { productId: number; percent: number }
+type Stock = { items: Record<number, number> }
+
 
 const notyf = new Notyf()
 
@@ -28,15 +49,16 @@ if (
 
 const LAYOUT_BASE = '../../api/'
 
-async function loadLayoutJSON(name) {
-    const res = await fetch(LAYOUT_BASE + name)
+async function loadLayoutJSON<T>(name: string): Promise<T> {
+    const res: Response = await fetch(LAYOUT_BASE + name)
     if (!res.ok) {
         throw new Error(name + ': HTTP ' + res.status)
     }
     return res.json()
 }
 
-function makeLink(text, href) {
+
+function makeLink(text: string, href: string): HTMLLIElement {
     const li = document.createElement('li')
     const a = document.createElement('a')
     a.href = href
@@ -45,7 +67,7 @@ function makeLink(text, href) {
     return li
 }
  
-const renderCategories = (categories) => {
+const renderCategories = (categories: Category[]): void => {
     categoriesNav.textContent = ''
 
     categories.forEach(c => {
@@ -69,14 +91,14 @@ const renderCategories = (categories) => {
     })
 }
 
-const renderMenu = (shop, categories) => {
+const renderMenu = (shop: Shop, categories: Category[]): void => {
     submenu.textContent = ''
     categories.forEach(c => submenu.appendChild(makeLink(c.name, '#' + c.slug)))
 
     shop.menu.forEach(m => mainMenu.appendChild(makeLink(m.label, m.href)))
 }
 
- const renderFooter = (shop, categories) => {
+ const renderFooter = (shop: Shop, categories: Category[]): void => {
     notice.textContent = shop.notice
     about.textContent = shop.about
     address.textContent = shop.address
@@ -92,10 +114,10 @@ const renderMenu = (shop, categories) => {
         schedule.appendChild(li)
     })
 }
- const renderPosters = (home) => {
+ const renderPosters = (home: Home): void => {
     posters.textContent = ''
     posters2.textContent = ''
-    function makeBanner(data, className) {
+    function makeBanner(data: Banner, className: string): HTMLAnchorElement {
         const a = document.createElement('a')
         a.className = 'poster ' + className
         a.href = data.cta.href
@@ -139,9 +161,9 @@ const renderMenu = (shop, categories) => {
 const initLayout = async () => {
     try {
         const [categories, shop, home] = await Promise.all([
-            loadLayoutJSON('categories.json'),
-            loadLayoutJSON('shop.json'),
-            loadLayoutJSON('home.json')
+             loadLayoutJSON<Category[]>('categories.json'),
+             loadLayoutJSON<Shop>('shop.json'),
+             loadLayoutJSON<Home>('home.json')
         ])
 
         renderCategories(categories)
@@ -164,19 +186,19 @@ const initLayout = async () => {
  
 const BASE = '../../api/'
 
-async function loadJSON(name) {
-    const res = await fetch(BASE + name)
+ async function loadJSON<T>(name: string): Promise<T> {
+    const res: Response = await fetch(BASE + name)
     if (!res.ok) {
         throw new Error(name + ': HTTP ' + res.status)
     }
     return res.json()
 }
 
-function formatPrice(n) {
+function formatPrice(n: number): string {
     return new Intl.NumberFormat('fa-IR').format(n) + ' تومان'
 }
 
-function createCard(product, offer, stockCount) {
+function createCard(product: Product, offer: Offer | undefined, stockCount: number): HTMLElement {
     const soldOut = stockCount === 0
 
     const li = document.createElement('li')
@@ -248,9 +270,9 @@ const init = async () => {
 
     try {
         const [products, stock, offers] = await Promise.all([
-            loadJSON('products.json'),
-            loadJSON('stock.json'),
-            loadJSON('offers.json')
+              loadJSON<Product[]>('products.json'),
+              loadJSON<Stock>('stock.json'),
+              loadJSON<Offer[]>('offers.json')
         ])
 
         const offerMap = new Map(offers.map(o => [o.productId, o]))
@@ -267,7 +289,7 @@ const init = async () => {
         const last = container.lastElementChild
         if (first) first.id = 'b1'
         if (last) last.id = 'b6'
-    } catch (err) {
+    } catch (err: unknown) {
         console.error(err)
         showMessage('بارگذاری محصولات ممکن نشد. اتصال اینترنت را بررسی کنید و صفحه را دوباره باز کنید.')
     }
