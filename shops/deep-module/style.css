@@ -2844,6 +2844,9 @@ section[id] {
 }
 
 @media (max-width: 640px) {
+  .brand__name {
+    display: none;
+  }
   .hero {
     padding-block: 16px 20px;
   }
@@ -3026,6 +3029,19 @@ section[id] {
   }
   .hero-card__btn {
     font-size: 0.72rem;
+  }
+  .hidden {
+    display: none;
+  }
+  .section-head__link {
+   font-size: 10px;
+  }
+  .section-head__title{
+    font-size: 14px;
+  }
+  .topbar{
+    font-size: 12px;
+    padding: 8px 0%;
   }
 }
 
