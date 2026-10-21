@@ -727,7 +727,7 @@ function renderCategorySkeletons(container: HTMLElement, count: number = 7): voi
 
 function renderBannerSkeleton(count: number = 2): void {
 
-    const banner = document.querySelector("#banner");
+    const banner = document.querySelector<HTMLElement>("#banner");
 
     if (!banner)
 
@@ -783,7 +783,8 @@ function renderBannerSkeleton(count: number = 2): void {
 
 function renderPromoSkeletons(): void {
 
-    const advertisements = document.querySelectorAll(".advertisement");
+   const advertisements =
+    document.querySelectorAll<HTMLElement>(".advertisement");
 
     advertisements.forEach((advertisement) => {
 
@@ -825,7 +826,8 @@ async function getProducts(): Promise<ProductData> {
 
 async function renderProducts(categoryId: number, containerSelector: string): Promise<void> {
 
-    const container = document.querySelector<HTMLElement>(containerSelector);
+   const container =
+    document.querySelector<HTMLDivElement>(containerSelector);
 
     if (!container)
 
@@ -1058,7 +1060,7 @@ async function getSuggestions(): Promise<SuggestionsData> {
 
 async function renderSuggestions(): Promise<void> {
 
-    const suggestions = document.querySelector<HTMLElement>(".suggestions");
+    const suggestions = document.querySelector<HTMLDivElement>(".suggestions");
 
     if (!suggestions)
 
@@ -1306,7 +1308,7 @@ async function getCategories(): Promise<Categories> {
 
 async function renderCategories(): Promise<void> {
 
-    const categoriesGrid = document.querySelector<HTMLElement>("#categories-grid");
+    const categoriesGrid = document.querySelector<HTMLDivElement>("#categories-grid");
 
     if (!categoriesGrid)
 
@@ -1392,7 +1394,7 @@ async function renderShop(): Promise<void> {
  //Header brand
 
 
-        const headerBrand = document.querySelector("#shop-header-brand");
+        const headerBrand = document.querySelector<HTMLDivElement>("#shop-header-brand");
 
         if (headerBrand) {
 
@@ -1430,7 +1432,7 @@ async function renderShop(): Promise<void> {
 
 
 
-        const shopNameContainer = document.querySelector("#shop-name");
+        const shopNameContainer = document.querySelector<HTMLDivElement>("#shop-name");
 
         if (shopNameContainer && shop.name) {
 
@@ -1444,11 +1446,11 @@ async function renderShop(): Promise<void> {
 
         }
 
-        const shopAbout = document.querySelector<HTMLElement>("#shop-about");
+        const shopAbout = document.querySelector<HTMLParagraphElement>("#shop-about");
 
-        const shopAddress = document.querySelector<HTMLElement>("#shop-address");
+        const shopAddress = document.querySelector<HTMLSpanElement>("#shop-address");
 
-        const shopPhone = document.querySelector<HTMLElement>("#shop-phone");
+        const shopPhone = document.querySelector<HTMLSpanElement>("#shop-phone");
 
         if (shopAbout)
 
@@ -1467,7 +1469,7 @@ async function renderShop(): Promise<void> {
 
 
 
-        const navbarCategories = document.querySelector<HTMLElement>("#navbar-categories");
+        const navbarCategories = document.querySelector<HTMLUListElement>("#navbar-categories");
 
         const navbarCategoriesFragment = document.createDocumentFragment();
 
@@ -1508,7 +1510,7 @@ async function renderShop(): Promise<void> {
 
 
 
-        const navbarList = document.querySelector<HTMLElement>("#navbar-list");
+        const navbarList = document.querySelector<HTMLUListElement>("#navbar-list");
 
         const navbarMenuFragment = document.createDocumentFragment();
 
@@ -1534,11 +1536,9 @@ async function renderShop(): Promise<void> {
 
         if (navbarList) {
 
-            navbarList
-
-                .querySelectorAll(".navbar-menu-item")
-
-                .forEach((item) => item.remove());
+    navbarList
+    .querySelectorAll<HTMLLIElement>(".navbar-menu-item")
+    .forEach((item) => item.remove());
 
             navbarList.append(navbarMenuFragment);
 
@@ -1550,7 +1550,7 @@ async function renderShop(): Promise<void> {
 
 
 
-        const footerCategories = document.querySelector<HTMLElement>("#footer-categories");
+        const footerCategories = document.querySelector<HTMLUListElement>("#footer-categories");
 
         const categoriesFragment = document.createDocumentFragment();
 
@@ -1578,7 +1578,7 @@ async function renderShop(): Promise<void> {
 
  //Footer help
 
-        const helpList = document.querySelector<HTMLElement>("#footer-help");
+        const helpList = document.querySelector<HTMLUListElement>("#footer-help");
 
         const helpFragment = document.createDocumentFragment();
 
@@ -1610,7 +1610,8 @@ async function renderShop(): Promise<void> {
 
 
 
-        const schedule = document.querySelector<HTMLElement>("#shop-schedule");
+        const schedule = document.querySelector<HTMLDivElement>("#shop-schedule");
+
 
         const scheduleFragment = document.createDocumentFragment();
 
@@ -1644,7 +1645,7 @@ async function renderShop(): Promise<void> {
 
 
 
-        const copyright = document.querySelector<HTMLElement>("#shop-copyright");
+        const copyright = document.querySelector<HTMLParagraphElement>("#shop-copyright");
 
         if (copyright) {
 
@@ -1699,13 +1700,14 @@ async function renderHome(): Promise<void> {
 
         const home = await getHome();
 
-        const banner = document.querySelector<HTMLElement>("#banner");
+    const banner = document.querySelector<HTMLElement>("#banner");
 
         if (!banner)
 
             return;
 
-        const bannerTrack = banner.querySelector<HTMLElement>(".banner__track");
+const bannerTrack = banner?.querySelector<HTMLDivElement>(".banner__track");
+
 
         if (!bannerTrack)
 
@@ -1893,7 +1895,8 @@ function updateCartUI(): void {
 
     const total = cart.reduce((total, item) => total + item.price * item.quantity, 0);
 
-    const cartCount = document.querySelector<HTMLElement>(".header__cart-count");
+    const cartCount =
+    document.querySelector<HTMLSpanElement>(".header__cart-count");
 
     const cartTotal = document.querySelector<HTMLElement>(".header__cart-content strong");
 
