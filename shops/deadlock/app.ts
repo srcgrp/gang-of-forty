@@ -1,8 +1,20 @@
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
 import confetti from "canvas-confetti";
+export type Product = {
+  id : number,
+  categoryId : number,
+  name : string,
+  emoji: string,
+  unit : string,
+  price : number,
+  tags : string[]
+}
+export type Category = {id: number, slug: string,name: string, emoji: string, color : string}
+export type Offer = {productId:number , percent: number, label:string}
+export type Stock = {updatedAt: string, items: Record<string, number>}
 const notyf = new Notyf();
-const handleClick = (e: MouseEvent) => {
+const handleClick = (e: MouseEvent): void => {
   if (!(e.target instanceof Element)) return
   const button = e.target.closest<HTMLButtonElement>('button')
   if (!button) return
@@ -10,7 +22,7 @@ const handleClick = (e: MouseEvent) => {
   confetti({ particleCount: 60, spread: 70 });
   
 }
-function createProductCard(product, offer, stockCount) {
+function createProductCard(product: Product, offer : Offer | undefined, stockCount: number):HTMLElement {
   const article = document.createElement("article");
   const span = document.createElement("span");
   span.setAttribute("aria-hidden", "true");
@@ -70,14 +82,14 @@ function createProductCard(product, offer, stockCount) {
   div.append(btn);
   return article;
 }
-async function getJSON(fileName) {
+async function getJSON<T>(fileName: string): Promise<T> {
   const res = await fetch(`../../api/${fileName}.json`);
   if (!res.ok) {
     throw new Error(`something went wrong with ${fileName}`);
   }
   return await res.json();
 }
-function renderProducts(container, productList, stock, offers) {
+function renderProducts(container: HTMLDivElement, productList: Product[], stock: Stock, offers: Offer[]): void {
   for (let i = 0; i < productList.length; i++) {
     const product = productList[i];
     const stockCount = stock.items[product.id];
@@ -87,7 +99,7 @@ function renderProducts(container, productList, stock, offers) {
     container.append(card);
   }
 }
-function showMessage(container, text) {
+function showMessage(container: HTMLDivElement, text: string): HTMLParagraphElement {
   const message = document.createElement("p");
   message.classList.add("carousel-message");
   message.textContent = text;
@@ -95,7 +107,7 @@ function showMessage(container, text) {
   return message;
 }
 const textmsg = "در حال بارگذاری...";
-async function loadProducts() {
+async function loadProducts(): Promise<void>{
   const offersContainer = document.querySelector<HTMLDivElement>(
     "#special-offers .carousel",
   );
@@ -110,9 +122,9 @@ async function loadProducts() {
   const offersLoading = showMessage(offersContainer, textmsg);
   try {
     const [products, stock, offers] = await Promise.all([
-      getJSON("products"),
-      getJSON("stock"),
-      getJSON("offers"),
+      getJSON<Product[]>("products"),
+      getJSON<Stock>("stock"),
+      getJSON<Offer[]>("offers"),
     ]);
     const pantryProducts = products.filter((n) => n.categoryId === 4);
     const offerProducts = products.filter((product) =>
