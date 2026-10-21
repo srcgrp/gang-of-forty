@@ -740,11 +740,11 @@ footer section:target {
 .strip > li:hover,
 .strip > li:focus-within {
   transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgb(0 0 0 / 0.15);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
 }
 
 .carousel {
-  padding-block: var(--space-m) var(--space-l);
+  padding-block: var(--space-m);
 }
 
 .carousel button,
@@ -1016,4 +1016,33 @@ footer address a {
   padding: var(--space-m);
   background: var(--color-surface);
   border-radius: var(--radius);
+}
+
+/* search result */
+form.search {
+  position: relative; 
+}
+
+.search-results {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  inset-inline: 0;
+  z-index: 10;
+  margin: 0;
+  padding: 0.5rem;
+  list-style: none;
+  max-height: 60vh;
+  overflow-y: auto;
+  background: var(--color-surface);
+  color: var(--color-text);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.25);
+}
+
+.search-results:empty {
+  display: none;
+}
+
+#carousels > section {
+  margin-block-end: var(--space-l);
 }
