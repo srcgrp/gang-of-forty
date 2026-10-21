@@ -1,0 +1,9 @@
+Flatbread emoji (U+1FAD3), Twemoji 14.0.2
+Copyright Twitter, Inc and other contributors.
+Source: https://github.com/twitter/twemoji/blob/v14.0.2/assets/svg/1fad3.svg
+License: CC-BY 4.0 (https://creativecommons.org/licenses/by/4.0/)
+The SVG artwork is unmodified. See twemoji-LICENSE.txt.
+
+Beans emoji (U+1FAD8), Twemoji 14.0.2
+Source: https://github.com/twitter/twemoji/blob/v14.0.2/assets/svg/1fad8.svg
+Copyright Twitter, Inc and other contributors. CC-BY 4.0. Unmodified artwork.

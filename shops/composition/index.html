@@ -1,10 +1,11 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1" >
     <title>بت‌شاپ | یه پرواز تا خرید روزانه</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" >
+    <link rel="icon" type="image/svg+xml" href="./icons/shopping-cart.svg" >
   </head>
   <body id="top">
     <a class="skip-link" href="#main">پرش به محتوای اصلی</a>
@@ -45,23 +46,34 @@
         </a>
         <div class="search-box">
           <label for="product-search">جست‌وجوی محصولات</label>
-          <input id="product-search" type="search" placeholder="دنبال چی می‌گردی؟">
+          <input
+            id="product-search"
+            type="search"
+            aria-controls="search-results"
+            disabled
+            placeholder="دنبال چی می‌گردی؟"
+          >
         </div>
         <button class="cart-button" type="button" aria-label="سبد خرید، ۰ کالا">
-          <img src="icons/shopping-cart.svg" alt="" width="48" height="48">
+          <img src="icons/shopping-cart.svg" alt="" width="48" height="48" >
           <span>سبد خرید</span>
           <b id="cart-count" aria-live="polite">۰</b>
         </button>
+        <button id="theme-toggle" class="theme-toggle" type="button" aria-label="فعال کردن تم تیره">
+          <img src="./icons/moon.svg" alt="" width="24" height="24" >
+        </button>
         <details class="mobile-menu">
           <summary aria-label="باز و بسته کردن منوی اصلی">
-            <img src="icons/menu-2.svg" alt="" width="48" height="48">
+            <img src="icons/menu-2.svg" alt="" width="48" height="48" >
           </summary>
           <nav id="mobile-links" aria-label="منوی موبایل"></nav>
         </details>
       </div>
       <nav class="desktop-nav wrap" aria-label="منوی اصلی">
         <div class="category-menu">
-          <button class="category-trigger" type="button">☰ همهٔ دسته‌ها</button>
+          <button class="category-trigger" type="button">
+            ☰ همهٔ دسته‌ها
+          </button>
           <div id="category-links" class="category-links"></div>
         </div>
         <div id="main-links" class="main-links"></div>
@@ -70,6 +82,15 @@
     <main id="main" class="wrap" tabindex="-1">
       <p id="page-status" class="products-status" role="status"></p>
       <p id="cart-message" role="status"></p>
+      <section id="search-results" aria-labelledby="search-title" hidden>
+        <div class="section-heading">
+          <h2 id="search-title">نتایج جست‌وجو</h2>
+          <button id="clear-search" class="clear-search" type="button">پاک کردن جست‌وجو</button>
+        </div>
+        <p id="search-status" role="status"></p>
+        <div id="search-products" class="sample-products"></div>
+      </section>
+      <div id="shop-content">
       <div id="banners" class="banners"></div>
       <section id="categories" aria-label="دسته‌بندی‌ها">
         <div id="categories-heading" class="section-heading"></div>
@@ -78,6 +99,7 @@
       <div id="promos" class="promos"></div>
       <div id="carousels"></div>
       <div id="category-products"></div>
+      </div>
     </main>
     <footer id="contact">
       <div class="wrap footer-grid">
@@ -87,6 +109,6 @@
       </div>
       <div id="footer-bottom" class="wrap footer-bottom"></div>
     </footer>
-    <script src="apicall.js"></script>
+    <script type="module" src="./apicall.ts"></script>
   </body>
 </html>
