@@ -1,0 +1,189 @@
+/* ======================================== Product Card ======================================== */
+.product-card {
+  flex: 0 0 220px;
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+  scroll-snap-align: start;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgb(0 0 0 / 8%);
+} /* ======================================== Product Image ======================================== */
+.product-thumb {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+
+  user-select: none;
+}
+.product-thumb img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  padding: 5px;
+  transition: transform 0.25s ease;
+}
+.product-card:hover .product-thumb img {
+  transform: scale(1.06);
+} /* ======================================== Discount Badge ======================================== */
+.badge-discount {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  min-width: 42px;
+  padding: 4px 6px;
+  display: grid;
+  place-items: center;
+  padding-inline: 7px;
+  border-radius: 999px;
+  background: var(--secondary);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  z-index: 1;
+} /* ======================================== Product Info ======================================== */
+.product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 16px 16px 10px;
+  direction: rtl;
+}
+.product-name {
+  overflow: hidden;
+  color: var(--text);
+  font-size: 0.8rem;
+  font-weight: 750;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.product-unit {
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  font-weight: 500;
+} /* ======================================== Product Footer ======================================== */
+.product-footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 16px 16px;
+  direction: rtl;
+} /* ======================================== Add Button ======================================== */
+.add-btn {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--surface);
+  color: var(--primary);
+  font-size: 1.35rem;
+  font-weight: 400;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+.add-btn:hover {
+  border-color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 8%, var(--surface));
+  transform: scale(1.04);
+}
+.add-btn:active {
+  transform: scale(0.96);
+} /* ======================================== Pricing ======================================== */
+.product-pricing {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+.old-price {
+  color: var(--text-muted);
+  font-size: 0.62rem;
+  text-decoration: line-through;
+}
+.current-price {
+  color: var(--text);
+  font-size: 0.72rem;
+  font-weight: 800;
+  white-space: nowrap;
+} /* ======================================== Responsive ======================================== */
+@media (max-width: 900px) {
+  .product-card {
+    flex-basis: 200px;
+  }
+  .product-thumb {
+    height: 180px;
+  }
+  .product-thumb img {
+    padding: 15px;
+  }
+}
+@media (max-width: 600px) {
+  .product-card {
+    flex-basis: 150px;
+  }
+  .product-thumb {
+    height: 140px;
+  }
+  .product-thumb img {
+    padding: 12px;
+  }
+  .product-info {
+    padding: 12px 12px 8px;
+  }
+  .product-name {
+    font-size: 0.7rem;
+  }
+  .product-unit {
+    font-size: 0.6rem;
+  }
+  .product-footer {
+    padding: 8px 12px 12px;
+  }
+  .add-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+  }
+  .current-price {
+    font-size: 0.64rem;
+  }
+  .old-price {
+    font-size: 0.56rem;
+  }
+}
+@media (max-width: 400px) {
+  .product-card {
+    flex-basis: 150px;
+  }
+  .product-thumb {
+    height: 140px;
+  }
+  .product-thumb img {
+    padding: 10px;
+  }
+  .product-footer {
+    gap: 6px;
+  }
+}

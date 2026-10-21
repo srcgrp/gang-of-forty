@@ -3,27 +3,488 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت TDD</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
+  <meta name="author" content="Sam">
+  <meta name="description" content="سام مارکت؛ تازگی در سبد، دقت در انتخاب. میوه و سبزی، لبنیات، نان و نیازهای روزمره با پیشنهادهای به‌صرفه.">
+  <meta name="theme-color" content="#174b3a">
+  <title>سام مارکت | تازگی در سبد، دقت در انتخاب</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>✅ سلام دنیا!</h1>
+<body id="top">
+  <a class="skip-link" href="#main-content">پرش به محتوای اصلی</a>
+
+  <header class="site-header">
+    <p class="announcement">ارسال رایگان برای خریدهای بالای ۵۰۰ هزار تومان</p>
+
+    <div class="header-content">
+      <a class="brand" href="#top" aria-label="سام مارکت؛ بازگشت به بالای صفحه">
+        <svg class="brand-mark" viewBox="0 0 225 205" role="img" aria-labelledby="logo-title logo-description">
+          <title id="logo-title">لوگوی سام مارکت</title>
+          <desc id="logo-description">سبد خرید با براکت‌های کد، تیک سبز و حروف TDD؛ پیکان و سه نقطه قرمز، سبز و آبی نماد چرخه توسعه آزمون‌محور هستند.</desc>
+          <path d="M35 83H168C189 83 199 70 199 55S188 29 168 29H73" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round"/>
+          <path d="M85 17 71 29 85 41" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="m39 83 19 82c2 10 8 15 19 15h70c11 0 17-5 19-15l18-82" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="m87 111-17 19 17 19m56-38 17 19-17 19" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="m101 132 9 10 20-24" fill="none" stroke="#2ab888" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- TDD  -->
+          <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" stroke-linejoin="round" aria-hidden="true">
+            <path d="M89 157h10m-5-0v12"/>
+            <path d="M106 157v12h4c8 0 8-12 0-12h-4Z"/>
+            <path d="M123 157v12h4c8 0 8-12 0-12h-4Z"/>
+          </g>
+          <circle cx="60" cy="83" r="7" fill="#ee7466"/>
+          <circle cx="112" cy="83" r="7" fill="#2ab888"/>
+          <circle cx="164" cy="83" r="7" fill="#739ff0"/>
+        </svg>
+        <span>
+          <strong>سام مارکت</strong>
+          <small>تازگی در سبد، دقت در انتخاب</small>
+        </span>
+      </a>
+
+      <form class="search" role="search" action="#main-content">
+        <label for="site-search">جست‌وجوی محصولات</label>
+        <input id="site-search" name="q" type="search" placeholder="دنبال چه محصولی هستید؟">
+        <button type="submit">جست‌وجو</button>
+      </form>
+
+      <a class="cart" href="#main-content" aria-label="سبد خرید، ۳ کالا">
+        سبد خرید 🛒 <strong>۳</strong>
+      </a>
+    </div>
+
+    <nav class="primary-navigation desktop-navigation" aria-label="منوی اصلی">
+      <a href="#special-offers">پیشنهادهای ویژه</a>
+      <div class="category-menu">
+        <a class="category-trigger" href="#categories">دسته‌بندی‌ها <span aria-hidden="true">⌄</span></a>
+        <div class="category-dropdown">
+            <a href="#fruit">میوه &#127817;</a>
+            <a href="#herbs">سبزی و صیفی‌جات &#129388;</a>
+            <a href="#proteins">پروتئین &#129385;</a>
+            <a href="#dairy">لبنیات &#129472;</a>
+            <a href="#bakery">نان و صبحانه &#127838;</a>
+            <a href="#sweets">شیرینی &#127850;</a>
+            <a href="#snacks">خواربار و تنقلات &#127851;</a>
+            <a href="#drinks">نوشیدنی &#9749;</a>
+        </div>
+      </div>
+      <a href="#daily-essentials">سبد روزمره</a>
+      <a href="#about">داستان سام مارکت</a>
+      <a href="#contact">تماس با ما</a>
+    </nav>
+
+    <details class="mobile-menu">
+      <summary><span aria-hidden="true">☰</span> منوی فروشگاه</summary>
+      <nav class="mobile-navigation" aria-label="منوی اصلی موبایل">
+        <a href="#special-offers">پیشنهادهای ویژه</a>
+        <a href="#daily-essentials">سبد روزمره</a>
+        <details class="mobile-categories">
+          <summary>دسته‌بندی محصولات</summary>
+          <div class="mobile-category-links">
+            <a href="#categories">همهٔ دسته‌بندی‌ها</a>
+            <a href="#fruit">میوه &#127817;</a>
+            <a href="#herbs">سبزی و صیفی‌جات &#129388;</a>
+            <a href="#proteins">پروتئین &#129385;</a>
+            <a href="#dairy">لبنیات &#129472;</a>
+            <a href="#bakery">نان و صبحانه &#127838;</a>
+            <a href="#sweets">شیرینی &#127850;</a>
+            <a href="#snacks">خواربار و تنقلات &#127851;</a>
+            <a href="#drinks">نوشیدنی &#9749;</a>
+          </div>
+        </details>
+        <a href="#about">داستان سام مارکت</a>
+        <a href="#contact">تماس با ما</a>
+      </nav>
+    </details>
   </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>TDD</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p><bdi>Test-Driven Development</bdi> یعنی «توسعه تست‌محور». کنت بک آن را معرفی کرد. چرخه‌اش سه قدم دارد: قرمز (اول تستی بنویس که شکست بخورد)، سبز (کمترین کد را بنویس تا تست پاس شود)، ریفکتور (کد را تمیز کن).</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
+
+  <main id="main-content" tabindex="-1">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span aria-hidden="true"></span> تازگی، از ارزیابی تا انتخاب</p>
+        <h1 id="hero-title">یک سبد تازه، برای هر روز تو.</h1>
+        <p>از میوه‌های فصل تا نان صبحانه و نیازهای آشپزخانه؛ خرید روزانه‌ات را با تازگی، قیمت‌های روشن و انتخاب‌های به‌صرفه کنار هم بچین. نگاه سام ساده است: اول معیار تازگی، بعد انتخاب برای سبد تو.</p>
+        <div class="hero-actions">
+          <a class="hero-primary-action" href="#special-offers">دیدن پیشنهادهای امروز <span aria-hidden="true">←</span></a>
+          <a class="hero-secondary-action" href="#about">داستان سام مارکت</a>
+        </div>
+        <ul class="hero-benefits">
+          <li>قیمت‌های روشن</li>
+          <li>انتخاب روز</li>
+          <li>سبد به‌صرفه</li>
+        </ul>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-image-frame">
+          <img src="1.jpg" alt="نارنگی‌های تازه و رسیده در سبد محصول">
+        </div>
+        <p class="freshness-card"><strong>انتخاب امروز سام</strong><span>تازه، خوش‌رنگ و آماده برای سبد تو</span></p>
+        <div class="tdd-orbit" aria-hidden="true">
+          <span class="orbit-red">معیار</span>
+          <span class="orbit-green">انتخاب</span>
+          <span class="orbit-blue">بهبود</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="categories" id="categories" aria-labelledby="categories-title">
+      <header class="section-heading">
+        <div>
+          <p class="eyebrow">هر چیزی، سر جای خودش</p>
+          <h2 id="categories-title">دسته‌بندی‌ها</h2>
+        </div>
+        <p>از اولین لقمه صبح تا آخرین فنجان شب؛ هر انتخاب، سر جای خودش.</p>
+      </header>
+
+      <div class="category-grid">
+        <a href="#fruit"><span aria-hidden="true">&#127817;&#127824;</span><strong>میوه</strong><small>تازه و فصلی</small></a>
+        <a href="#herbs"><span aria-hidden="true">&#129388;&#129382;</span><strong>سبزی و صیفی‌جات</strong><small>تازه و فصلی</small></a>
+        <a href="#proteins"><span aria-hidden="true">&#129385;🍗</span><strong>پروتئین</strong><small>تازه و مطمئن</small></a>
+        <a href="#dairy"><span aria-hidden="true">🥛&#129472;</span><strong>لبنیات</strong><small>سالم و روزانه</small></a>
+        <a href="#bakery"><span aria-hidden="true">&#127838;🥖</span><strong>نان</strong><small>شروع مقوی روز</small></a>
+        <a href="#sweets"><span aria-hidden="true">&#127850;&#127856;</span><strong>شیرینی</strong><small>یک مکث شیرین</small></a>
+        <a href="#snacks"><span aria-hidden="true">&#127851;🫘</span><strong>خواربار و تنقلات</strong><small>متنوع و خوشمزه</small></a>
+        <a href="#drinks"><span aria-hidden="true">&#9749;🧃</span><strong>نوشیدنی</strong><small>خنک و دلچسب</small></a>
+      </div>
+    </section>
+
+    <section class="promo-grid" aria-label="پیشنهادهای منتخب">
+      <article class="promo promo-primary">
+        <div>
+          <p>سبد به‌صرفه هفته</p>
+          <h2>خرید حساب‌شده، سفره پربار</h2>
+          <a href="#special-offers">مشاهده پیشنهادها</a>
+        </div>
+        <span aria-hidden="true">🧺</span>
+      </article>
+
+      <article class="promo promo-secondary">
+        <div>
+          <p>شروع روز با عطر نان</p>
+          <h2>شروع خوب، با نان تازه تا ساعت ۱۱</h2>
+          <a href="#bakery">خرید صبحانه</a>
+        </div>
+        <span aria-hidden="true">🥐</span>
+      </article>
+    </section>
+
+    <section class="product-carousel" id="special-offers" aria-labelledby="offers-title">
+      <header class="section-heading">
+        <div>
+          <p class="eyebrow">انتخاب‌های امروز سام</p>
+          <h2 id="offers-title">پیشنهادهای ویژه</h2>
+        </div>
+        <p>برای همان خریدهای همیشگی، انتخاب‌های تازه پیدا کن؛ پیشنهادهای سام برای یک سبد به‌صرفه‌تر.</p>
+      </header>
+      <nav class="carousel-controls" aria-label="کنترل‌های پیشنهادهای ویژه">
+        <a href="#offers-first">اولین محصول <span aria-hidden="true">→</span></a>
+        <a href="#offers-last">آخرین محصول <span aria-hidden="true">←</span></a>
+      </nav>
+      <section class="product-track" aria-label="محصولات قابل پیمایش پیشنهادهای ویژه" tabindex="0">
+        <article class="product-card" id="offers-first" aria-labelledby="offers-first-name">
+          <div class="product-image">
+            <span class="product-icon" aria-hidden="true">🍊</span>
+            <span class="discount-badge">۲۰٪ تخفیف</span>
+          </div>
+          <h3 id="offers-first-name">پرتقال تامسون</h3>
+          <p class="product-amount">۱ کیلوگرم</p>
+          <div class="product-prices">
+            <p class="previous-price">قیمت قبلی: <del>۱۰۰٬۰۰۰ تومان</del></p>
+            <p class="current-price">قیمت با تخفیف: <strong>۸۰٬۰۰۰</strong> تومان</p>
+          </div>
+          <button class="add-button" type="button" aria-label="افزودن پرتقال تامسون به سبد خرید">افزودن به سبد <span aria-hidden="true">+</span></button>
+        </article>
+        <article class="product-card" id="offers-product-2" aria-labelledby="offers-product-2-name">
+          <div class="product-image">
+            <span class="product-icon" aria-hidden="true">🥛</span>
+            <span class="discount-badge">۱۰٪ تخفیف</span>
+          </div>
+          <h3 id="offers-product-2-name">شیر کم‌چرب</h3>
+          <p class="product-amount">۱ لیتر</p>
+          <div class="product-prices">
+            <p class="previous-price">قیمت قبلی: <del>۵۰٬۰۰۰ تومان</del></p>
+            <p class="current-price">قیمت با تخفیف: <strong>۴۵٬۰۰۰</strong> تومان</p>
+          </div>
+          <button class="add-button" type="button" aria-label="افزودن شیر کم‌چرب به سبد خرید">افزودن به سبد <span aria-hidden="true">+</span></button>
+        </article>
+        <article class="product-card" id="offers-product-3" aria-labelledby="offers-product-3-name">
+          <div class="product-image">
+            <span class="product-icon" aria-hidden="true">🥚</span>
+          </div>
+          <h3 id="offers-product-3-name">تخم‌مرغ</h3>
+          <p class="product-amount">بسته ۶ عددی</p>
+          <div class="product-prices">
+            <p class="current-price">قیمت: <strong>۷۲٬۰۰۰</strong> تومان</p>
+          </div>
+          <button class="add-button" type="button" aria-label="افزودن تخم‌مرغ به سبد خرید">افزودن به سبد <span aria-hidden="true">+</span></button>
+        </article>
+        <article class="product-card" id="offers-product-4" aria-labelledby="offers-product-4-name">
+          <div class="product-image">
+            <span class="product-icon" aria-hidden="true">🍅</span>
+            <span class="discount-badge">۱۵٪ تخفیف</span>
+          </div>
+          <h3 id="offers-product-4-name">گوجه‌فرنگی</h3>
+          <p class="product-amount">۱ کیلوگرم</p>
+          <div class="product-prices">
+            <p class="previous-price">قیمت قبلی: <del>۶۰٬۰۰۰ تومان</del></p>
+            <p class="current-price">قیمت با تخفیف: <strong>۵۱٬۰۰۰</strong> تومان</p>
+          </div>
+          <button class="add-button" type="button" aria-label="افزودن گوجه‌فرنگی به سبد خرید">افزودن به سبد <span aria-hidden="true">+</span></button>
+        </article>
+        <article class="product-card" id="offers-product-5" aria-labelledby="offers-product-5-name">
+          <div class="product-image">
+            <span class="product-icon" aria-hidden="true">🧀</span>
+          </div>
+          <h3 id="offers-product-5-name">پنیر سفید</h3>
+          <p class="product-amount">۴۰۰ گرم</p>
+          <div class="product-prices">
+            <p class="current-price">قیمت: <strong>۸۵٬۰۰۰</strong> تومان</p>
+          </div>
+          <button class="add-button" type="button" aria-label="افزودن پنیر سفید به سبد خرید">افزودن به سبد <span aria-hidden="true">+</span></button>
+        </article>
+        <article class="product-card" id="offers-product-6" aria-labelledby="offers-product-6-name">
+          <div class="product-image">
+            <span class="product-icon" aria-hidden="true">🍎</span>
+          </div>
+          <h3 id="offers-product-6-name">سیب قرمز</h3>
+          <p class="product-amount">۱ کیلوگرم</p>
+          <div class="product-prices">
+            <p class="current-price">قیمت: <strong>۹۰٬۰۰۰</strong> تومان</p>
+          </div>
+          <button class="add-button" type="button" aria-label="افزودن سیب قرمز به سبد خرید">افزودن به سبد <span aria-hidden="true">+</span></button>
+        </article>
+        <article class="product-card is-unavailable" id="offers-product-7" aria-labelledby="offers-product-7-name" aria-describedby="offers-product-7-status">
+          <div class="product-image">
+            <span class="product-icon" aria-hidden="true">🍌</span>
+            <span class="stock-badge" aria-hidden="true">تمام شد</span>
+          </div>
+          <h3 id="offers-product-7-name">موز اکوادور</h3>
+          <p class="product-amount">۱ کیلوگرم</p>
+          <div class="product-prices">
+            <p class="current-price">قیمت: <strong>۱۲۰٬۰۰۰</strong> تومان</p>
+            <p class="stock-status" id="offers-product-7-status">ناموجود</p>
+          </div>
+          <button class="add-button" type="button" disabled>افزودن به سبد <span aria-hidden="true">×</span></button>
+        </article>
+        <article class="product-card is-unavailable" id="offers-product-8" aria-labelledby="offers-product-8-name" aria-describedby="offers-product-8-status">
+          <div class="product-image">
+            <span class="product-icon" aria-hidden="true">🥣</span>
+            <span class="stock-badge" aria-hidden="true">تمام شد</span>
+          </div>
+          <h3 id="offers-product-8-name">ماست یونانی</h3>
+          <p class="product-amount">۹۰۰ گرم</p>
+          <div class="product-prices">
+            <p class="current-price">قیمت: <strong>۹۸٬۰۰۰</strong> تومان</p>
+            <p class="stock-status" id="offers-product-8-status">ناموجود</p>
+          </div>
+          <button class="add-button" type="button" disabled>افزودن به سبد <span aria-hidden="true">×</span></button>
+        </article>
+        <article class="product-card is-unavailable" id="offers-last" aria-labelledby="offers-last-name" aria-describedby="offers-last-status">
+          <div class="product-image">
+            <span class="product-icon" aria-hidden="true">🥜</span>
+            <span class="stock-badge" aria-hidden="true">تمام شد</span>
+          </div>
+          <h3 id="offers-last-name">مغز گردو</h3>
+          <p class="product-amount">بسته ۲۵۰ گرمی</p>
+          <div class="product-prices">
+            <p class="current-price">قیمت: <strong>۲۴۵٬۰۰۰</strong> تومان</p>
+            <p class="stock-status" id="offers-last-status">ناموجود</p>
+          </div>
+          <button class="add-button" type="button" disabled>افزودن به سبد <span aria-hidden="true">×</span></button>
+        </article>
+      </section>
+    </section>
+
+    <section class="product-carousel" id="daily-essentials" aria-labelledby="daily-title">
+      <header class="section-heading">
+        <div>
+          <p class="eyebrow">خرید روزانه، با دقت سام</p>
+          <h2 id="daily-title">سبد روزمره</h2>
+        </div>
+        <p>از صبحانه تا شام؛ نیازهای همیشگی، کنار هم برای یک انتخاب راحت.</p>
+      </header>
+      <nav class="carousel-controls" aria-label="کنترل‌های سبد روزمره">
+        <a href="#daily-first">اولین محصول <span aria-hidden="true">→</span></a>
+        <a href="#daily-last">آخرین محصول <span aria-hidden="true">←</span></a>
+      </nav>
+      <section class="product-track" aria-label="محصولات قابل پیمایش سبد روزمره" tabindex="0">
+        <article class="product-card" id="daily-first" aria-labelledby="daily-first-name">
+          <div class="product-image">
+            <span class="product-icon" aria-hidden="true">🥖</span>
+          </div>
+          <h3 id="daily-first-name">نان باگت</h3>
+          <p class="product-amount">بسته ۲ عددی</p>
+          <div class="product-prices">
+            <p class="current-price">قیمت: <strong>۳۰٬۰۰۰</strong> تومان</p>
+          </div>
+          <button class="add-button" type="button" aria-label="افزودن نان باگت به سبد خرید">افزودن به سبد <span aria-hidden="true">+</span></button>
+        </article>
+        <article class="product-card" id="daily-product-2" aria-labelledby="daily-product-2-name">
+          <div class="product-image">
+            <span class="product-icon" aria-hidden="true">🍚</span>
+          </div>
+          <h3 id="daily-product-2-name">برنج ایرانی</h3>
+          <p class="product-amount">۱ کیلوگرم</p>
+          <div class="product-prices">
+            <p class="current-price">قیمت: <strong>۲۲۰٬۰۰۰</strong> تومان</p>
+          </div>
+          <button class="add-button" type="button" aria-label="افزودن برنج ایرانی به سبد خرید">افزودن به سبد <span aria-hidden="true">+</span></button>
+        </article>
+        <article class="product-card" id="daily-product-3" aria-labelledby="daily-product-3-name">
+          <div class="product-image">
+            <span class="product-icon" aria-hidden="true">🍗</span>
+            <span class="discount-badge">۱۰٪ تخفیف</span>
+          </div>
+          <h3 id="daily-product-3-name">فیله مرغ</h3>
+          <p class="product-amount">۵۰۰ گرم</p>
+          <div class="product-prices">
+            <p class="previous-price">قیمت قبلی: <del>۱۶۰٬۰۰۰ تومان</del></p>
+            <p class="current-price">قیمت با تخفیف: <strong>۱۴۴٬۰۰۰</strong> تومان</p>
+          </div>
+          <button class="add-button" type="button" aria-label="افزودن فیله مرغ به سبد خرید">افزودن به سبد <span aria-hidden="true">+</span></button>
+        </article>
+        <article class="product-card" id="daily-product-4" aria-labelledby="daily-product-4-name">
+          <div class="product-image">
+            <span class="product-icon" aria-hidden="true">🥬</span>
+          </div>
+          <h3 id="daily-product-4-name">کاهو</h3>
+          <p class="product-amount">۱ عدد</p>
+          <div class="product-prices">
+            <p class="current-price">قیمت: <strong>۳۵٬۰۰۰</strong> تومان</p>
+          </div>
+          <button class="add-button" type="button" aria-label="افزودن کاهو به سبد خرید">افزودن به سبد <span aria-hidden="true">+</span></button>
+        </article>
+        <article class="product-card" id="daily-product-5" aria-labelledby="daily-product-5-name">
+          <div class="product-image">
+            <span class="product-icon" aria-hidden="true">🍪</span>
+          </div>
+          <h3 id="daily-product-5-name">بیسکویت سبوس‌دار</h3>
+          <p class="product-amount">۲۰۰ گرم</p>
+          <div class="product-prices">
+            <p class="current-price">قیمت: <strong>۴۰٬۰۰۰</strong> تومان</p>
+          </div>
+          <button class="add-button" type="button" aria-label="افزودن بیسکویت سبوس‌دار به سبد خرید">افزودن به سبد <span aria-hidden="true">+</span></button>
+        </article>
+        <article class="product-card" id="daily-last" aria-labelledby="daily-last-name">
+          <div class="product-image">
+            <span class="product-icon" aria-hidden="true">🧃</span>
+            <span class="discount-badge">۱۰٪ تخفیف</span>
+          </div>
+          <h3 id="daily-last-name">آب‌پرتقال</h3>
+          <p class="product-amount">۱ لیتر</p>
+          <div class="product-prices">
+            <p class="previous-price">قیمت قبلی: <del>۸۰٬۰۰۰ تومان</del></p>
+            <p class="current-price">قیمت با تخفیف: <strong>۷۲٬۰۰۰</strong> تومان</p>
+          </div>
+          <button class="add-button" type="button" aria-label="افزودن آب‌پرتقال به سبد خرید">افزودن به سبد <span aria-hidden="true">+</span></button>
+        </article>
+      </section>
+    </section>
+
+    <section class="story" id="story" aria-labelledby="story-title">
+      <div class="story-image">
+        <img src="2.jpg" alt="پرتقال‌ها و نارنگی‌های تازه و رسیده">
+        <span>تازگی در سبد امروز</span>
+      </div>
+      <div>
+        <p class="eyebrow">تازگی، فقط یک شعار نیست</p>
+        <h2 id="story-title">اول بررسی، بعد راهیِ سبد تو.</h2>
+        <p>برای سام، انتخاب میوه از یک سؤال شروع می‌شود: آیا تازگی‌اش با معیار ما هماهنگ است؟ رسیدگی مناسب، ظاهر سالم و شرایط نگهداری، معیارهای پیشنهادی ما برای ارزیابی‌اند؛ تا طعم و رنگ فصل، با دقت بیشتری به سبدت برسد.</p>
+        <a href="#about">با ایده سام مارکت آشنا شو</a>
+      </div>
+    </section>
+
+    <section class="store-sections" aria-label="بخش‌های فروشگاه">
+      <article id="fruit">
+        <span aria-hidden="true">&#127817;</span>
+        <div><h2>میوه تازه</h2><p>تازه ترین میوه های هر فصل.</p></div>
+        <a href="#special-offers">مشاهده محصولات</a>
+      </article>
+      <article id="dairy">
+        <span aria-hidden="true">🥛</span>
+        <div><h2>لبنیات تازه</h2><p>از شیر صبحانه تا ماست کنار غذا؛ پایه‌های یک سبد کامل.</p></div>
+        <a href="#special-offers">مشاهده محصولات</a>
+      </article>
+      <article id="bakery">
+        <span aria-hidden="true">🥖</span>
+        <div><h2>نان و صبحانه</h2><p>نان تازه و همراه‌های خوشمزه‌اش؛ برای یک شروع دل‌چسب.</p></div>
+        <a href="#special-offers">مشاهده محصولات</a>
+      </article>
+      <article id="proteins">
+        <span aria-hidden="true">🍗</span>
+        <div><h2>پروتئین تازه</h2><p>برای وعده اصلی، یک انتخاب حساب‌شده به سبدت اضافه کن.</p></div>
+        <a href="#special-offers">مشاهده محصولات</a>
+      </article>
+      <article id="snacks">
+        <span aria-hidden="true">🫘</span>
+        <div><h2>خواربار و تنقلات</h2><p>مواد اولیه آشپزی و خوراکی‌های یک استراحت کوتاه.</p></div>
+        <a href="#special-offers">مشاهده محصولات</a>
+      </article>
+      <article id="herbs">
+        <span aria-hidden="true">🥬</span>
+        <div><h2>سبزی و صیفی‌جات</h2><p>رنگ تازه سفره؛ برای سالاد، آشپزی و همراه هر وعده.</p></div>
+        <a href="#special-offers">مشاهده محصولات</a>
+      </article>
+      <article id="sweets">
+        <span aria-hidden="true">🍪</span>
+        <div><h2>شیرینی</h2><p>یک مکث شیرین کنار چای یا قهوه؛ برای خودت یا مهمان‌ها.</p></div>
+        <a href="#special-offers">مشاهده محصولات</a>
+      </article>
+      <article id="drinks">
+        <span aria-hidden="true">🧃</span>
+        <div><h2>نوشیدنی</h2><p>از چای وقت استراحت تا نوشیدنی خنک روزهای گرم.</p></div>
+        <a href="#special-offers">مشاهده محصولات</a>
+      </article>
+    </section>
+
+    <section id="about" aria-labelledby="about-title">
+      <h2 id="about-title">داستان سام مارکت</h2>
+      <p>سام مارکت، سوپرمارکت سام در پروژه بوتکمپ است؛ با یک سبد برای نیازهای روزمره و یک داستان از دنیای برنامه‌نویسی. نام پروژه، <bdi lang="en" dir="ltr">TDD</bdi>، یادآور هدف سام است: تسلط بر توسعه آزمون‌محور تا پایان بوتکمپ.</p>
+      <p>در توسعه آزمون‌محور، اول یک تست ناموفق می‌نویسیم، بعد کد لازم برای پاس‌شدن آن را می‌سازیم و در پایان ساختار کد را بهبود می‌دهیم. سام از این نگاه برای ایده ارزیابی تازگی الهام گرفته: اول معیار مشخص، بعد بررسی محصول و در ادامه بهبود شیوه انتخاب. این فرایند، طرح پیشنهادی برند در پروژه بوتکمپ است؛ چرخه نرم‌افزاری <bdi lang="en" dir="ltr">TDD</bdi> الهام آن است.</p>
+      <div class="store-sections" role="group" aria-label="از چرخه آزمون‌محور تا ایده ارزیابی تازگی">
+        <article>
+          <span aria-hidden="true">🔴</span>
+          <div><h3>قرمز؛ اول معیار، بعد انتخاب</h3><p>در <bdi lang="en" dir="ltr">TDD</bdi>، تست پیش از راه‌حل نوشته می‌شود. در ایده سام، معیار تازگی را پیش از انتخاب مشخص می‌کنیم؛ محصولی که با معیار هماهنگ نیست، نیاز به بررسی دارد.</p></div>
+        </article>
+        <article>
+          <span aria-hidden="true">🟢</span>
+          <div><h3>سبز؛ انتخاب پس از ارزیابی</h3><p>همان‌طور که کد باید تست را پاس کند، در فرایند پیشنهادی سام هم انتخاب محصول باید با معیارهای تعریف‌شده هماهنگ باشد؛ تازگی، پشتوانه انتخاب است.</p></div>
+        </article>
+        <article>
+          <span aria-hidden="true">🔵</span>
+          <div><h3>آبی؛ بهترشدن فرایند</h3><p>در بازآرایی، ساختار کد بهتر می‌شود و تست‌ها همچنان موفق می‌مانند. در ایده فروشگاه هم بازخوردها به بهترشدن ارزیابی و نگهداری کمک می‌کنند؛ با حفظ معیار تازگی.</p></div>
+        </article>
+      </div>
     </section>
   </main>
-  <footer>
-    <p dir="ltr">slug: <code>tdd</code></p>
+
+  <footer id="contact">
+    <section aria-labelledby="footer-about">
+      <h2 id="footer-about">سام مارکت</h2>
+      <p>تازگی در سبد، دقت در انتخاب؛ از صبحانه تا شام، همراه خریدهای روزمره تو.</p>
+      <address>
+        تهران، خیابان بهار، پلاک ۲۰<br>
+        <a dir="ltr" href="tel:+982188887777">۰۲۱&#8209;۸۸۸۸۷۷۷۷</a>
+      </address>
+      <p>ساعت کاری: هر روز از <time datetime="08:00">۸:۰۰</time> تا <time datetime="23:00">۲۳:۰۰</time></p>
+    </section>
+
+    <nav aria-label="پیوندهای پایین صفحه">
+      <a href="#categories">دسته‌بندی‌ها</a>
+      <a href="#fruit">میوه</a>
+      <a href="#herbs">سبزی و صیفی‌جات</a>
+      <a href="#dairy">لبنیات</a>
+      <a href="#bakery">نان و صبحانه</a>
+      <a href="#proteins">پروتئین</a>
+      <a href="#sweets">شیرینی</a>
+      <a href="#snacks">خواربار و تنقلات</a>
+      <a href="#drinks">نوشیدنی</a>
+      <a href="#about">درباره ما</a>
+    </nav>
+
+    <a class="back-to-top" href="#top">بازگشت به بالا <span aria-hidden="true">↑</span></a>
+
+    <p>© ۱۴۰۵ سام مارکت؛ ساخته‌شده توسط سام، با فکر بهترشدن مداوم.</p>
   </footer>
 </body>
 </html>

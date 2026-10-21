@@ -1,0 +1,372 @@
+/* ================================
+   Navbar
+================================ */
+
+.navbar {
+  position: sticky;
+  top: 86px;
+  z-index: 900;
+  width: 100%;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 4px 16px rgb(0 0 0 / 3%);
+}
+
+.navbar-inner {
+  width: min(1240px, calc(100% - 40px));
+  min-height: 58px;
+  margin-inline: auto;
+
+  display: flex;
+  align-items: center;
+}
+
+.navbar-content {
+  width: 100%;
+}
+
+/* ================================
+   Navigation List
+================================ */
+
+.nav-list {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+.nav-list > li {
+  position: relative;
+}
+
+/* ================================
+   Navigation Links
+================================ */
+
+.nav-link {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  min-height: 40px;
+  padding: 8px 13px;
+
+  border-radius: 10px;
+
+  color: var(--text-muted);
+
+  font-size: 0.76rem;
+  font-weight: 600;
+
+  white-space: nowrap;
+
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 8%, transparent);
+}
+
+.nav-link.is-active {
+  color: var(--primary);
+
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
+
+  font-weight: 750;
+}
+
+/* ================================
+   Dropdown Icon
+================================ */
+
+.nav-link .icon {
+  width: 18px;
+  height: 18px;
+
+  flex-shrink: 0;
+
+  color: currentColor;
+
+  transition: transform 0.2s ease;
+}
+
+/* ================================
+   Dropdown
+================================ */
+
+.has-dropdown {
+  position: relative;
+}
+
+.dropdown {
+  position: absolute;
+
+  top: calc(100% + 8px);
+  right: 0;
+
+  width: 350px;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 4px;
+
+  margin: 0;
+  padding: 8px;
+
+  list-style: none;
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+  border-radius: 14px;
+
+  box-shadow: 0 16px 40px rgb(0 0 0 / 10%);
+
+  opacity: 0;
+  visibility: hidden;
+
+  transform: translateY(-6px);
+
+  transition:
+    opacity 0.2s ease,
+    visibility 0.2s ease,
+    transform 0.2s ease;
+}
+
+.has-dropdown:hover .dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* ================================
+   Dropdown Items
+================================ */
+
+.dropdown-item {
+  min-height: 42px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 8px 9px;
+
+  border-radius: 9px;
+
+  color: var(--text);
+
+  font-size: 0.72rem;
+
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.dropdown-item:hover {
+  color: var(--primary);
+
+  background: color-mix(in srgb, var(--primary) 8%, transparent);
+
+  transform: translateX(-2px);
+}
+
+/* ================================
+   Dropdown Emoji
+================================ */
+
+.emoji {
+  width: 28px;
+  height: 28px;
+
+  display: grid;
+  place-items: center;
+
+  flex-shrink: 0;
+
+  border-radius: 8px;
+
+  background: var(--background);
+
+  font-size: 1rem;
+}
+
+/* ================================
+   Mobile Menu Button
+================================ */
+
+.burger-btn {
+  display: none;
+
+  width: 40px;
+  height: 40px;
+
+  align-items: center;
+  justify-content: center;
+
+  border: 0;
+  border-radius: 10px;
+
+  background: transparent;
+
+  color: var(--text);
+
+  cursor: pointer;
+  color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 8%, transparent);
+
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.burger-icon {
+  width: 22px;
+  height: 22px;
+
+  display: block;
+
+  color: currentColor;
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.burger-icon--close {
+  display: none;
+}
+
+/* ================================
+   Mobile
+================================ */
+
+@media (max-width: 850px) {
+  .navbar-inner {
+    width: min(100% - 20px, 600px);
+    min-height: 54px;
+  }
+
+  .burger-btn {
+    display: flex;
+  }
+
+  .navbar-content {
+    position: absolute;
+
+    top: 100%;
+    right: 0;
+    left: 0;
+
+    padding: 10px;
+
+    background: var(--surface);
+
+    border-bottom: 1px solid var(--border);
+
+    box-shadow: 0 12px 30px rgb(0 0 0 / 8%);
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform: translateY(-8px);
+
+    transition:
+      opacity 0.2s ease,
+      visibility 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .nav-list {
+    width: min(100% - 20px, 600px);
+
+    margin-inline: auto;
+
+    flex-direction: column;
+    align-items: stretch;
+
+    gap: 3px;
+  }
+
+  .nav-link {
+    width: 100%;
+  }
+
+  /* Open mobile menu */
+
+  .nav-toggle:checked ~ .navbar-inner .navbar-content {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  /* Hamburger → Close */
+
+  .nav-toggle:checked ~ .navbar-inner .burger-icon--open {
+    display: none;
+  }
+
+  .nav-toggle:checked ~ .navbar-inner .burger-icon--close {
+    display: block;
+  }
+
+  /* ================================
+     Mobile Dropdown
+  ================================= */
+
+  .dropdown {
+    position: static;
+
+    width: 100%;
+
+    grid-template-columns: 1fr 1fr;
+
+    margin-top: 4px;
+
+    box-shadow: none;
+
+    opacity: 1;
+    visibility: visible;
+
+    transform: none;
+
+    display: none;
+  }
+
+  .has-dropdown:hover .dropdown {
+    display: grid;
+  }
+
+  /* Don't rotate dropdown icon on mobile */
+
+  .has-dropdown:hover > .nav-link .icon {
+    transform: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    top: 64px;
+  }
+}
+/* ================================
+   Small Mobile
+================================ */
+
+@media (max-width: 450px) {
+  .dropdown {
+    grid-template-columns: 1fr;
+  }
+}

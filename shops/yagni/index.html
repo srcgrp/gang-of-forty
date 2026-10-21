@@ -1,29 +1,754 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت YAGNI</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>✂️ سلام دنیا!</h1>
-  </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>YAGNI</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p><bdi>You Aren't Gonna Need It</bdi> یعنی «لازمش نخواهی داشت». این اصل از <bdi>Extreme Programming</bdi> (کنت بک و ران جفریز) می‌آید: چیزی را که امروز لازم نیست، به امید «شاید بعداً» نساز. کد اضافه هم باید نوشته شود، هم تست شود، هم نگهداری شود.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
+  <head>
+    <meta charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+    <meta name="description" content="یاگنی٬سوپرمارکتی به وسعت قلبتان" >
+    <title>یاگنی-خرید تازه٬زندگی بهتر</title>
+    <link rel="stylesheet" href="./styles/main.css" >
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="header__container">
+        <!-- Brand -->
+        <a
+          href="#top"
+          class="header__logo"
+          aria-label="یاگنی-فروشگاه همیشه سبز"
+        >
+          <span class="header__logo-mark">
+            <svg>
+              <use href="./sprite.svg#logo"></use>
+            </svg>
+          </span>
+
+          <div class="header__brand">
+            <h1>یاگنی</h1>
+            <small>خرید تازه، زندگی بهتر</small>
+          </div>
+        </a>
+
+        <!-- Search -->
+        <form class="header__search">
+          <span class="header__search-label">جستجو</span>
+
+          <input
+            type="search"
+            placeholder="چی می‌خوای بخری؟"
+            aria-label="جستجوی محصولات"
+          >
+
+          <button
+            type="submit"
+            class="header__search-button"
+            aria-label="جستجو"
+          >
+            <svg class="header__search-icon">
+              <use href="./sprite.svg#search"></use>
+            </svg>
+          </button>
+        </form>
+
+        <!-- Header Actions -->
+        <div>
+          <!-- Cart -->
+          <a href="/#" class="header__cart">
+            <span class="header__cart-icon">
+              <svg>
+                <use href="./sprite.svg#basket"></use>
+              </svg>
+
+              <span class="header__cart-count">۲</span>
+            </span>
+
+            <span class="header__cart-content">
+              <small>سبد خرید</small>
+              <strong>۲۴۵,۰۰۰ تومان</strong>
+            </span>
+          </a>
+        </div>
+      </div>
+    </header>
+    <!-- Navbar -->
+    <nav class="navbar" aria-label="منوی اصلی">
+      <input type="checkbox" id="nav-toggle" class="nav-toggle" hidden >
+
+      <div class="navbar-inner">
+        <!-- Mobile menu button -->
+        <label for="nav-toggle" class="burger-btn">
+          <svg class="burger-icon burger-icon--open" aria-hidden="true">
+            <use href="./sprite.svg#hamburger-menu"></use>
+          </svg>
+
+          <svg class="burger-icon burger-icon--close" aria-hidden="true">
+            <use href="./sprite.svg#close"></use>
+          </svg>
+        </label>
+
+        <div class="navbar-content">
+          <ul class="nav-list">
+            <!-- Categories -->
+            <li class="has-dropdown">
+              <a href="#" class="nav-link is-active" aria-haspopup="true">
+                <svg class="icon">
+                  <use href="./sprite.svg#dropDown"></use>
+                </svg>
+
+                همه دسته‌ها
+              </a>
+
+              <ul class="dropdown">
+                <li>
+                  <a href="#" class="dropdown-item">
+                    <span class="emoji">🍎</span>
+                    میوه و سبزی
+                  </a>
+                </li>
+
+                <li>
+                  <a href="#" class="dropdown-item">
+                    <span class="emoji">🥛</span>
+                    لبنیات
+                  </a>
+                </li>
+
+                <li>
+                  <a href="#" class="dropdown-item">
+                    <span class="emoji">🥖</span>
+                    نان و شیرینی
+                  </a>
+                </li>
+
+                <li>
+                  <a href="#" class="dropdown-item">
+                    <span class="emoji">🍗</span>
+                    پروتئین
+                  </a>
+                </li>
+
+                <li>
+                  <a href="#" class="dropdown-item">
+                    <span class="emoji">🥤</span>
+                    نوشیدنی
+                  </a>
+                </li>
+
+                <li>
+                  <a href="#" class="dropdown-item">
+                    <span class="emoji">🍪</span>
+                    تنقلات
+                  </a>
+                </li>
+
+                <li>
+                  <a href="#" class="dropdown-item">
+                    <span class="emoji">🧻</span>
+                    شوینده و بهداشتی
+                  </a>
+                </li>
+
+                <li>
+                  <a href="#" class="dropdown-item">
+                    <span class="emoji">🥫</span>
+                    کنسرو و غذای آماده
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              <a href="#suggestions" class="nav-link">پیشنهاد ویژه</a>
+            </li>
+
+            <li>
+              <a href="#" class="nav-link">میوه و سبزی</a>
+            </li>
+
+            <li>
+              <a href="#dairy" class="nav-link">لبنیات</a>
+            </li>
+
+            <li>
+              <a href="#" class="nav-link">نان تازه</a>
+            </li>
+
+            <li>
+              <a href="#" class="nav-link">تماس با ما</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Banner -->
+    <section class="banner anchor-section" id="banner">
+      <div class="banner__track">
+        <img
+          class="banner_track-image"
+          src="images/banner/banner-1.webp"
+          alt="بنر"
+        >
+
+        <img
+          class="banner_track-image"
+          src="images/banner/banner-2.webp"
+          alt="بنر"
+        >
+
+        <img
+          class="banner_track-image"
+          src="images/banner/banner-3.webp"
+          alt="بنر"
+      >
+
+        <img
+          class="banner_track-image"
+          src="images/banner/banner-4.webp"
+          alt="بنر"
+        >
+
+        <!-- Duplicate -->
+        <img
+          class="banner_track-image"
+          src="images/banner/banner-1.webp"
+          alt=""
+          aria-hidden="true"
+        >
+
+        <img
+          class="banner_track-image"
+          src="images/banner/banner-2.webp"
+          alt=""
+          aria-hidden="true"
+        >
+
+        <img
+          class="banner_track-image"
+          src="images/banner/banner-3.webp"
+          alt=""
+          aria-hidden="true"
+        >
+
+        <img
+          class="banner_track-image"
+          src="images/banner/banner-4.webp"
+          alt=""
+          aria-hidden="true"
+        >
+      </div>
     </section>
-  </main>
-  <footer>
-    <p dir="ltr">slug: <code>yagni</code></p>
-  </footer>
-</body>
+    <main>
+      <!-- Categories -->
+      <section
+        class="categories anchor-section"
+        id="categories"
+        aria-labelledby="categories-title"
+      >
+        <div class="categories__header">
+          <h2 id="categories-title" class="categories__title">دسته‌بندی‌ها</h2>
+
+          <a href="#" class="categories__link"> مشاهده همه </a>
+        </div>
+
+        <div class="categories__grid">
+          <a href="#" class="category-card">
+            <span class="category-card__image">
+              <img
+                src="images/category/canned-food.webp"
+                alt="کنسرو و غذای آماده"
+              >
+            </span>
+            <span class="category-card__title"> کنسرو و غذای آماده </span>
+          </a>
+
+          <a href="#" class="category-card">
+            <span class="category-card__image">
+              <img src="images/category/cleaning.webp" alt="شوینده و بهداشتی" >
+            </span>
+            <span class="category-card__title"> شوینده و بهداشتی </span>
+          </a>
+
+          <a href="#" class="category-card">
+            <span class="category-card__image">
+              <img src="images/category/snacks.webp" alt="تنقلات" >
+            </span>
+            <span class="category-card__title"> تنقلات </span>
+          </a>
+
+          <a href="#" class="category-card">
+            <span class="category-card__image">
+              <img src="images/category/drinks.webp" alt="نوشیدنی" >
+            </span>
+            <span class="category-card__title"> نوشیدنی </span>
+          </a>
+
+          <a href="#" class="category-card">
+            <span class="category-card__image">
+              <img src="images/category/bakery.webp" alt="نان و شیرینی" >
+            </span>
+            <span class="category-card__title"> نان و شیرینی </span>
+          </a>
+
+          <a href="#" class="category-card">
+            <span class="category-card__image">
+              <img src="images/category/protein.webp" alt="پروتئین" >
+            </span>
+            <span class="category-card__title"> پروتئین </span>
+          </a>
+
+          <a href="#" class="category-card">
+            <span class="category-card__image">
+              <img src="images/category/dairy.webp" alt="لبنیات" >
+            </span>
+            <span class="category-card__title"> لبنیات </span>
+          </a>
+
+          <a href="#" class="category-card">
+            <span class="category-card__image">
+              <img src="images/category/fruits.webp" alt="میوه و سبزی" >
+            </span>
+            <span class="category-card__title"> میوه و سبزی </span>
+          </a>
+        </div>
+      </section>
+      <!-- suggestions -->
+      <section class="carousel-container anchor-section" id="suggestions">
+        <div class="carousel-header">
+          <h2 class="section-title">
+            <span>پیشنهاد ویژه امروز</span>
+            <span aria-hidden="true">🔥</span>
+          </h2>
+
+          <div class="nav-controls">
+            <!-- Go to start -->
+            <a class="nav-btn" aria-label="ابتدای محصولات">
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-right"></use>
+              </svg>
+            </a>
+
+            <a class="nav-btn" aria-label="انتهای محصولات">
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-left"></use>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="carousel-track">
+          <!-- Product 1 -->
+          <div class="product-card">
+            <div class="product-thumb">
+              <span class="badge-discount">۲۵٪</span>
+              <img src="images/product/tomato.webp" alt="" >
+            </div>
+
+            <div class="product-info">
+              <span class="product-name">گوجه‌فرنگی گلخانه‌ای</span>
+              <span class="product-unit">۱ کیلوگرم</span>
+            </div>
+
+            <div class="product-footer">
+              <div class="product-pricing">
+                <span class="old-price">۶۰,۰۰۰</span>
+                <span class="current-price">۴۵,۰۰۰ تومان</span>
+              </div>
+
+              <button class="add-btn" type="button" aria-label="افزودن به سبد">
+                +
+              </button>
+            </div>
+          </div>
+
+          <!-- Product 2 -->
+          <div class="product-card">
+            <div class="product-thumb">
+              <span class="badge-discount">۱۵٪</span>
+              <img src="images/product/milk.webp" alt="" >
+            </div>
+
+            <div class="product-info">
+              <span class="product-name">شیر کم‌چرب</span>
+              <span class="product-unit">۱ لیتر</span>
+            </div>
+
+            <div class="product-footer">
+              <div class="product-pricing">
+                <span class="old-price">۴۰,۰۰۰</span>
+                <span class="current-price">۳۴,۰۰۰ تومان</span>
+              </div>
+
+              <button class="add-btn" type="button" aria-label="افزودن به سبد">
+                +
+              </button>
+            </div>
+          </div>
+
+          <!-- Product 3 -->
+          <div class="product-card">
+            <div class="product-thumb">
+              <img src="images/product/banana.webp" alt="" >
+            </div>
+
+            <div class="product-info">
+              <span class="product-name">موز اکوادور</span>
+              <span class="product-unit">۱ کیلوگرم</span>
+            </div>
+
+            <div class="product-footer">
+              <div class="product-pricing">
+                <span class="current-price">۹۸,۰۰۰ تومان</span>
+              </div>
+
+              <button class="add-btn" type="button" aria-label="افزودن به سبد">
+                +
+              </button>
+            </div>
+          </div>
+
+          <!-- Product 4 -->
+          <div class="product-card">
+            <div class="product-thumb">
+              <span class="badge-discount">۳۰٪</span>
+              <img src="images/product/cucamber.webp" alt="" >
+            </div>
+
+            <div class="product-info">
+              <span class="product-name">خیار سالادی</span>
+              <span class="product-unit">۱ کیلوگرم</span>
+            </div>
+
+            <div class="product-footer">
+              <div class="product-pricing">
+                <span class="old-price">۵۰,۰۰۰</span>
+                <span class="current-price">۳۵,۰۰۰ تومان</span>
+              </div>
+
+              <button class="add-btn" type="button" aria-label="افزودن به سبد">
+                +
+              </button>
+            </div>
+          </div>
+
+          <!-- Product 5 -->
+          <div class="product-card">
+            <div class="product-thumb">
+              <img src="images/product/hen.webp" alt="" >
+            </div>
+
+            <div class="product-info">
+              <span class="product-name">ران مرغ</span>
+              <span class="product-unit">۹۰۰ گرم</span>
+            </div>
+
+            <div class="product-footer">
+              <div class="product-pricing">
+                <span class="current-price">۲۱۰,۰۰۰ تومان</span>
+              </div>
+
+              <button class="add-btn" type="button" aria-label="افزودن به سبد">
+                +
+              </button>
+            </div>
+          </div>
+
+          <!-- Product 6 -->
+          <div class="product-card">
+            <div class="product-thumb">
+              <img src="images/product/orange-juice.webp" alt="" >
+            </div>
+
+            <div class="product-info">
+              <span class="product-name">آب پرتقال</span>
+              <span class="product-unit">۳۰۰ لیتر</span>
+            </div>
+
+            <div class="product-footer">
+              <div class="product-pricing">
+                <span class="current-price">۵۰,۰۰۰ تومان</span>
+              </div>
+
+              <button class="add-btn" type="button" aria-label="افزودن به سبد">
+                +
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Advertisement -->
+      <section
+        class="advertisement anchor-section"
+        id="advertisement-1"
+        aria-label="تبلیغات1"
+      >
+        <a href="#">
+          <img src="images/ad/Advertisemnet-1.png" alt="پیشنهاد ویژه یانگی">
+        </a>
+      </section>
+      <!-- dairy -->
+      <section class="carousel-container anchor-section" id="dairy">
+        <div class="carousel-header">
+          <h2 class="section-title">
+            <span>لبنیات</span>
+            <span aria-hidden="true">🐮</span>
+          </h2>
+          <div class="nav-controls">
+            <button class="nav-btn" type="button" aria-label="قبلی">
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-right"></use>
+              </svg>
+            </button>
+
+            <button class="nav-btn" type="button" aria-label="بعدی">
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-left"></use>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="carousel-track">
+          <!-- Product 1 -->
+          <div class="product-card">
+            <div class="product-thumb">
+              <span class="badge-discount">۲۰٪</span>
+              <img src="images/dairy/milk.webp" alt="" >
+            </div>
+            <div class="product-info">
+              <span class="product-name">شیر کم‌چرب</span>
+              <span class="product-unit">۱ لیتر</span>
+            </div>
+            <div class="product-footer">
+              <div class="product-pricing">
+                <span class="old-price">۴۰,۰۰۰</span>
+                <span class="current-price">۳۲,۰۰۰ تومان</span>
+              </div>
+              <button class="add-btn" type="button" aria-label="افزودن به سبد">
+                +
+              </button>
+            </div>
+          </div>
+          <!-- Product 2 -->
+          <div class="product-card">
+            <div class="product-thumb">
+              <span class="badge-discount">۱۵٪</span>
+              <img src="images/dairy/yogurt.webp" alt="" >
+            </div>
+            <div class="product-info">
+              <span class="product-name">ماست پرچرب</span>
+              <span class="product-unit">۹۰۰ گرم</span>
+            </div>
+            <div class="product-footer">
+              <div class="product-pricing">
+                <span class="old-price">۶۵,۰۰۰</span>
+                <span class="current-price">۵۵,۰۰۰ تومان</span>
+              </div>
+              <button class="add-btn" type="button" aria-label="افزودن به سبد">
+                +
+              </button>
+            </div>
+          </div>
+          <!-- Product 3 -->
+          <div class="product-card">
+            <div class="product-thumb">
+              <img src="images/dairy/cheese.webp" alt="" >
+            </div>
+            <div class="product-info">
+              <span class="product-name">پنیر سفید</span>
+              <span class="product-unit">۴۰۰ گرم</span>
+            </div>
+            <div class="product-footer">
+              <div class="product-pricing">
+                <span class="current-price">۸۵,۰۰۰ تومان</span>
+              </div>
+              <button class="add-btn" type="button" aria-label="افزودن به سبد">
+                +
+              </button>
+            </div>
+          </div>
+          <!-- Product 4 -->
+          <div class="product-card">
+            <div class="product-thumb">
+              <span class="badge-discount">۲۵٪</span>
+              <img src="images/dairy/butter.webp" alt="" >
+            </div>
+            <div class="product-info">
+              <span class="product-name">کره پاستوریزه</span>
+              <span class="product-unit">۱۰۰ گرم</span>
+            </div>
+            <div class="product-footer">
+              <div class="product-pricing">
+                <span class="old-price">۷۵,۰۰۰</span>
+                <span class="current-price">۵۶,۰۰۰ تومان</span>
+              </div>
+              <button class="add-btn" type="button" aria-label="افزودن به سبد">
+                +
+              </button>
+            </div>
+          </div>
+          <!-- Product 5 -->
+          <div class="product-card">
+            <div class="product-thumb">
+              <img src="images/dairy/cream.webp" alt="" >
+            </div>
+            <div class="product-info">
+              <span class="product-name">خامه صبحانه</span>
+              <span class="product-unit">۲۰۰ گرم</span>
+            </div>
+            <div class="product-footer">
+              <div class="product-pricing">
+                <span class="current-price">۴۸,۰۰۰ تومان</span>
+              </div>
+              <button class="add-btn" type="button" aria-label="افزودن به سبد">
+                +
+              </button>
+            </div>
+          </div>
+          <!-- Product 6 -->
+          <div class="product-card">
+            <div class="product-thumb">
+              <span class="badge-discount">۱۰٪</span>
+              <img src="images/dairy/doogh.webp" alt="" >
+            </div>
+            <div class="product-info">
+              <span class="product-name">دوغ نعناعی</span>
+              <span class="product-unit">۱.۵ لیتر</span>
+            </div>
+            <div class="product-footer">
+              <div class="product-pricing">
+                <span class="old-price">۶۰,۰۰۰</span>
+                <span class="current-price">۵۴,۰۰۰ تومان</span>
+              </div>
+              <button class="add-btn" type="button" aria-label="افزودن به سبد">
+                +
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Advertisement -->
+      <section
+        class="advertisement anchor-section"
+        id="advertisement-2"
+        aria-label="تبلیغات2"
+      >
+        <a href="#">
+          <img src="images/ad/Advertisemnet-2.png" alt="پیشنهاد ویژه یانگی" >
+        </a>
+      </section>
+      <!-- Support -->
+      <section
+        class="support anchor-section"
+        id="support"
+        aria-label="خدمات فروشگاه"
+      >
+        <a class="support-item" href="#">
+          <svg class="support-icon" aria-hidden="true">
+            <use href="./sprite.svg#express"></use>
+          </svg>
+          <span>امکان تحویل اکسپرس</span>
+        </a>
+
+        <a class="support-item" href="#">
+          <svg class="support-icon" aria-hidden="true">
+            <use href="./sprite.svg#payment"></use>
+          </svg>
+          <span>امکان پرداخت در محل</span>
+        </a>
+
+        <a class="support-item" href="#">
+          <svg class="support-icon" aria-hidden="true">
+            <use href="./sprite.svg#support"></use>
+          </svg>
+          <span>۷ روز هفته، ۲۴ ساعته</span>
+        </a>
+
+        <a class="support-item" href="#">
+          <svg class="support-icon" aria-hidden="true">
+            <use href="./sprite.svg#return"></use>
+          </svg>
+          <span>۲ روز ضمانت بازگشت کالا</span>
+        </a>
+
+        <a class="support-item" href="#">
+          <svg class="support-icon" aria-hidden="true">
+            <use href="./sprite.svg#original"></use>
+          </svg>
+          <span>ضمانت اصل بودن کالا</span>
+        </a>
+      </section>
+    </main>
+    <!-- Footer -->
+    <footer class="site-footer anchor-section" id="footer">
+      <div class="footer-container">
+        <div class="footer-grid">
+          <!-- Brand & About -->
+          <div class="footer-col brand-col">
+            <h3 class="footer-heading brand-title">سوپرمارکت یاگنی</h3>
+            <p class="brand-description">
+              از سال ۱۴۰۵ کنار شما هستیم؛ کالای تازه با قیمت منصفانه.
+            </p>
+            <ul class="contact-list">
+              <li>
+                <svg>
+                  <use href="./sprite.svg#location"></use>
+                </svg>
+                <span>تهران، خیابان نمونه، پلاک ۴۰</span>
+              </li>
+              <li>
+                <svg>
+                  <use href="./sprite.svg#call"></use>
+                </svg>
+                <span dir="ltr">۰۲۱-۱۲۳۴۵۶۷۸</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Categories -->
+          <div class="footer-col">
+            <h4 class="footer-heading">دسته‌ها</h4>
+            <ul class="footer-links">
+              <li><a href="#">میوه و سبزی</a></li>
+              <li><a href="#">لبنیات</a></li>
+              <li><a href="#">نان و شیرینی</a></li>
+              <li><a href="#">پروتئین</a></li>
+            </ul>
+          </div>
+
+          <!-- Help & Links -->
+          <div class="footer-col">
+            <h4 class="footer-heading">راهنما</h4>
+            <ul class="footer-links">
+              <li><a href="#">شیوه ارسال</a></li>
+              <li><a href="#">بازگشت کالا</a></li>
+              <li><a href="#">پرسش‌های متداول</a></li>
+            </ul>
+          </div>
+
+          <!-- Working Hours -->
+          <div class="footer-col">
+            <h4 class="footer-heading">ساعت کاری</h4>
+            <div class="hours-info">
+              <p><strong>شنبه تا پنجشنبه:</strong> <span>۸ تا ۲۲</span></p>
+              <p><strong>جمعه:</strong> <span>۹ تا ۱۴</span></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer Bottom Bar -->
+        <div class="footer-bottom">
+          <p class="copyright">
+            &copy; ۱۴۰۵ سوپرمارکت یاگنی - تمامی حقوق محفوظ است
+          </p>
+          <a href="#top" class="back-to-top">
+            <span>بازگشت به بالا</span>
+
+            <svg>
+              <use href="./sprite.svg#up"></use>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </footer>
+  </body>
 </html>

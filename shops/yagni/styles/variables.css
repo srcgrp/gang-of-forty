@@ -1,0 +1,48 @@
+/* Root */
+:root {
+  /* Brand */
+  --primary: #16a34a;
+  --primary-hover: #15803d;
+  --secondary: #f97316;
+
+  /* Backgrounds */
+  --background: #f8fafc;
+  --surface: #ffffff;
+
+  /* Text */
+  --text: #0f172a;
+  --text-muted: #64748b;
+
+  /* UI */
+  --border: #e2e8f0;
+
+  /* States */
+  --success: #16a34a;
+  --error: #dc2626;
+  --warning: #f59e0b;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Brand */
+    --primary: #22c55e;
+    --primary-hover: #16a34a;
+    --secondary: #fb923c;
+
+    /* Backgrounds */
+    --background: #0f172a;
+    --surface: #1e293b;
+
+    /* Text */
+    --text: #f8fafc;
+    --text-muted: #94a3b8;
+
+    /* UI */
+    --border: #334155;
+
+    /* States */
+    --success: #22c55e;
+    --error: #f87171;
+    --warning: #fbbf24;
+  }
+}

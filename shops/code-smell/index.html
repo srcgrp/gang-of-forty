@@ -1,29 +1,1429 @@
-<!doctype html>
-<html lang="fa" dir="rtl">
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت بوی کد</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
-  <link rel="stylesheet" href="style.css">
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1" name="viewport">
+        <title>سوپرمارکت بوی کد | خرید آنلاین کالاهای تازه</title>
+        <meta content="سوپرمارکت آنلاین بوی کد؛ خرید تازه، سریع و آسان." name="description">
+        <meta content="#ffb000" name="theme-color">
+        <meta content="website" property="og:type">
+        <meta content="fa_IR" property="og:locale">
+        <meta content="سوپرمارکت بوی کد" property="og:site_name">
+        <meta content="سوپرمارکت بوی کد" property="og:title">
+        <meta content="خرید تازه، سریع و آسان؛ همه چیز تازه و یکجا." property="og:description">
+        <link href="svg/logo.svg" rel="icon" type="image/svg+xml">
+        <link as="font" crossorigin href="font/KalamehWebFaNum-Regular.woff" rel="preload" type="font/woff">
+        <link as="font" crossorigin href="font/KalamehWebFaNum-Bold.woff" rel="preload" type="font/woff">
+        <link href="style.css" rel="stylesheet">
+        <link href="responsive.css" rel="stylesheet">
 </head>
-<body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>👃 سلام دنیا!</h1>
-  </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>بوی کد</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p><bdi>Code Smell</bdi> اصطلاحی از کنت بک است که در کتاب <bdi>Refactoring</bdi> مارتین فاولر معروف شد. بوی کد باگ نیست، نشانه است: تابع خیلی بلند، کد تکراری، کلاسی که همه‌کاره است. مثل بوی بد در آشپزخانه، می‌گوید یک جای کار ایراد دارد.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
-    </section>
-  </main>
-  <footer>
-    <p dir="ltr">slug: <code>code-smell</code></p>
-  </footer>
+
+<body id="top">
+        <a class="skip-link" href="#main-content">پرش به محتوای اصلی</a>
+        <header class="site-header">
+                <p class="announcement">ارسال رایگان برای سفارش‌های بالای<strong>۵۰۰٬۰۰۰ تومان</strong></p>
+                <div class="site-header__bar container">
+                        <a aria-label="سوپرمارکت بوی کد، بازگشت به بالای صفحه" class="brand" href="#top">
+                                <!-- lOGO -->
+                                <svg aria-labelledby="logo-title" class="brand__logo" role="img" viewBox="0 0 320 160">
+                                        <title id="logo-title"> لوگو سوپرمارکت بوی کد</title>
+                                        <g fill="none" stroke="#ffb000" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="14">
+                                                <polyline points="75,35 30,80 75,125">
+                                                </polyline>
+                                                <polyline points="125,35 112,60 125,85 112,110 125,130">
+                                                </polyline>
+                                                <polyline points="160,25 173,52 160,80 173,108 160,135">
+                                                </polyline>
+                                                <polyline points="195,35 208,60 195,85 208,110 195,130">
+                                                </polyline>
+                                                <polyline points="245,35 290,80 245,125">
+                                                </polyline>
+                                        </g>
+                                </svg>
+                                <span class="brand__text">
+                                        <strong class="brand__name">سوپرمارکت بوی کد</strong>
+                                        <span class="brand__tagline">همه چیز تازه و یکجا</span>
+                                </span>
+                        </a>
+                        <div aria-label="جستجوی کالا" class="search" role="search">
+                                <label class="sr-only" for="product-search">
+                                        جستجوی کالا
+                                </label>
+                                <img aria-hidden="true" alt="" class="search__icon" height="18"
+                                        src="svg/magnifying-glass.svg" width="18">
+                                <input autocomplete="off" class="search__input" enterkeyhint="search"
+                                        id="product-search" name="q" placeholder="جستجوی کالا..." type="search">
+                        </div>
+                        <button aria-label="سبد خرید" class="cart-button" type="button">
+                                <img aria-hidden="true" alt="" class="cart-button__icon" height="20"
+                                        src="svg/shopping-cart.svg" width="20">
+                                <span class="cart-button__label">
+                                        سبد خرید
+                                </span>
+                                <span class="cart-button__badge">
+                                        ۰
+                                </span>
+                        </button>
+
+                        <!-- Mobile Menu -->
+                        <details class="mobile-menu">
+                                <summary aria-label="منوی اصلی" class="menu-toggle">
+                                        ☰
+                                </summary>
+                                <nav aria-label="منوی اصلی موبایل" class="mobile-nav">
+                                        <ul class="site-nav__list container">
+                                                <li class="category-menu">
+                                                        <details class="mobile-category-menu">
+                                                                <summary class="category-menu__toggle">
+                                                                        دسته‌بندی کالاها
+                                                                        <svg aria-hidden="true"
+                                                                                class="category-menu__chevron"
+                                                                                viewBox="0 0 24 24">
+                                                                                <path d="M6 9L12 15L18 9"></path>
+                                                                        </svg>
+                                                                </summary>
+                                                                <ul class="mobile-categories">
+                                                                        <li>
+                                                                                <a class="menu-link"
+                                                                                        href="#category-fruits">
+                                                                                        <img aria-hidden="true" alt=""
+                                                                                                class="menu-link__icon"
+                                                                                                height="22"
+                                                                                                src="svg/fruit.svg"
+                                                                                                width="22">
+                                                                                        میوه و سبزیجات
+                                                                                </a>
+                                                                        </li>
+                                                                        <li>
+                                                                                <a class="menu-link"
+                                                                                        href="#category-bakery">
+                                                                                        <img aria-hidden="true" alt=""
+                                                                                                class="menu-link__icon"
+                                                                                                height="22"
+                                                                                                src="svg/bakery.svg"
+                                                                                                width="22">
+                                                                                        نان و شیرینی
+                                                                                </a>
+                                                                        </li>
+                                                                        <li>
+                                                                                <a class="menu-link"
+                                                                                        href="#category-drinks">
+                                                                                        <img aria-hidden="true" alt=""
+                                                                                                class="menu-link__icon"
+                                                                                                height="22"
+                                                                                                src="svg/drinks.svg"
+                                                                                                width="22">
+                                                                                        نوشیدنی
+                                                                                </a>
+                                                                        </li>
+                                                                        <li>
+                                                                                <a class="menu-link"
+                                                                                        href="#category-dairy">
+                                                                                        <img aria-hidden="true" alt=""
+                                                                                                class="menu-link__icon"
+                                                                                                height="22"
+                                                                                                src="svg/dairy.svg"
+                                                                                                width="22">
+                                                                                        لبنیات
+                                                                                </a>
+                                                                        </li>
+                                                                        <li>
+                                                                                <a class="menu-link"
+                                                                                        href="#category-protein">
+                                                                                        <img aria-hidden="true" alt=""
+                                                                                                class="menu-link__icon"
+                                                                                                height="22"
+                                                                                                src="svg/protein.svg"
+                                                                                                width="22">
+                                                                                        پروتئین
+                                                                                </a>
+                                                                        </li>
+                                                                        <li>
+                                                                                <a class="menu-link"
+                                                                                        href="#category-snacks">
+                                                                                        <img aria-hidden="true" alt=""
+                                                                                                class="menu-link__icon"
+                                                                                                height="22"
+                                                                                                src="svg/snack.svg"
+                                                                                                width="22">
+                                                                                        تنقلات
+                                                                                </a>
+                                                                        </li>
+                                                                </ul>
+                                                        </details>
+                                                </li>
+                                                <li>
+                                                        <a class="site-nav__link" href="#special-offers">
+                                                                پیشنهاد ویژه
+                                                        </a>
+                                                </li>
+                                                <li>
+                                                        <a class="site-nav__link" href="#discounts">
+                                                                تخفیف‌ها
+                                                        </a>
+                                                </li>
+                                                <li>
+                                                        <a class="site-nav__link" href="#best-sellers">
+                                                                پرفروش‌ها
+                                                        </a>
+                                                </li>
+                                                <li>
+                                                        <a class="site-nav__link" href="#fresh-products">
+                                                                محصولات تازه
+                                                        </a>
+                                                </li>
+                                                <li>
+                                                        <a class="site-nav__link" href="#footer">
+                                                                تماس با ما
+                                                        </a>
+                                                </li>
+                                        </ul>
+                                </nav>
+                        </details>
+                </div>
+
+
+                <!-- Main Menu -->
+
+                <nav aria-label="منوی اصلی" class="site-nav" id="site-nav">
+                        <ul class="site-nav__list container">
+                                <li class="category-menu">
+                                        <a class="category-menu__toggle" href="#categories">
+                                                <span>
+                                                        دسته‌بندی کالاها
+                                                </span>
+                                                <svg aria-hidden="true" class="category-menu__chevron"
+                                                        viewBox="0 0 24 24">
+                                                        <path d="M6 9L12 15L18 9">
+                                                        </path>
+                                                </svg>
+                                        </a>
+                                        <ul class="category-menu__list" id="category-menu-list">
+                                                <li>
+                                                        <a class="menu-link" href="#category-fruits">
+                                                                <img aria-hidden="true" alt="" class="menu-link__icon"
+                                                                        height="22" src="svg/fruit.svg" width="22">
+                                                                میوه و سبزیجات
+                                                        </a>
+                                                </li>
+                                                <li>
+                                                        <a class="menu-link" href="#category-bakery">
+                                                                <img aria-hidden="true" alt="" class="menu-link__icon"
+                                                                        height="22" src="svg/bakery.svg" width="22">
+                                                                نان و شیرینی
+                                                        </a>
+                                                </li>
+                                                <li>
+                                                        <a class="menu-link" href="#category-drinks">
+                                                                <img aria-hidden="true" alt="" class="menu-link__icon"
+                                                                        height="22" src="svg/drinks.svg" width="22">
+                                                                نوشیدنی
+                                                        </a>
+                                                </li>
+                                                <li>
+                                                        <a class="menu-link" href="#category-dairy">
+                                                                <img aria-hidden="true" alt="" class="menu-link__icon"
+                                                                        height="22" src="svg/dairy.svg" width="22">
+                                                                لبنیات
+                                                        </a>
+                                                </li>
+                                                <li>
+                                                        <a class="menu-link" href="#category-protein">
+                                                                <img aria-hidden="true" alt="" class="menu-link__icon"
+                                                                        height="22" src="svg/protein.svg" width="22">
+                                                                پروتئین
+                                                        </a>
+                                                </li>
+                                                <li>
+                                                        <a class="menu-link" href="#category-snacks">
+                                                                <img aria-hidden="true" alt="" class="menu-link__icon"
+                                                                        height="22" src="svg/snack.svg" width="22">
+                                                                تنقلات
+                                                        </a>
+                                                </li>
+                                        </ul>
+                                </li>
+                                <li>
+                                        <a class="site-nav__link" href="#special-offers">
+                                                پیشنهاد ویژه
+                                        </a>
+                                </li>
+                                <li>
+                                        <a class="site-nav__link" href="#discounts">
+                                                تخفیف‌ها
+                                        </a>
+                                </li>
+                                <li>
+                                        <a class="site-nav__link" href="#best-sellers">
+                                                پرفروش‌ها
+                                        </a>
+                                </li>
+                                <li>
+                                        <a class="site-nav__link" href="#fresh-products">
+                                                محصولات تازه
+                                        </a>
+                                </li>
+                                <li>
+                                        <a class="site-nav__link" href="#footer">
+                                                تماس با ما
+                                        </a>
+                                </li>
+                        </ul>
+                </nav>
+        </header>
+        <main id="main-content" tabindex="-1">
+                <section aria-labelledby="hero-title" class="hero" id="hero">
+                        <div class="hero__inner container">
+                                <div class="hero__content">
+                                        <p class="hero__eyebrow">
+                                                سوپرمارکت بوی کد
+                                        </p>
+                                        <h1 class="hero__title" id="hero-title">
+                                                بوی تازگی، <br>از قفسه تا خانه شما
+                                        </h1>
+                                        <p class="hero__text">
+                                                خرید روزانه، تازه و به‌صرفه
+                                        </p>
+                                        <div class="hero__actions">
+                                                <a class="button button--primary" href="#discounts">
+                                                        مشاهده تخفیف‌ها
+                                                </a>
+                                                <a class="button button--secondary" href="#categories">
+                                                        دسته‌بندی کالاها
+                                                </a>
+                                        </div>
+                                        <ul class="hero__features">
+                                                <li>
+                                                        ارسال در کمتر از ۲ ساعت
+                                                </li>
+                                                <li>
+                                                        تضمین تازگی کالا
+                                                </li>
+                                                <li>
+                                                        پرداخت آنلاین و در محل
+                                                </li>
+                                        </ul>
+                                </div>
+                                <div aria-hidden="true" class="hero__image-wrap">
+                                        <img alt="" class="hero__image" decoding="async" height="320"
+                                                src="./images/Golden Tote.webp" width="320">
+                                </div>
+                        </div>
+                </section>
+                <section aria-labelledby="categories-title" class="section" id="categories">
+                        <div class="container">
+                                <header class="section__header">
+                                        <h2 class="section__title" id="categories-title">
+                                                دسته‌بندی کالاها
+                                        </h2>
+                                        <p class="section__subtitle">
+                                                هر چه برای سبد خرید روزانه نیاز دارید، دسته‌بندی‌شده و در دسترس.
+                                        </p>
+                                </header>
+                                <ul class="category-grid">
+                                        <li class="category-card" id="category-fruits">
+                                                <a class="category-card__link" href="#fruits">
+                                                        <img aria-hidden="true" alt="" class="category-card__icon"
+                                                                decoding="async" height="72" loading="lazy"
+                                                                src="svg/fruit.svg" width="72">
+                                                        <h3 class="category-card__title">
+                                                                میوه و سبزیجات
+                                                        </h3>
+                                                        <p class="category-card__meta">
+                                                                دیدن کالاها ←
+                                                        </p>
+                                                </a>
+                                        </li>
+                                        <li class="category-card" id="category-bakery">
+                                                <a class="category-card__link" href="#bakery">
+                                                        <img aria-hidden="true" alt="" class="category-card__icon"
+                                                                decoding="async" height="72" loading="lazy"
+                                                                src="svg/bakery.svg" width="72">
+                                                        <h3 class="category-card__title">
+                                                                نان و شیرینی
+                                                        </h3>
+                                                        <p class="category-card__meta">
+                                                                دیدن کالاها ←
+                                                        </p>
+                                                </a>
+                                        </li>
+                                        <li class="category-card" id="category-drinks">
+                                                <a class="category-card__link" href="#drinks">
+                                                        <img alt="" class="category-card__icon" decoding="async"
+                                                                height="72" loading="lazy" src="svg/drinks.svg"
+                                                                width="72">
+                                                        <h3 class="category-card__title">
+                                                                نوشیدنی
+                                                        </h3>
+                                                        <p class="category-card__meta">
+                                                                دیدن کالاها ←
+                                                        </p>
+                                                </a>
+                                        </li>
+                                        <li class="category-card" id="category-dairy">
+                                                <a class="category-card__link" href="#dairy">
+                                                        <img alt="" class="category-card__icon" decoding="async"
+                                                                height="72" loading="lazy" src="svg/dairy.svg"
+                                                                width="72">
+                                                        <h3 class="category-card__title">
+                                                                لبنیات
+                                                        </h3>
+                                                        <p class="category-card__meta">
+                                                                دیدن کالاها ←
+                                                        </p>
+                                                </a>
+                                        </li>
+                                        <li class="category-card" id="category-protein">
+                                                <a class="category-card__link" href="#protein">
+                                                        <img alt="" class="category-card__icon" decoding="async"
+                                                                height="72" loading="lazy" src="svg/protein.svg"
+                                                                width="72">
+                                                        <h3 class="category-card__title">
+                                                                پروتئین
+                                                        </h3>
+                                                        <p class="category-card__meta">
+                                                                دیدن کالاها ←
+                                                        </p>
+                                                </a>
+                                        </li>
+                                        <li class="category-card" id="category-snacks">
+                                                <a class="category-card__link" href="#snacks">
+                                                        <img alt="" class="category-card__icon" decoding="async"
+                                                                height="72" loading="lazy" src="svg/snack.svg"
+                                                                width="72">
+                                                        <h3 class="category-card__title">
+                                                                تنقلات
+                                                        </h3>
+                                                        <p class="category-card__meta">
+                                                                دیدن کالاها ←
+                                                        </p>
+                                                </a>
+                                        </li>
+                                </ul>
+                        </div>
+                </section>
+                <section aria-labelledby="special-offers-title" class="section section--flush-top" id="special-offers">
+                        <div class="container">
+                                <header class="section__header">
+                                        <h2 class="section__title" id="special-offers-title">
+                                                پیشنهاد ویژه
+                                        </h2>
+                                        <p class="section__subtitle">
+                                                فرصت‌های محدود این هفته را از دست ندهید.
+                                        </p>
+                                </header>
+                                <div class="promo-grid">
+                                        <article class="promo-card promo-card--primary">
+                                                <p class="promo-card__eyebrow">
+                                                        فقط تا پایان هفته
+                                                </p>
+                                                <h3 class="promo-card__title">
+                                                        تا ۲۰٪ تخفیف کالاهای منتخب
+                                                </h3>
+                                                <p class="promo-card__text">
+                                                        میوه، لبنیات، نوشیدنی و تنقلات منتخب را با قیمت ویژه بخرید.
+                                                </p>
+                                                <a class="button button--dark" href="#discounts">
+                                                        مشاهده تخفیف‌ها
+                                                </a>
+                                                <img aria-hidden="true" alt="" class="promo-card__art" decoding="async"
+                                                        height="160" loading="lazy" src="./images/offer.webp"
+                                                        width="160">
+                                        </article>
+                                        <article class="promo-card promo-card--dark">
+                                                <p class="promo-card__eyebrow">
+                                                        ویژه خرید اول
+                                                </p>
+                                                <h3 class="promo-card__title">
+                                                        ۱۰۰٬۰۰۰ تومان هدیه
+                                                </h3>
+                                                <p class="promo-card__text">
+                                                        برای اولین سفارش بالای ۴۰۰٬۰۰۰ تومان، این کد را هنگام پرداخت
+                                                        وارد کنید.
+                                                </p>
+                                                <p class="promo-card__code">
+                                                        کد تخفیف:
+                                                        <code dir="ltr">
+         SMELL100
+        </code>
+                                                </p>
+                                                <img aria-hidden="true" alt="" class="promo-card__art" decoding="async"
+                                                        height="160" loading="lazy" src="./images/Gift Box.webp"
+                                                        width="160">
+                                        </article>
+                                </div>
+                        </div>
+                </section>
+
+
+                <!-- carousel -->
+                <section aria-labelledby="discounts-title" class="section section--muted" id="discounts">
+                        <div class="container">
+                                <header class="section__header section__header--carousel">
+                                        <h2 class="section__title" id="discounts-title">
+                                                تخفیف‌ها
+                                        </h2>
+                                        <div class="carousel-heading-row">
+                                                <p class="section__subtitle">
+                                                        قیمت‌های ویژه روی کالاهای پرمصرف.
+                                                </p>
+                                                <nav aria-label="کنترل کاروسل تخفیف‌ها" class="carousel-controls">
+                                                        <a aria-label="ابتدای کاروسل تخفیف‌ها" href="#discounts-item-1"
+                                                                title="ابتدای کاروسل تخفیف‌ها">
+
+                                                                <img aria-hidden="true" alt="" class="carousel-arrow"
+                                                                        height="13" loading="lazy"
+                                                                        src="./svg/caret-right.svg" width="13">
+                                                        </a>
+                                                        <a aria-label="انتهای کاروسل تخفیف‌ها" href="#discounts-item-6"
+                                                                title="انتهای کاروسل تخفیف‌ها">
+
+                                                                <img aria-hidden="true" alt="" class="carousel-arrow"
+                                                                        height="13" loading="lazy"
+                                                                        src="svg/caret-left.svg" width="13">
+                                                        </a>
+                                                </nav>
+                                        </div>
+                                </header>
+                                <ul aria-label="کاروسل تخفیف‌ها" class="product-grid" tabindex="0">
+                                        <li id="discounts-item-1" tabindex="-1">
+                                                <article class="product-card" id="fruits">
+                                                        <div class="product-card__media">
+                                                                <img alt="" class="product-card__image" decoding="async"
+                                                                        height="96" loading="lazy"
+                                                                        src="./product/Apple.webp" width="96">
+                                                                <span class="badge product-card__badge">۲۰٪ تخفیف</span>
+                                                        </div>
+                                                        <p class="product-card__category">
+                                                                میوه و سبزیجات
+                                                        </p>
+                                                        <h3 class="product-card__title">
+                                                                سیب قرمز ممتاز
+                                                        </h3>
+                                                        <p class="product-card__unit">
+                                                                ۱ کیلوگرم
+                                                        </p>
+                                                        <div class="product-card__footer">
+                                                                <p class="price">
+                                                                        <del class="price__old">
+                                                                                <span class="sr-only">
+                                                                                        قیمت قبلی:
+                                                                                </span>
+                                                                                ۸۵٬۰۰۰
+                                                                        </del>
+                                                                        <span class="price__current">
+                                                                                ۶۸٬۰۰۰
+                                                                                <span class="price__unit">
+                                                                                        تومان
+                                                                                </span>
+                                                                        </span>
+                                                                </p>
+                                                                <button class="button button--secondary button--block"
+                                                                        type="button"
+                                                                        aria-label="افزودن به سبد خرید: سیب قرمز ممتاز">
+                                                                        <span aria-hidden="true">+</span> <span>افزودن
+                                                                                به سبد خرید</span>
+                                                                </button>
+                                                        </div>
+                                                </article>
+                                        </li>
+                                        <li id="discounts-item-2" tabindex="-1">
+                                                <article class="product-card" id="dairy">
+                                                        <div class="product-card__media">
+                                                                <img alt="" class="product-card__image" decoding="async"
+                                                                        height="96" loading="lazy"
+                                                                        src="./product/Milk.webp" width="96">
+                                                                <span class="badge product-card__badge">۱۰٪ تخفیف</span>
+                                                        </div>
+                                                        <p class="product-card__category">
+                                                                لبنیات
+                                                        </p>
+                                                        <h3 class="product-card__title">
+                                                                شیر کم‌چرب پاستوریزه
+                                                        </h3>
+                                                        <p class="product-card__unit">
+                                                                ۱ لیتر
+                                                        </p>
+                                                        <div class="product-card__footer">
+                                                                <p class="price">
+                                                                        <del class="price__old">
+                                                                                <span class="sr-only">
+                                                                                        قیمت قبلی:
+                                                                                </span>
+                                                                                ۴۲٬۰۰۰
+                                                                        </del>
+                                                                        <span class="price__current">
+                                                                                ۳۷٬۸۰۰
+                                                                                <span class="price__unit">
+                                                                                        تومان
+                                                                                </span>
+                                                                        </span>
+                                                                </p>
+                                                                <button class="button button--secondary button--block"
+                                                                        type="button"
+                                                                        aria-label="افزودن به سبد خرید: شیر کم‌چرب پاستوریزه"><span
+                                                                                aria-hidden="true">+</span><span>افزودن
+                                                                                به سبد خرید</span></button>
+                                                        </div>
+                                                </article>
+                                        </li>
+                                        <li id="discounts-item-3" tabindex="-1">
+                                                <article class="product-card" id="drinks">
+                                                        <div class="product-card__media">
+                                                                <img alt="" class="product-card__image" decoding="async"
+                                                                        height="96" loading="lazy"
+                                                                        src="./product/Orange Juice.webp" width="96">
+                                                                <span class="badge product-card__badge">۱۵٪ تخفیف</span>
+                                                        </div>
+                                                        <p class="product-card__category">
+                                                                نوشیدنی
+                                                        </p>
+                                                        <h3 class="product-card__title">
+                                                                نکتار آب‌‌پرتقال
+                                                        </h3>
+                                                        <p class="product-card__unit">
+                                                                ۱ لیتر
+                                                        </p>
+                                                        <div class="product-card__footer">
+                                                                <p class="price">
+                                                                        <del class="price__old">
+                                                                                <span class="sr-only">
+                                                                                        قیمت قبلی:
+                                                                                </span>
+                                                                                ۹۸٬۰۰۰
+                                                                        </del>
+                                                                        <span class="price__current">
+                                                                                ۸۳٬۳۰۰
+                                                                                <span class="price__unit">
+                                                                                        تومان
+                                                                                </span>
+                                                                        </span>
+                                                                </p>
+                                                                <button class="button button--secondary button--block"
+                                                                        type="button"
+                                                                        aria-label="افزودن به سبد خرید: نکتار آب‌‌پرتقال"><span
+                                                                                aria-hidden="true">+</span><span>افزودن
+                                                                                به سبد خرید</span></button>
+                                                        </div>
+                                                </article>
+                                        </li>
+                                        <li id="discounts-item-4" tabindex="-1">
+                                                <article class="product-card" id="snacks">
+                                                        <div class="product-card__media">
+                                                                <img alt="" class="product-card__image" decoding="async"
+                                                                        height="96" loading="lazy"
+                                                                        src="./product/Potato Chips.webp" width="96">
+                                                                <span class="badge product-card__badge">۲۰٪ تخفیف</span>
+                                                        </div>
+                                                        <p class="product-card__category">
+                                                                تنقلات
+                                                        </p>
+                                                        <h3 class="product-card__title">
+                                                                چیپس ساده
+                                                        </h3>
+                                                        <p class="product-card__unit">
+                                                                ۱۲۰ گرم
+                                                        </p>
+                                                        <div class="product-card__footer">
+                                                                <p class="price">
+                                                                        <del class="price__old">
+                                                                                <span class="sr-only">
+                                                                                        قیمت قبلی:
+                                                                                </span>
+                                                                                ۳۵٬۰۰۰
+                                                                        </del>
+                                                                        <span class="price__current">
+                                                                                ۲۸٬۰۰۰
+                                                                                <span class="price__unit">
+                                                                                        تومان
+                                                                                </span>
+                                                                        </span>
+                                                                </p>
+                                                                <button class="button button--secondary button--block"
+                                                                        type="button"
+                                                                        aria-label="افزودن به سبد خرید: چیپس ساده"><span
+                                                                                aria-hidden="true">+</span><span>افزودن
+                                                                                به سبد خرید</span></button>
+                                                        </div>
+                                                </article>
+                                        </li>
+                                        <li id="discounts-item-5" tabindex="-1">
+                                                <article class="product-card">
+                                                        <div class="product-card__media">
+                                                                <img alt="" class="product-card__image" decoding="async"
+                                                                        height="96" loading="lazy"
+                                                                        src="./product/Orange.webp" width="96">
+                                                                <span class="badge product-card__badge">۲۰٪ تخفیف</span>
+                                                        </div>
+                                                        <p class="product-card__category">
+                                                                میوه و سبزیجات
+                                                        </p>
+                                                        <h3 class="product-card__title">
+                                                                پرتقال تازه
+                                                        </h3>
+                                                        <p class="product-card__unit">
+                                                                ۱ کیلوگرم
+                                                        </p>
+                                                        <div class="product-card__footer">
+                                                                <p class="price">
+                                                                        <del class="price__old">
+                                                                                <span class="sr-only">
+                                                                                        قیمت قبلی:
+                                                                                </span>
+                                                                                ۸۵٬۰۰۰
+                                                                        </del>
+                                                                        <span class="price__current">
+                                                                                ۶۸٬۰۰۰
+                                                                                <span class="price__unit">
+                                                                                        تومان
+                                                                                </span>
+                                                                        </span>
+                                                                </p>
+                                                                <button class="button button--secondary button--block"
+                                                                        type="button"
+                                                                        aria-label="افزودن به سبد خرید: پرتقال تازه"><span
+                                                                                aria-hidden="true">+</span><span>افزودن
+                                                                                به سبد خرید</span></button>
+                                                        </div>
+                                                </article>
+                                        </li>
+                                        <li id="discounts-item-6" tabindex="-1">
+                                                <article class="product-card">
+                                                        <div class="product-card__media">
+                                                                <img alt="" class="product-card__image" decoding="async"
+                                                                        height="96" loading="lazy"
+                                                                        src="./product/Lighvan Cheese.webp" width="96">
+                                                                <span class="badge product-card__badge">۱۰٪ تخفیف</span>
+                                                        </div>
+                                                        <p class="product-card__category">
+                                                                لبنیات
+                                                        </p>
+                                                        <h3 class="product-card__title">
+                                                                پنیر لیقوان </h3>
+                                                        <p class="product-card__unit">
+                                                                ۱ لیتر
+                                                        </p>
+                                                        <div class="product-card__footer">
+                                                                <p class="price">
+                                                                        <del class="price__old">
+                                                                                <span class="sr-only">
+                                                                                        قیمت قبلی:
+                                                                                </span>
+                                                                                ۴۲٬۰۰۰
+                                                                        </del>
+                                                                        <span class="price__current">
+                                                                                ۳۷٬۸۰۰
+                                                                                <span class="price__unit">
+                                                                                        تومان
+                                                                                </span>
+                                                                        </span>
+                                                                </p>
+                                                                <button class="button button--secondary button--block"
+                                                                        type="button"
+                                                                        aria-label="افزودن به سبد خرید: پنیر لیقوان"><span
+                                                                                aria-hidden="true">+</span><span>افزودن
+                                                                                به سبد خرید</span></button>
+                                                        </div>
+                                                </article>
+                                        </li>
+                                </ul>
+                        </div>
+                </section>
+
+                <!-- carousel -->
+                <section aria-labelledby="best-sellers-title" class="section" id="best-sellers">
+                        <div class="container">
+                                <header class="section__header section__header--carousel">
+                                        <h2 class="section__title" id="best-sellers-title">
+                                                پرفروش‌ها
+                                        </h2>
+                                        <div class="carousel-heading-row">
+                                                <p class="section__subtitle">
+                                                        محبوب‌ترین انتخاب‌های مشتریان در این هفته.
+                                                </p>
+                                                <nav aria-label="کنترل کاروسل پرفروش‌ها" class="carousel-controls">
+                                                        <a aria-label="ابتدای کاروسل پرفروش‌ها"
+                                                                href="#best-sellers-item-1"
+                                                                title="ابتدای کاروسل پرفروش‌ها">
+                                                                <img aria-hidden="true" alt="" class="carousel-arrow"
+                                                                        height="13" loading="lazy"
+                                                                        src="./svg/caret-right.svg" width="13">
+                                                        </a>
+                                                        <a aria-label="انتهای کاروسل پرفروش‌ها"
+                                                                href="#best-sellers-item-6"
+                                                                title="انتهای کاروسل پرفروش‌ها">
+                                                                <img aria-hidden="true" alt="" class="carousel-arrow"
+                                                                        height="13" loading="lazy"
+                                                                        src="./svg/caret-left.svg" width="13">
+                                                        </a>
+                                                </nav>
+                                        </div>
+                                </header>
+                                <ul aria-label="کاروسل پرفروش‌ها" class="product-grid" tabindex="0">
+                                        <li id="best-sellers-item-1" tabindex="-1">
+                                                <article class="product-card" id="bakery">
+                                                        <div class="product-card__media">
+                                                                <img alt="" class="product-card__image" decoding="async"
+                                                                        height="96" loading="lazy"
+                                                                        src="./product/Toast Bread.webp" width="96">
+                                                        </div>
+                                                        <p class="product-card__category">
+                                                                نان و شیرینی
+                                                        </p>
+                                                        <h3 class="product-card__title">
+                                                                نان تست سبوس‌دار
+                                                        </h3>
+                                                        <p class="product-card__unit">
+                                                                ۵۰۰ گرم
+                                                        </p>
+                                                        <div class="product-card__footer">
+                                                                <p class="price">
+                                                                        <span class="price__current">
+                                                                                ۴۵٬۰۰۰
+                                                                                <span class="price__unit">
+                                                                                        تومان
+                                                                                </span>
+                                                                        </span>
+                                                                </p>
+                                                                <button class="button button--secondary button--block"
+                                                                        type="button"
+                                                                        aria-label="افزودن به سبد خرید: نان تست سبوس‌دار"><span
+                                                                                aria-hidden="true">+</span><span>افزودن
+                                                                                به سبد خرید</span></button>
+                                                        </div>
+                                                </article>
+                                        </li>
+                                        <li id="best-sellers-item-2" tabindex="-1">
+                                                <article class="product-card">
+                                                        <div class="product-card__media">
+                                                                <img alt="" class="product-card__image" decoding="async"
+                                                                        height="96" loading="lazy"
+                                                                        src="./product/Yogurt.webp" width="96">
+                                                        </div>
+                                                        <p class="product-card__category">
+                                                                لبنیات
+                                                        </p>
+                                                        <h3 class="product-card__title">
+                                                                ماست پرچرب ناری کاله
+                                                        </h3>
+                                                        <p class="product-card__unit">
+                                                                ۹۰۰ گرم
+                                                        </p>
+                                                        <div class="product-card__footer">
+                                                                <p class="price">
+                                                                        <span class="price__current">
+                                                                                ۵۸٬۰۰۰
+                                                                                <span class="price__unit">
+                                                                                        تومان
+                                                                                </span>
+                                                                        </span>
+                                                                </p>
+                                                                <button class="button button--secondary button--block"
+                                                                        type="button"
+                                                                        aria-label="افزودن به سبد خرید: ماست پرچرب ناری کاله"><span
+                                                                                aria-hidden="true">+</span><span>افزودن
+                                                                                به سبد خرید</span></button>
+                                                        </div>
+                                                </article>
+                                        </li>
+                                        <li id="best-sellers-item-3" tabindex="-1">
+                                                <article class="product-card" id="protein">
+                                                        <div class="product-card__media">
+                                                                <img alt="" class="product-card__image" decoding="async"
+                                                                        height="96" loading="lazy"
+                                                                        src="./product/Chicken.webp" width="96">
+                                                        </div>
+                                                        <p class="product-card__category">
+                                                                پروتئین
+                                                        </p>
+                                                        <h3 class="product-card__title">
+                                                                سینه مرغ بدون پوست
+                                                        </h3>
+                                                        <p class="product-card__unit">
+                                                                ۱ کیلوگرم
+                                                        </p>
+                                                        <div class="product-card__footer">
+                                                                <p class="price">
+                                                                        <span class="price__current">
+                                                                                ۲۴۵٬۰۰۰
+                                                                                <span class="price__unit">
+                                                                                        تومان
+                                                                                </span>
+                                                                        </span>
+                                                                </p>
+                                                                <button class="button button--secondary button--block"
+                                                                        type="button"
+                                                                        aria-label="افزودن به سبد خرید: سینه مرغ بدون پوست"><span
+                                                                                aria-hidden="true">+</span><span>افزودن
+                                                                                به سبد خرید</span></button>
+                                                        </div>
+                                                </article>
+                                        </li>
+                                        <li id="best-sellers-item-4" tabindex="-1">
+                                                <article class="product-card">
+                                                        <div class="product-card__media">
+                                                                <img alt="" class="product-card__image" decoding="async"
+                                                                        height="96" loading="lazy"
+                                                                        src="./product/Malt Beverage.webp" width="96">
+                                                        </div>
+                                                        <p class="product-card__category">
+                                                                نوشیدنی
+                                                        </p>
+                                                        <h3 class="product-card__title">
+                                                                ماءالشعیر کلاسیک مجیدیه </h3>
+                                                        <p class="product-card__unit">
+                                                                بسته ۶ عددی
+                                                        </p>
+                                                        <div class="product-card__footer">
+                                                                <p class="price">
+                                                                        <span class="price__current">
+                                                                                ۶۰٬۰۰۰
+                                                                                <span class="price__unit">
+                                                                                        تومان
+                                                                                </span>
+                                                                        </span>
+                                                                </p>
+                                                                <button class="button button--secondary button--block"
+                                                                        type="button"
+                                                                        aria-label="افزودن به سبد خرید: ماءالشعیر کلاسیک مجیدیه"><span
+                                                                                aria-hidden="true">+</span><span>افزودن
+                                                                                به سبد خرید</span></button>
+                                                        </div>
+                                                </article>
+                                        </li>
+                                        <li id="best-sellers-item-5" tabindex="-1">
+                                                <article class="product-card">
+                                                        <div class="product-card__media">
+                                                                <img alt="" class="product-card__image" decoding="async"
+                                                                        height="96" loading="lazy"
+                                                                        src="./product/Butter.webp" width="96">
+                                                        </div>
+                                                        <p class="product-card__category">
+                                                                لبنیات
+                                                        </p>
+                                                        <h3 class="product-card__title">
+                                                                کره پاستوریزه کالین
+                                                        </h3>
+                                                        <p class="product-card__unit">
+                                                                ۵۰۰ گرم
+                                                        </p>
+                                                        <div class="product-card__footer">
+                                                                <p class="price">
+                                                                        <span class="price__current">
+                                                                                ۴۵٬۰۰۰
+                                                                                <span class="price__unit">
+                                                                                        تومان
+                                                                                </span>
+                                                                        </span>
+                                                                </p>
+                                                                <button class="button button--secondary button--block"
+                                                                        type="button"
+                                                                        aria-label="افزودن به سبد خرید: کره پاستوریزه کالین"><span
+                                                                                aria-hidden="true">+</span><span>افزودن
+                                                                                به سبد خرید</span></button>
+                                                        </div>
+                                                </article>
+                                        </li>
+                                        <li id="best-sellers-item-6" tabindex="-1">
+                                                <article class="product-card">
+                                                        <div class="product-card__media">
+                                                                <img alt="" class="product-card__image" decoding="async"
+                                                                        height="96" loading="lazy"
+                                                                        src="./product/Ice Cream.webp" width="96">
+                                                        </div>
+                                                        <p class="product-card__category">
+                                                                تنقلات
+                                                        </p>
+                                                        <h3 class="product-card__title">
+                                                                بستنی شاتوت الکترولیت کاله
+                                                        </h3>
+                                                        <p class="product-card__unit">
+                                                                ۶۴ گرم
+                                                        </p>
+                                                        <div class="product-card__footer">
+                                                                <p class="price">
+                                                                        <span class="price__current">
+                                                                                ۵۸٬۰۰۰
+                                                                                <span class="price__unit">
+                                                                                        تومان
+                                                                                </span>
+                                                                        </span>
+                                                                </p>
+                                                                <button class="button button--secondary button--block"
+                                                                        type="button"
+                                                                        aria-label="افزودن به سبد خرید: بستنی شاتوت الکترولیت کاله"><span
+                                                                                aria-hidden="true">+</span><span>افزودن
+                                                                                به سبد خرید</span></button>
+                                                        </div>
+                                                </article>
+                                        </li>
+                                </ul>
+                        </div>
+                </section>
+
+                <!-- carousel -->
+                <section aria-labelledby="fresh-products-title" class="section section--muted" id="fresh-products">
+                        <div class="container">
+                                <header class="section__header section__header--carousel">
+                                        <h2 class="section__title" id="fresh-products-title">
+                                                محصولات تازه
+                                        </h2>
+                                        <div class="carousel-heading-row">
+                                                <p class="section__subtitle">
+                                                        هر صبح، تازه از مزرعه و نانوایی به قفسه‌های ما می‌رسند.
+                                                </p>
+                                                <nav aria-label="کنترل کاروسل محصولات تازه" class="carousel-controls">
+                                                        <a aria-label="ابتدای کاروسل محصولات تازه"
+                                                                href="#fresh-products-item-1"
+                                                                title="ابتدای کاروسل محصولات تازه">
+                                                                <img aria-hidden="true" alt="" class="carousel-arrow"
+                                                                        height="13" loading="lazy"
+                                                                        src="./svg/caret-right.svg" width="13">
+                                                        </a>
+                                                        <a aria-label="انتهای کاروسل محصولات تازه"
+                                                                href="#fresh-products-item-6"
+                                                                title="انتهای کاروسل محصولات تازه">
+                                                                <img aria-hidden="true" alt="" class="carousel-arrow"
+                                                                        height="13" loading="lazy"
+                                                                        src="./svg/caret-left.svg" width="13">
+                                                        </a>
+                                                </nav>
+                                        </div>
+                                </header>
+                                <ul aria-label="کاروسل محصولات تازد" class="product-grid" tabindex="0">
+                                        <li id="fresh-products-item-1" tabindex="-1">
+                                                <article class="product-card">
+                                                        <div class="product-card__media">
+                                                                <img alt="" class="product-card__image" decoding="async"
+                                                                        height="96" loading="lazy"
+                                                                        src="./product/Tomato.webp" width="96">
+                                                        </div>
+                                                        <p class="product-card__category">
+                                                                میوه و سبزیجات
+                                                        </p>
+                                                        <h3 class="product-card__title">
+                                                                گوجه
+                                                        </h3>
+                                                        <p class="product-card__unit">
+                                                                ۱ کیلوگرم
+                                                        </p>
+                                                        <div class="product-card__footer">
+                                                                <p class="price">
+                                                                        <span class="price__current">
+                                                                                ۴۵٬۰۰۰
+                                                                                <span class="price__unit">
+                                                                                        تومان
+                                                                                </span>
+                                                                        </span>
+                                                                </p>
+                                                                <button class="button button--secondary button--block"
+                                                                        type="button"
+                                                                        aria-label="افزودن به سبد خرید: گوجه"><span
+                                                                                aria-hidden="true">+</span><span>افزودن
+                                                                                به سبد خرید</span></button>
+                                                        </div>
+                                                </article>
+                                        </li>
+                                        <li id="fresh-products-item-2" tabindex="-1">
+                                                <article class="product-card">
+                                                        <div class="product-card__media">
+                                                                <img alt="" class="product-card__image" decoding="async"
+                                                                        height="96" loading="lazy"
+                                                                        src="./product/Lavash Bread.webp" width="96">
+                                                        </div>
+                                                        <p class="product-card__category">
+                                                                نان و شیرینی
+                                                        </p>
+                                                        <h3 class="product-card__title">
+                                                                نان لواش
+                                                        </h3>
+                                                        <p class="product-card__unit">
+                                                                ۱ عدد
+                                                        </p>
+                                                        <div class="product-card__footer">
+                                                                <p class="price">
+                                                                        <span class="price__current">
+                                                                                ۱۵٬۰۰۰
+                                                                                <span class="price__unit">
+                                                                                        تومان
+                                                                                </span>
+                                                                        </span>
+                                                                </p>
+                                                                <button class="button button--secondary button--block"
+                                                                        type="button"
+                                                                        aria-label="افزودن به سبد خرید: نان لواش"><span
+                                                                                aria-hidden="true">+</span><span>افزودن
+                                                                                به سبد خرید</span></button>
+                                                        </div>
+                                                </article>
+                                        </li>
+                                        <li id="fresh-products-item-3" tabindex="-1">
+                                                <article class="product-card">
+                                                        <div class="product-card__media">
+                                                                <img alt="" class="product-card__image" decoding="async"
+                                                                        height="96" loading="lazy"
+                                                                        src="./product/Eggs.webp" width="96">
+                                                        </div>
+                                                        <p class="product-card__category">
+                                                                پروتئین
+                                                        </p>
+                                                        <h3 class="product-card__title">
+                                                                تخم‌مرغ محلی
+                                                        </h3>
+                                                        <p class="product-card__unit">
+                                                                بسته ۶ عددی
+                                                        </p>
+                                                        <div class="product-card__footer">
+                                                                <p class="price">
+                                                                        <span class="price__current">
+                                                                                ۱۴۵٬۰۰۰
+                                                                                <span class="price__unit">
+                                                                                        تومان
+                                                                                </span>
+                                                                        </span>
+                                                                </p>
+                                                                <button class="button button--secondary button--block"
+                                                                        type="button"
+                                                                        aria-label="افزودن به سبد خرید: تخم‌مرغ محلی"><span
+                                                                                aria-hidden="true">+</span><span>افزودن
+                                                                                به سبد خرید</span></button>
+                                                        </div>
+                                                </article>
+                                        </li>
+                                        <li id="fresh-products-item-4" tabindex="-1">
+                                                <article class="product-card">
+                                                        <div class="product-card__media">
+                                                                <img alt="" class="product-card__image" decoding="async"
+                                                                        height="96" loading="lazy"
+                                                                        src="./product/Potato.webp" width="96">
+                                                        </div>
+                                                        <p class="product-card__category">
+                                                                میوه و سبزیات
+                                                        </p>
+                                                        <h3 class="product-card__title">
+                                                                سیب زمینی
+                                                        </h3>
+                                                        <p class="product-card__unit">
+                                                                ۴۰۰ گرم
+                                                        </p>
+                                                        <div class="product-card__footer">
+                                                                <p class="price">
+                                                                        <span class="price__current">
+                                                                                ۱۲۰٬۰۰۰
+                                                                                <span class="price__unit">
+                                                                                        تومان
+                                                                                </span>
+                                                                        </span>
+                                                                </p>
+                                                                <button class="button button--secondary button--block"
+                                                                        type="button"
+                                                                        aria-label="افزودن به سبد خرید: سیب زمینی"><span
+                                                                                aria-hidden="true">+</span><span>افزودن
+                                                                                به سبد خرید</span></button>
+                                                        </div>
+                                                </article>
+                                        </li>
+                                        <li id="fresh-products-item-5" tabindex="-1">
+                                                <article class="product-card">
+                                                        <div class="product-card__media">
+                                                                <img alt="" class="product-card__image" decoding="async"
+                                                                        height="96" loading="lazy"
+                                                                        src="./product/Lettuce.webp" width="96">
+                                                        </div>
+                                                        <p class="product-card__category">
+                                                                میوه و سبزیجات
+                                                        </p>
+                                                        <h3 class="product-card__title">
+                                                                کاهو تازه
+                                                        </h3>
+                                                        <p class="product-card__unit">
+                                                                ۱ کیلوگرم
+                                                        </p>
+                                                        <div class="product-card__footer">
+                                                                <p class="price">
+                                                                        <span class="price__current">
+                                                                                ۴۵٬۰۰۰
+                                                                                <span class="price__unit">
+                                                                                        تومان
+                                                                                </span>
+                                                                        </span>
+                                                                </p>
+                                                                <button class="button button--secondary button--block"
+                                                                        type="button"
+                                                                        aria-label="افزودن به سبد خرید: کاهو تازه"><span
+                                                                                aria-hidden="true">+</span><span>افزودن
+                                                                                به سبد خرید</span></button>
+                                                        </div>
+                                                </article>
+                                        </li>
+                                        <li id="fresh-products-item-6" tabindex="-1">
+                                                <article class="product-card">
+                                                        <div class="product-card__media">
+                                                                <img alt="" class="product-card__image" decoding="async"
+                                                                        height="96" loading="lazy"
+                                                                        src="./product/Sangak Bread.webp" width="96">
+                                                        </div>
+                                                        <p class="product-card__category">
+                                                                نان و شیرینی
+                                                        </p>
+                                                        <h3 class="product-card__title">
+                                                                نان سنگک
+                                                        </h3>
+                                                        <p class="product-card__unit">
+                                                                ۱ عدد
+                                                        </p>
+                                                        <div class="product-card__footer">
+                                                                <p class="price">
+                                                                        <span class="price__current">
+                                                                                ۱۵٬۰۰۰
+                                                                                <span class="price__unit">
+                                                                                        تومان
+                                                                                </span>
+                                                                        </span>
+                                                                </p>
+                                                                <button class="button button--secondary button--block"
+                                                                        type="button"
+                                                                        aria-label="افزودن به سبد خرید: نان سنگک"><span
+                                                                                aria-hidden="true">+</span><span>افزودن
+                                                                                به سبد خرید</span></button>
+                                                        </div>
+                                                </article>
+                                        </li>
+                                </ul>
+                        </div>
+                </section>
+
+
+                <!-- shopping-guide -->
+                <section aria-labelledby="shopping-guide-title" class="section" id="shopping-guide">
+                        <div class="container">
+                                <header class="section__header">
+                                        <h2 class="section__title" id="shopping-guide-title">
+                                                راهنمای خرید
+                                        </h2>
+                                        <p class="section__subtitle">
+                                                پیش از ثبت سفارش، پاسخ پرسش‌های رایج را اینجا ببینید.
+                                        </p>
+                                </header>
+
+                                <!-- guide -->
+                                <div class="guide">
+                                        <div class="guide__cards">
+                                                <article class="info-card" id="shipping">
+                                                        <h3 class="info-card__title">
+                                                                شیوه ارسال
+                                                        </h3>
+                                                        <p class="info-card__text">
+                                                                سفارش‌ها در بازه‌های دوساعته ارسال می‌شوند؛ شنبه تا
+                                                                پنج‌شنبه از ۸ تا ۲۲ و جمعه از ۹ تا ۱۴.
+                                                                ارسال سفارش‌های بالای ۵۰۰٬۰۰۰ تومان رایگان است.
+                                                        </p>
+                                                </article>
+                                                <article class="info-card" id="returns">
+                                                        <h3 class="info-card__title">
+                                                                بازگشت کالا
+                                                        </h3>
+                                                        <p class="info-card__text">
+                                                                اگر کالایی آسیب‌دیده یا نزدیک به تاریخ انقضا به دستتان
+                                                                رسید، تا ۲۴ ساعت پس از تحویل
+                                                                با پشتیبانی تماس بگیرید تا بدون هزینه تعویض یا مبلغ آن
+                                                                بازگردانده شود.
+                                                        </p>
+                                                </article>
+                                        </div>
+
+                                        <!-- FAQ -->
+                                        <div class="faq" id="faq">
+                                                <h3 class="faq__title">
+                                                        پرسش‌های پرتکرار
+                                                </h3>
+                                                <details class="faq__item" name="faq">
+                                                        <summary class="faq__question">
+                                                                هزینه ارسال چقدر است؟
+                                                        </summary>
+                                                        <p class="faq__answer">
+                                                                ارسال برای سفارش‌های بالای ۵۰۰٬۰۰۰ تومان رایگان است و
+                                                                برای سایر سفارش‌ها ۳۵٬۰۰۰ تومان هزینه دارد.
+                                                        </p>
+                                                </details>
+                                                <details class="faq__item" name="faq">
+                                                        <summary class="faq__question">
+                                                                سفارشم چه زمانی تحویل می‌شود؟
+                                                        </summary>
+                                                        <p class="faq__answer">
+                                                                سفارش در نخستین بازه زمانی خالی ارسال می‌شود؛ معمولاً
+                                                                کمتر از دو ساعت پس از ثبت سفارش.
+                                                        </p>
+                                                </details>
+                                                <details class="faq__item" name="faq">
+                                                        <summary class="faq__question">
+                                                                چه روش‌های پرداختی دارید؟
+                                                        </summary>
+                                                        <p class="faq__answer">
+                                                                می‌توانید آنلاین با همه کارت‌های عضو شتاب پرداخت کنید یا
+                                                                هنگام تحویل با کارت‌خوان سیار.
+                                                        </p>
+                                                </details>
+                                                <details class="faq__item" name="faq">
+                                                        <summary class="faq__question">
+                                                                می‌توانم سفارشم را لغو کنم؟
+                                                        </summary>
+                                                        <p class="faq__answer">
+                                                                بله؛ تا پیش از ارسال، با تماس با پشتیبانی می‌توانید
+                                                                سفارش را بدون هزینه لغو کنید.
+                                                        </p>
+                                                </details>
+                                        </div>
+                                </div>
+                        </div>
+                </section>
+        </main>
+
+
+        <!-- fOOTER -->
+        <footer class="site-footer" id="footer">
+                <div class="site-footer__grid container">
+                        <section aria-labelledby="footer-about-title" class="footer-column">
+                                <h2 class="footer-column__title footer-brand" id="footer-about-title">
+                                        <svg aria-hidden="true" class="footer-brand__logo" height="26"
+                                                viewBox="0 0 320 160" width="52">
+                                                <g fill="none" stroke="#ffb000" stroke-linecap="round"
+                                                        stroke-linejoin="round" stroke-width="14">
+                                                        <polyline points="75,35 30,80 75,125"> </polyline>
+                                                        <polyline points="125,35 112,60 125,85 112,110 125,130">
+                                                        </polyline>
+                                                        <polyline points="160,25 173,52 160,80 173,108 160,135">
+                                                        </polyline>
+                                                        <polyline points="195,35 208,60 195,85 208,110 195,130">
+                                                        </polyline>
+                                                        <polyline points="245,35 290,80 245,125"></polyline>
+                                                </g>
+                                        </svg>
+                                        <span> سوپرمارکت بوی کد</span>
+                                </h2>
+                                <p class="footer-column__text">از سال ۱۴۰۵، همراه شما با محصولات تازه، متنوع و باکیفیت
+                                        با قیمت منصفانه.</p>
+                                <address class="footer-contact">
+                                        <p class="footer-contact__item">
+                                                <img aria-hidden="true" alt="" class="footer-icon" height="18"
+                                                        loading="lazy" src="svg/map-pin.svg" width="18">
+                                                تهران، میدان دانش، خیابان بهار
+                                        </p>
+                                        <p class="footer-contact__item">
+                                                <img aria-hidden="true" alt="" class="footer-icon" height="18"
+                                                        loading="lazy" src="svg/phone.svg" width="18">
+                                                <a class="footer-contact__link" dir="ltr" href="tel:+982112345678">
+                                                        ۰۲۱‑۱۲۳۴۵۶۷۸
+                                                </a>
+                                        </p>
+                                </address>
+                        </section>
+                        <nav aria-labelledby="footer-categories-title" class="footer-column">
+                                <h2 class="footer-column__title" id="footer-categories-title">
+                                        دسته‌بندی کالاها
+                                </h2>
+                                <ul class="footer-links">
+                                        <li>
+                                                <a class="footer-link" href="#category-fruits">
+                                                        <img aria-hidden="true" alt="" class="footer-link__icon"
+                                                                height="13" loading="lazy" src="svg/caret-left.svg"
+                                                                width="13">
+                                                        میوه و سبزیجات
+                                                </a>
+                                        </li>
+                                        <li>
+                                                <a class="footer-link" href="#category-dairy">
+                                                        <img aria-hidden="true" alt="" class="footer-link__icon"
+                                                                height="13" loading="lazy" src="svg/caret-left.svg"
+                                                                width="13">
+                                                        لبنیات
+                                                </a>
+                                        </li>
+                                        <li>
+                                                <a class="footer-link" href="#category-bakery">
+                                                        <img aria-hidden="true" alt="" class="footer-link__icon"
+                                                                height="13" loading="lazy" src="svg/caret-left.svg"
+                                                                width="13">
+                                                        نان و شیرینی
+                                                </a>
+                                        </li>
+                                        <li>
+                                                <a class="footer-link" href="#category-protein">
+                                                        <img aria-hidden="true" alt="" class="footer-link__icon"
+                                                                height="13" loading="lazy" src="svg/caret-left.svg"
+                                                                width="13">
+                                                        پروتئین
+                                                </a>
+                                        </li>
+                                </ul>
+                        </nav>
+                        <nav aria-labelledby="footer-guide-title" class="footer-column">
+                                <h2 class="footer-column__title" id="footer-guide-title">
+                                        راهنمای خرید
+                                </h2>
+                                <ul class="footer-links">
+                                        <li>
+                                                <a class="footer-link" href="#shipping">
+                                                        <img aria-hidden="true" alt="" class="footer-link__icon"
+                                                                height="13" loading="lazy" src="svg/caret-left.svg"
+                                                                width="13">
+                                                        شیوه ارسال
+                                                </a>
+                                        </li>
+                                        <li>
+                                                <a class="footer-link" href="#returns">
+                                                        <img aria-hidden="true" alt="" class="footer-link__icon"
+                                                                height="13" loading="lazy" src="svg/caret-left.svg"
+                                                                width="13">
+                                                        بازگشت کالا
+                                                </a>
+                                        </li>
+                                        <li>
+                                                <a class="footer-link" href="#faq">
+                                                        <img aria-hidden="true" alt="" class="footer-link__icon"
+                                                                height="13" loading="lazy" src="svg/caret-left.svg"
+                                                                width="13">
+                                                        پرسش‌های پرتکرار
+                                                </a>
+                                        </li>
+                                </ul>
+                        </nav>
+                        <section aria-labelledby="footer-hours-title" class="footer-column">
+                                <h2 class="footer-column__title" id="footer-hours-title">ساعت کاری</h2>
+                                <ul class="footer-hours">
+                                        <li class="footer-hours__item">
+                                                <img aria-hidden="true" alt="" class="footer-icon" height="18"
+                                                        loading="lazy" src="svg/calendar-dots.svg" width="18">
+                                                <span> شنبه تا پنج‌شنبه:<time datetime="08:00">۰۸:۰۰ </time> تا<time
+                                                                datetime="22:00">۲۲:۰۰</time></span>
+                                        </li>
+
+                                        <li class="footer-hours__item">
+                                                <img aria-hidden="true" alt="" class="footer-icon" height="18"
+                                                        loading="lazy" src="svg/calendar-dots.svg" width="18">
+                                                <span>جمعه: <time datetime="09:00">۰۹:۰۰</time>تا<time datetime="14:00">
+                                                                ۱۴:۰۰</time></span>
+                                        </li>
+                                </ul>
+                        </section>
+
+                        <!-- bottom -->
+                </div>
+                <div class="site-footer__bottom container">
+                        <p class="copyright">
+                                <img aria-hidden="true" alt="" class="copyright__icon" height="14" loading="lazy"
+                                        src="svg/copyright.svg" width="14">
+                                ۱۴۰۵ | سوپرمارکت بوی کد؛ عضو دارودسته چهل نفره
+                        </p>
+                        <a class="back-to-top" href="#top">
+                                بازگشت به بالا
+                                <img aria-hidden="true" alt="" class="back-to-top__icon" height="16" loading="lazy"
+                                        src="svg/caret-up.svg" width="16">
+                        </a>
+                </div>
+        </footer>
 </body>
+
 </html>
