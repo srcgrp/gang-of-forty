@@ -13,101 +13,101 @@ type Product = {
 }
 
 type Offer = {
-    productId: number
-    percent: number
-    label: string
+    productId: number;
+    percent: number;
+    label: string;
 }
 
 type Link = {
-    label: string
-    href: string
+    label: string;
+    href: string;
 }
 
 type ScheduleRow = {
-    days: string
-    time: string
+    days: string;
+    time: string;
 }
 
 type Category = {
-    id: number
-    slug: string
-    name: string
-    emoji: string
-    color: string
+    id: number;
+    slug: string;
+    name: string;
+    emoji: string;
+    color: string;
 }
 
 type Stock = {
-    updatedAt: string
-    items: Record<number, number>
+    updatedAt: string;
+    items: Record<number, number>;
 }
 
 type Promo = {
-    text: string
-    emoji: string
-    color: string
-    href: string
+    text: string;
+    emoji: string;
+    color: string;
+    href: string;
 }
 
 type Banner = {
-    title: string
-    text: string
-    emoji: string
-    cta: Link
+    title: string;
+    text: string;
+    emoji: string;
+    cta: Link;
 }
 
 type Shop = {
-    slogan: string
-    phone: string
-    notice: string
-    about: string
-    address: string
-    schedule: ScheduleRow[]
-    menu: Link[]
-    help: Link[]
+    slogan: string;
+    phone: string;
+    notice: string;
+    about: string;
+    address: string;
+    schedule: ScheduleRow[];
+    menu: Link[];
+    help: Link[];
 }
 
 type OffersCarousel = {
-    id: string
-    title: string
-    emoji: string
-    source: string
+    id: string;
+    title: string;
+    emoji: string;
+    source: string;
 }
 
 type CategoryCarousel = {
-    id: string
-    title: string
-    emoji: string
-    categoryId: number
+    id: string;
+    title: string;
+    emoji: string;
+    categoryId: number;
 }
 
-type Carousel = OffersCarousel | CategoryCarousel
+type Carousel = OffersCarousel | CategoryCarousel;
 
 type Home = {
-    hero: Banner
-    side: Banner
-    promos: Promo[]
-    carousels: Carousel[]
+    hero: Banner;
+    side: Banner;
+    promos: Promo[];
+    carousels: Carousel[];
 }
 
 type Data = {
-    products: Product[]
-    offers: Offer[]
-    stock: Stock
-    categories: Category[]
-    shop: Shop
-    home: Home
+    products: Product[];
+    offers: Offer[];
+    stock: Stock;
+    categories: Category[];
+    shop: Shop;
+    home: Home;
 }
 
 type CardProduct = {
-    id: number
-    name: string
-    emoji: string
-    unit: string
-    price: number
-    stock: number
-    newPrice?: number
-    percent?: number
-    label?: string
+    id: number;
+    name: string;
+    emoji: string;
+    unit: string;
+    price: number;
+    stock: number;
+    newPrice?: number;
+    percent?: number;
+    label?: string;
 }
 
 function formatNumber(n: number): string {
@@ -116,7 +116,7 @@ function formatNumber(n: number): string {
 function formatPrice(price: number): string {
     return `${formatNumber(price)} تومان`;
 }
-function renderSchedule(section: HTMLElement, schedule: ScheduleRow[]) {
+function renderSchedule(section: HTMLElement, schedule: ScheduleRow[]): void {
     schedule.forEach(row => {
         const p: HTMLParagraphElement = document.createElement("p");
         p.textContent = `${row.days}: ${row.time}`;
@@ -125,7 +125,7 @@ function renderSchedule(section: HTMLElement, schedule: ScheduleRow[]) {
 }
 
 /* land on the right section */
-function scrollToHash() {
+function scrollToHash(): void {
     if (!location.hash) {
         return;
     }
@@ -204,7 +204,7 @@ function createCard(product: CardProduct): HTMLLIElement {
 }
 
 /* replace everything in the carousel with one message */
-function showMessage(carousel: HTMLElement, text: string) {
+function showMessage(carousel: HTMLElement, text: string): void {
     carousel.replaceChildren();
     const li: HTMLLIElement = document.createElement("li");
     li.textContent = text;
@@ -213,7 +213,7 @@ function showMessage(carousel: HTMLElement, text: string) {
 }
 
 /* drawing functions */
-function renderCategoryCarousel(carousel: HTMLUListElement, data: Data, categoryId: number, idPrefix: string) {
+function renderCategoryCarousel(carousel: HTMLUListElement, data: Data, categoryId: number, idPrefix: string): void {
     const { products, offers, stock } = data;
     const items = products
         .filter(p => p.categoryId === categoryId)
@@ -231,7 +231,7 @@ function renderCategoryCarousel(carousel: HTMLUListElement, data: Data, category
     });
 }
 
-function renderSpecialOffers(carousel: HTMLUListElement, data: Data, idPrefix: string) {
+function renderSpecialOffers(carousel: HTMLUListElement, data: Data, idPrefix: string): void {
     const { products, offers, stock } = data;
     const specialProducts = offers.map(offer => {
         const product = products.find(p => p.id === offer.productId);
@@ -271,7 +271,7 @@ function renderSpecialOffers(carousel: HTMLUListElement, data: Data, idPrefix: s
 let cartCount = Number(localStorage.getItem("cartCount")) || 0;
 const notyf = new Notyf();
 
-function renderCartCount() {
+function renderCartCount(): void {
     const cartCountEl = document.querySelector<HTMLElement>(".cartCount");
     const cartCountTextEl = document.querySelector<HTMLElement>(".cartCountText");
     if (!cartCountEl || !cartCountTextEl) throw new Error("missing cart elements");
@@ -279,7 +279,7 @@ function renderCartCount() {
     cartCountTextEl.textContent = `${formatNumber(cartCount)} کالا در سبد`;
 }
 
-function addToCart(e: MouseEvent) {
+function addToCart(e: MouseEvent): void {
     if (!(e.currentTarget instanceof HTMLButtonElement)) return;
     const name = e.currentTarget.dataset.name ?? "محصول";
 
@@ -366,7 +366,7 @@ async function init(): Promise<void> {
 }
 init();
 
-function showBlockMessage(container: HTMLElement, text: string) {
+function showBlockMessage(container: HTMLElement, text: string): void {
     container.replaceChildren();
     const p: HTMLParagraphElement = document.createElement("p");
     p.textContent = text;
@@ -405,9 +405,9 @@ function withOfferAndStock(product: Product, offers: Offer[], stock: Stock): Car
     const offer = offers.find(o => o.productId === product.id);
     const result: CardProduct = { ...product, stock: stock.items[product.id] };
     if (offer) {
-        result.percent = offer.percent
-        result.label = offer.label
-        result.newPrice = Math.round(product.price * (100 - offer.percent) / 100)
+        result.percent = offer.percent;
+        result.label = offer.label;
+        result.newPrice = Math.round(product.price * (100 - offer.percent) / 100);
     }
     return result;
 }
@@ -430,11 +430,11 @@ function createCategoryItem(category: Category): HTMLLIElement {
     return li;
 }
 
-function renderCategories(list: HTMLElement, categories: Category[]) {
+function renderCategories(list: HTMLElement, categories: Category[]): void {
     list.replaceChildren();
     categories.forEach(category => {
         list.append(createCategoryItem(category));
-    })
+    });
 }
 
 function createCategoryLink(category: Category): HTMLLIElement {
@@ -446,14 +446,14 @@ function createCategoryLink(category: Category): HTMLLIElement {
     return li;
 }
 
-function renderCategoryLinks(list: HTMLElement, categories: Category[]) {
+function renderCategoryLinks(list: HTMLElement, categories: Category[]): void {
     categories.forEach(category => {
         list.append(createCategoryLink(category));
-    })
+    });
 }
 
 /* read shop.json */
-function renderShopTexts(shop: Shop) {
+function renderShopTexts(shop: Shop): void {
     const notice = document.querySelector<HTMLParagraphElement>("header .notice");
     const address = document.querySelector<HTMLParagraphElement>("footer .address");
     const about = document.querySelector<HTMLParagraphElement>("footer .about");
@@ -478,14 +478,14 @@ function createLinkItem(label: string, href: string): HTMLLIElement {
     return li;
 }
 
-function renderLinks(list: HTMLElement, items: Link[]) {
+function renderLinks(list: HTMLElement, items: Link[]): void {
     items.forEach(item => {
         list.append(createLinkItem(item.label, item.href));
     });
 }
 
 /* promos */
-function renderPromos(container: HTMLElement, promos: Promo[]) {
+function renderPromos(container: HTMLElement, promos: Promo[]): void {
     container.replaceChildren();
     promos.forEach(promo => {
         const link: HTMLAnchorElement = document.createElement("a");
@@ -501,7 +501,7 @@ function renderPromos(container: HTMLElement, promos: Promo[]) {
 }
 
 /* hero and side banner */
-function renderBanner(section: HTMLElement, banner: Banner) {
+function renderBanner(section: HTMLElement, banner: Banner): void {
     const title = section.querySelector<HTMLElement>("h2");
     const text = section.querySelector<HTMLParagraphElement>("p");
     const link = section.querySelector<HTMLAnchorElement>("a");
@@ -566,7 +566,7 @@ function createCarouselSection(def: Carousel): { section: HTMLElement; list: HTM
     return { section, list };
 }
 
-function renderCarousels(container: HTMLElement, data: Data) {
+function renderCarousels(container: HTMLElement, data: Data): void {
     container.replaceChildren();
     data.home.carousels.forEach(def => {
         const { section, list } = createCarouselSection(def);
@@ -581,6 +581,6 @@ function renderCarousels(container: HTMLElement, data: Data) {
 }
 
 /* render search placeholder */
-function renderSearchPlaceholder(input: HTMLInputElement, count: number) {
+function renderSearchPlaceholder(input: HTMLInputElement, count: number): void {
     input.placeholder = `جستجو در میان ${formatNumber(count)} کالا…`;
 }
