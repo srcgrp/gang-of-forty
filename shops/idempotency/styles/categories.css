@@ -19,12 +19,12 @@
 
 .categories::before {
   left: 0;
-  background-image: url("/asset/decorations/corner-light-top-left.png");
+  background-image: url("/asset/decorations/corner-light-top-left.webp");
 }
 
 .categories::after {
   right: 0;
-  background-image: url("/asset/decorations/corner-light-top-right.png");
+  background-image: url("/asset/decorations/corner-light-top-right.webp");
 }
 
 .categories>* {
@@ -56,11 +56,11 @@
 }
 
 .categories h2::before {
-  background-image: url("/asset/decorations/title-right.png");
+  background-image: url("/asset/decorations/title-right.webp");
 }
 
 .categories h2::after {
-  background-image: url("/asset/decorations/title-left.png");
+  background-image: url("/asset/decorations/title-left.webp");
 }
 
 

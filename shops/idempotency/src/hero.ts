@@ -5,7 +5,7 @@ function createHeroSlides(hero: Hero) {
   return [
     {
       ...hero,
-      image: "/asset/banners/bg1.png",
+      image: "/asset/banners/bg1.webp",
     },
     {
       ...hero,

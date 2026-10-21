@@ -30,12 +30,12 @@ html[data-theme="dark"] .mobile-nav summary {
 
 html[data-theme="dark"] .categories::before,
 html[data-theme="dark"] .product-section::before {
-  background-image: url("/asset/decorations/corner-dark-top-left.png");
+  background-image: url("/asset/decorations/corner-dark-top-left.webp");
 }
 
 html[data-theme="dark"] .categories::after,
 html[data-theme="dark"] .product-section::after {
-  background-image: url("/asset/decorations/corner-dark-top-right.png");
+  background-image: url("/asset/decorations/corner-dark-top-right.webp");
 }
 
 
