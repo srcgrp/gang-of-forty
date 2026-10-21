@@ -1,45 +1,192 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت من</title>
+  <meta name="theme-color" content="#287a45">
+  <title>سوپرمارکت آفتاب</title>
   <link rel="stylesheet" href="style.css">
-  <script src="app.js" defer></script>
+  <script type="module" src="./script.ts"></script>
 </head>
-<body id="top">
-  <a class="skip" href="#main">پرش به محتوای اصلی</a>
+<body>
+  <a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+  <div class="notice" id="notice">تازگی و کیفیت، هر روز کنار شما</div>
 
-  <header class="header">
-    <a class="brand" href="#top">
-      <svg viewBox="0 0 48 48" width="40" height="40" role="img" aria-label="لوگوی سوپرمارکت من">
-        <circle cx="24" cy="24" r="22" fill="#2d7a4a"></circle>
-        <path d="M14 20h20l-2 12H16z" fill="#fff"></path>
-        <path d="M19 20a5 5 0 0 1 10 0" fill="none" stroke="#fff" stroke-width="2"></path>
-      </svg>
-      <h1>سوپرمارکت من</h1>
-    </a>
-    <nav class="nav" aria-label="منوی اصلی">
-      <a href="#special">پیشنهاد ویژه</a>
-      <a href="#dairy">لبنیات</a>
+  <header class="site-header" id="top">
+    <div class="header-inner">
+      <a class="brand" href="#top" aria-label="سوپرمارکت آفتاب، رفتن به بالای صفحه">
+        <svg class="logo" viewBox="0 0 48 48" role="img" aria-labelledby="logo-title">
+          <title id="logo-title">لوگوی سوپرمارکت آفتاب</title>
+          <circle cx="24" cy="24" r="22" fill="#287a45"/>
+          <circle cx="24" cy="24" r="9" fill="#f7c948"/>
+          <g stroke="#f7c948" stroke-width="2.5" stroke-linecap="round">
+            <path d="M24 5v5M24 38v5M5 24h5M38 24h5M10.5 10.5l3.6 3.6M33.9 33.9l3.6 3.6M37.5 10.5l-3.6 3.6M14.1 33.9l-3.6 3.6"/>
+          </g>
+        </svg>
+        <span class="brand-copy">
+          <strong id="shop-name">سوپرمارکت آفتاب</strong>
+          <small id="shop-slogan">تازگی و کیفیت، هر روز کنار شما</small>
+        </span>
+      </a>
+
+      <form class="search" role="search" action="#main">
+        <label class="visually-hidden" for="search-input">جست‌وجوی محصولات</label>
+        <input id="search-input" type="search" placeholder="جست‌وجو در میان محصولات…" autocomplete="off">
+        <button type="submit" aria-label="جست‌وجو">⌕</button>
+      </form>
+
+      <a class="basket" href="#basket-info" aria-label="سبد خرید">
+        <span aria-hidden="true">🛒</span>
+        سبد خرید
+        <span class="basket-count" id="basket-count">۰</span>
+      </a>
+
+      <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">
+        <span aria-hidden="true">☰</span>
+        <span class="visually-hidden">باز و بسته کردن منو</span>
+      </button>
+    </div>
+
+    <nav class="main-nav" id="main-nav" aria-label="منوی اصلی">
+      <div class="nav-inner" id="nav-links">
+        <a href="#top">خانه</a>
+        <a href="#categories">دسته‌بندی‌ها</a>
+        <a href="#offers">پیشنهاد ویژه امروز</a>
+        <a href="#sale">محصولات پرفروش</a>
+        <a href="#about">درباره ما</a>
+      </div>
     </nav>
   </header>
 
-  <main id="main">
-    <section id="special" class="section" aria-labelledby="special-title">
-      <h2 id="special-title">🔥 پیشنهاد ویژه امروز</h2>
-      <div id="special-carousel"></div>
+  <main id="main" tabindex="-1">
+    <section class="hero-section content-wrap" aria-label="پیشنهادهای فروشگاه">
+      <div class="hero-banner" id="hero-banner">
+        <span class="eyebrow">خرید آسان و سریع</span>
+        <h1>تازگی و کیفیت، هر روز کنار شما</h1>
+        <p>محصولات موردنیازتان را با خیال راحت انتخاب کنید.</p>
+        <a class="primary-link" href="#categories">مشاهده محصولات</a>
+      </div>
+
+      <div class="side-banners" id="side-banners">
+        <a class="side-banner banner-one" href="#offers">
+          <span>پیشنهادهای ویژه</span>
+          <strong>هر روز، انتخابی تازه</strong>
+        </a>
+        <a class="side-banner banner-two" href="#sale">
+          <span>خرید هوشمندانه</span>
+          <strong>کیفیت خوب، قیمت مناسب</strong>
+        </a>
+      </div>
     </section>
 
-    <section id="dairy" class="section" aria-labelledby="dairy-title">
-      <h2 id="dairy-title">🥛 لبنیات</h2>
-      <div id="dairy-carousel"></div>
+    <section class="content-wrap categories-section" id="categories" aria-labelledby="categories-title">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">انتخاب سریع</span>
+          <h2 id="categories-title">دسته‌بندی محصولات</h2>
+        </div>
+
+        <div class="dropdown">
+          <button class="dropdown-toggle" id="category-toggle" type="button" aria-expanded="false" aria-controls="category-dropdown">
+            همه دسته‌ها ▾
+          </button>
+          <div class="dropdown-panel" id="category-dropdown" hidden>
+            <a href="#dairy">لبنیات</a>
+            <a href="#fruit">میوه و سبزیجات</a>
+            <a href="#bread">نان و شیرینی</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="category-grid" id="category-list">
+        <a class="category-item" href="#dairy"><span class="category-icon">🥛</span><span>لبنیات</span></a>
+        <a class="category-item" href="#fruit"><span class="category-icon">🍎</span><span>میوه و سبزیجات</span></a>
+        <a class="category-item" href="#bread"><span class="category-icon">🍞</span><span>نان و شیرینی</span></a>
+        <a class="category-item" href="#protein"><span class="category-icon">🍗</span><span>پروتئینی</span></a>
+        <a class="category-item" href="#snacks"><span class="category-icon">🍪</span><span>تنقلات</span></a>
+        <a class="category-item" href="#drink"><span class="category-icon">🧃</span><span>نوشیدنی</span></a>
+      </div>
+    </section>
+
+    <section class="content-wrap carousel-section" id="offers" aria-labelledby="offers-title">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">فرصت خرید</span>
+          <h2 id="offers-title">پیشنهاد ویژه امروز</h2>
+        </div>
+        <div class="carousel-controls">
+          <button type="button" class="scroll-button" data-target="offers-track" data-direction="start" aria-label="رفتن به ابتدای پیشنهادها">→</button>
+          <button type="button" class="scroll-button" data-target="offers-track" data-direction="end" aria-label="رفتن به انتهای پیشنهادها">←</button>
+        </div>
+      </div>
+      <div class="carousel-status" id="offers-status" role="status" aria-live="polite">در حال بارگذاری پیشنهادها…</div>
+      <div class="product-track" id="offers-track" aria-label="محصولات دارای تخفیف"></div>
+    </section>
+
+    <section class="content-wrap promo-banners" id="promo-banners" aria-label="بنرهای تبلیغاتی">
+      <a href="#categories" class="promo-banner promo-green">
+        <span>انتخاب روزانه</span>
+        <strong>تازگی را به خانه ببرید</strong>
+      </a>
+      <a href="#offers" class="promo-banner promo-yellow">
+        <span>فرصت محدود</span>
+        <strong>پیشنهادهای جذاب امروز</strong>
+      </a>
+    </section>
+
+    <section class="content-wrap carousel-section" id="sale" aria-labelledby="sale-title">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">انتخاب مشتریان</span>
+          <h2 id="sale-title">محصولات پرفروش</h2>
+        </div>
+        <div class="carousel-controls">
+          <button type="button" class="scroll-button" data-target="sale-track" data-direction="start" aria-label="رفتن به ابتدای محصولات پرفروش">→</button>
+          <button type="button" class="scroll-button" data-target="sale-track" data-direction="end" aria-label="رفتن به انتهای محصولات پرفروش">←</button>
+        </div>
+      </div>
+      <div class="carousel-status" id="sale-status" role="status" aria-live="polite">در حال بارگذاری محصولات…</div>
+      <div class="product-track" id="sale-track" aria-label="محصولات پرفروش"></div>
+    </section>
+
+    <section class="content-wrap category-products" id="category-products" aria-label="محصولات دسته‌بندی‌ها"></section>
+
+    <section class="content-wrap basket-info" id="basket-info" aria-live="polite">
+      تعداد کالاهای اضافه‌شده به سبد خرید:
+      <strong id="basket-summary">۰</strong>
     </section>
   </main>
 
-  <footer class="footer">
-    <p>© سوپرمارکت من</p>
-    <a href="#top">بازگشت به بالا</a>
+  <footer class="site-footer" id="about">
+    <div class="footer-grid content-wrap">
+      <section>
+        <h2 id="footer-shop-name">سوپرمارکت آفتاب</h2>
+        <p id="footer-about">تازگی و کیفیت، هر روز کنار شما. همراه شما برای خرید روزانه‌ای آسان.</p>
+      </section>
+
+      <section>
+        <h3>ارتباط با ما</h3>
+        <p id="footer-address">تهران، خیابان نمونه</p>
+        <p>تلفن: <bdi id="footer-phone" dir="ltr">۰۲۱-۱۲۳۴۵۶۷۸</bdi></p>
+      </section>
+
+      <section>
+        <h3>دسته‌بندی‌ها</h3>
+        <ul id="footer-categories">
+          <li><a href="#dairy">لبنیات</a></li>
+          <li><a href="#fruit">میوه و سبزیجات</a></li>
+          <li><a href="#bread">نان و شیرینی</a></li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>ساعات کاری</h3>
+        <p id="footer-schedule">هر روز از ساعت ۸ تا ۲۲</p>
+        <a class="back-to-top" href="#top">بازگشت به بالای صفحه ↑</a>
+      </section>
+    </div>
+
+    <div class="copyright" id="footer-copyright">© تمام حقوق برای سوپرمارکت آفتاب محفوظ است.</div>
   </footer>
 </body>
 </html>
