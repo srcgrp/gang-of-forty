@@ -355,6 +355,38 @@ section {
     height: 44px;
     font-size: 20px;
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-card button svg {
+    width: 20px;
+    height: 20px;
+}
+
+.search button svg {
+    width: 18px;
+    height: 18px;
+}
+
+.cart svg {
+    width: 18px;
+    height: 18px;
+}
+
+.burger svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* =========================
+   SweetAlert2
+========================= */
+
+.swal2-popup {
+    direction: rtl;
+    font-family: inherit;
 }
 
 /* =========================

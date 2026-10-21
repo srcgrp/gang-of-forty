@@ -7,6 +7,11 @@
 
 // }
 
+import { createIcons, Menu, Plus, Search, ShoppingCart } from 'lucide';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
+const lucideIcons = { Menu, Search, ShoppingCart, Plus }
 
 async function getProducts(): Promise<void> {
     try {
@@ -20,12 +25,28 @@ async function getProducts(): Promise<void> {
 
         const products: Products[] = JSON.parse(text);
         console.log("Products:", products[0].price);
-        
+
         showProducts(products)
+
+        Swal.fire({
+            title: "محصولات لود شد!",
+            text: `تعداد ${products.length.toLocaleString('fa-IR')} محصول با موفقیت نمایش داده شد.`,
+            icon: "success",
+            confirmButtonText: "عالیه",
+            confirmButtonColor: "#9b5c70",
+        })
     } catch (error) {
         console.error("Fetch error:", error);
+
+        Swal.fire({
+            title: "خطا!",
+            text: "دریافت محصولات با مشکل مواجه شد.",
+            icon: "error",
+            confirmButtonText: "باشه",
+            confirmButtonColor: "#9b5c70",
+        })
     }
-    
+
 
 }
 
@@ -65,15 +86,15 @@ price.textContent = product.price.toLocaleString('fa-IR') + ' تومان'
 
 const button = document.createElement('button')
 button.type = 'button'
-button.textContent = '+'
+button.innerHTML = '<i data-lucide="plus"></i>'
 
 card.append(image, title, unit, price, button)
 car.appendChild(card)
 })
+
+createIcons({ icons: lucideIcons })
 }
 
+createIcons({ icons: lucideIcons })
+
 getProducts()
-
-
-
-// getAllNames();
