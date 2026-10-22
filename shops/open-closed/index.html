@@ -4,26 +4,151 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>سوپرمارکت باز-بسته</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
   <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
+  <meta name="description" content="سوپرمارکت باز-بسته: لبنیات تازه و خرید آسان.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%9A%AA%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="style.css">
+  <script type="module" src="./app.ts"></script>
 </head>
 <body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>🚪 سلام دنیا!</h1>
+  <a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+
+  <header class="site-header">
+    <div class="topbar">🚚 ارسال رایگان برای خریدهای بالای ۵۰۰ هزار تومان</div>
+    <div class="wrap header-grid">
+      <a class="logo" href="#top" aria-label="سوپرمارکت باز-بسته، صفحه اصلی">
+        <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+          <circle cx="20" cy="20" r="20" fill="#E67188"/>
+          <text x="20" y="27" text-anchor="middle" font-size="20">🚪</text>
+        </svg>
+        <span class="logo-text">
+          <span class="logo-name">سوپرمارکت باز-بسته</span>
+          <span class="logo-tag">باز برای توسعه، بسته برای تغییر</span>
+        </span>
+      </a>
+
+      <a class="cart" href="#cart" aria-label="سبد خرید">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/>
+          <path d="M2 3h3l2.7 11.4a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 1.9-1.5L21 7H6"/>
+        </svg>
+        <span class="cart-label">سبد خرید</span>
+        <span class="count" id="cart-count">۰</span>
+      </a>
+
+      <input class="menu-toggle" type="checkbox" id="menu-toggle" aria-label="باز و بسته کردن منو">
+      <div class="menu-btn" aria-hidden="true"><span></span></div>
+
+      <div class="header-menu">
+        <form class="search" role="search" action="#" onsubmit="return false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+            <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>
+          </svg>
+          <label class="sr-only" for="search">جستجو در محصولات</label>
+          <input id="search" type="search" placeholder="جستجوی محصول…">
+          <button class="sr-only" type="submit">جستجو</button>
+        </form>
+
+        <nav class="main-nav" aria-label="منوی اصلی">
+          <ul>
+            <li class="all-cats">
+              <a class="all-link" href="#categories">☰ همه دسته‌ها</a>
+              <ul class="cat-menu">
+                <li><a href="#categories">🍎 میوه و سبزی</a></li>
+                <li><a href="#dairy">🥛 لبنیات</a></li>
+                <li><a href="#categories">🥖 نان و شیرینی</a></li>
+                <li><a href="#categories">🍚 خواربار</a></li>
+              </ul>
+            </li>
+            <li><a href="#dairy">لبنیات</a></li>
+            <li><a href="#contact">تماس با ما</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
   </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>باز-بسته</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p>اصل باز-بسته را برتراند مایر در کتاب <bdi>Object-Oriented Software Construction</bdi> (۱۹۸۸) مطرح کرد: کد باید «برای توسعه باز و برای تغییر بسته» باشد. یعنی بتوانی قابلیت جدید اضافه کنی بدون اینکه کد قدیمیِ درست‌کار را دستکاری کنی. حرف <bdi>O</bdi> در <bdi>SOLID</bdi> همین است.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
+
+  <main id="main" tabindex="-1" class="wrap">
+    <div id="top" class="hero-grid">
+      <section class="hero" aria-labelledby="hero-title">
+        <h1 id="hero-title">لبنیات تازه، هر روز صبح</h1>
+        <p>شیر، ماست و پنیر تازه تا دو ساعت بعد دم در خانه شما.</p>
+        <a class="btn" href="#dairy">خرید لبنیات</a>
+        <span class="hero-art" aria-hidden="true">🥛</span>
+      </section>
+      <aside class="promo" aria-labelledby="promo-title">
+        <h2 id="promo-title">تا ۲۰٪ تخفیف لبنیات</h2>
+        <p>فقط تا پایان هفته</p>
+        <span class="promo-art" aria-hidden="true">🧀</span>
+        <a class="btn btn-yellow" href="#dairy">دیدن محصولات</a>
+      </aside>
+    </div>
+
+    <section class="section" id="categories" aria-labelledby="cats-title">
+      <div class="section-head">
+        <h2 class="section-title" id="cats-title">دسته‌بندی‌ها</h2>
+      </div>
+      <ul class="cat-grid">
+        <li><a class="cat" href="#categories"><span class="cat-ico t-red" aria-hidden="true">🍎</span>میوه و سبزی</a></li>
+        <li><a class="cat" href="#dairy"><span class="cat-ico t-blue" aria-hidden="true">🥛</span>لبنیات</a></li>
+        <li><a class="cat" href="#categories"><span class="cat-ico t-yellow" aria-hidden="true">🥖</span>نان و شیرینی</a></li>
+        <li><a class="cat" href="#categories"><span class="cat-ico t-green" aria-hidden="true">🍚</span>خواربار</a></li>
+        <li><a class="cat" href="#categories"><span class="cat-ico t-pink" aria-hidden="true">🧃</span>نوشیدنی</a></li>
+        <li><a class="cat" href="#categories"><span class="cat-ico t-purple" aria-hidden="true">🍗</span>پروتئین</a></li>
+      </ul>
+    </section>
+
+    <section class="section" id="dairy" aria-labelledby="dairy-title">
+      <div class="section-head">
+        <h2 class="section-title" id="dairy-title"><span aria-hidden="true">🥛</span> لبنیات</h2>
+        <div class="carousel-nav">
+          <a class="carousel-btn" id="dairy-first" href="#dairy" aria-label="رفتن به اولین محصول"><span aria-hidden="true">→</span></a>
+          <a class="carousel-btn" id="dairy-last" href="#dairy" aria-label="رفتن به آخرین محصول"><span aria-hidden="true">←</span></a>
+        </div>
+      </div>
+      <div class="carousel-status" id="dairy-status" role="status" aria-live="polite"></div>
+      <div class="carousel" id="dairy-carousel" role="region" aria-label="محصولات لبنیات" tabindex="0" aria-busy="true">
+        <ul id="dairy-list"></ul>
+      </div>
+    </section>
+
+    <section class="section banners" aria-label="پیشنهادها">
+      <a class="banner banner-rose" href="#dairy"><span>سبد صبحانه خانواده</span><span class="banner-art" aria-hidden="true">🍳</span></a>
+      <a class="banner banner-rose" href="#categories"><span>نان داغ، هر روز ساعت ۷</span><span class="banner-art" aria-hidden="true">🥐</span></a>
     </section>
   </main>
-  <footer>
-    <p dir="ltr">slug: <code>open-closed</code></p>
+
+  <footer class="site-footer" id="contact">
+    <div class="wrap">
+      <div class="footer-grid">
+        <section>
+          <h2>سوپرمارکت باز-بسته</h2>
+          <p>اصل باز-بسته: کد باید برای توسعه باز و برای تغییر بسته باشد.</p>
+        </section>
+        <section>
+          <h2>تماس با ما</h2>
+          <address>
+            تهران، خیابان نمونه، پلاک ۴۰<br>
+            <a href="tel:02112345678" dir="ltr">021-12345678</a>
+          </address>
+        </section>
+        <section>
+          <h2>ساعت کاری</h2>
+          <p>شنبه تا پنجشنبه: ۸ تا ۲۲<br>جمعه: ۹ تا ۱۴</p>
+        </section>
+        <section>
+          <h2>راهنما</h2>
+          <ul>
+            <li><a href="#top">شیوه ارسال</a></li>
+            <li><a href="#top">بازگشت کالا</a></li>
+          </ul>
+        </section>
+      </div>
+      <div class="footer-bottom">
+        <p>© ۱۴۰۵ سوپرمارکت باز-بسته · عضو دار و دسته چهل‌نفره</p>
+        <a class="to-top" href="#top">↑ بازگشت به بالا</a>
+      </div>
+    </div>
   </footer>
 </body>
 </html>
