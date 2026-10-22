@@ -1,0 +1,29 @@
+/* CSS Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Fonts */
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("../fonts/Vazirmatn-VariableFont_wght.ttf") format("truetype");
+}
+
+/* Body */
+body {
+  font-family: "Vazirmatn", sans-serif;
+  min-height: 100vh;
+  background: var(--surface);
+}
+
+/* HTML */
+html {
+  scroll-behavior: smooth;
+}
+.anchor-section {
+  scroll-margin-top: 155px;
+}

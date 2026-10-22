@@ -1,4 +1,9 @@
 
+<<<<<<< HEAD
+=======
+
+/* ---------- توکن‌ها ---------- */
+>>>>>>> 2a8639e42ac79b768e3dec903444ec9df94780e2
 :root {
     color-scheme: light dark;
 
@@ -160,10 +165,19 @@ main:focus { outline: none; }
 }
 .skip-link:focus { transform: none; outline: 3px solid #1a5fd0; outline-offset: 2px; }
 
+<<<<<<< HEAD
 
 .site-header {
     position: sticky;
     inset-block-start: calc(var(--topbar-h) * -1); 
+=======
+/* ==========================================================================
+   Header
+   ========================================================================== */
+.site-header {
+    position: sticky;
+    inset-block-start: calc(var(--topbar-h) * -1); /* نوار اطلاع‌رسانی بالا می‌رود، Header می‌ماند */
+>>>>>>> 2a8639e42ac79b768e3dec903444ec9df94780e2
     z-index: 50;
     background: var(--surface);
     border-block-end: 1px solid var(--border);
@@ -320,7 +334,11 @@ main:focus { outline: none; }
 }
 .search input::placeholder { color: var(--muted); opacity: 1; }
 
+<<<<<<< HEAD
 
+=======
+/* دکمه ثبت جستجو: معمولاً پنهان (فقط برای صفحه‌خوان و Enter)، با فوکوس کیبورد دیده می‌شود */
+>>>>>>> 2a8639e42ac79b768e3dec903444ec9df94780e2
 .search button.sr-only:focus-visible {
     inset-block-start: 50%;
     inset-inline-end: 8px;
@@ -352,7 +370,11 @@ main:focus { outline: none; }
 .all-link { color: var(--link); font-weight: 800; }
 .cat-menu { display: none; }
 
+<<<<<<< HEAD
 /* -----Desktop----- */
+=======
+/* ----- دسکتاپ ----- */
+>>>>>>> 2a8639e42ac79b768e3dec903444ec9df94780e2
 @media (min-width: 861px) {
     :root { --anchor-offset: 150px; --card-w: 196px; }
 
@@ -416,7 +438,13 @@ main:focus { outline: none; }
     }
 }
 
+<<<<<<< HEAD
 
+=======
+/* 
+   محتوا
+   */
+>>>>>>> 2a8639e42ac79b768e3dec903444ec9df94780e2
 main { display: block; padding-block: 20px 8px; }
 
 .section, .card, .site-footer { scroll-margin-block-start: var(--anchor-offset); }
@@ -594,7 +622,11 @@ background: #E67188}
 
 .carousel {
     margin-inline: -8px;
+<<<<<<< HEAD
     padding: 18px 8px 26px;   
+=======
+    padding: 18px 8px 26px;          /* جا برای بالا آمدن کارت و سایه */
+>>>>>>> 2a8639e42ac79b768e3dec903444ec9df94780e2
     overflow-x: auto;
     overflow-y: hidden;
     overscroll-behavior-x: contain;
@@ -611,6 +643,10 @@ background: #E67188}
     min-inline-size: 100%;
 }
 
+<<<<<<< HEAD
+=======
+/* ---------- کارت محصول ---------- */
+>>>>>>> 2a8639e42ac79b768e3dec903444ec9df94780e2
 .card {
     position: relative;
     isolation: isolate;
@@ -618,7 +654,11 @@ background: #E67188}
     scroll-snap-align: start;
     transition: transform .25s ease;
 }
+<<<<<<< HEAD
 
+=======
+/* سایه روی لایهٔ جدا و فقط با opacity ظاهر می‌شود (Composite) */
+>>>>>>> 2a8639e42ac79b768e3dec903444ec9df94780e2
 .card::before {
     content: "";
     position: absolute;
@@ -739,7 +779,13 @@ background: #E67188}
     .banners { grid-template-columns: 1fr 1fr; }
 }
 
+<<<<<<< HEAD
 
+=======
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+>>>>>>> 2a8639e42ac79b768e3dec903444ec9df94780e2
 .site-footer {
     margin-block-start: 48px;
     padding-block: 40px 12px;
@@ -772,7 +818,13 @@ background: #E67188}
     .footer-grid { grid-template-columns: 1.5fr 1fr 1fr 1fr; }
 }
 
+<<<<<<< HEAD
 
+=======
+/* ==========================================================================
+   کاهش حرکت (تنظیم سیستم‌عامل کاربر)
+   ========================================================================== */
+>>>>>>> 2a8639e42ac79b768e3dec903444ec9df94780e2
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
         animation: none !important;
@@ -780,6 +832,7 @@ background: #E67188}
         scroll-behavior: auto !important;
     }
     .card:hover, .card:focus-within, .banner:hover { transform: none; }
+<<<<<<< HEAD
 }
 
 
@@ -816,4 +869,6 @@ background: #E67188}
 @keyframes shimmer {
     from { background-position: 200% 0; }
     to   { background-position: -200% 0; }
+=======
+>>>>>>> 2a8639e42ac79b768e3dec903444ec9df94780e2
 }
