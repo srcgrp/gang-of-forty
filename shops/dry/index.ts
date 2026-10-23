@@ -9,6 +9,11 @@ import milkImg from './assets/products/milk.png'
 import paneerImg from './assets/products/panir-sefid.png'
 import mastImg from './assets/products/mast.png'
 import honeyImg from './assets/products/honey.png'
+import fruitsCatImg from './assets/products/fruit-and-vegetables.png'
+import dairyCatImg from './assets/products/Dairy-products.png'
+import proteinCatImg from './assets/products/meat-and-protein.png'
+import drinksCatImg from './assets/products/beverage.png'
+import pantryCatImg from './assets/products/food-products.png'
 
 const notyf: Notyf = new Notyf()
 
@@ -61,6 +66,14 @@ const IMAGES: Record<number, string> = {
   202: paneerImg,
   203: mastImg,
   402: honeyImg,
+}
+
+const CATEGORY_IMAGES: Record<string, string> = {
+  fruits: fruitsCatImg,
+  dairy: dairyCatImg,
+  protein: proteinCatImg,
+  drinks: drinksCatImg,
+  pantry: pantryCatImg
 }
 
 const faNumber: Intl.NumberFormat = new Intl.NumberFormat('fa-IR')
@@ -160,7 +173,7 @@ function createCard(product: Product, inStock: boolean, offer: Offer | undefined
   return card
 }
 
-function creatSection(category: Category): CategorySection {
+function createSection(category: Category): CategorySection {
   const section: HTMLElement = el('section', 'products')
   section.id = category.slug
 
@@ -181,6 +194,27 @@ function creatSection(category: Category): CategorySection {
 
   section.append(title, box)
   return { section, box}
+}
+
+function createCategoryCard(category: Category): HTMLAnchorElement {
+  const card: HTMLAnchorElement = el('a', 'category-card')
+  card.href = `#${category.slug}`
+
+  const image: string | undefined = CATEGORY_IMAGES[category.slug]
+  if (image) {
+    const img: HTMLImageElement = el('img')
+    img.src = image
+    img.alt = ''
+    card.append(img)
+  } else {
+    card.style.backgroundColor = category.color
+    const emoji: HTMLSpanElement = el('span', 'category-emoji', category.emoji)
+    emoji.setAttribute('aria-hidden', 'true')
+    card.append(emoji)
+  }
+
+  card.append(el('h3', '', category.name))
+  return card
 }
 
 function showStatus(box: HTMLElement, message: string, isError: boolean = false): void {
@@ -211,12 +245,13 @@ async function init(): Promise<void> {
   const offersBox: HTMLElement | null = document.querySelector<HTMLElement>('#offers .carousel')
   const offersSection: HTMLElement | null = document.querySelector<HTMLElement>('#offers')
   const sectionsHost: HTMLElement | null = document.querySelector<HTMLElement>('#category-sections')
+  const categoryGrid: HTMLElement | null = document.querySelector<HTMLElement>('#category-grid')
   const searchInput: HTMLInputElement | null = document.querySelector<HTMLInputElement>('#search')
   const resultsSection: HTMLElement | null = document.querySelector<HTMLElement>('#search-results')
   const resultsBox: HTMLElement | null = document.querySelector<HTMLElement>('#results')
   const resultsStatus: HTMLElement | null = document.querySelector<HTMLElement>('#results-status')
   if (
-   !offersBox || !offersSection || !sectionsHost ||
+   !offersBox || !offersSection || !sectionsHost || !categoryGrid ||
    !searchInput || !resultsSection || !resultsBox || !resultsStatus
   ) {
     throw new Error('index.html is missing an element')
@@ -239,6 +274,10 @@ async function init(): Promise<void> {
       getJSON<Category[]>('categories.json'),
     ])
 
+    categoryGrid.replaceChildren(
+      ...categories.map((c: Category): HTMLAnchorElement => createCategoryCard(c)),
+    )
+
     const offerByProduct: Map<number, Offer> = new Map<number, Offer>(
       offers.map((o: Offer): [number, Offer] => [o.productId, o]),
     )
@@ -257,7 +296,7 @@ async function init(): Promise<void> {
       .map(makeCard)
     if (cards.length === 0) continue
 
-    const parts: CategorySection = creatSection(category)
+    const parts: CategorySection = createSection(category)
     sectionsHost.append(parts.section)
     renderCarousel(parts.box, cards, category.slug)
     }
