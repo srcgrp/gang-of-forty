@@ -4,13 +4,14 @@ import "notyf/notyf.min.css";
 import { getJSON } from "./api";
 import type {
   Category,
+  FrozenShop,
   Home,
   MakeItem,
   Offer,
   Product,
   Shop,
   Stock,
-} from "./types";
+} from "./src/types.ts";
 const notyf = new Notyf();
 
 const API = import.meta.env.VITE_API_URL;
@@ -61,7 +62,7 @@ function addCatLinks(ul: HTMLUListElement, categories: Category[]): void {
   }
 }
 
-function fillShop(shop: Shop): void {
+function fillShop(shop: FrozenShop): void {
   const notice = document.querySelector<HTMLParagraphElement>(".banner p");
   const slogan = document.querySelector<HTMLParagraphElement>(".slogan");
   const about = document.querySelector<HTMLParagraphElement>("#about");
@@ -95,7 +96,7 @@ function fillShop(shop: Shop): void {
   copyRight.textContent = shop.copyright;
 }
 
-function fillMenu(shop: Shop, categories: Category[]): void {
+function fillMenu(shop: FrozenShop, categories: Category[]): void {
   const list = document.querySelector<HTMLUListElement>("#menu-list");
   if (!list) throw new Error("index.html is missing an element");
 
@@ -127,7 +128,7 @@ function fillMenu(shop: Shop, categories: Category[]): void {
   list.appendChild(cartLi);
 }
 
-function fillFooter(shop: Shop, categories: Category[]): void {
+function fillFooter(shop: FrozenShop, categories: Category[]): void {
   const footerCats = document.querySelector<HTMLUListElement>("#footer-cats");
   const helpList = document.querySelector<HTMLUListElement>("#footer-help");
   if (!helpList || !footerCats)

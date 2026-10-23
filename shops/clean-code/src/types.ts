@@ -24,7 +24,7 @@ export type Category = {
 
 export type Stock = {
   updatedAt: string;
-  items: Record<number, number>;
+  items: Record<string, number>;
 };
 
 export type Shop = {
@@ -90,3 +90,10 @@ export type Home = {
 };
 
 export type MakeItem = (product: Product) => HTMLElement;
+
+export type CartItem = Product & { qty: number };
+
+export type FrozenShop = Readonly<Shop>;
+
+export const SORTS = ["price", "name", "newest"] as const;
+export type Sort = (typeof SORTS)[number];
