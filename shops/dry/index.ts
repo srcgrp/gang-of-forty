@@ -115,6 +115,33 @@ const addToCart = (): void => {
 
 renderCart()
 
+const THEME_KEY: string = 'dry-theme'
+
+type Theme = 'light' | 'dark'
+
+const systemTheme = (): Theme =>
+  window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+
+const themeToggle: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>('#theme-toggle')
+if (!themeToggle) throw new Error('index.html is missing #theme-toggle')
+
+const savedTheme: string | null = localStorage.getItem(THEME_KEY)
+let theme: Theme = savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : systemTheme()
+
+const applyTheme = (t: Theme): void => {
+  document.documentElement.dataset.theme = t
+  themeToggle.textContent = t === 'dark' ? '☀' : '☾'
+  themeToggle.setAttribute('aria-label', t === 'dark' ? 'تغییر به حالت روشن' : 'تغییر به حالت تاریک')
+}
+
+themeToggle.addEventListener('click', (): void => {
+  theme = theme === 'dark' ? 'light' : 'dark'
+  localStorage.setItem(THEME_KEY, theme)
+  applyTheme(theme)
+})
+
+applyTheme(theme)
+
 async function getJSON<T>(file: string): Promise<T> {
   const res: Response = await fetch(API + file)
   if (!res.ok) throw new Error('خطا: ' + res.status)
