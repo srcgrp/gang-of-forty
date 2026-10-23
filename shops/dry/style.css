@@ -4,18 +4,18 @@
 
   color-scheme: light dark;
 
-  --bg-color: #F7F4EE;
-  --surface-color: #FFFFFF;
+  --bg-color: #EFE6D3;
+  --surface-color: #FBF5E8;
   --primary-color: #171717;
   --secondary-color: #5B6270;
   --accent-color: #C8A96A;
   --accent-text: #8A6A1F;      
   --on-accent: #171717;        
   --heading-color: #171717;
-  --border-color: #E5E1D8;
-  --muted-bg: #F3EEE5;
-  --fav-bg: rgba(255, 255, 255, .85);
-  --promo-fade: 255, 255, 255;
+  --border-color: #D9CDB3;
+  --muted-bg: #EADFC6;
+  --fav-bg: rgba(251, 245, 232, .85);
+  --promo-fade: 251, 245, 232;
   --btn-bg: #171717;
   --btn-text: #FFFFFF;
 }
@@ -343,6 +343,7 @@ html {
 .product-card {
   background: var(--surface-color);
   border: 1px solid var(--border-color);
+  box-shadow: 0 2px 8px rgba(60, 45, 20, .08);
   border-radius: 16px;
   padding: 10px 10px 56px;
   text-align: center;
