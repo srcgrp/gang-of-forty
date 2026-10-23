@@ -1,0 +1,153 @@
+/* ═══════════════════════════════════════════════════
+   Design Tokens — متغیرها
+   ═══════════════════════════════════════════════════ */
+
+/* ─── فونت ─── */
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("../assets/fonts/Vazirmatn-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("../assets/fonts/Vazirmatn-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("../assets/fonts/Vazirmatn-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("../assets/fonts/Vazirmatn-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─── متغیرها ─── */
+:root {
+  /* رنگ سبز — ۱۰ سایه */
+  --green-50: #f0f9f1;
+  --green-100: #dcf0de;
+  --green-200: #b9e1be;
+  --green-300: #8bcc93;
+  --green-400: #5cb266;
+  --green-500: #3a9644;
+  --green-600: #2e7d32;
+  --green-700: #246628;
+  --green-800: #1b4d1f;
+  --green-900: #0f3413;
+
+  /* رنگ مکمل — طلایی */
+  --gold-50: #fffbf0;
+  --gold-100: #fff4d6;
+  --gold-200: #ffe7a8;
+  --gold-300: #ffd470;
+  --gold-400: #ffbf3d;
+  --gold-500: #f9a825;
+  --gold-600: #d98407;
+
+  /* رنگ قرمز (تخفیف) */
+  --red-500: #ef4444;
+  --red-600: #dc2626;
+
+  /* رنگ‌های خنثی */
+  --neutral-0: #ffffff;
+  --neutral-50: #f8faf9;
+  --neutral-100: #f1f4f2;
+  --neutral-200: #e5e9e6;
+  --neutral-300: #d1d7d3;
+  --neutral-400: #9ca69f;
+  --neutral-500: #6b7570;
+  --neutral-600: #4a544e;
+  --neutral-700: #2f3733;
+  --neutral-800: #1a201c;
+  --neutral-900: #0d120f;
+
+  /* رنگ‌های معنایی */
+  --bg: var(--neutral-50);
+  --surface: var(--neutral-0);
+  --surface-alt: var(--green-50);
+  --text: var(--neutral-800);
+  --text-soft: var(--neutral-600);
+  --text-muted: var(--neutral-500);
+  --border: var(--neutral-200);
+  --border-soft: var(--neutral-100);
+
+  --primary: var(--green-600);
+  --primary-dark: var(--green-700);
+  --primary-soft: var(--green-50);
+  --accent: var(--gold-500);
+  --danger: var(--red-500);
+
+  /* فاصله‌ها — مقیاس ۴ پیکسلی */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 20px;
+  --s-6: 24px;
+  --s-7: 32px;
+  --s-8: 40px;
+  --s-9: 56px;
+  --s-10: 72px;
+
+  /* شعاع گوشه‌ها */
+  --r-xs: 6px;
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --r-xl: 28px;
+  --r-full: 999px;
+
+  /* سایه‌ها — نرم و لایه‌ای */
+  --shadow-xs: 0 1px 2px rgba(15, 52, 19, 0.04);
+  --shadow-sm:
+    0 1px 2px rgba(15, 52, 19, 0.04), 0 2px 8px rgba(15, 52, 19, 0.04);
+  --shadow-md:
+    0 2px 4px rgba(15, 52, 19, 0.04), 0 8px 20px rgba(15, 52, 19, 0.06);
+  --shadow-lg:
+    0 4px 8px rgba(15, 52, 19, 0.05), 0 16px 40px rgba(15, 52, 19, 0.1);
+  --shadow-primary: 0 8px 20px rgba(46, 125, 50, 0.25);
+  --shadow-primary-hover: 0 12px 28px rgba(46, 125, 50, 0.35);
+
+  /* انتقال‌ها */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --t-fast: 150ms var(--ease);
+  --t-base: 250ms var(--ease);
+  --t-slow: 400ms var(--ease-out);
+
+  /* اندازه‌ها */
+  --container: 1280px;
+  --header-h: 76px;
+  --font: "Vazirmatn", system-ui, -apple-system, "Segoe UI", Tahoma, sans-serif;
+}
+
+/* ─── دارک مد ─── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0a0f0b;
+    --surface: #141a15;
+    --surface-alt: #1a2319;
+    --text: #e8f0e8;
+    --text-soft: #b5c2b5;
+    --text-muted: #8a968a;
+    --border: #252e26;
+    --border-soft: #1e261f;
+    --primary-soft: #172a1a;
+
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.3), 0 8px 20px rgba(0, 0, 0, 0.25);
+    --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.35), 0 16px 40px rgba(0, 0, 0, 0.4);
+  }
+}

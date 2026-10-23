@@ -1,0 +1,300 @@
+/* ═══════════════════════════════════════════════════
+   Header
+   ═══════════════════════════════════════════════════ */
+
+/* ─── Topbar ─── */
+.topbar {
+  background: linear-gradient(90deg, var(--green-800), var(--green-600));
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: var(--s-3) var(--s-4);
+  text-align: center;
+}
+
+.topbar__inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  flex-wrap: wrap;
+}
+
+/* ─── Header اصلی ─── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-xs);
+}
+
+.header__wrapper {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: var(--s-3) var(--s-4);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--s-5);
+}
+
+/* ─── Brand ─── */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  flex-shrink: 0;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.brand__icon {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+}
+
+.brand__icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.brand__name {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.brand__name strong {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--green-800);
+}
+
+.brand__name small {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+/* ─── Search ─── */
+.search {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  width: 100%;
+  max-width: 600px;
+  height: 48px;
+  margin: 0 auto;
+  padding: var(--s-1) var(--s-4) var(--s-1) var(--s-1);
+  background: var(--surface-alt);
+  border: 2px solid transparent;
+  border-radius: var(--r-full);
+  min-width: 0;
+  transition: border-color var(--t-fast), background var(--t-fast),
+              box-shadow var(--t-fast);
+}
+
+.search:focus-within {
+  background: var(--surface);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.1);
+}
+
+.search input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  background: transparent;
+  font-size: 0.94rem;
+  color: var(--text);
+  outline: none;
+  font-family: inherit;
+}
+
+.search input::placeholder {
+  color: var(--text-muted);
+}
+
+.search__submit {
+  flex-shrink: 0;
+  height: 38px;
+  padding: 0 var(--s-5);
+  background: linear-gradient(135deg, var(--green-500), var(--green-700));
+  color: #fff;
+  border-radius: var(--r-full);
+  font-weight: 600;
+  font-size: 0.88rem;
+  white-space: nowrap;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform var(--t-fast), box-shadow var(--t-fast);
+}
+
+.search__submit:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-primary);
+}
+
+/* ─── Actions ─── */
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  flex-shrink: 0;
+}
+
+.header__divider {
+  width: 1px;
+  height: 26px;
+  background: var(--border);
+}
+
+.action-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-md);
+  color: var(--text);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background var(--t-fast), color var(--t-fast);
+}
+
+.action-btn:hover {
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+}
+
+.action-btn__icon {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  color: var(--green-700);
+  flex-shrink: 0;
+}
+
+.action-btn:hover .action-btn__icon {
+  color: var(--primary);
+}
+
+.action-btn__icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.action-btn__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.action-btn__text small {
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.action-btn--cart .action-btn__icon {
+  color: var(--green-700);
+}
+
+.action-btn__badge {
+  position: absolute;
+  top: 4px;
+  right: 8px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  background: var(--danger);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  border-radius: var(--r-full);
+  border: 2px solid var(--surface);
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.35);
+}
+
+/* ═══════════════════════════════════════════════════
+   Responsive
+   ═══════════════════════════════════════════════════ */
+
+/* ─── ۱۱۰۰px ─── */
+@media (max-width: 1100px) {
+  .header__wrapper { gap: var(--s-3); }
+  .brand__name small { display: none; }
+  .action-btn__text { display: none; }
+  .action-btn { padding: var(--s-2); }
+  .search { max-width: 420px; }
+}
+
+/* ─── ۹۰۰px ─── */
+@media (max-width: 900px) {
+  .brand__icon { width: 42px; height: 42px; }
+  .search { max-width: 360px; height: 46px; }
+  .search__submit { height: 36px; padding: 0 var(--s-4); font-size: 0.84rem; }
+}
+
+/* ─── ۷۶۸px ─── */
+@media (max-width: 768px) {
+  .topbar { font-size: 0.76rem; padding: var(--s-2) var(--s-3); }
+
+  .header__wrapper {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "brand   actions"
+      "search  search";
+    gap: var(--s-2);
+    padding: var(--s-2) var(--s-3);
+  }
+
+  .brand { grid-area: brand; min-width: 0; }
+  .brand__icon { width: 40px; height: 40px; }
+  .brand__name strong { font-size: 0.95rem; }
+
+  .header__actions { grid-area: actions; gap: var(--s-1); }
+  .action-btn { padding: var(--s-2); }
+  .action-btn__badge { top: 2px; right: 4px; }
+  .header__divider { display: none; }
+
+  .search {
+    grid-area: search;
+    max-width: 100%;
+    width: 100%;
+    height: 44px;
+    margin: 0;
+    padding: var(--s-1) var(--s-3) var(--s-1) var(--s-1);
+  }
+
+  .search input { font-size: 0.88rem; }
+  .search__submit { height: 36px; padding: 0 var(--s-4); font-size: 0.82rem; }
+}
+
+/* ─── ۴۸۰px ─── */
+@media (max-width: 480px) {
+  .topbar { font-size: 0.72rem; padding: var(--s-2) var(--s-3); }
+  .header__wrapper { padding: var(--s-2); gap: var(--s-2); }
+  .brand__icon { width: 36px; height: 36px; }
+  .brand__name strong { font-size: 0.9rem; }
+  .action-btn { padding: 6px; }
+  .action-btn__icon { width: 22px; height: 22px; }
+  .action-btn__icon svg { width: 20px; height: 20px; }
+  .search { height: 42px; }
+  .search input { font-size: 0.82rem; }
+  .search input::placeholder { font-size: 0.78rem; }
+  .search__submit { height: 34px; padding: 0 var(--s-3); font-size: 0.78rem; }
+}

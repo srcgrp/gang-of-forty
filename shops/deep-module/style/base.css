@@ -1,0 +1,142 @@
+/* ═══════════════════════════════════════════════════
+   Base — تایپوگرافی و پایه
+   ═══════════════════════════════════════════════════ */
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.7;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+}
+
+h1 {
+  font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.4rem);
+}
+h2 {
+  font-size: clamp(1.3rem, 1.1rem + 0.9vw, 1.75rem);
+}
+h3 {
+  font-size: 1.05rem;
+}
+
+/* ─── فوکوس ─── */
+:focus {
+  outline: none;
+}
+:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: var(--r-xs);
+}
+
+/* ─── ابزارها ─── */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ─── لینک پرش ─── */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  right: 20px;
+  z-index: 9999;
+  padding: 12px 20px;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 600;
+  border-radius: var(--r-sm);
+  box-shadow: var(--shadow-md);
+  transition: top var(--t-base);
+}
+.skip-link:focus {
+  top: 20px;
+}
+
+/* ─── سرتیتر بخش ─── */
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  margin-bottom: var(--s-5);
+}
+
+.section-head__title {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.section-head__title::before {
+  content: "";
+  width: 4px;
+  height: 22px;
+  border-radius: var(--r-full);
+  background: linear-gradient(180deg, var(--green-500), var(--green-700));
+  flex-shrink: 0;
+}
+
+.section-head__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--primary);
+  padding: 6px 10px;
+  border-radius: var(--r-sm);
+  transition:
+    color var(--t-fast),
+    background var(--t-fast),
+    gap var(--t-fast);
+}
+.section-head__link:hover {
+  color: var(--primary-dark);
+  background: var(--primary-soft);
+  gap: 10px;
+}
+
+/* ─── Sectionها ─── */
+main > section {
+  padding-block: var(--s-7);
+}
+
+section[id] {
+  scroll-margin-top: calc(var(--header-h) + 20px);
+}
+
+section[id]:target {
+  outline: 3px dashed var(--primary);
+  outline-offset: 16px;
+  border-radius: var(--r-md);
+}
