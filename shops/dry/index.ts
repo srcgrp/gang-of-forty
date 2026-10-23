@@ -9,11 +9,15 @@ import milkImg from './assets/products/milk.png'
 import paneerImg from './assets/products/panir-sefid.png'
 import mastImg from './assets/products/mast.png'
 import honeyImg from './assets/products/honey.png'
+import fruitsCatImg from './assets/products/fruit-and-vegetables.png'
+import dairyCatImg from './assets/products/Dairy-products.png'
+import proteinCatImg from './assets/products/meat-and-protein.png'
+import drinksCatImg from './assets/products/beverage.png'
+import pantryCatImg from './assets/products/food-products.png'
 
 const notyf: Notyf = new Notyf()
 
 const API: string = '../../api/'
-const DAIRY_CATEGORY_ID: number = 2
 const CART_KEY: string = 'dry-cart'
 
 type Product = {
@@ -30,6 +34,18 @@ type Offer = {
   productId: number
   percent: number
   label: string
+}
+type Category = {
+  id: number
+  slug: string
+  name: string
+  emoji: string
+  color: string
+}
+
+type CategorySection = {
+  section: HTMLElement
+  box: HTMLElement
 }
 
 type Stock = {
@@ -50,6 +66,14 @@ const IMAGES: Record<number, string> = {
   202: paneerImg,
   203: mastImg,
   402: honeyImg,
+}
+
+const CATEGORY_IMAGES: Record<string, string> = {
+  fruits: fruitsCatImg,
+  dairy: dairyCatImg,
+  protein: proteinCatImg,
+  drinks: drinksCatImg,
+  pantry: pantryCatImg
 }
 
 const faNumber: Intl.NumberFormat = new Intl.NumberFormat('fa-IR')
@@ -90,6 +114,33 @@ const addToCart = (): void => {
 }
 
 renderCart()
+
+const THEME_KEY: string = 'dry-theme'
+
+type Theme = 'light' | 'dark'
+
+const systemTheme = (): Theme =>
+  window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+
+const themeToggle: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>('#theme-toggle')
+if (!themeToggle) throw new Error('index.html is missing #theme-toggle')
+
+const savedTheme: string | null = localStorage.getItem(THEME_KEY)
+let theme: Theme = savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : systemTheme()
+
+const applyTheme = (t: Theme): void => {
+  document.documentElement.dataset.theme = t
+  themeToggle.textContent = t === 'dark' ? '☀' : '☾'
+  themeToggle.setAttribute('aria-label', t === 'dark' ? 'تغییر به حالت روشن' : 'تغییر به حالت تاریک')
+}
+
+themeToggle.addEventListener('click', (): void => {
+  theme = theme === 'dark' ? 'light' : 'dark'
+  localStorage.setItem(THEME_KEY, theme)
+  applyTheme(theme)
+})
+
+applyTheme(theme)
 
 async function getJSON<T>(file: string): Promise<T> {
   const res: Response = await fetch(API + file)
@@ -149,6 +200,50 @@ function createCard(product: Product, inStock: boolean, offer: Offer | undefined
   return card
 }
 
+function createSection(category: Category): CategorySection {
+  const section: HTMLElement = el('section', 'products')
+  section.id = category.slug
+
+  const first: HTMLAnchorElement = el('a', '', '→')
+  const last: HTMLAnchorElement = el('a', '', '←')
+  first.setAttribute('aria-label', `ابتدای کاروسل ${category.name}`)
+  last.setAttribute('aria-label', `انتهای کاروسل ${category.name}`)
+
+  const nav: HTMLDivElement = el('div', 'carousel-nav')
+  nav.append(first, last)
+
+  const title: HTMLDivElement = el('div', 'section-title')
+  title.append(el('h2', '', category.name), nav)
+
+  const box: HTMLElement = el('section', 'carousel')
+  box.setAttribute('aria-label', category.name)
+  box.tabIndex = 0
+
+  section.append(title, box)
+  return { section, box}
+}
+
+function createCategoryCard(category: Category): HTMLAnchorElement {
+  const card: HTMLAnchorElement = el('a', 'category-card')
+  card.href = `#${category.slug}`
+
+  const image: string | undefined = CATEGORY_IMAGES[category.slug]
+  if (image) {
+    const img: HTMLImageElement = el('img')
+    img.src = image
+    img.alt = ''
+    card.append(img)
+  } else {
+    card.style.backgroundColor = category.color
+    const emoji: HTMLSpanElement = el('span', 'category-emoji', category.emoji)
+    emoji.setAttribute('aria-hidden', 'true')
+    card.append(emoji)
+  }
+
+  card.append(el('h3', '', category.name))
+  return card
+}
+
 function showStatus(box: HTMLElement, message: string, isError: boolean = false): void {
   const p: HTMLParagraphElement = el('p', isError ? 'status error' : 'status', message)
   p.setAttribute('role', isError ? 'alert' : 'status')
@@ -174,21 +269,21 @@ function renderCarousel(box: HTMLElement, cards: HTMLDivElement[], prefix: strin
 }
 
 async function init(): Promise<void> {
-  const dairyBox: HTMLElement | null = document.querySelector<HTMLElement>('#dairy .carousel')
   const offersBox: HTMLElement | null = document.querySelector<HTMLElement>('#offers .carousel')
-  const dairySection: HTMLElement | null = document.querySelector<HTMLElement>('#dairy')
   const offersSection: HTMLElement | null = document.querySelector<HTMLElement>('#offers')
+  const sectionsHost: HTMLElement | null = document.querySelector<HTMLElement>('#category-sections')
+  const categoryGrid: HTMLElement | null = document.querySelector<HTMLElement>('#category-grid')
   const searchInput: HTMLInputElement | null = document.querySelector<HTMLInputElement>('#search')
   const resultsSection: HTMLElement | null = document.querySelector<HTMLElement>('#search-results')
   const resultsBox: HTMLElement | null = document.querySelector<HTMLElement>('#results')
   const resultsStatus: HTMLElement | null = document.querySelector<HTMLElement>('#results-status')
   if (
-    !dairyBox || !offersBox || !dairySection || !offersSection ||
-    !searchInput || !resultsSection || !resultsBox || !resultsStatus
+   !offersBox || !offersSection || !sectionsHost || !categoryGrid ||
+   !searchInput || !resultsSection || !resultsBox || !resultsStatus
   ) {
     throw new Error('index.html is missing an element')
   }
-  const boxes: HTMLElement[] = [dairyBox, offersBox]
+  const boxes: HTMLElement[] = [offersBox]
 
   for (const box of boxes) {
     box.addEventListener('click', onAddClick)
@@ -196,13 +291,19 @@ async function init(): Promise<void> {
     showStatus(box, 'در حال بارگذاری…')
   }
   resultsBox.addEventListener('click', onAddClick)
+  sectionsHost.addEventListener('click', onAddClick)
 
   try {
-    const [products, stock, offers]: [Product[], Stock, Offer[]] = await Promise.all([
+    const [products, stock, offers, categories]: [Product[], Stock, Offer[], Category[]] = await Promise.all([
       getJSON<Product[]>('products.json'),
       getJSON<Stock>('stock.json'),
       getJSON<Offer[]>('offers.json'),
+      getJSON<Category[]>('categories.json'),
     ])
+
+    categoryGrid.replaceChildren(
+      ...categories.map((c: Category): HTMLAnchorElement => createCategoryCard(c)),
+    )
 
     const offerByProduct: Map<number, Offer> = new Map<number, Offer>(
       offers.map((o: Offer): [number, Offer] => [o.productId, o]),
@@ -210,16 +311,22 @@ async function init(): Promise<void> {
     const makeCard = (p: Product): HTMLDivElement =>
       createCard(p, (stock.items[p.id] ?? 0) > 0, offerByProduct.get(p.id))
 
-    const dairy: HTMLDivElement[] = products
-      .filter((p: Product): boolean => p.categoryId === DAIRY_CATEGORY_ID)
-      .map(makeCard)
+   
     const offered: HTMLDivElement[] = products
       .filter((p: Product): boolean => offerByProduct.has(p.id))
       .map(makeCard)
-
-    renderCarousel(dairyBox, dairy, 'dairy')
     renderCarousel(offersBox, offered, 'offer')
 
+    for (const category of categories) {
+      const cards: HTMLDivElement[] = products
+      .filter((p: Product): boolean => p.categoryId === category.id)
+      .map(makeCard)
+    if (cards.length === 0) continue
+
+    const parts: CategorySection = createSection(category)
+    sectionsHost.append(parts.section)
+    renderCarousel(parts.box, cards, category.slug)
+    }
 
       const searchItems: SearchItem[] = products.map(
       (p: Product): SearchItem => ({
@@ -242,7 +349,7 @@ async function init(): Promise<void> {
       if (query === '') {
         resultsSection.hidden = true
         offersSection.hidden = false
-        dairySection.hidden = false
+        sectionsHost.hidden = false
         return
       }
 
@@ -258,7 +365,7 @@ async function init(): Promise<void> {
 
       resultsSection.hidden = false
       offersSection.hidden = true
-      dairySection.hidden = true
+      sectionsHost.hidden = true
     }
 
     searchInput.addEventListener('input', runSearch)
