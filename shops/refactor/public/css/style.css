@@ -1186,6 +1186,12 @@ main>section+section {
 
 /* ---------- brand-card---------- */
 
+.brand-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--gap);
+}
+
 .brand-card .card-link {
     align-items: center;
     width: 100%;
