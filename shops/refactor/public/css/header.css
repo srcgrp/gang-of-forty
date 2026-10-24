@@ -57,7 +57,7 @@
     height: var(--tap);
     padding: 0;
     border: 0;
-    border-radius: 50%;
+    border-radius: 12px;
     background: transparent;
     color: #ffffff;
     transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
