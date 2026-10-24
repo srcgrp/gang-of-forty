@@ -1333,3 +1333,187 @@ html {
 @media (prefers-reduced-motion: no-preference) {
 .product-grid { scroll-behavior: smooth; }
 }
+/* Week 2: catalog states keep the existing palette and card layout. */
+.product-grid[hidden], .catalog-status[hidden] {
+    display: none;
+}
+
+.catalog-status {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-4);
+    min-block-size: 280px;
+    padding: var(--space-5);
+    text-align: center;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+}
+
+.product-card__emoji {
+    font-size: 5rem;
+    line-height: 1;
+}
+
+.product-card--unavailable {
+    opacity: 0.55;
+}
+
+.product-card__stock {
+    position: absolute;
+    inset-block-end: var(--space-2);
+    inset-inline-start: var(--space-2);
+}
+
+.product-card button:disabled {
+    cursor: not-allowed;
+    background-color: var(--color-surface-subtle);
+    color: var(--color-text);
+}
+
+.carousel-controls a[aria-disabled="true"] {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Week 2 level 4: reuse the original typography, palette and card styles. */
+.page-status {
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    gap: var(--space-4);
+    min-block-size: 360px;
+    padding-block: var(--space-6);
+    text-align: center;
+}
+
+.category-visual {
+    display: inline-grid;
+    place-items: center;
+    border-radius: 50%;
+    flex: none;
+}
+
+.category-card__icon.category-visual {
+    inline-size: 72px;
+    block-size: 72px;
+    font-size: 2.5rem;
+}
+
+.menu-link__icon.category-visual {
+    inline-size: 24px;
+    block-size: 24px;
+    font-size: 1rem;
+}
+
+.category-icon__emoji {
+    line-height: 1;
+}
+
+.hero-title__emoji, .hero-side__emoji, .carousel-title__emoji {
+    display: inline-block;
+    font-size: 0.85em;
+    vertical-align: middle;
+}
+
+.promo-card--api {
+    color: var(--color-heading);
+}
+
+.promo-card__emoji {
+    display: grid;
+    place-items: center;
+    font-size: clamp(4rem, 7vw, 6rem);
+    line-height: 1.2;
+}
+
+.product-card__tags {
+    margin-block: var(--space-2);
+    color: var(--color-text);
+    font-size: var(--font-size-xs);
+}
+
+.menu-chevron {
+    transform: rotate(-90deg);
+}
+
+.category-reset {
+    margin-block-start: var(--space-4);
+}
+
+.hero__image-wrap {
+    gap: var(--space-4);
+}
+
+.hero-side {
+    inline-size: 100%;
+    max-inline-size: 350px;
+    padding: var(--space-5);
+    border-radius: var(--radius-lg);
+    background: var(--color-heading);
+    color: white;
+}
+
+.hero-side__title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: white;
+    font-size: var(--font-size-lg);
+}
+
+.hero-side__text {
+    margin-block: var(--space-3);
+}
+
+.hero-side .button {
+    inline-size: 100%;
+}
+
+.promo-side {
+    grid-column: 1 / -1;
+    max-inline-size: none;
+}
+
+@media (min-width: 761px) {
+    .promo-side {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 0 var(--space-5);
+        align-items: center;
+    }
+
+    .promo-side .button {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+        min-inline-size: 200px;
+        inline-size: auto;
+    }
+}
+
+.promo-card > .button {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    inline-size: fit-content;
+}
+
+.filter-summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-block-end: var(--space-5);
+}
+
+@media (min-width: 1024px) {
+    .category-grid {
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+    }
+
+}
+@media (prefers-reduced-motion: no-preference) {
+.product-grid { scroll-behavior: smooth; }
+}
