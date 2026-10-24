@@ -17,6 +17,13 @@ const makeCard = (product: ProductView): HTMLLIElement => {
         media.append(el('span', 'chip-out', 'ناموجود'));
     }
 
+      const favButton = makeButton({
+        className: 'act-btn act-fav',
+        iconId: 'i-heart',
+        label: `افزودن ${product.name} به علاقه‌مندی‌ها`,
+    });
+    media.append(favButton);
+
     const title = el('h3', 'card-title');
     const titleLink = el('a', null, product.name);
     titleLink.href = `#product-${product.id}`;
@@ -47,32 +54,33 @@ const makeCard = (product: ProductView): HTMLLIElement => {
     strong.append(el('small', null, 'تومان'));
     price.append(strong);
 
-    const favButton = makeButton({
-        className: 'act-btn',
-        iconId: 'i-heart',
-        label: `افزودن ${product.name} به علاقه‌مندی‌ها`,
-    });
-
-    const cartButton = makeButton({
+     const cartButton = makeButton({
         className: 'act-btn act-cart',
         iconId: 'i-cart',
         label: `افزودن ${product.name} به سبد خرید`,
-        text: 'افزودن',
     });
+
+   
 
     if (product.stock === 0) {
         card.classList.add('card--out');
         cartButton.disabled = true;
     }
 
-    const pair = el('div', 'act-pair');
-    pair.append(favButton, cartButton);
+    // const pair = el('div', 'act-pair');
+    // pair.append(favButton, cartButton);
 
-    const actions = el('div', 'card-actions');
+    // const actions = el('div', 'card-actions');
 
-    actions.append(price, pair);
+    // actions.append(price, pair);
 
-    card.append(media, body, actions);
+    // card.append(media, body, actions);
+
+    // return card;
+     const foot = el('div', 'card-foot');
+    foot.append(price, cartButton);
+
+    card.append(media, body, foot);
 
     return card;
 };

@@ -44,4 +44,5 @@
     --pattern-line-strong: rgba(255, 255, 255, 0.18);
     --pattern: repeating-linear-gradient( 45deg, var(--pattern-line) 0 2px, transparent 2px 24px), repeating-linear-gradient( -45deg, var(--pattern-line) 0 2px, transparent 2px 24px);
     --pattern-strong: repeating-linear-gradient( 45deg, var(--pattern-line-strong) 0 2px, transparent 2px 24px), repeating-linear-gradient( -45deg, var(--pattern-line-strong) 0 2px, transparent 2px 24px);
+    --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
 }

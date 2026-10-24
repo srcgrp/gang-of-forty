@@ -1,5 +1,6 @@
 .season .products-track {
-    --pv: 1.6;
+    /* --pv: 1.6; */
+    --pv: 3.2;
 }
 
 .offer {
@@ -74,41 +75,6 @@
     stroke-width: 2.4;
 }
 
-.offer .card {
-    background: #fff;
-    border-color: transparent;
-    color: var(--ink);
-}
-
-.offer .card::after {
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.22);
-}
-
-.offer .card-media {
-    padding: 6px 6px 0;
-}
-
-.offer .card-top {
-    padding: 6px 6px 0;
-}
-
-.offer .card-body {
-    padding: 4px 10px 8px;
-}
-
-.offer .card-actions {
-    padding-block: 0 8px;
-    padding-inline: 8px 10px;
-}
-
-.offer .card-title a {
-    color: var(--ink);
-}
-
-.offer .card-title a:hover {
-    color: var(--orange-text);
-}
-
 @media (min-width: 400px) {
      :root {
         --pv: 1.9;
@@ -139,7 +105,8 @@
         grid-column: span 3;
     }
     .season .products-track {
-        --pv: 2.4;
+        /* --pv: 2.4; */
+        --pv: 3.6;
     }
     .cat-list {
         grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -371,9 +338,9 @@
         border: 0;
         min-width: 0;
     }
-    .season .products-track {
+    /* .season .products-track {
         --pv: 3;
-    }
+    } */
     .site-header .promo {
         display: block;
     }
@@ -446,6 +413,22 @@
 }
 
 @media (max-width: 767px) {
+    .carousel-body>.car-btn {
+        position: absolute;
+        z-index: 2;
+        inset-block-start: 38%;
+        margin-block-start: calc(var(--car-btn) / -2);
+    }
+    .car-btn[data-carousel="prev"] {
+        inset-inline-start: -8px;
+    }
+    .car-btn[data-carousel="next"] {
+        inset-inline-end: -8px;
+    }
+    .car-btn:disabled {
+        opacity: 0;
+        pointer-events: none;
+    }
     .swiper,
     .swiper-slide {
         height: 280px;
