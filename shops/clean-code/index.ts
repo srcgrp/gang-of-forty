@@ -1,17 +1,24 @@
 import confetti from "canvas-confetti";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
-import { getJSON } from "./api";
+import { isCategory } from "./src/api/category.ts";
+import { getJSON } from "./src/api/get-json.ts";
+import { isHome } from "./src/api/home.ts";
+import { keepList } from "./src/api/list.ts";
+import { isOffer } from "./src/api/offer.ts";
+import { isProduct } from "./src/api/product.ts";
+import { isShop } from "./src/api/shop.ts";
+import { isStock } from "./src/api/stock.ts";
 import type {
   Category,
   FrozenShop,
   Home,
+  LoadState,
   MakeItem,
   Offer,
   Product,
-  Shop,
-  Stock,
 } from "./src/types.ts";
+
 const notyf = new Notyf();
 
 const API = import.meta.env.VITE_API_URL;
@@ -434,23 +441,66 @@ function makeButton(qty: number, onAdd: () => void): HTMLButtonElement {
   return btn;
 }
 
+function renderStatus(state: LoadState): void {
+  const el = document.querySelector<HTMLParagraphElement>("#status");
+  if (!el) throw new Error("index.html is missing an element");
+  switch (state.status) {
+    case "loading":
+      el.hidden = false;
+      el.className = "status";
+      el.textContent = "در حال بارگذاری...";
+      break;
+    case "success":
+      el.hidden = true;
+      el.className = "status";
+      el.textContent = "";
+      break;
+    case "empty":
+      el.hidden = false;
+      el.className = "status";
+      el.textContent = "چیزی پیدا نشد.";
+      break;
+    case "error":
+      el.hidden = false;
+      el.className = "status error";
+      el.textContent = state.message;
+      break;
+    default: {
+      const forgotten: never = state;
+      throw new Error("forgotten state: " + forgotten);
+    }
+  }
+}
+
 async function loadPage(): Promise<void> {
-  const status = document.querySelector<HTMLParagraphElement>("#status");
-  if (!status) throw new Error("index.html is missing an element");
+  renderStatus({ status: "loading" });
 
   try {
     const faNumber = new Intl.NumberFormat("fa-IR");
 
-    const [products, stock, offers, categories, shop, home] = await Promise.all(
-      [
-        getJSON<Product[]>(API + "products.json"),
-        getJSON<Stock>(API + "stock.json"),
-        getJSON<Offer[]>(API + "offers.json"),
-        getJSON<Category[]>(API + "categories.json"),
-        getJSON<Shop>(API + "shop.json"),
-        getJSON<Home>(API + "home.json"),
-      ],
-    );
+    const [rawProducts, rawStock, rawOffers, rawCategories, rawShop, rawHome] =
+      await Promise.all([
+        getJSON(API + "products.json"),
+        getJSON(API + "stock.json"),
+        getJSON(API + "offers.json"),
+        getJSON(API + "categories.json"),
+        getJSON(API + "shop.json"),
+        getJSON(API + "home.json"),
+      ]);
+
+    const products = keepList(rawProducts, isProduct, "products");
+    if (products.length === 0) {
+      renderStatus({ status: "empty" });
+      return;
+    }
+    const offers = keepList(rawOffers, isOffer, "offers");
+    const categories = keepList(rawCategories, isCategory, "categories");
+    if (!isStock(rawStock)) throw new Error("bad stock");
+    if (!isShop(rawShop)) throw new Error("bad shop");
+    if (!isHome(rawHome)) throw new Error("bad home");
+    const stock = rawStock;
+    const shop = rawShop;
+    const home = rawHome;
 
     fillShop(shop);
     fillMenu(shop, categories);
@@ -540,12 +590,12 @@ async function loadPage(): Promise<void> {
       e.preventDefault();
     });
 
-    status.textContent = "";
-    status.hidden = true;
+    renderStatus({ status: "success", products });
   } catch (err: unknown) {
-    status.hidden = false;
-    status.className = "status error";
-    status.textContent = "بارگذاری نشد. صفحه را رفرش کن.";
+    renderStatus({
+      status: "error",
+      message: "بارگذاری نشد. لطفا صفحه را رفرش کنید.",
+    });
   }
 }
 
