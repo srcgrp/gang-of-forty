@@ -14,6 +14,8 @@
     --bg: #f6f8f7;
     --surface: #fff;
     --sale: #c6283a;
+    --cream: #f4f2ea;
+    --cream-line: #e6e2d3;
     --font-body: "IRANSans", Tahoma, "Segoe UI", sans-serif;
     --font-head: "Morabba", "IRANSans", Tahoma, sans-serif;
     --container: 1240px;
@@ -23,6 +25,7 @@
     --radius: 18px;
     --radius-lg: 24px;
     --radius-pill: 999px;
+    --radius-panel: 28px;
     --tap: 44px;
     --sticky-offset: 16px;
     --ease: cubic-bezier(0.2, 0.8, 0.2, 1);

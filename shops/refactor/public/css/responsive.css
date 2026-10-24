@@ -168,6 +168,19 @@
     .section-title {
         font-size: 1.5rem;
     }
+    .title-icon {
+        width: 36px;
+        height: 36px;
+    }
+    .brand-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+    .brand-logo {
+        max-width: 88px;
+    }
+    .brand-name {
+        font-size: 1rem;
+    }
     .cat-list {
         grid-template-columns: repeat(4, minmax(0, 1fr));
     }
