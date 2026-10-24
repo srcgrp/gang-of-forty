@@ -264,35 +264,6 @@
             width: 0;
             scroll-snap-align: none;
         }
-        /* .track>.track-edge[data-edge="start"] {
-            margin-inline-end: calc(var(--gap) * -1);
-        }
-        
-        .track>.track-edge[data-edge="end"] {
-            margin-inline-start: calc(var(--gap) * -1);
-        } */
-        /*         
-        .track img {
-            -webkit-user-drag: none;
-            user-select: none;
-        } */
-        /* .offer {
-            --anchor: --t-offer;
-            --off: 0px;
-        }
-        
-        .latest {
-            --anchor: --t-latest;
-        }
-        
-        .season-box {
-            --anchor: --t-season;
-            --off: -2px;
-        }
-        
-        .brands {
-            --anchor: --t-brands;
-        } */
         
         @media (pointer: fine) {
             .track {
@@ -365,20 +336,6 @@
         .car-btn:dir(ltr) .icon {
             transform: scaleX(-1);
         }
-        /* .offer .carousel,
-        .latest .carousel,
-        .brands-box {
-            position: relative;
-            isolation: isolate;
-            /* padding: 16px; */
-        /* */
-        /* .offer .title-icon {
-            color: var(--orange-text);
-        }
-        
-        .offer .section-link {
-            color: var(--orange-text);
-        } */
         
         .track>* {
             scroll-margin-block: 30vh;
@@ -792,11 +749,6 @@
             background: var(--bg);
             border-radius: 10px;
         }
-        /* .card-media img {
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            object-fit: contain;
-        } */
         
         .card-body {
             display: flex;
@@ -806,13 +758,6 @@
             padding: 8px 12px 12px;
             text-align: center;
         }
-        /* .card-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 6px;
-            padding: 10px 10px 0;
-        } */
         
         .card-title {
             display: -webkit-box;
