@@ -10,38 +10,14 @@ import paneerImg from '../assets/products/panir-sefid.png'
 import mastImg from '../assets/products/mast.png'
 import honeyImg from '../assets/products/honey.png'
 
+import type { Offer, Product, SearchItem, Stock } from './types.ts'
 const notyf: Notyf = new Notyf()
 
 const API: string = '../../api/'
 const DAIRY_CATEGORY_ID: number = 2
 const CART_KEY: string = 'dry-cart'
 
-type Product = {
-  id: number
-  categoryId: number
-  name: string
-  emoji: string
-  unit: string
-  price: number
-  tags: string[]
-}
 
-type Offer = {
-  productId: number
-  percent: number
-  label: string
-}
-
-type Stock = {
-  updatedAt: string
-  items: Record<number, number>
-}
-
-type SearchItem = {
-  product: Product
-  name: string
-  tags: string
-}
 
 const IMAGES: Record<number, string> = {
   102: orangeImg,
