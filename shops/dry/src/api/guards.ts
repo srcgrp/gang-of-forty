@@ -1,5 +1,4 @@
-import type { Category, Offer, Product, Stock } from '../types.ts'
-
+import type { CartLine, Category, Offer, Product, Stock } from '../types.ts'
 function isRecord(x: unknown): x is Record<string, unknown> {
     return typeof x === 'object' && x !== null && !Array.isArray(x)
 }
@@ -52,4 +51,8 @@ export function isStock(x: unknown): x is Stock {
     isRecord(x.items) &&
     Object.values(x.items).every(isNumber)
   )
+}
+
+export function isCartLine(x: unknown): x is CartLine {
+    return isRecord(x) && isNumber(x.id) && isNumber(x.qty) && x.qty > 0
 }
