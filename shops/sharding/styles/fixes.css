@@ -1,0 +1,106 @@
+.product__img,
+.category__img,
+.search-results__img {
+  isolation: isolate;
+}
+
+.product__img img,
+.category__img img,
+.search-results__img img {
+  mix-blend-mode: multiply;
+}
+
+.product__emoji {
+  font-size: clamp(3rem, 14vw, 5rem);
+  line-height: 1;
+}
+
+@media (max-width: 639px) {
+  .product__emoji {
+    font-size: clamp(3.2rem, 16vw, 4.5rem);
+  }
+}
+
+.product__img--emoji {
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+
+.category__img .product__emoji {
+  font-size: clamp(2.2rem, 12vw, 3.2rem);
+}
+
+@media (max-width: 639px) {
+  .category__img .product__emoji {
+    font-size: clamp(2.6rem, 14vw, 3.4rem);
+  }
+}
+
+.search-results__img .product__emoji {
+  font-size: 1.5rem;
+}
+
+.product--out-of-stock {
+  opacity: 1;
+  pointer-events: none;
+}
+
+.product--out-of-stock .product__img img {
+  filter: grayscale(1);
+  opacity: 0.5;
+}
+
+.product--out-of-stock .product__name {
+  color: var(--muted);
+}
+
+.product--out-of-stock .product__current,
+.product--out-of-stock .product__unit {
+  color: var(--muted);
+}
+
+.products--offers .product--out-of-stock {
+  background: var(--card-bg);
+  opacity: 1;
+}
+
+.products--offers .product--out-of-stock .product__img {
+  background: var(--plate);
+}
+
+.products--offers .product--out-of-stock .product__img img {
+  filter: grayscale(1);
+  opacity: 0.4;
+}
+
+.products--offers .product--out-of-stock .product__name,
+.products--offers .product--out-of-stock .product__current,
+.products--offers .product--out-of-stock .product__unit {
+  color: var(--muted);
+  opacity: 0.7;
+}
+
+.products--offers .product--out-of-stock .product__badge-stock {
+  opacity: 1;
+}
+
+.hero-carousel__basket-arrow {
+  display: inline-block;
+  margin-inline-start: 8px;
+  font-size: 1.15em;
+  font-weight: 900;
+  color: var(--text);
+  vertical-align: 0.02em;
+  transition: transform var(--t-base);
+}
+
+.hero-carousel__slide--basket:hover .hero-carousel__basket-arrow {
+  transform: translateX(-4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-carousel__slide--basket:hover .hero-carousel__basket-arrow {
+  transform: none;
+  }
+}
