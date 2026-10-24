@@ -335,7 +335,7 @@ async function init(): Promise<void> {
         scrollToHash();
         const fuse = new Fuse<Product>(data.products, { keys: ["name"], threshold: 0.3 });
 
-        searchInput.addEventListener("input", (e: Event) => {
+        searchInput.addEventListener("input", () => {
             const query = searchInput.value.trim();
 
             if (query === "") {
