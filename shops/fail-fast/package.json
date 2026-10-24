@@ -1,0 +1,21 @@
+{
+  "name": "fail-fast",
+  "version": "1.0.0",
+  "private":true,
+  "description": "",
+  "main": "app.js",
+"scripts": {
+  "dev": "vite",
+  "check": "tsc --noEmit",
+  "build": "tsc --noEmit && vite build",
+  "preview": "vite preview"
+},
+  "keywords": [],
+  "author": "ElahehGhelichi",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "typescript": "^7.0.2",
+    "vite": "^8.3.5"
+  }
+}
