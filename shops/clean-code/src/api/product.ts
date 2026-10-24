@@ -1,4 +1,9 @@
-import type { Product } from "../types.ts";
+import type { Product } from "../types/product.ts";
+import { keepList } from "./list.ts";
+
+export function loadProducts(raw: unknown) {
+  return keepList(raw, isProduct, "products");
+}
 
 export function isProduct(x: unknown): x is Product {
   if (typeof x !== "object" || x === null) return false;

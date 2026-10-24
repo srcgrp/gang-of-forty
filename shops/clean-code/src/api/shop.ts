@@ -1,4 +1,4 @@
-import type { Shop } from "../types.ts";
+import type { Shop } from "../types/shop.ts";
 
 function isLink(x: unknown): x is { label: string; href: string } {
   return (

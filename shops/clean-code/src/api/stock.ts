@@ -1,4 +1,9 @@
-import type { Stock } from "../types.ts";
+import type { Stock } from "../types/product.ts";
+
+export function loadStock(raw: unknown) {
+  if (!isStock(raw)) throw new Error("bad stock");
+  return raw;
+}
 
 export function isStock(x: unknown): x is Stock {
   if (typeof x !== "object" || x === null) return false;

@@ -1,4 +1,9 @@
-import type { Offer } from "../types.ts";
+import type { Offer } from "../types/product.ts";
+import { keepList } from "./list.ts";
+
+export function loadOffers(raw: unknown) {
+  return keepList(raw, isOffer, "offers");
+}
 
 export function isOffer(x: unknown): x is Offer {
   if (typeof x !== "object" || x === null) return false;

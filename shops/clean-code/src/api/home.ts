@@ -1,4 +1,4 @@
-import type { Home } from "../types.ts";
+import type { Home } from "../types/shop.ts";
 
 function isCta(x: unknown): x is { label: string; href: string } {
   return (

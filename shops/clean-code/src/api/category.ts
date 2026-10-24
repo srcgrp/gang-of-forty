@@ -1,4 +1,9 @@
-import type { Category } from "../types.ts";
+import type { Category } from "../types/product.ts";
+import { keepList } from "./list.ts";
+
+export function loadCategories(raw: unknown) {
+  return keepList(raw, isCategory, "categories");
+}
 
 export function isCategory(x: unknown): x is Category {
   if (typeof x !== "object" || x === null) return false;
