@@ -60,23 +60,12 @@ const makeCard = (product: ProductView): HTMLLIElement => {
         label: `افزودن ${product.name} به سبد خرید`,
     });
 
-   
 
     if (product.stock === 0) {
         card.classList.add('card--out');
         cartButton.disabled = true;
     }
 
-    // const pair = el('div', 'act-pair');
-    // pair.append(favButton, cartButton);
-
-    // const actions = el('div', 'card-actions');
-
-    // actions.append(price, pair);
-
-    // card.append(media, body, actions);
-
-    // return card;
      const foot = el('div', 'card-foot');
     foot.append(price, cartButton);
 

@@ -12,7 +12,6 @@
     background-color: #0d4d38;
     background-image: repeating-linear-gradient( 45deg, rgba(255, 255, 255, 0.045) 0 2px, transparent 2px 44px), repeating-linear-gradient( -45deg, rgba(255, 255, 255, 0.045) 0 2px, transparent 2px 44px);
     overflow: visible;
-    /* margin-bottom: 2rem; */
 }
 
 .footer-inner :focus-visible {
@@ -280,7 +279,6 @@ a.footer-contact-value {
     position: absolute;
     inset-inline: 0;
     bottom: 0;
-    /* bottom: -22px; */
     display: flex;
     justify-content: center;
 }

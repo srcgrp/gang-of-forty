@@ -132,7 +132,7 @@
                 style="font-family: var(--font-body); font-weight: 400; font-size: 11.5px;fill: #ffffff;">سوپرمارکت
                 آنلاین</text>
         </symbol>
-           <symbol id="i-chevron-right" viewBox="0 0 24 24">
+        <symbol id="i-chevron-right" viewBox="0 0 24 24">
             <path d="M9 5l7 7-7 7" />
         </symbol>
         <symbol id="i-chevron-left" viewBox="0 0 24 24">
@@ -198,7 +198,6 @@
                             <a href="#products"><svg class="icon" aria-hidden="true" focusable="false">
                                     <use href="#i-box" />
                                 </svg>محصولات</a>
-                            <!-- زیرمنو از categories.json با JavaScript ساخته می‌شود؛ هر لینک مودال همان دسته را باز می‌کند (?cat=slug) -->
                             <ul class="sub-menu"></ul>
                         </li>
                         <li><a href="#categories"><svg class="icon" aria-hidden="true" focusable="false">
@@ -251,8 +250,9 @@
         <section class="cats container" id="categories" aria-labelledby="cats-title">
             <div class="section-head">
                 <h2 class="section-title" id="cats-title"><span class="title-icon">
-                    <img src='./public/img/leaf.png' alt='leaf'>
-                 </span>دسته‌بندی محصولات</h2>
+                        <img src='./public/img/leaf.png' alt='leaf'>
+                    </span>دسته‌بندی محصولات
+                </h2>
             </div>
             <ul class="cat-list">
                 <!-- data load from js -->
@@ -288,26 +288,30 @@
             <div class="carousel">
                 <div class="section-head">
                     <div class="section-heading">
-                        <span class="title-icon">
-                            <img src='./public/img/leaf.png' alt='leaf'>
-                        </span>
                         <div class="section-text">
+                            <span class="title-icon">
+                                <img src='./public/img/leaf.png' alt='leaf'>
+                            </span>
                             <h2 class="section-title" id="latest-title">جدیدترین محصولات</h2>
                         </div>
+                        <div class="wrapper-car-btn">
+                            <button class="car-btn" type="button" data-carousel="prev" aria-label="قبلی؛ جدیدترین محصولات" hidden><svg class="icon" aria-hidden="true"
+                                    focusable="false">
+                                    <use href="#i-chevron-right" />
+                                </svg>
+                            </button>
+                            <button class="car-btn" type="button" data-carousel="next" aria-label="بعدی؛ جدیدترین محصولات" hidden><svg class="icon" aria-hidden="true"
+                                    focusable="false">
+                                    <use href="#i-chevron-left" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
-                    <a class="section-link" href="?cat=all" data-view-all>مشاهده همه<span class="section-link__more">
-                            محصولات</span><svg class="icon" aria-hidden="true" focusable="false">
-                            <use href="#i-arrow-left" />
-                        </svg></a>
                 </div>
                 <div class="carousel-body">
-                    <button class="car-btn" type="button" data-carousel="prev" aria-label="قبلی؛ جدیدترین محصولات" hidden><svg class="icon" aria-hidden="true" focusable="false">
-                            <use href="#i-chevron-right" />
-                        </svg></button>
-                    <ul class="track products-track products-track-latest" id="latest-track" tabindex="0" aria-label="جدیدترین محصولات"></ul>
-                    <button class="car-btn" type="button" data-carousel="next" aria-label="بعدی؛ جدیدترین محصولات" hidden><svg class="icon" aria-hidden="true" focusable="false">
-                            <use href="#i-chevron-left" />
-                        </svg></button>
+                    <ul class="track products-track products-track-latest" id="latest-track" tabindex="0" aria-label="جدیدترین محصولات">
+                        <!-- data loded from js  -->
+                    </ul>
                 </div>
             </div>
         </section>
@@ -324,26 +328,48 @@
                 </div>
                 <div class="season-box carousel">
                     <div class="section-head">
-                        <h3 class="section-title">محصولات فصل</h3>
-                        <nav class="car-nav" aria-label="پیمایش محصولات تازه فصل">
-                            <a class="car-btn" href="#season-start" aria-label="رفتن به ابتدای محصولات تازه فصل"><svg
-                                    class="icon" aria-hidden="true" focusable="false">
-                                    <use href="#i-chevrons-right" />
-                                </svg></a>
-                            <a class="car-btn" href="#season-end" aria-label="رفتن به انتهای محصولات تازه فصل"><svg
-                                    class="icon" aria-hidden="true" focusable="false">
-                                    <use href="#i-chevrons-left" />
-                                </svg></a>
-                        </nav>
+                        <div class="section-heading">
+                            <div class="section-text">
+                                <h3 class="section-title">محصولات فصل</h3>
+                            </div>
+                            <div class="wrapper-car-btn">
+                                <button class="car-btn" type="button" data-carousel="prev" aria-label="قبلی؛ محصولات تازه فصل" hidden><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevron-right" /></svg></button>
+                                <button class="car-btn" type="button" data-carousel="next" aria-label="بعدی؛ محصولات تازه فصل" hidden><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevron-left" /></svg></button>
+                            </div>
+                        </div>
                     </div>
-                    <ul class="track products-track product-fruit" id="season-track" tabindex="0" aria-label="محصولات تازه فصل">
-                        <li class="track-edge" id="season-start" data-edge="start" aria-hidden="true"></li>
-                        <li class="track-edge" id="season-end" data-edge="end" aria-hidden="true"></li>
-                    </ul>
+                    <div class="carousel-body">
+                        <ul class="track products-track product-fruit" id="season-track" tabindex="0" aria-label="محصولات تازه فصل">
+                            <!-- data loded from js  -->
+                        </ul>
+                    </div>
                 </div>
             </div>
         </section>
         <!-- finish section season-promo -->
+        <!-- start offer section -->
+        <section class="offer container" id="products" aria-labelledby="offer-title">
+            <div class="carousel">
+                <div class="section-head">
+                    <div class="section-heading">
+                        <div class="section-text">
+                            <span class="title-icon">
+                                <img src="./public/img/leaf.png" alt="">
+                            </span>
+                            <h2 class="section-title" id="offer-title">پیشنهاد شگفت‌انگیز</h2>
+                        </div>
+                        <div class="wrapper-car-btn">
+                            <button class="car-btn" type="button" data-carousel="prev" aria-label="قبلی؛ پیشنهاد شگفت‌انگیز" hidden><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevron-right" /></svg></button>
+                            <button class="car-btn" type="button" data-carousel="next" aria-label="بعدی؛ پیشنهاد شگفت‌انگیز" hidden><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevron-left" /></svg></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-body">
+                    <ul class="track products-track products-track-off" id="offer-track" tabindex="0" aria-label="پیشنهاد شگفت‌انگیز"></ul>
+                </div>
+            </div>
+        </section>
+        <!-- finish offer section -->
         <!-- start section brands -->
         <section class="brands container" id="brands" aria-labelledby="brands-title">
             <div class="brands-box">
@@ -534,5 +560,7 @@
     </footer>
     <script src="./src/script/script.ts" type="module"></script>
 </body>
+
+</html>
 
 </html>

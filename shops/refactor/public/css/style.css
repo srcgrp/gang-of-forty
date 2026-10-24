@@ -202,11 +202,13 @@
             display: flex;
             flex: 1 1 0;
             align-items: center;
+            justify-content: space-between;
             gap: 12px;
             min-width: 0;
         }
         
         .section-text {
+            display: flex;
             min-width: 0;
         }
         
@@ -214,25 +216,6 @@
             font-size: 0.75rem;
             line-height: 1.6;
             color: var(--muted);
-        }
-        
-        .section-link {
-            display: inline-flex;
-            flex: none;
-            align-items: center;
-            gap: 6px;
-            min-height: var(--tap);
-            padding-inline: 6px;
-            border-radius: 10px;
-            color: var(--green-deep);
-            font-weight: 700;
-            font-size: 0.8125rem;
-            white-space: nowrap;
-        }
-        
-        .section-link .icon {
-            width: 1.1rem;
-            height: 1.1rem;
         }
         
         .section-link:dir(ltr) .icon {
@@ -272,25 +255,28 @@
             scroll-snap-align: start;
         }
         
-        .track>.track-edge {
-            width: 0;
-            scroll-snap-align: none;
-        }
-        
-        .track>.track-edge[data-edge="start"] {
-            margin-inline-end: calc(var(--gap) * -1);
-        }
-        
-        .track>.track-edge[data-edge="end"] {
-            margin-inline-start: calc(var(--gap) * -1);
-        }
-        
         .track img {
             -webkit-user-drag: none;
             user-select: none;
         }
         
-        .offer {
+        .track>.track-edge {
+            width: 0;
+            scroll-snap-align: none;
+        }
+        /* .track>.track-edge[data-edge="start"] {
+            margin-inline-end: calc(var(--gap) * -1);
+        }
+        
+        .track>.track-edge[data-edge="end"] {
+            margin-inline-start: calc(var(--gap) * -1);
+        } */
+        /*         
+        .track img {
+            -webkit-user-drag: none;
+            user-select: none;
+        } */
+        /* .offer {
             --anchor: --t-offer;
             --off: 0px;
         }
@@ -306,7 +292,7 @@
         
         .brands {
             --anchor: --t-brands;
-        }
+        } */
         
         @media (pointer: fine) {
             .track {
@@ -329,6 +315,13 @@
         .carousel-body>.track {
             flex: 1 1 0;
             min-width: 0;
+        }
+        
+        .wrapper-car-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
         }
         
         .car-btn {
@@ -372,22 +365,20 @@
         .car-btn:dir(ltr) .icon {
             transform: scaleX(-1);
         }
-        
-        .offer .carousel,
+        /* .offer .carousel,
         .latest .carousel,
         .brands-box {
             position: relative;
             isolation: isolate;
-            padding: 16px;
-        }
-        
-        .offer .title-icon {
+            /* padding: 16px; */
+        /* */
+        /* .offer .title-icon {
             color: var(--orange-text);
         }
         
         .offer .section-link {
             color: var(--orange-text);
-        }
+        } */
         
         .track>* {
             scroll-margin-block: 30vh;
@@ -687,11 +678,6 @@
         }
         /* ---------- features---------- */
         
-        .features {
-            margin-top: 6rem;
-            margin-bottom: 6rem;
-        }
-        
         .features-list {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -806,12 +792,11 @@
             background: var(--bg);
             border-radius: 10px;
         }
-        
-        .card-media img {
+        /* .card-media img {
             width: 100%;
             aspect-ratio: 1 / 1;
             object-fit: contain;
-        }
+        } */
         
         .card-body {
             display: flex;
@@ -821,14 +806,13 @@
             padding: 8px 12px 12px;
             text-align: center;
         }
-        
-        .card-top {
+        /* .card-top {
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 6px;
             padding: 10px 10px 0;
-        }
+        } */
         
         .card-title {
             display: -webkit-box;
@@ -1110,19 +1094,6 @@
             color: var(--muted);
         }
         /* ---------- season promo---------- */
-        
-        .season-promo {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px;
-            padding: 22px 18px 58px;
-            border-radius: var(--radius-lg);
-            background: var(--green);
-            color: #fff;
-            overflow: hidden;
-        }
         
         .season-promo {
             position: relative;

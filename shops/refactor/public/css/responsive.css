@@ -1,78 +1,5 @@
 .season .products-track {
-    /* --pv: 1.6; */
     --pv: 3.2;
-}
-
-.offer {
-    position: relative;
-    isolation: isolate;
-    margin: 30px auto 22px;
-    padding: 14px 20px 16px;
-    border-radius: 24px;
-    background-color: var(--orange);
-    background-image: var(--pattern-strong);
-    color: var(--on-orange);
-    max-width: calc(var(--container) - var(--gutter) * 2);
-    overflow: hidden;
-}
-
-.offer::before {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    top: 0;
-    inset-inline-end: 55%;
-    width: 140px;
-    height: 96px;
-    background-image: radial-gradient( circle, rgba(255, 255, 255, 0.28) 4px, transparent 4.5px);
-    background-size: 24px 24px;
-    pointer-events: none;
-}
-
-.offer .section-head {
-    margin-bottom: 10px;
-}
-
-.offer .section-title {
-    color: var(--on-orange);
-    font-size: 1.3rem;
-    font-family: var(--font-head);
-    font-weight: 700;
-}
-
-.offer .section-link {
-    color: var(--on-orange);
-    font-size: 0.8rem;
-    font-weight: 700;
-    min-height: var(--tap);
-    padding-inline: 8px;
-}
-
-.offer .section-link:hover {
-    text-decoration: underline;
-    text-underline-offset: 5px;
-    background: transparent;
-}
-
-.offer .car-nav {
-    position: relative;
-}
-
-.offer .car-btn {
-    background: #fff;
-    border-color: #fff;
-    color: var(--ink);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-}
-
-.offer .car-btn:hover:not([aria-disabled="true"]) {
-    background: var(--on-orange);
-    border-color: var(--on-orange);
-    color: #fff;
-}
-
-.offer .car-btn .icon {
-    stroke-width: 2.4;
 }
 
 @media (min-width: 400px) {
@@ -85,12 +12,6 @@
      :root {
         --gutter: 20px;
         --pv: 2.5;
-    }
-    .section-link {
-        display: inline-flex;
-    }
-    .see-all {
-        display: none;
     }
     .cat-select {
         display: block;
@@ -105,7 +26,6 @@
         grid-column: span 3;
     }
     .season .products-track {
-        /* --pv: 2.4; */
         --pv: 3.6;
     }
     .cat-list {
@@ -113,13 +33,6 @@
     }
     .cat-list>* {
         grid-column: auto !important;
-    }
-    .car-nav {
-        gap: 4px;
-    }
-    .car-btn {
-        width: 40px;
-        height: 40px;
     }
 }
 
@@ -338,9 +251,6 @@
         border: 0;
         min-width: 0;
     }
-    /* .season .products-track {
-        --pv: 3;
-    } */
     .site-header .promo {
         display: block;
     }
@@ -370,25 +280,14 @@
      :root {
         --pv: 4;
     }
-    .offer .products-track,
-    .brands .products-track {
-        --pv: 5;
-    }
     .nav-links a {
         padding-inline: 18px;
-    }
-    .season .products-track {
-        --pv: 2.5;
     }
 }
 
 @media (max-width: 992px) {
     .cat-list {
         grid-template-columns: repeat(3, minmax(0, 1fr))
-    }
-    .features {
-        margin-top: 5rem;
-        margin-bottom: 3rem;
     }
     .footer-top {
         grid-template-columns: 72px 1fr;
@@ -412,23 +311,7 @@
     }
 }
 
-@media (max-width: 767px) {
-    .carousel-body>.car-btn {
-        position: absolute;
-        z-index: 2;
-        inset-block-start: 38%;
-        margin-block-start: calc(var(--car-btn) / -2);
-    }
-    .car-btn[data-carousel="prev"] {
-        inset-inline-start: -8px;
-    }
-    .car-btn[data-carousel="next"] {
-        inset-inline-end: -8px;
-    }
-    .car-btn:disabled {
-        opacity: 0;
-        pointer-events: none;
-    }
+@media (max-width: 768px) {
     .swiper,
     .swiper-slide {
         height: 280px;
