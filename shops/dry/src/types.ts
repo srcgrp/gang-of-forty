@@ -46,6 +46,17 @@ export type SearchItem = {
     tags: string
 }
 
+export type Card = {
+    id: number
+    title: string
+    unit: string
+    emoji: string
+    price: string
+    oldPrice: string | null
+    discount: string | null
+    inStock: boolean
+}
+
 export const SORTS = ['default', 'price-asc', 'price-desc'] as const
 export type Sort = (typeof SORTS)[number]
 
