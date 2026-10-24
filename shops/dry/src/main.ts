@@ -3,12 +3,12 @@ import 'notyf/notyf.min.css'
 import confetti from 'canvas-confetti'
 import Fuse, { type FuseResult } from 'fuse.js'
 
-import orangeImg from './assets/products/orange.png'
-import bananaImg from './assets/products/banana.png'
-import milkImg from './assets/products/milk.png'
-import paneerImg from './assets/products/panir-sefid.png'
-import mastImg from './assets/products/mast.png'
-import honeyImg from './assets/products/honey.png'
+import orangeImg from '../assets/products/orange.png'
+import bananaImg from '../assets/products/banana.png'
+import milkImg from '../assets/products/milk.png'
+import paneerImg from '../assets/products/panir-sefid.png'
+import mastImg from '../assets/products/mast.png'
+import honeyImg from '../assets/products/honey.png'
 
 const notyf: Notyf = new Notyf()
 
