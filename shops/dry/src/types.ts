@@ -48,3 +48,9 @@ export type SearchItem = {
 
 export const SORTS = ['default', 'price-asc', 'price-desc'] as const
 export type Sort = (typeof SORTS)[number]
+
+export type LoadState = 
+| { status: 'loading' }
+| { status: 'success'; products: Product[]; stock: Stock; offers: Offer[] }
+| {status: 'empty' }
+| { status: 'error'; message: string }
