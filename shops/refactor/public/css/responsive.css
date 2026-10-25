@@ -13,6 +13,9 @@
         --gutter: 20px;
         --pv: 2.5;
     }
+    .promo-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
     .cat-select {
         display: block;
     }
@@ -99,7 +102,8 @@
         height: 320px;
     }
     .hero-promos {
-        grid-template-columns: repe, minmax(2, 1fr);
+        /* grid-template-columns: repe, minmax(2, 1fr); */
+        gap: 0.65rem;
     }
     .hero-main__content {
         padding: 1.5rem;
@@ -544,11 +548,15 @@
     .cat-list {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-    .card {
-        width: 225px;
+    .section-title {
+        font-size: 1rem;
     }
-    .features {
-        margin-bottom: 0rem;
+    .title-icon {
+        width: 28px;
+        height: 28px;
+    }
+    .section-heading {
+        gap: 8px;
     }
     .footer-cols {
         gap: 10px 12px;
