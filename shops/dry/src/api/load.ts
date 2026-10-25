@@ -21,7 +21,7 @@ async function loadStock(): Promise<Stock> {
 export async function loadState(): Promise<LoadState> {
   try {
     const [products, offers, stock]: [Product[], Offer[], Stock] = await Promise.all([
-      loadList('prudocts.json', isProduct),
+      loadList('products.json', isProduct),
       loadList('offers.json', isOffer),
       loadStock(),
     ])
