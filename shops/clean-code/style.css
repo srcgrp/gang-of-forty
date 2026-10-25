@@ -473,7 +473,8 @@ section:target h2::after {
 
 .cat-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  justify-content: center;
   gap: 10px;
 
   a {
@@ -1225,6 +1226,14 @@ a[data-cat].active {
 
 #cart button {
   margin-top: 12px;
+}
+
+@media (prefers-color-scheme: dark) {
+  #cart {
+    background: #2c2320;
+    color: #f3f3f3;
+    border-color: #4a3b38;
+  }
 }
 
 .offer-header {
