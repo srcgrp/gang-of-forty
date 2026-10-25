@@ -3,7 +3,7 @@ import type { Offer, Product } from "../types/product.ts";
 import { makeAmount, makePic } from "./card-pic.ts";
 import { makeButton, makePrice } from "./card-price.ts";
 
-export function makeProductItem(
+export function toCard(
   product: Product,
   qty: number,
   offer: Offer | null,

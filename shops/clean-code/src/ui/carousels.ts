@@ -3,7 +3,7 @@ import type { Category, MakeItem, Offer, Product } from "../types/product.ts";
 import type { Home } from "../types/shop.ts";
 import { addCards, makeCarousel } from "./carousel-row.ts";
 
-export function fillCarousels(
+export function renderProducts(
   home: Home,
   categories: Category[],
   products: Product[],

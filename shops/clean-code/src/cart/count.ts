@@ -2,6 +2,6 @@ export function addToCart(count: number): number {
   return count + 1;
 }
 
-export function clearCart(): number {
+export function removeFromCart(): number {
   return 0;
 }

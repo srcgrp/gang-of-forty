@@ -1,4 +1,4 @@
-export function filterProducts(q: string): void {
+export function visibleProducts(q: string): void {
   const items = document.querySelectorAll<HTMLLIElement>(
     "#featured li, #carousels li",
   );

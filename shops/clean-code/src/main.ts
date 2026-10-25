@@ -1,21 +1,21 @@
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
 import { loadShop } from "./api/load-shop.ts";
-import { addToCart, clearCart } from "./cart/count.ts";
+import { addToCart, removeFromCart } from "./cart/count.ts";
 import { findOffer } from "./catalog/offer.ts";
 import { loadCart, saveCart } from "./storage/cart-storage.ts";
-import { fillCarousels } from "./ui/carousels.ts";
-import { updateCart } from "./ui/cart-view.ts";
+import { renderProducts } from "./ui/carousels.ts";
+import { renderCart } from "./ui/cart-view.ts";
 import { bindControls } from "./ui/controls.ts";
-import { fillPage } from "./ui/page.ts";
-import { makeProductItem } from "./ui/product-item.ts";
-import { filterProducts } from "./ui/search.ts";
+import { render } from "./ui/page.ts";
+import { toCard } from "./ui/product-item.ts";
+import { visibleProducts } from "./ui/search.ts";
 import { renderStatus } from "./ui/status.ts";
 
 const notyf = new Notyf();
 const API = import.meta.env.VITE_API_URL ?? "";
 
-async function loadPage(): Promise<void> {
+async function start(): Promise<void> {
   renderStatus({ status: "loading" });
 
   try {
@@ -27,31 +27,31 @@ async function loadPage(): Promise<void> {
     }
     const faNumber = new Intl.NumberFormat("fa-IR");
 
-    fillPage(shop, categories, home);
+    render(shop, categories, home);
 
     let count = loadCart();
 
-    fillCarousels(home, categories, products, offers, function (product) {
+    renderProducts(home, categories, products, offers, function (product) {
       const qty = stock.items[product.id] ?? 0;
       const offer = findOffer(offers, product.id);
-      return makeProductItem(product, qty, offer, faNumber, function () {
+      return toCard(product, qty, offer, faNumber, function () {
         count = addToCart(count);
         saveCart(count);
-        updateCart(count, faNumber);
+        renderCart(count, faNumber);
         notyf.success(product.name + " به سبد اضافه شد");
       });
     });
-    updateCart(count, faNumber);
+    renderCart(count, faNumber);
 
     bindControls(
       products.length,
       faNumber,
       function () {
-        count = clearCart();
+        count = removeFromCart();
         saveCart(count);
-        updateCart(count, faNumber);
+        renderCart(count, faNumber);
       },
-      filterProducts,
+      visibleProducts,
     );
     renderStatus({ status: "success", products });
   } catch (err: unknown) {
@@ -62,4 +62,4 @@ async function loadPage(): Promise<void> {
   }
 }
 
-loadPage();
+start();

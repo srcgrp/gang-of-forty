@@ -1,4 +1,4 @@
-export function updateCart(count: number, faNumber: Intl.NumberFormat): void {
+export function renderCart(count: number, faNumber: Intl.NumberFormat): void {
   const countEl = document.querySelector<HTMLSpanElement>(".cart-count");
   const cartText = document.querySelector<HTMLParagraphElement>("#cart-text");
 

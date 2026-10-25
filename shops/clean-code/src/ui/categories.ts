@@ -1,6 +1,6 @@
 import type { Category } from "../types/product.ts";
 
-export function fillCategories(categories: Category[]): void {
+export function renderCategories(categories: Category[]): void {
   const list = document.querySelector<HTMLUListElement>("#cat-list");
   if (!list) throw new Error("index.html is missing an element");
 
