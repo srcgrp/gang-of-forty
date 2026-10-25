@@ -1,3 +1,4 @@
+/* Tokens, reset, page shell */
 *,
 *::before,
 *::after {
@@ -5,25 +6,18 @@
 }
 
 :root {
-  /* Core palette */
-  --coral: #de7272;
+  --coral: #b34747;
   --peach: #ffca88;
   --yellow: #fff6a9;
   --mint: #b4e4d6;
-
-  /* Derived shades for readability (from --coral) */
-  --coral-dark: #c85c5c;
-  --coral-deep: #9c4747;
-
-  /* Soft palette tints for surfaces/backgrounds */
+  --coral-dark: #9c3a3a;
+  --coral-deep: #7a3030;
   --coral-soft: #f7d6d6;
   --peach-soft: #ffe7c4;
   --yellow-soft: #fffbd6;
   --mint-soft: #ddf2ea;
-
-  /* Neutrals built from the palette */
   --ink: #4a2f2d;
-  --ink-soft: #8a6f68;
+  --ink-soft: #6f5650;
   --page: #fffdf2;
   --surface: #ffffff;
   --border: var(--peach-soft);
@@ -32,24 +26,24 @@
 
 html {
   width: 100%;
-  min-width: 320px;
+  max-width: 100%;
   margin: 0;
   padding: 0;
   scroll-behavior: smooth;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
   width: 100%;
-  min-width: 320px;
-  max-width: none;
+  max-width: 100%;
+  min-width: 0;
   margin: 0;
   padding: 0;
   font-family: Vazirmatn, Tahoma, sans-serif;
   background: var(--page);
   color: var(--ink);
   line-height: 1.7;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 h1,
@@ -132,6 +126,7 @@ img {
   height: auto;
 }
 
+/* Sticky header */
 .header {
   position: sticky;
   top: 0;
@@ -172,6 +167,7 @@ img {
   display: block;
 }
 
+/* Search, cart, hamburger */
 .search {
   display: flex;
   flex: 1;
@@ -291,6 +287,7 @@ button:disabled {
   display: block;
 }
 
+/* Main menu and All-categories submenu */
 .main-nav a {
   display: flex;
   align-items: center;
@@ -344,6 +341,7 @@ button:disabled {
     visibility 0s;
 }
 
+/* Page sections and in-page target */
 main {
   width: 100%;
   max-width: 100%;
@@ -372,6 +370,7 @@ section:target h2::after {
   font-weight: 400;
 }
 
+/* Hero banners */
 .hero {
   display: grid;
   grid-template-columns: 1.7fr 1fr;
@@ -415,7 +414,7 @@ section:target h2::after {
   color: #fff;
 
   p {
-    color: #fff6f4;
+    color: #fff;
   }
 }
 
@@ -463,6 +462,7 @@ section:target h2::after {
   margin: 12px 8px;
 }
 
+/* Category chips */
 .cat-list {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -496,6 +496,7 @@ section:target h2::after {
   }
 }
 
+/* Carousel: only this strip scrolls sideways */
 .row-nav {
   display: flex;
   gap: 8px;
@@ -533,6 +534,7 @@ section:target h2::after {
   }
 }
 
+/* Product cards */
 .product {
   position: relative;
   height: 100%;
@@ -689,6 +691,7 @@ section:target h2::after {
   border-bottom: 1px solid var(--border);
 }
 
+/* Footer */
 .footer {
   width: 100%;
   max-width: 100%;
@@ -753,12 +756,12 @@ section:target h2::after {
 }
 
 .copy-right {
-  color: #e7d2cc;
+  color: #fff2ea;
   font-size: 13px;
 }
 
 .footer .go-up {
-  color: var(--peach);
+  color: #ffd9a8;
   padding: 0;
   background: transparent;
 }
@@ -769,10 +772,11 @@ hr {
   margin: 0;
 }
 
+/* Desktop width */
 @media (min-width: 701px) {
   body {
     width: 100%;
-    min-width: 320px;
+    min-width: 0;
   }
 
   .box {
@@ -802,7 +806,8 @@ hr {
     max-width: 100%;
   }
 
-  html {
+  html,
+  body {
     overflow-x: clip;
   }
 
@@ -824,6 +829,7 @@ hr {
   .footer-cols,
   main section {
     max-width: 100%;
+    min-width: 0;
   }
 
   .banner {
@@ -1075,6 +1081,7 @@ hr {
   }
 }
 
+/* Offer row title */
 .offer-header {
   display: flex;
   gap: 4px;
@@ -1093,6 +1100,14 @@ hr {
   *,
   *::before,
   *::after {
+    animation: none !important;
     transition: none !important;
+  }
+
+  .cat-list a:hover,
+  .cat-list a:focus-visible,
+  .product:hover,
+  .product:focus-within {
+    transform: none;
   }
 }
