@@ -98,9 +98,6 @@
         grid-template-areas: "main side" "promos promos";
         align-items: stretch;
     }
-    .swiper {
-        height: 320px;
-    }
     .hero-promos {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -299,7 +296,6 @@
         grid-template-columns: repeat(3, minmax(0, 1fr))
     }
     .footer-top {
-        grid-template-columns: 72px 1fr;
         gap: 18px;
     }
     .footer-badge {
@@ -323,7 +319,7 @@
 @media (max-width: 768px) {
     .swiper,
     .swiper-slide {
-        height: 280px;
+        height: 350px
     }
     .hero-main {
         padding: 1.25rem;
@@ -381,6 +377,21 @@
         height: 200px;
         max-height: 200px;
         object-fit: contain;
+    }
+    .hero-side-content {
+        padding: 1rem 1rem 90px 1rem;
+    }
+    .hero-side .banner-custom-img {
+        width: 200px;
+        bottom: 0;
+        left: 0;
+    }
+    .side-title {
+        font-size: 1.1rem;
+    }
+    .side-text {
+        margin: 0.25rem 0 0.75rem;
+        font-size: 0.85rem;
     }
     .swiper,
     .swiper-slide {
@@ -537,6 +548,9 @@
 }
 
 @media (max-width: 360px) {
+    .hero-side-content {
+        padding-bottom: 80px;
+    }
     .swiper {
         height: 410px;
     }

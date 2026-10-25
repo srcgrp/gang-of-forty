@@ -6,6 +6,7 @@ import type { Banner, Home } from '../types';
 import { el, link } from './dom';
 
 let slider: Swiper | undefined;
+
 const banner = (data: Banner, side = false): HTMLElement => {
   const article = el('article', side ? 'hero-side' : 'hero-main');
   if (!side) {
@@ -18,8 +19,14 @@ const banner = (data: Banner, side = false): HTMLElement => {
   emoji.setAttribute('aria-hidden', 'true');
   content.append(emoji, el('h2', side ? 'side-title' : 'hero-title', data.title),
     el('p', side ? 'side-text' : 'hero-text', data.text), link(data.cta.label, data.cta.href, 'btn btn-primary'));
+  if (side) {
+    const customImage = el('img', 'banner-custom-img');
+    customImage.src = `${import.meta.env.BASE_URL}img/bg1.png`;
+    customImage.alt = ''; article.append(customImage);
+  }
   article.append(content); return article;
 };
+
 export const renderHero = (home: Home): void => {
   const root = document.querySelector<HTMLDivElement>('#hero-grid');
   if (!root) return;
@@ -37,6 +44,7 @@ export const renderHero = (home: Home): void => {
     autoplay: { delay: 3000, disableOnInteraction: false },
     a11y: { paginationBulletMessage: 'نمایش پیشنهاد {{index}}', slideLabelMessage: 'پیشنهاد {{index}} از {{slidesLength}}' } });
 };
+
 export const createPromos = (home: Home): HTMLElement => {
   const promos = el('div', 'hero-promos container');
   for (const promo of home.promos) {

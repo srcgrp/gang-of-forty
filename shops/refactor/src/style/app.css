@@ -144,11 +144,6 @@ main {
     height: 44px;
 }
 
-
-/* .hero-grid {
-    grid-template-areas: "main" "side";
-} */
-
 .hero-promos {
     width: 100%;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -161,7 +156,6 @@ main {
 }
 
 .hero-side-content {
-    padding: 24px;
     justify-content: center;
 }
 
@@ -230,11 +224,6 @@ main {
 
 .nav-links>li>a {
     color: white;
-}
-
-.hero-side .btn-primary {
-    background: var(--green);
-    color: #fff;
 }
 
 .nav-toggle {
