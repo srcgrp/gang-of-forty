@@ -89,3 +89,9 @@ export type Home = {
   promos: Promo[];
   carousels: Carousel[];
 };
+
+export type LoadState =
+  | { status: "loading" }
+  | { status: "success"; products: Product[] }
+  | { status: "empty" }
+  | { status: "error"; message: string };

@@ -1,3 +1,4 @@
+import { renderLoadStatus } from "./load-status";
 import { sortProducts } from "./sorting";
 import type { SortOption } from "./sorting";
 import type {
@@ -569,7 +570,8 @@ async function loadShop(): Promise<void> {
     throw new Error("Required page elements were not found");
   }
 
-  pageStatus.textContent = "در حال دریافت اطلاعات فروشگاه...";
+  productSearch.disabled = true;
+  renderLoadStatus({ status: "loading" });
   try {
     const [products, stock, offers, categories, shop, home] = await Promise.all(
       [
@@ -596,11 +598,18 @@ async function loadShop(): Promise<void> {
     productSearch.placeholder =
       "جست‌وجو در میان " + formatNumber(products.length) + " کالا…";
     setupSearch(products, stock, offersById);
-    pageStatus.textContent = "";
+    if (products.length === 0) {
+      renderLoadStatus({ status: "empty" });
+    } else {
+      renderLoadStatus({ status: "success", products });
+    }
     goToFragment();
   } catch (error: unknown) {
-    pageStatus.textContent =
-      "دریافت اطلاعات ممکن نشد. اتصال اینترنت را بررسی و صفحه را تازه‌سازی کنید.";
+    console.error("خطا در دریافت اطلاعات فروشگاه:", error);
+    renderLoadStatus({
+      status: "error",
+      message: "دریافت اطلاعات ممکن نشد. اتصال اینترنت را بررسی و صفحه را تازه‌سازی کنید.",
+    });
   }
 }
 
