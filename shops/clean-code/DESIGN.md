@@ -18,7 +18,7 @@ One page, from top to bottom:
 - Featured rows: today's offers, plus the category named in `home.json`
 - Promo strips
 - One row for every other category
-- Cart: the count, and a button that empties it
+- Cart: the lines (name and qty), the discounted total, and a button that empties it
 - Footer: about, address, phone, categories, help, hours, copyright
 
 A product card shows the emoji, the name, the unit, the stock, the price, a discount badge when there is an offer, and the add button. An out-of-stock product is gray and its button is disabled.
@@ -31,7 +31,7 @@ A product card shows the emoji, the name, the unit, the stock, the price, a disc
 - Banner, slogan, address, phone, menu, and footer: server (`shop.json`)
 - Hero, promo strips, and the list of rows: server (`home.json`)
 - Search text, which cards are hidden, and the load status: program state
-- Cart: `localStorage`, key `cartCount` (a count only)
+- Cart: `localStorage`, key `cart` (list of `{ productId, qty }`)
 - Jumps such as `#dairy` and `#cart`: URL. The search text is not in the URL yet
 - API address prefix: `.env`, variable `VITE_API_URL`
 
@@ -50,9 +50,9 @@ Joins: `product.id` matches `stock.items` and `offer.productId`. `product.catego
 
 ## 5. States
 
-- loading: `#status` says the page is loading. Header and footer stay as an empty shell. Product rows, categories, hero, and promos are not filled yet. The cart count can already show the saved number.
+- loading: `#status` says the page is loading. Header and footer stay as an empty shell. Product rows, categories, hero, and promos are not filled yet. The cart can already show the saved lines.
 - success: `#status` is cleared and hidden. Banner, hero, categories, rows, and footer show the server data. Cards show price, stock, and the add button.
-- empty: a search with no match hides those cards, and hides a row whose cards are all hidden. The cart section still shows its count. If the server returns no products, `#status` says nothing was found.
+- empty: a search with no match hides those cards, and hides a row whose cards are all hidden. The cart section still shows its lines and total. If the server returns no products, `#status` says nothing was found.
 - error: `#status` stays visible and asks the customer to refresh. Rows stay empty. `broken.json` and `missing.json` use this same message. The page does not crash.
 
 ## 6. Folders
@@ -62,8 +62,8 @@ src/
   types/        types layer    Product, Shop, Home, LoadState; types may import types
   api/          data layer     reading JSON with fetch
   storage/      data layer     reading and writing localStorage
-  cart/         logic layer    cart rules: add, clear, count
-  catalog/      logic layer    offer lookup and the product line text
+  cart/         logic layer    add, remove, count, rows, and total
+  catalog/      logic layer    offer lookup, discounted price, product line text
   ui/           ui layer       building and updating the DOM
   main.ts       main layer     state, events, and starting the page
 ```

@@ -1,4 +1,4 @@
-import type { Offer } from "../types/product.ts";
+import type { Offer, Product } from "../types/product.ts";
 
 export function findOffer(offers: Offer[], productId: number): Offer | null {
   const found = offers.find(function (item) {
@@ -8,4 +8,10 @@ export function findOffer(offers: Offer[], productId: number): Offer | null {
     return found;
   }
   return null;
+}
+
+export function offerProducts(products: Product[], offers: Offer[]): Product[] {
+  return products.filter(function (product) {
+    return findOffer(offers, product.id);
+  });
 }

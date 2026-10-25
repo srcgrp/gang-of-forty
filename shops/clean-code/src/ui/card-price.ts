@@ -1,34 +1,29 @@
-import type { Offer, Product } from "../types/product.ts";
-
 export function makePrice(
-  product: Product,
-  qty: number,
-  offer: Offer | null,
-  faNumber: Intl.NumberFormat,
+  oldLabel: string,
+  nowLabel: string | null,
 ): HTMLParagraphElement {
   const price: HTMLParagraphElement = document.createElement("p");
   price.className = "price";
-
-  if (offer && qty !== 0) {
-    const oldPrice: HTMLSpanElement = document.createElement("span");
-    oldPrice.textContent = faNumber.format(product.price) + " تومان";
+  if (nowLabel) {
+    const oldPrice: HTMLElement = document.createElement("s");
+    oldPrice.textContent = oldLabel;
     price.appendChild(oldPrice);
-
-    const newPrice = (product.price * (100 - offer.percent)) / 100;
     const now: HTMLSpanElement = document.createElement("span");
-    now.textContent = faNumber.format(newPrice) + " تومان";
+    now.textContent = nowLabel;
     price.appendChild(now);
   } else {
-    price.textContent = faNumber.format(product.price) + " تومان";
+    price.textContent = oldLabel;
   }
-
   return price;
 }
 
-export function makeButton(qty: number, onAdd: () => void): HTMLButtonElement {
+export function makeButton(
+  available: boolean,
+  onAdd: () => void,
+): HTMLButtonElement {
   const btn: HTMLButtonElement = document.createElement("button");
   btn.type = "button";
-  if (qty === 0) {
+  if (!available) {
     btn.textContent = "ناموجود";
     btn.disabled = true;
   } else {

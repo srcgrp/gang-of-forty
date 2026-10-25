@@ -1,5 +1,4 @@
-import { findOffer } from "../catalog/offer.ts";
-import type { Category, MakeItem, Offer, Product } from "../types/product.ts";
+import type { Category, MakeItem, Product } from "../types/product.ts";
 import type { Home } from "../types/shop.ts";
 import { addCards, makeCarousel } from "./carousel-row.ts";
 
@@ -7,7 +6,7 @@ export function renderProducts(
   home: Home,
   categories: Category[],
   products: Product[],
-  offers: Offer[],
+  onOffer: Product[],
   makeItem: MakeItem,
 ): void {
   const featured = document.querySelector<HTMLDivElement>("#featured");
@@ -23,9 +22,7 @@ export function renderProducts(
         return product.categoryId === item.categoryId;
       });
     } else {
-      list = products.filter(function (product) {
-        return findOffer(offers, product.id);
-      });
+      list = onOffer;
     }
 
     const parts = makeCarousel(item.id, item.emoji + " " + item.title);

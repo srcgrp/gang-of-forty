@@ -1,4 +1,3 @@
-import { productLine } from "../catalog/product-line.ts";
 import type { Offer, Product } from "../types/product.ts";
 import { makeAmount, makePic } from "./card-pic.ts";
 import { makeButton, makePrice } from "./card-price.ts";
@@ -8,29 +7,31 @@ export function toCard(
   qty: number,
   offer: Offer | null,
   faNumber: Intl.NumberFormat,
+  prices: {
+    available: boolean;
+    oldLabel: string;
+    nowLabel: string | null;
+    line: string;
+  },
   onAdd: () => void,
 ): HTMLLIElement {
   const li: HTMLLIElement = document.createElement("li");
 
-  if (qty === 0) {
-    li.className = "product out-of-stock";
-  } else {
-    li.className = "product";
-  }
+  li.className = prices.available ? "product" : "product out-of-stock";
 
   const name: HTMLHeadingElement = document.createElement("h3");
   name.textContent = product.name;
 
   const extra: HTMLSpanElement = document.createElement("span");
   extra.hidden = true;
-  extra.textContent = productLine(product, qty, offer, faNumber);
+  extra.textContent = prices.line;
 
-  li.appendChild(makePic(product, qty, offer, faNumber));
+  li.appendChild(makePic(product, offer, faNumber, prices.available));
   li.appendChild(name);
   li.appendChild(makeAmount(product, qty, faNumber));
   li.appendChild(extra);
-  li.appendChild(makePrice(product, qty, offer, faNumber));
-  li.appendChild(makeButton(qty, onAdd));
+  li.appendChild(makePrice(prices.oldLabel, prices.nowLabel));
+  li.appendChild(makeButton(prices.available, onAdd));
 
   return li;
 }

@@ -30,3 +30,10 @@ export function renderStatus(state: LoadState): void {
     }
   }
 }
+
+export function renderError(): void {
+  renderStatus({
+    status: "error",
+    message: "بارگذاری نشد. لطفا صفحه را رفرش کنید.",
+  });
+}

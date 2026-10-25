@@ -29,4 +29,9 @@ export type Stock = {
 
 export type MakeItem = (product: Product) => HTMLElement;
 
+export type CartLine = {
+  productId: number;
+  qty: number;
+};
+
 export type CartItem = Product & { qty: number };

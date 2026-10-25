@@ -2,9 +2,9 @@ import type { Offer, Product } from "../types/product.ts";
 
 export function makePic(
   product: Product,
-  qty: number,
   offer: Offer | null,
   faNumber: Intl.NumberFormat,
+  available: boolean,
 ): HTMLDivElement {
   const pic: HTMLDivElement = document.createElement("div");
   pic.className = "pic";
@@ -13,7 +13,7 @@ export function makePic(
   emoji.textContent = product.emoji;
   pic.appendChild(emoji);
 
-  if (qty === 0) {
+  if (!available) {
     const badge: HTMLSpanElement = document.createElement("span");
     badge.className = "off sold";
     badge.textContent = "ناموجود";
