@@ -93,5 +93,3 @@ Current structure (based on the supplied code and project paths):
 - `api/offers.json` — offers.
 - `api/shop.json` — shop information.
 - `api/home.json` — homepage content.
-
-**Possible future structure for the React weeks:** `src/types.ts`, `src/api/`, `src/cart/`, `src/ui/`, and `src/main.ts`. These are proposed locations, not files confirmed to exist in the current implementation.
