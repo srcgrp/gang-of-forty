@@ -114,7 +114,6 @@
             placeholder="جستجو در میان ۳۰۰۰ کالا..."
             autocomplete="off"
             enterkeyhint="search"
-            aria-label="جستجو در محصولات"
             aria-controls="search-suggestions"
             aria-expanded="false"
           />
@@ -204,6 +203,7 @@
       id="menu-toggle"
       class="menu-toggle-input"
       aria-hidden="true"
+      tabindex="-1"
     />
     <nav class="main-nav" aria-label="منوی اصلی">
       <div class="nav__wrapper">
@@ -215,7 +215,7 @@
         ></label>
 
         <div class="mega">
-          <button class="mega__trigger" aria-haspopup="true">
+          <button type="button" class="mega__trigger" aria-haspopup="true">
             <span class="mega__icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" focusable="false">
                 <path
@@ -686,7 +686,7 @@
             <p class="footer__contact">
               <span aria-hidden="true">📞</span>
               <a href="tel:+982112345678" dir="ltr" id="footer-phone"
-                >۰۲۱-۱۲۳۴۵۶۷۸</a
+                >۰۲۱&#8209;۱۲۳۴۵۶۷۸</a
               >
             </p>
           </div>
