@@ -59,10 +59,11 @@ Joins: `product.id` matches `stock.items` and `offer.productId`. `product.catego
 
 ```
 src/
-  types.ts      types layer    the types above, and nothing else
+  types/        types layer    Product, Shop, Home, LoadState; types may import types
   api/          data layer     reading JSON with fetch
   storage/      data layer     reading and writing localStorage
   cart/         logic layer    cart rules: add, clear, count
+  catalog/      logic layer    offer lookup and the product line text
   ui/           ui layer       building and updating the DOM
   main.ts       main layer     state, events, and starting the page
 ```
