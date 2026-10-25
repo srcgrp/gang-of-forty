@@ -1,0 +1,49 @@
+/* ========================================
+   Advertisement
+   ======================================== */
+
+.advertisement {
+  width: min(800px, calc(100% - 40px));
+  margin: 40px auto 0;
+  overflow: hidden;
+  border-radius: 18px;
+}
+
+.advertisement a {
+  display: block;
+}
+
+.advertisement img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ========================================
+   Responsive
+   ======================================== */
+
+@media (max-width: 900px) {
+  .advertisement {
+    width: min(100% - 32px, 700px);
+    margin-top: 32px;
+    border-radius: 14px;
+  }
+}
+
+@media (max-width: 600px) {
+  .advertisement {
+    width: calc(100% - 20px);
+    margin-top: 24px;
+    border-radius: 12px;
+  }
+}
+
+@media (max-width: 400px) {
+  .advertisement {
+    width: calc(100% - 16px);
+  }
+  .advertisement img {
+    height: 150px;
+  }
+}
