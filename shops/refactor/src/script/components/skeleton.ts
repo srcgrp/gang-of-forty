@@ -2,7 +2,6 @@
 import { el } from '../utils/utils.js';
 
 
-
 type MessageRole = 'status' | 'alert';
 
 const isEdge = (node: Element): boolean => node.classList.contains('track-edge');

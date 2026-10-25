@@ -9,6 +9,10 @@ const makeCard = (product: ProductView): HTMLLIElement => {
     const emoji = el('span', 'card-emoji', product.emoji);
     media.append(emoji);
 
+    if (product.color) {
+        media.style.setProperty('--tone', product.color);
+    }
+    
     if (product.off !== undefined) {
         media.append(el('span', 'chip-off', `${formatPrice(product.off)}٪`));
     }
@@ -17,7 +21,7 @@ const makeCard = (product: ProductView): HTMLLIElement => {
         media.append(el('span', 'chip-out', 'ناموجود'));
     }
 
-      const favButton = makeButton({
+    const favButton = makeButton({
         className: 'act-btn act-fav',
         iconId: 'i-heart',
         label: `افزودن ${product.name} به علاقه‌مندی‌ها`,
@@ -54,7 +58,7 @@ const makeCard = (product: ProductView): HTMLLIElement => {
     strong.append(el('small', null, 'تومان'));
     price.append(strong);
 
-     const cartButton = makeButton({
+    const cartButton = makeButton({
         className: 'act-btn act-cart',
         iconId: 'i-cart',
         label: `افزودن ${product.name} به سبد خرید`,
@@ -66,7 +70,7 @@ const makeCard = (product: ProductView): HTMLLIElement => {
         cartButton.disabled = true;
     }
 
-     const foot = el('div', 'card-foot');
+    const foot = el('div', 'card-foot');
     foot.append(price, cartButton);
 
     card.append(media, body, foot);

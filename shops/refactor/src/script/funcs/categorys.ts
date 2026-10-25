@@ -81,6 +81,17 @@ const closeModal = (): void => {
         hideModal();
     }
 };
+const getRequestedSlug = (): string | null => {
+    const fromQuery = new URLSearchParams(window.location.search).get('cat');
+
+    if (fromQuery) {
+        return fromQuery;
+    }
+
+    const fromHash = window.location.hash.slice(1);
+
+    return fromHash && !document.getElementById(fromHash) ? fromHash : null;
+};
 
 const syncModalWithUrl = (): void => {
     const slug = new URLSearchParams(window.location.search).get('cat');
@@ -132,6 +143,9 @@ const makeCategory = (category: Category): HTMLLIElement => {
     bindCategoryLink(a, category);
 
     const icon = el('span', 'cat-img', category.emoji);
+     if (category.color) {
+        icon.style.setProperty('--tone', category.color);
+    }
     icon.setAttribute('role', 'img');
     icon.setAttribute('aria-label', category.name);
 
