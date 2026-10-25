@@ -170,7 +170,8 @@
             align-items: center;
             gap: 10px;
             min-width: 0;
-            font-family: var(--font-head);
+            font-family: "Morabba";
+            /* font-family: var(--font-head); */
             font-weight: 700;
             font-size: 1.2rem;
             line-height: 1.5;

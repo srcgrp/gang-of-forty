@@ -61,7 +61,8 @@ main {
     animation: pulse 1.2s ease-in-out infinite alternate;
 }
 
-.product-section {
+.product-section,
+.cats {
     padding-block: 22px;
     scroll-margin-top: 0;
 }
@@ -143,9 +144,10 @@ main {
     height: 44px;
 }
 
-.hero-grid {
+
+/* .hero-grid {
     grid-template-areas: "main" "side";
-}
+} */
 
 .hero-promos {
     width: 100%;
@@ -166,13 +168,12 @@ main {
 .swiper-pagination {
     display: flex;
     justify-content: center;
-    gap: 10px;
     padding: 6px;
 }
 
 .swiper-pagination-bullet {
-    min-width: 20px;
-    min-height: 20px;
+    min-width: 12px;
+    min-height: 12px;
     background: white;
     opacity: .6;
     border: 2px solid var(--green);

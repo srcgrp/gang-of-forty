@@ -1,7 +1,7 @@
 import Swiper from 'swiper';
-import { A11y, Keyboard, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
+import { A11y, Keyboard, Pagination, Autoplay } from 'swiper/modules';
 import type { Banner, Home } from '../types';
 import { el, link } from './dom';
 
@@ -31,9 +31,10 @@ export const renderHero = (home: Home): void => {
   }
   const pagination = el('div', 'swiper-pagination'); container.append(wrapper, pagination);
   root.replaceChildren(container, banner(home.side, true));
-  slider = new Swiper(container, { modules: [A11y, Keyboard, Pagination],
+  slider = new Swiper(container, { modules: [A11y, Keyboard, Pagination, Autoplay],
     speed: matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 350,
     keyboard: { enabled: true, onlyInViewport: true }, pagination: { el: pagination, clickable: true },
+    autoplay: { delay: 3000, disableOnInteraction: false },
     a11y: { paginationBulletMessage: 'نمایش پیشنهاد {{index}}', slideLabelMessage: 'پیشنهاد {{index}} از {{slidesLength}}' } });
 };
 export const createPromos = (home: Home): HTMLElement => {

@@ -92,7 +92,7 @@
     }
     .hero-grid {
         grid-template-columns: minmax(0, 1.6fr) minmax(220px, 0.8fr);
-        grid-template-areas: "main side";
+        grid-template-areas: "main side" "promos promos";
         align-items: stretch;
     }
     .swiper {
@@ -111,8 +111,11 @@
         --pv: 4.3;
         --sticky-offset: 180px;
     }
+    .nav-toggle {
+        display: none;
+    }
     .cat-list {
-        grid-template-columns: repeat(6, minmax(0, 1fr));
+        grid-template-columns: repeat(7, minmax(0, 1fr));
     }
     .features-list {
         grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -290,7 +293,7 @@
         display: none;
     }
     .cat-list {
-        grid-template-columns: repeat(7, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr))
     }
     .footer-top {
         grid-template-columns: 72px 1fr;
@@ -362,66 +365,9 @@
 }
 
 @media (max-width: 576px) {
-    /* .hero-grid {
+    .hero-grid {
         gap: 0.75rem;
     }
-    .swiper {
-        height: 390px;
-    }
-    .swiper-slide {
-        height: 390px;
-    }
-    .hero-main {
-        flex-direction: column;
-        direction: rtl;
-    }
-    .hero-main__image {
-        flex: 0 0 200px;
-        width: 100%;
-        height: 200px;
-        max-height: 200px;
-        object-fit: contain;
-    }
-    .hero-main__content {
-        flex: 1 1 auto;
-        width: 100%;
-        min-height: 0;
-        padding: 0.75rem;
-        align-items: flex-start;
-        justify-content: center;
-        direction: rtl;
-        text-align: right;
-    }
-    .hero-main .hero-emoji {
-        margin-bottom: 0.25rem;
-        font-size: 1.5rem;
-    }
-    .hero-main .hero-title {
-        margin-bottom: 0.25rem;
-        font-size: clamp(1rem, 5vw, 1.35rem);
-        line-height: 1.5;
-    }
-    .hero-main .hero-text {
-        margin-bottom: 0.5rem;
-        font-size: 0.8rem;
-        line-height: 1.7;
-    }
-    .hero .btn {
-        min-height: 40px;
-        padding: 0.5rem 0.75rem;
-        font-size: 0.8rem;
-    }
-    .hero-side {
-        padding: 0.5rem;
-    }
-    .hero-promos {
-        gap: 0.65rem;
-    }
-    .hero-promo {
-        padding: 0.65rem;
-        gap: 0.5rem;
-        font-size: 0.85rem;
-    } */
     .swiper,
     .swiper-slide {
         height: 420px;
@@ -710,19 +656,6 @@
 }
 
 @media (prefers-color-scheme: dark) {
-    /* :root {
-        --surface: #14261f;
-        --bg: #0d1d17;
-        --ink: #f2f6f3;
-        --muted: #becdc3;
-        --field: #213b2e;
-        --line: #365443;
-        --mint: #214a34;
-        --green-night: #b9f3cb;
-        --green-deep: #075a3d;
-        --focus: #ffb968;
-        --focus-gap: #14261f;
-    } */
     .hero-side {
         background: #e8f2e8;
     }
