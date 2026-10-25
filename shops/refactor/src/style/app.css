@@ -237,27 +237,6 @@ main {
     color: #fff;
 }
 
-.footer-top {
-    grid-template-columns: 1fr;
-}
-
-.footer-cols {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
-.footer-col-list a {
-    min-height: 44px;
-    display: flex;
-    align-items: center;
-}
-
-.footer-contact a {
-    min-height: 44px;
-    display: flex;
-    gap: 5px;
-    align-items: center;
-}
-
 .nav-toggle {
     top: 48px;
     inset-inline-end: 16px;

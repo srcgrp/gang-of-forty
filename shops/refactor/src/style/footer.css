@@ -26,7 +26,7 @@
 
 .footer-top {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 1fr;
     gap: 24px;
     align-items: start;
     padding-bottom: 34px;
@@ -102,14 +102,14 @@
 
 .footer-col-list a {
     position: relative;
-    display: inline-flex;
-    align-items: center;
-    min-height: var(--tap);
     padding-inline-start: 14px;
     font-size: 0.85rem;
     color: rgba(255, 255, 255, 0.78);
     overflow-wrap: anywhere;
     transition: color 0.2s ease, padding 0.2s ease;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
 }
 
 .footer-col-list a::before {
@@ -306,4 +306,11 @@ a.footer-contact-value {
     background: var(--orange-dark);
     transform: translateY(-3px);
     box-shadow: 0 14px 28px rgba(255, 122, 26, 0.45);
+}
+
+.footer-contact a {
+    min-height: 44px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
 }

@@ -1245,6 +1245,10 @@
             height: 100%;
         }
         
+        .shop-slogan {
+            display: none !important;
+        }
+        
         @media (prefers-reduced-motion: reduce) {
             .hero-slide,
             .hero-nav {
