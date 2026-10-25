@@ -3,6 +3,47 @@ import 'notyf/notyf.min.css';
 import { CountUp } from 'countup.js';
 
 
+type Category = {
+    id: number,
+    slug: string,
+    name: string,
+    emoji: string
+};
+
+type Product = { 
+    id: number,
+    categoryId: number,
+    name: string,
+    emoji: string,
+    unit: string,
+    price: number,
+    tags: string[]
+};
+
+type Offer = {
+    productId: number,
+    percent: number,
+    label: string
+};
+
+type Stock = {
+    updatedAt: string,
+    items: Record<string,number>
+};
+
+type Shop = {
+    name: string,
+    slogan: string,
+    owner: string,
+    city: string,
+    phone: string,
+    hours: { open: string, close: string },
+    deliveryFee: number,
+    freeDeliveryOver: number,
+    currency: string
+}
+
+
 const notyf = new Notyf({
     position: { x: "center", y: "top" },
 });
@@ -15,7 +56,7 @@ if(Number.isNaN(cartCount)) {
 // Throws if the request fails or the response is not ok (e.g. 404),
 // so the caller can show an error message.
 // url: path to the JSON file, objectName: used in the error message.
-async function getDataObjects(url, objectName) {
+async function getDataObjects(url: string, objectName: string) {
     const res = await fetch(url);
 
     if (!res.ok) {
@@ -44,7 +85,7 @@ async function getData() {
 // Finds a category by its name and returns its id.
 // categories: array from categories.json, name: the category to look for.
 // Note: find() returns undefined if nothing matches.
-function getCategoryID(name, categories) {
+function getCategoryID(name: string, categories: Category[]) {
     const categoryItem = categories.find(element => element.name === name);
     if(categoryItem === undefined) {
         throw new Error(`There isn't any category with ${name} name`);
@@ -56,7 +97,7 @@ function getCategoryID(name, categories) {
 
 // Returns only the products that belong to the given category.
 // id: category id (a number), products: array from products.json.
-function filterProductsByCategoryID(id, products) {
+function filterProductsByCategoryID(id: number, products: Product[]) {
     const filteredProducts = products.filter(item => item.categoryId === id);
     return filteredProducts;
 }
@@ -65,16 +106,16 @@ function filterProductsByCategoryID(id, products) {
 // Returns only the products that have a discount and are in stock.
 // offers: array from offers.json, products: array from products.json,
 // stock: object from stock.json (stock.items[id] is the quantity).
-function filterSpecialProducts(offers, products, stock) {
+function filterSpecialProducts(offers: Offer[], products: Product[], stock: Stock) {
     const specialProducts = products.filter(item => offers.some(offer => item.id === offer.productId) && stock.items[item.id] > 0);
     return specialProducts;
 }
 
 // Define object for keeping inStock : Remain number of products, label: Name of offer, percent: the percentage of offer on product.
 type CardInfo = {
-    inStock?: boolean;
-    label? : string;
-    percent? : number;
+    inStock?: boolean,
+    label? : string,
+    percent? : number
 };
 
 // Get html element and return error if it doesn't exist.
@@ -89,7 +130,7 @@ function getHtmlElement<Type extends Element>(selector: string, parent: ParentNo
 // cardInfo: { percent, label, inStock }
 //   percent/label: discount from offers.json (undefined if no discount),
 //   inStock: false shows the "ناموجود" badge instead of the discount badge.
-function createProductCard(product, cardInfo : CardInfo = {}) {
+function createProductCard(product: Product, cardInfo : CardInfo = {}) {
     const carouselItem: HTMLLIElement = document.createElement("li");
     const { percent, label, inStock = true } = cardInfo;
 
@@ -187,15 +228,15 @@ function createProductCard(product, cardInfo : CardInfo = {}) {
 // The first and last cards get ids (first-<id>, last-<id>) so the arrows can jump to them.
 // data: array of products, queryId: id of the section (a string),
 // offeredProducts: array from offers.json, stock: object from stock.json.
-function renderProducts(data, queryId, offeredProducts, stock) {
+function renderProducts(data: Product[], queryId: string, offeredProducts: Offer[], stock: Stock) {
     const productList = data.map((item, index) => {
-        const offered = offeredProducts.find(offered => offered.productId === item.id);
+        const offer = offeredProducts.find(offered => offered.productId === item.id);
         let label: string | undefined;
         let percent: number | undefined;
         const inStock = stock.items[item.id] > 0;
-        if (offered) {
-            label = offered.label;
-            percent = offered.percent;
+        if (offer) {
+            label = offer.label;
+            percent = offer.percent;
         }
 
         const cardInfo: CardInfo = { inStock, label, percent };
@@ -205,7 +246,7 @@ function renderProducts(data, queryId, offeredProducts, stock) {
         if (index === 0) {
             productCard.id = `first-${queryId}`;
         }
-        if (index === data.length - 1) {
+        else if (index === data.length - 1) {
             productCard.id = `last-${queryId}`;
         }
         return productCard;
@@ -214,10 +255,10 @@ function renderProducts(data, queryId, offeredProducts, stock) {
     getHtmlElement<HTMLUListElement>(`#${queryId} ul`).append(...productList);
 }
 
-
+type MessageType = "load" | "error"
 // Show message for loading data and errors
 // container: html tag which message be shown in that, text : the content of message, type: load or error
-function showMessage(container, text, type) {
+function showMessage(container: string, text: string, type: MessageType ) {
     const content: HTMLParagraphElement = document.createElement("p");
     content.textContent = text;
     content.classList.add("msg");
@@ -242,7 +283,7 @@ function showMessage(container, text, type) {
 // Removes the message (loading or error) shown by showMessage.
 // container: CSS selector of the section that holds it (e.g. "#dairy").
 // Does nothing if there is no message.
-function clearMessage(container) {
+function clearMessage(container: string) {
     const box = document.querySelector<HTMLElement>(container);
     if ( box === null) {
         console.error(`index.html is missing ${container} element`)
@@ -255,7 +296,7 @@ function clearMessage(container) {
 // Renders the category list from the template in the HTML.
 // categoryData: array from categories.json.
 // Each category gets an emoji, a name and a link to #<slug>.
-function renderCategories(categoryData) {
+function renderCategories(categoryData: Category[]) {
     const categoryList = getHtmlElement<HTMLUListElement>(".categories ul");
     const template = getHtmlElement<HTMLTemplateElement>("#category-template");
     categoryData.forEach(category => {
@@ -268,10 +309,14 @@ function renderCategories(categoryData) {
     });
 }
 
+type LinkItem = {
+    label: string,
+    href: string
+};
 
 // Builds an li with a link inside it.
 // item: { label, href }
-function createLinkItem(item) {
+function createLinkItem(item: LinkItem) {
     const li: HTMLLIElement = document.createElement("li");
     const a: HTMLAnchorElement = document.createElement("a");
     a.textContent = item.label;
@@ -283,7 +328,7 @@ function createLinkItem(item) {
 
 // Fills the "all categories" submenu and the footer category list from categories.json.
 // categoryData: array from categories.json.
-function renderCategoryLinks(categoryData) {
+function renderCategoryLinks(categoryData: Category[]) {
     const links = categoryData.map(category => createLinkItem({ label: category.name, href: `#${category.slug}` }));
     getHtmlElement<HTMLUListElement>(".mega-menu").replaceChildren(...links);
     getHtmlElement<HTMLUListElement>("#quick-links + ul").replaceChildren(
@@ -298,7 +343,7 @@ function toPersianDigits(text: string) {
 
 // Fills the notice bar, tagline, phone and opening hours from shop.json.
 // shop: object from shop.json.
-function renderShop(shop) {
+function renderShop(shop: Shop) {
     const formatter = new Intl.NumberFormat('fa-IR');
 
     getHtmlElement<HTMLParagraphElement>(".announcement p").textContent =
