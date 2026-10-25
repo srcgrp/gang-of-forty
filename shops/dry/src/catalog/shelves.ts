@@ -9,7 +9,7 @@ const DAIRY_CATEGORY_ID: number = 2
 export type Shelves = {
   dairy: Card[]
   offered: Card[]
-  search: (query: string, category?: string | null) => Card[]
+   search: (query: string, category: string | null) => Card[] | null
 }
 
 export function buildShelves(products: Product[], stock: Stock, offers: Offer[]): Shelves {
@@ -19,8 +19,9 @@ export function buildShelves(products: Product[], stock: Stock, offers: Offer[])
   return {
     dairy: inCategory(products, DAIRY_CATEGORY_ID).map(cardOf),
     offered: withOffer(products, offerById).map(cardOf),
-        search: (query: string, category: string | null = null): Card[] => {
+            search: (query: string, category: string | null): Card[] | null => {
       const id: number | null = categoryId(category)
+      if (query === '' && id === null) return null
       const found: Product[] = query === '' ? products : find(query)
       return (id === null ? found : inCategory(found, id)).map(cardOf)
     },

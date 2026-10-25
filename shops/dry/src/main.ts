@@ -3,6 +3,7 @@ import { addToCart, cartCount } from './cart/lines.ts'
 import { formatNumber, searchSummary } from './catalog/format.ts'
 import { buildShelves, type Shelves } from './catalog/shelves.ts'
 import { loadCart, saveCart } from './storage/cartStorage.ts'
+import { readFilters, writeFilters, type Filters } from './storage/urlState.ts'
 import type { Card, CartLine, LoadSuccess } from './types.ts'
 import { renderCart } from './ui/cart.ts'
 import { readAdd, type AddClick } from './ui/event.ts'
@@ -14,6 +15,7 @@ import { renderState } from './ui/state.ts'
 
 const page: Page = findPage()
 let cart: CartLine[] = loadCart()
+let filters: Filters = readFilters()
 
 function showCart(bump: boolean): void {
   renderCart(page.cartCount, formatNumber(cartCount(cart)), bump)
@@ -31,16 +33,15 @@ function onAdd(e: MouseEvent): void {
 function showShelves({ products, stock, offers }: LoadSuccess): void {
   const shelves: Shelves = buildShelves(products, stock, offers)
   const onSearch = (): void => {
-    const query: string = page.searchInput.value.trim()
-    if (query === '') {
-      clearResults(page)
-      return
-    }
-    const cards: Card[] = shelves.search(query)
-    renderResults(page, cards, searchSummary(cards.length, query))
+    filters = { ...filters, query: page.searchInput.value.trim() }
+    writeFilters(filters)
+    const cards: Card[] | null = shelves.search(filters.query, filters.category)
+    if (cards === null) clearResults(page)
+    else renderResults(page, cards, searchSummary(cards.length, filters.query))
   }
   renderProducts(page.offersBox, shelves.offered, 'offer')
   renderProducts(page.dairyBox, shelves.dairy, 'dairy')
+  page.searchInput.value = filters.query
   page.searchInput.addEventListener('input', onSearch)
   onSearch()
 }
