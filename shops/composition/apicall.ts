@@ -1,6 +1,8 @@
+import { sortProducts } from "./sorting";
+import type { SortOption } from "./sorting";
 import type {
   Product, Category, Offer, Stock, Shop, Home,
-  MenuLink, Schedule, Banner, Promo, Carousel
+  MenuLink, Schedule, Banner, Promo, Carousel, CartItem
 } from "./types";
 import {
   getProducts, getStock, getOffers, getCategories, getShop, getHome
@@ -281,9 +283,15 @@ function createProductCard(product: Product, stock: Stock, offers: Map<number, O
   }
 
   button.addEventListener("click", function (_event: MouseEvent): void {
-    cartCount = cartCount + 1;
+    const item: CartItem = {
+      id: product.id,
+      name: product.name,
+      price: finalPrice,
+      quantity: 1,
+    };
+    cartCount = cartCount + item.quantity;
     updateCart();
-    const productName = product.name
+    const productName = item.name
       .replaceAll("&", "&amp;")
       .replaceAll("<", "&lt;")
       .replaceAll(">", "&gt;");
@@ -296,7 +304,7 @@ function createProductCard(product: Product, stock: Stock, offers: Map<number, O
     });
     try {
       localStorage.setItem("batshop-cart-count", String(cartCount));
-      cartMessage.textContent = product.name + " به سبد خرید اضافه شد.";
+      cartMessage.textContent = item.name + " به سبد خرید اضافه شد.";
     } catch (error: unknown) {
       cartMessage.textContent =
         "کالا اضافه شد، اما مرورگر اجازه ذخیره تعداد سبد را نمی‌دهد.";
@@ -456,7 +464,8 @@ function setupSearch(products: Product[], stock: Stock, offers: Map<number, Offe
   const status = document.querySelector<HTMLElement>("#search-status");
   const content = document.querySelector<HTMLElement>("#shop-content");
   const clear = document.querySelector<HTMLButtonElement>("#clear-search");
-  if (!input || !results || !list || !status || !content || !clear) {
+  const sortSelect = document.querySelector<HTMLSelectElement>("#product-sort");
+  if (!input || !results || !list || !status || !content || !clear || !sortSelect) {
     throw new Error("عناصر جست‌وجو پیدا نشدند");
   }
 
@@ -470,7 +479,7 @@ function setupSearch(products: Product[], stock: Stock, offers: Map<number, Offe
   });
 
   function search(): void {
-    if (!input || !results || !list || !status || !content) return;
+    if (!input || !results || !list || !status || !content || !sortSelect) return;
     const query = normalizeSearch(input.value);
     results.hidden = query === "";
     content.hidden = query !== "";
@@ -482,13 +491,24 @@ function setupSearch(products: Product[], stock: Stock, offers: Map<number, Offe
     status.textContent = matches.length === 0
       ? "محصولی پیدا نشد. عبارت دیگری بنویسید."
       : formatNumber(matches.length) + " محصول پیدا شد.";
-    matches.forEach(function (match): void {
-      list.appendChild(createProductCard(match.item.product, stock, offers));
+    let selectedSort: SortOption = "default";
+    if (sortSelect.value === "price-asc") {
+      selectedSort = "price-asc";
+    } else if (sortSelect.value === "price-desc") {
+      selectedSort = "price-desc";
+    }
+    const matchedProducts = matches.map(function (match) {
+      return match.item.product;
+    });
+    const sortedProducts = sortProducts(matchedProducts, selectedSort);
+    sortedProducts.forEach(function (product): void {
+      list.appendChild(createProductCard(product, stock, offers));
     });
   }
 
   input.disabled = false;
   input.addEventListener("input", search);
+  sortSelect.addEventListener("change", search);
   clear.addEventListener("click", function (): void {
     input.value = "";
     search();

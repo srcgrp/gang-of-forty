@@ -8,6 +8,10 @@ export type Product = {
   tags: string[];
 };
 
+export type CartItem = Pick<Product, "id" | "name" | "price"> & {
+  quantity: number;
+};
+
 export type Category = {
   id: number;
   slug: string;

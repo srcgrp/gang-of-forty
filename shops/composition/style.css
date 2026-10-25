@@ -33,7 +33,9 @@ a {
   text-decoration: none;
 }
 button,
-input {
+input,
+select,
+option {
   font: inherit;
 }
 button,
