@@ -11,8 +11,8 @@
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { join, relative, dirname, normalize } from 'node:path'
 
-// Weekly shop mode is defined by Week4_Frontend_Weekly_Task.pdf.
-// It checks this shop, not the named functions in the classroom starter.
+// Weekly shop mode (--shop): checks this shop, not the named functions of the classroom starter.
+// The 70-line limit of Week4_Frontend_Weekly_Task.pdf (step 4) stays the same in both modes.
 const weeklyShop = process.argv.includes('--shop')
 const root = process.argv[2]
 if (!root) {
@@ -45,7 +45,7 @@ const FUNCTIONS = [
     'cartRows', 'visibleProducts', 'toCard',
     'renderStatus', 'renderCategories', 'renderProducts', 'renderCart', 'renderTotal', 'render', 'start',
 ]
-const MAX_LINES = weeklyShop ? 200 : 70
+const MAX_LINES = 70
 
 const files = []
 const walk = (dir) => {
