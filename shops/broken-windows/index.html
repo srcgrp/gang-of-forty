@@ -12,7 +12,7 @@
 
 <body id="top">
     <input type="checkbox" id="menu-toggle" class="menu-toggle" aria-label="باز و بسته کردن منو">
-    <div class="discount"> &#x1F381; ارسال رایگان برای خرید های بالای 400 هزار تومان &#x1F381;</div>
+    <div class="discount" id="notice">&#x1F381; ارسال رایگان برای خرید های بالای 400 هزار تومان &#x1F381;</div>
     <div class="header" id="header">
         <label for="menu-toggle" class="menu-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -63,9 +63,8 @@
     <nav class="navigation" id="navigation">
         <ul class="nav">
             <li id="allcategory"><a href="#categories">همه دسته ها</a>
-                <ul class="dropdown">
-                    <li><a href="#categories">
-                            <span class="dropdown-emoji">&#x1F968;</span> تنقلات</a></li>
+                <ul class="dropdown" id="menu-categories">
+                    <li><a href="#categories"><span class="dropdown-emoji">&#x1F968;</span> تنقلات</a></li>
                     <li><a href="#categories"><span class="dropdown-emoji">&#x1F95B;</span> لبنیات و بستنی</a></li>
                     <li><a href="#categories"><span class="dropdown-emoji">&#x1F34E;</span> میوه و سبزی</a></li>
                     <li><a href="#categories"><span class="dropdown-emoji">&#x1F35E;</span> خواربار و نان </a></li>
@@ -137,7 +136,7 @@
         </div>
         <section class="categories" id="categories">
             <h2 class="items-header">دسته بندی ها</h2>
-            <div class="all-items">
+            <div class="all-items" id="categories-grid">
                 <div class="items">
                     <a href="#categories" class="items-link"> <span aria-hidden="true" class="items-icon">🥨</span>
                         <p class="items-title">تنقلات</p>
@@ -507,7 +506,7 @@
                 </div>
                 <div class="footer-top-categories">
                     <h4 class="footer-top-header">دسته ها</h4>
-                    <ul class="footer-top-categories-list">
+                    <ul class="footer-top-categories-list" id="footer-categories">
                         <li class="footer-top-categories-list-item"><a href="#categories">تنقلات</a></li>
                         <li class="footer-top-categories-list-item"><a href="#categories">لبنیات و بستنی</a></li>
                         <li class="footer-top-categories-list-item"><a href="#categories">میوه و سبزی</a></li>
@@ -584,6 +583,9 @@
             </div>
         </div>
     </footer>
+
+    <script src="app.js"></script>
+
 </body>
 
 </html>
