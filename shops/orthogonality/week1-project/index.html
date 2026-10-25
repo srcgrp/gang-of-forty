@@ -3,31 +3,41 @@
   <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>کتاب‌چی | قصه‌ها اینجا خانه دارند</title>
+    <title>اُرتومارکت |کیفیتی که حس می‌کنی </title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.3/Vazirmatn-font-face.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/aminabedi68/Estedad-Font@master/Estedad-font-face.css" rel="stylesheet">
+
     <link rel="stylesheet" href="./styel.css"/>
+    <script src="script.js " defer></script>
   </head>
   <body>
     <div class="page-top">
       <header class="headm">
         <div class="header">
           <div class="header_logo">
-            <img src="./image/photo/logo2.svg" alt=""/>
+            <img id="logo" src="./image/photo/main logo.svg" alt=""/>
             <div>
-              <h1>کتاب <span class="logo-accent">چی</span></h1>
-              <p>قصه ها اینجا خانه دارند</p>
+              <h1>اُرتومارکت</h1>
+              <p id="explain">کیفیتی که حس می‌کنی</p>
+            </div>
+            <div class="search">
+              <img src="./image/photo/search_logo.svg" alt="">
+              <input type="search_box" class="search_box" placeholder="جست‌وجو بین محصولات..." aria-label="جست‌وجو بین محصولات"/>
             </div>
           </div>
-          <label class="header_search">
-            <img src="./image/photo/search-svgrepo-com.svg" alt=""/>
-            <input type="search" name="search" placeholder="هرکتابی بخوای اینجاست" aria-label="جستجوی کتاب"/>
-          </label>
         </div>
-        <div class="bb">
-          <button type="button" class="login">ورود/ ثبت نام</button>
-          <a href="#" class="shop" aria-label="سبد خرید">
-            <img src="./image/category/shopping-basket.svg" alt=""/>
-            <span class="shop_num">0</span>
-          </a>
+        <div class="action">
+          <div class="logIn">
+            <img src="./image/photo/profile-svgrepo-com.svg" alt="">
+            <span>ورود/</span><span>ثبت نام</span>
+          </div>
+          <div class="shoppingBag">
+            <img src="./image/photo/shopping-bag-svgrepo-com (1).svg" alt="">
+            <span></span>
+          </div>
+
         </div>
       </header>
 
@@ -39,15 +49,26 @@
                      <h3>همه‌ی دسته‌ها</h3>
                 </div>
             <div class="category-menu">
-              <a href="#">کتاب داستان</a>
+              <ul>
+                <li><a href="">کتاب داستان</a></li>
+                <li><a href="">کتاب داستان</a></li>
+                <li><a href="">کتاب داستان</a></li>
+                <li><a href="">کتاب داستان</a></li>
+                <li><a href="">کتاب داستان</a></li>
+                <li><a href="">کتاب داستان</a></li>
+              </ul>
             </div>
           </div>
           <div class="nav-links">
-            <a href="#">پیشنهاد ویژه</a>
-            <a href="#">کتاب داستان</a>
-            <a href="#">کتاب علمی</a>
-            <a href="#">کتاب روانشناسی</a>
+            <a href="#sardabirr">منتخب های تازه</a>
+            <a href="#sardabir">پیشنهاد سردبیر</a>
+            <a href="#">تخفیف فوق العاده</a>
+            <a href="#">ژانرها</a>
             <a href="#">تماس با ما</a>
+              <div class="search" id="search_helpness">
+              <img src="./image/photo/search_logo.svg" alt="">
+              <input type="search_box" class="search_box" placeholder="جست‌وجو بین محصولات..." aria-label="جست‌وجو بین محصولات"/>
+            </div>
           </div>
         </div>
       </nav>
@@ -57,276 +78,58 @@
       <section class="AD">
         <div class="AD_page1" role="img" aria-label="بنر تبلیغاتی"></div>
       </section>
-            <section>
-                <div class="Category one">
-                    <a href="#"><div class="Category_card"><img src="./image/category/Text book.svg" alt=""><h4>کتاب متنی</h4></div></a>
-                    <a href="#"><div class="Category_card"><img src="./image/category/audio-book.svg" alt=""><h4>کتاب صوتی</h4></div></a>
-                    <a href="#"><div class="Category_card"><img src="./image/category/education (2).svg" alt=""><h4>آموزشی</h4></div></a>
-                    <a href="#"><div class="Category_card"><img src="./image/category/podcast.svg" alt=""><h4>پادکست</h4></div></a>
-                    <a href="#"><div class="Category_card"><img src="./image/category/article.svg" alt=""><h4>مجله</h4></div></a>
-                    <a href="#"><div class="Category_card"><img src="./image/category/free.svg" alt=""><h4>کتاب رایگان</h4></div></a>
-                </div>
-      </section>
+      <section class="AD2 ">
+           <div class="AD2_title">
+              <h1> خرید بعدیت همین الان منتظرته</h1>
+              <img src="./image/photo/cart-svgrepo-com.svg" alt="">
+            </div>
+          <div class="Category_spacial">
+                 <a href="#">
+                    <div class="Category_spacial_card1">
+                        <img src="./image/photo/AD3.png" alt="">
+                          <div class="Category_spacial_card1_text">
+                            <h2>همه‌چیز برای خرید، در یک جا</h2>
+                            <p>محصولات غذایی تازه و کالاهای موردعلاقه‌ات رو کشف کن؛ ساده، سریع و راحت.</p>
+                        </div>
+                      </div>
+                  </a>
+                  <a href="#">
+                      <div class="Category_spacial_card2">
+                        <img src="./image/photo/AD4.png" alt="">
+                        <div class="Category_spacial_card2_text">
+                          <h2>اولین خریداز تو؛ ارسال رایگان از ما </h2>
+                          <p>اولین سفارشت رو از اُرتوبار ثبت کن و از ارسال رایگان برای خرید اولت لذت ببر.</p>
+                      </div>
+                    </div>
+                 </a>
+           </div>
+       </section>
 
-      <section class="AD">
-        <div class="Category_spacial">
-          <a href="#"><h2>اشتراک ویژه ی 70% برای اولین خرید</h2></a>
-        </div>
-      </section>
-
-      <section class="suggestion-box">
+      <section class="suggestion-box" >
         <h2>منتخب های تازه</h2>
-        <ul class="suggestion one">
-          <li class="suggestion_card">
-            <img
-              src="./image/book/book2.webp"
-              alt="جلد کتاب ذن در زندگی روزمره"
-              loading="lazy"
-            />
-            <div class="card_body">
-              <p class="book_title">ذن در زندگی روزمره</p>
-              <p class="book_author">شارلوت جوکو بک</p>
-              <div class="suggestion_price">
-                <span class="offer">25%</span>
-                <del>305,000</del>
+        <ul class="suggestion one" id="container">
+          <template id="card-template" >
+            <li class="suggestion_card">
+              <img src="./image/book/book2.webp" alt="جلد کتاب ذن در زندگی روزمره" loading="lazy" class="book_img"/>
+              <div class="card_body">
+                <p class="book_title" id="title">ذن در زندگی روزمره</p>
+                <p class="book_author" id="author">شارلوت جوکو بک</p>
+                <div class="suggestion_price">
+                  <span class="offer">25%</span>
+                  <del >305,000</del>
+                </div>
+                <div class="card_buy">
+                  <p class="price" id="priceToman">228,750 تومان</p>
+                  <button type="button" class="Add" aria-label="افزودن ذن در زندگی روزمره به سبد خرید">+</button>
+                </div>
               </div>
-              <div class="card_buy">
-                <p class="price">228,750 تومان</p>
-                <button
-                  type="button"
-                  class="Add"
-                  aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </li>
-          <li class="suggestion_card">
-            <img src="./image/book/book2.webp" alt="جلد کتاب ذن در زندگی روزمره" loading="lazy"/>
-            <div class="card_body">
-              <p class="book_title">ذن در زندگی روزمره</p>
-              <p class="book_author">شارلوت جوکو بک</p>
-              <div class="suggestion_price">
-                <span class="offer">25%</span>
-                <del>305,000</del>
-              </div>
-              <div class="card_buy">
-                <p class="price">228,750 تومان</p>
-                <button
-                  type="button"
-                  class="Add"
-                  aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </li>
-          <li class="suggestion_card">
-            <img src="./image/book/book2.webp" alt="جلد کتاب ذن در زندگی روزمره" loading="lazy"/>
-            <div class="card_body">
-              <p class="book_title">ذن در زندگی روزمره</p>
-              <p class="book_author">شارلوت جوکو بک</p>
-              <div class="suggestion_price">
-                <span class="offer">25%</span>
-                <del>305,000</del>
-              </div>
-              <div class="card_buy">
-                <p class="price">228,750 تومان</p>
-                <button type="button" class="Add" aria-label="افزودن ذن در زندگی روزمره به سبد خرید">+</button>
-              </div>
-            </div>
-          </li>
-          <li class="suggestion_card">
-            <img
-              src="./image/book/book2.webp"
-              alt="جلد کتاب ذن در زندگی روزمره"
-              loading="lazy"
-            />
-            <div class="card_body">
-              <p class="book_title">ذن در زندگی روزمره</p>
-              <p class="book_author">شارلوت جوکو بک</p>
-              <div class="suggestion_price">
-                <span class="offer">25%</span>
-                <del>305,000</del>
-              </div>
-              <div class="card_buy">
-                <p class="price">228,750 تومان</p>
-                <button type="button" class="Add" aria-label="افزودن ذن در زندگی روزمره به سبد خرید">+</button>
-              </div>
-            </div>
-          </li>
-          <li class="suggestion_card">
-            <img src="./image/book/book2.webp" alt="جلد کتاب ذن در زندگی روزمره" loading="lazy"/>
-            <div class="card_body">
-              <p class="book_title">ذن در زندگی روزمره</p>
-              <p class="book_author">شارلوت جوکو بک</p>
-              <div class="suggestion_price">
-                <span class="offer">25%</span>
-                <del>305,000</del>
-              </div>
-              <div class="card_buy">
-                <p class="price">228,750 تومان</p>
-                <button
-                  type="button"
-                  class="Add"
-                  aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </li>
-          <li class="suggestion_card">
-            <img src="./image/book/book2.webp" alt="جلد کتاب ذن در زندگی روزمره" loading="lazy"/>
-            <div class="card_body">
-              <p class="book_title">ذن در زندگی روزمره</p>
-              <p class="book_author">شارلوت جوکو بک</p>
-              <div class="suggestion_price">
-                <span class="offer">25%</span>
-                <del>305,000</del>
-              </div>
-              <div class="card_buy">
-                <p class="price">228,750 تومان</p>
-                <button
-                  type="button"
-                  class="Add"
-                  aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </li>
-          <li class="suggestion_card">
-            <img src="./image/book/book2.webp" alt="جلد کتاب ذن در زندگی روزمره" loading="lazy"/>
-            <div class="card_body">
-              <p class="book_title">ذن در زندگی روزمره</p>
-              <p class="book_author">شارلوت جوکو بک</p>
-              <div class="suggestion_price">
-                <span class="offer">25%</span>
-                <del>305,000</del>
-              </div>
-              <div class="card_buy">
-                <p class="price">228,750 تومان</p>
-                <button
-                  type="button"
-                  class="Add"
-                  aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </li>
+            </li>
+        </template>
         </ul>
       </section>
 
-      <section class="pro">
-        <h2>پیشنهاد سردبیر کتاب چی</h2>
-        <ul class="product">
-          <li class="product_card">
-            <img src="./image/book/book9.webp" alt="جلد کتاب رژه" loading="lazy"/>
-            <div class="product_body">
-              <p class="product_title">رژه</p>
-              <p class="product_desc">ریچل کاستک</p>
-              <div class="card_buy">
-                <p class="price">248,000 تومان</p>
-                <button
-                  type="button"
-                  class="Add"
-                  aria-label="افزودن رژه به سبد خرید"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </li>
-          <li class="product_card">
-            <img src="./image/book/book9.webp" alt="جلد کتاب رژه" loading="lazy"/>
-            <div class="product_body">
-              <p class="product_title">رژه</p>
-              <p class="product_desc">ریچل کاستک</p>
-              <div class="card_buy">
-                <p class="price">248,000 تومان</p>
-                <button
-                  type="button"
-                  class="Add"
-                  aria-label="افزودن رژه به سبد خرید"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </li>
-          <li class="product_card">
-            <img src="./image/book/book9.webp" alt="جلد کتاب رژه" loading="lazy"/>
-            <div class="product_body">
-              <p class="product_title">رژه</p>
-              <p class="product_desc">ریچل کاستک</p>
-              <div class="suggestion_price">
-                <span class="offer">25%</span>
-                <del>305,000</del>
-              </div>
-              <div class="card_buy">
-                <p class="price">248,000 تومان</p>
-                <button
-                  type="button"
-                  class="Add"
-                  aria-label="افزودن رژه به سبد خرید"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </li>
-          <li class="product_card">
-            <img src="./image/book/book9.webp" alt="جلد کتاب رژه" loading="lazy"/>
-            <div class="product_body">
-              <p class="product_title">رژه</p>
-              <p class="product_desc">ریچل کاستک</p>
-              <div class="suggestion_price">
-                <span class="offer">25%</span>
-                <del>305,000</del>
-              </div>
-              <div class="card_buy">
-                <p class="price">248,000 تومان</p>
-                <button
-                  type="button"
-                  class="Add"
-                  aria-label="افزودن رژه به سبد خرید"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </li>
-          <li class="product_card">
-            <img src="./image/book/book9.webp" alt="جلد کتاب رژه" loading="lazy"/>
-            <div class="product_body">
-              <p class="product_title">رژه</p>
-              <p class="product_desc">ریچل کاستک</p>
-              <div class="suggestion_price">
-                <span class="offer">25%</span>
-                <del>305,000</del>
-              </div>
-              <div class="card_buy">
-                <p class="price">248,000 تومان</p>
-                <button
-                  type="button"
-                  class="Add"
-                  aria-label="افزودن رژه به سبد خرید"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </section>
-
-      <section class="suggestion-box spetial">
+     
+      <section class="suggestion-box spetial" id="sardabirr">
         <h2>منتخب های تازه</h2>
         <ul class="suggestion">
           <li class="suggestion_card">
@@ -913,9 +716,9 @@
         </div>
         <div class="footer_bottom">
           <p class="footer_copy">تمامی حقوق این سایت محفوظ است.</p>
-          <a href="#top" class="footer_top" aria-label="بازگشت به بالای سایت"
-            >↑</a
-          >
+          <div><a href="#top" class="footer_top" aria-label="بازگشت به بالای سایت"
+            >↑برو به بالا </a></div>
+
         </div>
       </div>
     </footer>
