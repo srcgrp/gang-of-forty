@@ -22,3 +22,5 @@ export const selectCategoryShelf = (products: ProductView[], categories: Categor
   return category ? { id: category.slug, title: category.name, emoji: category.emoji, categoryId: category.id,
     products: products.filter((product) => product.categoryId === category.id) } : undefined;
 };
+export const selectShelves = (products: ProductView[], carousels: Carousel[]): CarouselView[] =>
+  carousels.map((carousel) => ({ ...carousel, products: selectCarousel(products, carousel) }));
