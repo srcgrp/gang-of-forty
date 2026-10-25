@@ -1,29 +1,720 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت ماژول عمیق</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>🧊 سلام دنیا!</h1>
-  </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>ماژول عمیق</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p>از کتاب <bdi>A Philosophy of Software Design</bdi> (جان اوسترهوت، ۲۰۱۸): ماژول عمیق رابط کوچک و ساده دارد ولی کار زیادی پشتش انجام می‌دهد؛ مثل کوه یخ. فایل‌سیستم یونیکس با پنج تابع (<bdi>open, read, write, lseek, close</bdi>) کل پیچیدگی دیسک را پنهان می‌کند. ماژول کم‌عمق رابطی تقریباً به پیچیدگی خودش دارد و چیزی را پنهان نمی‌کند.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
-    </section>
-  </main>
-  <footer>
-    <p dir="ltr">slug: <code>deep-module</code></p>
-  </footer>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>سبزکاله | تازه، روز، به‌روز</title>
+    <meta
+      name="description"
+      content="بهترین میوه، سبزی، لبنیات و مواد غذایی تازه، مستقیم از باغ"
+    />
+    <meta
+      name="theme-color"
+      content="#d7ff00"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#070b0a"
+      media="(prefers-color-scheme: dark)"
+    />
+    <meta name="author" content="Arman gholamly" />
+    <meta name="color-scheme" content="light dark" />
+
+    <meta property="og:title" content="سبزکاله | تازه، روز، به‌روز" />
+    <meta
+      property="og:description"
+      content="بهترین میوه، سبزی، لبنیات و مواد غذایی تازه"
+    />
+    <meta property="og:type" content="website" />
+
+    <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">پرش به محتوا</a>
+
+    <div class="topbar" role="region" aria-label="اطلاع‌رسانی">
+      <div class="topbar__inner"><span id="topbar-text"></span></div>
+    </div>
+
+    <header class="site-header">
+      <div class="header__wrapper">
+        <a href="#main" class="brand" aria-label="صفحه اصلی">
+          <span class="brand__icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64" focusable="false">
+              <defs>
+                <linearGradient
+                  id="brand-grad"
+                  x1="8"
+                  y1="6"
+                  x2="56"
+                  y2="58"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop offset="0" stop-color="#d7ff00" />
+                  <stop offset=".55" stop-color="#a7d500" />
+                  <stop offset="1" stop-color="#8bdc65" />
+                </linearGradient>
+              </defs>
+              <circle cx="32" cy="32" r="30" fill="url(#brand-grad)" />
+              <path
+                d="M32 12 C 18 20, 14 36, 24 48 C 34 56, 46 50, 48 38 C 50 26, 44 16, 32 12 Z"
+                fill="#111318"
+              />
+              <path
+                d="M32 14 L 32 48"
+                stroke="#d7ff00"
+                stroke-width="2.5"
+                fill="none"
+                stroke-linecap="round"
+              />
+              <path
+                d="M32 22 L 24 26 M32 30 L 22 34 M32 38 L 24 42"
+                stroke="#d7ff00"
+                stroke-width="2"
+                fill="none"
+                stroke-linecap="round"
+              />
+              <path
+                d="M32 26 L 40 30 M32 34 L 42 38"
+                stroke="#d7ff00"
+                stroke-width="2"
+                fill="none"
+                stroke-linecap="round"
+              />
+              <circle cx="40" cy="20" r="3" fill="#fff" opacity="0.9" />
+            </svg>
+          </span>
+          <span class="brand__name">
+            <strong id="brand-name">سبزکاله</strong>
+            <small id="brand-slogan">تازه، روز، به‌روز</small>
+          </span>
+        </a>
+
+        <form class="search" role="search" id="search-form">
+          <label for="site-search" class="visually-hidden"
+            >جستجو در محصولات</label
+          >
+          <span class="search__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path
+                d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-width="2"
+              />
+            </svg>
+          </span>
+          <input
+            id="site-search"
+            type="search"
+            name="q"
+            placeholder="جستجو در میان ۳۰۰۰ کالا..."
+            autocomplete="off"
+            enterkeyhint="search"
+            aria-label="جستجو در محصولات"
+            aria-controls="search-suggestions"
+            aria-expanded="false"
+          />
+          <button
+            type="button"
+            class="search__clear"
+            id="search-clear"
+            aria-label="پاک کردن"
+            hidden
+          >
+            ✕
+          </button>
+          <button type="submit" class="search__submit">جستجو</button>
+          <div
+            class="search__suggestions"
+            id="search-suggestions"
+            role="listbox"
+            aria-label="پیشنهادهای جستجو"
+          ></div>
+        </form>
+
+        <div class="header__actions">
+          <button
+            type="button"
+            class="theme-btn"
+            id="theme-btn"
+            aria-label="تغییر حالت روشن و تاریک"
+            aria-pressed="false"
+          >
+            <span class="theme-btn__icon" aria-hidden="true">🌙</span>
+          </button>
+
+          <a href="#login" class="action-btn">
+            <span class="action-btn__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path
+                  d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+                <path
+                  d="M4 20c0-4 4-6 8-6s8 2 8 6"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </span>
+            <span class="action-btn__text"><small>ورود | ثبت‌نام</small></span>
+          </a>
+
+          <span class="header__divider" aria-hidden="true"></span>
+
+          <a
+            href="#cart"
+            class="action-btn action-btn--cart"
+            id="cart-btn"
+            aria-label="سبد خرید"
+          >
+            <span class="action-btn__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path
+                  d="M6 6h15l-2 9H8L6 6zm0 0L5 3H2"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <circle cx="9" cy="20" r="1.5" fill="currentColor" />
+                <circle cx="18" cy="20" r="1.5" fill="currentColor" />
+              </svg>
+            </span>
+            <span class="action-btn__badge" id="cart-count" aria-hidden="true"
+              >۰</span
+            >
+            <span class="action-btn__text"><small>سبد خرید</small></span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <input
+      type="checkbox"
+      id="menu-toggle"
+      class="menu-toggle-input"
+      aria-hidden="true"
+    />
+    <nav class="main-nav" aria-label="منوی اصلی">
+      <div class="nav__wrapper">
+        <label
+          for="menu-toggle"
+          class="menu-toggle"
+          aria-label="باز و بسته کردن منو"
+          ><span></span><span></span><span></span
+        ></label>
+
+        <div class="mega">
+          <button class="mega__trigger" aria-haspopup="true">
+            <span class="mega__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path
+                  d="M4 6h16M4 12h16M4 18h16"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </span>
+            <span>همه دسته‌ها</span>
+          </button>
+          <div class="mega__menu" role="menu" aria-label="دسته‌بندی‌ها">
+            <ul class="mega__list" id="mega-list"></ul>
+          </div>
+        </div>
+
+        <ul class="nav__links" id="nav-links"></ul>
+      </div>
+    </nav>
+
+    <main id="main" tabindex="-1">
+      <!-- هیروی ایموجی -->
+      <section class="hero section-wrap">
+        <div class="hero__copy">
+          <span class="eyebrow"
+            ><span class="eyebrow__dot"></span> تازه‌چینیِ هر روز</span
+          >
+          <h1>طعم تازگی،<br /><span>با یک انتخاب سبز.</span></h1>
+          <p>
+            میوه‌های خوش‌رنگ، سبزی‌های تازه و خوراکی‌های روزانه؛ باکیفیت و با
+            دقت انتخاب‌شده برای سفره‌ی شما.
+          </p>
+          <div class="hero__actions">
+            <a class="button button--lime" href="#products"
+              >شروع خرید <span aria-hidden="true">←</span></a
+            >
+            <a class="text-link" href="#categories"
+              >کاوش دسته‌بندی‌ها <span aria-hidden="true">↙</span></a
+            >
+          </div>
+          <div class="hero__proof">
+            <div class="avatar-stack" aria-hidden="true">
+              <span>🍋</span><span>🍓</span><span>🥑</span>
+            </div>
+            <div>
+              <strong>تازگی که حس می‌شود</strong
+              ><small>انتخاب روزانه، کیفیت قابل اعتماد</small>
+            </div>
+            <span class="proof-star">✳</span>
+          </div>
+        </div>
+        <div class="hero__visual">
+          <div class="hero__halo"></div>
+          <div class="hero__orbit hero__orbit--outer"></div>
+          <div class="hero__orbit hero__orbit--inner"></div>
+          <div
+            class="hero__fruit hero__fruit--main"
+            role="img"
+            aria-label="سیب سرخ تازه"
+          >
+            🍎
+          </div>
+          <div
+            class="hero__fruit hero__fruit--avocado"
+            role="img"
+            aria-label="آووکادو تازه"
+          >
+            🥑
+          </div>
+          <div
+            class="hero__fruit hero__fruit--lemon"
+            role="img"
+            aria-label="لیمو تازه"
+          >
+            🍋
+          </div>
+          <div class="floating-note floating-note--top">
+            <span>✦</span>
+            <div>
+              <strong>۱۰۰٪ تازه</strong><small>هر روز انتخاب می‌شود</small>
+            </div>
+          </div>
+          <div class="floating-note floating-note--bottom">
+            <span class="note-icon">↗</span>
+            <div>
+              <strong>از مزرعه تا خانه</strong><small>با وسواس در کیفیت</small>
+            </div>
+          </div>
+          <div class="visual-index">FRESH / 01</div>
+        </div>
+        <div class="hero__bottom-line">
+          <span>خوبی‌های کوچک، حالِ بهتر</span><span>SCROLL TO DISCOVER ↓</span>
+        </div>
+      </section>
+
+      <!-- دو کارت پروموشن -->
+      <section
+        id="hero-cards"
+        class="hero-cards"
+        aria-labelledby="hero-cards-title"
+      >
+        <div class="hero__wrapper">
+          <article class="hero-card hero-card--primary">
+            <div class="hero-card__content">
+              <span class="hero-card__eyebrow">تازه از باغ</span>
+              <h2 id="hero-cards-title" class="hero-card__title">
+                میوه‌های تازه،<br />هر روز صبح
+              </h2>
+              <p class="hero-card__text">
+                مستقیم از باغ‌های اطراف شهر؛ تازه به دست شما می‌رسد.
+              </p>
+              <a href="#fruits" class="hero-card__btn"
+                ><span>خرید میوه و سبزی</span
+                ><span aria-hidden="true">←</span></a
+              >
+            </div>
+            <div class="hero-card__art" aria-hidden="true">
+              <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <ellipse
+                  cx="100"
+                  cy="185"
+                  rx="60"
+                  ry="8"
+                  fill="rgba(0,0,0,.15)"
+                />
+                <ellipse cx="100" cy="120" rx="65" ry="60" fill="#e53935" />
+                <ellipse
+                  cx="75"
+                  cy="95"
+                  rx="20"
+                  ry="25"
+                  fill="#ff8a80"
+                  opacity=".5"
+                />
+                <ellipse
+                  cx="70"
+                  cy="88"
+                  rx="10"
+                  ry="14"
+                  fill="#fff"
+                  opacity=".4"
+                />
+                <path
+                  d="M40 130 Q100 185 160 130 Q100 175 40 130 Z"
+                  fill="#b71c1c"
+                  opacity=".35"
+                />
+                <path
+                  d="M100 65 L85 55 L90 62 L75 58 L85 65 L70 68 L85 70 L72 78 L88 72 L82 82 L95 72 L100 65 Z"
+                  fill="#43a047"
+                />
+                <path
+                  d="M100 65 L115 55 L110 62 L125 58 L115 65 L130 68 L115 70 L128 78 L112 72 L118 82 L105 72 L100 65 Z"
+                  fill="#2e7d32"
+                />
+                <path
+                  d="M100 65 Q98 50 100 40"
+                  stroke="#4e342e"
+                  stroke-width="3"
+                  fill="none"
+                  stroke-linecap="round"
+                />
+                <circle cx="100" cy="40" r="2.5" fill="#4e342e" />
+              </svg>
+            </div>
+          </article>
+
+          <article class="hero-card hero-card--secondary">
+            <div class="hero-card__content">
+              <span class="hero-card__eyebrow hero-card__eyebrow--accent"
+                >۲۰٪ تخفیف</span
+              >
+              <h2 class="hero-card__title hero-card__title--sm">لبنیات تازه</h2>
+              <p class="hero-card__text hero-card__text--sm">
+                فقط تا پایان هفته
+              </p>
+              <a href="#dairy" class="hero-card__btn hero-card__btn--outline"
+                ><span>دیدن محصولات</span><span aria-hidden="true">←</span></a
+              >
+            </div>
+            <div class="hero-card__art hero-card__art--sm" aria-hidden="true">
+              <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <ellipse
+                  cx="100"
+                  cy="170"
+                  rx="75"
+                  ry="10"
+                  fill="rgba(0,0,0,.12)"
+                />
+                <path d="M25 130 L100 55 L175 130 L100 155 Z" fill="#e6a500" />
+                <path d="M25 130 L100 55 L100 155 L25 130 Z" fill="#ffca28" />
+                <path d="M100 55 L175 130 L100 155 L100 55 Z" fill="#ffb300" />
+                <path
+                  d="M35 128 L100 62 L110 70 L45 135 Z"
+                  fill="#fff"
+                  opacity=".3"
+                />
+                <ellipse cx="60" cy="125" rx="10" ry="6" fill="#ff8f00" />
+                <ellipse cx="130" cy="125" rx="8" ry="5" fill="#ff8f00" />
+                <ellipse cx="90" cy="100" rx="6" ry="3.5" fill="#ff8f00" />
+                <ellipse cx="75" cy="140" rx="7" ry="4" fill="#ff8f00" />
+                <ellipse cx="110" cy="142" rx="6" ry="3.5" fill="#ff8f00" />
+                <path
+                  d="M25 130 L100 155 L175 130"
+                  stroke="#e6a500"
+                  stroke-width="1.5"
+                  fill="none"
+                />
+              </svg>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section
+        id="categories"
+        class="categories"
+        aria-labelledby="categories-title"
+      >
+        <div class="categories__wrapper">
+          <header class="section-head">
+            <h2 id="categories-title" class="section-head__title">
+              دسته‌بندی‌ها
+            </h2>
+          </header>
+          <ul class="categories__grid" id="categories-grid"></ul>
+        </div>
+      </section>
+
+      <section
+        id="special"
+        class="carousel-section"
+        aria-labelledby="special-title"
+      >
+        <div class="carousel-section__head">
+          <h2 id="special-title" class="section-head__title">
+            <span aria-hidden="true">🔥</span> پیشنهاد ویژه امروز
+          </h2>
+          <a href="#all-products" class="section-head__link">مشاهده همه ←</a>
+        </div>
+        <div
+          class="carousel"
+          role="region"
+          aria-label="کاروسل پیشنهاد ویژه"
+          tabindex="0"
+        >
+          <ul class="carousel__track" id="special-track"></ul>
+        </div>
+      </section>
+
+      <section class="banners" aria-label="بنرهای تبلیغاتی">
+        <div class="banners__wrapper" id="banners-wrapper"></div>
+      </section>
+
+      <div id="category-sections"></div>
+
+      <section
+        id="all-products"
+        class="products-section"
+        aria-labelledby="all-products-title"
+      >
+        <div class="products-section__head">
+          <h2 id="all-products-title" class="section-head__title">
+            <span aria-hidden="true">🛒</span> تمام محصولات
+          </h2>
+          <div class="products-section__actions">
+            <span class="section-head__count" id="all-count"></span>
+            <button
+              type="button"
+              class="filter-btn"
+              id="filter-btn"
+              aria-haspopup="dialog"
+              aria-label="باز کردن فیلتر"
+            >
+              <svg
+                class="filter-btn__icon"
+                viewBox="0 0 24 24"
+                width="18"
+                height="18"
+                aria-hidden="true"
+              >
+                <path
+                  d="M4 6h16M7 12h10M10 18h4"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+              <span class="filter-btn__label">فیلتر</span>
+              <span class="filter-btn__badge" id="filter-badge" hidden>۰</span>
+            </button>
+          </div>
+        </div>
+        <ul class="products-grid" id="all-track"></ul>
+      </section>
+
+      <div
+        class="modal"
+        id="filter-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="filter-modal-title"
+      >
+        <div class="modal__overlay" data-close="filter-modal"></div>
+        <div class="modal__content modal__content--filter">
+          <header class="modal__header">
+            <h2 class="modal__title" id="filter-modal-title">
+              <span aria-hidden="true">🎯</span> فیلتر محصولات
+            </h2>
+            <button
+              type="button"
+              class="modal__close"
+              data-close="filter-modal"
+              aria-label="بستن"
+            >
+              ✕
+            </button>
+          </header>
+          <div class="modal__body">
+            <div class="filter-group">
+              <h3 class="filter-group__title">دسته‌بندی</h3>
+              <div class="filter-chips" id="filter-categories"></div>
+            </div>
+            <div class="filter-group">
+              <h3 class="filter-group__title">وضعیت موجودی</h3>
+              <div class="filter-chips" id="filter-availability">
+                <button
+                  type="button"
+                  class="filter-chip filter-chip--active"
+                  data-stock="all"
+                >
+                  همه
+                </button>
+                <button type="button" class="filter-chip" data-stock="in">
+                  موجود
+                </button>
+                <button type="button" class="filter-chip" data-stock="out">
+                  ناموجود
+                </button>
+              </div>
+            </div>
+            <div class="filter-group">
+              <h3 class="filter-group__title">تخفیف</h3>
+              <div class="filter-chips" id="filter-discount">
+                <button
+                  type="button"
+                  class="filter-chip filter-chip--active"
+                  data-discount="all"
+                >
+                  همه
+                </button>
+                <button type="button" class="filter-chip" data-discount="yes">
+                  دارای تخفیف
+                </button>
+              </div>
+            </div>
+            <div class="filter-group">
+              <h3 class="filter-group__title">مرتب‌سازی</h3>
+              <div class="filter-chips" id="filter-sort">
+                <button
+                  type="button"
+                  class="filter-chip filter-chip--active"
+                  data-sort="default"
+                >
+                  پیش‌فرض
+                </button>
+                <button type="button" class="filter-chip" data-sort="price-asc">
+                  ارزان‌ترین
+                </button>
+                <button
+                  type="button"
+                  class="filter-chip"
+                  data-sort="price-desc"
+                >
+                  گران‌ترین
+                </button>
+                <button type="button" class="filter-chip" data-sort="name">
+                  حروف الفبا
+                </button>
+              </div>
+            </div>
+          </div>
+          <footer class="modal__footer modal__footer--filter">
+            <button type="button" class="btn btn--ghost" id="filter-reset">
+              پاک کردن
+            </button>
+            <button type="button" class="btn btn--primary" id="filter-apply">
+              نمایش نتایج
+            </button>
+          </footer>
+        </div>
+      </div>
+
+      <div
+        class="modal"
+        id="cart-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="cart-modal-title"
+      >
+        <div class="modal__overlay" data-close="cart-modal"></div>
+        <div class="modal__content modal__content--cart">
+          <header class="modal__header">
+            <h2 class="modal__title" id="cart-modal-title">
+              <span aria-hidden="true">🛒</span> سبد خرید
+            </h2>
+            <button
+              type="button"
+              class="modal__close"
+              data-close="cart-modal"
+              aria-label="بستن"
+            >
+              ✕
+            </button>
+          </header>
+          <div class="modal__body" id="cart-body"></div>
+          <footer class="modal__footer" id="cart-footer"></footer>
+        </div>
+      </div>
+
+      <div
+        class="modal"
+        id="product-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="product-modal-title"
+      >
+        <div class="modal__overlay" data-close="product-modal"></div>
+        <div class="modal__content">
+          <header class="modal__header">
+            <h2 class="modal__title" id="product-modal-title">جزئیات محصول</h2>
+            <button
+              type="button"
+              class="modal__close"
+              data-close="product-modal"
+              aria-label="بستن"
+            >
+              ✕
+            </button>
+          </header>
+          <div class="modal__body"></div>
+        </div>
+      </div>
+    </main>
+
+    <footer id="contact" class="site-footer">
+      <div class="footer__wrapper">
+        <div class="footer__grid">
+          <div class="footer__col">
+            <h2 class="footer__title">
+              <span class="footer__brand-icon" aria-hidden="true">
+                <svg viewBox="0 0 64 64" focusable="false">
+                  <circle cx="32" cy="32" r="30" fill="url(#brand-grad)" />
+                  <path
+                    d="M32 12 C 18 20, 14 36, 24 48 C 34 56, 46 50, 48 38 C 50 26, 44 16, 32 12 Z"
+                    fill="#111318"
+                  />
+                  <circle cx="40" cy="20" r="3" fill="#fff" opacity="0.9" />
+                </svg>
+              </span>
+              <span id="footer-name">سبزکاله</span>
+            </h2>
+            <p class="footer__text" id="footer-about">
+              از سال ۱۴۰۰، کنار شما هستیم.
+            </p>
+            <p class="footer__contact">
+              <span aria-hidden="true">📞</span>
+              <a href="tel:+982112345678" dir="ltr" id="footer-phone"
+                >۰۲۱-۱۲۳۴۵۶۷۸</a
+              >
+            </p>
+          </div>
+
+          <nav class="footer__col" aria-label="دسترسی‌ها">
+            <h2 class="footer__title">دسترسی‌ها</h2>
+            <ul class="footer__list" id="footer-links"></ul>
+          </nav>
+
+          <nav class="footer__col" aria-label="راهنما">
+            <h2 class="footer__title">راهنما</h2>
+            <ul class="footer__list" id="footer-help"></ul>
+          </nav>
+
+          <div class="footer__col">
+            <h2 class="footer__title">ساعت کاری</h2>
+            <div id="footer-schedule"></div>
+          </div>
+        </div>
+
+        <div class="footer__bottom">
+          <p class="footer__copy" id="footer-copy">© ۱۴۰۴ سبزکاله</p>
+          <a href="#" class="footer__top" aria-label="بازگشت به بالای صفحه"
+            >بازگشت به بالا <span aria-hidden="true">↑</span></a
+          >
+        </div>
+      </div>
+    </footer>
+    <script type="module" src="script.ts"></script>
+  </body>
 </html>
