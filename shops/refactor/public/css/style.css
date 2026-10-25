@@ -639,6 +639,43 @@
                         transform: translateY(-2px);
                     }
                 }
+                /* ---------- promo---------- */
+                
+                .promo-list {
+                    display: grid;
+                    grid-template-columns: minmax(0, 1fr);
+                    gap: var(--gap);
+                    list-style: none;
+                }
+                
+                .promo {
+                    display: flex;
+                    align-items: center;
+                    gap: 14px;
+                    padding: 16px 22px;
+                    border-radius: var(--radius-lg);
+                    background: var(--promo-bg, var(--mint));
+                    color: var(--ink);
+                    font-family: var(--font-head);
+                    font-weight: 600;
+                    font-size: 1.05rem;
+                    line-height: 1.5;
+                    transition: transform var(--dur) var(--ease);
+                }
+                
+                .promo-emoji {
+                    font-size: 2.4rem;
+                    line-height: 1;
+                    transition: transform var(--dur) var(--ease);
+                }
+                
+                .promo:hover {
+                    transform: translateY(-3px);
+                }
+                
+                .promo:hover .promo-emoji {
+                    transform: rotate(-8deg) scale(1.1);
+                }
                 /* ---------- features---------- */
                 
                 .features-list {

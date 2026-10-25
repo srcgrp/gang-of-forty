@@ -3,6 +3,7 @@ export type Category = {
     name: string;
     slug: string;
     emoji: string;
+    color?: string;
 };
 
 export interface CTA {

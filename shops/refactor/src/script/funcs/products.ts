@@ -12,7 +12,11 @@ import {
 
 import type { Home, Shop, MainCardProps, PromoItem, ProductView, Schedule, FooterLink } from '.././type.js';
 
+const EDGE_GAP = 8;
+
 const toFa = (n: number): string => n.toLocaleString('fa-IR');
+
+const asset = (file: string): string => encodeURI(`${import.meta.env.BASE_URL}img/${file}`);
 
 const createHeroSlider = (heroSlide: MainCardProps): HTMLElement => {
     const swiper = el('div', 'swiper');
@@ -116,22 +120,30 @@ const createSideCard = (slide: MainCardProps): HTMLElement => {
     return side;
 };
 
-// const createPromos = (promos: PromoItem[]): HTMLElement => {
-//     const container = el('div', 'hero-promos');
+const makePromo = ({ href, bg, emoji, text }: PromoItem): HTMLLIElement => {
+    const li = el('li');
+    const link = el('a', 'promo');
+    link.href = href;
+    link.style.setProperty('--promo-bg', bg);
 
-//     promos.forEach(({ href, bg, emoji, text }) => {
-//         const promo = el('a', 'hero-promo');
-//         promo.href = href;
-//         promo.style.setProperty('--promo-bg', bg);
+    const icon = el('span', 'promo-emoji', emoji);
+    icon.setAttribute('aria-hidden', 'true');
 
-//         const emojiSpan = el('span', null, emoji);
-//         emojiSpan.setAttribute('aria-hidden', 'true');
-//         promo.append(emojiSpan, el('span', null, text));
-//         container.append(promo);
-//     });
+    link.append(icon, el('span', 'promo-text', text));
+    li.append(link);
 
-//     return container;
-// };
+    return li;
+};
+const renderPromos = (promos: PromoItem[]): void => {
+    const section = document.querySelector<HTMLElement>('.promos');
+    const list = section?.querySelector<HTMLElement>('.promo-list');
+
+    if (section && list && promos.length > 0) {
+        list.textContent = '';
+        list.append(...promos.map(makePromo));
+        section.hidden = false;
+    }
+};
 
 const renderHero = (home: Home): void => {
     const heroGrid = document.querySelector<HTMLElement>('.hero-grid');
@@ -141,7 +153,6 @@ const renderHero = (home: Home): void => {
         heroGrid.append(
             createHeroSlider(home.hero),
             createSideCard(home.side),
-            // createPromos(home.promos)
         );
         initSwiper();
     }
@@ -235,21 +246,79 @@ const setupCarousel = (carousel: HTMLElement): void => {
                 behavior: reduceMotion ? 'auto' : 'smooth',
             });
         };
+        const startOffset = (card: HTMLElement): number => {
+            const trackRect = track.getBoundingClientRect();
+            const cardRect = card.getBoundingClientRect();
 
-        prev.addEventListener('click', () => scrollByStep(-1));
-        next.addEventListener('click', () => scrollByStep(1));
+            return direction() === -1 ? cardRect.right - trackRect.right : cardRect.left - trackRect.left;
+        };
+
+        const getCards = (): HTMLElement[] =>
+            Array.from(track.querySelectorAll<HTMLElement>('.card:not(.skeleton)'));
+
+        let urlTimer = 0;
+        let urlPending = false;
+
+        const writeUrl = (): void => {
+            urlPending = false;
+
+            const offsets = getCards().map((card) => Math.abs(startOffset(card) - direction() * EDGE_GAP));
+            const first = offsets.indexOf(Math.min(...offsets));
+
+            if (first === -1) return;
+
+            const url = new URL(location.href);
+            url.hash = `${track.id}-${first + 1}`;
+            history.replaceState(history.state, '', url);
+        };
+
+        const scheduleUrl = (): void => {
+            urlPending = true;
+            clearTimeout(urlTimer);
+            urlTimer = window.setTimeout(writeUrl, 150);
+        };
+
+        const restoreFromUrl = (): void => {
+            const [, id, position] = location.hash.match(/^#(.+)-(\d+)$/) ?? [];
+            const card = id === track.id ? getCards()[Number(position) - 1] : undefined;
+
+            if (card) {
+                track.scrollBy({ left: startOffset(card) - direction() * EDGE_GAP, behavior: 'auto' });
+            }
+        };
+
+        prev.addEventListener('click', () => {
+            scrollByStep(-1);
+            scheduleUrl();
+        });
+        next.addEventListener('click', () => {
+            scrollByStep(1);
+            scheduleUrl();
+        });
 
         let frame = 0;
         const scheduleUpdate = (): void => {
             cancelAnimationFrame(frame);
             frame = requestAnimationFrame(update);
+
+            if (urlPending) scheduleUrl();
         };
+
+        let restored = false;
 
         track.addEventListener('scroll', scheduleUpdate, { passive: true });
         new ResizeObserver(scheduleUpdate).observe(track);
-        new MutationObserver(scheduleUpdate).observe(track, { childList: true });
+        new MutationObserver(() => {
+            scheduleUpdate();
+
+            if (!restored && getCards().length > 0) {
+                restored = true;
+                restoreFromUrl();
+            }
+        }).observe(track, { childList: true });
 
         update();
+
     }
 };
 
@@ -391,13 +460,49 @@ const initAddToCart = (): void => {
     });
 }
 
+const initMouseDrag=(): void=> {
+  document.querySelectorAll<HTMLElement>(".track").forEach((track) => {
+    let isDragging = false;
+    let startX = 0;
+    let startScrollLeft = 0;
+
+    track.addEventListener("mousedown", (e: MouseEvent) => {
+      if (e.button !== 0) return;
+
+      isDragging = true;
+      startX = e.clientX;
+      startScrollLeft = track.scrollLeft;
+    });
+
+    track.addEventListener("mousemove", (e: MouseEvent) => {
+      if (!isDragging) return;
+
+      e.preventDefault();
+
+      const distance = e.clientX - startX;
+      track.scrollLeft = startScrollLeft - distance;
+    });
+
+    document.addEventListener("mouseup", () => {
+      isDragging = false;
+    });
+
+    track.addEventListener("dragstart", (e: DragEvent) => {
+      e.preventDefault();
+    });
+  });
+}
+
+
 export {
-    renderHero,
+      renderHero,
     renderFooter,
     getAndShowProducts,
     getAndShowAllProducts,
     updateSearchPlaceholders,
     initAddToCart,
     initCarousels,
+    renderPromos,
+    initMouseDrag
 
 };

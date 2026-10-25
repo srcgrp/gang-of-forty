@@ -4,11 +4,13 @@ import { loadAppData } from './api.js';
 import { showLoading, showError, renderSkeletons } from './components/skeleton.js';
 import {
      renderHero,
+    renderPromos,
     renderFooter,
     getAndShowProducts,
     getAndShowAllProducts,
     updateSearchPlaceholders,
     initAddToCart,
+    initMouseDrag,
      initCarousels,
 } from './funcs/products.js'
 
@@ -69,10 +71,10 @@ const fetchAppData = async (): Promise<AppData | null> => {
 };
 
 const renderPage = (data: AppData): void => {
-    renderHero(data.home);
+   renderHero(data.home);
+    renderPromos(data.home.promos);
     initCategories(data.categories, data.products);
     getAndShowAllProducts(data.products);
-    getAndShowProducts('.products-track-off', 2, data.products);
     getAndShowProducts('.product-fruit', 1, data.products);
     updateSearchPlaceholders(data.products.length);
     renderFooter(data.shop);
@@ -82,6 +84,7 @@ const startApp = async (): Promise<void> => {
     initAddToCart();
     initCarousels();
     showLoadingStates();
+    initMouseDrag()
 
     const data = await fetchAppData();
     if (data) {
