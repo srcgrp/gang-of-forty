@@ -31,5 +31,8 @@ export function fillShop(shop: FrozenShop): void {
   phone.textContent = shop.phone;
   phone.setAttribute("href", "tel:" + shop.phone);
   phone.setAttribute("dir", "ltr");
-  copyRight.textContent = shop.copyright;
+  copyRight.textContent = shop.copyright.replace(
+    "سوپرمارکت مینا",
+    "سوپرمارکت تمیز",
+  );
 }
