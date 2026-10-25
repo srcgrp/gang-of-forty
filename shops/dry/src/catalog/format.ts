@@ -13,6 +13,8 @@ export function formatPercent(n:number): string {
 }
 
 export function searchSummary(count: number, query: string): string {
-    if (count === 0) return `نتیجه‌ای برای «${query}» پیدا نشد.`
-    return `${faNumber.format(count)} محصول پیدا شد.`
+  if (count === 0) {
+    return query === '' ? 'محصولی در این دسته نیست.' : `نتیجه‌ای برای «${query}» پیدا نشد.`
+  }
+  return `${faNumber.format(count)} محصول پیدا شد.`
 }
