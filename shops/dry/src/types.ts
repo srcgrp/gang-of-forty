@@ -66,3 +66,5 @@ export type LoadState =
 | { status: 'success'; products: Product[]; stock: Stock; offers: Offer[] }
 | {status: 'empty' }
 | { status: 'error'; message: string }
+
+export type LoadSuccess = Extract<LoadState, { status: 'success' }>
