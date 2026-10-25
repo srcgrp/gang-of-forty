@@ -1,0 +1,76 @@
+@keyframes drawWedge {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fillWedge {
+  to {
+    fill-opacity: 1;
+  }
+}
+
+@keyframes popTopping {
+  0% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes sliceOut {
+  0% {
+    transform: translate(0, 0);
+  }
+  35% {
+    transform: translate(var(--dx), var(--dy));
+  }
+  55% {
+    transform: translate(var(--dx), var(--dy));
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .logo__wedge,
+  .logo__topping,
+  .logo__shard {
+    animation: none;
+  }
+
+  .logo__wedge {
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+  }
+
+  .logo__topping {
+    opacity: 1;
+    transform: none;
+  }
+
+  .logo__shard {
+    transform: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
