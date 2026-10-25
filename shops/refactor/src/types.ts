@@ -55,3 +55,14 @@ export type LoadState =
     | { status: 'success'; data: AppData }
     | { status: 'empty'; data: AppData }
     | { status: 'error'; message: string };
+    
+export type AddOutcome =
+  | { status: 'added'; items: CartItem[]; name: string }
+  | { status: 'maxed' }
+  | { status: 'ignored' };
+
+export type LoadDeps = {
+  load: (signal: AbortSignal) => Promise<AppData>;
+  explain: (error: unknown, aborted: boolean) => string;
+  show: (state: LoadState) => void;
+};

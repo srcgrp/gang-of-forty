@@ -29,7 +29,10 @@ export const readList = <T>(
   if (!Array.isArray(value)) throw new Error(`ساختار دادهٔ ${file} معتبر نیست.`);
   const accepted = value.filter(guard);
   const removed = value.length - accepted.length;
-  if (removed > 0) notices.push(`${removed.toLocaleString('fa-IR')} رکورد نامعتبر از ${file} کنار گذاشته شد.`);
+  if (removed > 0) {
+    console.warn(`${file}: ${removed} record(s) failed the type guard and were skipped.`);
+    notices.push(`${removed.toLocaleString('fa-IR')} رکورد نامعتبر از ${file} کنار گذاشته شد.`);
+  }
   return accepted;
 };
 

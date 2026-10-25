@@ -1,6 +1,6 @@
 import type { ApiFile } from '../types';
 
-const API_URL = '/api';
+const API_URL: string = import.meta.env.VITE_API_URL;
 
 export const getJSON = async (file: ApiFile, signal: AbortSignal): Promise<unknown> => {
   const response: Response = await fetch(`${API_URL.replace(/\/$/, '')}/${file}`, { signal, cache: 'no-store' });

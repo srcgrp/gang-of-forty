@@ -19,7 +19,10 @@ export const loadShop = async (signal: AbortSignal): Promise<AppData> => {
   const offers = uniqueBy(readList(rawOffers, isOffer, 'offers.json', notices), (o) => o.productId, notices);
   const offerMap = new Map(offers.map((offer) => [offer.productId, offer]));
   const validProducts = products.filter((product) => categoryIds.has(product.categoryId));
-  if (validProducts.length < products.length) notices.push('محصول دارای دسته‌بندی ناشناخته کنار گذاشته شد.');
+  if (validProducts.length < products.length) {
+    console.warn(`products.json: ${products.length - validProducts.length} product(s) with an unknown category were skipped.`);
+    notices.push('محصول دارای دسته‌بندی ناشناخته کنار گذاشته شد.');
+  }
   const views: ProductView[] = validProducts.map((product): ProductView => {
     const percent = offerMap.get(product.id)?.percent ?? 0;
     return { ...product, originalPrice: product.price, percent,

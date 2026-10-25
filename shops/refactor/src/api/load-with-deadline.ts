@@ -1,6 +1,14 @@
 import type { AppData } from '../types';
 import { loadShop } from './load-shop';
 
+const TIMEOUT_MESSAGE = 'مهلت اتصال تمام شد. اتصال اینترنت را بررسی و دوباره تلاش کنید.';
+
+export const loadErrorMessage = (error: unknown, aborted: boolean): string => {
+  if (aborted) return TIMEOUT_MESSAGE;
+  if (error instanceof TypeError) return 'ارتباط با فروشگاه برقرار نشد. اتصال اینترنت را بررسی و دوباره تلاش کنید.';
+  return error instanceof Error ? error.message : 'دریافت اطلاعات فروشگاه ممکن نشد.';
+};
+
 export const loadWithDeadline = async (signal: AbortSignal, onSlow: () => void): Promise<AppData> => {
   const controller = new AbortController();
   const cancel = (): void => controller.abort();
@@ -15,7 +23,7 @@ export const loadWithDeadline = async (signal: AbortSignal, onSlow: () => void):
     if (first === undefined && !signal.aborted) onSlow();
     return first ?? await request;
   } catch (error: unknown) {
-    if (controller.signal.aborted && !signal.aborted) throw new Error('مهلت اتصال تمام شد. اتصال اینترنت را بررسی و دوباره تلاش کنید.');
+    if (controller.signal.aborted && !signal.aborted) throw new Error(TIMEOUT_MESSAGE);
     throw error;
   } finally {
     clearTimeout(timeout); clearTimeout(slowTimer);
