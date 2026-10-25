@@ -1,9 +1,10 @@
 import type { Product, Offer, ProductData, SuggestionsData, Stock } from '../types';
 import { getJson, clearRequestCache } from './request';
 import { isProduct, isOffer, isStock } from './guards-products';
-const productsUrl = '../../api/products.json';
-const offersUrl = '../../api/offers.json';
-const stockUrl = '../../api/stock.json';
+const API_URL = import.meta.env.VITE_API_URL;
+const productsUrl = `${API_URL}/products.json`;
+const offersUrl = `${API_URL}/offers.json`;
+const stockUrl = `${API_URL}/stock.json`;
 async function getValidProducts(): Promise<Product[]> {
   const raw = await getJson(productsUrl);
   if (!Array.isArray(raw)) { clearRequestCache(productsUrl); throw new Error('Invalid products API response'); }
