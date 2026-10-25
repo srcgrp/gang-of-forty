@@ -11,3 +11,6 @@ export function renderSuggestionsCount(count: number): void {
   const input = document.querySelector<HTMLInputElement>('.header__search input');
   if (input) input.placeholder = `می‌تونی بین ${count.toLocaleString('fa-IR')} محصول جستجو کنی`;
 }
+
+// Lesson 5 public name.
+export const renderProducts = renderProductCards;

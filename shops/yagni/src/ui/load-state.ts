@@ -11,3 +11,6 @@ export function renderLoadState(state: LoadState, container: HTMLElement, retry:
     default: return assertNever(state);
   }
 }
+
+// Lesson 5 public name.
+export const renderStatus = renderLoadState;

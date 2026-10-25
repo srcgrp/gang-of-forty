@@ -12,3 +12,6 @@ export function getJson(url: string): Promise<unknown> {
   void request.catch(() => { if (cache.get(url) === request) cache.delete(url); });
   return request;
 }
+
+// Lesson 5 compatibility name.
+export const getJSON = getJson;

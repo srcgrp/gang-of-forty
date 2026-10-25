@@ -39,4 +39,15 @@ document.addEventListener('click', (event: MouseEvent) => {
   const productId = Number(button.dataset.productId); const price = Number(button.dataset.price); const product = products.find((item) => item.id === productId); if (!product || !Number.isFinite(price)) return;
   cart = addProduct(cart, product, price); if (!writeCart(cart)) notyf.error('ذخیره سبد خرید در این مرورگر امکان‌پذیر نیست'); renderCartSummary(countCartItems(cart), totalCartPrice(cart)); notyf.success('محصول به سبد خرید اضافه شد'); confetti();
 });
-document.addEventListener('DOMContentLoaded', () => { renderCartSummary(countCartItems(cart), totalCartPrice(cart)); void loadCatalog(); void loadSuggestions(); void loadCategories(); void loadShop(); void loadHome(); });
+function render(): void {
+  renderCartSummary(countCartItems(cart), totalCartPrice(cart));
+}
+function start(): void {
+  render();
+  void loadCatalog();
+  void loadSuggestions();
+  void loadCategories();
+  void loadShop();
+  void loadHome();
+}
+document.addEventListener('DOMContentLoaded', start);

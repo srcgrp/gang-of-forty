@@ -29,3 +29,15 @@ export async function fetchSuggestions(): Promise<SuggestionsData> {
   const stock: Stock = rawStock;
   return { products, offers, stock };
 }
+
+export async function loadProducts(): Promise<Product[]> {
+  return getValidProducts();
+}
+export async function loadOffers(): Promise<Offer[]> {
+  return getOffers();
+}
+export async function loadStock(): Promise<Stock> {
+  const raw = await getJson(stockUrl);
+  if (!isStock(raw)) { clearRequestCache(stockUrl); throw new Error('Invalid stock API response'); }
+  return raw;
+}

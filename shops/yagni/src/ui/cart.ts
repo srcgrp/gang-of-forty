@@ -4,3 +4,11 @@ export function renderCartSummary(countValue: number, totalValue: number): void 
   if (count) count.textContent = countValue.toLocaleString('fa-IR');
   if (total) total.textContent = `${totalValue.toLocaleString('fa-IR')} تومان`;
 }
+
+export function renderCart(countValue: number, totalValue: number): void {
+  renderCartSummary(countValue, totalValue);
+}
+export function renderTotal(totalValue: number): void {
+  const total = document.querySelector<HTMLElement>('.header__cart-content strong');
+  if (total) total.textContent = `${totalValue.toLocaleString('fa-IR')} تومان`;
+}

@@ -9,3 +9,5 @@ export async function fetchCategories(): Promise<Categories> {
   if (!entries.every(isCategory)) { clearRequestCache(url); throw new Error('Invalid categories API response'); }
   return entries.filter(isCategory);
 }
+
+export const loadCategories = fetchCategories;
