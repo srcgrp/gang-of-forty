@@ -51,6 +51,7 @@ export type Card = {
     title: string
     unit: string
     emoji: string
+    image: string | null
     price: string
     oldPrice: string | null
     discount: string | null
