@@ -5,7 +5,7 @@ export function renderSideBanner(side: Hero) {
   const container = document.querySelector("#home-side");
 
   if (!container) {
-    return;
+     throw new Error("Side banner container is missing from the DOM.");
   }
 
   const banner = document.createElement("article");
@@ -35,7 +35,7 @@ export function renderPromoBanners(promos: Promo[]) {
   const container = document.querySelector("#home-promos");
 
   if (!container) {
-    return;
+      throw new Error("Promo banners container is missing from the DOM.");
   }
 
   const cards = promos.map((promo) => {

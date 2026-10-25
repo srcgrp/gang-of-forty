@@ -1,10 +1,8 @@
-
 import type {
   Product,
   Offer,
   Stock,
   HomeCarousel,
-  Category,
 } from "./types";
 
 import { renderProductCarousel } from "./products";
@@ -102,58 +100,33 @@ export function renderHomeCarousels(
   carousels: HomeCarousel[],
   products: Product[],
   offersMap: Map<number, Offer>,
-  stock: Stock,
-  categories: Category[]
+  stock: Stock
 ) {
   const featuredContainer = document.querySelector(
     "#home-featured-carousels"
   );
+
   const categoryContainer = document.querySelector(
     "#home-category-carousels"
   );
 
   if (!featuredContainer || !categoryContainer) {
-    return;
+    throw new Error("Home carousel containers are missing from the DOM.");
   }
 
   const featured = carousels.filter(
     (item) => item.source === "offers"
   );
 
-  const configuredCategories = carousels.filter(
+  const categoryCarousels = carousels.filter(
     (item) => item.source !== "offers"
   );
-
-  const configuredIds = new Set(
-    configuredCategories.map((item) => item.id)
-  );
-
-  const configuredCategoryIds = new Set(
-    configuredCategories
-      .map((item) => item.categoryId)
-      .filter((id) => id != null)
-  );
-
-  const otherCategories = categories
-    .filter(
-      (item) =>
-        !configuredIds.has(item.slug) &&
-        !configuredCategoryIds.has(item.id)
-    )
-    .map((item) => ({
-      id: item.slug,
-      title: item.name,
-      categoryId: item.id,
-    }));
 
   const featuredSections = featured.map((item) =>
     createHomeCarousel(item, products, offersMap, stock)
   );
 
-  const categorySections = [
-    ...configuredCategories,
-    ...otherCategories,
-  ].map((item) =>
+  const categorySections = categoryCarousels.map((item) =>
     createHomeCarousel(item, products, offersMap, stock)
   );
 

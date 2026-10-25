@@ -5,7 +5,8 @@ export function renderShopHelp(shop: Shop) {
   const container = document.querySelector("#footer-help");
 
   if (!container) {
-    return;
+      throw new Error("Footer help container is missing from the DOM.");
+
   }
 
   const links = shop.help.map((item) => {
@@ -23,7 +24,7 @@ function renderShopMenu(
   menuItems: LinkItem[]
 ) {
   if (!container) {
-    return;
+        throw new Error("Required shop menu container is missing from the DOM.");
   }
 
   const categoryHrefs = new Set([
@@ -68,12 +69,11 @@ export function renderShopMenus(shop: Shop) {
   renderShopMenu(desktopMenu, shop.menu);
   renderShopMenu(mobileMenu, shop.menu);
 }
-
 export function renderShopAbout(shop: Shop) {
   const aboutElement = document.querySelector("#shop-about");
 
   if (!aboutElement) {
-    return;
+    throw new Error("Shop about element is missing from the DOM.");
   }
 
   aboutElement.textContent = shop.about;
@@ -83,7 +83,7 @@ export function renderShopSchedule(shop: Shop) {
   const container = document.querySelector("#shop-schedule");
 
   if (!container) {
-    return;
+      throw new Error("Shop schedule container is missing from the DOM.");
   }
 
   const title = document.createElement("p");
@@ -106,7 +106,7 @@ export function renderShopContact(shop: Shop) {
   );
 
   if (!phoneElement || !addressElement || !phoneLink) {
-    return;
+      throw new Error("Required shop contact elements are missing from the DOM.");
   }
 
   phoneElement.textContent = shop.phone;
@@ -120,7 +120,7 @@ export function renderShopCopyright(shop: Shop) {
   const copyrightElement = document.querySelector("#shop-copyright");
 
   if (!copyrightElement) {
-    return;
+      throw new Error("Shop copyright element is missing from the DOM.");
   }
 
   copyrightElement.textContent = shop.copyright.replace(
@@ -133,7 +133,8 @@ export function renderShopNotice(shop: Shop) {
   const noticeElement = document.querySelector("#shop-notice");
 
   if (!noticeElement) {
-    return;
+      throw new Error("Shop notice element is missing from the DOM.");
+
   }
 
   noticeElement.textContent = shop.notice;

@@ -21,7 +21,7 @@ function updateSearchPlaceholder(productCount: number) {
     document.querySelector<HTMLInputElement>("#site-search");
 
   if (!searchInput) {
-    return;
+    throw new Error("Search input is missing from the DOM.");
   }
 
   searchInput.placeholder = `جستجو در میان ${priceFormatter.format(productCount)} کالا...`;
@@ -34,9 +34,9 @@ export function setupProductsSearch() {
   const resultContainer =
     document.querySelector<HTMLDivElement>("#search-result");
 
-  if (!searchInput || !resultContainer) {
-    return;
-  }
+ if (!searchInput || !resultContainer) {
+  throw new Error("Required search elements are missing from the DOM.");
+}
 
   searchInput.addEventListener("input", () => {
     const query = searchInput.value.trim();
@@ -70,22 +70,20 @@ export function setupProductsSearch() {
             `.product-card[data-api-product="${item.id}"]`
           );
 
-          if (!productCard) {
-            return;
-          }
-
-          productCard.scrollIntoView({
-            behavior: "smooth",
-            block: "center",
-            inline: "nearest",
-          });
+       if (productCard) {
+  productCard.scrollIntoView({
+    behavior: "smooth",
+    block: "center",
+    inline: "nearest",
+  });
 
           productCard.classList.add("product-highlight");
 
-          setTimeout(() => {
-            productCard.classList.remove("product-highlight");
-          }, 2500);
-        });
+        setTimeout(() => {
+  productCard.classList.remove("product-highlight");
+}, 2500);
+}
+});
 
         resultContainer.append(result);
       });
@@ -102,17 +100,13 @@ export function setupProductsSearch() {
 
   const searchForm = searchInput.closest(".search");
 
-  document.addEventListener("click", (event) => {
-    const target = event.target;
+document.addEventListener("click", (event) => {
+  const target = event.target;
 
-    if (!(target instanceof Node) || !searchForm) {
-      return;
-    }
-
-    if (!searchForm.contains(target)) {
-      resultContainer.hidden = true;
-    }
-  });
+  if (target instanceof Node && searchForm && !searchForm.contains(target)) {
+    resultContainer.hidden = true;
+  }
+});
 }
 
 export function setupSearchForm() {

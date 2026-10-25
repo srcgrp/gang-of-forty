@@ -23,12 +23,10 @@ export function renderCategories(categories: Category[]) {
   const container = document.querySelector("#category-grid");
 
   if (!container) {
-    return;
+      throw new Error("Category grid container is missing from the DOM.");
   }
 
-  const cards = categories.map((category) => {
-    return createCategoryCard(category);
-  });
+ const cards = categories.map(createCategoryCard);
 
   container.replaceChildren(...cards);
   container.setAttribute("aria-busy", "false");
@@ -38,7 +36,8 @@ export function renderCategoryDropdown(categories: Category[]) {
   const dropdown = document.querySelector("#category-dropdown");
 
   if (!dropdown) {
-    return;
+  throw new Error("Category dropdown is missing from the DOM.");
+
   }
 
   const apiLinks = categories.map((category) => {
@@ -61,23 +60,20 @@ export function renderFooterCategories(categories: Category[]) {
   const container = document.querySelector("#footer-categories");
 
   if (!container) {
-    return;
+    throw new Error("Footer categories container is missing from the DOM.");
   }
 
   const apiLinks = categories.map((category) => {
     const link = document.createElement("a");
     link.href = `#${category.slug}`;
     link.textContent = category.name;
+    link.dataset.apiCategory = "true";
     return link;
   });
 
   const customLinks = Array.from(
     container.querySelectorAll(":scope > a:not([data-api-category])")
   );
-
-  apiLinks.forEach((link) => {
-    link.dataset.apiCategory = "true";
-  });
 
   container.replaceChildren(...apiLinks, ...customLinks);
 }

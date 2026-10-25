@@ -36,7 +36,7 @@ function renderHero(hero: Hero) {
   const cta = document.querySelector<HTMLAnchorElement>("#hero-cta");
 
   if (!title || !text || !cta) {
-    return;
+    throw new Error("Required hero elements are missing from the DOM.");
   }
 
   title.textContent = hero.title;
@@ -46,20 +46,18 @@ function renderHero(hero: Hero) {
 }
 
 function showHeroSlide(slide: Hero & { image: string }) {
-  renderHero(slide);
-
   const heroSection = document.querySelector<HTMLElement>(".hero");
 
-  if (heroSection) {
-    heroSection.classList.toggle(
-      "hero-slide-three",
-      slide.image === "/asset/banners/bg4.webp"
-    );
+  if (!heroSection) {
+    throw new Error("Hero section is missing from the DOM.");
   }
 
-  if (!heroSection) {
-    return;
-  }
+  renderHero(slide);
+
+  heroSection.classList.toggle(
+    "hero-slide-three",
+    slide.image === "/asset/banners/bg4.webp"
+  );
 
   heroSection.style.backgroundImage = `url("${slide.image}")`;
 }

@@ -38,20 +38,16 @@ export function setupOffersConfetti() {
   document.addEventListener("click", (event) => {
     const target = event.target;
 
-    if (!(target instanceof Element)) {
-      return;
+    if (target instanceof Element) {
+      const offersLink = target.closest<HTMLAnchorElement>(
+        'a[href="#offers"]'
+      );
+
+      if (offersLink) {
+        setTimeout(() => {
+          showOffersConfetti();
+        }, 300);
+      }
     }
-
-    const offersLink = target.closest<HTMLAnchorElement>(
-      'a[href="#offers"]'
-    );
-
-    if (!offersLink) {
-      return;
-    }
-
-    setTimeout(() => {
-      showOffersConfetti();
-    }, 500);
   });
 }

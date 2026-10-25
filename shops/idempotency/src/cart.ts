@@ -34,7 +34,7 @@ let cartCount =
 
 function updateCartCount() {
   if (!cartCountElement) {
-    return;
+    throw new Error("Cart count element is missing from the DOM.");
   }
 
   cartCountElement.textContent = priceFormatter.format(cartCount);
@@ -55,19 +55,15 @@ export function setupCart() {
   document.addEventListener("click", (event) => {
     const target = event.target;
 
-    if (!(target instanceof Element)) {
-      return;
+    if (target instanceof Element) {
+      const button = target.closest<HTMLButtonElement>(
+        ".product-card button"
+      );
+
+      if (button && !button.disabled) {
+        addToCart();
+      }
     }
-
-    const button = target.closest<HTMLButtonElement>(
-      ".product-card button"
-    );
-
-    if (!button || button.disabled) {
-      return;
-    }
-
-    addToCart();
   });
 
   updateCartCount();
