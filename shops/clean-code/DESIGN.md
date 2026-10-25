@@ -14,7 +14,7 @@ One page, from top to bottom:
 - Header: logo, slogan, search, cart count, menu
 - Status line (`#status`)
 - Hero and the side promo
-- Category list
+- Category list, starting with All
 - Featured rows: today's offers, plus the category named in `home.json`
 - Promo strips
 - One row for every other category
@@ -30,9 +30,9 @@ A product card shows the emoji, the name, the unit, the stock, the price, a disc
 - Stock left: server (`stock.json`)
 - Banner, slogan, address, phone, menu, and footer: server (`shop.json`)
 - Hero, promo strips, and the list of rows: server (`home.json`)
-- Search text, which cards are hidden, and the load status: program state
+- Search text and selected category: URL (`?category=` and `?q=`), read and written only in `storage/url-filters.ts`
 - Cart: `localStorage`, key `cart` (list of `{ productId, qty }`)
-- Jumps such as `#dairy` and `#cart`: URL. The search text is not in the URL yet
+- Jumps such as `#dairy` and `#cart`: URL.
 - API address prefix: `.env`, variable `VITE_API_URL`
 
 ## 4. API contract
@@ -59,13 +59,14 @@ Joins: `product.id` matches `stock.items` and `offer.productId`. `product.catego
 
 ```
 src/
-  types/        types layer    Product, Shop, Home, LoadState; types may import types
+  types/        types layer    Product, Shop, Home, LoadState
   api/          data layer     reading JSON with fetch
-  storage/      data layer     reading and writing localStorage
-  cart/         logic layer    add, remove, count, rows, and total
-  catalog/      logic layer    offer lookup, discounted price, product line text
-  ui/           ui layer       building and updating the DOM
-  main.ts       main layer     state, events, and starting the page
+  storage/      data layer     cart in localStorage; URL filters in url-filters.ts
+  features/cart      cart rules: add, remove, count, rows, total
+  features/products  product rules: offers on the card, card prices
+  shared/            findOffer and finalPrice; both features may use this
+  ui/                ui layer       the page; boot.ts paints the shop after load
+  main.ts            main layer     wires the two features together
 ```
 
 ## 7. Security

@@ -1,8 +1,5 @@
-import type { Offer, Product } from "../types/product.ts";
-
-export function finalPrice(price: number, percent: number): number {
-  return (price * (100 - percent)) / 100;
-}
+import { finalPrice } from "../../shared/price.ts";
+import type { Offer, Prices, Product } from "../../types/product.ts";
 
 export function formatPrice(
   price: number,
@@ -20,11 +17,7 @@ export function cardPrices(
   offer: Offer | null,
   qty: number,
   faNumber: Intl.NumberFormat,
-): {
-  available: boolean;
-  oldLabel: string;
-  nowLabel: string | null;
-} {
+): Prices {
   const available = inStock(qty);
   const oldLabel = formatPrice(product.price, faNumber);
   if (offer && available) {

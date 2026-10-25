@@ -1,4 +1,4 @@
-import type { Offer, Product } from "../types/product.ts";
+import type { Offer, Prices, Product } from "../types/product.ts";
 import { makeAmount, makePic } from "./card-pic.ts";
 import { makeButton, makePrice } from "./card-price.ts";
 
@@ -7,11 +7,7 @@ export function toCard(
   qty: number,
   offer: Offer | null,
   faNumber: Intl.NumberFormat,
-  prices: {
-    available: boolean;
-    oldLabel: string;
-    nowLabel: string | null;
-  },
+  prices: Prices,
   onAdd: () => void,
 ): HTMLLIElement {
   const li: HTMLLIElement = document.createElement("li");

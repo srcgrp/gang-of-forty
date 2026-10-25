@@ -1,6 +1,11 @@
-import { findOffer } from "../catalog/offer.ts";
-import { finalPrice } from "../catalog/price.ts";
-import type { CartItem, CartLine, Offer, Product } from "../types/product.ts";
+import { findOffer } from "../../shared/offer.ts";
+import { finalPrice } from "../../shared/price.ts";
+import type {
+  CartItem,
+  CartLine,
+  Offer,
+  Product,
+} from "../../types/product.ts";
 
 export function cartRows(lines: CartLine[], products: Product[]): CartItem[] {
   const rows: CartItem[] = [];

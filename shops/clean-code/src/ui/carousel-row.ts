@@ -8,7 +8,9 @@ export function addCards(
   endId: string,
 ): void {
   for (let i = 0; i < products.length; i++) {
-    const li = makeItem(products[i]);
+    const product = products[i];
+    if (!product) continue;
+    const li = makeItem(product);
     if (i === 0) {
       li.id = startId;
     }

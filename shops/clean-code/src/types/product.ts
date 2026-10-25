@@ -27,7 +27,18 @@ export type Stock = {
   items: Record<string, number>;
 };
 
+export type Filters = {
+  category: string;
+  q: string;
+};
+
 export type MakeItem = (product: Product) => HTMLElement;
+
+export type Prices = {
+  available: boolean;
+  oldLabel: string;
+  nowLabel: string | null;
+};
 
 export type CartLine = {
   productId: number;

@@ -542,6 +542,13 @@ section:target h2::after {
   }
 }
 
+.product[hidden],
+.hero[hidden],
+.adv[hidden],
+.row-nav[hidden] {
+  display: none;
+}
+
 .product {
   position: relative;
   height: 100%;

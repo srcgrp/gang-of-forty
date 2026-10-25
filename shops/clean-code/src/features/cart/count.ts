@@ -1,4 +1,4 @@
-import type { CartLine } from "../types/product.ts";
+import type { CartLine } from "../../types/product.ts";
 
 export function addToCart(lines: CartLine[], productId: number): CartLine[] {
   const next = lines.map(function (line) {
