@@ -1,48 +1,7 @@
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
 import { CountUp } from 'countup.js';
-
-
-type Category = {
-    id: number,
-    slug: string,
-    name: string,
-    emoji: string
-};
-
-type Product = { 
-    id: number,
-    categoryId: number,
-    name: string,
-    emoji: string,
-    unit: string,
-    price: number,
-    tags: string[]
-};
-
-type Offer = {
-    productId: number,
-    percent: number,
-    label: string
-};
-
-type Stock = {
-    updatedAt: string,
-    items: Record<string,number>
-};
-
-type Shop = {
-    name: string,
-    slogan: string,
-    owner: string,
-    city: string,
-    phone: string,
-    hours: { open: string, close: string },
-    deliveryFee: number,
-    freeDeliveryOver: number,
-    currency: string
-}
-
+import type { Category, Product, Offer, Stock, Shop, CardInfo, MessageType, LinkItem } from './types';
 
 const notyf = new Notyf({
     position: { x: "center", y: "top" },
@@ -111,12 +70,7 @@ function filterSpecialProducts(offers: Offer[], products: Product[], stock: Stoc
     return specialProducts;
 }
 
-// Define object for keeping inStock : Remain number of products, label: Name of offer, percent: the percentage of offer on product.
-type CardInfo = {
-    inStock?: boolean,
-    label? : string,
-    percent? : number
-};
+
 
 // Get html element and return error if it doesn't exist.
 function getHtmlElement<Type extends Element>(selector: string, parent: ParentNode = document): Type {
@@ -255,7 +209,7 @@ function renderProducts(data: Product[], queryId: string, offeredProducts: Offer
     getHtmlElement<HTMLUListElement>(`#${queryId} ul`).append(...productList);
 }
 
-type MessageType = "load" | "error"
+
 // Show message for loading data and errors
 // container: html tag which message be shown in that, text : the content of message, type: load or error
 function showMessage(container: string, text: string, type: MessageType ) {
@@ -309,10 +263,7 @@ function renderCategories(categoryData: Category[]) {
     });
 }
 
-type LinkItem = {
-    label: string,
-    href: string
-};
+
 
 // Builds an li with a link inside it.
 // item: { label, href }
