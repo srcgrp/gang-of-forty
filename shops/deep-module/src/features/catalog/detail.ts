@@ -1,8 +1,8 @@
-import type { Product, StockData } from "../types";
-import { stockLabel } from "../catalog/stock";
-import { h } from "./dom";
-import { formatPrice } from "./format";
-import { openModal } from "./modal";
+import type { Product, StockData } from "../../shared/types";
+import { stockLabel } from "./stock";
+import { h } from "../../shared/ui/dom";
+import { formatPrice } from "../../shared/ui/format";
+import { openModal } from "../../shared/ui/modal";
 
 export interface DetailCallbacks {
   onAdd: (product: Product) => boolean;

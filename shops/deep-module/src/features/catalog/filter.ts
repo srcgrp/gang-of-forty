@@ -1,4 +1,4 @@
-import type { FilterState, Offer, Product, StockData } from "../types";
+import type { FilterState, Offer, Product, StockData } from "../../shared/types";
 
 export function filterProducts(
   products: Product[],

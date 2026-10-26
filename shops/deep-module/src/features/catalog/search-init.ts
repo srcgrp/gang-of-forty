@@ -1,7 +1,7 @@
-import type { Product, StockData } from "../types";
-import { searchProducts } from "../catalog/search";
-import { h } from "./dom";
-import { formatPrice } from "./format";
+import type { Product, StockData } from "../../shared/types";
+import { searchProducts } from "./search";
+import { h } from "../../shared/ui/dom";
+import { formatPrice } from "../../shared/ui/format";
 import { openProductDetail } from "./detail";
 
 let activeIndex = -1;

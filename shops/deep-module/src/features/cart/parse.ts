@@ -1,4 +1,4 @@
-import type { CartItem } from "../types";
+import type { CartItem } from "../../shared/types";
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;

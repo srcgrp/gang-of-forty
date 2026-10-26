@@ -1,6 +1,6 @@
-import type { Category, FilterState } from "../types";
-import { h } from "./dom";
-import { openModal, closeModal } from "./modal";
+import type { Category, FilterState } from "../../shared/types";
+import { h } from "../../shared/ui/dom";
+import { openModal, closeModal } from "../../shared/ui/modal";
 let filterInitialized = false;
 export interface FilterModalOptions {
   categories: Category[];

@@ -1,23 +1,8 @@
-﻿# dependencies
-node_modules/
-
-# build output
+﻿node_modules/
 dist/
-
-# env files (local)
 .env.*.local
-
-# logs
 *.log
-npm-debug.log*
-
-# editor
 .vscode/
 .idea/
-
-# OS
 .DS_Store
-Thumbs.db
-
-# TypeScript cache
 *.tsbuildinfo

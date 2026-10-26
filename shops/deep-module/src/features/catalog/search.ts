@@ -1,5 +1,5 @@
 import Fuse from "fuse.js";
-import type { Product } from "../types";
+import type { Product } from "../../shared/types";
 
 let fuseInstance: Fuse<Product> | null = null;
 

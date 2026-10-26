@@ -1,7 +1,7 @@
-import type { CartItem, StockData } from "../types";
-import { cartTotal } from "../cart/cart";
-import { h } from "./dom";
-import { formatPrice } from "./format";
+import type { CartItem, StockData } from "../../shared/types";
+import { cartTotal } from "./cart";
+import { h } from "../../shared/ui/dom";
+import { formatPrice } from "../../shared/ui/format";
 import { makeCartItem, type CartItemCallbacks } from "./cart-item";
 
 export interface CartViewOptions extends CartItemCallbacks {

@@ -1,7 +1,7 @@
-import type { Offer, Product, StockData } from "../types";
-import { stockLabel } from "../catalog/stock";
-import { h } from "./dom";
-import { formatPrice } from "./format";
+import type { Offer, Product, StockData } from "../../shared/types";
+import { stockLabel } from "./stock";
+import { h } from "../../shared/ui/dom";
+import { formatPrice } from "../../shared/ui/format";
 
 export function createProductCard(
   product: Product,

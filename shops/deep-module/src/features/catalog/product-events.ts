@@ -1,4 +1,4 @@
-import type { Product } from "../types";
+import type { Product } from "../../shared/types";
 
 export function attachProductEvents(
   container: HTMLElement | null,

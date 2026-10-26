@@ -1,4 +1,4 @@
-import type { FilterState, Sort } from "../types";
+import type { FilterState, Sort } from "../../shared/types";
 
 const KEYS = {
   q: "q",

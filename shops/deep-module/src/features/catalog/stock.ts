@@ -1,4 +1,4 @@
-import type { StockData, StockMap } from "../types";
+import type { StockData, StockMap } from "../../shared/types";
 
 export interface StockLabel {
   text: string;

@@ -6,13 +6,13 @@ import type {
   Product,
   Shop,
   StockData,
-} from "./types";
-import { filterProducts } from "./catalog/filter";
-import { createProductCard } from "./ui/product-card";
-import { attachProductEvents } from "./ui/product-events";
-import { h } from "./ui/dom";
-import { safeHref } from "./ui/format";
-import { renderEmpty } from "./ui/empty-state";
+} from "./shared/types";
+import { filterProducts } from "./features/catalog/filter";
+import { createProductCard } from "./features/catalog/product-card";
+import { attachProductEvents } from "./features/catalog/product-events";
+import { h } from "./shared/ui/dom";
+import { safeHref } from "./shared/ui/format";
+import { renderEmpty } from "./shared/ui/empty-state";
 
 export interface RenderOptions {
   state: AppState;

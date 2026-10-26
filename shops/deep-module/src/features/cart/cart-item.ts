@@ -1,7 +1,7 @@
-import type { CartItem, StockData } from "../types";
+import type { CartItem, StockData } from "../../shared/types";
 import { availableStock, stockLabel } from "../catalog/stock";
-import { h } from "./dom";
-import { formatPrice, faNum } from "./format";
+import { h } from "../../shared/ui/dom";
+import { formatPrice, faNum } from "../../shared/ui/format";
 
 export interface CartItemCallbacks {
   onIncrease: (id: number) => void;

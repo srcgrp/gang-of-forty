@@ -1,31 +1,34 @@
-import type { AppState, Product } from "./types";
+import type { AppState, Product } from "./shared/types";
 import confetti from "canvas-confetti";
-import { loadAll } from "./api/load";
-import { readCartRaw, writeCartRaw } from "./storage/cart-storage";
-import { readConsumedStock, writeConsumedStock } from "./storage/stock-storage";
-import { readUrlState, writeUrlState } from "./catalog/url";
+import { loadAll } from "./shared/api/load";
+import { readCartRaw, writeCartRaw } from "./features/cart/cart-storage";
+import {
+  readConsumedStock,
+  writeConsumedStock,
+} from "./features/catalog/stock-storage";
+import { readUrlState, writeUrlState } from "./features/catalog/url";
 import {
   addProduct,
   cartCount,
   decreaseQuantity,
   removeItem,
-} from "./cart/cart";
-import { parseCart } from "./cart/parse";
-import { initSearch, searchProducts } from "./catalog/search";
-import { mergeStock } from "./catalog/stock";
+} from "./features/cart/cart";
+import { parseCart } from "./features/cart/parse";
+import { initSearch, searchProducts } from "./features/catalog/search";
+import { mergeStock } from "./features/catalog/stock";
 import {
   renderSkeletonCategories,
   renderSkeletonProducts,
-} from "./ui/skeleton";
-import { showOfflineBanner, hideOfflineBanner } from "./ui/banner";
-import { toast } from "./ui/toast";
-import { closeAllModals, closeModal, openModal } from "./ui/modal";
-import { initTheme } from "./ui/theme";
-import { setupAutoAnimate } from "./ui/animate";
-import { renderError } from "./ui/error-state";
-import { renderCartModal } from "./ui/cart-view";
-import { initFilterModal } from "./ui/filter-modal";
-import { initSearchUI } from "./ui/search-init";
+} from "./shared/ui/skeleton";
+import { showOfflineBanner, hideOfflineBanner } from "./shared/ui/banner";
+import { toast } from "./shared/ui/toast";
+import { closeAllModals, closeModal, openModal } from "./shared/ui/modal";
+import { initTheme } from "./features/theme/theme";
+import { setupAutoAnimate } from "./shared/ui/animate";
+import { renderError } from "./shared/ui/error-state";
+import { renderCartModal } from "./features/cart/cart-view";
+import { initFilterModal } from "./features/filter/filter-modal";
+import { initSearchUI } from "./features/catalog/search-init";
 import { renderApp } from "./main-render";
 
 // ===== State =====
@@ -189,13 +192,11 @@ function setupFilterAndSearch(): void {
     },
   });
 
-  // اگه از قبل توی URL چیزی سرچ شده بود، همون اول اعمالش کن
   if (urlState.query) {
     const results = searchProducts(state.data.products, urlState.query);
     state.searchIds = new Set(results.map((p) => p.id));
     renderApp({ state, onAdd: addToCart });
 
-    // همچنین متن داخل input جستجو رو هم پر کن
     const searchInput = document.getElementById(
       "site-search",
     ) as HTMLInputElement;

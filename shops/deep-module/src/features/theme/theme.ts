@@ -2,7 +2,7 @@ import {
   readTheme,
   writeTheme,
   type ThemeMode,
-} from "../storage/theme-storage";
+} from "./theme-storage";
 
 const BTN = "#theme-btn";
 const ICON = ".theme-btn__icon";
