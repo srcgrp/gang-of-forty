@@ -1,7 +1,7 @@
 /* Amirhossein (Armin) Panahi */
 /* Week 4 - Strategic Supermarket - Arch */
 
-import type { Category } from '../types';
+import type { Category } from '../../types';
 import { searchKey } from './search-key';
 type CategoryArtRule = readonly [file: string, slugPattern: RegExp, namePattern: RegExp];
 

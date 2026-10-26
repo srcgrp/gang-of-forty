@@ -1,7 +1,7 @@
 /* Amirhossein (Armin) Panahi */
 /* Week 4 - Strategic Supermarket - Arch */
 
-import type { Category, ProductItem, ShopModel } from '../types';
+import type { Category, ProductItem, ShopModel } from '../../types';
 
 export const emptyModel = (): ShopModel => ({
   products: [], categories: [], offers: [], shop: {},

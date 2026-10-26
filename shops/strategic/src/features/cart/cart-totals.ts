@@ -1,7 +1,7 @@
 /* Amirhossein (Armin) Panahi */
 /* Week 4 - Strategic Supermarket - Arch */
 
-import type { CartItem, CartLine, ProductItem } from '../types';
+import type { CartItem, CartLine, ProductItem } from '../../types';
 
 export const cartCount = (cart: readonly CartLine[]): number =>
   cart.reduce((sum, line) => sum + line.quantity, 0);

@@ -1,9 +1,9 @@
 /* Amirhossein (Armin) Panahi */
 /* Week 4 - Strategic Supermarket - Arch */
 
-import type { Offer, Product, ProductItem } from '../types';
+import type { Offer, Product, ProductItem } from '../../types';
 import { findProductArt } from './art-product';
-import { finalPrice, validPercent } from './price';
+import { finalPrice, inStock, validPercent } from './price';
 import { searchKey } from './search-key';
 
 export function toCard(product: Product, offer: Offer | undefined, stock: number): ProductItem {
@@ -12,7 +12,7 @@ export function toCard(product: Product, offer: Offer | undefined, stock: number
     product,
     art: findProductArt(searchKey(product.name)),
     stock,
-    soldOut: stock === 0,
+    soldOut: !inStock(stock),
     percent,
     oldPrice: percent ? product.price : 0,
     price: percent ? finalPrice(product.price, percent) : product.price,

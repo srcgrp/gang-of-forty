@@ -1,8 +1,8 @@
 /* Amirhossein (Armin) Panahi */
 /* Week 4 - Strategic Supermarket - Arch */
 
-import { SORTS } from '../types';
-import type { ProductItem, SearchIndexEntry, Sort } from '../types';
+import { SORTS } from '../../types';
+import type { ProductItem, SearchIndexEntry, Sort } from '../../types';
 import { searchKey } from './search-key';
 
 export function visibleProducts(index: readonly SearchIndexEntry[], query: string, sort: Sort = SORTS[0]): ProductItem[] {

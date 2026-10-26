@@ -1,13 +1,14 @@
 /* Amirhossein (Armin) Panahi */
 /* Week 4 - Strategic Supermarket - Arch */
 
-import type { CartLine } from '../types';
+import { clamp } from '../../shared/range';
+import type { CartLine } from '../../types';
 
 export const qtyOf = (cart: readonly CartLine[], id: number): number =>
   cart.find((line) => line.productId === id)?.quantity ?? 0;
 
 export function setQuantity(cart: readonly CartLine[], id: number, wanted: number, limit: number): CartLine[] {
-  const quantity = Math.max(0, Math.min(wanted, limit));
+  const quantity = clamp(wanted, 0, limit);
   const others = cart.filter((line) => line.productId !== id);
   if (quantity === 0) return others;
   return [...others, { productId: id, quantity }].sort((first, second) => first.productId - second.productId);
