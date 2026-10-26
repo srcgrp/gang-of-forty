@@ -1,4 +1,5 @@
 
+import type { Theme } from "./types";
 export function setupTheme() {
   const lightButton =
     document.querySelector<HTMLButtonElement>("#theme-light-button");
@@ -6,7 +7,7 @@ export function setupTheme() {
   const darkButton =
     document.querySelector<HTMLButtonElement>("#theme-dark-button");
 
-  function setTheme(theme: "light" | "dark") {
+  function setTheme(theme: Theme) {
     document.documentElement.dataset.theme = theme;
 
     lightButton?.setAttribute(

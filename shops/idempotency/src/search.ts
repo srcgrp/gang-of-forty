@@ -1,12 +1,13 @@
 
 import Fuse from "fuse.js";
 import type { Product } from "./types";
+type SearchableProduct = Pick<Product, "id" | "name">;
 
-let productSearch: Fuse<Product> | null = null;
+let productSearch: Fuse<SearchableProduct> | null = null;
 
 const priceFormatter = new Intl.NumberFormat("fa-IR");
 
-export function initializeProductSearch(products: Product[]) {
+export function initializeProductSearch(products: SearchableProduct[]) {
   productSearch = new Fuse(products, {
     keys: ["name"],
     threshold: 0.35,

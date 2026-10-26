@@ -3,19 +3,31 @@ import type {
   Offer,
   Stock,
   HomeCarousel,
-  Category
+  Category,
+  ProductFilter,
 } from "./types";
 
 import { renderProductCarousel } from "./products";
 
+function filterProducts(
+  products: Product[],
+  filter: ProductFilter,
+  offersMap: Map<number, Offer>
+): Product[] {
+  if (filter === "offers") {
+    return products.filter((product) => offersMap.has(product.id));
+  }
+
+  return products;
+}
 function getCarouselProducts(
   carousel: HomeCarousel,
   products: Product[],
   offersMap: Map<number, Offer>
 ): Product[] {
   if (carousel.source === "offers") {
-    return products.filter((product) => offersMap.has(product.id));
-  }
+  return filterProducts(products, "offers", offersMap);
+}
 
   if (carousel.categoryId != null) {
     return products.filter(

@@ -4,7 +4,7 @@ import { productImages } from "./data";
 
 const priceFormatter = new Intl.NumberFormat("fa-IR");
 
-function createProductMedia(product: Product) {
+function createProductMedia(product: Readonly<Product>) {
   const imagePath = productImages[product.id];
 
   if (imagePath) {

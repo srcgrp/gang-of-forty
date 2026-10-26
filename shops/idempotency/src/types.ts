@@ -70,3 +70,13 @@ export type Home = {
   promos: Promo[];
   carousels: HomeCarousel[];
 };
+
+export type CartItem = Pick<Product, "id" | "price"> & {
+  quantity: number;
+};
+
+export const THEMES = ["light", "dark"] as const;
+export type Theme = (typeof THEMES)[number];
+
+export const PRODUCT_FILTERS = ["all", "offers"] as const;
+export type ProductFilter = (typeof PRODUCT_FILTERS)[number];
