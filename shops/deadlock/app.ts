@@ -1,18 +1,9 @@
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
 import confetti from "canvas-confetti";
-export type Product = {
-  id : number,
-  categoryId : number,
-  name : string,
-  emoji: string,
-  unit : string,
-  price : number,
-  tags : string[]
-}
-export type Category = {id: number, slug: string,name: string, emoji: string, color : string}
-export type Offer = {productId:number , percent: number, label:string}
-export type Stock = {updatedAt: string, items: Record<string, number>}
+import type { Product } from "./src/types";
+import type { Offer } from "./src/types";
+import type { Stock } from "./src/types";
 const notyf = new Notyf();
 let cartCount = 0;
 const counter = document.querySelector<HTMLSpanElement>(".cart-count");
