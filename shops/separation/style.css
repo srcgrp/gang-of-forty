@@ -1,13 +1,437 @@
-/* Your shop's styles. Week 1: make it yours! */
-body {
-  font-family: Vazirmatn, Tahoma, sans-serif;
-  margin: 0;
-  padding: 1rem;
-  line-height: 1.8;
-  background: #f7faf5;
-  color: #1f2a1c;
+/* سوپرمارکت yaldastore - استایل ساده با فلکس */
+
+* {
+    box-sizing: border-box;
 }
 
-h1 {
-  color: #2e7d32;
+body {
+    margin: 0;
+    font-family: Tahoma, sans-serif;
+    background: #faf7f0;
+    color: #333;
+    line-height: 1.8;
+}
+
+a {
+    color: #2e7d32;
+}
+
+/* لینک پرش برای کیبورد */
+.skip {
+    position: absolute;
+    top: -60px;
+    right: 10px;
+    background: #333;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 8px;
+}
+
+.skip:focus {
+    top: 10px;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+/* نوار بالای صفحه */
+.top-bar {
+    background: #2e7d32;
+    color: #fff;
+    text-align: center;
+    padding: 6px;
+    font-size: 14px;
+}
+
+/* سربرگ */
+.header-main {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    background: #fff;
+    flex-wrap: wrap;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.logo-text small {
+    display: block;
+    font-weight: normal;
+    font-size: 12px;
+    color: #888;
+}
+
+.search {
+    display: flex;
+    flex: 1;
+    min-width: 180px;
+}
+
+.search input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 0 8px 8px 0;
+    font: inherit;
+}
+
+.search button {
+    padding: 8px 14px;
+    border: 1px solid #ddd;
+    border-right: none;
+    border-radius: 8px 0 0 8px;
+    background: #f0f0f0;
+    cursor: pointer;
+    font: inherit;
+}
+
+.cart {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #e8f5e9;
+    padding: 8px 14px;
+    border-radius: 20px;
+    text-decoration: none;
+    color: #2e7d32;
+    font-weight: bold;
+}
+
+/* منوی موبایل */
+.burger {
+    display: none;
+    padding: 8px 16px;
+    font-size: 22px;
+    cursor: pointer;
+    background: #fff;
+}
+
+.main-nav {
+    background: #fff;
+    border-top: 1px solid #eee;
+}
+
+.main-nav ul {
+    display: flex;
+    gap: 18px;
+    list-style: none;
+    margin: 0;
+    padding: 8px 16px;
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: #555;
+}
+
+/* بنرها */
+.hero {
+    display: flex;
+    gap: 14px;
+    padding: 16px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.hero-big {
+    flex: 2;
+    background: #2e7d32;
+    color: #fff;
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.hero-small {
+    flex: 1;
+    background: #fff8e1;
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.hero-button {
+    display: inline-block;
+    background: #ffca28;
+    color: #333;
+    padding: 8px 18px;
+    border-radius: 20px;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+.hero-small .hero-button {
+    background: #2e7d32;
+    color: #fff;
+}
+
+/* بخش‌ها */
+.section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 10px 16px;
+}
+
+.row-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.sort select {
+    font: inherit;
+    padding: 6px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+#status {
+    color: #888;
+    min-height: 1.5em;
+}
+
+#status:empty {
+    display: none;
+}
+
+/* دسته‌ها */
+.cat-list {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.cat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 14px;
+    padding: 14px;
+    min-width: 100px;
+    flex: 1;
+    text-decoration: none;
+    color: #333;
+}
+
+.cat.active {
+    border-color: #2e7d32;
+}
+
+.cat .emoji {
+    font-size: 30px;
+}
+
+/* کاروسل */
+.car {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+
+.card {
+    flex: 0 0 160px;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 14px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    position: relative;
+}
+
+.card:hover {
+    border-color: #2e7d32;
+}
+
+.card .pic {
+    border-radius: 10px;
+    font-size: 44px;
+    text-align: center;
+    padding: 16px 0;
+}
+
+.card h3 {
+    margin: 0;
+    font-size: 15px;
+}
+
+.card .unit {
+    margin: 0;
+    font-size: 12px;
+    color: #999;
+}
+
+.card .old {
+    margin: 0;
+    font-size: 12px;
+    color: #999;
+    text-decoration: line-through;
+}
+
+.card .price-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+}
+
+.card .price {
+    font-weight: bold;
+}
+
+.card .add {
+    background: #2e7d32;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.card .badge {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    background: #c62828;
+    color: #fff;
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+/* بنرهای تبلیغاتی */
+.promos {
+    display: flex;
+    gap: 14px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 10px 16px;
+}
+
+.promo {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #e8f5e9;
+    border-radius: 14px;
+    padding: 18px;
+    font-weight: bold;
+}
+
+/* سبد خرید */
+#cart .box {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 14px;
+    padding: 16px;
+}
+
+#cart ul {
+    padding-right: 18px;
+}
+
+#cart li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+#cart button {
+    font: inherit;
+    background: #2e7d32;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 4px 12px;
+    cursor: pointer;
+}
+
+/* فوتر */
+footer {
+    background: #1c2420;
+    color: #ccc;
+    margin-top: 20px;
+}
+
+.foot-cols {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px 16px;
+}
+
+.foot-cols > div {
+    flex: 1;
+    min-width: 160px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.foot-cols h2 {
+    color: #fff;
+    font-size: 16px;
+}
+
+.foot-cols a {
+    color: #ccc;
+    text-decoration: none;
+}
+
+.foot-bottom {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 10px 16px;
+    border-top: 1px solid #333;
+    font-size: 13px;
+}
+
+.foot-bottom a {
+    color: #ffca28;
+}
+
+/* موبایل */
+@media (max-width: 600px) {
+    .burger {
+        display: block;
+    }
+
+    .main-nav ul {
+        display: none;
+        flex-direction: column;
+    }
+
+    #nav-toggle:checked + .burger + .main-nav ul {
+        display: flex;
+    }
+
+    .hero,
+    .promos {
+        flex-direction: column;
+    }
 }
