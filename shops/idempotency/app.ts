@@ -131,13 +131,13 @@ async function loadAllData() {
   startHeroSlider(home.hero);
   renderSideBanner(home.side);
   renderPromoBanners(home.promos);
-
-  renderHomeCarousels(
-    home.carousels,
-    products,
-    offersMap,
-    stock
-  );
+renderHomeCarousels(
+  home.carousels,
+  categories,
+  products,
+  offersMap,
+  stock
+);
 }
 setupCart();
 setupTheme();

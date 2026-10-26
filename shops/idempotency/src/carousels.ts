@@ -3,6 +3,7 @@ import type {
   Offer,
   Stock,
   HomeCarousel,
+  Category
 } from "./types";
 
 import { renderProductCarousel } from "./products";
@@ -98,6 +99,7 @@ function createHomeCarousel(
 
 export function renderHomeCarousels(
   carousels: HomeCarousel[],
+  categories: Category[],
   products: Product[],
   offersMap: Map<number, Offer>,
   stock: Stock
@@ -118,9 +120,28 @@ export function renderHomeCarousels(
     (item) => item.source === "offers"
   );
 
-  const categoryCarousels = carousels.filter(
-    (item) => item.source !== "offers"
-  );
+const configuredCategories = carousels.filter(
+  (item) => item.source !== "offers"
+);
+
+const configuredCategoryIds = new Set(
+  configuredCategories
+    .map((item) => item.categoryId)
+    .filter((id) => id != null)
+);
+
+const otherCategories: HomeCarousel[] = categories
+  .filter((category) => !configuredCategoryIds.has(category.id))
+  .map((category) => ({
+    id: category.slug,
+    title: category.name,
+    categoryId: category.id,
+  }));
+
+const categoryCarousels = [
+  ...configuredCategories,
+  ...otherCategories,
+];
 
   const featuredSections = featured.map((item) =>
     createHomeCarousel(item, products, offersMap, stock)
