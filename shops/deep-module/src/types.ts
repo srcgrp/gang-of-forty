@@ -14,10 +14,7 @@ export interface Category {
   color?: string;
 }
 
-// Utility Type 1: Pick
 export type ProductId = Pick<Product, "id">;
-
-// Utility Type 2: Record (برای موجودی انبار)
 export type StockMap = Record<number, number>;
 
 export interface CartItem extends Product {
@@ -32,22 +29,7 @@ export interface Offer {
 export interface StockData {
   items: StockMap;
 }
-export interface AppData {
-  products: Product[];
-  categories: Category[];
-  shop: Shop;
-  home: Home;
-  offers: Offer[];
-  stock: StockData;
-}
 
-export interface AppState {
-  data: AppData | null;
-  cart: CartItem[];
-  filters: FilterState;
-  searchIds: Set<number> | null;
-  searchQuery: string;
-}
 export interface ShopMenu {
   href: string;
   label: string;
@@ -98,7 +80,6 @@ export interface Home {
   promos?: HomePromo[];
 }
 
-// استفاده از as const (بدون enum)
 export const SORTS = ["default", "price-asc", "price-desc", "name"] as const;
 export type Sort = (typeof SORTS)[number];
 
@@ -123,6 +104,7 @@ export type LoadState<T> =
   | { status: "loading" }
   | { status: "success"; data: T }
   | { status: "error"; message: string; kind: ApiErrorType };
+
 export interface AppData {
   products: Product[];
   categories: Category[];

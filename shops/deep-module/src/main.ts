@@ -1,386 +1,218 @@
-import type {
-  AppState,
-  Category,
-  Home,
-  Offer,
-  Product,
-  Shop,
-  StockData,
-} from "./types";
-import { filterProducts } from "./catalog/filter";
-import { createProductCard } from "./ui/product-card";
-import { attachProductEvents } from "./ui/product-events";
-import { h } from "./ui/dom";
-import { safeHref } from "./ui/format";
-import { renderEmpty } from "./ui/empty-state";
+import type { AppState, Product } from "./types";
+import confetti from "canvas-confetti";
+import { loadAll } from "./api/load";
+import { readCartRaw, writeCartRaw } from "./storage/cart-storage";
+import { readConsumedStock, writeConsumedStock } from "./storage/stock-storage";
+import {
+  addProduct,
+  cartCount,
+  decreaseQuantity,
+  removeItem,
+} from "./cart/cart";
+import { parseCart } from "./cart/parse";
+import { initSearch } from "./catalog/search";
+import { mergeStock } from "./catalog/stock";
+import {
+  renderSkeletonCategories,
+  renderSkeletonProducts,
+} from "./ui/skeleton";
+import { showOfflineBanner, hideOfflineBanner } from "./ui/banner";
+import { toast } from "./ui/toast";
+import { closeAllModals, closeModal, openModal } from "./ui/modal";
+import { initTheme } from "./ui/theme";
+import { setupAutoAnimate } from "./ui/animate";
+import { renderError } from "./ui/error-state";
+import { renderCartModal } from "./ui/cart-view";
+import { initFilterModal } from "./ui/filter-modal";
+import { initSearchUI } from "./ui/search-init";
+import { renderApp } from "./main-render";
 
-export interface RenderOptions {
-  state: AppState;
-  onAdd: (product: Product) => boolean;
+// ===== State =====
+const state: AppState = {
+  data: null,
+  cart: parseCart(readCartRaw()),
+  filters: {
+    categoryId: "all",
+    stock: "all",
+    discount: "all",
+    sort: "default",
+  },
+  searchIds: null,
+  searchQuery: "",
+};
+
+// ===== Cart =====
+export function addToCart(product: Product): boolean {
+  if (!state.data) return false;
+  const available =
+    state.data.stock.items[product.id] ?? Number.POSITIVE_INFINITY;
+  const result = addProduct(state.cart, product, available);
+  if (!result.added) {
+    toast.error(
+      available === 0 ? `${product.name} موجود نیست` : "موجودی کافی نیست",
+    );
+    return false;
+  }
+  state.cart = result.cart;
+  writeCartRaw(state.cart);
+  updateCartBadge();
+  renderCartView();
+  toast.success(`${product.name} به سبد اضافه شد`);
+  return true;
 }
 
-export function renderApp(opts: RenderOptions): void {
-  const { state } = opts;
-  if (!state.data) return;
-  const { products, categories, shop, home, offers, stock } = state.data;
-
-  renderShopInfo(shop, categories);
-  renderHero(home);
-  renderCategories(categories);
-  renderSpecialOffers(products, offers, stock, opts);
-  renderAllProducts(products, offers, stock, opts);
-  renderBanners(home);
-  renderFooter(shop, categories);
-  renderCategorySections(products, categories, stock, opts);
+function decCartItem(id: number): void {
+  state.cart = decreaseQuantity(state.cart, id);
+  writeCartRaw(state.cart);
+  updateCartBadge();
+  renderCartView();
 }
 
-function renderShopInfo(shop: Shop, categories: Category[]): void {
-  const topbar = document.getElementById("topbar-text");
-  if (topbar && shop.notice)
-    topbar.textContent = String(shop.notice).slice(0, 200);
-
-  const brandName = document.getElementById("brand-name");
-  if (brandName && shop.name)
-    brandName.textContent = String(shop.name).slice(0, 50);
-
-  const brandSlogan = document.getElementById("brand-slogan");
-  if (brandSlogan && shop.slogan)
-    brandSlogan.textContent = String(shop.slogan).slice(0, 100);
-
-  const navLinks = document.getElementById("nav-links");
-  if (navLinks && Array.isArray(shop.menu)) {
-    navLinks.replaceChildren();
-    for (const item of shop.menu.slice(0, 10)) {
-      const li = h("li");
-      const a = h("a", undefined, String(item.label ?? "").slice(0, 50));
-      a.href = safeHref(item.href);
-      li.appendChild(a);
-      navLinks.appendChild(li);
-    }
-  }
-
-  const megaList = document.getElementById("mega-list");
-  if (megaList && categories.length > 0) {
-    megaList.replaceChildren();
-    for (const cat of categories) {
-      const li = h("li");
-      const a = h("a");
-      a.href = `#cat-${cat.id}`;
-      a.setAttribute("role", "menuitem");
-      const emoji = h("span", undefined, cat.emoji ?? "");
-      emoji.setAttribute("aria-hidden", "true");
-      a.append(emoji, " " + cat.name);
-      li.appendChild(a);
-      megaList.appendChild(li);
-    }
-  }
+function removeCartItem(id: number): void {
+  state.cart = removeItem(state.cart, id);
+  writeCartRaw(state.cart);
+  updateCartBadge();
+  renderCartView();
 }
 
-function renderHero(home: Home): void {
-  if (home.hero) {
-    const heroTitle = document.getElementById("hero-title");
-    if (heroTitle && typeof home.hero.title === "string") {
-      heroTitle.replaceChildren();
-      home.hero.title
-        .slice(0, 200)
-        .split("،")
-        .forEach((line, i) => {
-          if (i > 0) heroTitle.appendChild(document.createElement("br"));
-          heroTitle.appendChild(document.createTextNode(line.trim()));
-        });
+function checkout(): void {
+  if (!state.data || state.cart.length === 0) return;
+  const consumed = readConsumedStock();
+  for (const item of state.cart) {
+    const current = state.data.stock.items[item.id];
+    if (Number.isFinite(current)) {
+      state.data.stock.items[item.id] = Math.max(0, current - item.quantity);
     }
-    const text = document.querySelector<HTMLElement>(
-      ".hero-card--primary .hero-card__text",
-    );
-    if (text && typeof home.hero.text === "string")
-      text.textContent = home.hero.text.slice(0, 300);
-    const btn = document.querySelector<HTMLAnchorElement>(
-      ".hero-card--primary .hero-card__btn",
-    );
-    if (btn && home.hero.cta) {
-      btn.href = safeHref(home.hero.cta.href);
-      const span = btn.querySelector<HTMLElement>("span:first-child");
-      if (span && home.hero.cta.label)
-        span.textContent = String(home.hero.cta.label).slice(0, 50);
-    }
+    consumed[item.id] = (consumed[item.id] ?? 0) + item.quantity;
   }
-
-  if (home.side) {
-    const title = document.querySelector<HTMLElement>(
-      ".hero-card--secondary .hero-card__title",
-    );
-    if (title && home.side.title)
-      title.textContent = String(home.side.title).slice(0, 100);
-    const text = document.querySelector<HTMLElement>(
-      ".hero-card--secondary .hero-card__text",
-    );
-    if (text && home.side.text)
-      text.textContent = String(home.side.text).slice(0, 200);
-    const btn = document.querySelector<HTMLAnchorElement>(
-      ".hero-card--secondary .hero-card__btn",
-    );
-    if (btn && home.side.cta) {
-      btn.href = safeHref(home.side.cta.href);
-      const span = btn.querySelector<HTMLElement>("span:first-child");
-      if (span && home.side.cta.label)
-        span.textContent = String(home.side.cta.label).slice(0, 50);
-    }
-  }
-}
-
-function createArrowSvg(): SVGElement {
-  const NS = "http://www.w3.org/2000/svg";
-  const svg = document.createElementNS(NS, "svg");
-  svg.setAttribute("viewBox", "0 0 24 24");
-  svg.setAttribute("width", "14");
-  svg.setAttribute("height", "14");
-  const path = document.createElementNS(NS, "path");
-  path.setAttribute("d", "M5 12h14M13 6l6 6-6 6");
-  path.setAttribute("fill", "none");
-  path.setAttribute("stroke", "currentColor");
-  path.setAttribute("stroke-width", "2.5");
-  path.setAttribute("stroke-linecap", "round");
-  path.setAttribute("stroke-linejoin", "round");
-  svg.appendChild(path);
-  return svg;
-}
-
-function renderCategories(categories: Category[]): void {
-  const grid = document.getElementById("categories-grid");
-  if (!grid) return;
-  if (categories.length === 0) {
-    renderEmpty(grid, {
-      icon: "📂",
-      title: "دسته‌بندی‌ای موجود نیست",
-      text: "به‌زودی اضافه می‌شود.",
-    });
-    return;
-  }
-  grid.replaceChildren();
-  const frag = document.createDocumentFragment();
-  categories.forEach((cat, index) => {
-    const li = h("li");
-    li.style.setProperty("--i", String(index));
-    const a = h("a", "category-card");
-    a.href = `#cat-${cat.id}`;
-    const validColor = /^#[0-9a-fA-F]{3,8}$/.test(cat.color ?? "")
-      ? cat.color!
-      : "#f0f9f1";
-    const glow = h("span", "category-card__glow");
-    glow.style.setProperty("--c", validColor);
-    const icon = h("span", "category-card__icon", cat.emoji ?? "");
-    icon.style.background = validColor;
-    const arrow = h("span", "category-card__arrow");
-    arrow.setAttribute("aria-hidden", "true");
-    arrow.appendChild(createArrowSvg());
-    a.append(glow, icon, h("span", "category-card__title", cat.name), arrow);
-    li.appendChild(a);
-    frag.appendChild(li);
+  writeConsumedStock(consumed);
+  state.cart = [];
+  writeCartRaw(state.cart);
+  updateCartBadge();
+  renderCartView();
+  closeModal("cart-modal");
+  confetti({
+    particleCount: 150,
+    spread: 80,
+    origin: { y: 0.6 },
+    colors: ["#d7ff00", "#b8dc00", "#111318", "#4da3ff"],
   });
-  grid.appendChild(frag);
+  renderApp({ state, onAdd: addToCart });
+  toast.success("سفارش شما با موفقیت ثبت شد! 🎉");
 }
 
-function renderSpecialOffers(
-  products: Product[],
-  offers: Offer[],
-  stock: StockData,
-  opts: RenderOptions,
-): void {
-  const track = document.getElementById("special-track");
-  if (!track) return;
-  if (offers.length === 0) {
-    renderEmpty(track, {
-      icon: "🔥",
-      title: "پیشنهاد ویژه‌ای موجود نیست",
-      text: "به‌زودی اضافه می‌شود.",
-    });
+function updateCartBadge(): void {
+  const badge = document.getElementById("cart-count");
+  if (!badge) return;
+  const count = cartCount(state.cart);
+  badge.textContent = count.toLocaleString("fa-IR");
+  badge.style.display = count > 0 ? "grid" : "none";
+}
+
+function renderCartView(): void {
+  if (!state.data) return;
+  renderCartModal({
+    cart: state.cart,
+    stock: state.data.stock,
+    onIncrease: (id) => {
+      const item = state.cart.find((i) => i.id === id);
+      if (item) addToCart(item);
+    },
+    onDecrease: decCartItem,
+    onRemove: removeCartItem,
+    onCheckout: checkout,
+  });
+}
+
+// ===== Boot =====
+async function boot(): Promise<void> {
+  initTheme();
+  setupAutoAnimate();
+  renderSkeletonCategories(document.getElementById("categories-grid"), 7);
+  renderSkeletonProducts(document.getElementById("special-track"), 4);
+  renderSkeletonProducts(document.getElementById("all-track"), 8);
+
+  const result = await loadAll();
+  if (result.status !== "success") {
+    showLoadError(result.status === "error" ? result.message : "خطای نامشخص");
     return;
   }
-  track.replaceChildren();
-  const frag = document.createDocumentFragment();
-  for (const offer of offers) {
-    const product = products.find((p) => p.id === offer.productId);
-    if (!product) continue;
-    frag.appendChild(createProductCard(product, offer, stock));
-  }
-  track.appendChild(frag);
-  attachProductEvents(track, products, opts.onAdd);
+
+  state.data = {
+    ...result.data,
+    stock: mergeStock(result.data.stock, readConsumedStock()),
+  };
+
+  initSearch(state.data.products);
+  renderApp({ state, onAdd: addToCart });
+  updateCartBadge();
+  renderCartView();
+  setupFilterAndSearch();
 }
 
-function renderAllProducts(
-  products: Product[],
-  offers: Offer[],
-  stock: StockData,
-  opts: RenderOptions,
-): void {
-  const track = document.getElementById("all-track");
-  const countEl = document.getElementById("all-count");
-  if (!track) return;
+function setupFilterAndSearch(): void {
+  if (!state.data) return;
 
-  const filtered = filterProducts(
-    products,
-    opts.state.filters,
-    stock,
-    offers,
-    opts.state.searchIds,
-  );
-  track.replaceChildren();
+  initFilterModal({
+    categories: state.data.categories,
+    state: state.filters,
+    onApply: () => renderApp({ state, onAdd: addToCart }),
+  });
 
-  if (filtered.length === 0) {
-    const empty = h("li", "products-empty");
-    empty.append(
-      h("span", "products-empty__icon", "🔍"),
-      h(
-        "p",
-        "products-empty__text",
-        opts.state.searchIds ? "نتیجه‌ای پیدا نشد" : "محصولی پیدا نشد",
-      ),
-      h(
-        "p",
-        "products-empty__hint",
-        opts.state.searchIds
-          ? "عبارت دیگری امتحان کنید"
-          : "فیلترها را تغییر دهید",
-      ),
-    );
-    track.appendChild(empty);
-  } else {
-    for (const p of filtered) {
-      const offer = offers.find((o) => o.productId === p.id) ?? null;
-      track.appendChild(createProductCard(p, offer, stock));
-    }
-    attachProductEvents(track, products, opts.onAdd);
-  }
+  initSearchUI({
+    getProducts: () => state.data!.products,
+    getStock: () => state.data!.stock,
+    onAdd: addToCart,
+    onFilter: (ids, query) => {
+      state.searchIds = ids;
+      state.searchQuery = query;
+      renderApp({ state, onAdd: addToCart });
+    },
+  });
+}
 
-  if (countEl)
-    countEl.textContent = `${filtered.length.toLocaleString("fa-IR")} کالا`;
-
-  const activeCount = [
-    opts.state.filters.categoryId !== "all",
-    opts.state.filters.stock !== "all",
-    opts.state.filters.discount !== "all",
-    opts.state.filters.sort !== "default",
-  ].filter(Boolean).length;
-  const badge = document.getElementById("filter-badge");
-  if (badge) {
-    badge.hidden = activeCount === 0;
-    if (activeCount > 0)
-      badge.textContent = activeCount.toLocaleString("fa-IR");
+function showLoadError(message: string): void {
+  for (const id of ["categories-grid", "special-track", "all-track"]) {
+    renderError(document.getElementById(id), {
+      title: "خطا در دریافت اطلاعات",
+      text: message,
+      onRetry: () => boot(),
+    });
   }
 }
 
-function renderBanners(home: Home): void {
-  const wrapper = document.getElementById("banners-wrapper");
-  if (!wrapper) return;
-  wrapper.replaceChildren();
-  if (!home.promos) return;
-  for (const promo of home.promos.slice(0, 10)) {
-    const a = h("a", "banner");
-    a.href = safeHref(promo.href);
-    const icon = h("span", "banner__icon", promo.emoji ?? "");
-    icon.setAttribute("aria-hidden", "true");
-    const content = h("div", "banner__content");
-    content.appendChild(h("strong", undefined, promo.text ?? ""));
-    const arrow = h("span", "banner__arrow", "←");
-    arrow.setAttribute("aria-hidden", "true");
-    a.append(icon, content, arrow);
-    wrapper.appendChild(a);
+// ===== Events =====
+document.addEventListener("click", (e: MouseEvent) => {
+  if (!(e.target instanceof Element)) return;
+  if (e.target.closest("#cart-btn")) {
+    e.preventDefault();
+    openModal("cart-modal");
+    renderCartView();
+    return;
   }
-}
-
-function renderFooter(shop: Shop, categories: Category[]): void {
-  const name = document.getElementById("footer-name");
-  if (name && shop.name) name.textContent = String(shop.name).slice(0, 50);
-  const about = document.getElementById("footer-about");
-  if (about && shop.about) about.textContent = String(shop.about).slice(0, 300);
-  const phone = document.querySelector<HTMLAnchorElement>("#footer-phone");
-  if (phone && shop.phone) {
-    const p = String(shop.phone)
-      .replace(/[^\d+\-\s()]/g, "")
-      .slice(0, 20);
-    phone.textContent = p;
-    phone.href = `tel:${p.replace(/[^\d+]/g, "")}`;
+  const closeEl = e.target.closest<HTMLElement>("[data-close]");
+  if (closeEl) {
+    e.preventDefault();
+    const id = closeEl.dataset.close;
+    if (id) closeModal(id);
+    return;
   }
-  const links = document.getElementById("footer-links");
-  if (links && categories.length > 0) {
-    links.replaceChildren();
-    for (const cat of categories.slice(0, 5)) {
-      const li = h("li");
-      const a = h("a", undefined, cat.name);
-      a.href = `#cat-${cat.id}`;
-      li.appendChild(a);
-      links.appendChild(li);
-    }
+  if (e.target.classList.contains("modal__overlay")) {
+    const modal = e.target.closest<HTMLElement>(".modal");
+    if (modal) closeModal(modal.id);
   }
-  const help = document.getElementById("footer-help");
-  if (help && Array.isArray(shop.help)) {
-    help.replaceChildren();
-    for (const item of shop.help.slice(0, 10)) {
-      const li = h("li");
-      const a = h("a", undefined, item.label ?? "");
-      a.href = safeHref(item.href);
-      li.appendChild(a);
-      help.appendChild(li);
-    }
-  }
-  const schedule = document.getElementById("footer-schedule");
-  if (schedule && Array.isArray(shop.schedule)) {
-    schedule.replaceChildren();
-    for (const item of shop.schedule.slice(0, 7)) {
-      const p = h("p", "footer__text");
-      p.append(item.days ?? "", document.createElement("br"), item.time ?? "");
-      schedule.appendChild(p);
-    }
-  }
-  const copy = document.getElementById("footer-copy");
-  if (copy && shop.copyright)
-    copy.textContent = String(shop.copyright).slice(0, 200);
-}
+});
 
-function renderCategorySections(
-  products: Product[],
-  categories: Category[],
-  stock: StockData,
-  opts: RenderOptions,
-): void {
-  const container = document.getElementById("category-sections");
-  if (!container) return;
-  container.replaceChildren();
-  if (categories.length === 0 || products.length === 0) return;
+document.addEventListener("keydown", (e: KeyboardEvent) => {
+  if (e.key === "Escape") closeAllModals();
+});
 
-  const frag = document.createDocumentFragment();
-  for (const cat of categories) {
-    const catProducts = products.filter((p) => p.categoryId === cat.id);
-    if (catProducts.length === 0) continue;
+window.addEventListener("offline", () => showOfflineBanner());
+window.addEventListener("online", () => {
+  hideOfflineBanner();
+  if (!state.data) void boot();
+});
 
-    const section = h("section", "carousel-section");
-    section.id = `cat-${cat.id}`;
-    const head = h("div", "carousel-section__head");
-    const h2 = h("h2", "section-head__title");
-    const emoji = h("span", undefined, cat.emoji ?? "");
-    emoji.setAttribute("aria-hidden", "true");
-    h2.append(emoji, " " + cat.name);
-    head.append(
-      h2,
-      h(
-        "span",
-        "section-head__count",
-        `${catProducts.length.toLocaleString("fa-IR")} کالا`,
-      ),
-    );
+if (!navigator.onLine) showOfflineBanner();
 
-    const carousel = h("div", "carousel");
-    carousel.setAttribute("role", "region");
-    carousel.setAttribute("aria-label", `کاروسل ${cat.name}`);
-    carousel.tabIndex = 0;
-    const track = h("ul", "carousel__track");
-    for (const p of catProducts)
-      track.appendChild(createProductCard(p, null, stock));
-
-    carousel.appendChild(track);
-    section.append(head, carousel);
-    frag.appendChild(section);
-    attachProductEvents(track, products, opts.onAdd);
-  }
-  container.appendChild(frag);
-}
+void boot();
