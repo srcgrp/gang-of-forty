@@ -1,29 +1,240 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت ACID</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="سوپرمارکت بهار — خرید آنلاین میوه، لبنیات، نان و خواربار با ارسال سریع.">
+<title>سوپرمارکت بهار — تازه، نزدیک، به‌صرفه</title>
+<link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>🧪 سلام دنیا!</h1>
-  </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>ACID</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p>چهار ویژگی تراکنش پایگاه داده: اتمی بودن (<bdi>Atomicity</bdi>؛ یا همه یا هیچ)، سازگاری (<bdi>Consistency</bdi>)، انزوا (<bdi>Isolation</bdi>؛ تراکنش‌های هم‌زمان مزاحم هم نشوند) و ماندگاری (<bdi>Durability</bdi>؛ بعد از تأیید، با قطع برق هم از بین نرود). در انتقال پول، کم شدن از یک حساب و اضافه شدن به دیگری باید با هم انجام شود یا هیچ‌کدام.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
-    </section>
-  </main>
-  <footer>
-    <p dir="ltr">slug: <code>acid</code></p>
-  </footer>
+<body id="top">
+
+<a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+
+<div class="topbar" role="region" aria-label="اطلاعیه فروشگاه">
+  <span>🚚 ارسال رایگان برای خریدهای بالای ۵۰۰ هزار تومان</span>
+</div>
+
+<header class="site-header">
+  <input type="checkbox" id="nav-toggle" class="nav-toggle visually-hidden">
+
+  <div class="header-inner">
+
+    <label for="nav-toggle" class="nav-toggle-label" aria-label="باز و بسته کردن منوی اصلی">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </label>
+
+    <a href="#top" class="logo" aria-label="سوپرمارکت بهار — بازگشت به بالای صفحه">
+      <svg class="logo-mark" viewBox="0 0 48 48" width="42" height="42" aria-hidden="true" focusable="false">
+        <path d="M10 18h28l-3 22a3 3 0 0 1-3 3H16a3 3 0 0 1-3-3z" fill="#2e7d32"/>
+        <path d="M18 18V13a6 6 0 0 1 12 0v5" stroke="#2e7d32" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <ellipse cx="35" cy="11" rx="5" ry="3.6" fill="#f57c00" transform="rotate(-25 35 11)"/>
+        <path d="M31 12q3-2 7-1" stroke="#2e7d32" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      </svg>
+      <span class="logo-text">
+        <strong>سوپرمارکت بهار</strong>
+        <small>تازه، نزدیک، به‌صرفه</small>
+      </span>
+    </a>
+
+    <form class="search" role="search" action="#" method="get">
+      <label for="search-input" class="visually-hidden">جستجو در محصولات فروشگاه</label>
+      <input id="search-input" name="q" type="search" placeholder="جستجو در میان محصولات..." autocomplete="off">
+      <button type="submit" aria-label="جستجو">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+          <circle cx="10" cy="10" r="6.5" stroke="currentColor" stroke-width="2" fill="none"/>
+          <path d="M15 15l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </form>
+
+    <a href="#cart" class="cart" aria-label="سبد خرید">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
+        <path d="M3 4h2l2 12h12l2-9H6" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+        <circle cx="9" cy="20" r="1.6" fill="currentColor"/>
+        <circle cx="18" cy="20" r="1.6" fill="currentColor"/>
+      </svg>
+      <span class="cart-badge" aria-hidden="true" id="cart-count">۰</span>
+    </a>
+
+  </div>
+
+  <nav class="main-nav" aria-label="منوی اصلی">
+
+    <div class="dropdown">
+      <a href="#categories" class="dropdown-toggle" aria-haspopup="true">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+          <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        همه دسته‌ها
+      </a>
+      <ul class="dropdown-menu">
+        <li><a href="#fruits">🍎 میوه و سبزی</a></li>
+        <li><a href="#dairy">🥛 لبنیات</a></li>
+        <li><a href="#bakery">🥖 نان و شیرینی</a></li>
+        <li><a href="#pantry">🍚 خواربار</a></li>
+        <li><a href="#drinks">🧃 نوشیدنی</a></li>
+      </ul>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="#special">🔥 پیشنهاد ویژه</a></li>
+      <li><a href="#fruits">🍎 میوه و سبزی</a></li>
+      <li><a href="#dairy">🥛 لبنیات</a></li>
+      <li><a href="#bakery">🥖 نان تازه</a></li>
+      <li><a href="#contact">📞 تماس با ما</a></li>
+    </ul>
+
+  </nav>
+</header>
+
+<main id="main">
+
+  <section class="hero" aria-label="پیشنهادهای ویژه صفحه اصلی">
+
+    <div class="hero-card hero-primary">
+      <h1>میوه‌های تازه،<br>هر روز صبح</h1>
+      <p>مستقیم از باغ‌های اطراف شهر؛ تا دو ساعت بعد، در خانه شما.</p>
+      <a href="#regular" class="btn btn-accent">دیدن محصولات</a>
+      <span class="hero-emoji" aria-hidden="true">🍉</span>
+    </div>
+
+    <div class="hero-card hero-cream">
+      <span class="badge-accent">۲۰٪</span>
+      <p class="hero-cream-title">تخفیف ویژه مهر</p>
+      <p class="hero-cream-sub">فقط تا پایان هفته</p>
+      <a href="#special" class="btn btn-primary">سفارش دهید</a>
+      <span class="hero-emoji small" aria-hidden="true">🍊</span>
+    </div>
+
+  </section>
+
+  <section id="categories" class="section" aria-labelledby="cat-title">
+    <h2 id="cat-title" class="section-title">دسته‌بندی‌ها</h2>
+    <ul class="cat-grid">
+      <li><a href="#fruits"  class="cat-card"><span class="cat-emoji" aria-hidden="true">🍎</span><span>میوه و سبزی</span></a></li>
+      <li><a href="#dairy"   class="cat-card"><span class="cat-emoji" aria-hidden="true">🥛</span><span>لبنیات</span></a></li>
+      <li><a href="#bakery"  class="cat-card"><span class="cat-emoji" aria-hidden="true">🥖</span><span>نان و شیرینی</span></a></li>
+      <li><a href="#pantry"  class="cat-card"><span class="cat-emoji" aria-hidden="true">🍚</span><span>خواربار</span></a></li>
+      <li><a href="#drinks"  class="cat-card"><span class="cat-emoji" aria-hidden="true">🧃</span><span>نوشیدنی</span></a></li>
+      <li><a href="#special" class="cat-card"><span class="cat-emoji" aria-hidden="true">🔥</span><span>پیشنهاد ویژه</span></a></li>
+    </ul>
+  </section>
+
+  <section id="special" class="section" aria-labelledby="special-title">
+    <header class="section-head">
+      <h2 id="special-title" class="section-title">🔥 پیشنهاد ویژه امروز</h2>
+      <div class="carousel-nav" role="group" aria-label="پیمایش پیشنهادها">
+        <button type="button" class="carousel-btn" data-carousel="prev" aria-label="قبلی">‹</button>
+        <button type="button" class="carousel-btn" data-carousel="next" aria-label="بعدی">›</button>
+      </div>
+    </header>
+
+    <ul class="carousel" aria-live="polite" aria-busy="true"></ul>
+  </section>
+
+  <section class="promos" aria-label="خدمات فروشگاه">
+    <a href="#bakery" class="promo promo-cream">
+      <span class="promo-emoji" aria-hidden="true">🥐</span>
+      <span>نان داغ، هر روز ساعت ۷</span>
+    </a>
+    <a href="#fruits" class="promo promo-mint">
+      <span class="promo-emoji" aria-hidden="true">🔎</span>
+      <span>سبد صبحانه خانواده</span>
+    </a>
+  </section>
+
+  <section id="regular" class="section" aria-labelledby="regular-title">
+    <header class="section-head">
+      <h2 id="regular-title" class="section-title">🛒 محصولات فروشگاه</h2>
+      <div class="carousel-nav" role="group" aria-label="پیمایش محصولات">
+        <button type="button" class="carousel-btn" data-carousel="prev" aria-label="قبلی">‹</button>
+        <button type="button" class="carousel-btn" data-carousel="next" aria-label="بعدی">›</button>
+      </div>
+    </header>
+
+    <ul class="carousel" aria-live="polite" aria-busy="true"></ul>
+  </section>
+
+  <section id="fruits" class="section section-compact" aria-label="میوه و سبزیجات">
+    <h2 class="section-title">🍎 میوه و سبزیجات</h2>
+    <p>سیب دماوند، پرتقال شمال، موز و گوجه‌فرنگی تازه، هر روز صبح از میدان میوه‌وتره‌بار.</p>
+  </section>
+  <section id="dairy" class="section section-compact" aria-label="لبنیات">
+    <h2 class="section-title">🥛 لبنیات</h2>
+    <p>شیر، پنیر لیقوان، ماست چکیده و کره حیوانی، با ضمانت تازگی.</p>
+  </section>
+  <section id="bakery" class="section section-compact" aria-label="نان و شیرینی">
+    <h2 class="section-title">🥖 نان و شیرینی</h2>
+    <p>نان سنگک، باگت و کیک یزدی، تازه از تنور.</p>
+  </section>
+  <section id="pantry" class="section section-compact" aria-label="خواربار">
+    <h2 class="section-title">🍚 خواربار</h2>
+    <p>برنج طارم، عسل کوهستان، زعفران قائنات و روغن آفتابگردان.</p>
+  </section>
+  <section id="drinks" class="section section-compact" aria-label="نوشیدنی‌ها">
+    <h2 class="section-title">🧃 نوشیدنی‌ها</h2>
+    <p>چای لاهیجان، دوغ محلی و انواع نوشیدنی خنک.</p>
+  </section>
+
+</main>
+
+<footer id="contact" class="site-footer">
+  <div class="footer-inner">
+
+    <div class="footer-col">
+      <h3>سوپرمارکت بهار</h3>
+      <p>از سال ۱۳۹۵ کنار شما هستیم؛ کالای تازه با قیمت مناسب و ارسال سریع.</p>
+      <p class="footer-phone">
+        <span aria-hidden="true">📞</span>
+        <a href="tel:+982112345678" dir="ltr">۰۲۱-۱۲۳۴۵۶۷۸</a>
+      </p>
+      <address>تهران، خیابان نمونه، پلاک ۳، کد پستی ۱۲۳۴۵۶۷۸۹۰</address>
+    </div>
+
+    <nav class="footer-col" aria-label="دسته‌بندی‌ها">
+      <h3>دسته‌ها</h3>
+      <ul>
+        <li><a href="#fruits">میوه و سبزی</a></li>
+        <li><a href="#dairy">لبنیات</a></li>
+        <li><a href="#bakery">نان و شیرینی</a></li>
+        <li><a href="#pantry">خواربار</a></li>
+        <li><a href="#drinks">نوشیدنی</a></li>
+      </ul>
+    </nav>
+
+    <nav class="footer-col" aria-label="راهنما">
+      <h3>راهنما</h3>
+      <ul>
+        <li><a href="#">شیوه ارسال</a></li>
+        <li><a href="#">بازگشت کالا</a></li>
+        <li><a href="#">پرسش‌های پرتکرار</a></li>
+        <li><a href="#">قوانین و مقررات</a></li>
+      </ul>
+    </nav>
+
+    <div class="footer-col">
+      <h3>ساعت کاری</h3>
+      <p>شنبه تا پنجشنبه: ۸ تا ۲۲</p>
+      <p>جمعه: ۹ تا ۱۴</p>
+      <div class="socials" role="group" aria-label="شبکه‌های اجتماعی">
+        <a href="#" aria-label="اینستاگرام"><span aria-hidden="true">📷</span></a>
+        <a href="#" aria-label="تلگرام"><span aria-hidden="true">✈️</span></a>
+        <a href="#" aria-label="واتساپ"><span aria-hidden="true">💬</span></a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <p>© ۱۴۰۵ سوپرمارکت بهار — همه حقوق محفوظ است.</p>
+    <a href="#top" class="back-to-top">↑ بازگشت به بالا</a>
+  </div>
+</footer>
+
+<script type="module" src="./script.ts"></script>
+
 </body>
 </html>
