@@ -5,8 +5,7 @@
 - A customer can interact with the search box visually.
 - A customer can click + on an available product, which shows a message and confetti.
 - A customer cannot add out-of-stock products (the button is disabled).
-**Not now (on purpose):**
-- No functional shopping cart: nothing is stored, the number in the header stays 0, and items cannot be removed. Only the type `CartLine` is defined in `types.ts`.
+- A customer can see how many product they got  in their cart by clicking on +(header will be 0 again  after refresh).
 - The search box does not filter real results.
 - Banners and categories do not navigate to other pages (single-page layout).
 ## 2. Screens and parts
@@ -24,9 +23,9 @@
 | Products, offers, stock | Server (`/api/*.json`) | read-only for the page |
 | Shop info (`shop.json`) | Server | only the type is defined for now, the page does not fetch it |
 | Page state (`LoadState`) | `main.ts`, in memory | lost on refresh, that is fine |
+| Cart counter | `main.ts`, in memory | a number, resets on refresh, nothing in `localStorage` |
 | API address | `.env.development` / `.env.production` | public, no secrets |
-| Cart | nobody | not built, no `localStorage` |
- 
+
 ## 4. API (what we fetch, and when)
 All three are fetched together on start and each response is checked by a Type Guard before use. Bad items are dropped and their count is logged.
  
@@ -50,9 +49,10 @@ Header, categories, banners and footer are static and have no states.
 - `src/types.ts`: `Product`, `Category`, `Offer`, `Stock`, `Shop`, `CartLine`, `LoadState`. Imports nothing.
 - `src/api/`: `getJSON` (returns `unknown`), the three fetches and their Type Guards.
 - `src/logic/`: pure rules: price after discount, in-stock check, grocery filter, finding the offer of a product.
-- `src/ui/`: builds and updates the page: product cards, carousels, messages, the Notyf toast and confetti.
-- `src/main.ts`: click listener (event delegation), `LoadState`, and starting the app.
-- Not created: `storage/` and `cart/`, because there is no cart.
+- `src/ui/`: builds and updates the page: product cards, carousels, messages, the cart counter text, the Notyf toast and confetti.
+- `src/main.ts`: click listener (event delegation), the cart counter number, `LoadState`, and starting the app.
+- Not created: `storage/` and `cart/`, because the cart is only a counter in memory and nothing is stored.
+
 ## 7. Security
 - Everything in the browser (prices, page state, `localStorage`) can be changed with DevTools. So the final cart total and any checkout must be calculated and verified by the server, never trusted from the client.
 - Every `VITE_` variable ends up in the public bundle. Only public values (like the API address) go in `.env` files, never keys or passwords.
