@@ -16,17 +16,17 @@ function catCard(name: string, emoji: string, active: boolean): HTMLElement {
 export function renderCategories(
   box: HTMLElement,
   cats: Category[],
-  activeId: number | undefined,
-  onPick: (id: number | undefined) => void,
+  activeSlug: string | undefined,
+  onPick: (slug: string | undefined) => void,
 ): void {
   box.replaceChildren()
-  const all = catCard('همه', '🧺', activeId === undefined)
+  const all = catCard('همه', '🧺', activeSlug === undefined)
   all.addEventListener('click', () => onPick(undefined))
   box.append(all)
   for (const c of cats) {
-    const card = catCard(c.name, c.emoji, c.id === activeId)
-    const id = c.id
-    card.addEventListener('click', () => onPick(id))
+    const card = catCard(c.name, c.emoji, c.slug === activeSlug)
+    const slug = c.slug
+    card.addEventListener('click', () => onPick(slug))
     box.append(card)
   }
 }

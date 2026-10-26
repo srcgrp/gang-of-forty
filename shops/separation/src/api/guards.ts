@@ -19,12 +19,12 @@ export function isProduct(x: unknown): x is Product {
 
 export function isCategory(x: unknown): x is Category {
   if (isObject(x) === false) return false
+  if (typeof x.color !== 'string' && typeof x.color !== 'undefined') return false
   return (
     typeof x.id === 'number' &&
     typeof x.slug === 'string' &&
     typeof x.name === 'string' &&
-    typeof x.emoji === 'string' &&
-    typeof x.color === 'string'
+    typeof x.emoji === 'string'
   )
 }
 

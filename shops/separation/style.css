@@ -317,6 +317,15 @@ a {
     border-radius: 10px;
 }
 
+.card.soldout {
+    opacity: 0.6;
+}
+
+.card.soldout .add {
+    background: #999;
+    cursor: default;
+}
+
 /* بنرهای تبلیغاتی */
 .promos {
     display: flex;

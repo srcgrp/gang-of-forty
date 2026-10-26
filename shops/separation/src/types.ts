@@ -28,12 +28,13 @@ export type Shop = {
   owner: string
   city: string
   phone: string
+  hours: {
+    open: string
+    close: string
+  }
   deliveryFee: number
   freeDeliveryOver: number
   currency: string
-  notice: string
-  about: string
-  address: string
 }
 
 export type StockMap = Record<string, number>
@@ -51,10 +52,6 @@ export type CartLine = {
 export type CartItem = CartLine & {
   product: Pick<Product, 'id' | 'name' | 'price' | 'emoji' | 'unit'>
 }
-
-export type ProductPreview = Pick<Product, 'id' | 'name' | 'price' | 'emoji'>
-
-export type ReadonlyShop = Readonly<Shop>
 
 export const SORTS = ['پیش‌فرض', 'ارزان‌ترین', 'گران‌ترین'] as const
 

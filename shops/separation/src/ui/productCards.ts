@@ -5,6 +5,7 @@ export type CardItem = {
   price: number
   oldPrice?: number
   percent?: number
+  soldOut?: boolean
 }
 
 const BACKGROUNDS = ['#fde3dc', '#e2eefc', '#fff0cc', '#e3f1e7'] as const
@@ -25,7 +26,7 @@ export function renderProducts(car: HTMLElement, items: CardItem[], onAdd: (id: 
   for (const item of items) {
     const p = item.product
     const card = document.createElement('article')
-    card.className = 'card'
+    card.className = item.soldOut === true ? 'card soldout' : 'card'
     const pic = document.createElement('div')
     pic.className = 'pic'
     pic.style.background = BACKGROUNDS[index % BACKGROUNDS.length] ?? BACKGROUNDS[0]
@@ -56,9 +57,9 @@ export function renderProducts(car: HTMLElement, items: CardItem[], onAdd: (id: 
     const btn = document.createElement('button')
     btn.className = 'add'
     btn.type = 'button'
-    btn.textContent = '+'
-    const id = p.id
-    btn.addEventListener('click', () => onAdd(id))
+    btn.textContent = item.soldOut === true ? 'ناموجود' : '+'
+    if (item.soldOut === true) btn.disabled = true
+    else btn.addEventListener('click', () => onAdd(p.id))
     row.append(price, btn)
     card.append(row)
     car.append(card)

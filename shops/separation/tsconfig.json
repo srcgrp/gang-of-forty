@@ -11,9 +11,12 @@
     "verbatimModuleSyntax": true,
     "erasableSyntaxOnly": true,
     "moduleDetection": "force",
+    "strictNullChecks": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true
   },
   "include": ["src"]
 }

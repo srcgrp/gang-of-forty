@@ -3,7 +3,10 @@ import { isCategory, isOffer, isProduct, isStock } from './guards.ts'
 import type { Category, Offer, Product, Stock } from '../types.ts'
 
 function apiUrl(path: string): string {
-  const base: string = import.meta.env.VITE_API_URL ?? '/api'
+  const base: unknown = import.meta.env.VITE_API_URL
+  if (typeof base !== 'string' || base === '') {
+    throw new Error('VITE_API_URL در فایل env تنظیم نشده است')
+  }
   return `${base}/${path}`
 }
 

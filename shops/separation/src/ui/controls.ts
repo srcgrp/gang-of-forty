@@ -46,3 +46,7 @@ export function wireSort(sorts: HTMLSelectElement, onSort: (s: Sort) => void): v
     if (v === 'پیش‌فرض' || v === 'ارزان‌ترین' || v === 'گران‌ترین') onSort(v)
   })
 }
+
+export function setQuery(field: HTMLInputElement, q: string): void {
+  field.value = q
+}

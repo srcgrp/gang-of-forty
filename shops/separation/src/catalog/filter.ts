@@ -1,4 +1,12 @@
-import type { Product, Sort } from '../types.ts'
+import type { Category, Product, Sort } from '../types.ts'
+
+export function categoryIdOf(cats: Category[], slug: string | undefined): number | undefined {
+  if (slug === undefined) return undefined
+  for (const c of cats) {
+    if (c.slug === slug) return c.id
+  }
+  return undefined
+}
 
 export function filterProducts(
   products: Product[],
