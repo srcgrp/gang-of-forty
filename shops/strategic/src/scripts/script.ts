@@ -2,13 +2,13 @@
 /* Week 4 - Strategic Supermarket - Arch */
 
 
-
-
 // ===== Imports =====
 import confetti from 'canvas-confetti';
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
-import { ApiError, loadApiData } from './api';
+import { ApiError } from '../api/http';
+import { loadApiData } from '../api/load';
+import { SORTS } from '../types';
 import type {
   ApiData,
   Category,
@@ -16,6 +16,9 @@ import type {
   ProductItem,
   SearchIndexEntry,
   ShopModel,
+  CartItem,
+  Sort,
+  LoadState,
 } from '../types';
 
 
@@ -57,6 +60,7 @@ const HERO_ART: HeroArt[] = [
   ['orange', 'پرتقال تامسون', 560, 466],
   ['strawberry', 'توت‌فرنگی', 518, 560],
 ];
+
 const HERO_NAMES: Set<string> = new Set(HERO_ART.map(([name]) => name));
 
 const PRODUCT_ART: ProductArtRule[] = [
@@ -469,14 +473,37 @@ function buildModel(raw: ApiData): ShopModel {
 }
 
 
-function searchProducts(query: string): ProductItem[] {
+function searchProducts(
+  query: string,
+  sort: Sort = SORTS[0],
+): ProductItem[] {
   const terms = searchKey(query).split(' ').filter(Boolean);
   if (!terms.length) return [];
-  const inName = (entry: SearchIndexEntry): boolean => terms.every((term) => entry.name.includes(term));
-  return model.searchIndex
-    .filter((entry) => terms.every((term) => entry.text.includes(term) || entry.categoryWords.includes(term)))
-    .sort((first, second) => Number(inName(second)) - Number(inName(first)))
-    .map((entry) => entry.item);
+
+  const inName = (entry: SearchIndexEntry): boolean =>
+    terms.every((term) => entry.name.includes(term));
+
+  const matches = model.searchIndex.filter(
+    (entry) =>
+      terms.every(
+        (term) =>
+          entry.text.includes(term) ||
+          entry.categoryWords.includes(term),
+      ),
+  );
+
+  matches.sort((first, second) => {
+    if (sort === 'name') {
+      return first.item.product.name.localeCompare(
+        second.item.product.name,
+        'fa',
+      );
+    }
+
+    return Number(inName(second)) - Number(inName(first));
+  });
+
+  return matches.map((entry) => entry.item);
 }
 
 
@@ -492,7 +519,6 @@ function categoryImage(category: Category, className: string, lazy = true): HTML
 // ===== The Capsule =====
 function stepper(product: Product): HTMLDivElement {
   return el('div', { class: 'stepper', role: 'group', 'aria-label': `تعداد ${product.name} در سبد خرید`, 'data-id': product.id }, [
-    // RTL: the first child is on the right, so "+" sits on the right and the trash on the left
     el('button', { class: 'stepper__btn', type: 'button', 'data-step': 'inc', 'aria-label': `افزودن یک عدد ${product.name}` }, [icon('plus')]),
     el('span', { class: 'stepper__qty' }),
     el('button', { class: 'stepper__btn', type: 'button', 'data-step': 'dec' }, [icon('minus')]),
@@ -985,22 +1011,75 @@ function showSlowNotice(): void {
   announce('اتصال کند است؛ هنوز در حال دریافت اطلاعات هستیم.');
 }
 
-function renderError(error: ApiError): void {
-  const known = error instanceof ApiError;
-  const detail = known && error.file
-    ? el('p', { class: 'state__detail' }, [el('bdi', { dir: 'ltr', text: error.file }), error.status ? ` · ${toFaDigits(error.status)}` : null])
+function renderError(message: string, error?: ApiError): void {
+  const detail = error?.file
+    ? el('p', { class: 'state__detail' }, [
+        el('bdi', { dir: 'ltr', text: error.file }),
+        error.status ? ` · ${toFaDigits(error.status)}` : null,
+      ])
     : null;
 
   dom.main.removeAttribute('aria-busy');
   dom.main.replaceChildren(
     el('section', { class: 'state state--error', role: 'alert' }, [
       icon('alert', 'state__icon'),
-      el('h2', { class: 'state__title', text: 'بارگذاری محصولات ممکن نشد' }),
-      el('p', { text: ERROR_TEXT[known ? error.kind : 'network'] ?? ERROR_TEXT.network }),
+      el('h2', {
+        class: 'state__title',
+        text: 'بارگذاری محصولات ممکن نشد',
+      }),
+      el('p', { text: message }),
       detail,
-      el('button', { class: 'btn btn--green', type: 'button', 'data-action': 'retry' }, [icon('refresh'), ' تلاش دوباره']),
+      el('button', {
+        class: 'btn btn--green',
+        type: 'button',
+        'data-action': 'retry',
+      }, [icon('refresh'), ' تلاش دوباره']),
     ]),
   );
+}
+
+function renderLoadState(
+  state: LoadState,
+  error?: ApiError,
+): void {
+  switch (state.status) {
+    case 'loading':
+      renderLoading();
+      return;
+
+    case 'success':
+      dom.main.removeAttribute('aria-busy');
+      renderRoute();
+      return;
+
+    case 'empty':
+      dom.main.removeAttribute('aria-busy');
+      dom.main.replaceChildren(
+        el('section', {
+          class: 'state state--empty',
+          role: 'status',
+        }, [
+          el('h2', {
+            class: 'state__title',
+            text: 'فعلاً محصولی برای نمایش نداریم',
+          }),
+          el('p', {
+            class: 'state__text',
+            text: 'در حال حاضر محصولی برای نمایش در فروشگاه موجود نیست.',
+          }),
+        ]),
+      );
+      return;
+
+    case 'error':
+      renderError(state.message, error);
+      return;
+
+    default: {
+      const exhaustive: never = state;
+      return exhaustive;
+    }
+  }
 }
 
 
@@ -1037,7 +1116,7 @@ function discountLine(oldValue: number, newValue: number, percent = Math.round((
   ]);
 }
 
-function miniItem(row: ProductItem & { quantity: number; oldPrice: number }): HTMLLIElement {
+function miniItem(row: CartItem): HTMLLIElement {
   const { product, art, quantity } = row;
   const box = stepper(product);
   updateStepper(box, row, quantity);
@@ -1487,24 +1566,49 @@ window.addEventListener('storage', (event: StorageEvent) => {
 });
 
 
-// ===== Start-Up =====
+// ===== Start =====
 async function start(): Promise<void> {
-  renderLoading();
+  renderLoadState({ status: 'loading' });
+
   try {
-    model = buildModel(await loadWithSlowNotice(showSlowNotice));
+    const data = await loadWithSlowNotice(showSlowNotice);
+
+    model = buildModel(data);
     modelReady = true;
+
     renderNotice();
     renderNav();
     renderFooterData();
     reconcileCart();
-    renderRoute();
-    playEnter();
-    if (ui.pendingQuery && parseRoute().type === 'home') showSearch(ui.pendingQuery);
+
+    const state: LoadState = data.products.length > 0
+      ? { status: 'success', products: data.products }
+      : { status: 'empty' };
+
+    renderLoadState(state);
+
+    if (state.status === 'success') {
+      playEnter();
+
+      if (ui.pendingQuery && parseRoute().type === 'home') {
+        showSearch(ui.pendingQuery);
+      }
+    }
+
     ui.pendingQuery = '';
-  } catch (error) {
+  } catch (error: unknown) {
     model = createEmptyModel();
     modelReady = false;
-    renderError(error instanceof ApiError ? error : new ApiError('shape', 'api'));
+
+    const apiError = error instanceof ApiError
+      ? error
+      : new ApiError('shape', 'api');
+
+    renderLoadState({
+      status: 'error',
+      message: ERROR_TEXT[apiError.kind] ?? ERROR_TEXT.network,
+    }, apiError);
+
     announce('بارگذاری محصولات ممکن نشد.');
   }
 }
