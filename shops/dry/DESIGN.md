@@ -30,11 +30,11 @@
 | داده | صاحب | کجا زندگی می‌کند |
 |---|---|---|
 | لیست محصولات، موجودی، پیشنهادها | سرور | api/*.json (فقط خواندنی) |
-| وضعیت بارگذاری (LoadState) | برنامه | حافظه؛ api/load.ts می‌سازد و ui/state.ts نشان می‌دهد |
-| سبد (آرایه‌ی CartLine: id و qty) | کاربر | حافظه‌ی main.ts و localStorage با کلید dry-cart (فقط داخل storage/cartStorage.ts) |
-| دسته‌ی انتخاب‌شده و متن جستجو | کاربر | URL (category و q)، فقط داخل storage/urlState.ts |
+| وضعیت بارگذاری (LoadState) | برنامه | حافظه؛ features/products/api/load.ts می‌سازد و features/products/ui/state.ts نشان می‌دهد |
+| سبد (آرایه‌ی CartLine: id و qty) | کاربر | حافظه‌ی main.ts و localStorage با کلید dry-cart (فقط داخل features/cart/storage/cartStorage.ts
+| دسته‌ی انتخاب‌شده و متن جستجو | کاربر | URL (category و q)، فقط داخل features/products/storage/urlState.ts |
 | محصولات علاقه‌مندی (بعداً) | کاربر | localStorage، کلید dry-favorites |
-| آدرس API | پروژه | env، متغیر VITE_API_URL، خوانده‌شده در api/http.ts |
+| آدرس API | پروژه | env، متغیر VITE_API_URL، خوانده‌شده در features/products/api/http.ts |
 
 ## ۴. قرارداد API
 
@@ -65,18 +65,26 @@
 
 ```
 src/
-  types.ts     مدل داده، هیچ چیز import نمی‌کند
-  api/         fetch، Guard ها و بارگذاری (تنها جایی که fetch دارد)
-  storage/     localStorage و URL (تنها جایی که به آن‌ها دست می‌زند)
-  cart/        قانون‌های سبد (توابع خالص)
-  catalog/     قیمت، موجودی، دسته، جستجو، ساخت کارت (توابع خالص)
-  ui/          ساختن و تغییر DOM (صفحه، کارت، وضعیت، رویدادها)
-  main.ts      State، رویدادها، شروع برنامه
+  main.ts            State، رویدادها، شروع برنامه؛ تنها جایی که به هر دو Feature می‌رسد
+  shared/
+    types.ts         مدل داده، هیچ چیز import نمی‌کند
+    checks.ts        بررسی‌های ساده‌ی نوع (رشته، عدد، شیء) که هر دو Feature لازم دارند
+  features/
+    products/
+      api/           fetch، Guard ها و بارگذاری (تنها جایی که fetch دارد)
+      storage/       خواندن و نوشتن URL (تنها جایی که به آن دست می‌زند)
+      catalog/       قیمت، موجودی، دسته، جستجو، ساخت کارت (توابع خالص)
+      ui/            ساختن و تغییر DOM: صفحه، کارت، وضعیت
+    cart/
+      rules/         قانون‌های سبد (توابع خالص)
+      storage/       localStorage سبد (تنها جایی که به آن دست می‌زند)
+      ui/            شمارنده‌ی سبد و پیام موفقیت
 ```
 
-جهت import ها: main ← ui / cart / catalog / api / storage ← types. هیچ‌وقت به سمت بالا نه.
-ui فقط types را می‌شناسد؛ قیمت و متن را main از catalog می‌گیرد و به شکل Card به ui می‌دهد.
-
+قانون‌ها:
+- داخل هر Feature جهت import ها همان است: ui و catalog و api و storage ← shared.
+- دو Feature هیچ‌وقت مستقیم از هم import نمی‌کنند؛ فقط main.ts به هر دو می‌رسد.
+- ui فقط shared را می‌شناسد؛ قیمت و متن را main از catalog می‌گیرد و به شکل Card به ui می‌دهد.
 ## ۷. امنیت
 
 هر چیزی که در مرورگر است عمومی است: کد، متغیرهای VITE_، localStorage و URL.
