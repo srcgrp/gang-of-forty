@@ -14,13 +14,18 @@ export type Category = {id: number, slug: string,name: string, emoji: string, co
 export type Offer = {productId:number , percent: number, label:string}
 export type Stock = {updatedAt: string, items: Record<string, number>}
 const notyf = new Notyf();
+let cartCount = 0;
+const counter = document.querySelector<HTMLSpanElement>(".cart-count");
+if (!counter) throw new Error("Missing cart counter");
 const handleClick = (e: MouseEvent): void => {
-  if (!(e.target instanceof Element)) return
-  const button = e.target.closest<HTMLButtonElement>('button')
-  if (!button) return
-  notyf.success(button.dataset.title + " به سبد خرید اضافه شد ");
-  confetti({ particleCount: 60, spread: 70 });
-  
+  if (!(e.target instanceof Element)) return;
+  const button = e.target.closest<HTMLButtonElement>("button");
+  if (button && !button.disabled) {
+    cartCount += 1;
+    counter.textContent = cartCount.toLocaleString("fa-IR");
+    notyf.success(button.dataset.title + " به سبد خرید اضافه شد");
+    confetti({ particleCount: 60, spread: 70 });
+  }
 }
 function createProductCard(product: Product, offer : Offer | undefined, stockCount: number):HTMLElement {
   const article = document.createElement("article");
@@ -85,7 +90,7 @@ function createProductCard(product: Product, offer : Offer | undefined, stockCou
 async function getJSON<T>(fileName: string): Promise<T> {
   const res = await fetch(`../../api/${fileName}.json`);
   if (!res.ok) {
-    throw new Error(`something went wrong with ${fileName}`);
+    throw new Error(`${fileName}: HTTP ${res.status}`);
   }
   return await res.json();
 }
@@ -94,7 +99,7 @@ function renderProducts(container: HTMLDivElement, productList: Product[], stock
     const product = productList[i];
     const stockCount = stock.items[product.id];
     const offer = offers.find((o) => o.productId === product.id);
-    //console.log(product, stockCount, offer)
+    
     const card = createProductCard(product, offer, stockCount);
     container.append(card);
   }
@@ -143,14 +148,10 @@ async function loadProducts(): Promise<void>{
   } catch (error) {
     pantryLoading.remove();
     offersLoading.remove();
-    const errorText = "متأسفانه محصولات بارگذاری نشد. لطفاً دوباره تلاش کنید.";
+    const detail = error instanceof Error ? error.message : "خطای ناشناخته";
+    const errorText = `متأسفانه محصولات بارگذاری نشد. لطفاً دوباره تلاش کنید. (${detail})`;
     showMessage(container, errorText);
     showMessage(offersContainer, errorText);
-    if (error instanceof Error) {
-      console.log(error.message);
-    } else {
-      console.log("یه خطای ناشناخته پیش اومد");
-    }
   }
 }
 loadProducts();
