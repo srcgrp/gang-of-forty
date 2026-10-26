@@ -136,4 +136,5 @@ const loadProducts = async(): Promise<void> => {
   }
 }
 
+
 loadProducts();
