@@ -1,8 +1,8 @@
 import type { LoadState, Offer, Product, Stock } from '../types.ts'
-import { getJSON } from './http.ts'
+import { getJSON, type ApiFile } from './http.ts'
 import { isOffer, isProduct, isStock } from './guards.ts'
 
-async function loadList<T>(file: string, guard: (x: unknown) => x is T): Promise<T[]> {
+async function loadList<T>(file: ApiFile, guard: (x: unknown) => x is T): Promise<T[]> {
   const data: unknown = await getJSON(file)
   if (!Array.isArray(data)) throw new Error(`${file}: expected a list`)
   const items: unknown[] = data
