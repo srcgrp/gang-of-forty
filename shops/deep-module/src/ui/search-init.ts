@@ -5,7 +5,7 @@ import { formatPrice } from "./format";
 import { openProductDetail } from "./detail";
 
 let activeIndex = -1;
-
+let searchInitialized = false;
 export interface SearchInitOptions {
   getProducts: () => Product[];
   getStock: () => StockData;
@@ -14,6 +14,8 @@ export interface SearchInitOptions {
 }
 
 export function initSearchUI(opts: SearchInitOptions): void {
+  if (searchInitialized) return; 
+  searchInitialized = true;
   const input = document.getElementById(
     "site-search",
   ) as HTMLInputElement | null;

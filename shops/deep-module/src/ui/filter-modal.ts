@@ -1,7 +1,7 @@
 import type { Category, FilterState } from "../types";
 import { h } from "./dom";
 import { openModal, closeModal } from "./modal";
-
+let filterInitialized = false;
 export interface FilterModalOptions {
   categories: Category[];
   state: FilterState;
@@ -12,6 +12,8 @@ export function initFilterModal(opts: FilterModalOptions): void {
   const box = document.getElementById("filter-categories");
   if (box) renderCategories(box, opts.categories);
 
+  if (filterInitialized) return;
+  filterInitialized = true;
   const modal = document.getElementById("filter-modal");
   if (!modal) return;
 
@@ -21,7 +23,9 @@ export function initFilterModal(opts: FilterModalOptions): void {
     if (!chip) return;
     const parent = chip.parentElement;
     if (!parent) return;
-    parent.querySelectorAll<HTMLElement>(".filter-chip").forEach((c) => c.classList.remove("filter-chip--active"));
+    parent
+      .querySelectorAll<HTMLElement>(".filter-chip")
+      .forEach((c) => c.classList.remove("filter-chip--active"));
     chip.classList.add("filter-chip--active");
     applyChipToState(chip, opts.state);
   });
@@ -58,14 +62,21 @@ function renderCategories(box: HTMLElement, categories: Category[]): void {
     const btn = h("button", "filter-chip");
     btn.type = "button";
     btn.dataset.category = String(cat.id);
-    btn.append(h("span", "filter-chip__emoji", cat.emoji || ""), " " + cat.name);
+    btn.append(
+      h("span", "filter-chip__emoji", cat.emoji || ""),
+      " " + cat.name,
+    );
     box.appendChild(btn);
   }
 }
 
 function applyChipToState(chip: HTMLElement, state: FilterState): void {
-  if (chip.dataset.category !== undefined) state.categoryId = chip.dataset.category;
-  else if (chip.dataset.stock !== undefined) state.stock = chip.dataset.stock as FilterState["stock"];
-  else if (chip.dataset.discount !== undefined) state.discount = chip.dataset.discount as FilterState["discount"];
-  else if (chip.dataset.sort !== undefined) state.sort = chip.dataset.sort as FilterState["sort"];
+  if (chip.dataset.category !== undefined)
+    state.categoryId = chip.dataset.category;
+  else if (chip.dataset.stock !== undefined)
+    state.stock = chip.dataset.stock as FilterState["stock"];
+  else if (chip.dataset.discount !== undefined)
+    state.discount = chip.dataset.discount as FilterState["discount"];
+  else if (chip.dataset.sort !== undefined)
+    state.sort = chip.dataset.sort as FilterState["sort"];
 }

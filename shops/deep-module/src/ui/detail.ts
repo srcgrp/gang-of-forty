@@ -27,14 +27,23 @@ export function openProductDetail(
   media.appendChild(h("span", "product-detail__emoji", product.emoji || "📦"));
 
   const info = h("div", "product-detail__info");
-  const badge = h("div", `product-detail__stock product-detail__stock--${label.type}`);
-  const bIcon = h("span", "product-detail__stock-icon", isOut ? "❌" : label.type === "low" ? "⚠️" : "✓");
+  const badge = h(
+    "div",
+    `product-detail__stock product-detail__stock--${label.type}`,
+  );
+  const bIcon = h(
+    "span",
+    "product-detail__stock-icon",
+    isOut ? "❌" : label.type === "low" ? "⚠️" : "✓",
+  );
   bIcon.setAttribute("aria-hidden", "true");
   badge.append(bIcon, h("span", "product-detail__stock-text", label.text));
   if (label.type === "unknown") badge.hidden = true;
 
   const priceDiv = h("div", "product-detail__price");
-  priceDiv.appendChild(h("span", "product-detail__price-value", formatPrice(product.price)));
+  priceDiv.appendChild(
+    h("span", "product-detail__price-value", formatPrice(product.price)),
+  );
 
   const addBtn = h("button", "btn btn--primary product-detail__add");
   addBtn.type = "button";
@@ -48,7 +57,11 @@ export function openProductDetail(
     h("h2", "product-detail__title", product.name),
     h("p", "product-detail__unit", product.unit || ""),
     badge,
-    h("p", "product-detail__desc", "محصول تازه و با کیفیت از فروشگاه سبزکاله. ارسال سریع به سراسر شهر."),
+    h(
+      "p",
+      "product-detail__desc",
+      "محصول تازه و با کیفیت از فروشگاه سبزکاله. ارسال سریع به سراسر شهر.",
+    ),
     priceDiv,
     addBtn,
   );
@@ -61,7 +74,12 @@ export function openProductDetail(
     cb.onAfterAdd(product);
     addBtn.textContent = "✓ اضافه شد";
     addBtn.classList.add("btn--success");
-  });
 
+    setTimeout(() => {
+      if (!addBtn.isConnected) return;
+      addBtn.classList.remove("btn--success");
+      addBtn.textContent = " افزودن به سبد خرید";
+    }, 1500);
+  });
   openModal("product-modal");
 }

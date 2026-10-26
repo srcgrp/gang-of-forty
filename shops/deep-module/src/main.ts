@@ -26,7 +26,36 @@ import { renderCartModal } from "./ui/cart-view";
 import { initFilterModal } from "./ui/filter-modal";
 import { initSearchUI } from "./ui/search-init";
 import { renderApp } from "./main-render";
+import confetti from "canvas-confetti";
 
+export function checkout(): void {
+  if (!state.data || state.cart.length === 0) return;
+  const consumed = readConsumedStock();
+  for (const item of state.cart) {
+    const current = state.data.stock.items[item.id];
+    if (Number.isFinite(current)) {
+      state.data.stock.items[item.id] = Math.max(0, current - item.quantity);
+    }
+    consumed[item.id] = (consumed[item.id] ?? 0) + item.quantity;
+  }
+  writeConsumedStock(consumed);
+  state.cart = [];
+  writeCartRaw(state.cart);
+  updateCartBadge();
+  renderCartView();
+  closeModal("cart-modal");
+
+  // ← اینا اضافه بشن:
+  confetti({
+    particleCount: 150,
+    spread: 80,
+    origin: { y: 0.6 },
+    colors: ["#d7ff00", "#b8dc00", "#111318", "#4da3ff"],
+  });
+
+  renderApp({ onAdd: addToCart });
+  toast.success("سفارش شما با موفقیت ثبت شد! 🎉");
+}
 export interface AppState {
   data: AppData | null;
   cart: CartItem[];
