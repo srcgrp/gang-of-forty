@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "check": "tsc --noEmit"
+    "check": "tsc --noEmit",
+    "check:arch": "node check-arch.mjs src --shop"
   },
   "dependencies": {
     "canvas-confetti": "^1.9.4",
