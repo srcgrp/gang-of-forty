@@ -1,7 +1,8 @@
 /* Amirhossein (Armin) Panahi */
 /* Week 4 - Strategic Supermarket - Arch */
 
-export type ApiErrorKind = 'network' | 'http' | 'parse' | 'timeout' | 'shape';
+import type { ApiErrorKind } from '../types';
+
 export class ApiError extends Error {
   readonly kind: ApiErrorKind;
   readonly file: string;
@@ -16,7 +17,8 @@ export class ApiError extends Error {
   }
 }
 
-const API_BASE = '/api/';
+const apiUrl: unknown = import.meta.env.VITE_API_URL;
+const API_BASE = `${typeof apiUrl === 'string' && apiUrl ? apiUrl.replace(/\/+$/, '') : '/api'}/`;
 
 export async function getJSON(path: string, signal?: AbortSignal): Promise<unknown> {
   let response: Response;

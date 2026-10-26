@@ -52,6 +52,14 @@ export type ShopModel = {
   carousels: CarouselDefinition[];
 };
 
-// ----- Sorting -----
+// ----- App -----
+export type Route = { type: 'home' } | { type: 'catalog'; slug: string; query: string } | { type: 'search'; query: string };
+export type ApiErrorKind = 'network' | 'http' | 'parse' | 'timeout' | 'shape';
+export type ApiFailure = { kind: ApiErrorKind; file: string; status?: number | undefined };
+export type QtyOf = (id: number) => number;
+export type AppState = { model: ShopModel; ready: boolean; cart: CartLine[]; pendingQuery: string; renderedSearch: string };
+export const CATEGORY_PARAM = 'category';
+export const QUERY_PARAM = 'q';
+
 export const SORTS = ['relevance', 'name'] as const;
 export type Sort = (typeof SORTS)[number];
