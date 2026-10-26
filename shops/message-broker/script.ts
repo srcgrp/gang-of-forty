@@ -116,7 +116,7 @@ const renderCategories = (categories: Category[]): void => {
 
 const renderMenu = (shop: Shop, categories: Category[]): void => {
     submenu.textContent = ''
-    mainMenu.textContent = ''
+    
 
     categories.forEach(c => {
         submenu.appendChild(makeLink(c.name, '#' + c.slug))
