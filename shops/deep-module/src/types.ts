@@ -123,3 +123,19 @@ export type LoadState<T> =
   | { status: "loading" }
   | { status: "success"; data: T }
   | { status: "error"; message: string; kind: ApiErrorType };
+export interface AppData {
+  products: Product[];
+  categories: Category[];
+  shop: Shop;
+  home: Home;
+  offers: Offer[];
+  stock: StockData;
+}
+
+export interface AppState {
+  data: AppData | null;
+  cart: CartItem[];
+  filters: FilterState;
+  searchIds: Set<number> | null;
+  searchQuery: string;
+}
