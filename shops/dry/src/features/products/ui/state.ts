@@ -1,4 +1,4 @@
-import type { LoadState, LoadSuccess } from '../types.ts'
+import type { LoadState, LoadSuccess } from '../../../shared/types.ts'
 import { renderStatus } from './status.ts'
 
 export function renderState(

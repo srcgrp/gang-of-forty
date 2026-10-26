@@ -1,4 +1,4 @@
-import type { Offer, Stock } from '../types.ts'
+import type { Offer, Stock } from '../../../shared/types.ts'
 
 export function finalPrice(price: number, offer: Offer | undefined): number {
     if (!offer) return price

@@ -1,4 +1,4 @@
-import type { Card, Offer, Product, Stock } from '../types.ts'
+import type { Card, Offer, Product, Stock } from '../../../shared/types.ts'
 import { makeSearch } from './search.ts'
 import { inCategory, offerMap, withOffer } from './select.ts'
 import { toCard } from './toCard.ts'

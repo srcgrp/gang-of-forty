@@ -7,7 +7,6 @@ export type Page = {
   resultsSection: HTMLElement
   resultsBox: HTMLElement
   resultsStatus: HTMLElement
-  cartCount: HTMLElement
 }
 
 function find(selector: string): HTMLElement {
@@ -28,6 +27,5 @@ export function findPage(): Page {
     resultsSection: find('#search-results'),
     resultsBox: find('#results'),
     resultsStatus: find('#results-status'),
-    cartCount: find('#cart-count'),
   }
 }

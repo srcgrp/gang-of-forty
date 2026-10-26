@@ -1,4 +1,4 @@
-import type { Card, Offer, Product, Stock } from '../types.ts'
+import type { Card, Offer, Product, Stock } from '../../../shared/types.ts'
 import { formatPercent, formatPrice } from './format.ts'
 import { finalPrice, inStock } from './price.ts'
 import { imageFor }   from './image.ts'

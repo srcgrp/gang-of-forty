@@ -1,4 +1,4 @@
-import type { LoadState, Offer, Product, Stock } from '../types.ts'
+import type { LoadState, Offer, Product, Stock } from '../../../shared/types.ts'
 import { getJSON, type ApiFile } from './http.ts'
 import { isOffer, isProduct, isStock } from './guards.ts'
 

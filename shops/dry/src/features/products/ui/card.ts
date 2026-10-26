@@ -1,4 +1,4 @@
-import type { Card } from '../types.ts'
+import type { Card } from '../../../shared/types.ts'
 import { el } from './dom.ts'
 
 function pictureOf(card: Card): HTMLDivElement {

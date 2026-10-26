@@ -1,4 +1,4 @@
-import type { CartLine } from '../types.ts'
+import type { CartLine } from '../../../shared/types.ts'
 
 export function addToCart(lines: CartLine[], id: number): CartLine[] {
   if (!lines.some((l: CartLine): boolean => l.id === id)) return [...lines, { id, qty: 1 }]

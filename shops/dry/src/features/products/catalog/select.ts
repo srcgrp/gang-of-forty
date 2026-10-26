@@ -1,4 +1,4 @@
-import type { Offer, Product } from '../types.ts'
+import type { Offer, Product } from '../../../shared/types.ts'
 
 export function offerMap(offers: Offer[]): Map<number, Offer> {
     return new Map<number, Offer>(offers.map((o: Offer): [number, Offer] => [o.productId, o]))

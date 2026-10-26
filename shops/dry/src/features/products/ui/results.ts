@@ -1,4 +1,4 @@
-import type { Card } from '../types.ts'
+import type { Card } from '../../../shared/types.ts'
 import { createCard } from './card.ts'
 import type { Page } from './page.ts'
 

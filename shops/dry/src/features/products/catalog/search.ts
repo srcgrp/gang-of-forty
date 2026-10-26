@@ -1,5 +1,5 @@
 import Fuse, { type FuseResult } from 'fuse.js'
-import type { Product, SearchItem } from '../types.ts'
+import type { Product, SearchItem } from '../../../shared/types.ts'
 
 export function normalize(text: string): string {
     return text 
