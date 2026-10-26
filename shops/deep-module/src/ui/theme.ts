@@ -26,8 +26,12 @@ function applyTheme(mode: ThemeMode): void {
 
   html.classList.remove("dark-theme", "light-theme");
 
-  const isDark = mode === "dark" || (mode === "auto" && prefersDark);
-  if (isDark) html.classList.add("dark-theme");
+  let isDark: boolean;
+  if (mode === "dark") isDark = true;
+  else if (mode === "light") isDark = false;
+  else isDark = prefersDark;
+
+  html.classList.add(isDark ? "dark-theme" : "light-theme");
 
   const svg = isDark ? SVG_SUN : SVG_MOON;
   if (icon) icon.replaceChildren(svgElement(svg));
@@ -47,6 +51,7 @@ export function initTheme(): void {
     if (!(e.target instanceof Element)) return;
     const btn = e.target.closest(BTN);
     if (!btn) return;
+
     const isDark = document.documentElement.classList.contains("dark-theme");
     applyTheme(isDark ? "light" : "dark");
   });
