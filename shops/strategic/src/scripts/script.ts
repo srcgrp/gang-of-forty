@@ -1,5 +1,5 @@
 /* Amirhossein (Armin) Panahi */
-/* Week 3 - Strategic Supermarket - TS & Vite */
+/* Week 4 - Strategic Supermarket - Arch */
 
 
 
@@ -16,7 +16,7 @@ import type {
   ProductItem,
   SearchIndexEntry,
   ShopModel,
-} from './types';
+} from '../types';
 
 
 // ===== Config =====

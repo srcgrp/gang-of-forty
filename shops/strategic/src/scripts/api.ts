@@ -1,5 +1,5 @@
 /* Amirhossein (Armin) Panahi */
-/* Week 3 - Strategic Supermarket - TS & Vite */
+/* Week 4 - Strategic Supermarket - Arch */
 
 
 import type {
@@ -16,7 +16,7 @@ import type {
   ShopMenuItem,
   ShopScheduleRow,
   StockData,
-} from './types';
+} from '../types';
 
 export type ApiErrorKind = 'network' | 'http' | 'parse' | 'timeout' | 'shape';
 
