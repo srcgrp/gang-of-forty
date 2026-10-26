@@ -6,6 +6,7 @@ import { openProductDetail } from "./detail";
 
 let activeIndex = -1;
 let searchInitialized = false;
+
 export interface SearchInitOptions {
   getProducts: () => Product[];
   getStock: () => StockData;
@@ -14,7 +15,7 @@ export interface SearchInitOptions {
 }
 
 export function initSearchUI(opts: SearchInitOptions): void {
-  if (searchInitialized) return; 
+  if (searchInitialized) return;
   searchInitialized = true;
   const input = document.getElementById(
     "site-search",
@@ -27,7 +28,6 @@ export function initSearchUI(opts: SearchInitOptions): void {
   if (!input || !box) return;
 
   let searchQuery = "";
-  let timer: ReturnType<typeof setTimeout> | undefined;
 
   const close = (): void => {
     box.classList.remove("search__suggestions--visible");
@@ -123,10 +123,9 @@ export function initSearchUI(opts: SearchInitOptions): void {
   };
 
   input.addEventListener("input", () => {
+    // فقط لیست پیشنهادات رو نشون بده، گرید اصلی رو دست نزن!
     renderSuggestions(input.value);
     if (clearBtn) clearBtn.hidden = input.value.trim().length === 0;
-    clearTimeout(timer);
-    timer = setTimeout(() => applyFilter(input.value), 350);
   });
 
   input.addEventListener("keydown", (e: KeyboardEvent) => {
@@ -172,6 +171,7 @@ export function initSearchUI(opts: SearchInitOptions): void {
       e.preventDefault();
       const q = input.value.trim();
       if (!q) return;
+      // فقط وقتی دکمه جستجو زده شد یا Enter زده شد، گرید فیلتر میشه
       applyFilter(q);
       close();
       document.getElementById("all-products")?.scrollIntoView({
