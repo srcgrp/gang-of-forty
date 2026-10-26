@@ -80,7 +80,7 @@ function checkout(): void {
   const consumed = readConsumedStock();
   for (const item of state.cart) {
     const current = state.data.stock.items[item.id];
-    if (Number.isFinite(current)) {
+    if (typeof current === "number") {
       state.data.stock.items[item.id] = Math.max(0, current - item.quantity);
     }
     consumed[item.id] = (consumed[item.id] ?? 0) + item.quantity;

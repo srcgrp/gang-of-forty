@@ -8,7 +8,9 @@ export interface StockLabel {
 
 export function availableStock(stock: StockData, productId: number): number {
   const count = stock.items[productId];
-  return Number.isFinite(count) ? Math.max(0, count) : Number.POSITIVE_INFINITY;
+  return typeof count === "number" && Number.isFinite(count)
+    ? Math.max(0, count)
+    : Number.POSITIVE_INFINITY;
 }
 
 export function stockLabel(stock: StockData, productId: number): StockLabel {
