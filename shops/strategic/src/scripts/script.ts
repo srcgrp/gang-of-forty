@@ -8,24 +8,27 @@ import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
 import { ApiError } from '../api/http';
 import { loadApiData } from '../api/load';
-import { SORTS } from '../types';
+import { cartCount as countCart, cartRows, cartTotal } from '../cart/cart-totals';
+import { qtyOf as cartQty, reconcileCart, setQuantity } from '../cart/cart-rules';
+import { buildModel } from '../catalog/build-model';
+import { emptyModel } from '../catalog/empty-model';
+import { visibleProducts } from '../catalog/search';
+import { CART_KEY, loadCart, saveCart } from '../storage/cart-storage';
 import type {
   ApiData,
+  CartItem,
+  CartLine,
   Category,
+  LoadState,
   Product,
   ProductItem,
-  SearchIndexEntry,
   ShopModel,
-  CartItem,
-  Sort,
-  LoadState,
 } from '../types';
 
 
 // ===== Config =====
 const SLOW_AFTER_MS: number = 3000;
 const SEARCH_DELAY_MS: number = 150;
-const CART_KEY: string = 'armin-market:cart';
 const OFFERS_VIEW: string = 'offers';   
 const SHOW_REMAINING_CATEGORIES: boolean = true; 
 const IMG: string = './assets/images/';
@@ -48,8 +51,6 @@ const BRAND = {
 
 
 type HeroArt = readonly [name: string, alt: string, width: number, height: number];
-type ProductArtRule = readonly [file: string | null, pattern: RegExp];
-type CategoryArtRule = readonly [file: string, slugPattern: RegExp, namePattern: RegExp];
 type BannerArt = readonly [file: string, pattern: RegExp | null, width: number, height: number];
 
 const HERO_ART: HeroArt[] = [
@@ -62,69 +63,6 @@ const HERO_ART: HeroArt[] = [
 ];
 
 const HERO_NAMES: Set<string> = new Set(HERO_ART.map(([name]) => name));
-
-const PRODUCT_ART: ProductArtRule[] = [
-  [null, /سیب ?زمینی/],
-  ['strawberry', /چیپس ?توت/],
-  ['plain-chips', /چیپس|لواشک/],
-  ['popcorn', /پاپ ?کورن/],
-  ['butter-biscuit', /بیسکویت|کلوچه/],
-  ['croissant', /کروسان/],
-  ['chocolate-donut', /دونات/],
-  ['vanilla-cupcake', /کاپ ?کیک|کیک/],
-  ['dark-chocolate', /شکلات/],
-  ['fruit-candy', /آب ?نبات|پاستیل/],
-  ['salted-peanuts', /بادام ?زمینی|آجیل/],
-  ['orange-juice', /آب ?میوه|آب ?پرتقال/],
-  ['mineral-water', /آب ?معدنی/],
-  ['cola', /نوشابه|کولا/],
-  ['sour-cherry-syrup', /شربت|آلبالو/],
-  ['black-tea', /چای/],
-  ['instant-coffee', /قهوه|نسکافه/],
-  ['vanilla-ice-cream', /بستنی/],
-  ['yogurt-drink', /دوغ/],
-  ['low-fat-milk', /(^| )شیر( |$)/],
-  ['butter', /(^| )کره( |$)/],
-  ['cheese', /پنیر/],
-  ['yogurt', /ماست/],
-  ['eggs', /تخم/],
-  ['chicken-thigh', /ران ?مرغ/],
-  ['chicken-breast', /سینه|فیله|مرغ/],
-  ['veal-striploin', /راسته|گوساله|گوسفند/],
-  ['ground-meat', /چرخ ?کرده/],
-  ['fish-tuna', /تن ماهی|کنسرو ?تن|کنسرو/],
-  ['shrimp', /میگو/],
-  ['trout', /ماهی|قزل/],
-  ['sausage', /سوسیس|کالباس/],
-  ['lavash-bread', /لواش/],
-  ['gandomin-bread', /گندمین|سنگک|بربری|تافتون/],
-  ['whole-grain-toast', /نان ?تست|تست|سبوس|باگت/],
-  ['rice', /برنج/],
-  ['macaroni', /ماکارونی|پاستا|اسپاگتی/],
-  ['lentil', /عدس/],
-  ['sunflower-oil', /روغن/],
-  ['saffron', /زعفران/],
-  ['honey', /عسل/],
-  ['Gaz', /(^| )گز( |$)/],
-  ['grapes', /انگور/],
-  ['watermelon', /هندوانه/],
-  ['banana', /موز/],
-  ['red-apple', /سیب/],
-  ['carrot', /هویج/],
-  ['orange', /پرتقال|پرتغال|نارنگی/],
-  ['tomato', /گوجه/],
-  ['cucumber', /خیار/],
-];
-
-const CATEGORY_ART: CategoryArtRule[] = [
-  ['produce', /fruit|produce|vegetable/i, /میوه|سبزی/],
-  ['dairy', /dairy/i, /لبنیات/],
-  ['bakery', /bakery|bread/i, /نان|شیرینی/],
-  ['grocery', /pantry|grocery/i, /خواربار/],
-  ['drinks', /drink|beverage/i, /نوشیدنی/],
-  ['protein', /protein|meat/i, /پروتئین|گوشت/],
-  ['snacks', /snack/i, /تنقلات/],
-];
 
 const BANNER_ART: BannerArt[] = [
   ['hero/breakfast-basket.webp', /صبحانه/, 1536, 1024],
@@ -260,46 +198,13 @@ function announce(message: string): void {
 
 
 // ===== Text & Art Helpers =====
-const searchKey = (value: unknown): string =>
-  String(value ?? '')
-    .replace(/[يى]/g, 'ی')
-    .replace(/ك/g, 'ک')
-    .replace(/ة/g, 'ه')
-    .replace(/[\u200c\u200d\u200e\u200f]/g, ' ')
-    .replace(/[\u064b-\u065f\u0670]/g, '')
-    .replace(/[۰-۹]/g, (digit) => String('۰۱۲۳۴۵۶۷۸۹'.indexOf(digit)))
-    .replace(/[٠-٩]/g, (digit) => String('٠١٢٣٤٥٦٧٨٩'.indexOf(digit)))
-    .replace(/\s+/g, ' ')
-    .trim()
-    .toLowerCase();
-
-const findProductArt = (key: string): string | null => PRODUCT_ART.find(([, test]) => test.test(key))?.[0] ?? null;
-const findCategoryArt = (category: Category): string | null => {
-  const name = searchKey(category.name);
-  return CATEGORY_ART.find(([, slugTest, nameTest]) => slugTest.test(category.slug) || nameTest.test(name))?.[0] ?? null;
-};
-
 const findBannerArt = (text: string): BannerArt => BANNER_ART.find(([, test]) => test !== null && test.test(text)) ?? FALLBACK_BANNER;
-const salePrice = (price: number, percent: number): number => Math.min(price, Math.round((price * (100 - percent)) / 100 / 1000) * 1000);
 
 
 // ===== State =====
-const createEmptyModel = (): ShopModel => ({
-  products: [], categories: [], offers: [], shop: {},
-  home: { hero: { title: '', text: '' }, side: { title: '', text: '' }, carousels: [], promos: [] },
-  stockOf: (_id: number): number => 0,
-  items: new Map<number, ProductItem>(),
-  itemsByCategory: new Map<number, ProductItem[]>(),
-  searchIndex: [],
-  categoryById: new Map<number, Category>(),
-  categoryBySlug: new Map<string, Category>(),
-  categoryArt: new Map<number, string | null>(),
-  offerItems: [], carousels: [],
-});
-
-let model: ShopModel = createEmptyModel();
+let model: ShopModel = emptyModel();
 let modelReady = false;
-let cart: Record<string, number> = loadCart(); 
+let cart: CartLine[] = loadCart();
 const notyf = new Notyf({ duration: 2200, position: { x: 'left', y: 'bottom' }, dismissible: true, ripple: false });
 
 const ui: { renderedSearch: string; cartPinned: boolean; cartCloseTimer: number; searchTimer: number; pendingQuery: string; scrollFrame: number } = {
@@ -313,32 +218,8 @@ const ui: { renderedSearch: string; cartPinned: boolean; cartCloseTimer: number;
 
 
 // ===== Cart (localStorage) =====
-function loadCart(): Record<string, number> {
-  try {
-    const stored = localStorage.getItem(CART_KEY);
-    if (!stored) return {};
-    const parsed: unknown = JSON.parse(stored);
-    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {};
-    const clean: Record<string, number> = {};
-    for (const [id, quantity] of Object.entries(parsed)) {
-      if (typeof quantity === 'number' && Number.isInteger(quantity) && quantity > 0) clean[id] = quantity;
-    }
-    return clean;
-  } catch {
-    return {}; 
-  }
-}
-
-function saveCart(): void {
-  try {
-    localStorage.setItem(CART_KEY, JSON.stringify(cart));
-  } catch {
-    /* Storage Is Full or Blocked... */
-  }
-}
-
-const qtyOf = (id: number): number => cart[String(id)] || 0;
-const cartCount = (): number => Object.values(cart).reduce((sum, quantity) => sum + quantity, 0);
+const qtyOf = (id: number): number => cartQty(cart, id);
+const cartCount = (): number => countCart(cart);
 
 function renderCartBadge(bump = false): void {
   const count = cartCount();
@@ -363,10 +244,8 @@ function setQty(id: number, wanted: number, source: 'add-button' | 'stepper' = '
     if (wanted > item.stock) announce(`موجودی ${name} بیشتر از این نیست؛ همه‌ی موجودی در سبد شما است.`);
     return;
   }
-  if (after === 0) delete cart[String(id)];
-  else cart[String(id)] = after;
-
-  saveCart();
+  cart = setQuantity(cart, id, wanted, item.stock);
+  saveCart(cart);
   if (after > before) {
     notyf.success(`${name} به سبد اضافه شد`);
     if (source === 'add-button' && !reducedMotion.matches) {
@@ -382,14 +261,9 @@ function setQty(id: number, wanted: number, source: 'add-button' | 'stepper' = '
 }
 
 
-function reconcileCart(): void {
-  let changed = false;
-  for (const id of Object.keys(cart)) {
-    const limit = model.items.get(Number(id))?.stock ?? 0;
-    if (limit <= 0) { delete cart[id]; changed = true; }
-    else if (cart[id] > limit) { cart[id] = limit; changed = true; }
-  }
-  if (changed) saveCart();
+function reconcileStoredCart(): void {
+  cart = reconcileCart(cart, (id) => model.items.get(id)?.stock ?? 0);
+  saveCart(cart);
   renderCartBadge();
 }
 
@@ -410,100 +284,6 @@ async function loadWithSlowNotice(onSlow: () => void): Promise<ApiData> {
   } finally {
     if (timerId !== undefined) window.clearTimeout(timerId);
   }
-}
-
-
-// ===== Model =====
-function buildModel(raw: ApiData): ShopModel {
-  const { products, categories, offers, shop, home } = raw;
-
-  const offerByProductId = new Map<number, ApiData['offers'][number]>(offers.map((offer): [number, ApiData['offers'][number]] => [offer.productId, offer]));
-  const categoryById = new Map<number, Category>(categories.map((category): [number, Category] => [category.id, category]));
-
-  const stockOf = (id: number): number => {
-    const value = Number(raw.stock.items[id]);
-    return Number.isFinite(value) && value > 0 ? value : 0;
-  };
-
-  const items = new Map<number, ProductItem>();
-  const itemsByCategory = new Map<number, ProductItem[]>(categories.map((category): [number, ProductItem[]] => [category.id, []]));
-  const searchIndex: SearchIndexEntry[] = [];
-
-  for (const product of products) {
-    const offer = offerByProductId.get(product.id);
-    const percent = offer && offer.percent > 0 && offer.percent < 100 ? offer.percent : 0;
-    const stock = stockOf(product.id);
-    const nameKey = searchKey(product.name);
-    const item: ProductItem = {
-      product,
-      art: findProductArt(nameKey),
-      stock,
-      soldOut: stock === 0,
-      percent,
-      oldPrice: percent ? product.price : 0,
-      price: percent ? salePrice(product.price, percent) : product.price,
-    };
-    items.set(product.id, item);
-    itemsByCategory.get(product.categoryId)?.push(item);
-
-    searchIndex.push({
-      item,
-      name: nameKey,
-      text: searchKey([product.name, product.unit, ...(product.tags ?? [])].join(' ')),
-      categoryWords: searchKey(categoryById.get(product.categoryId)?.name).split(' '),
-    });
-  }
-
-  return {
-    products,
-    categories,
-    offers,
-    shop,
-    home,
-    stockOf,
-    items,
-    itemsByCategory,
-    searchIndex,
-    categoryById,
-    categoryBySlug: new Map<string, Category>(categories.map((category): [string, Category] => [category.slug, category])),
-    categoryArt: new Map<number, string | null>(categories.map((category): [number, string | null] => [category.id, findCategoryArt(category)])),
-    offerItems: offers.map((offer) => items.get(offer.productId)).filter((item): item is ProductItem => item !== undefined),
-    carousels: Array.isArray(home.carousels) ? home.carousels : [],
-  };
-}
-
-
-function searchProducts(
-  query: string,
-  sort: Sort = SORTS[0],
-): ProductItem[] {
-  const terms = searchKey(query).split(' ').filter(Boolean);
-  if (!terms.length) return [];
-
-  const inName = (entry: SearchIndexEntry): boolean =>
-    terms.every((term) => entry.name.includes(term));
-
-  const matches = model.searchIndex.filter(
-    (entry) =>
-      terms.every(
-        (term) =>
-          entry.text.includes(term) ||
-          entry.categoryWords.includes(term),
-      ),
-  );
-
-  matches.sort((first, second) => {
-    if (sort === 'name') {
-      return first.item.product.name.localeCompare(
-        second.item.product.name,
-        'fa',
-      );
-    }
-
-    return Number(inName(second)) - Number(inName(first));
-  });
-
-  return matches.map((entry) => entry.item);
 }
 
 
@@ -590,7 +370,7 @@ function syncAllControls(): void {
 }
 
 function syncCartControls(): void {
-  Object.keys(cart).forEach((id) => syncControls(Number(id)));
+  cart.forEach((line) => syncControls(line.productId));
 }
 
 // ===== Product Card =====
@@ -955,7 +735,7 @@ function renderCatalog(slug: string): { title: string; nodes: HTMLElement[] } {
 }
 
 function renderSearch(query: string): { title: string; nodes: HTMLElement[] } {
-  const items = searchProducts(query);
+  const items = visibleProducts(model.searchIndex, query);
   const heading = el('h1', { id: 'catalog-t', class: 'catalog__title', text: `نتایج جستجو برای «${query}»` });
   const content = items.length
     ? [el('h2', { class: 'sr-only', text: 'فهرست کالاها' }), el('ul', { class: 'grid' }, items.map(productCard))]
@@ -1149,20 +929,8 @@ function renderMiniCart(): void {
     return;
   }
 
-  let total = 0;
-  let oldTotal = 0;
-  const rows = Object.keys(cart)
-    .map(Number)
-    .sort((a, b) => a - b)
-    .map((id) => model.items.get(id))
-    .filter((item): item is ProductItem => item !== undefined)
-    .map((item) => {
-      const quantity = qtyOf(item.product.id);
-      const oldPrice = item.oldPrice || item.price;
-      total += item.price * quantity;
-      oldTotal += oldPrice * quantity;
-      return { ...item, quantity, oldPrice };
-    });
+  const rows = cartRows(cart, model.items);
+  const { total, oldTotal } = cartTotal(rows);
 
   dom.cartPanel.replaceChildren(el('div', { class: 'mini' }, [
     el('div', { class: 'mini__head' }, [title, el('span', { class: 'mini__count', text: `${formatNumber(count)} کالا` })]),
@@ -1370,7 +1138,7 @@ function goToSection(href: string, target: HTMLElement): void {
 
 // ===== Search Box & Events =====
 function announceResults(text: string): void {
-  announce(`${formatNumber(searchProducts(text).length)} نتیجه برای ${text}`);
+  announce(`${formatNumber(visibleProducts(model.searchIndex, text).length)} نتیجه برای ${text}`);
 }
 
 function showSearch(query: string): void {
@@ -1579,7 +1347,7 @@ async function start(): Promise<void> {
     renderNotice();
     renderNav();
     renderFooterData();
-    reconcileCart();
+    reconcileStoredCart();
 
     const state: LoadState = data.products.length > 0
       ? { status: 'success', products: data.products }
@@ -1597,7 +1365,7 @@ async function start(): Promise<void> {
 
     ui.pendingQuery = '';
   } catch (error: unknown) {
-    model = createEmptyModel();
+    model = emptyModel();
     modelReady = false;
 
     const apiError = error instanceof ApiError
