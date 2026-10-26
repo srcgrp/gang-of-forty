@@ -1,48 +1,11 @@
 import confetti from "canvas-confetti";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
+import type { Product, Category, Offer, StockData, MenuEntry, Shop } from "./types.ts";
+import { VIEW_ALL_LABELS } from "./types.ts";
+import type { ViewAllLabel } from "./types.ts";
 
-type Product = {
-    id: number;
-    categoryId: number;
-    name: string;
-    emoji: string;
-    unit: string;
-    price: number;
-    tags: string[];
-};
 
-type Category = {
-    id: number;
-    name: string;
-    emoji: string;
-    slug: string;
-    color: string;
-};
-
-type Offer = {
-    productId: number;
-    percent: number;
-    label: string;
-};
-
-type StockData = {
-    items: Record<number, number>;
-};
-
-type MenuEntry = {
-    label: string;
-    href: string;
-};
-
-type Shop = {
-    notice: string;
-    slogan: string;
-    phone: string;
-    address: string;
-    about: string;
-    menu: MenuEntry[];
-};
 
 const API_BASE: string = "../../api/";
 const SNACKS_SLUG: string = "snacks";
@@ -112,7 +75,9 @@ async function fetchJson<T>(file: string): Promise<T> {
     }
     return response.json();
 }
-
+function finalPrice(product: Pick<Product, "price">, offer: Pick<Offer, "percent">): number {
+    return Math.round((product.price * (100 - offer.percent)) / 100);
+}
 function createProductCard(
     product: Product,
     offer: Offer | undefined,
@@ -180,8 +145,7 @@ function createProductCard(
 
         const newPrice: HTMLParagraphElement = document.createElement("p");
         newPrice.className = "special-offer-price";
-        newPrice.textContent = formatPrice(Math.round((product.price * (100 - offer.percent)) / 100));
-
+        newPrice.textContent = formatPrice(finalPrice(product, offer));
         prices.append(oldPrice, newPrice);
         details.append(prices, button);
     } else {
@@ -345,15 +309,15 @@ function setupViewAll(): void {
         const items: HTMLDivElement = getEl<HTMLDivElement>(".special-offer-items", article);
         const label: HTMLSpanElement = getEl<HTMLSpanElement>("span", link);
         const isRtl: boolean = getComputedStyle(items).direction === "rtl";
+        const [LABEL_MORE, LABEL_BACK] = VIEW_ALL_LABELS;
 
         function atEnd(): boolean {
             return Math.abs(items.scrollLeft) + items.clientWidth >= items.scrollWidth - 2;
         }
-
         function updateLabel(): void {
-            label.textContent = atEnd() ? "بازگشت به ابتدا" : "مشاهده همه";
+            const next: ViewAllLabel = atEnd() ? LABEL_BACK : LABEL_MORE;
+            label.textContent = next;
         }
-
         link.addEventListener("click", (event: MouseEvent): void => {
             event.preventDefault();
 
