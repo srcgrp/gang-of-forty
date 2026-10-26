@@ -3,6 +3,7 @@ import confetti from "canvas-confetti";
 import { loadAll } from "./api/load";
 import { readCartRaw, writeCartRaw } from "./storage/cart-storage";
 import { readConsumedStock, writeConsumedStock } from "./storage/stock-storage";
+import { readUrlState, writeUrlState } from "./catalog/url";
 import {
   addProduct,
   cartCount,
@@ -10,7 +11,7 @@ import {
   removeItem,
 } from "./cart/cart";
 import { parseCart } from "./cart/parse";
-import { initSearch } from "./catalog/search";
+import { initSearch, searchProducts } from "./catalog/search";
 import { mergeStock } from "./catalog/stock";
 import {
   renderSkeletonCategories,
@@ -28,17 +29,19 @@ import { initSearchUI } from "./ui/search-init";
 import { renderApp } from "./main-render";
 
 // ===== State =====
+const urlState = readUrlState();
+
 const state: AppState = {
   data: null,
   cart: parseCart(readCartRaw()),
   filters: {
-    categoryId: "all",
-    stock: "all",
-    discount: "all",
-    sort: "default",
+    categoryId: urlState.categoryId,
+    stock: urlState.stock,
+    discount: urlState.discount,
+    sort: urlState.sort,
   },
   searchIds: null,
-  searchQuery: "",
+  searchQuery: urlState.query,
 };
 
 // ===== Cart =====
@@ -156,7 +159,16 @@ function setupFilterAndSearch(): void {
   initFilterModal({
     categories: state.data.categories,
     state: state.filters,
-    onApply: () => renderApp({ state, onAdd: addToCart }),
+    onApply: () => {
+      writeUrlState({
+        query: state.searchQuery,
+        categoryId: state.filters.categoryId,
+        stock: state.filters.stock,
+        discount: state.filters.discount,
+        sort: state.filters.sort,
+      });
+      renderApp({ state, onAdd: addToCart });
+    },
   });
 
   initSearchUI({
@@ -166,9 +178,29 @@ function setupFilterAndSearch(): void {
     onFilter: (ids, query) => {
       state.searchIds = ids;
       state.searchQuery = query;
+      writeUrlState({
+        query,
+        categoryId: state.filters.categoryId,
+        stock: state.filters.stock,
+        discount: state.filters.discount,
+        sort: state.filters.sort,
+      });
       renderApp({ state, onAdd: addToCart });
     },
   });
+
+  // اگه از قبل توی URL چیزی سرچ شده بود، همون اول اعمالش کن
+  if (urlState.query) {
+    const results = searchProducts(state.data.products, urlState.query);
+    state.searchIds = new Set(results.map((p) => p.id));
+    renderApp({ state, onAdd: addToCart });
+
+    // همچنین متن داخل input جستجو رو هم پر کن
+    const searchInput = document.getElementById(
+      "site-search",
+    ) as HTMLInputElement;
+    if (searchInput) searchInput.value = urlState.query;
+  }
 }
 
 function showLoadError(message: string): void {
