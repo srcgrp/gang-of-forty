@@ -25,7 +25,7 @@ export function makeSearch(products: Product[]): (query: string) => Product[] {
             { name: 'name', weight:3 },
             { name: 'tags', weight: 1},
         ],
-        threshold: 0.35,
+        threshold: 0.3,
         ignoreLocation: true,
     })
     return (query: string): Product[] =>
