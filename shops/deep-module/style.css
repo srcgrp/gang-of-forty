@@ -3744,3 +3744,48 @@ html.dark-theme .modal__overlay {
     animation: spin 1s linear infinite !important;
   }
 }
+/* Global Loader */
+.global-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--bg) 85%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition:
+    opacity 0.4s ease,
+    visibility 0.4s ease;
+}
+
+.global-loader--hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.global-loader__spinner {
+  width: 60px;
+  height: 60px;
+  border: 4px solid var(--border);
+  border-top-color: var(--lime);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  box-shadow: 0 0 20px var(--glow);
+  margin-bottom: 20px;
+}
+
+.global-loader__text {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+.global-loader__subtext {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 8px;
+}
