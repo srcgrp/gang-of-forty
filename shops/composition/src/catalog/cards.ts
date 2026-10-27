@@ -18,7 +18,7 @@ export function toCard(product: Product, stock: Stock, offers: Map<number, Offer
     id: product.id, name: product.name, emoji: product.emoji, unit: product.unit,
     price: formatPrice(price), oldPrice: offer ? formatPrice(product.price) : "",
     badge: offer ? offer.label + "؛ " + formatNumber(offer.percent) + "٪ تخفیف" : "",
-    available: stock.items[product.id] !== 0,
+    available: (stock.items[product.id] ?? 0) > 0,
     item: { id: product.id, name: product.name, price, quantity: 1 },
   };
 }
