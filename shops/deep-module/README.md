@@ -580,3 +580,36 @@ if (!Array.isArray(parsed)) return [];
 ⭐ اگه از پروژه خوشت اومد، ستاره بده! ⭐
 
 </div>
+## ✅ Definition of Done
+
+- [x] `package.json` با `private: true` و `type: "module"`
+- [x] اسکریپت‌های `dev`, `build`, `preview`, `check`
+- [x] `typescript` و `vite` در `devDependencies`
+- [x] `package-lock.json` commit شده
+- [x] `node_modules/` و `dist/` commit نشده
+- [x] `tsconfig.json` با `strict: true` بدون `noImplicitAny: false`
+- [x] `script.js` حذف شده؛ `script.ts` با `type="module"`
+- [x] `querySelector<T>` با تایپ دقیق
+- [x] `createElement<T>` با تایپ
+- [x] `instanceof Element` قبل از `closest`
+- [x] حداقل ۲ پکیج npm در `dependencies`
+- [x] `npm run check` بدون خطا
+- [x] `npm run build` موفق
+- [x] `npm run dev` و `preview` بدون خطای کنسول
+- [x] بدون `!` و `as` برای سرکوب خطا
+- [x] HTML Validation پاس می‌شود
+- [x] توضیح در PR با checklist و شواهد
+
+## 🏅 امتیاز اضافه
+
+- [x] `noImplicitAny: false` حذف شده
+- [x] type برای همهٔ APIها (`Product`, `Category`, `Offer`, `Shop`, `Home`, `StockData`)
+- [x] همهٔ توابع `fetch` خروجی `Promise<T>` دارند
+- [x] همهٔ پارامترها و مقادیر برگشتی تایپ دارند
+- [x] همهٔ متغیرها تایپ دارند یا مقدارشان تایپ را می‌سازد
+- [x] هیچ `any` در کد نیست
+- [x] `catch (err: unknown)` استفاده شده
+- [x] `Record<number, number>` برای stock
+- [x] `Map` برای `matchedIds` در جستجو
+
+## 🧪 خروجی `npm run check`
