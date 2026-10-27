@@ -1,4 +1,4 @@
-import type { Product } from "./types";
+import type { Product } from "../types";
 import { isObject, isId, isAmount, isList } from "./validation";
 
 export function isProduct(value: unknown): value is Product {

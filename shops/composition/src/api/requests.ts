@@ -1,4 +1,4 @@
-import type { Product, Stock, Offer, Category, Shop, Home } from "./types";
+import type { Product, Stock, Offer, Category, Shop, Home } from "../types";
 import { isList } from "./validation";
 import { isProduct } from "./product-guard";
 import { isCategory, isOffer, isStock } from "./catalog-guards";

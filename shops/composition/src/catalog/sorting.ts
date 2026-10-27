@@ -1,4 +1,4 @@
-import type { Product } from "./types";
+import type { Product } from "../types";
 export const SORT_OPTIONS = ["default", "price-asc", "price-desc"] as const;
 
 export type SortOption = (typeof SORT_OPTIONS)[number];
@@ -16,4 +16,9 @@ export function sortProducts(
   }
 
   return sortedProducts;
+}
+
+export function readSortOption(value: string): SortOption {
+  if (value === "price-asc" || value === "price-desc") return value;
+  return "default";
 }

@@ -1,4 +1,4 @@
-import type { LoadState } from "./types";
+import type { LoadState } from "../types";
 
 export function renderLoadStatus(state: LoadState): void {
   const status = document.querySelector<HTMLElement>("#page-status");

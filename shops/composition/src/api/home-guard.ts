@@ -1,4 +1,4 @@
-import type { Banner, Promo, Carousel, Home } from "./types";
+import type { Banner, Promo, Carousel, Home } from "../types";
 import { isObject, isId, isList } from "./validation";
 import { isMenuLink } from "./shop-guard";
 

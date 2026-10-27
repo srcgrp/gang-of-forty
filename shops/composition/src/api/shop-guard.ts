@@ -1,4 +1,4 @@
-import type { MenuLink, Schedule, Shop } from "./types";
+import type { MenuLink, Schedule, Shop } from "../types";
 import { isObject, isAmount, isList } from "./validation";
 
 export function isMenuLink(value: unknown): value is MenuLink {

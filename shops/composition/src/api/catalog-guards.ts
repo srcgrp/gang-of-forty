@@ -1,4 +1,4 @@
-import type { Category, Offer, Stock } from "./types";
+import type { Category, Offer, Stock } from "../types";
 import { isObject, isId, isAmount } from "./validation";
 
 export function isCategory(value: unknown): value is Category {
