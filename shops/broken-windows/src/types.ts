@@ -1,3 +1,21 @@
+export type LoadState =
+    | { status: "loading" }
+    | {
+          status: "success";
+          products: Product[];
+          offers: Offer[];
+          stock: StockData;
+          categories: Category[];
+          shop: Shop;
+      }
+
+
+    | { status: "empty" }
+    | { status: "error"; message: string };
+
+export type LoadedState = Extract<LoadState, { status: "success" }>;
+
+
 export type Product = {
     id: number;
     categoryId: number;

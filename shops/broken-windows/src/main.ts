@@ -1,13 +1,13 @@
 import confetti from "canvas-confetti";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
-import type { Product, Category, Offer, StockData, MenuEntry, Shop } from "./types.ts";
+//import type { Product, Category, Offer, StockData, MenuEntry, Shop } from "./types.ts";
 import { VIEW_ALL_LABELS } from "./types.ts";
 import type { ViewAllLabel } from "./types.ts";
+  
+import type { Category, LoadedState, LoadState, MenuEntry, Offer, Product } from "./types.ts";
+import { loadShopData } from "./api/client.ts";
 
-
-
-const API_BASE: string = "../../api/";
 const SNACKS_SLUG: string = "snacks";
 
 function getEl<T extends HTMLElement>(selector: string, root: ParentNode = document): T {
@@ -66,14 +66,6 @@ function formatNumber(value: number): string {
 
 function formatPrice(value: number): string {
     return formatNumber(value) + " تومان";
-}
-
-async function fetchJson<T>(file: string): Promise<T> {
-    const response: Response = await fetch(API_BASE + file);
-    if (!response.ok) {
-        throw new Error("خطای سرور: " + response.status);
-    }
-    return response.json();
 }
 function finalPrice(product: Pick<Product, "price">, offer: Pick<Offer, "percent">): number {
     return Math.round((product.price * (100 - offer.percent)) / 100);
@@ -241,66 +233,80 @@ function scrollToHash(): void {
         target.scrollIntoView();
     }
 }
+function assertNever(x: never): never {
+    throw new Error("حالتی رندر نشده: " + JSON.stringify(x));
+}
 
-async function loadProducts(): Promise<void> {
-    showMessage(offerContainer, "در حال بارگذاری...");
-    showMessage(snacksContainer, "در حال بارگذاری...");
-    showMessage(categoriesGrid, "در حال بارگذاری...");
+function renderSuccess(state: LoadedState): void {
+    const { products, offers, stock, categories, shop } = state;
 
-    try {
-        const [products, stockData, offers, categories, shop] = await Promise.all([
-            fetchJson<Product[]>("products.json"),
-            fetchJson<StockData>("stock.json"),
-            fetchJson<Offer[]>("offers.json"),
-            fetchJson<Category[]>("categories.json"),
-            fetchJson<Shop>("shop.json"),
-        ]);
+    const offerByProductId: Map<number, Offer> = new Map<number, Offer>(
+        offers.map((offer: Offer): [number, Offer] => [offer.productId, offer])
+    );
+    const makeCard = (product: Product): HTMLDivElement =>
+        createProductCard(product, offerByProductId.get(product.id), stock.items[product.id]);
 
-        const stockItems: Record<number, number> = stockData.items;
-        const offerByProductId: Map<number, Offer> = new Map<number, Offer>(
-            offers.map((offer: Offer): [number, Offer] => [offer.productId, offer])
-        );
+    const offerProducts: Product[] = products.filter((product: Product): boolean =>
+        offerByProductId.has(product.id)
+    );
+    offerContainer.replaceChildren(...offerProducts.map(makeCard));
 
-        const makeCard = (product: Product): HTMLDivElement =>
-            createProductCard(product, offerByProductId.get(product.id), stockItems[product.id]);
-
-        const offerProducts: Product[] = products.filter((product: Product): boolean =>
-            offerByProductId.has(product.id)
-        );
-        offerContainer.replaceChildren(...offerProducts.map(makeCard));
-
-        const snacks: Category | undefined = categories.find(
-            (category: Category): boolean => category.slug === SNACKS_SLUG
-        );
-        if (!snacks) {
-            throw new Error("دسته‌ی تنقلات پیدا نشد");
-        }
+    const snacks: Category | undefined = categories.find(
+        (category: Category): boolean => category.slug === SNACKS_SLUG
+    );
+    if (snacks) {
         const snackProducts: Product[] = products.filter(
             (product: Product): boolean => product.categoryId === snacks.id
         );
         snacksContainer.replaceChildren(...snackProducts.map(makeCard));
         snacksHeading.textContent = "خشکبار و تنقلات";
         snacksArticle.id = snacks.slug;
+    } else {
+        showMessage(snacksContainer, "دسته‌ی تنقلات پیدا نشد");
+    }
 
-        renderCategories(categories);
+    renderCategories(categories);
 
-        noticeBar.textContent = shop.notice;
-        phoneLink.textContent = shop.phone;
-        addressBar.textContent = shop.address;
-        renderMenu(shop.menu);
-        about.textContent = shop.about;
-        slogan.textContent = shop.slogan;
+    noticeBar.textContent = shop.notice;
+    phoneLink.textContent = shop.phone;
+    addressBar.textContent = shop.address;
+    renderMenu(shop.menu);
+    about.textContent = shop.about;
+    slogan.textContent = shop.slogan;
 
-        scrollToHash();
-    } catch (error: unknown) {
-        const message: string = error instanceof Error ? error.message : String(error);
-        console.error("خطا در بارگذاری:", message);
-        showMessage(offerContainer, "متأسفیم، محصولات بارگذاری نشدند. لطفاً دوباره تلاش کنید.");
-        showMessage(snacksContainer, "متأسفیم، محصولات بارگذاری نشدند. لطفاً دوباره تلاش کنید.");
-        showMessage(categoriesGrid, "متأسفیم، دسته‌بندی‌ها بارگذاری نشدند.");
+    scrollToHash();
+}
+
+function renderState(state: LoadState): void {
+    switch (state.status) {
+        case "loading":
+            showMessage(offerContainer, "در حال بارگذاری...");
+            showMessage(snacksContainer, "در حال بارگذاری...");
+            showMessage(categoriesGrid, "در حال بارگذاری...");
+            break;
+        case "empty":
+            showMessage(offerContainer, "فعلاً محصولی نداریم.");
+            showMessage(snacksContainer, "فعلاً محصولی نداریم.");
+            showMessage(categoriesGrid, "فعلاً محصولی نداریم.");
+            break;
+        case "error":
+            console.error("خطا در بارگذاری:", state.message);
+            showMessage(offerContainer, "متأسفیم، محصولات بارگذاری نشدند. لطفاً دوباره تلاش کنید.");
+            showMessage(snacksContainer, "متأسفیم، محصولات بارگذاری نشدند. لطفاً دوباره تلاش کنید.");
+            showMessage(categoriesGrid, "متأسفیم، دسته‌بندی‌ها بارگذاری نشدند.");
+            break;
+        case "success":
+            renderSuccess(state);
+            break;
+        default:
+            assertNever(state);
     }
 }
 
+async function start(): Promise<void> {
+    renderState({ status: "loading" });
+    renderState(await loadShopData());
+}
 function setupViewAll(): void {
     document.querySelectorAll<HTMLAnchorElement>(".items-header-link").forEach((link: HTMLAnchorElement): void => {
         const article: HTMLElement | null = link.closest("article");
@@ -347,4 +353,4 @@ document.addEventListener("click", (e: MouseEvent): void => {
 });
 
 setupViewAll();
-void loadProducts();
+void start();
