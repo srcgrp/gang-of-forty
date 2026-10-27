@@ -1,0 +1,362 @@
+[
+  {
+    "id": 1,
+    "title": "ذهن‌های پراکنده",
+    "author": "گبور مته",
+    "priceToman": 185000,
+    "category": "کتاب الکترونیکی",
+    "imageUrl": "https://img.taaghche.com/frontCover/243928.jpg",
+    "sourceUrl": "https://taaghche.com/book/243928"
+  },
+  {
+    "id": 2,
+    "title": "بامداد خمار",
+    "author": "فتانه حاج سید جوادی (پروین)",
+    "priceToman": 400000,
+    "category": "کتاب الکترونیکی",
+    "imageUrl": "https://img.taaghche.com/frontCover/141438.jpg",
+    "sourceUrl": "https://taaghche.com/book/141438"
+  },
+  {
+    "id": 3,
+    "title": "من ادواردو نیستم!",
+    "author": "گروه نویسندگان",
+    "priceToman": 10000,
+    "category": "کتاب الکترونیکی",
+    "imageUrl": "https://img.taaghche.com/frontCover/40284.jpg",
+    "sourceUrl": "https://taaghche.com/book/40284"
+  },
+  {
+    "id": 4,
+    "title": "معجزه شکرگزاری",
+    "author": "راندا برن",
+    "priceToman": 39900,
+    "category": "کتاب الکترونیکی",
+    "imageUrl": "https://img.taaghche.com/frontCover/97532.jpg",
+    "sourceUrl": "https://taaghche.com/book/97532"
+  },
+  {
+    "id": 5,
+    "title": "سلام بر ابراهیم (۱)",
+    "author": "گروه نویسندگان",
+    "priceToman": 21000,
+    "category": "کتاب الکترونیکی",
+    "imageUrl": "https://img.taaghche.com/frontCover/18870.jpg",
+    "sourceUrl": "https://taaghche.com/book/18870"
+  },
+  {
+    "id": 6,
+    "title": "بوف کور",
+    "author": "صادق هدایت",
+    "priceToman": 50000,
+    "category": "کتاب الکترونیکی",
+    "imageUrl": "https://img.taaghche.com/frontCover/882.jpg",
+    "sourceUrl": "https://taaghche.com/book/882"
+  },
+  {
+    "id": 7,
+    "title": "شب‌های روشن",
+    "author": "فئودور داستایفسکی",
+    "priceToman": 80000,
+    "category": "کتاب الکترونیکی",
+    "imageUrl": "https://img.taaghche.com/frontCover/54965.jpg",
+    "sourceUrl": "https://taaghche.com/book/54965"
+  },
+  {
+    "id": 8,
+    "title": "پسرک، موش کور، روباه و اسب",
+    "author": "چارلی مکسی",
+    "priceToman": 125000,
+    "category": "کتاب الکترونیکی",
+    "imageUrl": "https://img.taaghche.com/frontCover/71446.jpg",
+    "sourceUrl": "https://taaghche.com/book/71446"
+  },
+  {
+    "id": 9,
+    "title": "سفر به دنیای ناشناخته‌ها",
+    "author": "جمعی از نویسندگان مقر کتاب",
+    "priceToman": 45000,
+    "category": "کتاب الکترونیکی",
+    "imageUrl": "https://img.taaghche.com/frontCover/217879.jpg",
+    "sourceUrl": "https://taaghche.com/book/217879"
+  },
+  {
+    "id": 10,
+    "title": "هنر زندگی کردن",
+    "author": "تیک نات هان",
+    "priceToman": 145000,
+    "category": "کتاب الکترونیکی",
+    "imageUrl": "https://img.taaghche.com/frontCover/239682.jpg",
+    "sourceUrl": "https://taaghche.com/book/239682"
+  },
+  {
+    "id": 11,
+    "title": "زندگی کاری",
+    "author": "آدام گرانت",
+    "priceToman": 165000,
+    "category": "کتاب الکترونیکی",
+    "imageUrl": "https://img.taaghche.com/frontCover/246036.jpg",
+    "sourceUrl": "https://taaghche.com/book/246036"
+  },
+  {
+    "id": 12,
+    "title": "دیوان حافظ",
+    "author": "خواجه حافظ شیرازی",
+    "priceToman": 15000,
+    "category": "کتاب الکترونیکی",
+    "imageUrl": "https://img.taaghche.com/frontCover/210.jpg",
+    "sourceUrl": "https://taaghche.com/book/210"
+  },
+  {
+    "id": 13,
+    "title": "محکم در آغوشم بگیر",
+    "author": "سو جانسن",
+    "priceToman": 145000,
+    "category": "کتاب الکترونیکی",
+    "imageUrl": "https://img.taaghche.com/frontCover/44792.jpg",
+    "sourceUrl": "https://taaghche.com/book/44792"
+  },
+  {
+    "id": 14,
+    "title": "عادت‌های اتمی",
+    "author": "جیمز کلیر",
+    "priceToman": 99000,
+    "category": "کتاب الکترونیکی",
+    "imageUrl": "https://img.taaghche.com/frontCover/54131.jpg",
+    "sourceUrl": "https://taaghche.com/book/54131"
+  },
+  {
+    "id": 15,
+    "title": "کهکشان نیستی",
+    "author": "محمدهادی اصفهانی",
+    "priceToman": 200000,
+    "category": "کتاب الکترونیکی",
+    "imageUrl": "https://img.taaghche.com/frontCover/143140.jpg",
+    "sourceUrl": "https://taaghche.com/book/143140"
+  },
+  {
+    "id": 16,
+    "title": "خودشناسی",
+    "author": "آلن دوباتن",
+    "priceToman": 65000,
+    "category": "کتاب الکترونیکی",
+    "imageUrl": "https://img.taaghche.com/frontCover/82349.jpg",
+    "sourceUrl": "https://taaghche.com/book/82349"
+  },
+  {
+    "id": 17,
+    "title": "عارفانه",
+    "author": "گروه نویسندگان",
+    "priceToman": 15000,
+    "category": "کتاب الکترونیکی",
+    "imageUrl": "https://img.taaghche.com/frontCover/20170.jpg",
+    "sourceUrl": "https://taaghche.com/book/20170"
+  },
+  {
+    "id": 18,
+    "title": "انسان در جستجوی معنا",
+    "author": "ویکتور فرانکل",
+    "priceToman": 78000,
+    "category": "کتاب الکترونیکی",
+    "imageUrl": "https://img.taaghche.com/frontCover/4206.jpg",
+    "sourceUrl": "https://taaghche.com/book/4206"
+  },
+  {
+    "id": 19,
+    "title": "تو خود عشقی باش که در جستن آنی",
+    "author": "نیکول لپرا",
+    "priceToman": 155000,
+    "category": "کتاب الکترونیکی",
+    "imageUrl": "https://img.taaghche.com/frontCover/208664.jpg",
+    "sourceUrl": "https://taaghche.com/book/208664"
+  },
+  {
+    "id": 20,
+    "title": "اجازه نده هر چیزی روی تو تأثیر بگذارد",
+    "author": "دنیل چیدیاک",
+    "priceToman": 21000,
+    "category": "کتاب صوتی",
+    "imageUrl": "https://img.taaghche.com/frontCover/250852.jpg",
+    "sourceUrl": "https://taaghche.com/audiobook/250852"
+  },
+  {
+    "id": 21,
+    "title": "قدرت سکوت (نسخه صوتی)",
+    "author": "تیک نات هان",
+    "priceToman": 45000,
+    "category": "کتاب صوتی",
+    "imageUrl": "https://img.taaghche.com/frontCover/231572.jpg",
+    "sourceUrl": "https://taaghche.com/audiobook/231572"
+  },
+  {
+    "id": 22,
+    "title": "فقر احمق می‌کند (نسخه صوتی)",
+    "author": "سندهیل مولاینیتن",
+    "priceToman": 54500,
+    "category": "کتاب صوتی",
+    "imageUrl": "https://img.taaghche.com/frontCover/94457.jpg",
+    "sourceUrl": "https://taaghche.com/audiobook/94457"
+  },
+  {
+    "id": 23,
+    "title": "شازده کوچولو (نسخه صوتی)",
+    "author": "آنتوان دوسنت اگزوپری",
+    "priceToman": 15000,
+    "category": "کتاب صوتی",
+    "imageUrl": "https://img.taaghche.com/frontCover/72107.jpg",
+    "sourceUrl": "https://taaghche.com/audiobook/72107"
+  },
+  {
+    "id": 24,
+    "title": "عادت‌های اتمی (نسخه صوتی)",
+    "author": "جیمز کلیر",
+    "priceToman": 87500,
+    "category": "کتاب صوتی",
+    "imageUrl": "https://img.taaghche.com/frontCover/54861.jpg",
+    "sourceUrl": "https://taaghche.com/audiobook/54861"
+  },
+  {
+    "id": 25,
+    "title": "نشخوار ذهنی (نسخه صوتی)",
+    "author": "اسکات شارپ",
+    "priceToman": 18500,
+    "category": "کتاب صوتی",
+    "imageUrl": "https://img.taaghche.com/frontCover/120167.jpg",
+    "sourceUrl": "https://taaghche.com/audiobook/120167"
+  },
+  {
+    "id": 26,
+    "title": "بامداد خمار (نسخه صوتی)",
+    "author": "فتانه حاج سید جوادی (پروین)",
+    "priceToman": 232200,
+    "category": "کتاب صوتی",
+    "imageUrl": "https://img.taaghche.com/frontCover/69675.jpg",
+    "sourceUrl": "https://taaghche.com/audiobook/69675"
+  },
+  {
+    "id": 27,
+    "title": "ازدواج بدون شکست (نسخه صوتی)",
+    "author": "کارلین گلاسر",
+    "priceToman": 36000,
+    "category": "کتاب صوتی",
+    "imageUrl": "https://img.taaghche.com/frontCover/145033.jpg",
+    "sourceUrl": "https://taaghche.com/audiobook/145033"
+  },
+  {
+    "id": 28,
+    "title": "چگونه آدم‌ها را بخوانیم؟ (نسخه صوتی)",
+    "author": "پاتریک کینگ",
+    "priceToman": 96000,
+    "category": "کتاب صوتی",
+    "imageUrl": "https://img.taaghche.com/frontCover/219324.jpg",
+    "sourceUrl": "https://taaghche.com/audiobook/219324"
+  },
+  {
+    "id": 29,
+    "title": "معجزه شکرگزاری (نسخه صوتی)",
+    "author": "راندا برن",
+    "priceToman": 34500,
+    "category": "کتاب صوتی",
+    "imageUrl": "https://img.taaghche.com/frontCover/338753.jpg",
+    "sourceUrl": "https://taaghche.com/audiobook/338753"
+  },
+  {
+    "id": 30,
+    "title": "صفر به یک (نسخه صوتی)",
+    "author": "پیتر تیل",
+    "priceToman": 39000,
+    "category": "کتاب صوتی",
+    "imageUrl": "https://img.taaghche.com/frontCover/66417.jpg",
+    "sourceUrl": "https://taaghche.com/audiobook/66417"
+  },
+  {
+    "id": 31,
+    "title": "روان‌شناسی تاریک (نسخه صوتی)",
+    "author": "مایکل پیس",
+    "priceToman": 70800,
+    "category": "کتاب صوتی",
+    "imageUrl": "https://img.taaghche.com/frontCover/227638.jpg",
+    "sourceUrl": "https://taaghche.com/audiobook/227638"
+  },
+  {
+    "id": 32,
+    "title": "معجزه شکرگزاری؛ نسخه صوتی دوم",
+    "author": "راندا برن",
+    "priceToman": 199000,
+    "category": "کتاب صوتی",
+    "imageUrl": "https://img.taaghche.com/frontCover/68150.jpg",
+    "sourceUrl": "https://taaghche.com/audiobook/68150"
+  },
+  {
+    "id": 33,
+    "title": "مغازه خودکشی (نسخه صوتی)",
+    "author": "ژان تولی",
+    "priceToman": 92400,
+    "category": "کتاب صوتی",
+    "imageUrl": "https://img.taaghche.com/frontCover/59164.jpg",
+    "sourceUrl": "https://taaghche.com/audiobook/59164"
+  },
+  {
+    "id": 34,
+    "title": "قورباغه‌ات را قورت بده! (نسخه صوتی)",
+    "author": "برایان تریسی",
+    "priceToman": 23400,
+    "category": "کتاب صوتی",
+    "imageUrl": "https://img.taaghche.com/frontCover/123153.jpg",
+    "sourceUrl": "https://taaghche.com/audiobook/123153"
+  },
+  {
+    "id": 35,
+    "title": "نازنین (نسخه صوتی)",
+    "author": "فئودور داستایفسکی",
+    "priceToman": 56400,
+    "category": "کتاب صوتی",
+    "imageUrl": "https://img.taaghche.com/frontCover/126798.jpg",
+    "sourceUrl": "https://taaghche.com/audiobook/126798"
+  },
+  {
+    "id": 36,
+    "title": "شرق بهشت (نسخه صوتی)",
+    "author": "جان اشتاین‌بک",
+    "priceToman": 337800,
+    "category": "کتاب صوتی",
+    "imageUrl": "https://img.taaghche.com/frontCover/72259.jpg",
+    "sourceUrl": "https://taaghche.com/audiobook/72259"
+  },
+  {
+    "id": 37,
+    "title": "اثر مرکب (خلاصه صوتی/متنی)",
+    "author": "دارن هاردی",
+    "priceToman": 19800,
+    "category": "خلاصه کتاب",
+    "imageUrl": "https://img.taaghche.com/frontCover/26357.jpg",
+    "sourceUrl": "https://taaghche.com/book-summary/26357/اثر-مرکب"
+  },
+  {
+    "id": 38,
+    "title": "جادوگر",
+    "author": "فریدا مک‌فادن",
+    "priceToman": 190000,
+    "category": "کتاب الکترونیکی",
+    "imageUrl": "https://img.taaghche.com/frontCover/340188.jpg",
+    "sourceUrl": "https://taaghche.com/book/340188"
+  },
+  {
+    "id": 39,
+    "title": "طاقچه (اقتباسی آزاد از زندگی)",
+    "author": "سمانه پایسته",
+    "priceToman": 85000,
+    "category": "کتاب الکترونیکی",
+    "imageUrl": "https://img.taaghche.com/frontCover/289529.jpg",
+    "sourceUrl": "https://taaghche.com/book/289529"
+  },
+  {
+    "id": 40,
+    "title": "شب‌های روشن؛ نسخه طاقچه",
+    "author": "فئودور داستایفسکی",
+    "priceToman": 80000,
+    "category": "کتاب الکترونیکی",
+    "imageUrl": "https://img.taaghche.com/frontCover/54965.jpg",
+    "sourceUrl": "https://taaghche.com/book/54965"
+  }
+]
