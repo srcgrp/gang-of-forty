@@ -7,8 +7,6 @@
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" >
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" >
     <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.3/Vazirmatn-font-face.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/gh/aminabedi68/Estedad-Font@master/Estedad-font-face.css" rel="stylesheet">
-
     <link rel="stylesheet" href="./styel.css">
     <script src="script.js " defer></script>
   </head>
@@ -60,10 +58,10 @@
             </div>
           </div>
           <div class="nav-links">
-            <a href="#sardabirr">منتخب های تازه</a>
-            <a href="#sardabir">پیشنهاد سردبیر</a>
-            <a href="#">تخفیف فوق العاده</a>
-            <a href="#">ژانرها</a>
+            <a href="#">پیشنهاد ویژه</a>
+            <a href="#">میوه وسبزی</a>
+            <a href="#">لبنبات</a>
+            <a href="#">نان تازه</a>
             <a href="#">تماس با ما</a>
               <div class="search" id="search_helpness">
               <img src="./image/photo/search_logo.svg" alt="">
@@ -74,64 +72,80 @@
       </nav>
     </div>
 
+    
+    
     <main>
       <section class="AD">
         <div class="AD_page1" role="img" aria-label="بنر تبلیغاتی"></div>
       </section>
       <section class="AD2 ">
-           <div class="AD2_title">
+        <div class="AD2_title">
               <h1> خرید بعدیت همین الان منتظرته</h1>
               <img src="./image/photo/cart-svgrepo-com.svg" alt="">
             </div>
-          <div class="Category_spacial">
-                 <a href="#">
-                    <div class="Category_spacial_card1">
-                        <img src="./image/photo/AD3.png" alt="">
-                          <div class="Category_spacial_card1_text">
-                            <h2>همه‌چیز برای خرید، در یک جا</h2>
-                            <p>محصولات غذایی تازه و کالاهای موردعلاقه‌ات رو کشف کن؛ ساده، سریع و راحت.</p>
-                        </div>
-                      </div>
-                  </a>
-                  <a href="#">
-                      <div class="Category_spacial_card2">
-                        <img src="./image/photo/AD4.png" alt="">
-                        <div class="Category_spacial_card2_text">
+            <div class="Category_spacial">
+              <a href="#">
+                <div class="Category_spacial_card1">
+                  <img src="./image/photo/AD3.png" alt="">
+                  <div class="Category_spacial_card1_text">
+                    <h2>همه‌چیز برای خرید، در یک جا</h2>
+                    <p>محصولات غذایی تازه و کالاهای موردعلاقه‌ات رو کشف کن؛ ساده، سریع و راحت.</p>
+                  </div>
+                </div>
+              </a>
+              <a href="#">
+                <div class="Category_spacial_card2">
+                  <img src="./image/photo/AD4.png" alt="">
+                  <div class="Category_spacial_card2_text">
                           <h2>اولین خریداز تو؛ ارسال رایگان از ما </h2>
                           <p>اولین سفارشت رو از اُرتوبار ثبت کن و از ارسال رایگان برای خرید اولت لذت ببر.</p>
+                        </div>
                       </div>
-                    </div>
-                 </a>
-           </div>
-       </section>
-
-      <section class="suggestion-box" >
-        <h2>منتخب های تازه</h2>
-        <ul class="suggestion one" id="container">
-          <template id="card-template" >
-            <li class="suggestion_card">
-              <img src="./image/book/book2.webp" alt="جلد کتاب ذن در زندگی روزمره" loading="lazy" class="book_img">
-              <div class="card_body">
-                <p class="book_title" id="title">ذن در زندگی روزمره</p>
-                <p class="book_author" id="author">شارلوت جوکو بک</p>
-                <div class="suggestion_price">
-                  <span class="offer">25%</span>
-                  <del >305,000</del>
-                </div>
-                <div class="card_buy">
-                  <p class="price" id="priceToman">228,750 تومان</p>
-                  <button type="button" class="Add" aria-label="افزودن ذن در زندگی روزمره به سبد خرید">+</button>
+                    </a>
+                  </div>
+                </section>
+                <section class="categorie_main">
+                  <h2>دسته بندی</h2>
+                  <ul class="categorie_main_container">
+                    <template class ="categorie_main_template">
+                      <li class="categorie_main_card">
+                        <img src="" alt="">
+                        <a href="#"><div class="categorie_main_body">
+                          <span class="emoji"></span>
+                          <p class="categorie_main_title"></p>
+                        </div>
+                      </a>
+                    </li >
+                  </template>
+                </ul>
+              </section>
+              <section class="suggestion-box" >
+                <h2>منتخب های تازه</h2>
+                <ul class="suggestion one" id="container">
+                  <template id="card-template" >
+                    <li class="suggestion_card">
+                      <img src="./image/book/book2.webp" alt="جلد کتاب ذن در زندگی روزمره" loading="lazy" class="book_img">
+                      <div class="card_body">
+                        <p class="book_title" id="title">ذن در زندگی روزمره</p>
+                        <p class="book_author" id="author">شارلوت جوکو بک</p>
+                        <div class="suggestion_price">
+                          <span class="offer">25%</span>
+                          <del >305,000</del>
+                        </div>
+                        <div class="card_buy">
+                          <p class="price" id="priceToman">228,750 تومان</p>
+                          <button type="button" class="Add" aria-label="افزودن ذن در زندگی روزمره به سبد خرید">+</button>
                 </div>
               </div>
             </li>
-        </template>
+          </template>
         </ul>
       </section>
       <section class="suggestion-box spetial" id="sardabirr">
         <h2>منتخب های تازه</h2>
         <ul class="suggestion">
           <li class="suggestion_card">
-            <img src="./image/book/book2.webp" alt="جلد کتاب ذن در زندگی روزمره" loading="lazy">
+            <img src="" alt="جلد کتاب ذن در زندگی روزمره" loading="lazy">
             <div class="card_body">
               <p class="book_title">ذن در زندگی روزمره</p>
               <p class="book_author">شارلوت جوکو بک</p>
@@ -142,568 +156,551 @@
               <div class="card_buy">
                 <p class="price">228,750 تومان</p>
                 <button
-                  type="button"
-                  class="Add"
-                  aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
+                type="button"
+                class="Add"
+                aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
                 >
-                  +
-                </button>
-              </div>
+                +
+              </button>
             </div>
-          </li>
-          <li class="suggestion_card">
-            <img src="./image/book/book2.webp" alt="جلد کتاب ذن در زندگی روزمره" loading="lazy">
-            <div class="card_body">
-              <p class="book_title">ذن در زندگی روزمره</p>
-              <p class="book_author">شارلوت جوکو بک</p>
-              <div class="suggestion_price">
-                <span class="offer">25%</span>
-                <del>305,000</del>
-              </div>
-              <div class="card_buy">
-                <p class="price">228,750 تومان</p>
-                <button
-                  type="button"
-                  class="Add"
-                  aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
-                >
-                  +
-                </button>
-              </div>
+          </div>
+        </li>
+        <li class="suggestion_card">
+          <img src="./image/book/book2.webp" alt="جلد کتاب ذن در زندگی روزمره" loading="lazy">
+          <div class="card_body">
+            <p class="book_title">ذن در زندگی روزمره</p>
+            <p class="book_author">شارلوت جوکو بک</p>
+            <div class="suggestion_price">
+              <span class="offer">25%</span>
+              <del>305,000</del>
             </div>
-          </li>
-          <li class="suggestion_card">
-            <img src="./image/book/book2.webp" alt="جلد کتاب ذن در زندگی روزمره" loading="lazy">
-            <div class="card_body">
-              <p class="book_title">ذن در زندگی روزمره</p>
-              <p class="book_author">شارلوت جوکو بک</p>
-              <div class="suggestion_price">
-                <span class="offer">25%</span>
-                <del>305,000</del>
-              </div>
-              <div class="card_buy">
-                <p class="price">228,750 تومان</p>
-                <button
-                  type="button"
-                  class="Add"
-                  aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </li>
-          <li class="suggestion_card">
-            <img src="./image/book/book2.webp" alt="جلد کتاب ذن در زندگی روزمره" loading="lazy">
-            <div class="card_body">
-              <p class="book_title">ذن در زندگی روزمره</p>
-              <p class="book_author">شارلوت جوکو بک</p>
-              <div class="suggestion_price">
-                <span class="offer">25%</span>
-                <del>305,000</del>
-              </div>
-              <div class="card_buy">
-                <p class="price">228,750 تومان</p>
-                <button
-                  type="button"
-                  class="Add"
-                  aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </li>
-          <li class="suggestion_card">
-            <img src="./image/book/book2.webp" alt="جلد کتاب ذن در زندگی روزمره" loading="lazy">
-            <div class="card_body">
-              <p class="book_title">ذن در زندگی روزمره</p>
-              <p class="book_author">شارلوت جوکو بک</p>
-              <div class="suggestion_price">
-                <span class="offer">25%</span>
-                <del>305,000</del>
-              </div>
-              <div class="card_buy">
-                <p class="price">228,750 تومان</p>
-                <button
-                  type="button"
-                  class="Add"
-                  aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </li>
-          <li class="suggestion_card">
-            <img src="./image/book/book2.webp" alt="جلد کتاب ذن در زندگی روزمره" loading="lazy">
-            <div class="card_body">
-              <p class="book_title">ذن در زندگی روزمره</p>
-              <p class="book_author">شارلوت جوکو بک</p>
-              <div class="suggestion_price">
-                <span class="offer">25%</span>
-                <del>305,000</del>
-              </div>
-              <div class="card_buy">
-                <p class="price">228,750 تومان</p>
-                <button
-                  type="button"
-                  class="Add"
-                  aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </li>
-          <li class="suggestion_card">
-            <img src="./image/book/book2.webp" alt="جلد کتاب ذن در زندگی روزمره" loading="lazy">
-            <div class="card_body">
-              <p class="book_title">ذن در زندگی روزمره</p>
-              <p class="book_author">شارلوت جوکو بک</p>
-              <div class="suggestion_price">
-                <span class="offer">25%</span>
-                <del>305,000</del>
-              </div>
-              <div class="card_buy">
-                <p class="price">228,750 تومان</p>
-                <button
-                  type="button"
-                  class="Add"
-                  aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </section>
-
-      <section aria-label="ژانرها">
-        <ul class="subjectiv">
-          <li class="subjectiv_card one-photo">
-            <a href="#"><span class="subjectiv_title">رمان</span></a>
-          </li>
-          <li class="subjectiv_card twe-photo">
-            <a href="#"><span class="subjectiv_title">عاشقانه</span></a>
-          </li>
-          <li class="subjectiv_card tree-photo">
-            <a href="#"><span class="subjectiv_title">تخیلی</span></a>
-          </li>
-          <li class="subjectiv_card four-photo">
-            <a href="#"><span class="subjectiv_title">تاریخی</span></a>
-          </li>
-        </ul>
-      </section>
-
-      <section class="suggestion-box">
-        <h2>پرفروش ترین های این ماه</h2>
-        <ul class="suggestion">
-          <li class="suggestion_card">
-            <img
-              src="./image/book/book2.webp"
-              alt="جلد کتاب ذن در زندگی روزمره"
-              loading="lazy"
-            >
-            <div class="card_body">
-              <p class="book_title">ذن در زندگی روزمره</p>
-              <p class="book_author">شارلوت جوکو بک</p>
-              <div class="suggestion_price">
-                <span class="offer">25%</span>
-                <del>305,000</del>
-              </div>
-              <div class="card_buy">
-                <p class="price">228,750 تومان</p>
-                <button
-                  type="button"
-                  class="Add"
-                  aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </li>
-          <li class="suggestion_card">
-            <img
-              src="./image/book/book2.webp"
-              alt="جلد کتاب ذن در زندگی روزمره"
-              loading="lazy"
-            >
-            <div class="card_body">
-              <p class="book_title">ذن در زندگی روزمره</p>
-              <p class="book_author">شارلوت جوکو بک</p>
-              <div class="suggestion_price">
-                <span class="offer">25%</span>
-                <del>305,000</del>
-              </div>
-              <div class="card_buy">
-                <p class="price">228,750 تومان</p>
-                <button
-                  type="button"
-                  class="Add"
-                  aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </li>
-          <li class="suggestion_card">
-            <img
-              src="./image/book/book2.webp"
-              alt="جلد کتاب ذن در زندگی روزمره"
-              loading="lazy"
-            >
-            <div class="card_body">
-              <p class="book_title">ذن در زندگی روزمره</p>
-              <p class="book_author">شارلوت جوکو بک</p>
-              <div class="suggestion_price">
-                <span class="offer">25%</span>
-                <del>305,000</del>
-              </div>
-              <div class="card_buy">
-                <p class="price">228,750 تومان</p>
-                <button
-                  type="button"
-                  class="Add"
-                  aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </li>
-          <li class="suggestion_card">
-            <img
-              src="./image/book/book2.webp"
-              alt="جلد کتاب ذن در زندگی روزمره"
-              loading="lazy"
-            >
-            <div class="card_body">
-              <p class="book_title">ذن در زندگی روزمره</p>
-              <p class="book_author">شارلوت جوکو بک</p>
-              <div class="suggestion_price">
-                <span class="offer">25%</span>
-                <del>305,000</del>
-              </div>
-              <div class="card_buy">
-                <p class="price">228,750 تومان</p>
-                <button
-                  type="button"
-                  class="Add"
-                  aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </li>
-          <li class="suggestion_card">
-            <img
-              src="./image/book/book2.webp"
-              alt="جلد کتاب ذن در زندگی روزمره"
-              loading="lazy"
-            >
-            <div class="card_body">
-              <p class="book_title">ذن در زندگی روزمره</p>
-              <p class="book_author">شارلوت جوکو بک</p>
-              <div class="suggestion_price">
-                <span class="offer">25%</span>
-                <del>305,000</del>
-              </div>
-              <div class="card_buy">
-                <p class="price">228,750 تومان</p>
-                <button
-                  type="button"
-                  class="Add"
-                  aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </li>
-          <li class="suggestion_card">
-            <img
-              src="./image/book/book2.webp"
-              alt="جلد کتاب ذن در زندگی روزمره"
-              loading="lazy"
-            >
-            <div class="card_body">
-              <p class="book_title">ذن در زندگی روزمره</p>
-              <p class="book_author">شارلوت جوکو بک</p>
-              <div class="suggestion_price">
-                <span class="offer">25%</span>
-                <del>305,000</del>
-              </div>
-              <div class="card_buy">
-                <p class="price">228,750 تومان</p>
-                <button
-                  type="button"
-                  class="Add"
-                  aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </li>
-          <li class="suggestion_card">
-            <img
-              src="./image/book/book2.webp"
-              alt="جلد کتاب ذن در زندگی روزمره"
-              loading="lazy"
-            >
-            <div class="card_body">
-              <p class="book_title">ذن در زندگی روزمره</p>
-              <p class="book_author">شارلوت جوکو بک</p>
-              <div class="suggestion_price">
-                <span class="offer">25%</span>
-                <del>305,000</del>
-              </div>
-              <div class="card_buy">
-                <p class="price">228,750 تومان</p>
-                <button
-                  type="button"
-                  class="Add"
-                  aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </section>
-
-      <section class="suggestion-box" aria-label="کتاب‌های بیشتر">
-        <ul class="suggestion">
-          <li class="suggestion_card">
-            <img
-              src="./image/book/book2.webp"
-              alt="جلد کتاب ذن در زندگی روزمره"
-              loading="lazy"
-            >
-            <div class="card_body">
-              <p class="book_title">ذن در زندگی روزمره</p>
-              <p class="book_author">شارلوت جوکو بک</p>
-              <div class="suggestion_price">
-                <span class="offer">25%</span>
-                <del>305,000</del>
-              </div>
-              <div class="card_buy">
-                <p class="price">228,750 تومان</p>
-                <button
-                  type="button"
-                  class="Add"
-                  aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </li>
-          <li class="suggestion_card">
-            <img
-              src="./image/book/book2.webp"
-              alt="جلد کتاب ذن در زندگی روزمره"
-              loading="lazy"
-            >
-            <div class="card_body">
-              <p class="book_title">ذن در زندگی روزمره</p>
-              <p class="book_author">شارلوت جوکو بک</p>
-              <div class="suggestion_price">
-                <span class="offer">25%</span>
-                <del>305,000</del>
-              </div>
-              <div class="card_buy">
-                <p class="price">228,750 تومان</p>
-                <button
-                  type="button"
-                  class="Add"
-                  aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </li>
-          <li class="suggestion_card">
-            <img
-              src="./image/book/book2.webp"
-              alt="جلد کتاب ذن در زندگی روزمره"
-              loading="lazy"
-            >
-            <div class="card_body">
-              <p class="book_title">ذن در زندگی روزمره</p>
-              <p class="book_author">شارلوت جوکو بک</p>
-              <div class="suggestion_price">
-                <span class="offer">25%</span>
-                <del>305,000</del>
-              </div>
-              <div class="card_buy">
-                <p class="price">228,750 تومان</p>
-                <button
-                  type="button"
-                  class="Add"
-                  aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </li>
-          <li class="suggestion_card">
-            <img
-              src="./image/book/book2.webp"
-              alt="جلد کتاب ذن در زندگی روزمره"
-              loading="lazy"
-            >
-            <div class="card_body">
-              <p class="book_title">ذن در زندگی روزمره</p>
-              <p class="book_author">شارلوت جوکو بک</p>
-              <div class="suggestion_price">
-                <span class="offer">25%</span>
-                <del>305,000</del>
-              </div>
-              <div class="card_buy">
-                <p class="price">228,750 تومان</p>
-                <button
-                  type="button"
-                  class="Add"
-                  aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </li>
-          <li class="suggestion_card">
-            <img
-              src="./image/book/book2.webp"
-              alt="جلد کتاب ذن در زندگی روزمره"
-              loading="lazy"
-            >
-            <div class="card_body">
-              <p class="book_title">ذن در زندگی روزمره</p>
-              <p class="book_author">شارلوت جوکو بک</p>
-              <div class="suggestion_price">
-                <span class="offer">25%</span>
-                <del>305,000</del>
-              </div>
-              <div class="card_buy">
-                <p class="price">228,750 تومان</p>
-                <button
-                  type="button"
-                  class="Add"
-                  aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </li>
-          <li class="suggestion_card">
-            <img
-              src="./image/book/book2.webp"
-              alt="جلد کتاب ذن در زندگی روزمره"
-              loading="lazy"
-            >
-            <div class="card_body">
-              <p class="book_title">ذن در زندگی روزمره</p>
-              <p class="book_author">شارلوت جوکو بک</p>
-              <div class="suggestion_price">
-                <span class="offer">25%</span>
-                <del>305,000</del>
-              </div>
-              <div class="card_buy">
-                <p class="price">228,750 تومان</p>
-                <button
-                  type="button"
-                  class="Add"
-                  aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </li>
-          <li class="suggestion_card">
-            <img
-              src="./image/book/book2.webp"
-              alt="جلد کتاب ذن در زندگی روزمره"
-              loading="lazy"
-            >
-            <div class="card_body">
-              <p class="book_title">ذن در زندگی روزمره</p>
-              <p class="book_author">شارلوت جوکو بک</p>
-              <div class="suggestion_price">
-                <span class="offer">25%</span>
-                <del>305,000</del>
-              </div>
-              <div class="card_buy">
-                <p class="price">228,750 تومان</p>
-                <button
-                  type="button"
-                  class="Add"
-                  aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </section>
-    </main>
-
-    <footer>
-      <div class="footer">
-        <div class="footer_section">
-          <h4>کتابچی</h4>
-          <ul>
-            <li><a href="#">تماس با ما </a></li>
-            <li><a href="#">دربارهٔ طاقچه </a></li>
-            <li><a href="#">سوال‌های متداول </a></li>
-            <li><a href="#">فروش سازمانی </a></li>
-            <li><a href="#">اپلیکیشن کتاب طاقچه </a></li>
-            <li><a href="#">هدیه اشتراک بی‌نهایت</a></li>
-            <li><a href="#">مجلهٔ معرفی و نقد کتاب</a></li>
-          </ul>
+            <div class="card_buy">
+              <p class="price">228,750 تومان</p>
+              <button
+              type="button"
+              class="Add"
+              aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
+              >
+              +
+            </button>
+          </div>
         </div>
-        <div class="footer_section">
-          <h4>کتاب‌های پیشنهادی</h4>
-          <ul>
-            <li><a href="#">کتاب سال بلوا</a></li>
-            <li><a href="#">کتاب قلعه مالویل</a></li>
-            <li><a href="#">کتاب عادت های اتمی</a></li>
-            <li><a href="#">کتاب ۴۸ قانون قدرت</a></li>
-            <li><a href="#">کتاب صوتی ملت عشق</a></li>
-            <li><a href="#">کتاب صوتی بامداد خمار</a></li>
-            <li><a href="#">کتاب وقتی نیچه گریست</a></li>
-            <li><a href="#">کتاب صوتی معجزه شکرگزاری</a></li>
-          </ul>
+      </li>
+      <li class="suggestion_card">
+        <img src="./image/book/book2.webp" alt="جلد کتاب ذن در زندگی روزمره" loading="lazy">
+        <div class="card_body">
+          <p class="book_title">ذن در زندگی روزمره</p>
+          <p class="book_author">شارلوت جوکو بک</p>
+          <div class="suggestion_price">
+            <span class="offer">25%</span>
+            <del>305,000</del>
+          </div>
+          <div class="card_buy">
+            <p class="price">228,750 تومان</p>
+            <button
+            type="button"
+            class="Add"
+            aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
+            >
+            +
+          </button>
         </div>
-        <div class="footer_section">
-          <h4>کتاب‌های پیشنهادی</h4>
-          <ul>
-            <li><a href="#">کتاب سال بلوا</a></li>
-            <li><a href="#">کتاب قلعه مالویل</a></li>
-            <li><a href="#">کتاب عادت های اتمی</a></li>
-            <li><a href="#">کتاب ۴۸ قانون قدرت</a></li>
-            <li><a href="#">کتاب صوتی ملت عشق</a></li>
-            <li><a href="#">کتاب صوتی بامداد خمار</a></li>
-            <li><a href="#">کتاب وقتی نیچه گریست</a></li>
-            <li><a href="#">کتاب صوتی معجزه شکرگزاری</a></li>
-          </ul>
+      </div>
+    </li>
+    <li class="suggestion_card">
+      <img src="./image/book/book2.webp" alt="جلد کتاب ذن در زندگی روزمره" loading="lazy">
+      <div class="card_body">
+        <p class="book_title">ذن در زندگی روزمره</p>
+        <p class="book_author">شارلوت جوکو بک</p>
+        <div class="suggestion_price">
+          <span class="offer">25%</span>
+          <del>305,000</del>
         </div>
-        <div class="footer_section">
-          <h4>کتاب‌های پیشنهادی</h4>
-          <ul>
-            <li><a href="#">کتاب سال بلوا</a></li>
-            <li><a href="#">کتاب قلعه مالویل</a></li>
+        <div class="card_buy">
+          <p class="price">228,750 تومان</p>
+          <button
+          type="button"
+          class="Add"
+          aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
+          >
+          +
+        </button>
+      </div>
+    </div>
+  </li>
+  <li class="suggestion_card">
+    <img src="./image/book/book2.webp" alt="جلد کتاب ذن در زندگی روزمره" loading="lazy">
+    <div class="card_body">
+      <p class="book_title">ذن در زندگی روزمره</p>
+      <p class="book_author">شارلوت جوکو بک</p>
+      <div class="suggestion_price">
+        <span class="offer">25%</span>
+        <del>305,000</del>
+      </div>
+      <div class="card_buy">
+        <p class="price">228,750 تومان</p>
+        <button
+                  type="button"
+                  class="Add"
+                  aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </li>
+          <li class="suggestion_card">
+            <img src="./image/book/book2.webp" alt="جلد کتاب ذن در زندگی روزمره" loading="lazy">
+            <div class="card_body">
+              <p class="book_title">ذن در زندگی روزمره</p>
+              <p class="book_author">شارلوت جوکو بک</p>
+              <div class="suggestion_price">
+                <span class="offer">25%</span>
+                <del>305,000</del>
+              </div>
+              <div class="card_buy">
+                <p class="price">228,750 تومان</p>
+                <button
+                type="button"
+                class="Add"
+                aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </li>
+          <li class="suggestion_card">
+            <img src="./image/book/book2.webp" alt="جلد کتاب ذن در زندگی روزمره" loading="lazy">
+            <div class="card_body">
+              <p class="book_title">ذن در زندگی روزمره</p>
+              <p class="book_author">شارلوت جوکو بک</p>
+              <div class="suggestion_price">
+                <span class="offer">25%</span>
+                <del>305,000</del>
+              </div>
+              <div class="card_buy">
+                <p class="price">228,750 تومان</p>
+                <button
+                type="button"
+                class="Add"
+                aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
+                >
+                +
+              </button>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </section>
+    <section class="suggestion-box">
+      <h2>پرفروش ترین های این ماه</h2>
+      <ul class="suggestion">
+        <li class="suggestion_card">
+          <img
+          src="./image/book/book2.webp"
+          alt="جلد کتاب ذن در زندگی روزمره"
+          loading="lazy"
+          >
+          <div class="card_body">
+            <p class="book_title">ذن در زندگی روزمره</p>
+            <p class="book_author">شارلوت جوکو بک</p>
+            <div class="suggestion_price">
+              <span class="offer">25%</span>
+              <del>305,000</del>
+            </div>
+            <div class="card_buy">
+              <p class="price">228,750 تومان</p>
+              <button
+              type="button"
+              class="Add"
+              aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
+              >
+              +
+                </button>
+              </div>
+            </div>
+          </li>
+          <li class="suggestion_card">
+            <img
+            src="./image/book/book2.webp"
+            alt="جلد کتاب ذن در زندگی روزمره"
+            loading="lazy"
+            >
+            <div class="card_body">
+              <p class="book_title">ذن در زندگی روزمره</p>
+              <p class="book_author">شارلوت جوکو بک</p>
+              <div class="suggestion_price">
+                <span class="offer">25%</span>
+                <del>305,000</del>
+              </div>
+              <div class="card_buy">
+                <p class="price">228,750 تومان</p>
+                <button
+                type="button"
+                class="Add"
+                aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
+                >
+                +
+              </button>
+            </div>
+          </div>
+        </li>
+        <li class="suggestion_card">
+          <img
+          src="./image/book/book2.webp"
+          alt="جلد کتاب ذن در زندگی روزمره"
+          loading="lazy"
+          >
+          <div class="card_body">
+            <p class="book_title">ذن در زندگی روزمره</p>
+            <p class="book_author">شارلوت جوکو بک</p>
+            <div class="suggestion_price">
+              <span class="offer">25%</span>
+              <del>305,000</del>
+            </div>
+            <div class="card_buy">
+              <p class="price">228,750 تومان</p>
+              <button
+                  type="button"
+                  class="Add"
+                  aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
+                  >
+                  +
+                </button>
+              </div>
+            </div>
+          </li>
+          <li class="suggestion_card">
+            <img
+              src="./image/book/book2.webp"
+              alt="جلد کتاب ذن در زندگی روزمره"
+              loading="lazy"
+            >
+            <div class="card_body">
+              <p class="book_title">ذن در زندگی روزمره</p>
+              <p class="book_author">شارلوت جوکو بک</p>
+              <div class="suggestion_price">
+                <span class="offer">25%</span>
+                <del>305,000</del>
+              </div>
+              <div class="card_buy">
+                <p class="price">228,750 تومان</p>
+                <button
+                type="button"
+                class="Add"
+                aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
+                >
+                +
+              </button>
+            </div>
+          </div>
+        </li>
+        <li class="suggestion_card">
+          <img
+          src="./image/book/book2.webp"
+          alt="جلد کتاب ذن در زندگی روزمره"
+          loading="lazy"
+          >
+          <div class="card_body">
+            <p class="book_title">ذن در زندگی روزمره</p>
+            <p class="book_author">شارلوت جوکو بک</p>
+            <div class="suggestion_price">
+              <span class="offer">25%</span>
+              <del>305,000</del>
+            </div>
+            <div class="card_buy">
+              <p class="price">228,750 تومان</p>
+              <button
+              type="button"
+              class="Add"
+              aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
+              >
+              +
+            </button>
+          </div>
+        </div>
+      </li>
+      <li class="suggestion_card">
+        <img
+        src="./image/book/book2.webp"
+        alt="جلد کتاب ذن در زندگی روزمره"
+        loading="lazy"
+        >
+        <div class="card_body">
+          <p class="book_title">ذن در زندگی روزمره</p>
+          <p class="book_author">شارلوت جوکو بک</p>
+          <div class="suggestion_price">
+            <span class="offer">25%</span>
+            <del>305,000</del>
+          </div>
+          <div class="card_buy">
+            <p class="price">228,750 تومان</p>
+            <button
+            type="button"
+            class="Add"
+            aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
+            >
+            +
+          </button>
+        </div>
+      </div>
+    </li>
+    <li class="suggestion_card">
+      <img
+      src="./image/book/book2.webp"
+      alt="جلد کتاب ذن در زندگی روزمره"
+      loading="lazy"
+      >
+      <div class="card_body">
+        <p class="book_title">ذن در زندگی روزمره</p>
+        <p class="book_author">شارلوت جوکو بک</p>
+        <div class="suggestion_price">
+          <span class="offer">25%</span>
+          <del>305,000</del>
+        </div>
+        <div class="card_buy">
+          <p class="price">228,750 تومان</p>
+          <button
+          type="button"
+          class="Add"
+          aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
+          >
+          +
+        </button>
+      </div>
+    </div>
+  </li>
+</ul>
+</section>
+<section class="suggestion-box" aria-label="کتاب‌های بیشتر">
+  <ul class="suggestion">
+    <li class="suggestion_card">
+      <img
+      src="./image/book/book2.webp"
+      alt="جلد کتاب ذن در زندگی روزمره"
+      loading="lazy"
+      >
+      <div class="card_body">
+        <p class="book_title">ذن در زندگی روزمره</p>
+        <p class="book_author">شارلوت جوکو بک</p>
+        <div class="suggestion_price">
+          <span class="offer">25%</span>
+          <del>305,000</del>
+        </div>
+        <div class="card_buy">
+          <p class="price">228,750 تومان</p>
+          <button
+          type="button"
+          class="Add"
+          aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
+          >
+          +
+        </button>
+      </div>
+    </div>
+  </li>
+  <li class="suggestion_card">
+    <img
+    src="./image/book/book2.webp"
+    alt="جلد کتاب ذن در زندگی روزمره"
+    loading="lazy"
+    >
+    <div class="card_body">
+      <p class="book_title">ذن در زندگی روزمره</p>
+      <p class="book_author">شارلوت جوکو بک</p>
+      <div class="suggestion_price">
+        <span class="offer">25%</span>
+        <del>305,000</del>
+      </div>
+      <div class="card_buy">
+        <p class="price">228,750 تومان</p>
+        <button
+        type="button"
+        class="Add"
+        aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
+                >
+                +
+              </button>
+              </div>
+            </div>
+          </li>
+          <li class="suggestion_card">
+            <img
+            src="./image/book/book2.webp"
+            alt="جلد کتاب ذن در زندگی روزمره"
+            loading="lazy"
+            >
+            <div class="card_body">
+              <p class="book_title">ذن در زندگی روزمره</p>
+              <p class="book_author">شارلوت جوکو بک</p>
+              <div class="suggestion_price">
+                <span class="offer">25%</span>
+                <del>305,000</del>
+              </div>
+              <div class="card_buy">
+                <p class="price">228,750 تومان</p>
+                <button
+                type="button"
+                class="Add"
+                aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
+                >
+                +
+              </button>
+            </div>
+          </div>
+        </li>
+        <li class="suggestion_card">
+          <img
+          src="./image/book/book2.webp"
+          alt="جلد کتاب ذن در زندگی روزمره"
+          loading="lazy"
+          >
+          <div class="card_body">
+            <p class="book_title">ذن در زندگی روزمره</p>
+            <p class="book_author">شارلوت جوکو بک</p>
+            <div class="suggestion_price">
+              <span class="offer">25%</span>
+              <del>305,000</del>
+            </div>
+            <div class="card_buy">
+              <p class="price">228,750 تومان</p>
+              <button
+              type="button"
+              class="Add"
+              aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
+              >
+              +
+            </button>
+          </div>
+        </div>
+      </li>
+      <li class="suggestion_card">
+        <img
+        src="./image/book/book2.webp"
+        alt="جلد کتاب ذن در زندگی روزمره"
+        loading="lazy"
+        >
+        <div class="card_body">
+          <p class="book_title">ذن در زندگی روزمره</p>
+          <p class="book_author">شارلوت جوکو بک</p>
+          <div class="suggestion_price">
+            <span class="offer">25%</span>
+            <del>305,000</del>
+          </div>
+          <div class="card_buy">
+            <p class="price">228,750 تومان</p>
+            <button
+            type="button"
+            class="Add"
+            aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
+            >
+            +
+          </button>
+        </div>
+      </div>
+    </li>
+    <li class="suggestion_card">
+      <img
+      src="./image/book/book2.webp"
+      alt="جلد کتاب ذن در زندگی روزمره"
+      loading="lazy"
+      >
+      <div class="card_body">
+        <p class="book_title">ذن در زندگی روزمره</p>
+        <p class="book_author">شارلوت جوکو بک</p>
+        <div class="suggestion_price">
+          <span class="offer">25%</span>
+          <del>305,000</del>
+        </div>
+        <div class="card_buy">
+          <p class="price">228,750 تومان</p>
+          <button
+          type="button"
+          class="Add"
+          aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
+          >
+          +
+        </button>
+      </div>
+    </div>
+  </li>
+  <li class="suggestion_card">
+    <img
+    src="./image/book/book2.webp"
+    alt="جلد کتاب ذن در زندگی روزمره"
+    loading="lazy"
+    >
+    <div class="card_body">
+      <p class="book_title">ذن در زندگی روزمره</p>
+      <p class="book_author">شارلوت جوکو بک</p>
+      <div class="suggestion_price">
+        <span class="offer">25%</span>
+        <del>305,000</del>
+      </div>
+      <div class="card_buy">
+        <p class="price">228,750 تومان</p>
+        <button
+        type="button"
+        class="Add"
+        aria-label="افزودن ذن در زندگی روزمره به سبد خرید"
+        >
+        +
+      </button>
+    </div>
+  </div>
+</li>
+</ul>
+</section>
+
+</main>
+
+
+<footer>
+  <div class="footer">
+    <div class="footer_section">
+      <h4>کتابچی</h4>
+      <ul>
+        <li><a href="#">تماس با ما </a></li>
+        <li><a href="#">دربارهٔ طاقچه </a></li>
+        <li><a href="#">سوال‌های متداول </a></li>
+        <li><a href="#">فروش سازمانی </a></li>
+        <li><a href="#">اپلیکیشن کتاب طاقچه </a></li>
+        <li><a href="#">هدیه اشتراک بی‌نهایت</a></li>
+        <li><a href="#">مجلهٔ معرفی و نقد کتاب</a></li>
+      </ul>
+    </div>
+    <div class="footer_section">
+      <h4>کتاب‌های پیشنهادی</h4>
+      <ul>
+        <li><a href="#">کتاب سال بلوا</a></li>
+        <li><a href="#">کتاب قلعه مالویل</a></li>
+        <li><a href="#">کتاب عادت های اتمی</a></li>
+        <li><a href="#">کتاب ۴۸ قانون قدرت</a></li>
+        <li><a href="#">کتاب صوتی ملت عشق</a></li>
+        <li><a href="#">کتاب صوتی بامداد خمار</a></li>
+        <li><a href="#">کتاب وقتی نیچه گریست</a></li>
+        <li><a href="#">کتاب صوتی معجزه شکرگزاری</a></li>
+      </ul>
+    </div>
+    <div class="footer_section">
+      <h4>کتاب‌های پیشنهادی</h4>
+      <ul>
+        <li><a href="#">کتاب سال بلوا</a></li>
+        <li><a href="#">کتاب قلعه مالویل</a></li>
+        <li><a href="#">کتاب عادت های اتمی</a></li>
+        <li><a href="#">کتاب ۴۸ قانون قدرت</a></li>
+        <li><a href="#">کتاب صوتی ملت عشق</a></li>
+        <li><a href="#">کتاب صوتی بامداد خمار</a></li>
+        <li><a href="#">کتاب وقتی نیچه گریست</a></li>
+        <li><a href="#">کتاب صوتی معجزه شکرگزاری</a></li>
+      </ul>
+    </div>
+    <div class="footer_section">
+      <h4>کتاب‌های پیشنهادی</h4>
+      <ul>
+        <li><a href="#">کتاب سال بلوا</a></li>
+        <li><a href="#">کتاب قلعه مالویل</a></li>
             <li><a href="#">کتاب عادت های اتمی</a></li>
             <li><a href="#">کتاب ۴۸ قانون قدرت</a></li>
             <li><a href="#">کتاب صوتی ملت عشق</a></li>
