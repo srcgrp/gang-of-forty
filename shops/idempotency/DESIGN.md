@@ -42,30 +42,39 @@ These files are fetched when the page loads.
 API responses are validated before being used by the application.
 
 ## 5. UI states
-Loading: Show a loading message while product, category, and homepage data is being fetched.
+Loading: Show product-card skeletons while API data is being fetched.
+category, and homepage data is being fetched.
 Success: Display the homepage sections, categories, and product carousels with the loaded data.
 Empty: Show a "No products found" message when a search or category has no matching products.
 Error: Show an error message when API data cannot be loaded or is invalid.
 The cart count and theme controls use local UI state and do not need API loading messages.
 
+
 ## 6. Folders and responsibilities
 
 ```text
 src/
-├── types.ts
+├── types/
 ├── api/
+│   └── validation/
 ├── storage/
 ├── cart/
+├── catalog/
+├── hero/
 ├── ui/
+├── data.ts
 └── main.ts
 ```
 
-- `types.ts` defines shared TypeScript types.
-- `api/` is the data layer and handles API requests and response validation.
-- `storage/` is the data layer and handles localStorage access.
-- `cart/` contains cart calculations and business logic without changing the DOM.
-- `ui/` is the UI layer and handles DOM elements, rendering, and user interface updates.
-- `main.ts` connects the layers, manages application state, and handles user interactions.
+- `types/` defines shared TypeScript types, including API types, UI view models, and loading states.
+- `api/` handles HTTP requests and validates external data before returning it to the application.
+- `storage/` handles localStorage access.
+- `cart/` contains pure cart calculations.
+- `catalog/` contains product selection, discount calculations, carousel preparation, and search logic.
+- `hero/` prepares hero slider data without accessing the DOM.
+- `ui/` creates and updates DOM elements using data received through function parameters.
+- `data.ts` defines the static image paths for products and categories.
+- `main.ts` is the application entry point. It connects the layers, manages state, sets up events, and starts the application.
 
 ## 7. Security
 - Frontend code, API responses, and localStorage data are visible to users in the browser.

@@ -1,5 +1,5 @@
 
-import type { Hero, Promo } from "./types";
+import type { Hero, Promo } from "../types";
 
 export function renderSideBanner(side: Hero) {
   const container = document.querySelector("#home-side");

@@ -1,5 +1,5 @@
 
-import type { Theme } from "./types";
+import type { Theme } from "../types";
 export function setupTheme() {
   const lightButton =
     document.querySelector<HTMLButtonElement>("#theme-light-button");
