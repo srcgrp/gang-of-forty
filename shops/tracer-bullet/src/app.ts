@@ -2,113 +2,27 @@ import { Notyf } from 'notyf'
 import 'notyf/notyf.min.css'
 import Fuse from 'fuse.js'
 
-type Product = {
-    id: number;
-    categoryId: number;
-    name: string;
-    emoji: string;
-    unit: string;
-    price: number;
-    tags: string[];
-}
+import type {
+  Product,
+  Offer,
+  Category,
+  Stock,
+  Data,
+  CardProduct,
+} from "./types";
 
-type Offer = {
-    productId: number;
-    percent: number;
-    label: string;
-}
+import type {
+  Link,
+  ScheduleRow,
+  Promo,
+  Banner,
+  Shop,
+  Home,
+} from "./content-types";
 
-type Link = {
-    label: string;
-    href: string;
-}
-
-type ScheduleRow = {
-    days: string;
-    time: string;
-}
-
-type Category = {
-    id: number;
-    slug: string;
-    name: string;
-    emoji: string;
-    color: string;
-}
-
-type Stock = {
-    updatedAt: string;
-    items: Record<number, number>;
-}
-
-type Promo = {
-    text: string;
-    emoji: string;
-    color: string;
-    href: string;
-}
-
-type Banner = {
-    title: string;
-    text: string;
-    emoji: string;
-    cta: Link;
-}
-
-type Shop = {
-    slogan: string;
-    phone: string;
-    notice: string;
-    about: string;
-    address: string;
-    schedule: ScheduleRow[];
-    menu: Link[];
-    help: Link[];
-}
-
-type OffersCarousel = {
-    id: string;
-    title: string;
-    emoji: string;
-    source: string;
-}
-
-type CategoryCarousel = {
-    id: string;
-    title: string;
-    emoji: string;
-    categoryId: number;
-}
-
-type Carousel = OffersCarousel | CategoryCarousel;
-
-type Home = {
-    hero: Banner;
-    side: Banner;
-    promos: Promo[];
-    carousels: Carousel[];
-}
-
-type Data = {
-    products: Product[];
-    offers: Offer[];
-    stock: Stock;
-    categories: Category[];
-    shop: Shop;
-    home: Home;
-}
-
-type CardProduct = {
-    id: number;
-    name: string;
-    emoji: string;
-    unit: string;
-    price: number;
-    stock: number;
-    newPrice?: number;
-    percent?: number;
-    label?: string;
-}
+import type {
+  Carousel
+} from "./content-types";
 
 function formatNumber(n: number): string {
     return new Intl.NumberFormat('fa-IR').format(n);
