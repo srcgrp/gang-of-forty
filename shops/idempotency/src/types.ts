@@ -80,3 +80,9 @@ export type Theme = (typeof THEMES)[number];
 
 export const PRODUCT_FILTERS = ["all", "offers"] as const;
 export type ProductFilter = (typeof PRODUCT_FILTERS)[number];
+
+export type LoadState =
+  | { status: "loading" }
+  | { status: "success"; products: Product[] }
+  | { status: "empty" }
+  | { status: "error"; message: string };
