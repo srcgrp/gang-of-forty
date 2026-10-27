@@ -2,7 +2,13 @@
 import { shopContent } from "./shop-content"
 import Typed from "typed.js"
 import { Fireworks } from "fireworks-js"
-import type { Product, Category, Offer, Stock, Link, Shop, Banner, Carousel, Home, CartItem } from "./src/types"
+import type { Product, Category, Offer, Link, Shop, Banner, Carousel, Home, CartItem, LoadState } from "./src/types"
+import { loadProducts } from "./src/api/loadProducts"
+import { loadCategories } from "./src/api/loadCategories"
+import { loadOffers } from "./src/api/loadOffers"
+import { loadStock } from "./src/api/loadStock"
+import { loadShop } from "./src/api/loadShop"
+import { loadHome } from "./src/api/loadHome"
 const api = "../../api/"
 const shopName = "سوپرمارکت بوی کد"
 const persianNumberFormat = new Intl.NumberFormat("fa-IR")
@@ -1336,30 +1342,42 @@ function showAll(href: string = "#categories"): void {
 }
 
 // Isloading
-function setPageState(message: string, isLoading: boolean): void {
+function setPageState(
+    state: LoadState,
+    loadingMessage: string = "در حال بارگذاری فروشگاه..."
+): void {
+    let message = ""
+    const isLoading = state.status === "loading"
 
+    switch (state.status) {
+        case "loading":
+            message = loadingMessage
+            break
+        case "success":
+            break
+        case "empty":
+            message = "کالایی پیدا نشد!"
+            break
+        case "error":
+            message = state.message
+            break
+        default: {
+            const unexpectedState: never = state
+            throw new Error("وضعیت صفحه نامعتبر است:" + " " + unexpectedState)
+        }
+    }
 
     if (pageStatus) {
         pageStatus.classList.add("page-status")
-        pageStatus.hidden = false
+        pageStatus.hidden = state.status === "success"
         pageStatus.setAttribute("aria-busy", String(isLoading))
 
         const messageText = document.createElement("p")
         messageText.textContent = message
-
         pageStatus.replaceChildren(messageText)
     }
 }
 
-async function fetchJson<dataType>(fileName: string): Promise<dataType> {
-    const response = await fetch(api + fileName)
-
-    if (!response.ok) {
-        throw new Error("HTTP " + response.status)
-    }
-
-    return response.json()
-}
 
 function renderPage(): void {
     renderHeader()
@@ -1374,41 +1392,36 @@ function renderPage(): void {
 
 async function loadPage(): Promise<void> {
     isPageReady = false
-
     const search = document.querySelector<HTMLInputElement>("#product-search")
 
     if (search) {
         search.disabled = true
     }
 
-    setPageState("در حال بارگذاری فروشگاه...", true)
-
+    setPageState({ status: "loading" })
     let slowTimer: number | undefined
 
     try {
         const allRequests = Promise.all([
-            fetchJson<Product[]>("products.json"),
-            fetchJson<Stock>("stock.json"),
-            fetchJson<Offer[]>("offers.json"),
-            fetchJson<Category[]>("categories.json"),
-            fetchJson<Shop>("shop.json"),
-            fetchJson<Home>("home.json")
+            loadProducts(api + "products.json"),
+            loadStock(api + "stock.json"),
+            loadOffers(api + "offers.json"),
+            loadCategories(api + "categories.json"),
+            loadShop(api + "shop.json"),
+            loadHome(api + "home.json")
         ])
-
         const slowConnection = new Promise<"slow">(function (resolve) {
             slowTimer = window.setTimeout(function () {
                 resolve("slow")
             }, 3000)
         })
-
         let data = await Promise.race([allRequests, slowConnection])
 
         if (data === "slow") {
             setPageState(
-                "اتصال کند است؛ هنوز در حال دریافت اطلاعات فروشگاه هستیم...",
-                true
+                { status: "loading" },
+                "اتصال کند است؛ هنوز در حال دریافت اطلاعات فروشگاه هستیم..."
             )
-
             data = await allRequests
         }
 
@@ -1418,12 +1431,13 @@ async function loadPage(): Promise<void> {
         categories = data[3]
         shopData = data[4]
         homeData = data[5]
-
         renderPage()
         isPageReady = true
 
-        if (pageStatus) {
-            pageStatus.hidden = true
+        if (products.length === 0) {
+            setPageState({ status: "empty" })
+        } else {
+            setPageState({ status: "success", products: products })
         }
 
         if (location.hash || location.search) {
@@ -1436,12 +1450,11 @@ async function loadPage(): Promise<void> {
             message = "npm run dev را اجرا کنید."
         }
 
-        setPageState(message, false)
+        setPageState({ status: "error", message: message })
     } finally {
         window.clearTimeout(slowTimer)
     }
 }
-
 
 function handleRouteChange(): void {
     followRoute(true)

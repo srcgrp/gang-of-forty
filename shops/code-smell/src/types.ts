@@ -60,3 +60,8 @@ export type Home = {
     carousels: Carousel[]
 }
 export type CartItem = Pick<Product, "id"> & { quantity: number }
+export type LoadState =
+    | { status: "loading" }
+    | { status: "success", products: Product[] }
+    | { status: "empty" }
+    | { status: "error", message: string }
