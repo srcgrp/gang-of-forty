@@ -66,3 +66,4 @@ export type ShopData = {
   products: Product[]; stock: Stock; offers: Offer[];
   categories: Category[]; shop: Shop; home: Home;
 };
+export type SearchState = { query: string; category: string; sort: string };

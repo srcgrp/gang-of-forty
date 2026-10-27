@@ -708,3 +708,36 @@ footer nav {
   height: 24px;
   filter: invert(1);
 }
+
+.search-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-block: 20px;
+}
+.filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1 1 220px;
+  min-width: 0;
+}
+.filter-field label {
+  font-weight: bold;
+}
+.filter-field select {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 12px;
+  border: 1px solid #b8c0b9;
+  border-radius: 8px;
+  background-color: #fff;
+  color: #222;
+  font: inherit;
+  cursor: pointer;
+}
+[data-theme="dark"] .filter-field select {
+  background-color: #303630;
+  color: #f1f3ef;
+  border-color: #788278;
+}

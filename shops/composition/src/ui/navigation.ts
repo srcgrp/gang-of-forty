@@ -1,5 +1,4 @@
-export function goToFragment(): void {
-  const id = window.location.hash.slice(1);
+export function goToFragment(id: string): void {
   const target = document.getElementById(id);
   if (target) {
     target.scrollIntoView({ block: "start", inline: "nearest" });

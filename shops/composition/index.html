@@ -91,15 +91,25 @@
         <div class="section-heading">
           <h2 id="search-title">نتایج جست‌وجو</h2>
           <button id="clear-search" class="clear-search" type="button">
-            پاک کردن جست‌وجو
+            پاک کردن فیلترها
           </button>
         </div>
-        <label for="product-sort">مرتب‌سازی نتایج:</label>
-        <select id="product-sort">
-          <option value="default">ترتیب پیش‌فرض</option>
-          <option value="price-asc">قیمت پایه: ارزان به گران</option>
-          <option value="price-desc">قیمت پایه: گران به ارزان</option>
-        </select>
+        <div class="search-filters">
+          <div class="filter-field">
+            <label for="category-filter">دسته‌بندی محصولات:</label>
+            <select id="category-filter" disabled>
+              <option value="">همهٔ دسته‌ها</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label for="product-sort">مرتب‌سازی نتایج:</label>
+            <select id="product-sort">
+              <option value="default">ترتیب پیش‌فرض</option>
+              <option value="price-asc">قیمت پایه: ارزان به گران</option>
+              <option value="price-desc">قیمت پایه: گران به ارزان</option>
+            </select>
+          </div>
+        </div>
         <p id="search-status" role="status"></p>
         <div id="search-products" class="sample-products"></div>
       </section>
