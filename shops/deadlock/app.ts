@@ -1,9 +1,7 @@
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
 import confetti from "canvas-confetti";
-import type { Product } from "./src/types";
-import type { Offer } from "./src/types";
-import type { Stock } from "./src/types";
+import type { ApiFile, Offer, Product, ProductCard, Stock } from "./src/types";
 const notyf = new Notyf();
 let cartCount = 0;
 const counter = document.querySelector<HTMLSpanElement>(".cart-count");
@@ -18,7 +16,7 @@ const handleClick = (e: MouseEvent): void => {
     confetti({ particleCount: 60, spread: 70 });
   }
 }
-function createProductCard(product: Product, offer : Offer | undefined, stockCount: number):HTMLElement {
+function createProductCard(product: ProductCard, offer : Offer | undefined, stockCount: number):HTMLElement {
   const article = document.createElement("article");
   const span = document.createElement("span");
   span.setAttribute("aria-hidden", "true");
@@ -78,14 +76,14 @@ function createProductCard(product: Product, offer : Offer | undefined, stockCou
   div.append(btn);
   return article;
 }
-async function getJSON<T>(fileName: string): Promise<T> {
+async function getJSON<T>(fileName: ApiFile): Promise<T> {
   const res = await fetch(`../../api/${fileName}.json`);
   if (!res.ok) {
     throw new Error(`${fileName}: HTTP ${res.status}`);
   }
   return await res.json();
 }
-function renderProducts(container: HTMLDivElement, productList: Product[], stock: Stock, offers: Offer[]): void {
+function renderProducts(container: HTMLDivElement, productList: Product[], stock: Readonly<Stock>, offers: Offer[]): void {
   for (let i = 0; i < productList.length; i++) {
     const product = productList[i];
     const stockCount = stock.items[product.id];
