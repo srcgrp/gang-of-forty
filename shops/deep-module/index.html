@@ -114,6 +114,8 @@
             placeholder="جستجو در میان ۳۰۰۰ کالا..."
             autocomplete="off"
             enterkeyhint="search"
+            role="combobox"
+            aria-autocomplete="list"
             aria-controls="search-suggestions"
             aria-expanded="false"
           />
@@ -228,7 +230,7 @@
             </span>
             <span>همه دسته‌ها</span>
           </button>
-          <div class="mega__menu" role="menu" aria-label="دسته‌بندی‌ها">
+          <div class="mega__menu">
             <ul class="mega__list" id="mega-list"></ul>
           </div>
         </div>
@@ -238,7 +240,6 @@
     </nav>
 
     <main id="main" tabindex="-1">
-      <!-- هیروی ایموجی -->
       <section class="hero section-wrap">
         <div class="hero__copy">
           <span class="eyebrow"
@@ -312,7 +313,6 @@
         </div>
       </section>
 
-      <!-- دو کارت پروموشن -->
       <section
         id="hero-cards"
         class="hero-cards"
