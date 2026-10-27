@@ -1,0 +1,7 @@
+main   main.ts
+ui     ui/cart.ts  ui/categories.ts  ui/events.ts  ui/feedback.ts  ui/product-card.ts  ui/product-price.ts  ui/products.ts  ui/status.ts
+logic  cart/rows.ts  cart/rules.ts  catalog/filter.ts  catalog/pricing.ts
+data   api/catalog.ts  api/guards.ts  api/http.ts  api/list.ts  api/shop-guard.ts  storage/cart.ts
+types  types.ts
+
+✅ 20 files, every import points down, no circles. Now run: npm run check
