@@ -20,9 +20,6 @@ export const API_FILES = ["products", "offers", "stock"] as const;
 export type ApiFile = (typeof API_FILES)[number];
 
 export type ProductCard = Pick<Product, "emoji" | "name" | "price" | "unit">;
-export type CartLine = Pick<Product, "id" | "name" | "price"> & {
-  count: number;
-};
 
 export type ShopLink = {
   label: string;

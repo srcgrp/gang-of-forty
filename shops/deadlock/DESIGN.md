@@ -46,7 +46,7 @@ Both carousels (special offers and groceries) have four states:
 Header, categories, banners and footer are static and have no states.
  
 ## 6. Folders
-- `src/types.ts`: `Product`, `Category`, `Offer`, `Stock`, `Shop`, `CartLine`, `LoadState`. Imports nothing.
+- `src/types.ts`: `Product`, `Category`, `Offer`, `Stock`, `Shop`, `LoadState`. Imports nothing.
 - `src/api/`: `getJSON` (returns `unknown`), the three fetches and their Type Guards.
 - `src/logic/`: pure rules: price after discount, in-stock check, grocery filter, finding the offer of a product.
 - `src/ui/`: builds and updates the page: product cards, carousels, messages, the cart counter text, the Notyf toast and confetti.
