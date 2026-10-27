@@ -447,6 +447,8 @@ if (!Array.isArray(parsed)) return [];
 
 ### ساخته شده با ❤️ و TypeScript
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 **Developer:** Arman Gholamali
 **Week:** 4 — Gang of Fourty
 
