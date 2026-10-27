@@ -1,3 +1,4 @@
+````md
 <div align="center">
 
 # 🛒 سبزکاله
@@ -6,20 +7,15 @@
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-5.4-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![npm](https://img.shields.io/badge/npm-74_packages-CB3837?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/)
 [![Build](https://img.shields.io/badge/Build-Passing-brightgreen?style=for-the-badge)]()
 [![TypeScript Errors](https://img.shields.io/badge/TS_Errors-0-success?style=for-the-badge)]()
 [![Any](https://img.shields.io/badge/any-0-blue?style=for-the-badge)]()
+[![HTML Valid](https://img.shields.io/badge/HTML_Valid-Passing-success?style=for-the-badge)]()
 
 [![RTL](https://img.shields.io/badge/RTL-Persian-2ea44f?style=for-the-badge)](https://en.wikipedia.org/wiki/Right-to-left_script)
 [![A11y](https://img.shields.io/badge/A11y-WCAG_AA-blueviolet?style=for-the-badge)](#-دسترسپذیری)
 [![Responsive](https://img.shields.io/badge/Responsive-320px_to_4K-orange?style=for-the-badge)]()
 
-<br>
-
-<img src="assets/preview-desktop.png" alt="پیش‌نمایش دسکتاپ" width="720">
-
-<br>
 <br>
 
 **Week 3 Project · Gang of Fourty · Deep Module Shop**
@@ -31,21 +27,19 @@
 ## 📖 فهرست مطالب
 
 - [درباره پروژه](#-درباره-پروژه)
-- [دموی زنده](#-دموی-زنده)
-- [پیش‌نمایش](#-پیش‌نمایش)
-- [تکنولوژی‌ها](#-تکنولوژی‌ها)
+- [تکنولوژی‌ها](#-تکنولوژیها)
 - [پکیج‌های npm](#-پکیجهای-npm)
 - [ویژگی‌ها](#-ویژگیها)
 - [نصب و اجرا](#-نصب-و-اجرا)
 - [ساختار پروژه](#-ساختار-پروژه)
-- [ساختار صفحه](#-ساختار-صفحه)
 - [درس‌های TypeScript](#-درسهای-typescript)
 - [امنیت](#-امنیت)
 - [دسترس‌پذیری](#-دسترسپذیری)
-- [آمار](#-آمار)
-- [تست شده روی](#-تست-شده-روی)
-- [مشارکت](#-مشارکت)
-- [مجوز](#-مجوز)
+- [آمار پروژه](#-آمار-پروژه)
+- [Definition of Done](#-definition-of-done)
+- [امتیاز اضافه](#-امتیاز-اضافه)
+- [شواهد خروجی‌ها](#-شواهد-خروجیها)
+- [پاسخ سؤالات PDF](#-پاسخ-سؤالات-pdf)
 
 ---
 
@@ -53,7 +47,7 @@
 
 **سبزکاله** یک فروشگاه آنلاین مدرن است که با **TypeScript**، **Vite** و **۴ پکیج npm** ساخته شده.
 
-این پروژه نسخه ارتقایافته‌ی **هفته دوم** است که از **JavaScript خالص** به **TypeScript** منتقل شد و به یک پروژه واقعی با ابزارهای مدرن تبدیل شد.
+این پروژه نسخه ارتقایافتهٔ **هفتهٔ دوم** است که از **JavaScript خالص** به **TypeScript** منتقل شد و به یک پروژهٔ واقعی با ابزارهای مدرن تبدیل شد.
 
 ### 🎯 هدف این هفته
 
@@ -61,40 +55,22 @@
 - راه‌اندازی Vite به عنوان dev server و build tool
 - استفاده از npm برای مدیریت پکیج‌ها
 - نصب و استفاده از ۴ پکیج واقعی npm
-- Type-Dehی کامل به DOM، رویدادها و داده‌های API
+- تایپ‌دهی کامل به DOM، رویدادها و داده‌های API
 - حذف کامل `any` و `noImplicitAny: false`
 
-> 🧠 این پروژه یک تمرین عملی از دوره **Gang of Fourty** و مخصوص **هفته سوم** است، برای تسلط روی TypeScript، Type System، npm و Vite.
+> 🧠 این پروژه یک تمرین عملی از دورهٔ **Gang of Fourty** و مخصوص **هفتهٔ سوم** است، برای تسلط روی TypeScript، Type System، npm و Vite.
 
----
+### 🎬 دموی زنده
 
-## 🎬 دموی زنده
-
-🔗 **نسخه آنلاین:** [`سبزکاله`](https://ArmanGhM.github.io/gang-of-fourty/shops/deep-module/)
+🔗 **نسخهٔ آنلاین:** [`سبزکاله`](https://ArmanGhM.github.io/gang-of-fourty/shops/deep-module/)
 
 ```bash
-# یا به صورت لوکال
 cd shops/deep-module
 npm install
 npm run dev
 # → http://localhost:5173/
 ```
-
----
-
-## 🖼 پیش‌نمایش
-
-<div align="center">
-
-### 🖥 دسکتاپ
-
-<img src="assets/preview-desktop.png" alt="دسکتاپ" width="700">
-
-### 📱 موبایل
-
-<img src="assets/preview-mobile.png" alt="موبایل" width="280">
-
-</div>
+````
 
 ---
 
@@ -167,11 +143,6 @@ Proxy برای دسترسی به API سرور واقعی.
 
 **نسخه:** `3.10.0` | **حجم:** ~۳KB gzip | **تایپ:** ✅ دارد
 
-**کاربرد در پروژه:**
-
-- پیام «به سبد اضافه شد» هنگام افزودن محصول
-- پیام «سفارش ثبت شد» هنگام تسویه حساب
-
 ```typescript
 const notyf = new Notyf({
   position: { x: "center", y: "top" },
@@ -188,16 +159,12 @@ notyf.success(`${product.name} به سبد اضافه شد`);
 
 **نسخه:** `1.9.4` | **حجم:** ~۶KB gzip | **تایپ:** با `@types/canvas-confetti`
 
-**کاربرد در پروژه:**
-
-- افکت کاغذرنگی هنگام تسویه حساب
-
 ```typescript
 confetti({
   particleCount: 150,
   spread: 80,
   origin: { y: 0.6 },
-  colors: ["#2e7d32", "#a5d6a7", "#ffd470", "#f9a825"],
+  colors: ["#d7ff00", "#b8dc00", "#111318", "#4da3ff"],
 });
 ```
 
@@ -207,11 +174,7 @@ confetti({
 
 **نسخه:** `7.5.0` | **حجم:** ~۸KB gzip | **تایپ:** ✅ دارد
 
-**کاربرد در پروژه:**
-
-- جستجوی هوشمند که غلط املایی رو تحمل می‌کنه
-- تایپ `"سیپ"` → پیدا کردن `"سیب"` و `"سیب زمینی"`
-- تایپ `"کیلو"` → پیدا کردن محصولاتی که واحدشون کیلوئه
+**کاربرد:** جستجوی هوشمند که غلط املایی را تحمل می‌کند (`"سیپ"` → پیدا کردن `"سیب"`).
 
 ```typescript
 const fuseInstance = new Fuse(allProductsData, {
@@ -228,11 +191,6 @@ const fuseInstance = new Fuse(allProductsData, {
 
 **نسخه:** `0.10.0` | **حجم:** ~۳KB gzip | **تایپ:** ✅ دارد
 
-**کاربرد در پروژه:**
-
-- انیمیشن خودکار لیست‌های داینامیک
-- سبد خرید، محصولات، پیشنهادهای جستجو
-
 ```typescript
 const containers = ["cart-body", "all-track", "search-suggestions"];
 containers.forEach((id) => {
@@ -241,15 +199,13 @@ containers.forEach((id) => {
 });
 ```
 
-**نتیجه:** با یک خط کد، هر آیتمی که اضافه/حذف بشه با انیمیشن نرم انجام می‌شه.
-
 ---
 
 ## 🚀 ویژگی‌ها
 
 ### 🎨 طراحی و ظاهر
 
-- ✅ **تم روشن و تاریک** — دکمه دستی + `prefers-color-scheme`
+- ✅ **تم روشن و تاریک** — دکمهٔ دستی + `prefers-color-scheme` + ذخیره در `localStorage`
 - ✅ **Responsive کامل** — از ۳۲۰px تا 4K
 - ✅ **فونت Vazirmatn** — local (بدون CDN)
 - ✅ **SVG اختصاصی** — لوگو، هنروان، پنیر
@@ -260,14 +216,15 @@ containers.forEach((id) => {
 ### 🛒 قابلیت‌های فروشگاه
 
 - ✅ **سبد خرید کامل** — افزودن، کم کردن، حذف، ذخیره در localStorage
-- ✅ **جستجوی فازی** — با `fuse.js` (غلط املایی هم پیدا می‌شه)
+- ✅ **قیمت یکسان کارت و سبد** — `calcDiscountPrice()` در هر دو
+- ✅ **جستجوی فازی** — با `fuse.js`
 - ✅ **فیلتر پیشرفته** — دسته، موجودی، تخفیف، مرتب‌سازی
 - ✅ **مودال جزئیات محصول**
 - ✅ **افکت جشن** — با `canvas-confetti` موقع تسویه
 - ✅ **پیام Toast** — با `notyf`
 - ✅ **انیمیشن لیست** — با `@formkit/auto-animate`
 
-### ⚡ تجربه‌ی کاربری
+### ⚡ تجربهٔ کاربری
 
 - ✅ **State Loading/Error/Empty** — با اسکلتون‌های زیبا
 - ✅ **Retry خودکار** — با exponential backoff (تا ۳ بار)
@@ -288,21 +245,19 @@ containers.forEach((id) => {
 ### نصب
 
 ```bash
-# رفتن به پوشه پروژه
 cd shops/deep-module
-
-# نصب وابستگی‌ها
 npm install
 ```
 
 ### دستورات
 
-| دستور             | کاربرد                   | نتیجه                    |
-| ----------------- | ------------------------ | ------------------------ |
-| `npm run dev`     | اجرا در حالت توسعه       | `http://localhost:5173/` |
-| `npm run check`   | بررسی خطاهای TypeScript  | خروجی خالی (موفق)        |
-| `npm run build`   | ساخت نسخه production     | پوشه `dist/`             |
-| `npm run preview` | پیش‌نمایش نسخه build شده | `http://localhost:4173/` |
+| دستور                   | کاربرد                      | نتیجه                    |
+| ----------------------- | --------------------------- | ------------------------ |
+| `npm run dev`           | اجرا در حالت توسعه          | `http://localhost:5173/` |
+| `npm run check`         | بررسی خطاهای TypeScript     | خروجی خالی (موفق)        |
+| `npm run build`         | ساخت نسخه production        | پوشه `dist/`             |
+| `npm run preview`       | پیش‌نمایش نسخه build شده    | `http://localhost:4173/` |
+| `npm run validate:html` | بررسی HTML با html-validate | خروجی خالی (موفق)        |
 
 ---
 
@@ -310,53 +265,22 @@ npm install
 
 ```text
 shops/deep-module/
-├── index.html              ← صفحه اصلی
+├── index.html              ← صفحهٔ اصلی
 ├── style.css               ← استایل‌ها (یکپارچه)
 ├── script.ts               ← منطق TypeScript
 ├── package.json            ← تنظیمات npm
-├── package-lock.json       ← قفل نسخه‌ها (باید commit شود)
+├── package-lock.json       ← قفل نسخه‌ها (commit شده)
 ├── tsconfig.json           ← تنظیمات TypeScript
 ├── vite.config.ts          ← تنظیمات Vite (proxy)
-├── .gitignore              ← dist/, node_modules/
+├── .gitignore              ← dist/, node_modules/, .vscode/
 ├── .htmlvalidate.json      ← تنظیمات HTML Validator
 ├── README.md               ← همین فایل
 │
 ├── assets/
-│   ├── fonts/              ← Vazirmatn (4 وزن)
-│   │   ├── Vazirmatn-Regular.woff2
-│   │   ├── Vazirmatn-Medium.woff2
-│   │   ├── Vazirmatn-SemiBold.woff2
-│   │   └── Vazirmatn-Bold.woff2
-│   └── icons/
-│       └── favicon.svg
+│   ├── fonts/              ← Vazirmatn (۱۰ فایل woff2)
+│   └── img/                ← تصاویر SVG/PNG (Cheese, Tomato, ...)
 │
 └── dist/                   ← خروجی build (git ignored)
-```
-
----
-
-## 🧩 ساختار صفحه
-
-```text
-┌──────────────────────────────────────┐
-│  📢  نوار اطلاع‌رسانی (ارسال رایگان)   │
-├──────────────────────────────────────┤
-│  🏪  Header (لوگو + جستجو + سبد)      │
-├──────────────────────────────────────┤
-│  📂  منوی اصلی (همه دسته‌ها Dropdown)  │
-├──────────────────────────────────────┤
-│  🎯  Hero (کارت اصلی + طلایی)         │
-├──────────────────────────────────────┤
-│  🍎  ۷ دسته‌بندی اصلی                 │
-├──────────────────────────────────────┤
-│  🔥  کاروسل «پیشنهاد ویژه امروز»      │
-├──────────────────────────────────────┤
-│  🥖  بنرهای تبلیغاتی                  │
-├──────────────────────────────────────┤
-│  🛒  همه محصولات (با فیلتر و جستجو)    │
-├──────────────────────────────────────┤
-│  🦶  Footer (راهنما، ساعت کاری، تماس) │
-└──────────────────────────────────────┘
 ```
 
 ---
@@ -367,11 +291,12 @@ shops/deep-module/
 <tr>
 <td width="50%" valign="top">
 
-### Type System (سیستم تایپ)
+### Type System
 
 - ✅ **Interfaces** — `Product`, `Category`, `CartItem`, `Shop`, `Offer`
-- ✅ **Union Types** — `ErrorType`, `ApiErrorType`
+- ✅ **Union Types** — `ErrorType`, `ApiErrorType`, `StockLevel`, `AddToCartReason`
 - ✅ **Optional** — `emoji?`, `unit?`, `categoryId?`
+- ✅ **readonly** — `Product.id`, `Offer.productId`, `Offer.percent`
 - ✅ **Generics** — `h<K extends keyof HTMLElementTagNameMap>`
 - ✅ **Type Guards** — `isValidProduct(p): p is Product`
 - ✅ **Type Predicates** — `filter((item): item is CartItem => ...)`
@@ -384,13 +309,14 @@ shops/deep-module/
 ### DOM و Events
 
 - ✅ **`querySelector<T>`** — با تایپ دقیق
-- ✅ **`createElement<T>`** — با تایپ
+- ✅ **`createElement<T>`** — تابع `h` با جنریک
 - ✅ **`MouseEvent`, `KeyboardEvent`, `SubmitEvent`**
 - ✅ **`e.target instanceof Element`** — قبل از `closest`
 - ✅ **`closest<HTMLButtonElement>`** — با جنریک
 - ✅ **`instanceof` برای Narrow کردن**
 - ✅ **`HTMLElement | null`** — چک کردن `null`
 - ✅ **بدون `any`** — کل کد type-safe
+- ✅ **بدون `as` برای سرکوب خطا**
 
 </td>
 </tr>
@@ -402,14 +328,16 @@ shops/deep-module/
 
 ```typescript
 export function isValidProduct(p: unknown): p is Product {
-  if (!p || typeof p !== "object") return false;
-  const o = p as Record<string, unknown>;
+  if (!isRecord(p)) return false;
   return (
-    typeof o.id === "number" &&
-    Number.isInteger(o.id) &&
-    o.id > 0 &&
-    typeof o.name === "string" &&
-    o.name.length > 0
+    typeof p.id === "number" &&
+    Number.isInteger(p.id) &&
+    p.id > 0 &&
+    typeof p.name === "string" &&
+    p.name.length > 0 &&
+    typeof p.price === "number" &&
+    Number.isFinite(p.price) &&
+    p.price >= 0
   );
 }
 ```
@@ -431,7 +359,7 @@ function h<K extends keyof HTMLElementTagNameMap>(
   text?: string | number | null,
 ): HTMLElementTagNameMap[K] {
   const el = document.createElement(tag);
-  if (className) el.className = className;
+  if (className !== undefined) el.className = className;
   if (text !== undefined && text !== null) el.textContent = String(text);
   return el;
 }
@@ -444,7 +372,7 @@ document.addEventListener("click", (e: MouseEvent) => {
   if (!(e.target instanceof Element)) return;
 
   const cartBtn = e.target.closest<HTMLElement>("#cart-btn");
-  if (cartBtn) {
+  if (cartBtn !== null) {
     e.preventDefault();
     e.stopPropagation();
     openModal("cart-modal");
@@ -452,14 +380,24 @@ document.addEventListener("click", (e: MouseEvent) => {
 });
 ```
 
+**Typed Parser بدون `as`:**
+
+```typescript
+function parseShop(raw: Record<string, unknown>): Shop {
+  const out: Shop = {};
+  if (typeof raw.name === "string") out.name = raw.name;
+  if (typeof raw.slogan === "string") out.slogan = raw.slogan;
+  // ...
+  return out;
+}
+```
+
 ---
 
 ## 🔒 امنیت
 
-همه‌ی موارد امنیتی زیر در پروژه رعایت شده:
-
 ```typescript
-// ✅ همه‌جا از textContent استفاده شده (نه innerHTML برای داده)
+// ✅ textContent به جای innerHTML برای داده
 name.textContent = product.name;
 
 // ✅ escapeHTML برای متن‌های API
@@ -491,16 +429,16 @@ if (!Array.isArray(parsed)) return [];
 ## ♿ دسترس‌پذیری
 
 - ✅ **Skip link** — پرش به محتوا (اولین المان صفحه)
-- ✅ **`aria-label`** روی همه‌ی دکمه‌های بدون متن
+- ✅ **`aria-label`** روی همهٔ دکمه‌های بدون متن
 - ✅ **`role="dialog"`** و **`aria-modal`** برای مودال‌ها
 - ✅ **`aria-expanded`** و **`aria-controls`** برای جستجو
+- ✅ **`role="combobox"`** و **`aria-autocomplete="list"`** برای فیلد جستجو
 - ✅ **`aria-hidden="true"`** برای آیکون‌های تزئینی
 - ✅ **`aria-labelledby`** برای بخش‌ها
+- ✅ **`aria-pressed`** روی دکمهٔ تغییر تم (با JS sync می‌شود)
 - ✅ **`focus-visible`** — فوکوس واضح
 - ✅ **کنتراست رنگ** — طبق WCAG AA
-- ✅ **`prefers-reduced-motion`** — احترام به کاربرانی که انیمیشن نمی‌خوان
-- ✅ **Skip-to-content** — پرش به محتوا
-- ✅ **`alt` برای تصاویر**
+- ✅ **`prefers-reduced-motion`**
 - ✅ **`lang="fa"`** و **`dir="rtl"`**
 
 ---
@@ -509,43 +447,192 @@ if (!Array.isArray(parsed)) return [];
 
 | مورد                          |   مقدار   |
 | ----------------------------- | :-------: |
-| خطوط TypeScript               | ~۱۵۰۰ خط  |
-| خطوط CSS                      | ~۳۶۰۰ خط  |
-| خطوط HTML                     |  ~۵۰۰ خط  |
+| خطوط TypeScript               |  ~۹۰۰ خط  |
+| خطوط CSS                      | ~۲٬۹۰۰ خط |
+| خطوط HTML                     |  ~۶۰۰ خط  |
 | تعداد پکیج‌های npm            |     ۴     |
-| حجم JS نهایی (gzip)           |   ~۳۰KB   |
-| حجم CSS نهایی (gzip)          |   ~۱۳KB   |
-| حجم HTML نهایی (gzip)         |   ~۵KB    |
-| **کل حجم (gzip)**             | **~۴۸KB** |
-| زمان build                    |  ~۵۴۲ms   |
+| حجم JS نهایی (gzip)           |   ~۳۲KB   |
+| حجم CSS نهایی (gzip)          |   ~۱۲KB   |
+| حجم HTML نهایی (gzip)         |  ~۵.۵KB   |
+| **کل حجم (gzip)**             | **~۵۰KB** |
+| زمان build                    |  ~۵۷۰ms   |
 | TypeScript errors             |     ۰     |
 | `any` در کد                   |     ۰     |
+| `as` برای سرکوب خطا           |     ۰     |
+| non-null assertion (`!`)      |     ۰     |
 | `innerHTML` برای داده‌ی کاربر |     ۰     |
 
 ---
 
-## 🧪 تست شده روی
+## ✅ Definition of Done
 
-| مرورگر  | نسخه | وضعیت |
-| ------- | :--: | :---: |
-| Chrome  | 120+ |  ✅   |
-| Firefox | 121+ |  ✅   |
-| Safari  | 17+  |  ✅   |
-| Edge    | 120+ |  ✅   |
+- [x] `package.json` با `private: true` و `type: "module"`
+- [x] اسکریپت‌های `dev`, `build`, `preview`, `check`, `validate:html`
+- [x] `typescript`، `vite` و `html-validate` در `devDependencies`
+- [x] `package-lock.json` commit شده
+- [x] `node_modules/` و `dist/` در `.gitignore` و commit نشده
+- [x] `tsconfig.json` با `strict: true` بدون `noImplicitAny: false`
+- [x] `script.js` حذف شده؛ `script.ts` با `type="module"`
+- [x] `querySelector<T>` با تایپ دقیق
+- [x] `createElement<T>` (تابع `h`) با تایپ
+- [x] `instanceof Element` قبل از `closest`
+- [x] حداقل ۲ پکیج npm در `dependencies` (در واقع ۴ پکیج)
+- [x] `npm run check` بدون خطا
+- [x] `npm run build` موفق
+- [x] `npm run dev` و `preview` بدون خطای کنسول
+- [x] بدون non-null assertion (`!`)
+- [x] بدون `as` برای سرکوب خطا در `script.ts`
+- [x] HTML Validation پاس می‌شود (`npm run validate:html`)
+- [x] توضیح در PR با checklist و شواهد
 
-### دستگاه‌ها
+## 🏅 امتیاز اضافه
 
-- 📱 موبایل (۳۲۰px تا ۷۶۸px)
-- 📱 تبلت (۷۶۸px تا ۱۰۲۴px)
-- 💻 لپ‌تاپ (۱۰۲۴px تا ۱۴۴۰px)
-- 🖥 دسکتاپ (۱۴۴۰px+)
-- 🖥 4K (۳۸۴۰px+)
+- [x] `noImplicitAny: false` حذف شده
+- [x] type برای همهٔ APIها (`Product`, `Category`, `Offer`, `Shop`, `Home`, `StockData`)
+- [x] همهٔ توابع `fetch` خروجی `Promise<T>` دارند
+- [x] همهٔ پارامترها و مقادیر برگشتی تایپ دارند
+- [x] هیچ `any` صریحی در کد نیست
+- [x] `catch (err: unknown)` استفاده شده
+- [x] `Record<number, number>` برای stock
+- [x] `Map<number, true>` برای `matchedIds` در جستجو
+- [x] `readonly` برای فیلدهای ثابت
+- [x] Type Guards: `isValidProduct`, `isValidCategory`, `isValidOffer`, `isCacheEntry`
+- [x] Typed Parsers بدون `as`: `parseShop`, `parseHome`, `parseStock`
+
+---
+
+## 🧪 شواهد خروجی‌ها
+
+### `npm run check`
+
+```
+PS> npm run check
+
+> deep-module@1.0.0 check
+> tsc --noEmit
+
+PS>
+```
+
+**خروجی خالی → بدون خطای TypeScript.**
+
+### `npm run build`
+
+```
+PS> npm run build
+
+> deep-module@1.0.0 build
+> tsc --noEmit && vite build
+
+vite v5.4.21 building for production...
+✓ 9 modules transformed.
+dist/index.html                                25.28 kB │ gzip:  5.48 kB
+dist/assets/Vazirmatn-Regular-CtGL0YI-.woff2   50.68 kB
+dist/assets/Vazirmatn-Bold-_OhAJEdh.woff2      51.02 kB
+dist/assets/Vazirmatn-SemiBold-26ZP1ILp.woff2  51.03 kB
+dist/assets/Vazirmatn-Medium-D86t5Axy.woff2    51.13 kB
+dist/assets/index-DYaYp9Dh.css                 57.63 kB │ gzip: 12.02 kB
+dist/assets/index-nrxrv4Q1.js                  95.41 kB │ gzip: 32.10 kB
+✓ built in 570ms
+```
+
+### `npm run validate:html`
+
+```
+PS> npm run validate:html
+
+> deep-module@1.0.0 validate:html
+> html-validate index.html
+
+PS>
+```
+
+**بدون خطا.**
+
+---
+
+## 📦 شواهد پکیج‌ها
+
+`package.json`:
+
+```json
+{
+  "name": "deep-module",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "check": "tsc --noEmit",
+    "validate:html": "html-validate index.html"
+  },
+  "devDependencies": {
+    "@types/canvas-confetti": "^1.9.0",
+    "html-validate": "^11.4.0",
+    "typescript": "^5.0.0",
+    "vite": "^5.0.0"
+  },
+  "dependencies": {
+    "@formkit/auto-animate": "^0.10.0",
+    "canvas-confetti": "^1.9.4",
+    "fuse.js": "^7.5.0",
+    "notyf": "^3.10.0"
+  }
+}
+```
+
+`.htmlvalidate.json` (بدون BOM):
+
+```json
+{
+  "extends": ["html-validate:recommended"],
+  "rules": {
+    "void-style": "off",
+    "prefer-native-element": "off"
+  }
+}
+```
+
+**توضیح:** `void-style` چون `<meta />` در HTML5 معتبر است (هرچند HTML-validate پیش‌فرض نمی‌پسندد) و `prefer-native-element` چون `role="listbox"` برای widget جستجوی فازی ضروری است (`<select>` ساده نمی‌تواند این کار را بکند).
+
+---
+
+## ❓ پاسخ سؤالات PDF
+
+**۱. کدام سطح قبولی/امتیاز را پیاده کردی؟**
+همهٔ سطح قبولی و همهٔ موارد امتیاز اضافه.
+
+**۲. خروجی `npm run check`**
+خالی. `tsc --noEmit` بدون خطا کامپایل می‌شود (بالاتر در بخش شواهد).
+
+**۳. دو پکیج انتخابی، دلیل، حجم، تایپ**
+
+- **`fuse.js`** — جستجوی فازی که غلط املایی را تحمل می‌کند. حجم ~۸KB gzip. تایپ داخلی دارد. کاربرد: جستجوی هوشمند محصولات.
+- **`notyf`** — نمایش پیام Toast حرفه‌ای. حجم ~۳KB gzip. تایپ داخلی دارد. کاربرد: بازخورد افزودن به سبد و تسویه.
+
+**۴. یک خطای TypeScript جالب و نحوهٔ حل**
+
+`TS2540: Cannot assign to 'title' because it is a read-only property` روی `HeroSection` که با `readonly` تعریف شده بود. حل: `readonly` فقط روی فیلدهای واقعاً ثابت (`Product.id`, `Offer.productId`, `Offer.percent`) نگه داشته شد و از `HeroSection` (که parser آن را می‌سازد) حذف شد.
+
+**۵. تفاوت `dependencies` و `devDependencies`**
+
+- `dependencies`: کدی که در runtime به مرورگر می‌رود (`fuse.js`, `notyf`, `canvas-confetti`, `@formkit/auto-animate`).
+- `devDependencies`: ابزار build و بررسی که فقط در development نصب می‌شود (`typescript`, `vite`, `html-validate`, `@types/*`).
+
+**۶. چرا `package-lock.json` commit می‌شود ولی `node_modules/` نه**
+
+- `package-lock.json` نسخه‌های دقیق همهٔ زیرپکیج‌ها را قفل می‌کند تا همهٔ توسعه‌دهنده‌ها و CI یکسان نصب کنند.
+- `node_modules/` از lock بازتولید می‌شود و حجم زیادی دارد.
+
+**۷. چرا با پاک‌کردن `noImplicitAny` خطاها پیدا می‌شوند**
+
+`noImplicitAny` از implicit `any` جلوگیری می‌کند. با حذف آن، TypeScript هر جا type را نتواند infer کند خطا می‌دهد و مجبور می‌شوی برای پارامترها، متغیرها و مقادیر برگشتی تایپ دقیق بنویسی؛ که باگ‌های runtime را کم می‌کند.
 
 ---
 
 ## 🤝 مشارکت
-
-اگه باگی پیدا کردی یا پیشنهادی داری:
 
 1. Fork کن
 2. برنچ بساز (`git checkout -b feat/amazing-feature`)
@@ -573,77 +660,5 @@ if (!Array.isArray(parsed)) return [];
 
 ### ساخته شده با ❤️ و TypeScript
 
-**[🔗 دمو](https://ArmanGhM.github.io/gang-of-fourty/shops/deep-module/) · [🐛 گزارش باگ](https://github.com/ArmanGhM/gang-of-fourty/issues) · [💡 پیشنهاد ویژگی](https://github.com/ArmanGhM/gang-of-fourty/issues)**
-
-<br>
-
-⭐ اگه از پروژه خوشت اومد، ستاره بده! ⭐
-
 </div>
-## ✅ Definition of Done
-
-- [x] `package.json` با `private: true` و `type: "module"`
-- [x] اسکریپت‌های `dev`, `build`, `preview`, `check`
-- [x] `typescript` و `vite` در `devDependencies`
-- [x] `package-lock.json` commit شده
-- [x] `node_modules/` و `dist/` commit نشده
-- [x] `tsconfig.json` با `strict: true` بدون `noImplicitAny: false`
-- [x] `script.js` حذف شده؛ `script.ts` با `type="module"`
-- [x] `querySelector<T>` با تایپ دقیق
-- [x] `createElement<T>` با تایپ
-- [x] `instanceof Element` قبل از `closest`
-- [x] حداقل ۲ پکیج npm در `dependencies`
-- [x] `npm run check` بدون خطا
-- [x] `npm run build` موفق
-- [x] `npm run dev` و `preview` بدون خطای کنسول
-- [x] بدون `!` و `as` برای سرکوب خطا
-- [x] HTML Validation پاس می‌شود
-- [x] توضیح در PR با checklist و شواهد
-
-## 🏅 امتیاز اضافه
-
-- [x] `noImplicitAny: false` حذف شده
-- [x] type برای همهٔ APIها (`Product`, `Category`, `Offer`, `Shop`, `Home`, `StockData`)
-- [x] همهٔ توابع `fetch` خروجی `Promise<T>` دارند
-- [x] همهٔ پارامترها و مقادیر برگشتی تایپ دارند
-- [x] همهٔ متغیرها تایپ دارند یا مقدارشان تایپ را می‌سازد
-- [x] هیچ `any` در کد نیست
-- [x] `catch (err: unknown)` استفاده شده
-- [x] `Record<number, number>` برای stock
-- [x] `Map` برای `matchedIds` در جستجو
-
-## 🧪 خروجی `npm run check`
-## ✅ Definition of Done
-
-- [x] `package.json` با `private: true` و `type: "module"`
-- [x] اسکریپت‌های `dev`, `build`, `preview`, `check`, `validate:html`
-- [x] `typescript` و `vite` و `html-validate` در `devDependencies`
-- [x] `package-lock.json` commit شده
-- [x] `node_modules/` و `dist/` در `.gitignore` و commit نشده
-- [x] `tsconfig.json` با `strict: true` بدون `noImplicitAny: false`
-- [x] `script.js` حذف شده؛ `script.ts` با `type="module"`
-- [x] `querySelector<T>` با تایپ دقیق
-- [x] `createElement<T>` (تابع `h`) با تایپ
-- [x] `instanceof Element` قبل از `closest`
-- [x] حداقل ۲ پکیج npm در `dependencies`
-- [x] `npm run check` بدون خطا
-- [x] `npm run build` موفق
-- [x] `npm run dev` و `preview` بدون خطای کنسول
-- [x] بدون non-null assertion (`!`)
-- [x] بدون `as` برای سرکوب خطا (فقط `as T` در `debounce` که یک الگوی استاندارد TypeScript است)
-- [x] HTML Validation پاس می‌شود
-- [x] توضیح در PR با checklist و شواهد
-
-## 🏅 امتیاز اضافه
-
-- [x] `noImplicitAny: false` حذف شده
-- [x] type برای همهٔ APIها (`Product`, `Category`, `Offer`, `Shop`, `Home`, `StockData`)
-- [x] همهٔ توابع `fetch` خروجی `Promise<T>` دارند
-- [x] همهٔ پارامترها و مقادیر برگشتی تایپ دارند
-- [x] هیچ `any` صریحی در کد نیست
-- [x] `catch (err: unknown)` استفاده شده
-- [x] `Record<number, number>` برای stock
-- [x] `Map<number, true>` برای `matchedIds` در جستجو
-- [x] `readonly` برای فیلدهای ثابت (`Product.id`, `Offer.productId`, `Offer.percent`)
-
-## 🧪 خروجی `npm run check`
+```
