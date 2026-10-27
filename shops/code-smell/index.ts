@@ -2,6 +2,7 @@
 import { shopContent } from "./shop-content"
 import Typed from "typed.js"
 import { Fireworks } from "fireworks-js"
+import type { Product, Category, Offer, Stock, Link, Shop, Banner, Carousel, Home, CartItem } from "./src/types"
 const api = "../../api/"
 const shopName = "سوپرمارکت بوی کد"
 const persianNumberFormat = new Intl.NumberFormat("fa-IR")
@@ -10,107 +11,16 @@ const carouselsRoot = document.querySelector<HTMLDivElement>("#carousels-root")
 const resultsRoot = document.querySelector<HTMLDivElement>("#results-root")
 const pageStatus = document.querySelector<HTMLDivElement>("#page-status")
 const cartButton = document.querySelector<HTMLButtonElement>("#cart-button")
-let products: productInfo[] = []
-let categories: categoryData[] = []
+let products: Product[] = []
+let categories: Category[] = []
 let stockByProductId: Record<number, number> = {}
-let offers: offerInfo[] = []
-let shopData: shopInfo | null = null
-let homeData: homeInfo | null = null
+let offers: Offer[] = []
+let shopData: Shop | null = null
+let homeData: Home | null = null
 let isPageReady = false
 const cart = readCart()
-type categoryData = {
-    id: number
-    slug: string
-    name: string
-    emoji: string
-    color: string
-}
-type shopInfo = {
-    name: string
-    slogan: string
-    owner: string
-    city: string
-    phone: string
-    hours: {
-        open: string
-        close: string
-    }
-    deliveryFee: number
-    freeDeliveryOver: number
-    currency: string
-    notice: string
-    about: string
-    address: string
-    schedule: {
-        days: string
-        time: string
-    }[]
-    menu: {
-        label: string
-        href: string
-    }[]
-    help: {
-        label: string
-        href: string
-    }[]
-    copyright: string
-}
 
-type bannerInfo = {
-    title: string
-    text: string
-    emoji: string
-    cta: {
-        label: string
-        href: string
-    }
-}
 
-type carouselInfo = {
-    id: string
-    title: string
-    emoji: string
-    source?: string
-    categoryId?: number
-}
-
-type homeInfo = {
-    hero: bannerInfo
-    side: bannerInfo
-    promos: {
-        text: string
-        emoji: string
-        color: string
-        href: string
-    }[]
-    carousels: carouselInfo[]
-}
-
-type productInfo = {
-    id: number
-    categoryId: number
-    name: string
-    emoji: string
-    unit: string
-    price: number
-    tags: string[]
-}
-
-type offerInfo = {
-    productId: number
-    percent: number
-    label: string
-}
-
-type stockInfo = {
-    updatedAt: string
-    items: Record<number, number>
-}
-
-type linkInfo = {
-    label: string
-    href: string
-}
 //Cart 
 function readCart(): Record<number, number> {
     try {
@@ -138,8 +48,8 @@ function updateCartCount(): void {
     }
 }
 
-function addToCart(product: productInfo): void {
-    cart[product.id] = (cart[product.id] || 0) + 1
+function addToCart(cartItem: CartItem): void {
+    cart[cartItem.id] = (cart[cartItem.id] || 0) + cartItem.quantity
     updateCartCount()
     localStorage.setItem(cartKey, JSON.stringify(cart))
 }
@@ -475,7 +385,7 @@ function renderCategories(): void {
 }
 
 //Banner
-function createSideBanner(sideData: bannerInfo): HTMLElement {
+function createSideBanner(sideData: Banner): HTMLElement {
     const side = document.createElement("article")
     side.className = "hero-side promo-side"
 
@@ -626,15 +536,15 @@ function renderPromos(): void {
 }
 
 //carousel
-function getProductOffer(productId: number): offerInfo | undefined {
+function getProductOffer(productId: number): Offer | undefined {
     return offers.find(function (offer) {
         return offer.productId === productId
     })
 }
 
 function createProductMedia(
-    product: productInfo,
-    offer: offerInfo | undefined,
+    product: Product,
+    offer: Offer | undefined,
     isUnavailable: boolean
 ): HTMLDivElement {
     const media = document.createElement("div")
@@ -662,8 +572,8 @@ function createProductMedia(
 }
 
 function createProductPrice(
-    product: productInfo,
-    offer: offerInfo | undefined
+    product: Product,
+    offer: Offer | undefined
 ): HTMLParagraphElement {
     const price = document.createElement("p")
     price.className = "price"
@@ -691,7 +601,7 @@ function createProductPrice(
 }
 
 function createAddButton(
-    product: productInfo,
+    product: Product,
     isUnavailable: boolean
 ): HTMLButtonElement {
     const button = document.createElement("button")
@@ -717,14 +627,14 @@ function createAddButton(
     button.append(plus, text)
 
     button.addEventListener("click", function () {
-        addToCart(product)
+        addToCart({ id: product.id, quantity: 1 })
     })
 
     return button
 }
 
 function createProductCard(
-    product: productInfo,
+    product: Product,
     sectionId: string,
     index: number
 ): HTMLLIElement {
@@ -847,7 +757,7 @@ function createCarouselControls(section: HTMLElement, title: string): HTMLElemen
 }
 
 function createCarousel(
-    carouselData: carouselInfo,
+    carouselData: Carousel,
     index: number = 0
 ): HTMLElement {
     const section = document.createElement("section")
@@ -920,7 +830,7 @@ function createCarousel(
     return section
 }
 
-function renderCarousel(section: HTMLElement, selectedProducts: productInfo[]): void {
+function renderCarousel(section: HTMLElement, selectedProducts: Product[]): void {
     const list = section.querySelector<HTMLUListElement>(".product-grid")
     const status = section.querySelector<HTMLParagraphElement>(".catalog-status")
 
@@ -956,8 +866,8 @@ function renderCarousel(section: HTMLElement, selectedProducts: productInfo[]): 
 }
 
 function getCarouselProducts(
-    carouselData: carouselInfo
-): productInfo[] {
+    carouselData: Carousel
+): Product[] {
     let selectedProducts = products
     if (carouselData.source === "offers") {
         selectedProducts = products.filter(function (product) {
@@ -984,7 +894,7 @@ function renderHomeCarousels(): void {
     }
 }
 
-function renderFilteredProducts(activeCategory: categoryData): void {
+function renderFilteredProducts(activeCategory: Category): void {
     const selectedProducts = products.filter(function (product) {
         return product.categoryId === activeCategory.id
     })
@@ -1137,7 +1047,7 @@ function renderGuide(): void {
 }
 
 //Footer
-function createFooterAbout(currentShop: shopInfo): HTMLElement {
+function createFooterAbout(currentShop: Shop): HTMLElement {
     const about = document.createElement("section")
     about.className = "footer-column"
     about.setAttribute("aria-labelledby", "footer-about-title")
@@ -1205,7 +1115,7 @@ function createFooterAbout(currentShop: shopInfo): HTMLElement {
 function createFooterLinks(
     title: string,
     headingId: string,
-    entries: linkInfo[]
+    entries: Link[]
 ): HTMLElement {
     const column = document.createElement("nav")
     column.className = "footer-column"
@@ -1237,7 +1147,7 @@ function createFooterLinks(
     return column
 }
 
-function createFooterHours(currentShop: shopInfo): HTMLElement {
+function createFooterHours(currentShop: Shop): HTMLElement {
     const hours = document.createElement("section")
     hours.className = "footer-column"
     hours.setAttribute("aria-labelledby", "footer-hours-title")
@@ -1353,7 +1263,7 @@ function navigate(event: MouseEvent): void {
     }
 }
 
-function getSelectedCategory(): categoryData | null {
+function getSelectedCategory(): Category | null {
     const params = new URLSearchParams(location.search)
     const fragment = location.hash.slice(1)
     const slug = params.has("cat") ? params.get("cat") : fragment
@@ -1362,7 +1272,7 @@ function getSelectedCategory(): categoryData | null {
     }) || null
 }
 
-function updateCategoryLinks(activeCategory: categoryData | null): void {
+function updateCategoryLinks(activeCategory: Category | null): void {
     categories.forEach(function (category) {
         const links = document.querySelectorAll<HTMLAnchorElement>(
             "a[href=\"#" + category.slug + "\"]"
@@ -1404,7 +1314,7 @@ function followRoute(shouldScroll: boolean = false): void {
     }
 }
 
-function changeCategory(category: categoryData): void {
+function changeCategory(category: Category): void {
     const url = new URL(location.href)
     url.searchParams.set("cat", category.slug)
     url.hash = ""
@@ -1477,12 +1387,12 @@ async function loadPage(): Promise<void> {
 
     try {
         const allRequests = Promise.all([
-            fetchJson<productInfo[]>("products.json"),
-            fetchJson<stockInfo>("stock.json"),
-            fetchJson<offerInfo[]>("offers.json"),
-            fetchJson<categoryData[]>("categories.json"),
-            fetchJson<shopInfo>("shop.json"),
-            fetchJson<homeInfo>("home.json")
+            fetchJson<Product[]>("products.json"),
+            fetchJson<Stock>("stock.json"),
+            fetchJson<Offer[]>("offers.json"),
+            fetchJson<Category[]>("categories.json"),
+            fetchJson<Shop>("shop.json"),
+            fetchJson<Home>("home.json")
         ])
 
         const slowConnection = new Promise<"slow">(function (resolve) {
