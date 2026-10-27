@@ -829,11 +829,20 @@ main:focus {
   }
 }
 
+/* ---------- Loading and error states (filled by app.js) ---------- */
+[hidden] { display: none !important; }
+.state { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .75rem; padding: 1rem 1.25rem; border: 1px solid var(--line); border-radius: 1rem; background: var(--surface); color: var(--text); }
+.state p { margin: 0; }
+.state.error { background: var(--b2); border-color: var(--sale); }
+.skeleton { pointer-events: none; }
+.skel { border-radius: .75rem; background: var(--line); animation: pulse 1.2s ease-in-out infinite; }
+.skel-thumb { aspect-ratio: 4 / 3; }
+.skel-line { height: 1rem; margin-top: .75rem; }
+.skel-line.short { width: 60%; }
+@keyframes pulse { 50% { opacity: .45; } }
+@media (prefers-reduced-motion: reduce) { .skel { animation: none; } }
+
 /* Give each card its own compositor layer up front, so hover/focus only
    composites (no repaint of the whole carousel). */
-.card {
-  will-change: transform;
-}
-.card::after {
-  will-change: opacity;
-}
+.card { will-change: transform; }
+.card::after { will-change: opacity; }

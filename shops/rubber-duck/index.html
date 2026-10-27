@@ -9,6 +9,7 @@
       content="سوپرمارکت اردک پلاستیکی؛ میوه، لبنیات، نان و مواد غذایی تازه با قیمت منصفانه.">
     <title>سوپرمارکت اردک پلاستیکی | تازه، نزدیک، به‌صرفه</title>
     <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
   </head>
   <body id="top">
     <a class="skip" href="#main">پرش به محتوای اصلی</a>
@@ -362,120 +363,19 @@
       <section class="block wrap" id="dairy" aria-labelledby="dairy-title">
         <div class="head">
           <h2 id="dairy-title"><span aria-hidden="true">🥛</span> لبنیات</h2>
-          <div class="pager">
+          <div class="pager" id="dairy-pager" hidden>
             <a href="#dairy-start" aria-label="رفتن به ابتدای لبنیات">→</a>
             <a href="#dairy-end" aria-label="رفتن به انتهای لبنیات">←</a>
           </div>
         </div>
-        <ul class="track" tabindex="0" aria-labelledby="dairy-title">
-          <li id="dairy-start">
-            <article class="card">
-              <div class="thumb" aria-hidden="true">🧀</div>
-              <h3>پنیر سفید</h3>
-              <p class="size">۴۰۰ گرم</p>
-              <div class="buy">
-                <span class="price"><strong>۸۵٬۰۰۰ تومان</strong></span
-                ><button
-                  class="add"
-                  type="button"
-                  aria-label="افزودن پنیر سفید به سبد"
-                >
-                  +
-                </button>
-              </div>
-            </article>
-          </li>
-          <li>
-            <article class="card">
-              <div class="thumb" aria-hidden="true">🧈</div>
-              <span class="badge">۲۰٪ تخفیف</span>
-              <h3>کره حیوانی</h3>
-              <p class="size">۱۰۰ گرم</p>
-              <div class="buy">
-                <span class="price"
-                  ><del><span class="sr-only">قیمت قبلی </span>۷۰٬۰۰۰</del
-                  ><strong>۵۶٬۰۰۰ تومان</strong></span
-                ><button
-                  class="add"
-                  type="button"
-                  aria-label="افزودن کره حیوانی به سبد"
-                >
-                  +
-                </button>
-              </div>
-            </article>
-          </li>
-          <li>
-            <article class="card">
-              <div class="thumb" aria-hidden="true">🥣</div>
-              <h3>ماست پرچرب</h3>
-              <p class="size">۹۰۰ گرم</p>
-              <div class="buy">
-                <span class="price"><strong>۶۲٬۰۰۰ تومان</strong></span
-                ><button
-                  class="add"
-                  type="button"
-                  aria-label="افزودن ماست پرچرب به سبد"
-                >
-                  +
-                </button>
-              </div>
-            </article>
-          </li>
-          <li>
-            <article class="card out">
-              <div class="thumb" aria-hidden="true">🍦</div>
-              <span class="badge badge-out">ناموجود</span>
-              <h3>بستنی وانیلی</h3>
-              <p class="size">۱ لیتر</p>
-              <div class="buy">
-                <span class="price"><strong>۱۱۰٬۰۰۰ تومان</strong></span
-                ><button
-                  class="add"
-                  type="button"
-                  disabled
-                  aria-label="بستنی وانیلی ناموجود است"
-                >
-                  +
-                </button>
-              </div>
-            </article>
-          </li>
-          <li>
-            <article class="card">
-              <div class="thumb" aria-hidden="true">🥚</div>
-              <h3>تخم‌مرغ</h3>
-              <p class="size">۱۲ عدد</p>
-              <div class="buy">
-                <span class="price"><strong>۹۵٬۰۰۰ تومان</strong></span
-                ><button
-                  class="add"
-                  type="button"
-                  aria-label="افزودن تخم‌مرغ به سبد"
-                >
-                  +
-                </button>
-              </div>
-            </article>
-          </li>
-          <li id="dairy-end">
-            <article class="card">
-              <div class="thumb" aria-hidden="true">🍶</div>
-              <h3>خامه صبحانه</h3>
-              <p class="size">۲۰۰ گرم</p>
-              <div class="buy">
-                <span class="price"><strong>۴۲٬۰۰۰ تومان</strong></span
-                ><button
-                  class="add"
-                  type="button"
-                  aria-label="افزودن خامه صبحانه به سبد"
-                >
-                  +
-                </button>
-              </div>
-            </article>
-          </li>
-        </ul>
+        <div class="state" id="dairy-status" role="status" hidden></div>
+        <ul
+          class="track"
+          id="dairy-track"
+          tabindex="0"
+          aria-labelledby="dairy-title"
+          aria-busy="true"
+        ></ul>
       </section>
     </main>
 
