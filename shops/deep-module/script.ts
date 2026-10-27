@@ -91,9 +91,9 @@ interface HeroCTA {
 }
 
 interface HeroSection {
-  readonly title?: string;
-  readonly text?: string;
-  readonly cta?: HeroCTA;
+  title?: string;
+  text?: string;
+  cta?: HeroCTA;
 }
 
 interface HomePromo {
