@@ -11,10 +11,26 @@ const notyf = new Notyf({
   ripple: false,
 });
 
-// ========== Types ==========
+const API_BASE = "../../api";
+const DEFAULT_TIMEOUT = 8000;
+const MAX_RETRIES = 3;
+const CACHE_PREFIX = "shop_cache_";
+const CACHE_TTL = 1000 * 60 * 30;
+const CART_KEY = "supermarket_cart";
+const STOCK_CONSUMED_KEY = "shop_stock_consumed";
+const THEME_KEY = "theme";
+const MAX_ITEMS = 100;
+const MAX_QUANTITY = 99;
+const THEME_BTN_SELECTOR = "#theme-btn";
+const ICON_SELECTOR = ".theme-btn__icon";
+const AUTO_ANIMATE_CONTAINERS: readonly string[] = [
+  "cart-body",
+  "all-track",
+  "search-suggestions",
+];
 
 export interface Product {
-  id: number;
+  readonly id: number;
   name: string;
   emoji?: string;
   unit?: string;
@@ -23,7 +39,7 @@ export interface Product {
 }
 
 export interface Category {
-  id: number;
+  readonly id: number;
   name: string;
   emoji?: string;
   color?: string;
@@ -34,8 +50,8 @@ export interface CartItem extends Product {
 }
 
 export interface Offer {
-  productId: number;
-  percent: number;
+  readonly productId: number;
+  readonly percent: number;
 }
 
 interface StockData {
@@ -43,18 +59,18 @@ interface StockData {
 }
 
 interface ShopMenu {
-  href: string;
-  label: string;
+  readonly href: string;
+  readonly label: string;
 }
 
 interface ShopHelp {
-  href: string;
-  label: string;
+  readonly href: string;
+  readonly label: string;
 }
 
 interface ShopSchedule {
-  days: string;
-  time: string;
+  readonly days: string;
+  readonly time: string;
 }
 
 interface Shop {
@@ -64,32 +80,32 @@ interface Shop {
   about?: string;
   phone?: string;
   copyright?: string;
-  menu?: ShopMenu[];
-  help?: ShopHelp[];
-  schedule?: ShopSchedule[];
+  menu?: readonly ShopMenu[];
+  help?: readonly ShopHelp[];
+  schedule?: readonly ShopSchedule[];
 }
 
 interface HeroCTA {
-  href: string;
-  label: string;
+  readonly href: string;
+  readonly label: string;
 }
 
 interface HeroSection {
-  title?: string;
-  text?: string;
-  cta?: HeroCTA;
+  readonly title?: string;
+  readonly text?: string;
+  readonly cta?: HeroCTA;
 }
 
 interface HomePromo {
-  href: string;
-  emoji?: string;
-  text?: string;
+  readonly href: string;
+  readonly emoji?: string;
+  readonly text?: string;
 }
 
 interface Home {
   hero?: HeroSection;
   side?: HeroSection;
-  promos?: HomePromo[];
+  promos?: readonly HomePromo[];
 }
 
 interface FilterState {
@@ -100,12 +116,12 @@ interface FilterState {
 }
 
 interface RenderData {
-  products: Product[];
-  categories: Category[];
-  shop: Shop;
-  home: Home;
-  offers: Offer[];
-  stock: StockData;
+  readonly products: readonly Product[];
+  readonly categories: readonly Category[];
+  readonly shop: Shop;
+  readonly home: Home;
+  readonly offers: readonly Offer[];
+  readonly stock: StockData;
 }
 
 export type ErrorType =
@@ -118,6 +134,20 @@ export type ErrorType =
   | "unknown";
 
 export type ApiErrorType = ErrorType;
+
+export type StockLevel = "out" | "low" | "ok" | "unknown";
+
+export type AddToCartReason =
+  | "out-of-stock"
+  | "limit-reached"
+  | "invalid-product";
+
+export interface AddToCartResult {
+  readonly cart: CartItem[];
+  readonly added: boolean;
+  readonly reason?: AddToCartReason;
+  readonly max?: number;
+}
 
 const filterState: FilterState = {
   categoryId: "all",
@@ -134,6 +164,8 @@ let lastLoadError: ApiError | null = null;
 let isLoading = false;
 let searchQuery = "";
 let activeSuggestionIndex = -1;
+let fuseInstance: Fuse<Product> | null = null;
+let offlineBannerEl: HTMLDivElement | null = null;
 
 export function escapeHTML(str: string | null | undefined): string {
   if (str == null) return "";
@@ -170,53 +202,129 @@ export function safeHref(url: string | null | undefined): string {
   return "#";
 }
 
+const isRecord = (data: unknown): data is Record<string, unknown> =>
+  data !== null && typeof data === "object" && !Array.isArray(data);
+
+const isArrayOfObjects = (data: unknown): data is unknown[] =>
+  Array.isArray(data) && data.every(isRecord);
+
 export function isValidProduct(p: unknown): p is Product {
-  if (!p || typeof p !== "object") return false;
-  const o = p as Record<string, unknown>;
+  if (!isRecord(p)) return false;
   return (
-    typeof o.id === "number" &&
-    Number.isInteger(o.id) &&
-    o.id > 0 &&
-    typeof o.name === "string" &&
-    o.name.length > 0 &&
-    typeof o.price === "number" &&
-    Number.isFinite(o.price) &&
-    o.price >= 0
+    typeof p.id === "number" &&
+    Number.isInteger(p.id) &&
+    p.id > 0 &&
+    typeof p.name === "string" &&
+    p.name.length > 0 &&
+    typeof p.price === "number" &&
+    Number.isFinite(p.price) &&
+    p.price >= 0
   );
 }
 
 export function isValidCategory(c: unknown): c is Category {
-  if (!c || typeof c !== "object") return false;
-  const o = c as Record<string, unknown>;
+  if (!isRecord(c)) return false;
   return (
-    typeof o.id === "number" &&
-    Number.isInteger(o.id) &&
-    o.id > 0 &&
-    typeof o.name === "string" &&
-    o.name.length > 0
+    typeof c.id === "number" &&
+    Number.isInteger(c.id) &&
+    c.id > 0 &&
+    typeof c.name === "string" &&
+    c.name.length > 0
   );
 }
 
 function isValidOffer(o: unknown): o is Offer {
-  if (!o || typeof o !== "object") return false;
-  const r = o as Record<string, unknown>;
+  if (!isRecord(o)) return false;
   return (
-    typeof r.productId === "number" &&
-    Number.isInteger(r.productId) &&
-    r.productId > 0 &&
-    typeof r.percent === "number" &&
-    Number.isFinite(r.percent) &&
-    r.percent > 0 &&
-    r.percent < 100
+    typeof o.productId === "number" &&
+    Number.isInteger(o.productId) &&
+    o.productId > 0 &&
+    typeof o.percent === "number" &&
+    Number.isFinite(o.percent) &&
+    o.percent > 0 &&
+    o.percent < 100
   );
 }
 
-const isArrayOfObjects = (data: unknown): data is unknown[] =>
-  Array.isArray(data) &&
-  data.every((item): boolean => item !== null && typeof item === "object");
+function isShopMenu(x: unknown): x is ShopMenu {
+  return (
+    isRecord(x) && typeof x.href === "string" && typeof x.label === "string"
+  );
+}
 
-const isRecord = (data: unknown): data is Record<string, unknown> =>
-  data !== null && typeof data === "object" && !Array.isArray(data);
+function isShopHelp(x: unknown): x is ShopHelp {
+  return (
+    isRecord(x) && typeof x.href === "string" && typeof x.label === "string"
+  );
+}
+
+function isShopSchedule(x: unknown): x is ShopSchedule {
+  return (
+    isRecord(x) && typeof x.days === "string" && typeof x.time === "string"
+  );
+}
+
+function isHomePromo(x: unknown): x is HomePromo {
+  if (!isRecord(x)) return false;
+  if (typeof x.href !== "string") return false;
+  if (x.emoji !== undefined && typeof x.emoji !== "string") return false;
+  if (x.text !== undefined && typeof x.text !== "string") return false;
+  return true;
+}
+
+function parseShop(raw: Record<string, unknown>): Shop {
+  const out: Shop = {};
+  if (typeof raw.name === "string") out.name = raw.name;
+  if (typeof raw.slogan === "string") out.slogan = raw.slogan;
+  if (typeof raw.notice === "string") out.notice = raw.notice;
+  if (typeof raw.about === "string") out.about = raw.about;
+  if (typeof raw.phone === "string") out.phone = raw.phone;
+  if (typeof raw.copyright === "string") out.copyright = raw.copyright;
+  if (Array.isArray(raw.menu)) out.menu = raw.menu.filter(isShopMenu);
+  if (Array.isArray(raw.help)) out.help = raw.help.filter(isShopHelp);
+  if (Array.isArray(raw.schedule))
+    out.schedule = raw.schedule.filter(isShopSchedule);
+  return out;
+}
+
+function parseHeroSection(x: unknown): HeroSection | undefined {
+  if (!isRecord(x)) return undefined;
+  const out: HeroSection = {};
+  if (typeof x.title === "string") out.title = x.title;
+  if (typeof x.text === "string") out.text = x.text;
+  if (
+    isRecord(x.cta) &&
+    typeof x.cta.href === "string" &&
+    typeof x.cta.label === "string"
+  ) {
+    out.cta = { href: x.cta.href, label: x.cta.label };
+  }
+  return out;
+}
+
+function parseHome(raw: Record<string, unknown>): Home {
+  const out: Home = {};
+  const hero = parseHeroSection(raw.hero);
+  if (hero !== undefined) out.hero = hero;
+  const side = parseHeroSection(raw.side);
+  if (side !== undefined) out.side = side;
+  if (Array.isArray(raw.promos)) out.promos = raw.promos.filter(isHomePromo);
+  return out;
+}
+
+function parseStock(raw: Record<string, unknown>): StockData {
+  const items: Record<number, number> = {};
+  if (isRecord(raw.items)) {
+    for (const [k, v] of Object.entries(raw.items)) {
+      const id = Number(k);
+      const qty = Number(v);
+      if (Number.isInteger(id) && id > 0 && Number.isFinite(qty)) {
+        items[id] = Math.max(0, qty);
+      }
+    }
+  }
+  return { items };
+}
 
 function h<K extends keyof HTMLElementTagNameMap>(
   tag: K,
@@ -224,19 +332,17 @@ function h<K extends keyof HTMLElementTagNameMap>(
   text?: string | number | null,
 ): HTMLElementTagNameMap[K] {
   const el = document.createElement(tag);
-  if (className) el.className = className;
+  if (className !== undefined) el.className = className;
   if (text !== undefined && text !== null) el.textContent = String(text);
   return el;
 }
-
-// ========== Price helpers ==========
 
 function findOffer(productId: number): Offer | null {
   return allOffersData.find((o) => o.productId === productId) ?? null;
 }
 
 function calcDiscountPrice(price: number, offer: Offer | null): number {
-  if (!offer || !Number.isFinite(offer.percent)) return price;
+  if (offer === null || !Number.isFinite(offer.percent)) return price;
   const pct = Math.min(Math.max(Number(offer.percent), 0), 99);
   return Math.round(price * (1 - pct / 100));
 }
@@ -245,27 +351,19 @@ function getFinalPrice(product: Product): number {
   return calcDiscountPrice(product.price, findOffer(product.id));
 }
 
-// ========== Cart ==========
-
-const CART_KEY = "supermarket_cart";
-const MAX_ITEMS = 100;
-const MAX_QUANTITY = 99;
-
 function validateCartItem(item: unknown): CartItem | null {
-  if (!item || typeof item !== "object") return null;
-  const raw = item as Record<string, unknown>;
-  const id = safeInt(raw.id, 0);
+  if (!isRecord(item)) return null;
+  const id = safeInt(item.id, 0);
   if (id <= 0) return null;
-  const name = typeof raw.name === "string" ? raw.name.slice(0, 100) : "";
-  if (!name) return null;
-  const price = safeInt(raw.price, 0);
-  if (price < 0) return null;
-  const quantity = safeInt(raw.quantity, 1, MAX_QUANTITY);
+  const name = typeof item.name === "string" ? item.name.slice(0, 100) : "";
+  if (name.length === 0) return null;
+  const price = safeInt(item.price, 0);
+  const quantity = safeInt(item.quantity, 1, MAX_QUANTITY);
   return {
     id,
     name,
-    emoji: typeof raw.emoji === "string" ? raw.emoji.slice(0, 8) : "📦",
-    unit: typeof raw.unit === "string" ? raw.unit.slice(0, 50) : "",
+    emoji: typeof item.emoji === "string" ? item.emoji.slice(0, 8) : "📦",
+    unit: typeof item.unit === "string" ? item.unit.slice(0, 50) : "",
     price,
     quantity,
   };
@@ -274,7 +372,7 @@ function validateCartItem(item: unknown): CartItem | null {
 export function getCart(): CartItem[] {
   try {
     const raw = localStorage.getItem(CART_KEY);
-    if (!raw) return [];
+    if (raw === null) return [];
     const parsed: unknown = JSON.parse(raw);
     if (!Array.isArray(parsed)) return [];
     return parsed
@@ -315,7 +413,7 @@ export function decreaseQuantity(id: number): void {
   if (safeId <= 0) return;
   const cart = getCart();
   const item = cart.find((i) => i.id === safeId);
-  if (!item) return;
+  if (item === undefined) return;
   if (item.quantity > 1) {
     item.quantity -= 1;
     saveCart(cart);
@@ -339,13 +437,12 @@ export function clearCart(): void {
   saveCart([]);
 }
 
-// Refresh cart prices to reflect current offers (called after data load)
 function refreshCartPrices(): void {
   const cart = getCart();
   let changed = false;
   for (const item of cart) {
     const product = allProductsData.find((p) => p.id === item.id);
-    if (!product) continue;
+    if (product === undefined) continue;
     const fresh = getFinalPrice(product);
     if (item.price !== fresh) {
       item.price = fresh;
@@ -364,7 +461,7 @@ function refreshCartPrices(): void {
 function updateCartUI(): void {
   const count = getCartCount();
   const badge = document.getElementById("cart-count");
-  if (badge) {
+  if (badge !== null) {
     badge.textContent = count.toLocaleString("fa-IR");
     badge.style.display = count > 0 ? "grid" : "none";
   }
@@ -374,7 +471,7 @@ function updateCartUI(): void {
 function renderCartModal(): void {
   const body = document.getElementById("cart-body");
   const footer = document.getElementById("cart-footer");
-  if (!body || !footer) return;
+  if (body === null || footer === null) return;
 
   const cart = getCart();
   body.replaceChildren();
@@ -393,7 +490,8 @@ function renderCartModal(): void {
     return;
   }
 
-  cart.forEach((item) => {
+  const itemFragment = document.createDocumentFragment();
+  for (const item of cart) {
     const el = h("div", "cart-item");
     el.dataset.id = String(item.id);
 
@@ -416,7 +514,6 @@ function renderCartModal(): void {
     }
 
     const controls = h("div", "cart-item__controls");
-
     const minusBtn = h("button", "cart-item__btn", "−");
     minusBtn.type = "button";
     minusBtn.dataset.action = "decrease";
@@ -457,8 +554,9 @@ function renderCartModal(): void {
     removeBtn.setAttribute("aria-label", "حذف");
 
     el.append(media, info, controls, price, removeBtn);
-    body.appendChild(el);
-  });
+    itemFragment.appendChild(el);
+  }
+  body.appendChild(itemFragment);
 
   const totalBox = h("div", "cart-total");
   totalBox.append(
@@ -468,64 +566,64 @@ function renderCartModal(): void {
 
   const checkoutBtn = h("button", "btn btn--primary", "تسویه حساب");
   checkoutBtn.type = "button";
-
   checkoutBtn.addEventListener("click", () => {
-    const items = getCart();
-    if (items.length === 0) return;
-
-    for (const item of items) {
-      const avail = getAvailableStock(item.id);
-      if (avail !== Number.POSITIVE_INFINITY && item.quantity > avail) {
-        notyf.error(
-          `موجودی ${item.name} کافی نیست — فقط ${avail.toLocaleString(
-            "fa-IR",
-          )} عدد موجود است`,
-        );
-        return;
-      }
-    }
-
-    const consumed = loadConsumedStock();
-    for (const item of items) {
-      if (Number.isFinite(allStockItems[item.id])) {
-        allStockItems[item.id] = Math.max(
-          0,
-          allStockItems[item.id] - item.quantity,
-        );
-      }
-      consumed[item.id] = (consumed[item.id] || 0) + item.quantity;
-    }
-    saveConsumedStock(consumed);
-
-    confetti({
-      particleCount: 150,
-      spread: 80,
-      origin: { y: 0.6 },
-      colors: ["#d7ff00", "#b8dc00", "#111318", "#4da3ff"],
-    });
-    notyf.success("سفارش شما با موفقیت ثبت شد! 🎉");
-    clearCart();
-    closeModal("cart-modal");
-    refreshStockUI();
+    handleCheckout();
   });
 
   footer.append(totalBox, checkoutBtn);
 }
 
-// ========== Modal ==========
+function handleCheckout(): void {
+  const items = getCart();
+  if (items.length === 0) return;
+
+  for (const item of items) {
+    const avail = getAvailableStock(item.id);
+    if (avail !== Number.POSITIVE_INFINITY && item.quantity > avail) {
+      notyf.error(
+        `موجودی ${item.name} کافی نیست — فقط ${avail.toLocaleString("fa-IR")} عدد موجود است`,
+      );
+      return;
+    }
+  }
+
+  const consumed = loadConsumedStock();
+  for (const item of items) {
+    if (Number.isFinite(allStockItems[item.id])) {
+      allStockItems[item.id] = Math.max(
+        0,
+        allStockItems[item.id] - item.quantity,
+      );
+    }
+    consumed[item.id] = (consumed[item.id] ?? 0) + item.quantity;
+  }
+  saveConsumedStock(consumed);
+
+  confetti({
+    particleCount: 150,
+    spread: 80,
+    origin: { y: 0.6 },
+    colors: ["#d7ff00", "#b8dc00", "#111318", "#4da3ff"],
+  });
+  notyf.success("سفارش شما با موفقیت ثبت شد! 🎉");
+  clearCart();
+  closeModal("cart-modal");
+  refreshStockUI();
+}
 
 export function openModal(id: string): void {
   const modal = document.getElementById(id);
-  if (!modal) return;
+  if (modal === null) return;
   modal.classList.add("modal--open");
   document.body.style.overflow = "hidden";
 }
 
 export function closeModal(id: string): void {
   const modal = document.getElementById(id);
-  if (!modal) return;
+  if (modal === null) return;
   modal.classList.remove("modal--open");
-  if (!document.querySelector(".modal--open")) {
+  const anyOpen = document.querySelector(".modal--open");
+  if (anyOpen === null) {
     document.body.style.overflow = "";
   }
 }
@@ -534,7 +632,7 @@ document.addEventListener("click", (e: MouseEvent) => {
   if (!(e.target instanceof Element)) return;
 
   const cartBtn = e.target.closest<HTMLElement>("#cart-btn");
-  if (cartBtn) {
+  if (cartBtn !== null) {
     e.preventDefault();
     e.stopPropagation();
     openModal("cart-modal");
@@ -542,30 +640,33 @@ document.addEventListener("click", (e: MouseEvent) => {
   }
 
   const closeEl = e.target.closest<HTMLElement>("[data-close]");
-  if (closeEl) {
+  if (closeEl !== null) {
     e.preventDefault();
     e.stopPropagation();
     const closeId = closeEl.dataset.close;
-    if (closeId) closeModal(closeId);
+    if (closeId !== undefined) closeModal(closeId);
     return;
   }
 
   if (e.target.classList.contains("modal__overlay")) {
     const modal = e.target.closest<HTMLElement>(".modal");
-    if (modal) closeModal(modal.id);
+    if (modal !== null) closeModal(modal.id);
     return;
   }
 
   const actionBtn = e.target.closest<HTMLElement>("[data-action]");
-  if (actionBtn) {
+  if (actionBtn !== null) {
     const action = actionBtn.dataset.action;
     const id = safeInt(actionBtn.dataset.id, 0);
     if (id <= 0) return;
     if (action === "increase") {
       const item = getCart().find((i) => i.id === id);
-      if (item) addToCart(item);
-    } else if (action === "decrease") decreaseQuantity(id);
-    else if (action === "remove") removeFromCart(id);
+      if (item !== undefined) addToCart(item);
+    } else if (action === "decrease") {
+      decreaseQuantity(id);
+    } else if (action === "remove") {
+      removeFromCart(id);
+    }
   }
 });
 
@@ -576,27 +677,26 @@ document.addEventListener("keydown", (e: KeyboardEvent) => {
   });
 });
 
-
 interface DetailProduct {
-  id: number;
-  name: string;
-  emoji?: string;
-  unit?: string;
-  price: number;
+  readonly id: number;
+  readonly name: string;
+  readonly emoji?: string;
+  readonly unit?: string;
+  readonly price: number;
 }
 
 export function openProductDetail(product: DetailProduct): void {
   const modal = document.getElementById("product-modal");
-  if (!modal) return;
+  if (modal === null) return;
   const body = modal.querySelector<HTMLDivElement>(".modal__body");
-  if (!body) return;
+  if (body === null) return;
 
   const stockLabel = getStockLabel(product.id);
   const isOut = stockLabel.type === "out";
 
   const container = h("div", "product-detail");
   const media = h("div", "product-detail__media");
-  media.appendChild(h("span", "product-detail__emoji", product.emoji || "📦"));
+  media.appendChild(h("span", "product-detail__emoji", product.emoji ?? "📦"));
 
   const info = h("div", "product-detail__info");
 
@@ -642,7 +742,7 @@ export function openProductDetail(product: DetailProduct): void {
 
   info.append(
     h("h2", "product-detail__title", product.name),
-    h("p", "product-detail__unit", product.unit || ""),
+    h("p", "product-detail__unit", product.unit ?? ""),
     stockBadge,
     h(
       "p",
@@ -658,10 +758,11 @@ export function openProductDetail(product: DetailProduct): void {
 
   addBtn.addEventListener("click", () => {
     const result = addToCartDetailed(product);
+    const freshLabel = getStockLabel(product.id);
+    stockBadge.className = `product-detail__stock product-detail__stock--${freshLabel.type}`;
+    stockText.textContent = freshLabel.text;
+
     if (!result.added) {
-      const freshLabel = getStockLabel(product.id);
-      stockBadge.className = `product-detail__stock product-detail__stock--${freshLabel.type}`;
-      stockText.textContent = freshLabel.text;
       if (freshLabel.type === "out") {
         addBtn.disabled = true;
         addBtn.textContent = "🚫 ناموجود";
@@ -670,11 +771,6 @@ export function openProductDetail(product: DetailProduct): void {
     }
 
     notyf.success(`${product.name} به سبد اضافه شد`);
-
-    const freshLabel = getStockLabel(product.id);
-    stockBadge.className = `product-detail__stock product-detail__stock--${freshLabel.type}`;
-    stockText.textContent = freshLabel.text;
-
     addBtn.textContent = "✓ اضافه شد";
     addBtn.classList.add("btn--success");
     setTimeout(() => {
@@ -695,11 +791,6 @@ export function openProductDetail(product: DetailProduct): void {
   openModal("product-modal");
 }
 
-// ========== Theme ==========
-
-const THEME_BTN_SELECTOR = "#theme-btn";
-const ICON_SELECTOR = ".theme-btn__icon";
-
 const SVG_SUN = `<svg class="svg_theme" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>`;
 
 const SVG_MOON = `<svg class="svg_theme" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>`;
@@ -712,7 +803,8 @@ function createSvgElement(svgString: string): Element {
 
 function getTheme(): string {
   try {
-    return localStorage.getItem("theme") || "auto";
+    const stored = localStorage.getItem(THEME_KEY);
+    return stored ?? "auto";
   } catch {
     return "auto";
   }
@@ -739,12 +831,12 @@ function setTheme(theme: string): void {
     }
   }
 
-  if (icon && svgString) {
+  if (icon !== null && svgString !== null) {
     icon.replaceChildren(createSvgElement(svgString));
   }
 
   try {
-    localStorage.setItem("theme", theme);
+    localStorage.setItem(THEME_KEY, theme);
   } catch {
     /* ignore */
   }
@@ -759,29 +851,21 @@ window
 document.addEventListener("click", (e: MouseEvent) => {
   if (!(e.target instanceof Element)) return;
   const btn = e.target.closest(THEME_BTN_SELECTOR);
-  if (!btn) return;
+  if (btn === null) return;
   const isDark = document.documentElement.classList.contains("dark-theme");
   setTheme(isDark ? "light" : "dark");
 });
 
-// ========== API ==========
-
-const API_BASE = "../../api";
-const DEFAULT_TIMEOUT = 8000;
-const MAX_RETRIES = 3;
-const CACHE_PREFIX = "shop_cache_";
-const CACHE_TTL = 1000 * 60 * 30;
-
 interface ApiErrorOptions {
-  type?: ApiErrorType;
-  status?: number | null;
-  url?: string | null;
+  readonly type?: ApiErrorType;
+  readonly status?: number | null;
+  readonly url?: string | null;
 }
 
 export class ApiError extends Error {
-  type: ApiErrorType;
-  status: number | null;
-  url: string | null;
+  readonly type: ApiErrorType;
+  readonly status: number | null;
+  readonly url: string | null;
 
   constructor(
     message: string,
@@ -809,6 +893,8 @@ export class ApiError extends Error {
         return `خطای سرور (${this.status})`;
       case "parse":
         return "پاسخ سرور نامعتبر بود";
+      case "abort":
+        return "درخواست لغو شد";
       default:
         return "خطای نامشخصی رخ داد";
     }
@@ -816,8 +902,8 @@ export class ApiError extends Error {
 }
 
 interface FetchOptions {
-  timeout?: number;
-  signal?: AbortSignal;
+  readonly timeout?: number;
+  readonly signal?: AbortSignal;
 }
 
 async function fetchWithTimeout(
@@ -830,7 +916,7 @@ async function fetchWithTimeout(
   const onAbort = (): void => {
     controller.abort("external");
   };
-  if (signal) {
+  if (signal !== undefined) {
     if (signal.aborted) controller.abort("external");
     else signal.addEventListener("abort", onAbort, { once: true });
   }
@@ -839,16 +925,18 @@ async function fetchWithTimeout(
     return await fetch(url, { signal: controller.signal });
   } catch (err: unknown) {
     if (err instanceof Error && err.name === "AbortError") {
-      if (controller.signal.reason === "timeout")
+      if (controller.signal.reason === "timeout") {
         throw new ApiError("درخواست منقضی شد", { type: "timeout", url });
+      }
       throw new ApiError("درخواست لغو شد", { type: "abort", url });
     }
-    if (!navigator.onLine)
+    if (!navigator.onLine) {
       throw new ApiError("دستگاه آفلاین است", { type: "offline", url });
+    }
     throw new ApiError("خطای شبکه", { type: "network", url });
   } finally {
     clearTimeout(timer);
-    if (signal) signal.removeEventListener("abort", onAbort);
+    if (signal !== undefined) signal.removeEventListener("abort", onAbort);
   }
 }
 
@@ -860,20 +948,19 @@ function cacheKey(url: string): string {
 }
 
 interface CacheEntry<T> {
-  data: T;
-  time: number;
+  readonly data: T;
+  readonly time: number;
 }
 
 function isCacheEntry<T>(
   value: unknown,
   validateData: (data: unknown) => data is T,
 ): value is CacheEntry<T> {
-  if (!value || typeof value !== "object") return false;
-  const o = value as Record<string, unknown>;
+  if (!isRecord(value)) return false;
   return (
-    typeof o.time === "number" &&
-    Number.isFinite(o.time) &&
-    validateData(o.data)
+    typeof value.time === "number" &&
+    Number.isFinite(value.time) &&
+    validateData(value.data)
   );
 }
 
@@ -883,7 +970,7 @@ function readCache<T>(
 ): T | null {
   try {
     const raw = localStorage.getItem(cacheKey(url));
-    if (!raw) return null;
+    if (raw === null) return null;
     const parsed: unknown = JSON.parse(raw);
     if (!isCacheEntry(parsed, validate)) {
       localStorage.removeItem(cacheKey(url));
@@ -917,36 +1004,36 @@ export function clearCache(): void {
 }
 
 interface RetryInfo {
-  attempt: number;
-  waitMs: number;
-  error: ApiError;
+  readonly attempt: number;
+  readonly waitMs: number;
+  readonly error: ApiError;
 }
 
 interface GetJSONOptions<T> {
-  timeout?: number;
-  retries?: number;
-  signal?: AbortSignal;
-  useCache?: boolean;
-  onRetry?: ((info: RetryInfo) => void) | null;
-  validate?: (data: unknown) => data is T;
+  readonly validate: (data: unknown) => data is T;
+  readonly timeout?: number;
+  readonly retries?: number;
+  readonly signal?: AbortSignal;
+  readonly useCache?: boolean;
+  readonly onRetry?: ((info: RetryInfo) => void) | null;
 }
 
-export async function getJSON<T = unknown>(
+export async function getJSON<T>(
   path: string,
-  options: GetJSONOptions<T> = {},
+  options: GetJSONOptions<T>,
 ): Promise<T> {
   const url = `${API_BASE}/${path}`;
   const {
+    validate,
     timeout = DEFAULT_TIMEOUT,
     retries = MAX_RETRIES,
     signal,
     useCache = true,
     onRetry = null,
-    validate,
   } = options;
 
   const tryCache = (): T | null => {
-    if (!useCache || !validate) return null;
+    if (!useCache) return null;
     return readCache<T>(url, validate);
   };
 
@@ -961,27 +1048,22 @@ export async function getJSON<T = unknown>(
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
       const res = await fetchWithTimeout(url, { timeout, signal });
-      if (!res.ok)
+      if (!res.ok) {
         throw new ApiError(`HTTP ${res.status}`, {
           type: "http",
           status: res.status,
           url,
         });
-      let parsed: unknown;
-      try {
-        parsed = await res.json();
-      } catch {
-        throw new ApiError("پاسخ سرور نامعتبر بود", { type: "parse", url });
       }
-      if (validate && !validate(parsed)) {
+      const parsed: unknown = await res.json();
+      if (!validate(parsed)) {
         throw new ApiError("پاسخ سرور ساختار معتبر ندارد", {
           type: "parse",
           url,
         });
       }
-      const data = parsed as T;
-      if (useCache) writeCache(url, data);
-      return data;
+      if (useCache) writeCache(url, parsed);
+      return parsed;
     } catch (err: unknown) {
       lastError =
         err instanceof ApiError ? err : new ApiError("خطای نامشخص", { url });
@@ -991,50 +1073,63 @@ export async function getJSON<T = unknown>(
         (lastError.type === "http" &&
           lastError.status !== null &&
           lastError.status >= 500);
-      if (!shouldRetry || attempt === retries || signal?.aborted) break;
+      if (!shouldRetry || attempt === retries || signal?.aborted === true)
+        break;
       const waitMs = Math.min(500 * Math.pow(2, attempt), 3000);
-      if (onRetry) onRetry({ attempt: attempt + 1, waitMs, error: lastError });
+      if (onRetry !== null) {
+        onRetry({ attempt: attempt + 1, waitMs, error: lastError });
+      }
       await delay(waitMs);
     }
   }
 
   const cached = tryCache();
   if (cached !== null) return cached;
-  if (!lastError) throw new ApiError("خطای نامشخص", { url });
+  if (lastError === null) throw new ApiError("خطای نامشخص", { url });
   throw lastError;
 }
 
+type ProductsResponse = unknown[];
+type CategoriesResponse = unknown[];
+type OffersResponse = unknown[];
+type ShopResponse = Record<string, unknown>;
+type HomeResponse = Record<string, unknown>;
+type StockResponse = Record<string, unknown>;
+
+type ProductsOptions = Omit<GetJSONOptions<ProductsResponse>, "validate">;
+type CategoriesOptions = Omit<GetJSONOptions<CategoriesResponse>, "validate">;
+type OffersOptions = Omit<GetJSONOptions<OffersResponse>, "validate">;
+type ShopOptions = Omit<GetJSONOptions<ShopResponse>, "validate">;
+type HomeOptions = Omit<GetJSONOptions<HomeResponse>, "validate">;
+type StockOptions = Omit<GetJSONOptions<StockResponse>, "validate">;
+
 export const api = {
-  products: (o?: GetJSONOptions<unknown[]>): Promise<unknown[]> =>
-    getJSON<unknown[]>("products.json", { ...o, validate: isArrayOfObjects }),
-  categories: (o?: GetJSONOptions<unknown[]>): Promise<unknown[]> =>
-    getJSON<unknown[]>("categories.json", { ...o, validate: isArrayOfObjects }),
-  shop: (
-    o?: GetJSONOptions<Record<string, unknown>>,
-  ): Promise<Record<string, unknown>> =>
-    getJSON<Record<string, unknown>>("shop.json", { ...o, validate: isRecord }),
-  home: (
-    o?: GetJSONOptions<Record<string, unknown>>,
-  ): Promise<Record<string, unknown>> =>
-    getJSON<Record<string, unknown>>("home.json", {
+  products: (o?: ProductsOptions): Promise<ProductsResponse> =>
+    getJSON<ProductsResponse>("products.json", {
       ...o,
-      validate: isRecord,
+      validate: isArrayOfObjects,
     }),
-  offers: (o?: GetJSONOptions<unknown[]>): Promise<unknown[]> =>
-    getJSON<unknown[]>("offers.json", { ...o, validate: isArrayOfObjects }),
-  stock: (
-    o?: GetJSONOptions<Record<string, unknown>>,
-  ): Promise<Record<string, unknown>> =>
-    getJSON<Record<string, unknown>>("stock.json", {
+  categories: (o?: CategoriesOptions): Promise<CategoriesResponse> =>
+    getJSON<CategoriesResponse>("categories.json", {
       ...o,
-      validate: isRecord,
+      validate: isArrayOfObjects,
     }),
+  shop: (o?: ShopOptions): Promise<ShopResponse> =>
+    getJSON<ShopResponse>("shop.json", { ...o, validate: isRecord }),
+  home: (o?: HomeOptions): Promise<HomeResponse> =>
+    getJSON<HomeResponse>("home.json", { ...o, validate: isRecord }),
+  offers: (o?: OffersOptions): Promise<OffersResponse> =>
+    getJSON<OffersResponse>("offers.json", {
+      ...o,
+      validate: isArrayOfObjects,
+    }),
+  stock: (o?: StockOptions): Promise<StockResponse> =>
+    getJSON<StockResponse>("stock.json", { ...o, validate: isRecord }),
 };
 
-
 interface ConnectivityHandlers {
-  onOnline?: () => void;
-  onOffline?: () => void;
+  readonly onOnline?: () => void;
+  readonly onOffline?: () => void;
 }
 
 export function watchConnectivity({
@@ -1051,14 +1146,10 @@ export function watchConnectivity({
   };
 }
 
-
-
-const STOCK_CONSUMED_KEY = "shop_stock_consumed";
-
 function loadConsumedStock(): Record<number, number> {
   try {
     const raw = localStorage.getItem(STOCK_CONSUMED_KEY);
-    if (!raw) return {};
+    if (raw === null) return {};
     const parsed: unknown = JSON.parse(raw);
     if (!isRecord(parsed)) return {};
     const result: Record<number, number> = {};
@@ -1085,13 +1176,14 @@ function saveConsumedStock(data: Record<number, number>): void {
 
 function getAvailableStock(productId: number): number {
   const stock = allStockItems[productId];
+  if (stock === undefined) return Number.POSITIVE_INFINITY;
   return Number.isFinite(stock) ? Math.max(0, stock) : Number.POSITIVE_INFINITY;
 }
 
 function getStockLabel(productId: number): {
-  text: string;
-  type: "out" | "low" | "ok" | "unknown";
-  count: number;
+  readonly text: string;
+  readonly type: StockLevel;
+  readonly count: number;
 } {
   const stock = getAvailableStock(productId);
   if (stock === Number.POSITIVE_INFINITY) {
@@ -1118,35 +1210,29 @@ export function addToCart(product: Product): CartItem[] {
   return addToCartDetailed(product).cart;
 }
 
-export function addToCartDetailed(product: Product): {
-  cart: CartItem[];
-  added: boolean;
-  reason?: "out-of-stock" | "limit-reached";
-  max?: number;
-} {
+export function addToCartDetailed(product: Product): AddToCartResult {
   if (!isValidProduct(product)) {
-    return { cart: getCart(), added: false, reason: "out-of-stock" };
+    return { cart: getCart(), added: false, reason: "invalid-product" };
   }
 
   const cart = getCart();
   const existing = cart.find((item) => item.id === product.id);
-  const currentQty = existing ? existing.quantity : 0;
+  const currentQty = existing?.quantity ?? 0;
   const available = getAvailableStock(product.id);
   const finalPrice = getFinalPrice(product);
 
   if (available !== Number.POSITIVE_INFINITY && currentQty >= available) {
-    const reason = available === 0 ? "out-of-stock" : "limit-reached";
+    const reason: AddToCartReason =
+      available === 0 ? "out-of-stock" : "limit-reached";
     notyf.error(
       available === 0
         ? `${product.name} موجود نیست`
-        : `موجودی ${product.name} کافی نیست — فقط ${available.toLocaleString(
-            "fa-IR",
-          )} عدد در انبار`,
+        : `موجودی ${product.name} کافی نیست — فقط ${available.toLocaleString("fa-IR")} عدد در انبار`,
     );
     return { cart, added: false, reason, max: available };
   }
 
-  if (existing) {
+  if (existing !== undefined) {
     if (existing.quantity >= MAX_QUANTITY) {
       return { cart, added: false, reason: "limit-reached" };
     }
@@ -1159,9 +1245,9 @@ export function addToCartDetailed(product: Product): {
     cart.push({
       id: product.id,
       name: String(product.name).slice(0, 100),
-      emoji: String(product.emoji || "📦").slice(0, 8),
+      emoji: String(product.emoji ?? "📦").slice(0, 8),
       price: safeInt(finalPrice, 0),
-      unit: String(product.unit || "").slice(0, 50),
+      unit: String(product.unit ?? "").slice(0, 50),
       quantity: 1,
     });
   }
@@ -1169,10 +1255,6 @@ export function addToCartDetailed(product: Product): {
   saveCart(cart);
   return { cart, added: true };
 }
-
-// ========== Fuse ==========
-
-let fuseInstance: Fuse<Product> | null = null;
 
 function initFuse(): void {
   fuseInstance = new Fuse(allProductsData, {
@@ -1183,8 +1265,6 @@ function initFuse(): void {
     ignoreLocation: true,
   });
 }
-
-// ========== Product Card ==========
 
 function createArrowSvg(): SVGElement {
   const NS = "http://www.w3.org/2000/svg";
@@ -1218,20 +1298,20 @@ function createProductCard(
 
   if (isOut) {
     li.appendChild(h("span", "badge badge--danger", "ناموجود"));
-  } else if (offer && Number.isFinite(offer.percent)) {
+  } else if (offer !== null) {
     const pct = Math.min(Math.max(Number(offer.percent), 0), 99);
     li.appendChild(h("span", "badge", `${pct}٪`));
   }
 
   const media = h("div", "product-card__media");
-  const emoji = h("span", "product-card__emoji", product.emoji || "📦");
+  const emoji = h("span", "product-card__emoji", product.emoji ?? "📦");
   emoji.setAttribute("aria-hidden", "true");
   media.appendChild(emoji);
 
   const footer = h("div", "product-card__footer");
   const priceDiv = h("div", "product-card__price");
 
-  if (offer && !isOut && Number.isFinite(offer.percent)) {
+  if (offer !== null && !isOut) {
     const finalPrice = calcDiscountPrice(product.price, offer);
     priceDiv.append(
       h("del", undefined, formatPrice(product.price)),
@@ -1262,7 +1342,7 @@ function createProductCard(
   li.append(
     media,
     h("h3", "product-card__title", product.name),
-    h("p", "product-card__meta", product.unit || ""),
+    h("p", "product-card__meta", product.unit ?? ""),
     stockEl,
     footer,
   );
@@ -1271,23 +1351,21 @@ function createProductCard(
 
 function attachProductEvents(
   container: HTMLElement | null,
-  products: Product[],
+  products: readonly Product[],
 ): void {
-  if (!container) return;
+  if (container === null) return;
   container.querySelectorAll<HTMLElement>(".product-card").forEach((card) => {
     const id = Number(card.dataset.id);
-    if (!id) return;
+    if (!Number.isInteger(id) || id <= 0) return;
     const product = products.find((p) => p.id === id);
-    if (!product) return;
+    if (product === undefined) return;
 
     const addBtn = card.querySelector<HTMLButtonElement>(".btn-add");
-    if (addBtn && !addBtn.disabled) {
+    if (addBtn !== null && !addBtn.disabled) {
       addBtn.addEventListener("click", (e: MouseEvent) => {
         e.stopPropagation();
-
         const result = addToCartDetailed(product);
         if (!result.added) return;
-
         notyf.success(`${product.name} به سبد اضافه شد`);
         addBtn.classList.add("btn-add--added");
         addBtn.textContent = "✓";
@@ -1307,13 +1385,13 @@ function refreshStockUI(): void {
     .querySelectorAll<HTMLElement>(".product-card[data-id]")
     .forEach((card) => {
       const id = Number(card.dataset.id);
-      if (!id) return;
+      if (!Number.isInteger(id) || id <= 0) return;
       const stock = allStockItems[id];
       if (stock === undefined) return;
 
       const label = getStockLabel(id);
       const stockEl = card.querySelector<HTMLElement>(".product-card__stock");
-      if (stockEl) {
+      if (stockEl !== null) {
         stockEl.className = `product-card__stock product-card__stock--${label.type}`;
         stockEl.textContent = label.text;
         stockEl.hidden = label.type === "unknown";
@@ -1330,11 +1408,11 @@ function refreshStockUI(): void {
 
       if (isOut) {
         card.classList.add("product-card--unavailable");
-        if (addBtn) {
+        if (addBtn !== null) {
           addBtn.disabled = true;
           addBtn.setAttribute("aria-label", "ناموجود");
         }
-        if (existingBadge) {
+        if (existingBadge !== null) {
           existingBadge.className = "badge badge--danger";
           existingBadge.textContent = "ناموجود";
         } else {
@@ -1345,78 +1423,83 @@ function refreshStockUI(): void {
         }
       } else {
         card.classList.remove("product-card--unavailable");
-        if (addBtn) {
+        if (addBtn !== null) {
           addBtn.disabled = false;
           const name =
-            card.querySelector(".product-card__title")?.textContent ?? "";
+            card.querySelector<HTMLElement>(".product-card__title")
+              ?.textContent ?? "";
           addBtn.setAttribute("aria-label", `افزودن ${name} به سبد`);
         }
         const offer = allOffersData.find((o) => o.productId === id);
-        if (offer) {
+        if (offer !== undefined) {
           const pct = Math.min(Math.max(Number(offer.percent), 0), 99);
-          if (existingBadge) {
+          if (existingBadge !== null) {
             existingBadge.className = "badge";
             existingBadge.textContent = `${pct.toLocaleString("fa-IR")}٪`;
           }
-        } else if (existingBadge) {
+        } else if (existingBadge !== null) {
           existingBadge.remove();
         }
       }
     });
 }
 
-// ========== Filter & Render ==========
-
 function renderFilteredProducts(): void {
   const track = document.getElementById("all-track");
   const countEl = document.getElementById("all-count");
-  if (!track || allProductsData.length === 0) return;
+  if (track === null || allProductsData.length === 0) return;
 
-  let result = [...allProductsData];
+  let result: Product[] = [...allProductsData];
 
-  if (filterState.categoryId !== "all")
+  if (filterState.categoryId !== "all") {
     result = result.filter(
       (p) => p.categoryId === Number(filterState.categoryId),
     );
-  if (filterState.stock === "in")
+  }
+  if (filterState.stock === "in") {
     result = result.filter((p) => (allStockItems[p.id] ?? 0) > 0);
-  else if (filterState.stock === "out")
+  } else if (filterState.stock === "out") {
     result = result.filter((p) => (allStockItems[p.id] ?? 0) === 0);
-  if (filterState.discount === "yes")
+  }
+  if (filterState.discount === "yes") {
     result = result.filter((p) =>
       allOffersData.some((o) => o.productId === p.id),
     );
+  }
 
-  if (searchQuery) {
-    if (fuseInstance) {
-      const matchedIds = new Set(
-        fuseInstance.search(searchQuery).map((r) => r.item.id),
-      );
+  if (searchQuery.length > 0) {
+    if (fuseInstance !== null) {
+      const matchedIds = new Map<number, true>();
+      for (const r of fuseInstance.search(searchQuery)) {
+        matchedIds.set(r.item.id, true);
+      }
       result = result.filter((p) => matchedIds.has(p.id));
     } else {
-      result = result.filter((p) =>
-        p.name.toLowerCase().includes(searchQuery.toLowerCase()),
-      );
+      const q = searchQuery.toLowerCase();
+      result = result.filter((p) => p.name.toLowerCase().includes(q));
     }
   }
 
-  if (filterState.sort === "price-asc")
+  if (filterState.sort === "price-asc") {
     result.sort((a, b) => a.price - b.price);
-  else if (filterState.sort === "price-desc")
+  } else if (filterState.sort === "price-desc") {
     result.sort((a, b) => b.price - a.price);
-  else if (filterState.sort === "name")
+  } else if (filterState.sort === "name") {
     result.sort((a, b) => a.name.localeCompare(b.name, "fa"));
+  }
 
   track.replaceChildren();
 
   if (result.length === 0) {
     const empty = h("li", "products-empty");
-    const emptyText = searchQuery
-      ? `نتیجه‌ای برای "${searchQuery}" پیدا نشد`
-      : "محصولی پیدا نشد";
-    const emptyHint = searchQuery
-      ? "عبارت دیگری را امتحان کنید"
-      : "فیلترها را تغییر دهید";
+    const emptyText =
+      searchQuery.length > 0
+        ? `نتیجه‌ای برای "${searchQuery}" پیدا نشد`
+        : "محصولی پیدا نشد";
+    const emptyHint =
+      searchQuery.length > 0
+        ? "عبارت دیگری را امتحان کنید"
+        : "فیلترها را تغییر دهید";
     empty.append(
       h("span", "products-empty__icon", "🔍"),
       h("p", "products-empty__text", emptyText),
@@ -1425,16 +1508,17 @@ function renderFilteredProducts(): void {
     track.appendChild(empty);
   } else {
     const frag = document.createDocumentFragment();
-    result.forEach((p) => {
+    for (const p of result) {
       const offer = findOffer(p.id);
       frag.appendChild(createProductCard(p, offer));
-    });
+    }
     track.appendChild(frag);
     attachProductEvents(track, allProductsData);
   }
 
-  if (countEl)
+  if (countEl !== null) {
     countEl.textContent = `${result.length.toLocaleString("fa-IR")} کالا`;
+  }
 
   const activeCount = [
     filterState.categoryId !== "all",
@@ -1444,11 +1528,13 @@ function renderFilteredProducts(): void {
   ].filter(Boolean).length;
 
   const badge = document.getElementById("filter-badge");
-  if (badge) {
+  if (badge !== null) {
     if (activeCount > 0) {
       badge.hidden = false;
       badge.textContent = activeCount.toLocaleString("fa-IR");
-    } else badge.hidden = true;
+    } else {
+      badge.hidden = true;
+    }
   }
 }
 
@@ -1459,73 +1545,80 @@ function setupFilterModal(): void {
   const applyBtn = document.getElementById("filter-apply");
   const resetBtn = document.getElementById("filter-reset");
 
-  if (!filterModal) return;
+  if (filterModal === null) return;
 
-  if (categoriesBox && allCategoriesData.length) {
+  if (categoriesBox !== null && allCategoriesData.length > 0) {
     categoriesBox.replaceChildren();
     const allBtn = h("button", "filter-chip filter-chip--active", "همه");
     allBtn.type = "button";
     allBtn.dataset.category = "all";
     categoriesBox.appendChild(allBtn);
 
-    allCategoriesData.forEach((cat) => {
+    for (const cat of allCategoriesData) {
       const btn = h("button", "filter-chip");
       btn.type = "button";
       btn.dataset.category = String(cat.id);
       btn.append(
-        h("span", "filter-chip__emoji", cat.emoji || ""),
+        h("span", "filter-chip__emoji", cat.emoji ?? ""),
         " " + cat.name,
       );
       categoriesBox.appendChild(btn);
-    });
+    }
   }
 
-  filterBtn?.addEventListener("click", () => {
-    filterModal.classList.add("modal--open");
-    document.body.style.overflow = "hidden";
-  });
+  if (filterBtn !== null) {
+    filterBtn.addEventListener("click", () => {
+      filterModal.classList.add("modal--open");
+      document.body.style.overflow = "hidden";
+    });
+  }
 
   filterModal.addEventListener("click", (e: MouseEvent) => {
     if (!(e.target instanceof Element)) return;
     const chip = e.target.closest<HTMLElement>(".filter-chip");
-    if (!chip) return;
+    if (chip === null) return;
     const box = chip.parentElement;
-    if (!box) return;
+    if (box === null) return;
     box.querySelectorAll<HTMLElement>(".filter-chip").forEach((c) => {
       c.classList.remove("filter-chip--active");
     });
     chip.classList.add("filter-chip--active");
 
-    if (chip.dataset.category !== undefined)
+    if (chip.dataset.category !== undefined) {
       filterState.categoryId = chip.dataset.category;
-    else if (chip.dataset.stock !== undefined)
+    } else if (chip.dataset.stock !== undefined) {
       filterState.stock = chip.dataset.stock;
-    else if (chip.dataset.discount !== undefined)
+    } else if (chip.dataset.discount !== undefined) {
       filterState.discount = chip.dataset.discount;
-    else if (chip.dataset.sort !== undefined)
+    } else if (chip.dataset.sort !== undefined) {
       filterState.sort = chip.dataset.sort;
+    }
   });
 
-  applyBtn?.addEventListener("click", () => {
-    renderFilteredProducts();
-    filterModal.classList.remove("modal--open");
-    document.body.style.overflow = "";
-  });
+  if (applyBtn !== null) {
+    applyBtn.addEventListener("click", () => {
+      renderFilteredProducts();
+      filterModal.classList.remove("modal--open");
+      document.body.style.overflow = "";
+    });
+  }
 
-  resetBtn?.addEventListener("click", () => {
-    filterState.categoryId = "all";
-    filterState.stock = "all";
-    filterState.discount = "all";
-    filterState.sort = "default";
-    filterModal
-      .querySelectorAll<HTMLElement>(".filter-chips")
-      .forEach((box) => {
-        const chips = box.querySelectorAll<HTMLElement>(".filter-chip");
-        chips.forEach((c, i) =>
-          c.classList.toggle("filter-chip--active", i === 0),
-        );
-      });
-  });
+  if (resetBtn !== null) {
+    resetBtn.addEventListener("click", () => {
+      filterState.categoryId = "all";
+      filterState.stock = "all";
+      filterState.discount = "all";
+      filterState.sort = "default";
+      filterModal
+        .querySelectorAll<HTMLElement>(".filter-chips")
+        .forEach((box) => {
+          const chips = box.querySelectorAll<HTMLElement>(".filter-chip");
+          chips.forEach((c, i) =>
+            c.classList.toggle("filter-chip--active", i === 0),
+          );
+        });
+    });
+  }
 }
 
 function renderAll({
@@ -1536,75 +1629,70 @@ function renderAll({
   offers,
   stock,
 }: RenderData): void {
-  const stockItemsRaw =
-    stock?.items && typeof stock.items === "object" ? stock.items : {};
-
   const consumed = loadConsumedStock();
   const stockItems: Record<number, number> = {};
-  for (const [k, v] of Object.entries(stockItemsRaw)) {
+  for (const [k, v] of Object.entries(stock.items)) {
     const id = Number(k);
     const qty = Number(v);
     if (Number.isFinite(id) && id > 0 && Number.isFinite(qty)) {
-      stockItems[id] = Math.max(0, qty - (consumed[id] || 0));
+      stockItems[id] = Math.max(0, qty - (consumed[id] ?? 0));
     }
   }
 
-  allProductsData = products;
-  allOffersData = offers;
+  allProductsData = [...products];
+  allOffersData = [...offers];
   allStockItems = stockItems;
-  allCategoriesData = categories;
-
-  console.info(
-    `📦 داده‌های بارگذاری‌شده: ${products.length} محصول، ${categories.length} دسته، ${offers.length} پیشنهاد`,
-  );
+  allCategoriesData = [...categories];
 
   initFuse();
   refreshCartPrices();
 
   const topbarText = document.getElementById("topbar-text");
-  if (topbarText && shop?.notice)
+  if (topbarText !== null && shop.notice !== undefined) {
     topbarText.textContent = String(shop.notice).slice(0, 200);
+  }
 
   const brandName = document.getElementById("brand-name");
-  if (brandName && shop?.name)
+  if (brandName !== null && shop.name !== undefined) {
     brandName.textContent = String(shop.name).slice(0, 50);
+  }
   const brandSlogan = document.getElementById("brand-slogan");
-  if (brandSlogan && shop?.slogan)
+  if (brandSlogan !== null && shop.slogan !== undefined) {
     brandSlogan.textContent = String(shop.slogan).slice(0, 100);
+  }
 
   const navLinks = document.getElementById("nav-links");
-  if (navLinks && Array.isArray(shop?.menu)) {
+  if (navLinks !== null && Array.isArray(shop.menu)) {
     navLinks.replaceChildren();
-    shop.menu.slice(0, 10).forEach((item) => {
-      if (!item || typeof item !== "object") return;
+    for (const item of shop.menu.slice(0, 10)) {
       const li = h("li");
-      const a = h("a", undefined, String(item.label || "").slice(0, 50));
+      const a = h("a", undefined, String(item.label).slice(0, 50));
       a.href = safeHref(item.href);
       li.appendChild(a);
       navLinks.appendChild(li);
-    });
+    }
   }
 
   const megaList = document.getElementById("mega-list");
-  if (megaList && categories.length) {
+  if (megaList !== null && categories.length > 0) {
     megaList.replaceChildren();
     const frag = document.createDocumentFragment();
-    categories.forEach((cat) => {
+    for (const cat of categories) {
       const li = h("li");
       const a = h("a");
       a.href = `#cat-${cat.id}`;
-      const emoji = h("span", undefined, cat.emoji || "");
+      const emoji = h("span", undefined, cat.emoji ?? "");
       emoji.setAttribute("aria-hidden", "true");
       a.append(emoji, " " + cat.name);
       li.appendChild(a);
       frag.appendChild(li);
-    });
+    }
     megaList.appendChild(frag);
   }
 
-  if (home?.hero && typeof home.hero === "object") {
+  if (home.hero !== undefined) {
     const heroTitle = document.getElementById("hero-title");
-    if (heroTitle && typeof home.hero.title === "string") {
+    if (heroTitle !== null && typeof home.hero.title === "string") {
       heroTitle.replaceChildren();
       const lines = home.hero.title.slice(0, 200).split("،");
       lines.forEach((line, i) => {
@@ -1616,46 +1704,51 @@ function renderAll({
     const heroText = document.querySelector<HTMLElement>(
       ".hero-card--primary .hero-card__text",
     );
-    if (heroText && typeof home.hero.text === "string")
+    if (heroText !== null && typeof home.hero.text === "string") {
       heroText.textContent = home.hero.text.slice(0, 300);
+    }
 
     const heroBtn = document.querySelector<HTMLAnchorElement>(
       ".hero-card--primary .hero-card__btn",
     );
-    if (heroBtn && home.hero.cta) {
+    if (heroBtn !== null && home.hero.cta !== undefined) {
       heroBtn.href = safeHref(home.hero.cta.href);
       const span = heroBtn.querySelector<HTMLElement>("span:first-child");
-      if (span && home.hero.cta.label)
+      if (span !== null) {
         span.textContent = String(home.hero.cta.label).slice(0, 50);
+      }
     }
   }
 
-  if (home?.side && typeof home.side === "object") {
+  if (home.side !== undefined) {
     const sideTitle = document.querySelector<HTMLElement>(
       ".hero-card--secondary .hero-card__title",
     );
-    if (sideTitle && home.side.title)
+    if (sideTitle !== null && home.side.title !== undefined) {
       sideTitle.textContent = String(home.side.title).slice(0, 100);
+    }
 
     const sideText = document.querySelector<HTMLElement>(
       ".hero-card--secondary .hero-card__text",
     );
-    if (sideText && home.side.text)
+    if (sideText !== null && home.side.text !== undefined) {
       sideText.textContent = String(home.side.text).slice(0, 200);
+    }
 
     const sideBtn = document.querySelector<HTMLAnchorElement>(
       ".hero-card--secondary .hero-card__btn",
     );
-    if (sideBtn && home.side.cta) {
+    if (sideBtn !== null && home.side.cta !== undefined) {
       sideBtn.href = safeHref(home.side.cta.href);
       const span = sideBtn.querySelector<HTMLElement>("span:first-child");
-      if (span && home.side.cta.label)
+      if (span !== null) {
         span.textContent = String(home.side.cta.label).slice(0, 50);
+      }
     }
   }
 
   const categoriesGrid = document.getElementById("categories-grid");
-  if (categoriesGrid) {
+  if (categoriesGrid !== null) {
     if (categories.length === 0) {
       renderEmpty(categoriesGrid, {
         icon: "📂",
@@ -1671,12 +1764,12 @@ function renderAll({
         const a = h("a", "category-card");
         a.href = `#cat-${cat.id}`;
         const color =
-          cat.color && /^#[0-9a-fA-F]{3,8}$/.test(cat.color)
+          cat.color !== undefined && /^#[0-9a-fA-F]{3,8}$/.test(cat.color)
             ? cat.color
             : "#f0f9f1";
         const glow = h("span", "category-card__glow");
         glow.style.setProperty("--c", color);
-        const icon = h("span", "category-card__icon", cat.emoji || "");
+        const icon = h("span", "category-card__icon", cat.emoji ?? "");
         icon.style.background = color;
         const arrow = h("span", "category-card__arrow");
         arrow.setAttribute("aria-hidden", "true");
@@ -1695,7 +1788,7 @@ function renderAll({
   }
 
   const specialTrack = document.getElementById("special-track");
-  if (specialTrack) {
+  if (specialTrack !== null) {
     if (offers.length === 0) {
       renderEmpty(specialTrack, {
         icon: "🔥",
@@ -1705,22 +1798,10 @@ function renderAll({
     } else {
       specialTrack.replaceChildren();
       const frag = document.createDocumentFragment();
-      let skipped = 0;
-      offers.forEach((offer) => {
+      for (const offer of offers) {
         const product = products.find((p) => p.id === offer.productId);
-        if (!product) {
-          skipped++;
-          console.warn(
-            `⚠️ پیشنهاد برای محصول ناموجود نادیده گرفته شد — productId=${offer.productId}`,
-          );
-          return;
-        }
+        if (product === undefined) continue;
         frag.appendChild(createProductCard(product, offer));
-      });
-      if (skipped > 0) {
-        console.warn(
-          `⚠️ ${skipped} پیشنهاد از ${offers.length} پیشنهاد به دلیل نبود محصول نمایش داده نشدند`,
-        );
       }
       specialTrack.appendChild(frag);
       attachProductEvents(specialTrack, products);
@@ -1728,41 +1809,40 @@ function renderAll({
   }
 
   const bannersWrapper = document.getElementById("banners-wrapper");
-  if (bannersWrapper) {
+  if (bannersWrapper !== null) {
     bannersWrapper.replaceChildren();
-    if (Array.isArray(home?.promos) && home.promos.length > 0) {
+    if (home.promos !== undefined && home.promos.length > 0) {
       const frag = document.createDocumentFragment();
-      home.promos.slice(0, 10).forEach((promo) => {
-        if (!promo || typeof promo !== "object") return;
+      for (const promo of home.promos.slice(0, 10)) {
         const a = h("a", "banner");
         a.href = safeHref(promo.href);
-        const icon = h("span", "banner__icon", promo.emoji || "");
+        const icon = h("span", "banner__icon", promo.emoji ?? "");
         icon.setAttribute("aria-hidden", "true");
         const content = h("div", "banner__content");
-        content.appendChild(h("strong", undefined, promo.text || ""));
+        content.appendChild(h("strong", undefined, promo.text ?? ""));
         const arrow = h("span", "banner__arrow", "←");
         arrow.setAttribute("aria-hidden", "true");
         a.append(icon, content, arrow);
         frag.appendChild(a);
-      });
+      }
       bannersWrapper.appendChild(frag);
     }
   }
 
   const categorySections = document.getElementById("category-sections");
-  if (categorySections) {
+  if (categorySections !== null) {
     categorySections.replaceChildren();
     if (categories.length > 0 && products.length > 0) {
       const frag = document.createDocumentFragment();
-      categories.forEach((cat) => {
+      for (const cat of categories) {
         const catProducts = products.filter((p) => p.categoryId === cat.id);
-        if (catProducts.length === 0) return;
+        if (catProducts.length === 0) continue;
 
         const section = h("section", "carousel-section");
         section.id = `cat-${cat.id}`;
         const head = h("div", "carousel-section__head");
         const h2 = h("h2", "section-head__title");
-        const emoji = h("span", undefined, cat.emoji || "");
+        const emoji = h("span", undefined, cat.emoji ?? "");
         emoji.setAttribute("aria-hidden", "true");
         h2.append(emoji, " " + cat.name);
         head.append(
@@ -1780,15 +1860,15 @@ function renderAll({
         carousel.tabIndex = 0;
         const track = h("ul", "carousel__track");
 
-        catProducts.forEach((p) => {
+        for (const p of catProducts) {
           track.appendChild(createProductCard(p));
-        });
+        }
 
         carousel.appendChild(track);
         section.append(head, carousel);
         frag.appendChild(section);
         attachProductEvents(track, products);
-      });
+      }
       categorySections.appendChild(frag);
     }
   }
@@ -1796,86 +1876,79 @@ function renderAll({
   setupFilterModal();
   renderFilteredProducts();
 
-  if (shop && typeof shop === "object") {
-    const footerName = document.getElementById("footer-name");
-    if (footerName && shop.name)
-      footerName.textContent = String(shop.name).slice(0, 50);
+  const footerName = document.getElementById("footer-name");
+  if (footerName !== null && shop.name !== undefined) {
+    footerName.textContent = String(shop.name).slice(0, 50);
+  }
 
-    const footerAbout = document.getElementById("footer-about");
-    if (footerAbout && shop.about)
-      footerAbout.textContent = String(shop.about).slice(0, 300);
+  const footerAbout = document.getElementById("footer-about");
+  if (footerAbout !== null && shop.about !== undefined) {
+    footerAbout.textContent = String(shop.about).slice(0, 300);
+  }
 
-    const footerPhone =
-      document.querySelector<HTMLAnchorElement>("#footer-phone");
-    if (footerPhone && shop.phone) {
-      const phone = String(shop.phone)
-        .replace(/[^\d+\-\s()]/g, "")
-        .slice(0, 20);
-      footerPhone.textContent = phone;
-      footerPhone.href = `tel:${phone.replace(/[^\d+]/g, "")}`;
+  const footerPhone =
+    document.querySelector<HTMLAnchorElement>("#footer-phone");
+  if (footerPhone !== null && shop.phone !== undefined) {
+    const phone = String(shop.phone)
+      .replace(/[^\d+\-\s()]/g, "")
+      .slice(0, 20);
+    footerPhone.textContent = phone;
+    footerPhone.href = `tel:${phone.replace(/[^\d+]/g, "")}`;
+  }
+
+  const footerLinks = document.getElementById("footer-links");
+  if (footerLinks !== null && categories.length > 0) {
+    footerLinks.replaceChildren();
+    for (const cat of categories.slice(0, 5)) {
+      const li = h("li");
+      const a = h("a", undefined, cat.name);
+      a.href = `#cat-${cat.id}`;
+      li.appendChild(a);
+      footerLinks.appendChild(li);
     }
+  }
 
-    const footerLinks = document.getElementById("footer-links");
-    if (footerLinks && categories.length) {
-      footerLinks.replaceChildren();
-      categories.slice(0, 5).forEach((cat) => {
-        const li = h("li");
-        const a = h("a", undefined, cat.name);
-        a.href = `#cat-${cat.id}`;
-        li.appendChild(a);
-        footerLinks.appendChild(li);
-      });
+  const footerHelp = document.getElementById("footer-help");
+  if (footerHelp !== null && Array.isArray(shop.help)) {
+    footerHelp.replaceChildren();
+    for (const item of shop.help.slice(0, 10)) {
+      const li = h("li");
+      const a = h("a", undefined, item.label);
+      a.href = safeHref(item.href);
+      li.appendChild(a);
+      footerHelp.appendChild(li);
     }
+  }
 
-    const footerHelp = document.getElementById("footer-help");
-    if (footerHelp && Array.isArray(shop.help)) {
-      footerHelp.replaceChildren();
-      shop.help.slice(0, 10).forEach((item) => {
-        if (!item || typeof item !== "object") return;
-        const li = h("li");
-        const a = h("a", undefined, item.label || "");
-        a.href = safeHref(item.href);
-        li.appendChild(a);
-        footerHelp.appendChild(li);
-      });
+  const footerSchedule = document.getElementById("footer-schedule");
+  if (footerSchedule !== null && Array.isArray(shop.schedule)) {
+    footerSchedule.replaceChildren();
+    for (const item of shop.schedule.slice(0, 7)) {
+      const p = h("p", "footer__text");
+      p.append(item.days, document.createElement("br"), item.time);
+      footerSchedule.appendChild(p);
     }
+  }
 
-    const footerSchedule = document.getElementById("footer-schedule");
-    if (footerSchedule && Array.isArray(shop.schedule)) {
-      footerSchedule.replaceChildren();
-      shop.schedule.slice(0, 7).forEach((item) => {
-        if (!item || typeof item !== "object") return;
-        const p = h("p", "footer__text");
-        p.append(
-          item.days || "",
-          document.createElement("br"),
-          item.time || "",
-        );
-        footerSchedule.appendChild(p);
-      });
-    }
-
-    const footerCopy = document.getElementById("footer-copy");
-    if (footerCopy && shop.copyright)
-      footerCopy.textContent = String(shop.copyright).slice(0, 200);
+  const footerCopy = document.getElementById("footer-copy");
+  if (footerCopy !== null && shop.copyright !== undefined) {
+    footerCopy.textContent = String(shop.copyright).slice(0, 200);
   }
 }
 
-// ========== Error & Empty States ==========
-
 interface OptionsError {
-  title?: string;
-  text?: string;
-  retryLabel?: string;
-  onRetry?: (() => Promise<void>) | null;
-  errorType?: ErrorType;
+  readonly title?: string;
+  readonly text?: string;
+  readonly retryLabel?: string;
+  readonly onRetry?: (() => Promise<void>) | null;
+  readonly errorType?: ErrorType;
 }
 
 function renderError(
   container: HTMLElement | null,
   options: OptionsError = {},
 ): void {
-  if (!container) return;
+  if (container === null) return;
   const {
     title = "خطا در دریافت اطلاعات",
     text = "ارتباط با سرور برقرار نشد. لطفاً دوباره تلاش کنید.",
@@ -1898,7 +1971,7 @@ function renderError(
   li.setAttribute("role", "alert");
   li.dataset.errorType = errorType;
 
-  const icon = h("div", "state-error__icon", icons[errorType] ?? "⚠️");
+  const icon = h("div", "state-error__icon", icons[errorType]);
   icon.setAttribute("aria-hidden", "true");
 
   li.append(
@@ -1907,7 +1980,7 @@ function renderError(
     h("p", "state-error__text", text),
   );
 
-  if (onRetry) {
+  if (onRetry !== null) {
     const actions = h("div", "state-error__actions");
     const btn = h("button", "btn-retry");
     btn.type = "button";
@@ -1925,7 +1998,7 @@ function renderError(
       btn.disabled = true;
       const lbl = btn.querySelector<HTMLElement>(".btn-retry__label");
       const ico = btn.querySelector<HTMLElement>(".btn-retry__icon");
-      if (!lbl || !ico) return;
+      if (lbl === null || ico === null) return;
       const ol = lbl.textContent;
       const oi = ico.textContent;
       lbl.textContent = "در حال تلاش...";
@@ -1947,16 +2020,16 @@ function renderError(
 }
 
 interface OptionEmpty {
-  text?: string;
-  title?: string;
-  icon?: string;
+  readonly text?: string;
+  readonly title?: string;
+  readonly icon?: string;
 }
 
 function renderEmpty(
   container: HTMLElement | null,
   options: OptionEmpty = {},
 ): void {
-  if (!container) return;
+  if (container === null) return;
   const {
     title = "چیزی برای نمایش نیست",
     text = "به‌زودی محصولات جدید اضافه می‌شود.",
@@ -1979,7 +2052,7 @@ function renderSkeletonProducts(
   container: HTMLElement | null,
   count: number = 4,
 ): void {
-  if (!container) return;
+  if (container === null) return;
   const frag = document.createDocumentFragment();
   for (let i = 0; i < count; i++) {
     const li = h("li", "skeleton-card");
@@ -1999,7 +2072,7 @@ function renderSkeletonCategories(
   container: HTMLElement | null,
   count: number = 7,
 ): void {
-  if (!container) return;
+  if (container === null) return;
   const frag = document.createDocumentFragment();
   for (let i = 0; i < count; i++) {
     const li = h("li", "skeleton-category");
@@ -2013,12 +2086,8 @@ function renderSkeletonCategories(
   container.replaceChildren(frag);
 }
 
-// ========== Offline Banner ==========
-
-let offlineBannerEl: HTMLDivElement | null = null;
-
 function showOfflineBanner(): void {
-  if (offlineBannerEl) return;
+  if (offlineBannerEl !== null) return;
   const banner = h("div", "offline-banner");
   banner.setAttribute("role", "alert");
 
@@ -2038,34 +2107,35 @@ function showOfflineBanner(): void {
 }
 
 function hideOfflineBanner(): void {
-  if (!offlineBannerEl) return;
+  if (offlineBannerEl === null) return;
   offlineBannerEl.classList.remove("offline-banner--visible");
   const el = offlineBannerEl;
   offlineBannerEl = null;
   setTimeout(() => el.remove(), 300);
 }
 
-// ========== Retry Toast ==========
-
 interface RetryToastOptions {
-  attempt: number;
-  total: number;
-  waitMs: number;
+  readonly attempt: number;
+  readonly total: number;
+  readonly waitMs: number;
 }
 
-interface RetryToastElement extends HTMLDivElement {
-  _timer?: ReturnType<typeof setTimeout>;
+const toastTimers = new WeakMap<
+  HTMLDivElement,
+  ReturnType<typeof setTimeout>
+>();
+
+function createRetryToast(): HTMLDivElement {
+  const el = document.createElement("div");
+  el.className = "retry-toast";
+  el.setAttribute("role", "status");
+  document.body.appendChild(el);
+  return el;
 }
 
 function showRetryToast({ attempt, total, waitMs }: RetryToastOptions): void {
-  let toast = document.querySelector<RetryToastElement>(".retry-toast");
-
-  if (!toast) {
-    toast = document.createElement("div") as RetryToastElement;
-    toast.className = "retry-toast";
-    toast.setAttribute("role", "status");
-    document.body.appendChild(toast);
-  }
+  const existing = document.querySelector<HTMLDivElement>(".retry-toast");
+  const toast: HTMLDivElement = existing ?? createRetryToast();
 
   const spinner = h("span", "retry-toast__spinner");
   spinner.setAttribute("aria-hidden", "true");
@@ -2076,16 +2146,20 @@ function showRetryToast({ attempt, total, waitMs }: RetryToastOptions): void {
   );
 
   toast.replaceChildren(spinner, text);
-  requestAnimationFrame(() => toast.classList.add("retry-toast--visible"));
+  requestAnimationFrame(() => {
+    toast.classList.add("retry-toast--visible");
+  });
 
-  clearTimeout(toast._timer);
-  toast._timer = setTimeout(() => {
-    toast.classList.remove("retry-toast--visible");
-    setTimeout(() => toast.remove(), 300);
-  }, waitMs + 500);
+  const prev = toastTimers.get(toast);
+  if (prev !== undefined) clearTimeout(prev);
+  toastTimers.set(
+    toast,
+    setTimeout(() => {
+      toast.classList.remove("retry-toast--visible");
+      setTimeout(() => toast.remove(), 300);
+    }, waitMs + 500),
+  );
 }
-
-// ========== Load & Render ==========
 
 async function loadAndRender(): Promise<void> {
   if (isLoading) return;
@@ -2097,14 +2171,8 @@ async function loadAndRender(): Promise<void> {
   renderSkeletonProducts(document.getElementById("all-track"), 8);
 
   const retryOptions = {
-    onRetry: ({
-      attempt,
-      waitMs,
-    }: {
-      attempt: number;
-      waitMs: number;
-    }): void => {
-      showRetryToast({ attempt, total: 3, waitMs });
+    onRetry: ({ attempt, waitMs }: RetryInfo): void => {
+      showRetryToast({ attempt, total: MAX_RETRIES, waitMs });
     },
   };
 
@@ -2139,19 +2207,13 @@ async function loadAndRender(): Promise<void> {
       return false;
     });
 
-    if (rawProducts.length !== products.length) {
-      console.warn(
-        `⚠️ از ${rawProducts.length} محصول دریافتی، فقط ${products.length} معتبر بودند`,
-      );
-    }
-
     data = {
       products,
       categories,
-      shop: rawShop as unknown as Shop,
-      home: rawHome as unknown as Home,
+      shop: parseShop(rawShop),
+      home: parseHome(rawHome),
       offers,
-      stock: rawStock as unknown as StockData,
+      stock: parseStock(rawStock),
     };
   } catch (err: unknown) {
     console.error("خطا در لود داده‌ها:", err);
@@ -2160,12 +2222,12 @@ async function loadAndRender(): Promise<void> {
 
   isLoading = false;
 
-  if (!data) {
+  if (data === null) {
     showErrorState(lastLoadError);
     updateCartUI();
     return;
   }
-  if (!data.products.length && !data.categories.length) {
+  if (data.products.length === 0 && data.categories.length === 0) {
     showEmptyState();
     updateCartUI();
     return;
@@ -2175,12 +2237,12 @@ async function loadAndRender(): Promise<void> {
 }
 
 function showErrorState(error: ApiError | null): void {
-  const type: ErrorType = (error?.type as ErrorType) || "unknown";
-  const msg = error?.userMessage || "ارتباط با سرور برقرار نشد.";
+  const type: ErrorType = error?.type ?? "unknown";
+  const msg = error?.userMessage ?? "ارتباط با سرور برقرار نشد.";
   const retry = (): Promise<void> => loadAndRender();
 
   const topbar = document.getElementById("topbar-text");
-  if (topbar) {
+  if (topbar !== null) {
     const map: Record<ErrorType, string> = {
       offline: "📡 اتصال اینترنت قطع است — برخی اطلاعات در دسترس نیست",
       timeout: "⏱️ سرور پاسخ نداد — دوباره تلاش کنید",
@@ -2190,7 +2252,7 @@ function showErrorState(error: ApiError | null): void {
       abort: "⏹️ درخواست لغو شد",
       unknown: "⚠️ اختلال موقت در سرویس",
     };
-    topbar.textContent = map[type] || map.unknown;
+    topbar.textContent = map[type];
   }
 
   renderError(document.getElementById("categories-grid"), {
@@ -2207,7 +2269,7 @@ function showErrorState(error: ApiError | null): void {
   });
 
   const banners = document.getElementById("banners-wrapper");
-  if (banners) {
+  if (banners !== null) {
     renderError(banners, {
       title: "بنرها در دسترس نیست",
       text: "اطلاعات تبلیغاتی بارگذاری نشد.",
@@ -2224,10 +2286,10 @@ function showErrorState(error: ApiError | null): void {
   });
 
   const catSections = document.getElementById("category-sections");
-  if (catSections) catSections.replaceChildren();
+  if (catSections !== null) catSections.replaceChildren();
 
   const footerHelp = document.getElementById("footer-help");
-  if (footerHelp) {
+  if (footerHelp !== null) {
     const li = h("li", undefined, "اطلاعات در دسترس نیست");
     li.style.color = "#94a3b8";
     li.style.fontSize = ".82rem";
@@ -2252,12 +2314,10 @@ function showEmptyState(): void {
     text: "به‌زودی محصولات جدید اضافه می‌شود.",
   });
   const banners = document.getElementById("banners-wrapper");
-  if (banners) banners.replaceChildren();
+  if (banners !== null) banners.replaceChildren();
   const catSections = document.getElementById("category-sections");
-  if (catSections) catSections.replaceChildren();
+  if (catSections !== null) catSections.replaceChildren();
 }
-
-// ========== Connectivity wiring ==========
 
 watchConnectivity({
   onOffline: (): void => {
@@ -2265,7 +2325,7 @@ watchConnectivity({
   },
   onOnline: (): void => {
     hideOfflineBanner();
-    if (lastLoadError || allProductsData.length === 0) {
+    if (lastLoadError !== null || allProductsData.length === 0) {
       void loadAndRender();
     }
   },
@@ -2273,33 +2333,27 @@ watchConnectivity({
 
 if (!navigator.onLine) showOfflineBanner();
 
-// ========== Search ==========
-
-const searchInput = document.getElementById(
-  "site-search",
-) as HTMLInputElement | null;
-const searchForm = document.getElementById(
-  "search-form",
-) as HTMLFormElement | null;
+const searchInput = document.getElementById("site-search");
+const searchForm = document.getElementById("search-form");
 const searchSuggestions = document.getElementById("search-suggestions");
 const searchClear = document.getElementById("search-clear");
 
 function debounce<T extends (...args: never[]) => void>(
   fn: T,
-  delay: number,
+  delayMs: number,
 ): T {
   let timer: ReturnType<typeof setTimeout>;
   return ((...args: never[]) => {
     clearTimeout(timer);
-    timer = setTimeout(() => fn(...args), delay);
+    timer = setTimeout(() => fn(...args), delayMs);
   }) as T;
 }
 
-function getSearchResults(query: string, limit = 8): Product[] {
+function getSearchResults(query: string, limit: number = 8): Product[] {
   const q = query.trim();
-  if (!q) return [];
+  if (q.length === 0) return [];
 
-  if (!fuseInstance) {
+  if (fuseInstance === null) {
     return allProductsData
       .filter((p) => p.name.toLowerCase().includes(q.toLowerCase()))
       .slice(0, limit);
@@ -2317,13 +2371,13 @@ function createSuggestionItem(product: Product): HTMLButtonElement {
   item.setAttribute("role", "option");
   item.dataset.id = String(product.id);
 
-  const emoji = h("span", "search-suggestion__emoji", product.emoji || "📦");
+  const emoji = h("span", "search-suggestion__emoji", product.emoji ?? "📦");
   emoji.setAttribute("aria-hidden", "true");
 
   const info = h("div", "search-suggestion__info");
   info.append(
     h("span", "search-suggestion__name", product.name),
-    h("span", "search-suggestion__unit", product.unit || ""),
+    h("span", "search-suggestion__unit", product.unit ?? ""),
   );
 
   const price = h(
@@ -2336,7 +2390,7 @@ function createSuggestionItem(product: Product): HTMLButtonElement {
 
   item.addEventListener("click", () => {
     openProductDetail(product);
-    if (searchInput) searchInput.value = "";
+    if (searchInput instanceof HTMLInputElement) searchInput.value = "";
     closeSuggestions();
   });
 
@@ -2344,19 +2398,21 @@ function createSuggestionItem(product: Product): HTMLButtonElement {
 }
 
 function closeSuggestions(): void {
-  if (!searchSuggestions) return;
+  if (searchSuggestions === null) return;
   searchSuggestions.classList.remove("search__suggestions--visible");
   searchSuggestions.replaceChildren();
   activeSuggestionIndex = -1;
-  searchInput?.setAttribute("aria-expanded", "false");
+  if (searchInput instanceof HTMLInputElement) {
+    searchInput.setAttribute("aria-expanded", "false");
+  }
 }
 
 function renderSearchSuggestions(query: string): void {
-  if (!searchSuggestions) return;
+  if (searchSuggestions === null) return;
   searchSuggestions.replaceChildren();
   activeSuggestionIndex = -1;
 
-  if (!query.trim()) {
+  if (query.trim().length === 0) {
     closeSuggestions();
     return;
   }
@@ -2371,29 +2427,33 @@ function renderSearchSuggestions(query: string): void {
     );
     searchSuggestions.appendChild(empty);
     searchSuggestions.classList.add("search__suggestions--visible");
-    searchInput?.setAttribute("aria-expanded", "true");
+    if (searchInput instanceof HTMLInputElement) {
+      searchInput.setAttribute("aria-expanded", "true");
+    }
     return;
   }
 
-  results.forEach((product) => {
+  for (const product of results) {
     searchSuggestions.appendChild(createSuggestionItem(product));
-  });
+  }
 
   searchSuggestions.classList.add("search__suggestions--visible");
-  searchInput?.setAttribute("aria-expanded", "true");
+  if (searchInput instanceof HTMLInputElement) {
+    searchInput.setAttribute("aria-expanded", "true");
+  }
 }
 
 function applySearchFilter(query: string): void {
   searchQuery = query.trim();
 
   const allProductsTitle = document.getElementById("all-products-title");
-  if (allProductsTitle) {
+  if (allProductsTitle !== null) {
     const existingBadge = allProductsTitle.querySelector(
       ".search-active-badge",
     );
-    if (existingBadge) existingBadge.remove();
+    if (existingBadge !== null) existingBadge.remove();
 
-    if (searchQuery) {
+    if (searchQuery.length > 0) {
       const badge = document.createElement("span");
       badge.className = "search-active-badge";
 
@@ -2405,9 +2465,9 @@ function applySearchFilter(query: string): void {
       clearBtn.setAttribute("aria-label", "پاک کردن جستجو");
       clearBtn.textContent = "✕";
       clearBtn.addEventListener("click", () => {
-        if (searchInput) searchInput.value = "";
+        if (searchInput instanceof HTMLInputElement) searchInput.value = "";
         applySearchFilter("");
-        if (searchClear) searchClear.hidden = true;
+        if (searchClear instanceof HTMLElement) searchClear.hidden = true;
         closeSuggestions();
       });
 
@@ -2420,25 +2480,28 @@ function applySearchFilter(query: string): void {
 }
 
 function updateClearButton(): void {
-  if (!searchClear || !searchInput) return;
+  if (!(searchClear instanceof HTMLElement)) return;
+  if (!(searchInput instanceof HTMLInputElement)) return;
   searchClear.hidden = searchInput.value.trim().length === 0;
 }
 
-if (searchInput) {
+if (searchInput instanceof HTMLInputElement) {
   const debouncedFilter = debounce(() => {
-    if (!searchInput) return;
-    applySearchFilter(searchInput.value);
+    if (searchInput instanceof HTMLInputElement) {
+      applySearchFilter(searchInput.value);
+    }
   }, 350);
 
   searchInput.addEventListener("input", () => {
-    if (!searchInput) return;
-    renderSearchSuggestions(searchInput.value);
-    updateClearButton();
-    debouncedFilter();
+    if (searchInput instanceof HTMLInputElement) {
+      renderSearchSuggestions(searchInput.value);
+      updateClearButton();
+      debouncedFilter();
+    }
   });
 
   searchInput.addEventListener("keydown", (e: KeyboardEvent) => {
-    if (!searchSuggestions) return;
+    if (searchSuggestions === null) return;
     const items =
       searchSuggestions.querySelectorAll<HTMLButtonElement>(
         ".search-suggestion",
@@ -2469,36 +2532,39 @@ if (searchInput) {
   });
 
   searchInput.addEventListener("focus", () => {
-    if (!searchInput) return;
-    if (searchInput.value.trim()) {
-      renderSearchSuggestions(searchInput.value);
+    if (searchInput instanceof HTMLInputElement) {
+      if (searchInput.value.trim().length > 0) {
+        renderSearchSuggestions(searchInput.value);
+      }
     }
   });
 
   document.addEventListener("click", (e: MouseEvent) => {
     if (!(e.target instanceof Element)) return;
-    if (!e.target.closest(".search")) {
+    if (e.target.closest(".search") === null) {
       closeSuggestions();
     }
   });
 }
 
-if (searchClear) {
+if (searchClear instanceof HTMLElement) {
   searchClear.addEventListener("click", () => {
-    if (searchInput) searchInput.value = "";
+    if (searchInput instanceof HTMLInputElement) {
+      searchInput.value = "";
+      searchInput.focus();
+    }
     searchClear.hidden = true;
     applySearchFilter("");
     closeSuggestions();
-    searchInput?.focus();
   });
 }
 
-if (searchForm) {
+if (searchForm instanceof HTMLFormElement) {
   searchForm.addEventListener("submit", (e: SubmitEvent) => {
     e.preventDefault();
-    if (!searchInput) return;
+    if (!(searchInput instanceof HTMLInputElement)) return;
     const query = searchInput.value.trim();
-    if (!query) return;
+    if (query.length === 0) return;
     applySearchFilter(query);
     closeSuggestions();
     document.getElementById("all-products")?.scrollIntoView({
@@ -2509,14 +2575,16 @@ if (searchForm) {
 }
 
 function setupAutoAnimate(): void {
-  const containers = ["cart-body", "all-track", "search-suggestions"];
-  containers.forEach((id) => {
+  for (const id of AUTO_ANIMATE_CONTAINERS) {
     const el = document.getElementById(id);
-    if (el) autoAnimate(el);
-  });
+    if (el !== null) autoAnimate(el);
+  }
 }
 
 function initializeApp(): void {
+  if (import.meta.env.DEV) {
+    console.info("سبزکاله — dev mode");
+  }
   updateCartUI();
   setupAutoAnimate();
   void loadAndRender();
