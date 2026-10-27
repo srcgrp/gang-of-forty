@@ -453,7 +453,7 @@ function refreshCartPrices(): void {
     try {
       localStorage.setItem(CART_KEY, JSON.stringify(cart));
     } catch {
-      /* ignore */
+      return;
     }
   }
 }
@@ -813,32 +813,41 @@ function getTheme(): string {
 function setTheme(theme: string): void {
   const html = document.documentElement;
   const icon = document.querySelector(ICON_SELECTOR);
+  const btn = document.querySelector<HTMLButtonElement>(THEME_BTN_SELECTOR);
   html.classList.remove("dark-theme", "light-theme");
 
-  let svgString: string | null = null;
+  let svgString: string;
+  let isDark: boolean;
   if (theme === "dark") {
     html.classList.add("dark-theme");
     svgString = SVG_SUN;
+    isDark = true;
   } else if (theme === "light") {
     html.classList.add("light-theme");
     svgString = SVG_MOON;
+    isDark = false;
+  } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    html.classList.add("dark-theme");
+    svgString = SVG_SUN;
+    isDark = true;
   } else {
-    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      html.classList.add("dark-theme");
-      svgString = SVG_SUN;
-    } else {
-      svgString = SVG_MOON;
-    }
+    html.classList.add("light-theme");
+    svgString = SVG_MOON;
+    isDark = false;
   }
 
-  if (icon !== null && svgString !== null) {
+  if (icon !== null) {
     icon.replaceChildren(createSvgElement(svgString));
+  }
+
+  if (btn !== null) {
+    btn.setAttribute("aria-pressed", isDark ? "true" : "false");
   }
 
   try {
     localStorage.setItem(THEME_KEY, theme);
   } catch {
-    /* ignore */
+    return;
   }
 }
 
@@ -855,6 +864,8 @@ document.addEventListener("click", (e: MouseEvent) => {
   const isDark = document.documentElement.classList.contains("dark-theme");
   setTheme(isDark ? "light" : "dark");
 });
+
+setTheme(getTheme());
 
 interface ApiErrorOptions {
   readonly type?: ApiErrorType;
@@ -993,7 +1004,7 @@ function writeCache<T>(url: string, data: T): void {
       JSON.stringify({ data, time: Date.now() }),
     );
   } catch {
-    /* ignore */
+    return;
   }
 }
 
@@ -1170,7 +1181,7 @@ function saveConsumedStock(data: Record<number, number>): void {
   try {
     localStorage.setItem(STOCK_CONSUMED_KEY, JSON.stringify(data));
   } catch {
-    /* ignore */
+    return;
   }
 }
 
@@ -2338,15 +2349,12 @@ const searchForm = document.getElementById("search-form");
 const searchSuggestions = document.getElementById("search-suggestions");
 const searchClear = document.getElementById("search-clear");
 
-function debounce<T extends (...args: never[]) => void>(
-  fn: T,
-  delayMs: number,
-): T {
+function debounce(fn: () => void, delayMs: number): () => void {
   let timer: ReturnType<typeof setTimeout>;
-  return ((...args: never[]) => {
+  return (): void => {
     clearTimeout(timer);
-    timer = setTimeout(() => fn(...args), delayMs);
-  }) as T;
+    timer = setTimeout(fn, delayMs);
+  };
 }
 
 function getSearchResults(query: string, limit: number = 8): Product[] {
