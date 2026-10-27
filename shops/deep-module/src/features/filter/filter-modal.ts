@@ -1,7 +1,9 @@
 import type { Category, FilterState } from "../../shared/types";
-import { h } from "../../shared/ui/dom";
 import { openModal, closeModal } from "../../shared/ui/modal";
+import { renderFilterCategories, applyChipToState } from "./filter-render";
+
 let filterInitialized = false;
+
 export interface FilterModalOptions {
   categories: Category[];
   state: FilterState;
@@ -10,7 +12,7 @@ export interface FilterModalOptions {
 
 export function initFilterModal(opts: FilterModalOptions): void {
   const box = document.getElementById("filter-categories");
-  if (box) renderCategories(box, opts.categories);
+  if (box) renderFilterCategories(box, opts.categories);
 
   if (filterInitialized) return;
   filterInitialized = true;
@@ -50,33 +52,4 @@ export function initFilterModal(opts: FilterModalOptions): void {
   document.getElementById("filter-btn")?.addEventListener("click", () => {
     openModal("filter-modal");
   });
-}
-
-function renderCategories(box: HTMLElement, categories: Category[]): void {
-  box.replaceChildren();
-  const allBtn = h("button", "filter-chip filter-chip--active", "همه");
-  allBtn.type = "button";
-  allBtn.dataset.category = "all";
-  box.appendChild(allBtn);
-  for (const cat of categories) {
-    const btn = h("button", "filter-chip");
-    btn.type = "button";
-    btn.dataset.category = String(cat.id);
-    btn.append(
-      h("span", "filter-chip__emoji", cat.emoji || ""),
-      " " + cat.name,
-    );
-    box.appendChild(btn);
-  }
-}
-
-function applyChipToState(chip: HTMLElement, state: FilterState): void {
-  if (chip.dataset.category !== undefined)
-    state.categoryId = chip.dataset.category;
-  else if (chip.dataset.stock !== undefined)
-    state.stock = chip.dataset.stock as FilterState["stock"];
-  else if (chip.dataset.discount !== undefined)
-    state.discount = chip.dataset.discount as FilterState["discount"];
-  else if (chip.dataset.sort !== undefined)
-    state.sort = chip.dataset.sort as FilterState["sort"];
 }

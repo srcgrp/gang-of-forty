@@ -10,6 +10,7 @@ export interface Product {
 export interface Category {
   id: number;
   name: string;
+  slug?: string;
   emoji?: string;
   color?: string;
 }

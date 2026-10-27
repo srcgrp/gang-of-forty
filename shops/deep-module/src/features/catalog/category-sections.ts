@@ -21,6 +21,14 @@ export function renderCategorySections(
 
     const section = h("section", "carousel-section");
     section.id = `cat-${cat.id}`;
+    section.style.position = "relative";
+    if (cat.slug) {
+      const slugAnchor = document.createElement("span");
+      slugAnchor.id = cat.slug;
+      slugAnchor.setAttribute("aria-hidden", "true");
+      slugAnchor.className = "section-anchor";
+      section.prepend(slugAnchor);
+    }
     const head = h("div", "carousel-section__head");
     const h2 = h("h2", "section-head__title");
     const emoji = h("span", undefined, cat.emoji ?? "");
@@ -28,7 +36,11 @@ export function renderCategorySections(
     h2.append(emoji, " " + cat.name);
     head.append(
       h2,
-      h("span", "section-head__count", `${catProducts.length.toLocaleString("fa-IR")} کالا`),
+      h(
+        "span",
+        "section-head__count",
+        `${catProducts.length.toLocaleString("fa-IR")} کالا`,
+      ),
     );
 
     const carousel = h("div", "carousel");
@@ -36,7 +48,8 @@ export function renderCategorySections(
     carousel.setAttribute("aria-label", `کاروسل ${cat.name}`);
     carousel.tabIndex = 0;
     const track = h("ul", "carousel__track");
-    for (const p of catProducts) track.appendChild(createProductCard(p, null, stock));
+    for (const p of catProducts)
+      track.appendChild(createProductCard(p, null, stock));
 
     carousel.appendChild(track);
     section.append(head, carousel);

@@ -3789,3 +3789,12 @@ html.dark-theme .modal__overlay {
   color: var(--text-muted);
   margin-top: 8px;
 }
+.section-anchor {
+  position: absolute;
+  top: calc(-1 * var(--header-h) - 20px);
+  left: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+  visibility: hidden;
+}
