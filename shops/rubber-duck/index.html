@@ -1,29 +1,413 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت اردک پلاستیکی</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>🦆 سلام دنیا!</h1>
-  </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>اردک پلاستیکی</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p><bdi>Rubber Duck Debugging</bdi> از کتاب <bdi>The Pragmatic Programmer</bdi> می‌آید: برنامه‌نویسی یک اردک پلاستیکی روی میزش داشت و کدش را خط‌به‌خط برای آن توضیح می‌داد. اغلب وسط توضیح، خودش باگ را پیدا می‌کرد. توضیح دادن مجبورت می‌کند دقیق فکر کنی.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
-    </section>
-  </main>
-  <footer>
-    <p dir="ltr">slug: <code>rubber-duck</code></p>
-  </footer>
-</body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <meta
+      name="description"
+      content="سوپرمارکت اردک پلاستیکی؛ میوه، لبنیات، نان و مواد غذایی تازه با قیمت منصفانه.">
+    <title>سوپرمارکت اردک پلاستیکی | تازه، نزدیک، به‌صرفه</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body id="top">
+    <a class="skip" href="#main">پرش به محتوای اصلی</a>
+
+    <header class="site-header">
+      <p class="topbar">
+        <span aria-hidden="true">🚚</span> ارسال رایگان برای خریدهای بالای ۵۰۰
+        هزار تومان
+      </p>
+
+      <input type="checkbox" id="menu-toggle" class="sr-only">
+
+      <div class="bar wrap">
+        <a class="logo" href="#top">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 64 64"
+            role="img"
+            aria-labelledby="logo-title"
+          >
+            <title id="logo-title">سوپرمارکت اردک پلاستیکی</title>
+            <polygon points="9,26 25,26 29,40 6,40" fill="#ffc239"></polygon>
+            <circle cx="17" cy="19" r="11" fill="#ffc239"></circle>
+            <polygon points="1,20 8,15 8,25" fill="#fd9903"></polygon>
+            <rect x="5" y="37" width="57" height="18" rx="9" fill="#ffc239"></rect>
+            <rect x="26" y="41" width="26" height="4" rx="2" fill="#ffdd7d"></rect>
+            <ellipse cx="42" cy="49" rx="10" ry="4" fill="#fdad35"></ellipse>
+            <circle cx="14" cy="16" r="2" fill="#393a3a"></circle>
+          </svg>
+          <span class="brand" aria-hidden="true"
+            ><b>سوپرمارکت اردک پلاستیکی</b
+            ><small>تازه، نزدیک، به‌صرفه</small></span
+          >
+        </a>
+
+        <div class="search" role="search">
+          <label class="sr-only" for="q">جستجو در محصولات</label>
+          <svg class="search-ico" viewBox="0 0 24 24" aria-hidden="true">
+            <circle
+              cx="10.5"
+              cy="10.5"
+              r="6.5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.2"
+            />
+            <line
+              x1="15.5"
+              y1="15.5"
+              x2="21"
+              y2="21"
+              stroke="currentColor"
+              stroke-width="2.2"
+              stroke-linecap="round"
+            />
+          </svg>
+          <input
+            id="q"
+            type="search"
+            placeholder="جستجو در میان ۲٬۰۰۰ کالا…"
+            autocomplete="off">
+        </div>
+
+        <button class="cart" type="button" aria-label="سبد خرید، ۳ کالا">
+          <span aria-hidden="true">🛒</span>
+          <span class="cart-label" aria-hidden="true">سبد خرید</span>
+          <span class="count" aria-hidden="true">۳</span>
+        </button>
+
+        <label class="burger" for="menu-toggle"
+          ><span class="sr-only">منو</span
+          ><span aria-hidden="true">☰</span></label
+        >
+      </div>
+
+      <nav class="nav" aria-label="منوی اصلی">
+        <ul class="nav-list wrap">
+          <li class="dd">
+            <a class="dd-link" href="#categories"
+              ><span aria-hidden="true">☰&nbsp;</span>همه دسته‌ها</a
+            >
+            <ul class="dd-menu">
+              <li>
+                <a href="#fruits"
+                  ><span aria-hidden="true">🍎&nbsp;</span>میوه و سبزی</a
+                >
+              </li>
+              <li>
+                <a href="#dairy"
+                  ><span aria-hidden="true">🥛&nbsp;</span>لبنیات</a
+                >
+              </li>
+              <li>
+                <a href="#bakery"
+                  ><span aria-hidden="true">🥖&nbsp;</span>نان و شیرینی</a
+                >
+              </li>
+              <li>
+                <a href="#protein"
+                  ><span aria-hidden="true">🍗&nbsp;</span>پروتئین</a
+                >
+              </li>
+              <li>
+                <a href="#drinks"
+                  ><span aria-hidden="true">🧃&nbsp;</span>نوشیدنی</a
+                >
+              </li>
+              <li>
+                <a href="#snacks"
+                  ><span aria-hidden="true">🍪&nbsp;</span>تنقلات</a
+                >
+              </li>
+            </ul>
+          </li>
+          <li><a href="#deals">پیشنهاد ویژه</a></li>
+          <li><a href="#fruits">میوه و سبزی</a></li>
+          <li><a href="#dairy">لبنیات</a></li>
+          <li><a href="#bakery">نان تازه</a></li>
+          <li><a href="#contact">تماس با ما</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main" tabindex="-1">
+      <section class="intro wrap" aria-label="معرفی فروشگاه">
+        <div class="hero">
+          <div>
+            <h1>میوه‌های تازه، هر روز صبح</h1>
+            <p>مستقیم از باغ‌های اطراف شهر، تا دو ساعت بعد در خانه شما.</p>
+            <a class="btn btn-accent" href="#fruits">خرید میوه و سبزی</a>
+          </div>
+          <span class="art" aria-hidden="true">🍉</span>
+        </div>
+        <div class="promo">
+          <h2>۲۰٪ تخفیف لبنیات</h2>
+          <p>فقط تا پایان هفته</p>
+          <span class="art" aria-hidden="true">🧀</span>
+          <a class="btn btn-brand" href="#dairy">دیدن محصولات</a>
+        </div>
+      </section>
+
+      <section class="block wrap" id="categories" aria-labelledby="cats-title">
+        <div class="head"><h2 id="cats-title">دسته‌بندی‌ها</h2></div>
+        <ul class="cats">
+          <li>
+            <a href="#fruits"
+              ><span class="ico" aria-hidden="true">🍎</span>میوه و سبزی</a
+            >
+          </li>
+          <li>
+            <a href="#dairy"
+              ><span class="ico" aria-hidden="true">🥛</span>لبنیات</a
+            >
+          </li>
+          <li>
+            <a href="#bakery"
+              ><span class="ico" aria-hidden="true">🥖</span>نان و شیرینی</a
+            >
+          </li>
+          <li>
+            <a href="#protein"
+              ><span class="ico" aria-hidden="true">🍗</span>پروتئین</a
+            >
+          </li>
+          <li>
+            <a href="#drinks"
+              ><span class="ico" aria-hidden="true">🧃</span>نوشیدنی</a
+            >
+          </li>
+          <li>
+            <a href="#snacks"
+              ><span class="ico" aria-hidden="true">🍪</span>تنقلات</a
+            >
+          </li>
+        </ul>
+      </section>
+
+      <section class="block wrap" id="deals" aria-labelledby="deals-title">
+        <div class="head">
+          <h2 id="deals-title">
+            <span aria-hidden="true">🔥</span> پیشنهاد ویژه امروز
+          </h2>
+          <div class="pager">
+            <a href="#deals-start" aria-label="رفتن به ابتدای پیشنهادهای ویژه"
+              >→</a
+            >
+            <a href="#deals-end" aria-label="رفتن به انتهای پیشنهادهای ویژه"
+              >←</a
+            >
+          </div>
+        </div>
+        <ul class="track" tabindex="0" aria-labelledby="deals-title">
+          <li id="deals-start">
+            <article class="card" id="fruits">
+              <div class="thumb" aria-hidden="true">🍅</div>
+              <span class="badge">۲۵٪ تخفیف</span>
+              <h3>گوجه‌فرنگی گلخانه‌ای</h3>
+              <p class="size">۱ کیلوگرم</p>
+              <div class="buy">
+                <span class="price"
+                  ><del><span class="sr-only">قیمت قبلی </span>۶۰٬۰۰۰</del
+                  ><strong>۴۵٬۰۰۰ تومان</strong></span
+                ><button
+                  class="add"
+                  type="button"
+                  aria-label="افزودن گوجه‌فرنگی به سبد"
+                >
+                  +
+                </button>
+              </div>
+            </article>
+          </li>
+          <li>
+            <article class="card">
+              <div class="thumb" aria-hidden="true">🥛</div>
+              <span class="badge">۱۵٪ تخفیف</span>
+              <h3>شیر کم‌چرب</h3>
+              <p class="size">۱ لیتر</p>
+              <div class="buy">
+                <span class="price"
+                  ><del><span class="sr-only">قیمت قبلی </span>۴۰٬۰۰۰</del
+                  ><strong>۳۴٬۰۰۰ تومان</strong></span
+                ><button
+                  class="add"
+                  type="button"
+                  aria-label="افزودن شیر کم‌چرب به سبد"
+                >
+                  +
+                </button>
+              </div>
+            </article>
+          </li>
+          <li>
+            <article class="card">
+              <div class="thumb" aria-hidden="true">🍌</div>
+              <h3>موز اکوادور</h3>
+              <p class="size">۱ کیلوگرم</p>
+              <div class="buy">
+                <span class="price"><strong>۹۸٬۰۰۰ تومان</strong></span
+                ><button
+                  class="add"
+                  type="button"
+                  aria-label="افزودن موز اکوادور به سبد"
+                >
+                  +
+                </button>
+              </div>
+            </article>
+          </li>
+          <li>
+            <article class="card">
+              <div class="thumb" aria-hidden="true">🥒</div>
+              <span class="badge">۳۰٪ تخفیف</span>
+              <h3>خیار سالادی</h3>
+              <p class="size">۱ کیلوگرم</p>
+              <div class="buy">
+                <span class="price"
+                  ><del><span class="sr-only">قیمت قبلی </span>۵۰٬۰۰۰</del
+                  ><strong>۳۵٬۰۰۰ تومان</strong></span
+                ><button
+                  class="add"
+                  type="button"
+                  aria-label="افزودن خیار سالادی به سبد"
+                >
+                  +
+                </button>
+              </div>
+            </article>
+          </li>
+          <li>
+            <article class="card" id="protein">
+              <div class="thumb" aria-hidden="true">🍗</div>
+              <h3>ران مرغ</h3>
+              <p class="size">۹۰۰ گرم</p>
+              <div class="buy">
+                <span class="price"><strong>۲۱۰٬۰۰۰ تومان</strong></span
+                ><button
+                  class="add"
+                  type="button"
+                  aria-label="افزودن ران مرغ به سبد"
+                >
+                  +
+                </button>
+              </div>
+            </article>
+          </li>
+          <li>
+            <article class="card" id="bakery">
+              <div class="thumb" aria-hidden="true">🥖</div>
+              <h3>نان سنگک</h3>
+              <p class="size">۱ عدد</p>
+              <div class="buy">
+                <span class="price"><strong>۲۰٬۰۰۰ تومان</strong></span
+                ><button
+                  class="add"
+                  type="button"
+                  aria-label="افزودن نان سنگک به سبد"
+                >
+                  +
+                </button>
+              </div>
+            </article>
+          </li>
+          <li>
+            <article class="card" id="drinks">
+              <div class="thumb" aria-hidden="true">🧃</div>
+              <h3>آب‌پرتقال طبیعی</h3>
+              <p class="size">۱ لیتر</p>
+              <div class="buy">
+                <span class="price"><strong>۷۵٬۰۰۰ تومان</strong></span
+                ><button
+                  class="add"
+                  type="button"
+                  aria-label="افزودن آب‌پرتقال طبیعی به سبد"
+                >
+                  +
+                </button>
+              </div>
+            </article>
+          </li>
+          <li id="deals-end">
+            <article class="card" id="snacks">
+              <div class="thumb" aria-hidden="true">🍪</div>
+              <h3>بیسکوییت کره‌ای</h3>
+              <p class="size">۲۰۰ گرم</p>
+              <div class="buy">
+                <span class="price"><strong>۴۸٬۰۰۰ تومان</strong></span
+                ><button
+                  class="add"
+                  type="button"
+                  aria-label="افزودن بیسکوییت کره‌ای به سبد"
+                >
+                  +
+                </button>
+              </div>
+            </article>
+          </li>
+        </ul>
+      </section>
+
+      <section class="banners wrap" aria-label="پیشنهادهای ویژه">
+        <a class="banner b1" href="#dairy"
+          ><span>سبد صبحانه خانواده</span><span aria-hidden="true">🍳</span></a
+        >
+        <a class="banner b2" href="#bakery"
+          ><span>نان داغ، هر روز ساعت ۷</span
+          ><span aria-hidden="true">🥐</span></a
+        >
+      </section>
+
+      <section class="block wrap" id="dairy" aria-labelledby="dairy-title">
+        <div class="head">
+          <h2 id="dairy-title"><span aria-hidden="true">🥛</span> لبنیات</h2>
+          <div class="pager" id="dairy-pager" hidden>
+            <a href="#dairy-start" aria-label="رفتن به ابتدای لبنیات">→</a>
+            <a href="#dairy-end" aria-label="رفتن به انتهای لبنیات">←</a>
+          </div>
+        </div>
+        <div class="state" id="dairy-status" role="status" hidden></div>
+        <ul
+          class="track"
+          id="dairy-track"
+          tabindex="0"
+          aria-labelledby="dairy-title"
+          aria-busy="true"
+        ></ul>
+      </section>
+    </main>
+
+    <footer class="footer" id="contact">
+      <div class="wrap cols">
+        <div>
+          <h2>سوپرمارکت اردک پلاستیکی</h2>
+          <p>از سال ۱۴۰۵ کنار شما هستیم؛ کالای تازه با قیمت منصفانه.</p>
+          <address>
+            <span aria-hidden="true">📍</span> تهران، خیابان نمونه، پلاک ۴۰<br>
+            <span aria-hidden="true">☎</span>
+            <a class="tel" href="tel:+982112345678">۰۲۱&#8209;۱۲۳۴۵۶۷۸</a>
+          </address>
+        </div>
+        <div>
+          <h2>دسته‌ها</h2>
+          <ul>
+            <li><a href="#fruits">میوه و سبزی</a></li>
+            <li><a href="#dairy">لبنیات</a></li>
+            <li><a href="#bakery">نان و شیرینی</a></li>
+            <li><a href="#protein">پروتئین</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>ساعت کاری</h2>
+          <p>شنبه تا پنج‌شنبه: ۸ تا ۲۲<br>جمعه: ۹ تا ۱۴</p>
+        </div>
+      </div>
+      <div class="wrap footer-bottom">
+        <small>© ۱۴۰۵ سوپرمارکت اردک پلاستیکی · عضو دار و دسته چهل‌نفره</small>
+        <a href="#top"><span aria-hidden="true">↑ </span>بازگشت به بالا</a>
+      </div>
+    </footer>
+  </body>
 </html>

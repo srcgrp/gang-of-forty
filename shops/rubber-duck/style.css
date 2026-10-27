@@ -1,13 +1,848 @@
-/* Your shop's styles. Week 1: make it yours! */
-body {
-  font-family: Vazirmatn, Tahoma, sans-serif;
-  margin: 0;
-  padding: 1rem;
-  line-height: 1.8;
-  background: #f7faf5;
-  color: #1f2a1c;
+/* ---------- Tokens ---------- */
+:root {
+  --font: Vazirmatn, "Segoe UI", Tahoma, system-ui, sans-serif;
+  --bg: #f3f7f2;
+  --surface: #ffffff;
+  --text: #14231b;
+  --muted: #4a5c51;
+  --line: #d5e2d9;
+  --tint: #e3f0e7;
+  --brand: #226b42;
+  --heading: #17432f;
+  --accent: #f2b632;
+  --accent-ink: #2b1d00;
+  --sale: #c23a22;
+  --focus: #0a58ca;
+  --promo: #fbebc4;
+  --b1: #ddeee2;
+  --b2: #f8ddd5;
+  --foot: #11281d;
+  --s: 75%;
+  --l: 90%; /* thumbnail tint saturation / lightness */
+  --t: 0.2s; /* animation duration */
+  --topbar-h: 2rem;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0e1913;
+    --surface: #17261d;
+    --text: #eaf3ed;
+    --muted: #a9bbaf;
+    --line: #2b4033;
+    --tint: #223a2c;
+    --heading: #9be3b8;
+    --focus: #ffd166;
+    --promo: #3b3114;
+    --b1: #1e3a2b;
+    --b2: #42241e;
+    --s: 30%;
+    --l: 26%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --t: 0s;
+  }
 }
 
-h1 {
-  color: #2e7d32;
+/* ---------- Base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
+html {
+  scroll-padding-top: 5.5rem;
+  -webkit-text-size-adjust: 100%;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html,
+  .track {
+    scroll-behavior: smooth;
+  }
+}
+body {
+  margin: 0;
+  font: 1rem/1.7 var(--font);
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: clip;
+}
+h1,
+h2,
+h3,
+p {
+  overflow-wrap: anywhere;
+}
+a {
+  color: var(--heading);
+}
+.wrap {
+  width: min(100% - 1.5rem, 75rem);
+  margin-inline: auto;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+main:focus {
+  outline: none;
+}
+
+.skip {
+  position: absolute;
+  z-index: 100;
+  top: -6rem;
+  inset-inline-start: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  background: #17432f;
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+}
+.skip:focus {
+  top: 0.5rem;
+  outline: 3px solid #ffd166;
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  position: sticky;
+  top: calc(-1 * var(--topbar-h));
+  z-index: 20;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+.topbar {
+  margin: 0;
+  height: var(--topbar-h);
+  line-height: var(--topbar-h);
+  background: #17432f;
+  color: #fff;
+  text-align: center;
+  font-size: clamp(0.75rem, 2.8vw, 0.85rem);
+  white-space: nowrap;
+  overflow: hidden;
+}
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 4rem;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+  min-height: 2.75rem;
+  margin-inline-end: auto;
+  color: inherit;
+  text-decoration: none;
+}
+.logo svg {
+  flex: none;
+  width: 2.6rem;
+  height: 2.6rem;
+}
+.brand {
+  min-width: 0;
+  line-height: 1.3;
+}
+.brand b {
+  display: block;
+  font-size: 1rem;
+}
+.brand small {
+  display: none;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+.search {
+  display: none;
+  position: relative;
+}
+.search-ico {
+  position: absolute;
+  top: 50%;
+  inset-inline-start: 1rem;
+  width: 1.2rem;
+  height: 1.2rem;
+  transform: translateY(-50%);
+  color: var(--muted);
+  pointer-events: none;
+}
+.search input {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  padding-inline-start: 2.9rem;
+  border: 1px solid var(--line);
+  border-radius: 2rem;
+  background: var(--bg);
+  color: inherit;
+  font: inherit;
+}
+.search input::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+.cart {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.75rem;
+  padding: 0 0.8rem;
+  border: 0;
+  border-radius: 2rem;
+  background: var(--tint);
+  color: var(--heading);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.cart-label {
+  display: none;
+}
+.count {
+  display: grid;
+  place-items: center;
+  min-width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background: var(--sale);
+  color: #fff;
+  font-size: 0.75rem;
+}
+.burger {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  color: var(--heading);
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+#menu-toggle:checked ~ .bar .burger {
+  background: var(--tint);
+}
+#menu-toggle:focus-visible ~ .bar .burger {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+/* Main menu (mobile first: collapsed panel, no JavaScript) */
+.nav {
+  position: absolute;
+  inset-inline: 0;
+  top: 100%;
+  max-height: calc(100vh - 5rem);
+  overflow-y: auto;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-0.5rem);
+  transition:
+    opacity var(--t),
+    transform var(--t),
+    visibility 0s linear var(--t);
+}
+#menu-toggle:checked ~ .nav {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+  transition-delay: 0s;
+}
+.nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.nav-list {
+  padding-block: 0.5rem !important;
+}
+.nav a {
+  display: flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0 0.5rem;
+  color: var(--text);
+  text-decoration: none;
+  border-radius: 0.5rem;
+}
+.nav a:hover {
+  background: var(--tint);
+}
+.dd-link {
+  font-weight: 700;
+  color: var(--heading) !important;
+}
+.dd-menu {
+  padding-inline-start: 1rem !important;
+}
+
+/* ---------- Hero ---------- */
+.intro {
+  display: grid;
+  gap: 1rem;
+  margin-block: 1.25rem 0;
+}
+.hero {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 1rem;
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+  border-radius: 1.25rem;
+  background: var(--brand);
+  color: #fff;
+  min-height: 14rem;
+}
+.hero h1 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.6rem, 5vw, 2.6rem);
+  line-height: 1.35;
+}
+.hero p {
+  margin: 0 0 1rem;
+  max-width: 34ch;
+  color: #e4f2e9;
+}
+.hero :focus-visible {
+  outline-color: #fff;
+}
+.art {
+  font-size: clamp(3.5rem, 11vw, 6rem);
+  line-height: 1;
+}
+.promo {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.5rem;
+  padding: 1.25rem;
+  border-radius: 1.25rem;
+  background: var(--promo);
+}
+.promo h2 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+.promo p {
+  margin: 0;
+}
+.promo .art {
+  margin-block: auto;
+  text-align: center;
+  font-size: 4rem;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: 0 1.25rem;
+  border-radius: 2rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.btn-accent {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+.btn-brand {
+  background: var(--brand);
+  color: #fff;
+}
+
+/* ---------- Sections ---------- */
+.block {
+  margin-block: 2rem;
+}
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+.head h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--heading);
+}
+.block:target h2 {
+  text-decoration: underline 3px var(--accent);
+  text-underline-offset: 0.4rem;
+}
+.block:target h2::after {
+  content: " (اینجا هستید)";
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+:is(.cats, .track) > li {
+  --h: 8;
+}
+:is(.cats, .track) > li:nth-child(6n + 2) {
+  --h: 215;
+}
+:is(.cats, .track) > li:nth-child(6n + 3) {
+  --h: 45;
+}
+:is(.cats, .track) > li:nth-child(6n + 4) {
+  --h: 340;
+}
+:is(.cats, .track) > li:nth-child(6n + 5) {
+  --h: 150;
+}
+:is(.cats, .track) > li:nth-child(6n) {
+  --h: 265;
+}
+
+.cats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cats a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  height: 100%;
+  min-height: 6rem;
+  padding: 0.9rem 0.3rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  color: var(--text);
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+.cats a:hover {
+  background: var(--tint);
+}
+.ico,
+.thumb {
+  display: grid;
+  place-items: center;
+  background: hsl(var(--h) var(--s) var(--l));
+}
+.ico {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  font-size: 1.6rem;
+}
+
+/* ---------- Carousel ---------- */
+.pager {
+  display: flex;
+  gap: 0.5rem;
+}
+.pager a {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--heading);
+  font-size: 1.25rem;
+  text-decoration: none;
+}
+.track {
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  padding: 0.75rem 0.5rem 1.25rem;
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 0.5rem;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+}
+.track > li {
+  flex: 0 0 min(14rem, 72%);
+  scroll-snap-align: start;
+}
+/* First/last card are the arrow targets: the extra margin makes the browser
+   align the section title (with the arrows) under the header, not the card,
+   so the arrows never jump out of view. */
+.track > li:first-child,
+.track > li:last-child {
+  scroll-margin-top: 4rem;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  height: 100%;
+  padding: 0.75rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  transition: transform var(--t);
+}
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0.75rem 1.5rem rgb(0 0 0 / 0.22);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--t);
+}
+.card:hover,
+.card:focus-within {
+  transform: translateY(-0.25rem);
+}
+.card:hover::after,
+.card:focus-within::after {
+  opacity: 1;
+}
+.card:target {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+.thumb {
+  aspect-ratio: 4 / 3;
+  border-radius: 0.75rem;
+  font-size: 3.5rem;
+}
+.card h3 {
+  margin: 0.5rem 0 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+.size {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.buy {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+.price {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.price del {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+.price strong {
+  font-size: 0.95rem;
+}
+.add {
+  flex: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 0;
+  border-radius: 0.75rem;
+  background: var(--brand);
+  color: #fff;
+  font: inherit;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+.add:disabled {
+  background: var(--line);
+  color: var(--muted);
+  cursor: not-allowed;
+}
+.badge {
+  position: absolute;
+  inset-block-start: 1.1rem;
+  inset-inline-end: 1.1rem;
+  padding: 0.05rem 0.55rem;
+  border-radius: 2rem;
+  background: var(--sale);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.badge-out {
+  background: #4a5c51;
+  color: #fff;
+}
+.out .thumb {
+  opacity: 0.5;
+}
+
+/* ---------- Banners ---------- */
+.banners {
+  display: grid;
+  gap: 1rem;
+  margin-block: 1rem;
+}
+.banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 5.5rem;
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+  color: var(--text);
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.banner > span:last-child {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+.b1 {
+  background: var(--b1);
+}
+.b2 {
+  background: var(--b2);
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  margin-top: 3rem;
+  padding-block: 2rem 1rem;
+  background: var(--foot);
+  color: #d5e3da;
+}
+.footer :focus-visible {
+  outline-color: #ffd166;
+}
+.footer a {
+  color: #ffd166;
+}
+.footer h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  color: #fff;
+}
+.footer p {
+  margin: 0 0 0.5rem;
+}
+.footer ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.footer li a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  text-decoration: none;
+  color: #fff;
+}
+.footer address {
+  font-style: normal;
+}
+.tel {
+  display: inline-block;
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-decoration: none;
+  color: #fff;
+}
+
+.cols {
+  display: grid;
+  gap: 1.5rem;
+}
+.footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #2f4a3b;
+  font-size: 0.9rem;
+}
+.footer-bottom a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  text-decoration: none;
+  color: #fff;
+}
+
+.footer-bottom a span {
+  font-size: 25px;
+}
+
+/* ---------- Small phones and up ---------- */
+@media (min-width: 30rem) {
+  .brand small {
+    display: block;
+  }
+  .cart-label {
+    display: inline;
+  }
+}
+
+/* ---------- Desktop ---------- */
+@media (min-width: 48rem) {
+  html {
+    scroll-padding-top: 8.5rem;
+  }
+  .wrap {
+    width: min(100% - 4rem, 75rem);
+  }
+  #menu-toggle,
+  .burger {
+    display: none;
+  }
+  .logo {
+    margin-inline-end: 0;
+  }
+  .search {
+    display: block;
+    flex: 1;
+    max-width: 36rem;
+    margin-inline: auto;
+  }
+  .bar {
+    gap: 1rem;
+    min-height: 4.25rem;
+  }
+  .brand b {
+    font-size: 1.15rem;
+  }
+
+  .nav {
+    position: static;
+    max-height: none;
+    overflow: visible;
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    border-top: 1px solid var(--line);
+    border-bottom: 0;
+  }
+  .nav-list {
+    display: flex;
+    gap: 0.25rem;
+    padding-block: 0 !important;
+  }
+  .nav a {
+    padding: 0 0.9rem;
+  }
+  .dd {
+    position: relative;
+  }
+  .dd-menu {
+    position: absolute;
+    inset-inline-start: 0;
+    top: 100%;
+    z-index: 30;
+    min-width: 13rem;
+    padding: 0.4rem !important;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 0.75rem;
+    box-shadow: 0 0.75rem 1.5rem rgb(0 0 0 / 0.18);
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-0.5rem);
+    transition:
+      opacity var(--t),
+      transform var(--t),
+      visibility 0s linear var(--t);
+  }
+  .dd:hover .dd-menu,
+  .dd:focus-within .dd-menu {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition-delay: 0s;
+  }
+
+  .intro {
+    grid-template-columns: 2fr 1fr;
+    margin-top: 1.5rem;
+  }
+  .cats {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .track {
+    gap: 1rem;
+  }
+  .track > li {
+    flex-basis: 14rem;
+  }
+  .banners {
+    grid-template-columns: 1fr 1fr;
+  }
+  .cols {
+    grid-template-columns: 1.6fr 1fr 1fr;
+  }
+}
+
+/* ---------- Reduced motion: no movement, only instant state changes ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .card:hover,
+  .card:focus-within {
+    transform: none;
+  }
+  .nav,
+  .dd-menu {
+    transform: none;
+  }
+}
+
+/* ---------- Loading and error states (filled by app.js) ---------- */
+[hidden] { display: none !important; }
+.state { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .75rem; padding: 1rem 1.25rem; border: 1px solid var(--line); border-radius: 1rem; background: var(--surface); color: var(--text); }
+.state p { margin: 0; }
+.state.error { background: var(--b2); border-color: var(--sale); }
+.skeleton { pointer-events: none; }
+.skel { border-radius: .75rem; background: var(--line); animation: pulse 1.2s ease-in-out infinite; }
+.skel-thumb { aspect-ratio: 4 / 3; }
+.skel-line { height: 1rem; margin-top: .75rem; }
+.skel-line.short { width: 60%; }
+@keyframes pulse { 50% { opacity: .45; } }
+@media (prefers-reduced-motion: reduce) { .skel { animation: none; } }
+
+/* Give each card its own compositor layer up front, so hover/focus only
+   composites (no repaint of the whole carousel). */
+.card { will-change: transform; }
+.card::after { will-change: opacity; }
