@@ -7,7 +7,7 @@
   <title>اسپیس مارکت | سوپرمارکت شما</title>
 
   <style>.notyf__toast{direction:rtl}#search-icon svg,#cart-icon svg{stroke:currentColor;stroke-width:2px;stroke-linecap:round;stroke-linejoin:round;fill:none;width:24px;height:24px}.notyf__icon svg{stroke:#fff;stroke-width:2px;stroke-linecap:round;stroke-linejoin:round;fill:none;width:20px;height:20px}</style>
-  <script type="module" crossorigin src="./assets/index-B-H2QR1b.js"></script>
+  <script type="module" crossorigin src="./assets/index-CBweLSnS.js"></script>
   <link rel="stylesheet" crossorigin href="./assets/index-CCmTN2Wy.css">
 </head>
 
@@ -46,11 +46,12 @@
         <span class="search-icon" id="search-icon" aria-hidden="true"></span>
       </div>
 
-      <a href="#cart" class="cart" aria-label="سبد خرید - ۳ محصول">
+      <a href="#cart" class="cart" aria-label="سبد خرید">
         <span class="cart-icon" id="cart-icon" aria-hidden="true"></span>
         <span>سبد خرید</span>
-        <b aria-hidden="true">۳</b>
+        <b id="cart-count" aria-live="polite">0</b>
       </a>
+
 
     </div>
 
@@ -59,7 +60,7 @@
         <div class="categories-menu">
           <button class="active" aria-haspopup="true" aria-expanded="false" type="button">دسته‌بندی‌ها</button>
           <div class="categories-dropdown" role="menu">
-            <a href="#dairy" role="menuitem"><span aria-hidden="true">🥛</span> لبنیات و تخم‌مرغ</a>
+            <a href="#dairy-products" role="menuitem"><span aria-hidden="true">🥛</span> لبنیات و تخم‌مرغ</a>
             <a href="#vegtables" role="menuitem"><span aria-hidden="true">🥬</span> میوه و سبزیجات</a>
             <a href="#bread" role="menuitem"><span aria-hidden="true">🍞</span> نان و غلات</a>
             <a href="#snacks" role="menuitem"><span aria-hidden="true">🍪</span> تنقلات و شیرینی</a>
@@ -68,9 +69,9 @@
           </div>
 
         </div>
-        <a href="#offers">پیشنهادهای امروز</a>
-        <a href="#sales">تخفیف‌دار ها</a>
-        <a href="#dairy">لبنیات</a>
+        <a href="#dailyOffers">پیشنهادهای امروز</a>
+        <a href="#dailyOffers">تخفیف‌دار ها</a>
+        <a href="#dairy-products">لبنیات</a>
         <a href="#snacks">تنقلات</a>
         <a href="#drinks">نوشیدنی</a>
         <a href="#cosmetics">آرایشی و بهداشتی</a>
@@ -106,7 +107,7 @@
       <div class="popular-products" tabindex="0">
 
         <article class="popular-products-items">
-          <a href="#milks">
+          <a href="#dairy-products">
             <div class="popular-products-cards">
               <img src="./assets/dairy-eggs-C1YIFzKv.png"
                    width="60"

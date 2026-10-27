@@ -7,6 +7,7 @@ import {
   X,
   AlertCircle,
 } from "lucide-static";
+
 interface Product {
   id: number;
   name: string;
