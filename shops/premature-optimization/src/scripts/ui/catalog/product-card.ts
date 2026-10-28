@@ -1,5 +1,6 @@
 import type { Product, ProductCardOptions } from "../../types";
 import { makeElement } from "../shared/make-element";
+import { assetUrl } from "../shared/asset-url";
 const format = new Intl.NumberFormat("fa-IR");
 export function makeProductCard(
   product: Product,
@@ -9,9 +10,14 @@ export function makeProductCard(
   const card = makeElement("li", "product-item"),
     image = makeElement("div", "product-icon product-emoji"),
     img = makeElement("img");
-  img.src = product.image;
-  img.alt = product.name;
-  image.append(img);
+  if (product.image) {
+    img.src = assetUrl(product.image);
+    img.alt = product.name;
+    image.append(img);
+  } else
+    image.append(
+      makeElement("span", "product-emoji-char", product.emoji || "🛍️"),
+    );
   const tag = makeElement("p", "item-tag", categoryName || "محصول"),
     quantity = stock.items[String(product.id)] ?? 0;
   const discount = makeElement("span", "product-discount"),

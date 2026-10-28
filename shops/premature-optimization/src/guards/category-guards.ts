@@ -9,7 +9,7 @@ export function isCategory(x: unknown): x is Category {
     isString(x.slug) &&
     x.slug !== "" &&
     isString(x.name) &&
-    isString(x.image) &&
+    (x.image === undefined || isString(x.image)) &&
     isNullableString(x.emoji) &&
     isString(x.color)
   );

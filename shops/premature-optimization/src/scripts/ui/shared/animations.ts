@@ -24,8 +24,10 @@ export function animateCartIcon(): void {
 
 export function animateProductToCart(button: HTMLButtonElement): void {
   const card: HTMLElement | null = button.closest<HTMLElement>(".product-item");
-  const productImage: HTMLImageElement | null =
-    card?.querySelector<HTMLImageElement>(".product-icon img") ?? null;
+  const productImage: HTMLElement | null =
+    card?.querySelector<HTMLElement>(
+      ".product-icon img, .product-icon .product-emoji-char",
+    ) ?? null;
   const cartButton: HTMLButtonElement | null =
     document.querySelector<HTMLButtonElement>("#cart-button");
 
@@ -41,9 +43,7 @@ export function animateProductToCart(button: HTMLButtonElement): void {
     return;
   }
 
-  const flyingImage: HTMLImageElement = productImage.cloneNode(
-    true,
-  ) as HTMLImageElement;
+  const flyingImage: HTMLElement = productImage.cloneNode(true) as HTMLElement;
   Object.assign(flyingImage.style, {
     position: "fixed",
     left: `${imageRect.left}px`,
@@ -57,6 +57,15 @@ export function animateProductToCart(button: HTMLButtonElement): void {
     transformOrigin: "center center",
     willChange: "transform, opacity",
   });
+  if (!(productImage instanceof HTMLImageElement)) {
+    Object.assign(flyingImage.style, {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontSize: getComputedStyle(productImage).fontSize,
+      lineHeight: "1",
+    });
+  }
   document.body.append(flyingImage);
 
   const deltaX: number =

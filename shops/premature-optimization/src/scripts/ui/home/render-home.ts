@@ -1,5 +1,6 @@
 import type { BannerData, Category, Home, Promo } from "../../types";
 import { makeElement, appendLink } from "../shared/make-element";
+import { assetUrl } from "../shared/asset-url";
 function banner(
   data: BannerData | null | undefined,
   variant: string,
@@ -21,7 +22,7 @@ function banner(
   const art = makeElement("span", "banner-art");
   if (data.emoji?.endsWith(".svg")) {
     const img = makeElement("img");
-    img.src = data.emoji;
+    img.src = assetUrl(data.emoji);
     img.alt = data.name ?? data.title;
     art.append(img);
   } else art.textContent = data.emoji || "🛍️";
@@ -39,7 +40,7 @@ function renderPromos(container: HTMLElement, promos: Promo[]): void {
     appendLink(content, "دیدن محصولات", promo.href || "#", "promo-link");
     if (promo.emoji?.endsWith(".svg")) {
       const img = makeElement("img");
-      img.src = promo.emoji;
+      img.src = assetUrl(promo.emoji);
       img.alt = promo.name ?? promo.text;
       icon.append(img);
     } else icon.textContent = promo.emoji || "🛍️";
@@ -80,7 +81,7 @@ export function renderCategories(categories: Category[]): void {
     icon.style.backgroundColor = category.color || "var(--light-blue)";
     if (category.image?.endsWith(".svg")) {
       const img = makeElement("img");
-      img.src = category.image;
+      img.src = assetUrl(category.image);
       img.alt = category.name;
       icon.append(img);
     } else icon.textContent = category.emoji || "🛒";

@@ -281,3 +281,22 @@
       font-size: 0.75rem;
     }
 }
+
+.product-emoji-char {
+  display: block;
+  font-size: 5rem;
+  line-height: 1;
+  user-select: none;
+}
+
+@media (max-width: 700px) {
+  .product-emoji-char {
+    font-size: 3.5rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .product-emoji-char {
+    font-size: 3.75rem;
+  }
+}

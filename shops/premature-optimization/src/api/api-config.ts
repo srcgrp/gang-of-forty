@@ -1,10 +1,12 @@
+const API_URL: string = import.meta.env.VITE_API_URL;
+
 export const API_PATHS = {
-  products: "/api/products.json",
-  stock: "/api/stock.json",
-  offers: "/api/offers.json",
-  categories: "/api/categories.json",
-  shop: "/api/shop.json",
-  home: "/api/home.json",
+  products: `${API_URL}/products.json`,
+  stock: `${API_URL}/stock.json`,
+  offers: `${API_URL}/offers.json`,
+  categories: `${API_URL}/categories.json`,
+  shop: `${API_URL}/shop.json`,
+  home: `${API_URL}/home.json`,
 } as const;
 
 export const USER_MESSAGES = {

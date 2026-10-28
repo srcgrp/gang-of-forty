@@ -9,7 +9,8 @@ export function isProduct(x: unknown): x is Product {
     Number.isInteger(x.categoryId) &&
     isString(x.name) &&
     x.name.trim() !== "" &&
-    isString(x.image) &&
+    (x.image === undefined || isString(x.image)) &&
+    (x.emoji === undefined || isString(x.emoji)) &&
     isString(x.unit) &&
     isFiniteNumber(x.price) &&
     Number.isInteger(x.price) &&
