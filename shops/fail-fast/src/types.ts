@@ -87,3 +87,13 @@ export const CATEGORY_IDS = {
 } as const;
 
 export type CategoryId = (typeof CATEGORY_IDS)[keyof typeof CATEGORY_IDS];
+
+/**
+ * Discriminated union for loading states.
+ * Used to represent async data fetching states in a type-safe manner.
+ */
+export type LoadState<T> =
+  | { status: "loading" }
+  | { status: "success"; data: T }
+  | { status: "empty" }
+  | { status: "error"; message: string };
