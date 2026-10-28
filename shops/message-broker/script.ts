@@ -386,3 +386,28 @@ container.addEventListener('click', (e: MouseEvent) => {
 
 init()
 initLayout()
+
+import type { LoadState } from './src/types'
+
+function assertNever(x: never): never {
+    throw new Error(`حالت غیرمنتظره: ${JSON.stringify(x)}`)
+}
+
+export function renderLoadState(state: LoadState, container: HTMLElement): void {
+    switch (state.status) {
+        case 'loading':
+            container.innerHTML = '<p class="status-msg">در حال بارگذاری اطلاعات...</p>'
+            break
+        case 'success':
+            container.innerHTML = `<ul>${state.products.map(p => `<li>${p.name} - ${p.price} تومان</li>`).join('')}</ul>`
+            break
+        case 'empty':
+            container.innerHTML = '<p class="status-msg">محصولی یافت نشد.</p>'
+            break
+        case 'error':
+            container.innerHTML = `<p class="status-error">خطا: ${state.message}</p>`
+            break
+        default:
+            assertNever(state)
+    }
+}
