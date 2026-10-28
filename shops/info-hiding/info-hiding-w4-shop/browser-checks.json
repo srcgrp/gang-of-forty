@@ -1,0 +1,46 @@
+{
+  "dev": {
+    "products": 43,
+    "categories": 7,
+    "offers": 10,
+    "network_initial_all_200": true,
+    "cart_and_storage": "passed",
+    "filters_and_sort": "passed",
+    "mobile_and_mirror": "passed",
+    "console_errors": []
+  },
+  "edge_cases": [
+    "invalid products skipped with count",
+    "broken.json",
+    "missing.json",
+    "retry",
+    "empty",
+    "invalid stock",
+    "loading",
+    "corrupt storage",
+    "untrusted price ignored",
+    "quantity reconciled",
+    "safe API text"
+  ],
+  "preview": {
+    "products": 43,
+    "categories": 7,
+    "offers": 10,
+    "network_initial_all_200": true,
+    "cart_and_storage": "passed",
+    "filters_and_sort": "passed",
+    "mobile_and_mirror": "passed",
+    "console_errors": []
+  },
+  "static": {
+    "products": 16,
+    "categories": 5,
+    "offers": 4,
+    "network_initial_all_200": true,
+    "cart_and_storage": "passed",
+    "filters_and_sort": "passed",
+    "mobile_and_mirror": "passed",
+    "console_errors": []
+  },
+  "local_api_unchanged": true
+}
