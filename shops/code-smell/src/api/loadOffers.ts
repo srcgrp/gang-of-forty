@@ -1,6 +1,20 @@
 import type { Offer } from "../types"
 import { getJSON } from "./getJSON"
-import { isOffer } from "./isOffer"
+
+function isOffer(value: unknown): value is Offer {
+    if (typeof value !== "object" || value === null) {
+        return false
+    }
+
+    return (
+        "productId" in value &&
+        typeof value.productId === "number" &&
+        "percent" in value &&
+        typeof value.percent === "number" &&
+        "label" in value &&
+        typeof value.label === "string"
+    )
+}
 
 export async function loadOffers(path: string): Promise<Offer[]> {
     const data = await getJSON(path)

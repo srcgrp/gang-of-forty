@@ -1,5 +1,3 @@
-'use strict';
-
 export const shopContent = {
         "guide": {
         "title": "راهنمای خرید",
@@ -36,4 +34,4 @@ export const shopContent = {
             }
         ]
     }
-};
+}

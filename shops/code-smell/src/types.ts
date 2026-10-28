@@ -17,33 +17,20 @@ export type Category = {
 export type Offer = { productId: number, percent: number, label: string }
 export type Stock = { updatedAt: string, items: Record<number, number> }
 export type Link = { label: string, href: string }
-
 export type Shop = {
-    name: string
-    slogan: string
-    owner: string
-    city: string
-    phone: string
+    name: string, slogan: string
+    owner: string, city: string
+    phone: string, address: string
     hours: { open: string, close: string }
-    deliveryFee: number
-    freeDeliveryOver: number
+    deliveryFee: number, freeDeliveryOver: number
     currency: string
     notice: string
     about: string
-    address: string
     schedule: { days: string, time: string }[]
-    menu: Link[]
-    help: Link[]
+    menu: Link[], help: Link[]
     copyright: string
 }
-
-export type Banner = {
-    title: string
-    text: string
-    emoji: string
-    cta: Link
-}
-
+export type Banner = { title: string, text: string, emoji: string, cta: Link }
 export const productFilters = ["all", "offers", "category"] as const
 export type ProductFilter = (typeof productFilters)[number]
 export type Carousel = {
@@ -59,9 +46,25 @@ export type Home = {
     promos: { text: string, emoji: string, color: string, href: string }[]
     carousels: Carousel[]
 }
+export type Cart = Record<number, number>
 export type CartItem = Pick<Product, "id"> & { quantity: number }
+export type ProductCardData = Product & {
+    offer: Offer | undefined
+    isUnavailable: boolean
+    categoryName: string
+    finalPrice: number
+}
 export type LoadState =
     | { status: "loading" }
     | { status: "success", products: Product[] }
     | { status: "empty" }
     | { status: "error", message: string }
+export type CarouselWithProducts = Carousel & { products: ProductCardData[] }
+export type ShopData = {
+    products: Product[]
+    stock: Stock
+    offers: Offer[]
+    categories: Category[]
+    shop: Shop
+    home: Home
+}
