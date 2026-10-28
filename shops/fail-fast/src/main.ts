@@ -8,29 +8,8 @@ import {
   AlertCircle,
 } from "lucide-static";
 
-interface Product {
-  id: number;
-  name: string;
-  categoryId: number;
-  price: number;
-  unit: string;
-  emoji: string;
-}
-
-interface Offer {
-  productId: number;
-  percent: number;
-}
-
-interface Stock {
-  items: Record<number, number>;
-}
-
-interface OfferProduct extends Product {
-  percent: number;
-  quantity: number;
-  discountedPrice: number;
-}
+import type { Product, Offer, Stock, OfferProduct } from "./types.js";
+import { getJSON } from "./api/client.js";
 
 // API URLs
 const API_PRODUCTS_URL = "../../api/products.json";
@@ -44,7 +23,6 @@ const icons = {
   x: X,
   alertCircle: AlertCircle,
 };
-
 
 let notyf: Notyf;
 
@@ -106,29 +84,31 @@ function initializeIcons(): void {
 async function loadDairyProducts(): Promise<void> {
   const container = document.querySelector<HTMLElement>("#dairy-products");
 
- 
-
   if (!container) {
     console.error("Container #dairy-products not found");
     return;
   }
-    const loadingMessage = document.createElement("p");
-    loadingMessage.textContent = "در حال بارگذاری محصولات...";
-    loadingMessage.setAttribute("role", "status");
 
-    container.appendChild(loadingMessage);
+  const loadingMessage = document.createElement("p");
+  loadingMessage.textContent = "در حال بارگذاری محصولات...";
+  loadingMessage.setAttribute("role", "status");
+
+  container.appendChild(loadingMessage);
 
   try {
-    const response = await fetch(API_PRODUCTS_URL);
+    const data = await getJSON(API_PRODUCTS_URL);
 
-    if (!response.ok) {
-      throw new Error("لطفا چند لحظه منتظر بمانید");
+    // Runtime type assertion - data is unknown
+    if (!Array.isArray(data)) {
+      throw new Error("Invalid products data: expected array");
     }
 
-    const products: Product[] = await response.json();
+    const products: Product[] = data as Product[];
+
     const dairyProducts = products.filter((product: Product): boolean => {
       return product.categoryId === 2;
     });
+
     loadingMessage.remove();
 
     const template = container.querySelector<HTMLElement>("#dairy-template");
@@ -170,32 +150,28 @@ async function loadDairyProducts(): Promise<void> {
       if (button) {
         button.setAttribute("aria-label", `افزودن ${product.name} به سبد خرید`);
 
-      button.addEventListener("click", (): void => {
-        cartCount += 1;
-        updateCartCount();
+        button.addEventListener("click", (): void => {
+          cartCount += 1;
+          updateCartCount();
 
-        notyf.success(`${product.name} به سبد خرید اضافه شد`);
-      });
+          notyf.success(`${product.name} به سبد خرید اضافه شد`);
+        });
       }
 
       container.appendChild(card);
     });
+  } catch (error) {
+    console.error("خطا در دریافت محصولات لبنی:", error);
 
-  } 
+    const message = document.createElement("p");
+    message.textContent =
+      "دریافت محصولات با مشکل مواجه شد. لطفاً دوباره تلاش کنید.";
+    message.setAttribute("role", "alert");
 
-catch (error) {
-  console.error("خطا در دریافت محصولات لبنی:", error);
+    container.replaceChildren(message);
 
-  const message = document.createElement("p");
-  message.textContent =
-    "دریافت محصولات با مشکل مواجه شد. لطفاً دوباره تلاش کنید.";
-  message.setAttribute("role", "alert");
-
-  container.replaceChildren(message);
-
-  notyf.error("دریافت محصولات با مشکل مواجه شد. لطفاً دوباره تلاش کنید.");
-}
-
+    notyf.error("دریافت محصولات با مشکل مواجه شد. لطفاً دوباره تلاش کنید.");
+  }
 }
 
 // daily offers
@@ -206,6 +182,7 @@ async function loadDailyOffers(): Promise<void> {
     console.error("Container #dailyOffers not found");
     return;
   }
+
   const loadingMessage = document.createElement("p");
   loadingMessage.textContent = "در حال بارگذاری پیشنهادهای روزانه...";
   loadingMessage.setAttribute("role", "status");
@@ -213,21 +190,27 @@ async function loadDailyOffers(): Promise<void> {
   container.appendChild(loadingMessage);
 
   try {
-    const [productsResponse, offersResponse, stockResponse] = await Promise.all([
-      fetch(API_PRODUCTS_URL),
-      fetch(API_OFFERS_URL),
-      fetch(API_STOCK_URL)
+    const [productsData, offersData, stockData] = await Promise.all([
+      getJSON(API_PRODUCTS_URL),
+      getJSON(API_OFFERS_URL),
+      getJSON(API_STOCK_URL),
     ]);
 
-    if (!productsResponse.ok || !offersResponse.ok || !stockResponse.ok) {
-      throw new Error("دریافت اطلاعات با خطا مواجه شد");
+    // Runtime type assertions
+    if (!Array.isArray(productsData)) {
+      throw new Error("Invalid products data: expected array");
+    }
+    if (!Array.isArray(offersData)) {
+      throw new Error("Invalid offers data: expected array");
+    }
+    if (typeof stockData !== "object" || stockData === null) {
+      throw new Error("Invalid stock data: expected object");
     }
 
-    const [products, offers, stock]: [Product[], Offer[], Stock] = await Promise.all([
-      productsResponse.json(),
-      offersResponse.json(),
-      stockResponse.json()
-    ]);
+    const products: Product[] = productsData as Product[];
+    const offers: Offer[] = offersData as Offer[];
+    const stock: Stock = stockData as Stock;
+
     loadingMessage.remove();
 
     // Filter products that have offers
@@ -243,7 +226,7 @@ async function loadDailyOffers(): Promise<void> {
           ...product,
           percent: offer.percent,
           quantity: stock.items[product.id] ?? 0,
-          discountedPrice: Math.round(product.price * (1 - offer.percent / 100))
+          discountedPrice: Math.round(product.price * (1 - offer.percent / 100)),
         };
       })
       .filter((product: OfferProduct | null): product is OfferProduct => product !== null);
@@ -315,12 +298,12 @@ async function loadDailyOffers(): Promise<void> {
         if (button) {
           button.disabled = false;
 
-        button.addEventListener("click", (): void => {
-          cartCount += 1;
-          updateCartCount();
+          button.addEventListener("click", (): void => {
+            cartCount += 1;
+            updateCartCount();
 
-          notyf.success(`${product.name} به سبد خرید اضافه شد`);
-        });
+            notyf.success(`${product.name} به سبد خرید اضافه شد`);
+          });
         }
       }
 
@@ -332,18 +315,15 @@ async function loadDailyOffers(): Promise<void> {
       message.textContent = "فعلاً پیشنهادی برای نمایش وجود ندارد.";
       container.appendChild(message);
     }
-
-  } 
-    catch (error) {
-      console.error("خطا در دریافت محصولات پیشنهادی:", error);
-      const message = document.createElement("p");
-      message.textContent =
-        "دریافت محصولات با مشکل مواجه شد. لطفاً دوباره تلاش کنید.";
-      message.setAttribute("role", "alert");
-      container.replaceChildren(message);
-      notyf.error("دریافت محصولات با مشکل مواجه شد. لطفاً دوباره تلاش کنید.");
-    }
-
+  } catch (error) {
+    console.error("خطا در دریافت محصولات پیشنهادی:", error);
+    const message = document.createElement("p");
+    message.textContent =
+      "دریافت محصولات با مشکل مواجه شد. لطفاً دوباره تلاش کنید.";
+    message.setAttribute("role", "alert");
+    container.replaceChildren(message);
+    notyf.error("دریافت محصولات با مشکل مواجه شد. لطفاً دوباره تلاش کنید.");
+  }
 }
 
 document.addEventListener("DOMContentLoaded", (): void => {

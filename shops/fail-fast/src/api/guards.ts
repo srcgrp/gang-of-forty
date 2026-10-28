@@ -156,3 +156,32 @@ export function filterValidProducts(data: unknown): Product[] {
 
   return valid;
 }
+
+/**
+ * Filters valid offers from an unknown array.
+ * Returns empty array for non-array input.
+ * Logs the count of rejected invalid records.
+ */
+export function filterValidOffers(data: unknown): Offer[] {
+  if (!Array.isArray(data)) {
+    console.warn("filterValidOffers: expected array, got", typeof data);
+    return [];
+  }
+
+  const valid: Offer[] = [];
+  let rejected = 0;
+
+  for (const item of data) {
+    if (isOffer(item)) {
+      valid.push(item);
+    } else {
+      rejected++;
+    }
+  }
+
+  if (rejected > 0) {
+    console.warn(`filterValidOffers: rejected ${rejected} invalid offer records`);
+  }
+
+  return valid;
+}
