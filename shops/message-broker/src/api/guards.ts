@@ -1,42 +1,21 @@
-import type { Category, Offer, Product, Stock } from '../types'
-
-function isObject(val: unknown): val is Record<string, unknown> {
-    return typeof val === 'object' && val !== null && !Array.isArray(val)
-}
+import type { CartLine, Category, Offer, Product, Stock } from '../types'
 
 export function isProduct(x: unknown): x is Product {
-    if (!isObject(x)) return false
-    return (
-        typeof x.id === 'number' &&
-        typeof x.categoryId === 'number' &&
-        typeof x.name === 'string' &&
-        typeof x.emoji === 'string' &&
-        typeof x.unit === 'string' &&
-        typeof x.price === 'number'
-    )
+    return typeof x === 'object' && x !== null && 'id' in x && 'name' in x && 'price' in x
 }
 
 export function isCategory(x: unknown): x is Category {
-    if (!isObject(x)) return false
-    return (
-        typeof x.id === 'number' &&
-        typeof x.slug === 'string' &&
-        typeof x.name === 'string' &&
-        typeof x.emoji === 'string' &&
-        typeof x.color === 'string'
-    )
+    return typeof x === 'object' && x !== null && 'id' in x && 'slug' in x && 'name' in x
 }
 
 export function isOffer(x: unknown): x is Offer {
-    if (!isObject(x)) return false
-    return typeof x.productId === 'number' && typeof x.percent === 'number'
+    return typeof x === 'object' && x !== null && 'productId' in x && 'percent' in x
 }
 
 export function isStock(x: unknown): x is Stock {
-    if (!isObject(x)) return false
-    const items = x.items
-    if (!isObject(items)) return false
-    return Object.entries(items).every(
-        ([key, count]) => !Number.isNaN(Number(key)) && typeof count === 'number'
-    )
+    return typeof x === 'object' && x !== null && 'items' in x
+}
+
+export function isCartLine(x: unknown): x is CartLine {
+    return typeof x === 'object' && x !== null && 'productId' in x && 'quantity' in x
 }
