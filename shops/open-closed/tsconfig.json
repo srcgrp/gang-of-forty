@@ -1,14 +1,19 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
+    "target": "es2023",
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "lib": ["ES2023", "DOM"],
     "types": ["vite/client"],
-    "strict": true,
-    "noImplicitAny": false,
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
+    "moduleDetection": "force",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
     "noEmit": true,
     "skipLibCheck": true
   },
-  "include": ["*.ts"]
+  "include": ["*.ts", "src"]    //I should come back to this Later in Step4
 }
