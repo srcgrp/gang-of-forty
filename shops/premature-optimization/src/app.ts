@@ -1,8 +1,9 @@
-import * as Types from "./types";
+import type * as Types from "./types";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
 import { gsap } from "gsap";
 import { fetchApiFile } from "./api";
+import { SORTS, SORT_LABELS, isSort, sortProducts } from "./sorts";
 
 const numberFormatter: Intl.NumberFormat = new Intl.NumberFormat("fa-IR");
 const CART_STORAGE_KEY: string = "superino-cart";
@@ -185,6 +186,22 @@ function animateProductToCart(button: HTMLButtonElement): void {
   });
 }
 
+function getCartLines(): Types.CartLine[] {
+  return Object.entries(cart)
+    .filter(([, quantity]) => Number(quantity) > 0)
+    .map(([productId, quantity]): Types.CartLine => {
+      const product = cartProducts.find(
+        (item) => String(item.id) === productId,
+      );
+      return {
+        id: Number(productId),
+        name: product?.name ?? `محصول ${productId}`,
+        price: product?.price ?? 0,
+        quantity: Number(quantity),
+      };
+    });
+}
+
 function renderCartDropdown(): void {
   const container = document.querySelector<HTMLDivElement>(
     "#cart-dropdown-items",
@@ -192,38 +209,28 @@ function renderCartDropdown(): void {
   if (!container) return;
 
   container.replaceChildren();
-  const entries = Object.entries(cart).filter(
-    ([, quantity]) => Number(quantity) > 0,
-  );
+  const lines: Types.CartLine[] = getCartLines();
 
-  if (entries.length === 0) {
+  if (lines.length === 0) {
     container.append(makeElement("p", "cart-empty", "سبد خرید شما خالی است"));
     return;
   }
 
-  entries.forEach(([productId, quantity]) => {
-    const product = cartProducts.find((item) => String(item.id) === productId);
+  lines.forEach((line: Types.CartLine) => {
     const row = makeElement("div", "cart-dropdown-item");
     const details = makeElement("div", "cart-dropdown-details");
     details.append(
-      makeElement(
-        "span",
-        "cart-dropdown-name",
-        product?.name || `محصول ${productId}`,
-      ),
+      makeElement("span", "cart-dropdown-name", line.name),
       makeElement(
         "span",
         "cart-dropdown-quantity",
-        `تعداد: ${numberFormatter.format(Number(quantity) || 0)}`,
+        `تعداد: ${numberFormatter.format(line.quantity)}`,
       ),
     );
     const removeButton = makeElement("button", "cart-remove-button", "❌");
     removeButton.type = "button";
-    removeButton.dataset.cartRemoveId = productId;
-    removeButton.setAttribute(
-      "aria-label",
-      `حذف ${product?.name || "محصول"} از سبد خرید`,
-    );
+    removeButton.dataset.cartRemoveId = String(line.id);
+    removeButton.setAttribute("aria-label", `حذف ${line.name} از سبد خرید`);
     removeButton.title = "حذف محصول";
     row.append(details, removeButton);
     container.append(row);
@@ -352,7 +359,7 @@ function makeProductCard(
   const tag: HTMLParagraphElement = makeElement(
     "p",
     "item-tag",
-    categoryName || product.categoryName || "محصول",
+    categoryName || "محصول",
   );
   const quantity: number = stock.items[String(product.id)] ?? 0;
   const outOfStock: boolean = quantity <= 0;
@@ -426,7 +433,7 @@ function setupCarousel({
   viewport,
   previous,
   next,
-}: Types.CarouselElements): void {
+}: Types.CarouselElements): () => void {
   const carousel: Types.CarouselState = {
     offset: 0,
     step: 0,
@@ -469,9 +476,14 @@ function setupCarousel({
   next.addEventListener("click", () => move(1));
   window.addEventListener("resize", update);
   requestAnimationFrame(update);
+  return (): void => {
+    carousel.offset = 0;
+    gsap.set(products, { x: 0 });
+    requestAnimationFrame(update);
+  };
 }
 
-function renderShopDetails(shop: Types.Shop): void {
+function renderShopDetails(shop: Readonly<Types.Shop>): void {
   const setText = (
     selector: string,
     value: string | null | undefined,
@@ -671,16 +683,33 @@ function createCarouselSection(
   const category = categories.find(
     (item) => item.id === (config.categoryId ?? config.category?.id),
   );
-  renderProducts(list, selected, (product) => ({
-    offer: offersByProductId.get(product.id),
-    stock,
-    categoryName: category?.name || config.title || "محصول",
-  }));
+  const resetCarousel: () => void = setupCarousel({
+    products: list,
+    viewport,
+    previous,
+    next,
+  });
+  const show = (sort: Types.Sort): void => {
+    renderProducts(list, sortProducts(selected, sort), (product) => ({
+      offer: offersByProductId.get(product.id),
+      stock,
+      categoryName: category?.name || config.title || "محصول",
+    }));
+  };
+  show("default");
   if (!selected.length)
     section.append(
       makeElement("p", "empty-message", "محصولی برای نمایش وجود ندارد."),
     );
-  setupCarousel({ products: list, viewport, previous, next });
+  else {
+    // مرتب‌سازی فقط برای همین کاروسل
+    section.querySelector(".recommendation-title")?.after(
+      makeSortControl("default", (sort: Types.Sort): void => {
+        show(sort);
+        resetCarousel();
+      }),
+    );
+  }
   return section;
 }
 
@@ -802,10 +831,10 @@ function setupSearch(
   stock: Types.Stock,
   offersByProductId: Map<number, Types.Offer>,
   categories: Types.Category[],
-): void {
+): () => void {
   const input = document.querySelector<HTMLInputElement>(".search-entry");
   const results = document.querySelector<HTMLElement>("#search-results");
-  if (!input || !results) return;
+  if (!input || !results) return () => {};
   input.placeholder = `جستجو در میان ${numberFormatter.format(products.length)} کالا...`;
 
   const categoryNames: Map<number, string> = new Map(
@@ -820,6 +849,7 @@ function setupSearch(
     }),
   );
 
+  let searchSort: Types.Sort = "default";
   const run = (): void => {
     const query: string = normalizeText(input.value);
     const searching: boolean = query !== "";
@@ -840,11 +870,14 @@ function setupSearch(
     }
 
     const words: string[] = query.split(" ");
-    const matches: Types.Product[] = index
-      .filter((entry) =>
-        words.every((word: string): boolean => entry.text.includes(word)),
-      )
-      .map((entry) => entry.product);
+    const matches: Types.Product[] = sortProducts(
+      index
+        .filter((entry) =>
+          words.every((word: string): boolean => entry.text.includes(word)),
+        )
+        .map((entry) => entry.product),
+      searchSort,
+    );
 
     results.replaceChildren(
       makeElement(
@@ -852,6 +885,10 @@ function setupSearch(
         "recommendation-title",
         `🔍 نتایج جستجو برای «${input.value.trim()}»`,
       ),
+      makeSortControl(searchSort, (sort: Types.Sort): void => {
+        searchSort = sort;
+        run();
+      }),
     );
     if (matches.length === 0) {
       results.append(makeElement("p", "empty-message", "چیزی پیدا نشد."));
@@ -883,6 +920,51 @@ function setupSearch(
     input.value = initial;
     run();
   }
+  return run;
+}
+
+function makeSortArrow(): SVGSVGElement {
+  const svgNamespace = "http://www.w3.org/2000/svg";
+  const svg: SVGSVGElement = document.createElementNS(svgNamespace, "svg");
+  svg.setAttribute("class", "sort-arrow");
+  svg.setAttribute("width", "12");
+  svg.setAttribute("height", "8");
+  svg.setAttribute("viewBox", "0 0 12 8");
+  svg.setAttribute("aria-hidden", "true");
+  const path: SVGPathElement = document.createElementNS(svgNamespace, "path");
+  path.setAttribute("d", "M1 1.5l5 5 5-5");
+  path.setAttribute("fill", "none");
+  path.setAttribute("stroke", "currentColor");
+  path.setAttribute("stroke-width", "2");
+  path.setAttribute("stroke-linecap", "round");
+  path.setAttribute("stroke-linejoin", "round");
+  svg.append(path);
+  return svg;
+}
+
+function makeSortControl(
+  initial: Types.Sort,
+  onChange: (sort: Types.Sort) => void,
+): HTMLLabelElement {
+  const label: HTMLLabelElement = makeElement("label", "sort-control");
+  const select: HTMLSelectElement = makeElement("select", "sort-select");
+  SORTS.forEach((value: Types.Sort): void => {
+    const option: HTMLOptionElement = makeElement(
+      "option",
+      "",
+      SORT_LABELS[value],
+    );
+    option.value = value;
+    select.append(option);
+  });
+  select.value = initial;
+  select.addEventListener("change", (): void => {
+    if (isSort(select.value)) onChange(select.value);
+  });
+  const field: HTMLSpanElement = makeElement("span", "sort-select-wrap");
+  field.append(select, makeSortArrow());
+  label.append(makeElement("span", "sort-control-label", "مرتب‌سازی:"), field);
+  return label;
 }
 
 async function loadPage(): Promise<void> {

@@ -1485,3 +1485,51 @@ footer {
   width: auto;
   margin: 20px 36px 0;
 }
+
+/* ------------------ Sort control -----------------*/
+.sort-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: -6px 36px 4px;
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.sort-select-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  color: var(--navy);
+}
+
+.sort-arrow {
+  position: absolute;
+  left: 14px;
+  pointer-events: none;
+}
+
+.sort-select {
+  min-height: 38px;
+  padding: 0 14px 0 38px;
+  color: var(--navy);
+  background-color: var(--light-blue);
+  border: 2px solid var(--blue);
+  border-radius: 24px;
+  outline: none;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  appearance: none;
+  transition: 0.2s ease;
+}
+
+.sort-select:hover {
+  background-color: #a9d6f3;
+}
+
+.sort-select:focus-visible {
+  border-color: var(--navy);
+  box-shadow: 0 0 0 3px rgb(31 111 178 / 30%);
+}
