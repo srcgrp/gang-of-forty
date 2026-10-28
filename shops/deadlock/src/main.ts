@@ -4,6 +4,21 @@ import confetti from "canvas-confetti";
 import { getJSON, isProduct, isStock, isOffer} from "./api/api";
 import { render} from "./ui/render";
 import{keepValid} from "./api/validation"
+import { readUrlState, writeUrlState } from "./api/urlState";
+
+const searchInput = document.querySelector<HTMLInputElement>("#search-box");
+const searchButton = document.querySelector<HTMLButtonElement>(".search-btn");
+const initialUrlState = readUrlState();
+if (searchInput) {
+  searchInput.value = initialUrlState.query;
+}
+function updateSearchUrl(): void {
+  writeUrlState({
+    ...readUrlState(),
+    query: searchInput?.value ?? "",
+  });
+}
+
 const notyf = new Notyf();
 let cartCount = 0;
 const counter = document.querySelector<HTMLSpanElement>(".cart-count");
@@ -46,7 +61,12 @@ async function loadProducts(): Promise<void> {
     if (validProducts.length === 0) {
       render(container, offersContainer, { status: "empty" });
     } else {
-      const pantryProducts = validProducts.filter((n) => n.categoryId === 4);
+        const query = searchInput?.value.trim().toLocaleLowerCase() ?? "";
+        const pantryProducts = validProducts.filter(
+        (product) =>
+            product.categoryId === 4 &&
+            product.name.toLocaleLowerCase().includes(query),
+        );
       const offerProducts = validProducts.filter((product) =>
         validOffers.some((offer) => offer.productId === product.id),
       );
@@ -64,4 +84,23 @@ async function loadProducts(): Promise<void> {
   }
 
 }
+
+searchButton?.addEventListener("click", () => {
+  updateSearchUrl();
+  loadProducts();
+});
+
+searchInput?.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    updateSearchUrl();
+    loadProducts();
+  }
+});
+
+window.addEventListener("popstate", () => {
+  const state = readUrlState();
+  if (searchInput) searchInput.value = state.query;
+  loadProducts();
+});
+
 loadProducts();
