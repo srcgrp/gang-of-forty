@@ -1,35 +1,23 @@
-import { isProduct } from './guards'
-import type { Product } from '../types'
+import type { Category, Offer, Product, Stock } from '../types'
 
 export async function getJSON(path: string): Promise<unknown> {
     const res = await fetch(path)
-    if (!res.ok) {
-        throw new Error(`خطای دریافت داده: ${res.status} ${res.statusText}`)
-    }
-    const data: unknown = await res.json()
-    return data
+    if (!res.ok) throw new Error(`HTTP Error: ${res.status}`)
+    return res.json()
 }
 
-export async function loadProducts(path: string): Promise<Product[]> {
-    const raw = await getJSON(path)
-    if (!Array.isArray(raw)) {
-        throw new Error('قالب داده‌های دریافتی از سرور معتبر نیست.')
-    }
+export async function loadCategories(base = '/api'): Promise<Category[]> {
+    return (await getJSON(`${base}/categories.json`)) as Category[]
+}
 
-    const safeProducts: Product[] = []
-    let invalidCount = 0
+export async function loadOffers(base = '/api'): Promise<Offer[]> {
+    return (await getJSON(`${base}/offers.json`)) as Offer[]
+}
 
-    for (const item of raw) {
-        if (isProduct(item)) {
-            safeProducts.push(item)
-        } else {
-            invalidCount++
-        }
-    }
+export async function loadStock(base = '/api'): Promise<Stock> {
+    return (await getJSON(`${base}/stock.json`)) as Stock
+}
 
-    if (invalidCount > 0) {
-        console.warn(`${invalidCount} محصول نامعتبر رد شد.`)
-    }
-
-    return safeProducts
+export async function loadProducts(base = '/api'): Promise<Product[]> {
+    return (await getJSON(`${base}/products.json`)) as Product[]
 }
