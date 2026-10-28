@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "title": "شیر کم‌چرب یک لیتری",
+    "price": 34000,
+    "image": "milk.png"
+  },
+  {
+    "id": 2,
+    "title": "ماست همزده دبه‌ای ۹۰۰ گرمی",
+    "price": 69000,
+    "image": "yogurt.png"
+  },
+  {
+    "id": 3,
+    "title": "پنیر سفید صبحانه ۴۰۰ گرمی",
+    "price": 85000,
+    "image": "cheese.png"
+  },
+  {
+    "id": 4,
+    "title": "کره پاستوریزه ۱۰۰ گرمی",
+    "price": 42000,
+    "image": "butter.png"
+  },
+  {
+    "id": 5,
+    "title": "نان تست هفت غله ۲۰ پیش‌رس",
+    "price": 54000,
+    "image": "bread.png"
+  }
+]
