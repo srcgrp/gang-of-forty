@@ -1,21 +1,12 @@
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
 import confetti from 'canvas-confetti';
+import type { Product, ProductPreview, ReadonlyProduct } from './types.ts';
 
 const API_URL = '../../api/products.json';
 const DAIRY_CATEGORY_ID = 2;
 const SKELETON_COUNT = 6;
 const TINTS = ['t-blue', 't-yellow', 't-green', 't-pink', 't-purple', 't-orange'];
-
-type Product = {
-    id: number;
-    categoryId: number;
-    name: string;
-    emoji: string;
-    unit: string;
-    price: number;
-    tags: string[];
-};
 
 class FetchError extends Error {
     kind: 'http' | 'shape';
@@ -78,6 +69,11 @@ function isProduct(value: unknown): value is Product {
     );
 }
 
+
+function describeProduct({ name, price }: ProductPreview): string {
+    return `${name}، ${priceFormat.format(price)} تومان`;
+}
+
 function celebrate(button: HTMLButtonElement, productName: string): void {
     notyf.success(`${productName} به سبد اضافه شد`);
 
@@ -93,7 +89,8 @@ function celebrate(button: HTMLButtonElement, productName: string): void {
     });
 }
 
-function createCard(product: Product, index: number): HTMLLIElement {
+
+function createCard(product: ReadonlyProduct, index: number): HTMLLIElement {
     const li = el('li', 'card');
     li.id = `d-${product.id}`;
 
@@ -116,7 +113,7 @@ function createCard(product: Product, index: number): HTMLLIElement {
 
     const add = el('button', 'add');
     add.type = 'button';
-    add.setAttribute('aria-label', `افزودن ${product.name} به سبد خرید`);
+    add.setAttribute('aria-label', `افزودن ${describeProduct(product)} به سبد خرید`);
     const plus = el('span', null, '+');
     plus.setAttribute('aria-hidden', 'true');
     add.append(plus);
@@ -157,10 +154,9 @@ function showLoading(): void {
     list.replaceChildren(...Array.from({ length: SKELETON_COUNT }, createSkeleton));
 }
 
-/* ---------- خطا ---------- */
 function showError(message: string): void {
     carousel.setAttribute('aria-busy', 'false');
-    list.replaceChildren(); // به‌جای کاروسل خالی، پیام قابل‌فهم
+    list.replaceChildren();
     const retry = el('button', 'btn', 'تلاش دوباره');
     retry.type = 'button';
     retry.addEventListener('click', loadDairy);
