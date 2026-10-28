@@ -88,3 +88,9 @@ export type Home = {
 export type CartItem = Pick<Product, "id" | "price"> & {
     quantity: number
 }
+
+export type LoadState =
+    | { status: 'loading' }
+    | { status: 'success', products: Product[] }
+    | { status: 'empty' }
+    | { status: 'error', message: string }

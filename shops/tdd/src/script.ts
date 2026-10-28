@@ -1,4 +1,4 @@
-import type { Product, Stock, Offer, Category, ShopLink, Shop, ShopDetails, HomeBanner, HomePromo, CarouselConfig, Home } from './types'
+import type { Product, Stock, Offer, Category, ShopLink, Shop, ShopDetails, HomeBanner, HomePromo, CarouselConfig, Home, LoadState } from './types'
 import Fuse from 'fuse.js';
 import { Notyf } from 'notyf';
 import Swal from 'sweetalert2';
@@ -122,21 +122,53 @@ function isHome(value: unknown): value is Home {
         isArrayOf(value.carousels, isCarouselConfig);
 }
 
+async function getJSON(path: string): Promise<unknown> {
+    const response = await fetch(path)
+    if (!response.ok) throw new Error(`HTTP ${response.status}: ${path}`)
+    return response.json()
+}
+
 async function loadJSON<T>(
-    url: string,
+    path: string,
     isValid: (value: unknown) => value is T
 ): Promise<T> {
-    const response = await fetch(url);
+    const data = await getJSON(path)
+    if (!isValid(data)) throw new Error(`Invalid API data: ${path}`)
+    return data
+}
 
-    if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${url}`);
-    }
+async function loadProducts(): Promise<Product[]> {
+    const data = await getJSON(PRODUCTS_URL)
+    if (!Array.isArray(data)) throw new Error("Invalid products data")
 
-    const data: unknown = await response.json();
-    if (!isValid(data)) {
-        throw new Error(`Invalid API data: ${url}`);
+    const products = data.filter(isProduct)
+    const invalidCount = data.length - products.length
+    if (invalidCount > 0) console.warn(`Skipped ${invalidCount} invalid products`)
+
+    return products
+}
+
+function renderLoadState(state: LoadState, main: HTMLElement, status: HTMLParagraphElement): void {
+    main.setAttribute("aria-busy", String(state.status === "loading"))
+    status.classList.toggle("is-error", state.status === "error")
+
+    switch (state.status) {
+        case "loading":
+            status.textContent = "در حال بارگذاری فروشگاه..."
+            break
+        case "success":
+            status.textContent = ""
+            break
+        case "empty":
+            status.textContent = "محصولی برای نمایش پیدا نشد."
+            break
+        case "error":
+            status.textContent = state.message
+            break
+        default:
+            const neverState: never = state
+            throw new Error(`Unknown loading state: ${neverState}`)
     }
-    return data;
 }
 
 
@@ -747,13 +779,12 @@ async function initPage(): Promise<void> {
     const main = document.querySelector<HTMLElement>("main");
     const status = document.querySelector<HTMLParagraphElement>("#page-status");
     if (!main || !status) throw new Error("Missing page elements");
-    main.setAttribute("aria-busy", "true");
-    status.textContent = "در حال بارگذاری فروشگاه...";
+    renderLoadState({ status: "loading" }, main, status)
 
     try {
         // All six independent requests start together and are awaited once.
         const [products, stock, offers, categories, shop, home] = await Promise.all([
-            loadJSON<Product[]>(PRODUCTS_URL, (value): value is Product[] => isArrayOf(value, isProduct)),
+            loadProducts(),
             loadJSON<Stock>(STOCK_URL, isStock),
             loadJSON<Offer[]>(OFFERS_URL, (value): value is Offer[] => isArrayOf(value, isOffer)),
             loadJSON<Category[]>(CATEGORIES_URL, (value): value is Category[] => isArrayOf(value, isCategory)),
@@ -773,7 +804,9 @@ async function initPage(): Promise<void> {
         const search = document.querySelector<HTMLInputElement>("#site-search");
         if (!search) throw new Error("Missing search input");
         search.placeholder = `جست‌وجو در میان ${priceFormatter.format(products.length)} کالا...`;
-        status.textContent = "";
+        renderLoadState(products.length > 0
+            ? { status: "success", products }
+            : { status: "empty" }, main, status)
         // Images and fonts can move the section after API rendering finishes.
         await document.fonts.ready;
         if (document.readyState !== "complete") {
@@ -788,10 +821,10 @@ async function initPage(): Promise<void> {
             if (!element) throw new Error(`Missing section: ${id}`);
             element.replaceChildren();
         });
-        status.textContent = "بارگذاری فروشگاه انجام نشد. اتصال را بررسی کنید و صفحه را دوباره بارگذاری کنید.";
-        status.classList.add("is-error");
-    } finally {
-        main.setAttribute("aria-busy", "false");
+        renderLoadState({
+            status: "error",
+            message: "بارگذاری فروشگاه انجام نشد. اتصال را بررسی کنید و صفحه را دوباره بارگذاری کنید."
+        }, main, status)
     }
 }
 
