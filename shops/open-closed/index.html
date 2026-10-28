@@ -1,29 +1,353 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت باز-بسته</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <meta name="description" content="سوپرمارکت باز-بسته؛ میوه و سبزی تازه، لبنیات، نان داغ و پروتئین با ارسال سریع و قیمت منصفانه.">
+    <title>سوپرمارکت باز-بسته | هرچی لازم داری، همین‌جاست</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>🚪 سلام دنیا!</h1>
-  </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>باز-بسته</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p>اصل باز-بسته را برتراند مایر در کتاب <bdi>Object-Oriented Software Construction</bdi> (۱۹۸۸) مطرح کرد: کد باید «برای توسعه باز و برای تغییر بسته» باشد. یعنی بتوانی قابلیت جدید اضافه کنی بدون اینکه کد قدیمیِ درست‌کار را دستکاری کنی. حرف <bdi>O</bdi> در <bdi>SOLID</bdi> همین است.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
-    </section>
-  </main>
-  <footer>
-    <p dir="ltr">slug: <code>open-closed</code></p>
-  </footer>
+<body id="top">
+<a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+
+<header class="site-header">
+    <p class="topbar"><span aria-hidden="true">🚚</span>&nbsp;ارسال رایگان برای خریدهای بالای ۵۰۰ هزار تومان</p>
+
+    <div class="wrap header-grid">
+        <a class="logo" href="#top" aria-label="سوپرمارکت باز-بسته، رفتن به بالای صفحه">
+            <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+                <rect width="48" height="48" rx="13" fill="#752937"/>
+                <path d="M9 21h30l-3.2 16.5a3.5 3.5 0 0 1-3.4 2.8H15.6a3.5 3.5 0 0 1-3.4-2.8z" fill="#fff"/>
+                <path d="M15.5 21c0-6.2 3.6-10 8.5-10s8.5 3.8 8.5 10" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/>
+                <path d="M19 26.5v9M24 26.5v9M29 26.5v9" stroke="#752937" stroke-width="2.2" stroke-linecap="round"/>
+                <path d="M25 13.5c1-4 4.5-6 8.5-5.5-.2 4-3.5 6.5-8.5 5.5z" fill="#f6b93b"/>
+            </svg>
+            <span class="logo-text">
+          <span class="logo-name">سوپرمارکت باز-بسته</span>
+          <span class="logo-tag">هرچی لازم داری، همین‌جاست</span>
+        </span>
+        </a>
+
+        <button type="button" class="cart" aria-label="سبد خرید، ۳ کالا">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 4h2.5l2 11h10l2-8H7"/><circle cx="9.5" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg>
+            <span class="cart-label" aria-hidden="true">سبد خرید</span>
+            <span class="count" aria-hidden="true">۳</span>
+        </button>
+
+        <input type="checkbox" id="menu-toggle" class="menu-toggle" aria-label="باز و بسته کردن منو">
+        <label for="menu-toggle" class="menu-btn" aria-hidden="true"><span></span></label>
+
+        <div class="header-menu">
+            <form class="search" role="search" action="#main" method="get">
+                <label class="sr-only" for="q">جستجو در محصولات</label>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                <input id="q" name="q" type="search" placeholder="جستجو در میان ۲٬۰۰۰ کالا…" autocomplete="off">
+                <button type="submit" class="sr-only">جستجو</button>
+            </form>
+
+            <nav class="main-nav" aria-label="منوی اصلی">
+                <ul>
+                    <li class="all-cats">
+                        <a class="all-link" href="#categories"><span aria-hidden="true">☰</span> همه دسته‌ها</a>
+                        <ul class="cat-menu">
+                            <li><a href="#p-tomato"><span aria-hidden="true">🍎</span> میوه و سبزی</a></li>
+                            <li><a href="#dairy"><span aria-hidden="true">🥛</span> لبنیات</a></li>
+                            <li><a href="#p-bread"><span aria-hidden="true">🥖</span> نان و شیرینی</a></li>
+                            <li><a href="#p-chicken"><span aria-hidden="true">🍗</span> پروتئین</a></li>
+                            <li><a href="#p-juice"><span aria-hidden="true">🧃</span> نوشیدنی</a></li>
+                            <li><a href="#p-snack"><span aria-hidden="true">🍪</span> تنقلات</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#deals">پیشنهاد ویژه</a></li>
+                    <li><a href="#p-tomato">میوه و سبزی</a></li>
+                    <li><a href="#dairy">لبنیات</a></li>
+                    <li><a href="#p-bread">نان تازه</a></li>
+                    <li><a href="#footer">تماس با ما</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<main id="main" tabindex="-1">
+    <div class="wrap">
+
+        <div class="hero-grid">
+            <section class="hero" aria-labelledby="hero-title">
+                <h1 id="hero-title">میوه‌های تازه،<br>هر روز صبح</h1>
+                <p>مستقیم از باغ‌های اطراف شهر، تا دو ساعت بعد دم در خانه شما.</p>
+                <a class="btn btn-yellow" href="#p-tomato">خرید میوه و سبزی</a>
+                <span class="hero-art" aria-hidden="true">🌸</span>
+            </section>
+
+            <section class="promo" aria-labelledby="promo-title">
+                <h2 id="promo-title">۲۰٪ تخفیف لبنیات</h2>
+                <p>فقط تا پایان هفته</p>
+                <span class="promo-art" aria-hidden="true">🧀</span>
+                <a class="btn" href="#dairy">دیدن محصولات</a>
+            </section>
+        </div>
+
+        <section class="section" id="categories" aria-labelledby="cat-title">
+            <div class="section-head"><h2 class="section-title" id="cat-title">دسته‌بندی‌ها</h2></div>
+            <ul class="cat-grid">
+                <li><a class="cat t-red" href="#p-tomato"><span class="cat-ico" aria-hidden="true">🍎</span>میوه و سبزی</a></li>
+                <li><a class="cat t-blue" href="#dairy"><span class="cat-ico" aria-hidden="true">🥛</span>لبنیات</a></li>
+                <li><a class="cat t-amber" href="#p-bread"><span class="cat-ico" aria-hidden="true">🥖</span>نان و شیرینی</a></li>
+                <li><a class="cat t-pink" href="#p-chicken"><span class="cat-ico" aria-hidden="true">🍗</span>پروتئین</a></li>
+                <li><a class="cat t-green" href="#p-juice"><span class="cat-ico" aria-hidden="true">🧃</span>نوشیدنی</a></li>
+                <li><a class="cat t-purple" href="#p-snack"><span class="cat-ico" aria-hidden="true">🍪</span>تنقلات</a></li>
+            </ul>
+        </section>
+
+        <section class="section" id="deals" aria-labelledby="deals-title">
+            <div class="section-head">
+                <h2 class="section-title" id="deals-title"><span aria-hidden="true">🔥</span> پیشنهاد ویژه امروز</h2>
+                <div class="carousel-nav">
+                    <a class="carousel-btn" href="#p-tomato" aria-label="رفتن به ابتدای کاروسل پیشنهاد ویژه"><span aria-hidden="true">→</span></a>
+                    <a class="carousel-btn" href="#p-snack" aria-label="رفتن به انتهای کاروسل پیشنهاد ویژه"><span aria-hidden="true">←</span></a>
+                </div>
+            </div>
+            <section class="carousel" aria-label="فهرست محصولات پیشنهاد ویژه" tabindex="0">
+                <ul>
+                    <li class="card" id="p-tomato">
+                        <article class="t-red" aria-labelledby="p-tomato-n">
+                            <div class="media"><span class="ico" aria-hidden="true">🍅</span><span class="badge"><span class="sr-only">تخفیف </span>۲۵٪</span></div>
+                            <h3 class="name" id="p-tomato-n">گوجه‌فرنگی گلخانه‌ای</h3>
+                            <p class="amount">۱ کیلوگرم</p>
+                            <div class="buy">
+                                <p class="price"><s class="old"><span class="sr-only">قیمت قبلی: </span>۶۰٬۰۰۰ تومان</s><strong class="now">۴۵٬۰۰۰ تومان</strong></p>
+                                <button type="button" class="add" aria-label="افزودن گوجه‌فرنگی گلخانه‌ای به سبد خرید"><span aria-hidden="true">+</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="card" id="p-milk">
+                        <article class="t-blue" aria-labelledby="p-milk-n">
+                            <div class="media"><span class="ico" aria-hidden="true">🥛</span><span class="badge"><span class="sr-only">تخفیف </span>۱۵٪</span></div>
+                            <h3 class="name" id="p-milk-n">شیر کم‌چرب</h3>
+                            <p class="amount">۱ لیتر</p>
+                            <div class="buy">
+                                <p class="price"><s class="old"><span class="sr-only">قیمت قبلی: </span>۴۰٬۰۰۰ تومان</s><strong class="now">۳۴٬۰۰۰ تومان</strong></p>
+                                <button type="button" class="add" aria-label="افزودن شیر کم‌چرب به سبد خرید"><span aria-hidden="true">+</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="card" id="p-banana">
+                        <article class="t-yellow" aria-labelledby="p-banana-n">
+                            <div class="media"><span class="ico" aria-hidden="true">🍌</span></div>
+                            <h3 class="name" id="p-banana-n">موز اکوادور</h3>
+                            <p class="amount">۱ کیلوگرم</p>
+                            <div class="buy">
+                                <p class="price"><strong class="now">۹۸٬۰۰۰ تومان</strong></p>
+                                <button type="button" class="add" aria-label="افزودن موز اکوادور به سبد خرید"><span aria-hidden="true">+</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="card" id="p-cucumber">
+                        <article class="t-green" aria-labelledby="p-cucumber-n">
+                            <div class="media"><span class="ico" aria-hidden="true">🥒</span><span class="badge"><span class="sr-only">تخفیف </span>۳۰٪</span></div>
+                            <h3 class="name" id="p-cucumber-n">خیار سالادی</h3>
+                            <p class="amount">۱ کیلوگرم</p>
+                            <div class="buy">
+                                <p class="price"><s class="old"><span class="sr-only">قیمت قبلی: </span>۵۰٬۰۰۰ تومان</s><strong class="now">۳۵٬۰۰۰ تومان</strong></p>
+                                <button type="button" class="add" aria-label="افزودن خیار سالادی به سبد خرید"><span aria-hidden="true">+</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="card" id="p-chicken">
+                        <article class="t-pink" aria-labelledby="p-chicken-n">
+                            <div class="media"><span class="ico" aria-hidden="true">🍗</span></div>
+                            <h3 class="name" id="p-chicken-n">ران مرغ</h3>
+                            <p class="amount">۹۰۰ گرم</p>
+                            <div class="buy">
+                                <p class="price"><strong class="now">۲۱۰٬۰۰۰ تومان</strong></p>
+                                <button type="button" class="add" aria-label="افزودن ران مرغ به سبد خرید"><span aria-hidden="true">+</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="card" id="p-bread">
+                        <article class="t-amber" aria-labelledby="p-bread-n">
+                            <div class="media"><span class="ico" aria-hidden="true">🥖</span></div>
+                            <h3 class="name" id="p-bread-n">نان باگت تازه</h3>
+                            <p class="amount">۲ عدد</p>
+                            <div class="buy">
+                                <p class="price"><strong class="now">۴۸٬۰۰۰ تومان</strong></p>
+                                <button type="button" class="add" aria-label="افزودن نان باگت تازه به سبد خرید"><span aria-hidden="true">+</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="card" id="p-juice">
+                        <article class="t-orange" aria-labelledby="p-juice-n">
+                            <div class="media"><span class="ico" aria-hidden="true">🧃</span></div>
+                            <h3 class="name" id="p-juice-n">آب‌پرتقال طبیعی</h3>
+                            <p class="amount">۱ لیتر</p>
+                            <div class="buy">
+                                <p class="price"><strong class="now">۷۲٬۰۰۰ تومان</strong></p>
+                                <button type="button" class="add" aria-label="افزودن آب‌پرتقال طبیعی به سبد خرید"><span aria-hidden="true">+</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="card" id="p-snack">
+                        <article class="t-purple" aria-labelledby="p-snack-n">
+                            <div class="media"><span class="ico" aria-hidden="true">🍪</span><span class="badge"><span class="sr-only">تخفیف </span>۱۵٪</span></div>
+                            <h3 class="name" id="p-snack-n">کلوچه نارگیلی</h3>
+                            <p class="amount">۲۵۰ گرم</p>
+                            <div class="buy">
+                                <p class="price"><s class="old"><span class="sr-only">قیمت قبلی: </span>۸۰٬۰۰۰ تومان</s><strong class="now">۶۸٬۰۰۰ تومان</strong></p>
+                                <button type="button" class="add" aria-label="افزودن کلوچه نارگیلی به سبد خرید"><span aria-hidden="true">+</span></button>
+                            </div>
+                        </article>
+                    </li>
+                </ul>
+            </section>
+        </section>
+
+        <ul class="banners">
+            <li><a class="banner banner-mint" href="#dairy"><span>سبد صبحانه خانواده</span><span class="banner-art" aria-hidden="true">🍳</span></a></li>
+            <li><a class="banner banner-rose" href="#p-bread"><span>نان داغ، هر روز ساعت ۷</span><span class="banner-art" aria-hidden="true">🥐</span></a></li>
+        </ul>
+
+        <section class="section" id="dairy" aria-labelledby="dairy-title">
+            <div class="section-head">
+                <h2 class="section-title" id="dairy-title"><span aria-hidden="true">🥛</span> لبنیات</h2>
+                <div class="carousel-nav">
+                    <a class="carousel-btn" href="#d-cheese" aria-label="رفتن به ابتدای کاروسل لبنیات"><span aria-hidden="true">→</span></a>
+                    <a class="carousel-btn" href="#d-doogh" aria-label="رفتن به انتهای کاروسل لبنیات"><span aria-hidden="true">←</span></a>
+                </div>
+            </div>
+            <section class="carousel" aria-label="فهرست محصولات لبنیات" tabindex="0">
+                <ul>
+                    <li class="card" id="d-cheese">
+                        <article class="t-blue" aria-labelledby="d-cheese-n">
+                            <div class="media"><span class="ico" aria-hidden="true">🧀</span></div>
+                            <h3 class="name" id="d-cheese-n">پنیر سفید</h3>
+                            <p class="amount">۴۰۰ گرم</p>
+                            <div class="buy">
+                                <p class="price"><strong class="now">۸۵٬۰۰۰ تومان</strong></p>
+                                <button type="button" class="add" aria-label="افزودن پنیر سفید به سبد خرید"><span aria-hidden="true">+</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="card" id="d-butter">
+                        <article class="t-yellow" aria-labelledby="d-butter-n">
+                            <div class="media"><span class="ico" aria-hidden="true">🧈</span><span class="badge"><span class="sr-only">تخفیف </span>۲۰٪</span></div>
+                            <h3 class="name" id="d-butter-n">کره حیوانی</h3>
+                            <p class="amount">۱۰۰ گرم</p>
+                            <div class="buy">
+                                <p class="price"><s class="old"><span class="sr-only">قیمت قبلی: </span>۷۰٬۰۰۰ تومان</s><strong class="now">۵۶٬۰۰۰ تومان</strong></p>
+                                <button type="button" class="add" aria-label="افزودن کره حیوانی به سبد خرید"><span aria-hidden="true">+</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="card" id="d-yogurt">
+                        <article class="t-green" aria-labelledby="d-yogurt-n">
+                            <div class="media"><span class="ico" aria-hidden="true">🥣</span></div>
+                            <h3 class="name" id="d-yogurt-n">ماست پرچرب</h3>
+                            <p class="amount">۹۰۰ گرم</p>
+                            <div class="buy">
+                                <p class="price"><strong class="now">۶۲٬۰۰۰ تومان</strong></p>
+                                <button type="button" class="add" aria-label="افزودن ماست پرچرب به سبد خرید"><span aria-hidden="true">+</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="card" id="d-icecream">
+                        <article class="t-pink" aria-labelledby="d-icecream-n">
+                            <div class="media"><span class="ico" aria-hidden="true">🍦</span></div>
+                            <h3 class="name" id="d-icecream-n">بستنی وانیلی</h3>
+                            <p class="amount">۱ لیتر</p>
+                            <div class="buy">
+                                <p class="price"><strong class="now">۱۱۰٬۰۰۰ تومان</strong></p>
+                                <button type="button" class="add" aria-label="افزودن بستنی وانیلی به سبد خرید"><span aria-hidden="true">+</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="card" id="d-eggs">
+                        <article class="t-purple" aria-labelledby="d-eggs-n">
+                            <div class="media"><span class="ico" aria-hidden="true">🥚</span></div>
+                            <h3 class="name" id="d-eggs-n">تخم‌مرغ</h3>
+                            <p class="amount">۱۲ عدد</p>
+                            <div class="buy">
+                                <p class="price"><strong class="now">۹۵٬۰۰۰ تومان</strong></p>
+                                <button type="button" class="add" aria-label="افزودن تخم‌مرغ به سبد خرید"><span aria-hidden="true">+</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="card is-out" id="d-milk">
+                        <article class="t-blue" aria-labelledby="d-milk-n">
+                            <div class="media"><span class="ico" aria-hidden="true">🥛</span><span class="badge">ناموجود</span></div>
+                            <h3 class="name" id="d-milk-n">شیر پرچرب</h3>
+                            <p class="amount">۱ لیتر</p>
+                            <div class="buy">
+                                <p class="price"><strong class="now">۳۸٬۰۰۰ تومان</strong></p>
+                                <button type="button" class="add" aria-label="شیر پرچرب ناموجود است" disabled><span aria-hidden="true">+</span></button>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="card" id="d-doogh">
+                        <article class="t-orange" aria-labelledby="d-doogh-n">
+                            <div class="media"><span class="ico" aria-hidden="true">🥤</span></div>
+                            <h3 class="name" id="d-doogh-n">دوغ سنتی</h3>
+                            <p class="amount">۱٫۵ لیتر</p>
+                            <div class="buy">
+                                <p class="price"><strong class="now">۴۲٬۰۰۰ تومان</strong></p>
+                                <button type="button" class="add" aria-label="افزودن دوغ سنتی به سبد خرید"><span aria-hidden="true">+</span></button>
+                            </div>
+                        </article>
+                    </li>
+                </ul>
+            </section>
+        </section>
+
+    </div>
+</main>
+
+<footer class="site-footer" id="footer">
+    <div class="wrap">
+        <div class="footer-grid">
+            <section aria-labelledby="f-about">
+                <h2 id="f-about">سوپرمارکت باز-بسته</h2>
+                <p>از سال ۱۴۰۵ کنار شما هستیم؛ کالای تازه با قیمت منصفانه.</p>
+                <address>
+                    <p><span aria-hidden="true">📍</span> تهران، خیابان بسته-باز، پلاک ۴۰</p>
+                    <p><span aria-hidden="true">☎</span> <a href="tel:+982112345678"><span class="sr-only">تلفن: </span><bdi dir="ltr">۰۲۱&#8209;۱۲۳۴۵۶۷۸</bdi></a></p>
+                </address>
+            </section>
+
+            <section aria-labelledby="f-cats">
+                <h2 id="f-cats">دسته‌ها</h2>
+                <ul>
+                    <li><a href="#p-tomato">میوه و سبزی</a></li>
+                    <li><a href="#dairy">لبنیات</a></li>
+                    <li><a href="#p-bread">نان و شیرینی</a></li>
+                    <li><a href="#p-chicken">پروتئین</a></li>
+                </ul>
+            </section>
+
+            <section aria-labelledby="f-help">
+                <h2 id="f-help">راهنما</h2>
+                <ul>
+                    <li><a href="#footer">شیوه ارسال</a></li>
+                    <li><a href="#footer">بازگشت کالا</a></li>
+                    <li><a href="#footer">پرسش‌های پرتکرار</a></li>
+                </ul>
+            </section>
+
+            <section aria-labelledby="f-hours">
+                <h2 id="f-hours">ساعت کاری</h2>
+                <ul>
+                    <li>شنبه تا پنج‌شنبه: ۸ تا ۲۲</li>
+                    <li>جمعه: ۹ تا ۱۴</li>
+                </ul>
+            </section>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© ۱۴۰۵ سوپرمارکت باز-بسته · عضو دار و دسته چهل‌نفره</p>
+            <a class="to-top" href="#top"><span aria-hidden="true">↑</span> بازگشت به بالا</a>
+        </div>
+    </div>
+</footer>
 </body>
 </html>

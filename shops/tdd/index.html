@@ -3,27 +3,131 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت TDD</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
+  <meta name="author" content="Sam">
+  <meta name="description" content="سام مارکت؛ تازگی در سبد، دقت در انتخاب. میوه و سبزی، لبنیات، نان و نیازهای روزمره با پیشنهادهای به‌صرفه.">
+  <meta name="theme-color" content="#174b3a">
+  <link rel="icon" href="data:,">
+  <title>سام مارکت | تازگی در سبد، دقت در انتخاب</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>✅ سلام دنیا!</h1>
+<body id="top">
+  <a class="skip-link" href="#main-content">پرش به محتوای اصلی</a>
+
+  <header class="site-header">
+    <p class="announcement" id="shop-notice" role="status"></p>
+
+    <div class="header-content">
+      <a class="brand" href="#top" aria-label="سام مارکت؛ بازگشت به بالای صفحه">
+        <svg class="brand-mark" viewBox="0 0 225 205" role="img" aria-labelledby="logo-title logo-description">
+          <title id="logo-title">لوگوی سام مارکت</title>
+          <desc id="logo-description">سبد خرید با براکت‌های کد، تیک سبز و حروف TDD؛ پیکان و سه نقطه قرمز، سبز و آبی نماد چرخه توسعه آزمون‌محور هستند.</desc>
+          <path d="M35 83H168C189 83 199 70 199 55S188 29 168 29H73" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round"/>
+          <path d="M85 17 71 29 85 41" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="m39 83 19 82c2 10 8 15 19 15h70c11 0 17-5 19-15l18-82" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="m87 111-17 19 17 19m56-38 17 19-17 19" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="m101 132 9 10 20-24" fill="none" stroke="#2ab888" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- TDD  -->
+          <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" stroke-linejoin="round" aria-hidden="true">
+            <path d="M89 157h10m-5-0v12"/>
+            <path d="M106 157v12h4c8 0 8-12 0-12h-4Z"/>
+            <path d="M123 157v12h4c8 0 8-12 0-12h-4Z"/>
+          </g>
+          <circle cx="60" cy="83" r="7" fill="#ee7466"/>
+          <circle cx="112" cy="83" r="7" fill="#2ab888"/>
+          <circle cx="164" cy="83" r="7" fill="#739ff0"/>
+        </svg>
+        <span>
+          <strong>سام مارکت</strong>
+          <small id="shop-slogan"></small>
+        </span>
+      </a>
+
+      <form class="search" role="search" action="#main-content">
+        <label for="site-search">جست‌وجوی محصولات</label>
+        <input id="site-search" name="q" type="search" placeholder="دنبال چه محصولی هستید؟">
+        <button type="submit">جست‌وجو</button>
+      </form>
+
+      <div class="cart-actions">
+        <a class="cart" href="#main-content" aria-label="سبد خرید">
+          سبد خرید 🛒 <strong id="cart-count" aria-live="polite"></strong>
+        </a>
+        <button id="clear-cart" class="clear-cart" type="button" aria-label="خالی کردن سبد خرید" disabled>خالی‌کردن</button>
+      </div>
+    </div>
+    <p id="cart-status" class="page-status" role="status"></p>
+
+    <nav class="primary-navigation desktop-navigation" aria-label="منوی اصلی">
+      <div class="category-menu">
+        <a class="category-trigger" href="#categories">دسته‌بندی‌ها <span aria-hidden="true">⌄</span></a>
+        <div class="category-dropdown" id="desktop-categories"></div>
+      </div>
+    </nav>
+
+    <details class="mobile-menu">
+      <summary><span aria-hidden="true">☰</span> منوی فروشگاه</summary>
+      <nav class="mobile-navigation" aria-label="منوی اصلی موبایل">
+        <details class="mobile-categories">
+          <summary>دسته‌بندی محصولات</summary>
+          <div class="mobile-category-links" id="mobile-categories"></div>
+        </details>
+      </nav>
+    </details>
   </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>TDD</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p><bdi>Test-Driven Development</bdi> یعنی «توسعه تست‌محور». کنت بک آن را معرفی کرد. چرخه‌اش سه قدم دارد: قرمز (اول تستی بنویس که شکست بخورد)، سبز (کمترین کد را بنویس تا تست پاس شود)، ریفکتور (کد را تمیز کن).</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
+
+  <main id="main-content" tabindex="-1">
+    <p id="page-status" class="page-status" role="status" aria-live="polite"></p>
+    <section id="search-results" class="product-carousel" aria-labelledby="search-results-title" hidden>
+      <header class="section-heading">
+        <h2 id="search-results-title">نتایج جست‌وجو</h2>
+      </header>
+      <nav id="search-results-controls" class="carousel-controls" aria-label="کنترل‌های نتایج جست‌وجو">
+        <a href="#search-results-first">اولین محصول →</a>
+        <a href="#search-results-last">آخرین محصول ←</a>
+      </nav>
+      <p id="search-results-status" class="carousel-status" role="status" aria-live="polite"></p>
+      <section id="search-results-track" class="product-track" tabindex="0" aria-label="محصولات یافت‌شده"></section>
     </section>
+    <div id="home-banners"></div>
+    <section class="categories" id="categories" aria-labelledby="categories-title">
+      <h2 id="categories-title">دسته‌بندی‌ها</h2>
+      <div class="category-grid" id="category-grid"></div>
+    </section>
+    <section id="home-promos" class="promo-grid" aria-label="پیشنهادهای منتخب"></section>
+    <div id="home-carousels"></div>
+    <section id="home-side" class="story" aria-label="پیشنهاد فروشگاه"></section>
+    <section class="story" id="story" aria-labelledby="story-title">
+      <div class="story-image">
+        <img src="2.jpg" alt="انار تازه و رسیده">
+        <span>تازگی در سبد امروز</span>
+      </div>
+      <div>
+        <p class="eyebrow">تازگی، فقط یک شعار نیست</p>
+        <h2 id="story-title">اول بررسی، بعد راهیِ سبد تو.</h2>
+        <p>برای سام، انتخاب میوه از یک سؤال شروع می‌شود: آیا تازگی‌اش با معیار ما هماهنگ است؟ رسیدگی مناسب، ظاهر سالم و شرایط نگهداری، معیارهای پیشنهادی ما برای ارزیابی‌اند؛ تا طعم و رنگ فصل، با دقت بیشتری به سبدت برسد.</p>
+        <a href="#about">با ایده سام مارکت آشنا شو</a>
+      </div>
+    </section>
+
+    <section class="store-sections" id="category-sections" aria-label="بخش‌های فروشگاه"></section>
+    <section id="about" aria-labelledby="about-title"></section>
   </main>
-  <footer>
-    <p dir="ltr">slug: <code>tdd</code></p>
+
+  <footer id="contact">
+    <section aria-labelledby="footer-about">
+      <h2 id="footer-about">سام مارکت</h2>
+      <p id="footer-about-text"></p>
+      <address id="shop-address"></address>
+      <div id="shop-schedule" role="group" aria-label="ساعت کاری"></div>
+    </section>
+
+    <nav id="footer-categories" aria-label="دسته‌بندی‌های پایین صفحه"></nav>
+
+    <a class="back-to-top" href="#top">بازگشت به بالا <span aria-hidden="true">↑</span></a>
+
+    <p id="shop-copyright"></p>
   </footer>
+
+  <script type="module" src="./script.ts"></script>
 </body>
 </html>

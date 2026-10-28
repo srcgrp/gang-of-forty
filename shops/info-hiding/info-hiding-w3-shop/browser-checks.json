@@ -1,0 +1,23 @@
+{
+  "dev": {
+    "products": 43,
+    "dairy_cards": 6,
+    "offer_cards": 10,
+    "script_requests": [
+      "http://127.0.0.1:5173/@vite/client",
+      "http://127.0.0.1:5173/app.ts?t=1792330526434",
+      "http://127.0.0.1:5173/node_modules/.vite/deps/notyf.js?v=b220e2cc",
+      "http://127.0.0.1:5173/node_modules/notyf/notyf.min.css",
+      "http://127.0.0.1:5173/node_modules/.vite/deps/canvas-confetti.js?v=e4e6bcca",
+      "http://127.0.0.1:5173/node_modules/vite/dist/client/env.mjs"
+    ]
+  },
+  "preview": {
+    "products": 43,
+    "dairy_cards": 6,
+    "offer_cards": 10,
+    "script_requests": [
+      "http://127.0.0.1:4173/assets/index-DMbToYTu.js"
+    ]
+  }
+}

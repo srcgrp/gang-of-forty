@@ -5,25 +5,187 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>سوپرمارکت بیگ‌او</title>
   <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
+  <meta name="author" content="Fatemeh Tayebi Salar">
   <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
   <link rel="stylesheet" href="style.css">
+  <script type="module" src="./app.ts"></script>
 </head>
 <body>
+  <a href="#main-content" class="skip-link">پرش به محتوای اصلی</a>
   <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>⏱️ سلام دنیا!</h1>
+    <div class="announcement">
+      <img src="./assets/icons/delivery-icon.svg" alt="">
+      <p></p>
+    </div>
+    <input
+      type="checkbox"
+      id="hamburger-menu"
+      class="visually-hidden"
+      >
+    <div class="header-row">
+      <a href="#" class="logo">
+        <svg width="40" height="40" viewBox="0 0 40 40" role="img" aria-labelledby="logo-title">
+          <title id="logo-title">سوپر مارکت نمونه</title>
+          <polygon points="8,16 32,16 29,33 11,33" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" />
+          <polyline points="14,16 17,8 23,8 26,16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+          <circle cx="20" cy="25" r="4" fill="currentColor" />
+        </svg>
+      </a>
+      <div class="title">
+        <h1>سوپر مارکت نمونه</h1>
+        <p></p>
+      </div>
+      <form class="search-bar">
+        <label for="search" class="visually-hidden">جستجو در محصولات</label>
+        <input
+        type="search"
+        id="search"
+        name="search"
+        placeholder="جستجو در میان ۲۰۰۰ کالا..."
+        >
+        <button type="submit" class="visually-hidden">جستجو</button>
+      </form>
+
+      <a class="cart" href="#">
+        <span class="visually-hidden">سبد خرید</span>
+        <img src="./assets/icons/cart.svg" alt="">
+        <span class="product-counter"></span>
+      </a>
+      <label for="hamburger-menu" class="menu-button">
+        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="4" y1="6" x2="20" y2="6" />
+          <line x1="4" y1="12" x2="20" y2="12" />
+          <line x1="4" y1="18" x2="20" y2="18" />
+        </svg>
+        <span class="visually-hidden">منو</span>
+      </label>
+
+    </div>
+    <nav class="navbar" aria-label="منوی اصلی">
+      <ul>
+        <li class="all-categories">
+          <a href="#">همه دسته‌ها</a>
+          <ul class="mega-menu">
+          </ul>
+        </li>
+        <li><a href="#special-products">پیشنهاد ویژه</a></li>
+        <li><a href="#">میوه و سبزی</a></li>
+        <li><a href="#dairy">لبنیات</a></li>
+        <li><a href="#">نان تازه</a></li>
+        <li><a href="#">تماس با ما</a></li>
+      </ul>
+    </nav>
+
   </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>بیگ‌او</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p>نماد <bdi>Big-O</bdi> نشان می‌دهد وقتی داده بزرگ می‌شود، زمان اجرای الگوریتم چطور رشد می‌کند. <bdi>O(1)</bdi> یعنی ثابت، <bdi>O(n)</bdi> یعنی خطی، <bdi>O(n²)</bdi> یعنی با دو برابر شدن داده، زمان چهار برابر می‌شود. دونالد کنوت این نماد را در علوم کامپیوتر رایج کرد.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
+  <main id="main-content">
+
+    <div class="banner">
+      <section class="first-banner" >
+        <h2>میوه های تازه،<br> هر روز صبح</h2>
+        <p>مستقیم از باغ های اطراف شهر، تا دو ساعت بعد دم در خانه شما.</p>
+        <div class="first-banner-link">
+          <a href="#">خرید میوه و سبزی</a>
+          <img src="./assets/products/watermelon.svg" alt="">
+        </div>
+
+
+      </section>
+      <section class="second-banner" >
+              <h2>۲۰٪ تخفیف لبنیات</h2>
+              <p>فقط تا پایان هفته</p>
+              <div class="second-banner-link">
+                <img src="./assets/products/cheese.svg" alt="">
+                <a href="#dairy">دیدن محصولات</a>
+              </div>
+
+      </section>
+    </div>
+    <section class="categories">
+        <h2>دسته بندی ها</h2>
+        <ul>
+        </ul>
     </section>
+    <template id="category-template">
+      <li class="category-item">
+        <a href="#">
+          <span class="category-icon" aria-hidden="true"></span>
+          <h3>دسته</h3>
+        </a>
+        </li>
+    </template>
+
+    <section  class="product-carousel" id="special-products">
+      <div class="carousel-header">
+        <h2>پیشنهاد ویژه امروز</h2>
+        <div class="carousel-arrows">
+          <a href="#first-special-products"><img src="./assets/icons/arrow-right.svg" alt=""><span class="visually-hidden">اولین محصول پیشنهادی</span></a>
+          <a href="#last-special-products"><img src="./assets/icons/arrow-left.svg" alt=""><span class="visually-hidden">آخرین محصول پیشنهادی</span></a>
+        </div>
+      </div>
+      <ul>
+
+      </ul>
+    </section>
+    <div class="ads">
+      <aside aria-labelledby="breakfast-ad-title">
+          <h2 id="breakfast-ad-title">سبد صبحانه خانواده</h2>
+          <img src="./assets/products/pan.svg" alt="">
+      </aside>
+      <aside aria-labelledby="bread-ad-title">
+          <h2 id="bread-ad-title">نان داغ، هر روز ساعت ۷</h2>
+          <img src="./assets/products/croissant.svg" alt="">
+      </aside>
+    </div>
+
+    <section class="product-carousel" id="dairy">
+      <div class="carousel-header">
+        <h2>لبنیات</h2>
+        <div class="carousel-arrows">
+          <a href="#first-dairy"><img src="./assets/icons/arrow-right.svg" alt=""><span class="visually-hidden">اولین محصول لبنیات</span></a>
+          <a href="#last-dairy"><img src="./assets/icons/arrow-left.svg" alt=""><span class="visually-hidden">آخرین محصول لبنیات</span></a>
+        </div>
+      </div>
+      <ul>
+
+      </ul>
+    </section>
+
   </main>
   <footer>
-    <p dir="ltr">slug: <code>big-o</code></p>
+    <section class="address-section">
+      <h2>سوپر مارکت نمونه</h2>
+
+      <p>از سال ۱۴۰۵ کنار شما هستیم؛ کالای تازه با قیمت منصفانه.</p>
+
+      <address>
+        <p>تهران، خیابان نمونه، پلاک ۴۰</p>
+        <a href="#"><bdi>...</bdi></a>
+      </address>
+    </section>
+
+    <nav aria-labelledby="quick-links">
+      <h2 id="quick-links">دسته ها</h2>
+      <ul>
+      </ul>
+    </nav>
+    <section class="guide">
+      <h2>راهنما</h2>
+      <ul>
+        <li><a href="#">شیوه ارسال</a></li>
+        <li><a href="#">بازگشت کالا</a></li>
+        <li><a href="#">پرسش های پرتکرار</a></li>
+      </ul>
+    </section>
+    <section class="info">
+      <h2>ساعت کاری</h2>
+    </section>
+    <div class="footer-bottom">
+      <p><small>© ۱۴۰۵ سوپرمارکت نمونه · عضو دار و دسته چهل‌نفره</small></p>
+      <a href="#">بازگشت به بالا <span aria-hidden="true">&#8593;</span></a>
+    </div>
+
   </footer>
+
 </body>
 </html>
