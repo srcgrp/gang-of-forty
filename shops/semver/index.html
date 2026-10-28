@@ -1,29 +1,342 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت نسخه‌بندی معنایی</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>🏷️ سلام دنیا!</h1>
-  </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>نسخه‌بندی معنایی</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p><bdi>Semantic Versioning</bdi> را تام پرستون-ورنر، هم‌بنیان‌گذار گیت‌هاب، نوشت. نسخه سه عدد دارد: <bdi>MAJOR.MINOR.PATCH</bdi> مثل <bdi>2.4.1</bdi>. تغییری که کد دیگران را بشکند عدد اول را بالا می‌برد، قابلیت جدید سازگار عدد دوم را، و رفع باگ عدد سوم را. با یک نگاه می‌فهمی به‌روزرسانی خطرناک است یا نه.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
-    </section>
-  </main>
-  <footer>
-    <p dir="ltr">slug: <code>semver</code></p>
-  </footer>
-</body>
+  <head>
+    <meta charset="utf-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1" >
+    <title>سوپرمارکت نسخه‌بندی معنایی</title>
+    <link rel="icon" href="./image/pomegranate-logo-02.svg">
+    <meta name="author" content="Amirhossein Nasr" >
+    <link rel="stylesheet" href="style.css" >
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css"
+    >
+  </head>
+  <body>
+    <!-- ==================== بخش هدر ==================== -->
+    <header>
+      <!-- <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a> -->
+      <article>
+        <section id="news-section">
+          <p id="news"><span id="highlight">ارسال رایگان </span>با خرید بالای 500 هزارتومان</p>
+          <i class="ph ph-package"></i>
+        </section>
+      </article>
+      <nav>
+        <section id="nav-section">
+          <div id="site-brand">
+            <img
+              id="logo"
+              src="./image/pomegranate-logo-02.svg"
+              alt="لوگوی فروشگاه مترون"
+            >
+            <section id="site-name">
+              <p id="title">سوپرمارکت ناردونه</p>
+              <p id="tagline">دقیـق مثـل مترونـوم</p>
+            </section>
+          </div>
+          <input id="search-input" type="search" aria-label="جستجوی محصولات" placeholder="جستجـو کنیـد ..." >
+          <div id="user-actions">
+            <i class="ph ph-bell"></i>
+            <button id="shopping-cart-button" type="button" aria-label="مشاهده سبد خرید">
+             سبد خرید <i class="ph ph-shopping-cart-simple"></i>
+            </button>
+          </div>
+        </section>
+      </nav>
+      <section id="header-categories">
+        <ul id="btn-categories">
+          <li class="has-dropdown">
+            <details>
+              <summary class="dropdown-toggle">
+                <i class="ph ph-list"></i> همه دسته ها
+              </summary>
+              <ul class="dropdown-menu">
+                <li><a href="#">کلاسیک</a></li>
+                <li><a href="#">اسپرت و روزمره</a></li>
+                <li><a href="#">ساعت های هوشمند</a></li>
+                <li><a href="#">لوکس و جواهری</a></li>
+              </ul>
+            </details>
+          </li>
+
+          <li>پیشنهاد ویژه</li>
+          <li>پرتخفیف ها</li>
+          <li>جدیدترین‌ها</li>
+          <li>تماس با ما</li>
+        </ul>
+      </section>
+
+      <article class="hero-container">
+        <section id="hero-right">
+          <div id="hero-title1">
+            <h1 id="hero-h1">امـروز چـی بزاریم تـوی سبد؟</h1>
+            <p id="hero-p">دانه دانه تازگی، از دل مزارع تا سبد خرید شما</p>
+            <button id="cta" type="button"> خریـد نوبـرانه <i class="ph ph-arrow-left ph-lg"></i></button>
+          </div>
+        </section>
+        <!-- <section id="hero-left">
+          <div id="hero-title2">
+            <h2 id="hero-h2">زمان، بازتابی از اصالت شماست</h2>
+            <p id="hero-p2">انتخابی برای کسانی که به جزئیات اهمیت می‌دهند</p>
+          </div>
+        </section> -->
+      </article>
+    </header>
+    <main>
+
+
+
+      <!-- ==================== بخش دسته بندی ها ==================== -->
+
+      <h2 id="categories" class="section-title">دسته‌بندی‌ها</h2>
+      <article class="flex-item-categories">
+      </article>
+
+
+      <!-- ==================== بخش پرتخفیف ها ==================== -->
+
+      <h2 id="offers-title" class="section-title">پیشنهاد ویژه امروز</h2>
+      <article class="flex-item-product" id="offers-carousel">
+        <p class="loading-state">در حال بارگذاری محصولات...</p>
+        <p class="error-state" hidden>خطا در دریافت اطلاعات. لطفاً دوباره تلاش کنید.</p>
+      </article>
+
+
+      <!-- ==================== بخش پرفروش‌ ترین‌ها ==================== -->
+
+      <h2 id="discounted-products" class="section-title">پیشنهاد ویژه</h2>
+      <article class="flex-item-product" id="discounted-carousel">
+        <p class="loading-state">در حال بارگذاری محصولات...</p>
+        <p class="error-state" hidden>خطا در دریافت اطلاعات. لطفاً دوباره تلاش کنید.</p>
+      </article>
+
+
+
+    <!-- ====================  بخش بنرها ==================== -->
+
+    <article class="feature-container">
+      <section class="feature-left">
+        <p class="title-feature-left">جزئیاتی که استایل شمارا کامل میکند</p>
+      </section>
+      <section class="feature-right">
+        <p class="title-feature-right">اصالت، در بندبندِ انتخاب شماست</p>
+      </section>
+    </article>
+
+
+
+    <!-- ====================  بخش جدیدترین ها ==================== -->
+
+    <h2 id="latest-products" class="section-title">جدیدترین‌ها</h2>
+    <article class="flex-item-product">
+      <section class="product-cart">
+        <section class="img">
+          <section class="img-label"></section>
+          <img
+            class="img-product"
+            src="./image/2/watch-collection-longines-evidenza-l2-142-4-70-2-61eb63-hero.avif"
+            alt="ساعت مچی"
+          >
+        </section>
+        <section class="product-details">
+          <h5>Metron</h5>
+          <h3>CONQUEST</h3>
+          <p class="product-description">
+            ساعت کوارتز، قطر ۴۱.۰۰ میلی‌متر، تمام
+          </p>
+          <section class="card-btn">
+            <label class="price-label">27,000,000 تومان</label>
+            <button class="buynow-btn" type="button">+</button>
+          </section>
+        </section>
+      </section>
+      <section class="product-cart">
+        <section class="img">
+          <section class="img-label"></section>
+          <img
+            class="img-product"
+            src="./image/1/watch-collection-longines-master-collection-l2-949-4-99-2-d08fbd-hero.avif"
+            alt="ساعت مچی"
+          >
+        </section>
+        <section class="product-details">
+          <h5>Metron</h5>
+          <h3>LONGINES PILOT</h3>
+          <p class="product-description">
+            ساعت کوارتز، قطر ۴۱.۰۰ میلی‌متر، تمام
+          </p>
+          <section class="card-btn">
+            <label class="price-label">27,000,000 تومان</label>
+            <button class="buynow-btn" type="button">+</button>
+          </section>
+        </section>
+      </section>
+      <section class="product-cart">
+        <section class="img">
+          <section class="img-label"></section>
+          <img
+            class="img-product"
+            src="./image/2/watch-collection-conquest-classic-l2-286-0-72-6-a52513-hero.avif"
+            alt="ساعت مچی"
+          >
+        </section>
+        <section class="product-details">
+          <h5>Metron</h5>
+          <h3>HERITAGE</h3>
+          <p class="product-description">
+            ساعت کوارتز، قطر ۴۱.۰۰ میلی‌متر، تمام
+          </p>
+          <section class="card-btn">
+            <label class="price-label">27,000,000 تومان</label>
+            <button class="buynow-btn" type="button">+</button>
+          </section>
+        </section>
+      </section>
+      <section class="product-cart">
+        <section class="img">
+          <section class="img-label"></section>
+          <img
+            class="img-product"
+            src="./image/2/watch-collection-longines-legend-diver-59-l3-795-4-59-9-1fd94b-hero.avif"
+            alt="ساعت مچی"
+          >
+        </section>
+        <section class="product-details">
+          <h5>Metron</h5>
+          <h3>THE LONGINES</h3>
+          <p class="product-description">
+            ساعت کوارتز، قطر ۴۱.۰۰ میلی‌متر، تمام
+          </p>
+          <section class="card-btn">
+            <label class="price-label">27,000,000 تومان</label>
+            <button class="buynow-btn" type="button">+</button>
+          </section>
+        </section>
+      </section>
+      <section class="product-cart">
+        <section class="img">
+          <section class="img-label"></section>
+          <img
+            class="img-product"
+            src="./image/2/watch-collection-longines-spirit-zulu-time-1925-l3-803-5-53-6-fdc6b9-hero.avif"
+            alt="ساعت مچی"
+          >
+        </section>
+        <section class="product-details">
+          <h5>Metron</h5>
+          <h3>LONGINES SPIRIT</h3>
+          <p class="product-description">
+            ساعت کوارتز، قطر ۴۱.۰۰ میلی‌متر، تمام
+          </p>
+          <section class="card-btn">
+            <label class="price-label">27,000,000 تومان</label>
+            <button class="buynow-btn" type="button">+</button>
+          </section>
+        </section>
+      </section>
+      <section class="product-cart">
+        <section class="img">
+          <section class="img-label"></section>
+          <img
+            class="img-product"
+            src="./image/2/watch-collection-longines-tuxedo-l2-830-4-93-0-c2881f-hero.avif"
+            alt="ساعت مچی"
+          >
+        </section>
+        <section class="product-details">
+          <h5>Metron</h5>
+          <h3>Rolex</h3>
+          <p class="product-description">
+            ساعت کوارتز، قطر ۴۱.۰۰ میلی‌متر، تمام
+          </p>
+          <section class="card-btn">
+            <label class="price-label">27,000,000 تومان</label>
+            <button class="buynow-btn" type="button">+</button>
+          </section>
+        </section>
+      </section>
+      <section class="product-cart">
+        <section class="img">
+          <section class="img-label"></section>
+          <img
+            class="img-product"
+            src="./watch-collection-conquest.png"
+            alt="ساعت مچی"
+          >
+        </section>
+        <section class="product-details">
+          <h5>Metron</h5>
+          <h3>Casio</h3>
+          <p class="product-description">
+            ساعت کوارتز، قطر ۴۱.۰۰ میلی‌متر، تمام
+          </p>
+          <section class="card-btn">
+            <label class="price-label">27,000,000 تومان</label>
+            <button class="buynow-btn" type="button">+</button>
+          </section>
+        </section>
+      </section>
+    </article>
+
+    </main>
+
+
+    <!-- ==================== بخش فوتر ==================== -->
+    <footer>
+        <article id="main-footer">
+          <div class="footer-container">
+            <div class="footer-grid">
+              <div class="footer-col footer-about">
+                <h3>ساعت مترون</h3>
+                <p class="about-text">
+                  از سال ۱۴۰۵ کنار شما هستیم؛ کالای تازه با قیمت منصفانه.
+                </p>
+                <p class="footer-info">تهران، خیابان نمونه، پلاک ۴۰</p>
+                <p class="footer-phone" dir="ltr">۰۲۱-۱۲۳۴۵۶۷۸</p>
+              </div>
+
+              <div class="footer-col">
+                <h4>دسته‌ها</h4>
+                <ul class="footer-links">
+                  <li><a href="#categories">کلاسیک</a></li>
+                  <li><a href="#categories">اسپرت و روزمره</a></li>
+                  <li><a href="#categories">ساعت های هوشمند</a></li>
+                  <li><a href="#categories">لوکس و جواهری</a></li>
+                </ul>
+              </div>
+
+              <div class="footer-col">
+                <h4>راهنما</h4>
+                <ul class="footer-links">
+                  <li><a href="#">شیوه ارسال</a></li>
+                  <li><a href="#">بازگشت کالا</a></li>
+                  <li><a href="#">پرسش‌های پرتکرار</a></li>
+                </ul>
+              </div>
+
+              <div class="footer-col">
+                <h4>ساعت کاری</h4>
+                <div class="working-hours">
+                  <p>شنبه تا پنجشنبه: ۸ تا ۲۲</p>
+                  <p>جمعه: ۹ تا ۱۳</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="footer-bottom">
+              <p class="copyright">
+                © ۱۴۰۵ ساعت مترون - عضو دار و دسته چهل‌نفره
+              </p>
+              <a href="#news" class="back-to-top">بازگشت به بالا ↑</a>
+            </div>
+          </div>
+
+        </article>
+
+    </footer>
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+
 </html>
