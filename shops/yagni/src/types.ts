@@ -49,8 +49,8 @@ export type Shop = {
   readonly about: string;
   readonly address: string;
   readonly schedule: readonly Schedule[];
-  readonly menu: readonly MenuItem[];
-  readonly help: readonly HelpItem[];
+  menu: MenuItem[];
+  help: HelpItem[];
   readonly copyright: string;
 };
 export type ShopData = { shop: Shop; categories: Categories };
