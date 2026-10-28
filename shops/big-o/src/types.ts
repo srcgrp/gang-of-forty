@@ -38,8 +38,11 @@ export type Shop = {
     currency: string
 }
 
-// Define object for keeping inStock : Remain number of products, label: Name of offer, percent: the percentage of offer on product.
-export interface CardInfo extends Partial<Pick<Offer, 'label' | 'percent'>> { inStock?: boolean }
+// Display info for a product card: offer label/percent, whether it's in stock, and the price after discount.
+export interface CardInfo extends Partial<Pick<Offer, 'label' | 'percent'>> {
+  inStock?: boolean;
+  finalPrice?: number;
+}
 
 const MESSAGE_TYPES = ['load', 'error'] as const;
 
