@@ -3,7 +3,7 @@ import { isOffer } from "./validation/catalog";
 import { getJSON } from "./get-json";
 
 export async function loadOffers(): Promise<Offer[]> {
-  const data = await getJSON("/api/offers.json");
+  const data = await getJSON("offers.json");
 
   if (!Array.isArray(data)) {
     throw new Error("Offers data must be an array");

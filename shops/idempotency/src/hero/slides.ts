@@ -4,7 +4,7 @@ export function createHeroSlides(hero: Hero): HeroSlide[] {
   return [
     {
       ...hero,
-      image: "/asset/banners/bg1.webp",
+      image: "./asset/banners/bg1.webp",
     },
     {
       ...hero,
@@ -14,7 +14,7 @@ export function createHeroSlides(hero: Hero): HeroSlide[] {
         label: "خرید محصولات صبحانه",
         href: "#dairy",
       },
-      image: "/asset/banners/bg3.webp",
+      image: "./asset/banners/bg3.webp",
     },
     {
       ...hero,
@@ -24,7 +24,7 @@ export function createHeroSlides(hero: Hero): HeroSlide[] {
         label: "کشف محصولات تازه",
         href: "#drinks",
       },
-      image: "/asset/banners/bg4.webp",
+      image: "./asset/banners/bg4.webp",
     },
   ];
 }

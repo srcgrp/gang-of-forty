@@ -1,7 +1,16 @@
-export async function getJSON(path: string) : Promise<unknown>{
-  const response=await fetch(path);
-  if(!response.ok){
-        throw new Error(`Failed to fetch ${path}: HTTP ${response.status}`);
+export async function getJSON(filename: string): Promise<unknown> {
+  const apiBase = import.meta.env.VITE_API_URL;
+
+  if (!apiBase) {
+    throw new Error("VITE_API_URL is not configured");
   }
+
+  const url = `${apiBase.replace(/\/$/, "")}/${filename}`;
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch ${url}: HTTP ${response.status}`);
+  }
+
   return response.json();
 }

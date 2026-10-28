@@ -3,7 +3,7 @@ import { isCategory } from "./validation/catalog";
 import { getJSON } from "./get-json";
 
 export async function loadCategories(): Promise<Category[]> {
-  const data = await getJSON("/api/categories.json");
+  const data = await getJSON("categories.json");
 
   if (!Array.isArray(data)) {
     throw new Error("Categories data must be an array");
