@@ -6,12 +6,10 @@ export type Category = {
     emoji:string
     color: string
 }
-
 export type Link = {
     label: string
     href: string
 }
-
 export type Schedule = {
     days: string
     time: string
@@ -33,20 +31,17 @@ export type Banner = {
     text: string
     cta: Link
 }
-
 export type Promo = {
     href: string
     color: string
     emoji: string
     text: string
 }
-
 export type Home = {
     hero: Banner
     side: Banner
     promos: Promo[]
 }
-
 export type Product = {
     id: number
     categoryId: number
@@ -55,41 +50,22 @@ export type Product = {
     unit: string
     price: number
 }
-
 export type Offer = {
     productId: number
     percent: number
 }
-
-// من اینجا از 3 تا Utility Type استفاده کردم 
-//که به ترتیب :
-
-// Utility Type 1 : Record<K, T>
-//مقادیری از جنس K , T می سازد 
-// و هر دوتاشون از نوع عدد هستند number 
-// برای مدل سازی انبار هست
 export type Stock = {
     items: Record<number, number>
 }
-
-// Utility Type 2: Pick<T, Keys>
-// در اینجا زیرمجموعه ای از فیلدهای تایپ دیگه جدا میشه تا از تکرار جلوگیری بشه
-// کارش استخراج فیلد های ضروری کالا برای سبد خرید هست
 export type ProductSummary = Pick<Product, 'id' | 'name' | 'price'>
 export type CartItem = ProductSummary & {
     quantity: number
 }
-
-// Utility Type 3:Readonly<T>
-//همه خصوصیات یک شیء رو فقط خواندنی می کند تا مانع تغییر ناخواسته داده شود.
-//کاربردش برای قفل کردن اطلاعات پایه و پیکر بندی فروشگاه استفاده می شود
 export type ReadonlyShop = Readonly<Shop>
 
-//یک جایگزین برای enum با استفاده از  as const 
 export const SORTS = ['cheapest', 'expensive', 'popular'] as const
 export type SortOption = typeof SORTS[number]
 
-//وضعیت بارگذاری
 export type LoadState =
     | { status: 'loading' }
     | { status: 'success'; products: Product[] }
@@ -100,7 +76,6 @@ export type CartLine = {
     productId: number
     quantity: number
 }
-
 export function assertNever(x: never): never {
     throw new Error(`حالت مدیریت‌نشده: ${JSON.stringify(x)}`)
 }
