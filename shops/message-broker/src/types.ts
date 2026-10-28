@@ -101,4 +101,8 @@ export type CartLine = {
     quantity: number
 }
 
+export function assertNever(x: never): never {
+    throw new Error(`حالت مدیریت‌نشده: ${JSON.stringify(x)}`)
+}
+
  

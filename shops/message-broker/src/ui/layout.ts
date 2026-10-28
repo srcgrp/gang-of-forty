@@ -36,7 +36,7 @@ export function renderFooter(
     el.cats.textContent = el.help.textContent = el.schedule.textContent = ''
     cats.forEach(c => el.cats.appendChild(link(c.name, '#' + c.slug)))
     shop.help.forEach(h => el.help.appendChild(link(h.label, h.href)))
-    shop.schedule.forEach(s => {
+    shop.Schedule.forEach(s => {
         el.schedule.appendChild(Object.assign(document.createElement('li'), { textContent: `${s.days}: ${s.time}` }))
     })
 }
