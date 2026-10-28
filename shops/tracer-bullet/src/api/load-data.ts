@@ -20,11 +20,11 @@ export async function loadData(): Promise<Data> {
     rawHome,
   ] = await Promise.all([
     loadProducts(),
-    getJSON("../../api/offers.json"),
-    getJSON("../../api/stock.json"),
-    getJSON("../../api/categories.json"),
-    getJSON("../../api/shop.json"),
-    getJSON("../../api/home.json"),
+    getJSON("/offers.json"),
+    getJSON("/stock.json"),
+    getJSON("/categories.json"),
+    getJSON("/shop.json"),
+    getJSON("/home.json"),
   ]);
 
   if (!isArrayOf(rawOffers, isOffer)) {

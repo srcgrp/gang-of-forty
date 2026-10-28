@@ -3,7 +3,7 @@ import { getJSON } from "./getJSON";
 import { isProduct } from "./catalog-guards";
 
 export async function loadProducts(): Promise<Product[]> {
-  const raw: unknown = await getJSON("../../api/products.json");
+  const raw: unknown = await getJSON("/products.json");
 
   if (!Array.isArray(raw)) {
     throw new Error("Invalid products data");
