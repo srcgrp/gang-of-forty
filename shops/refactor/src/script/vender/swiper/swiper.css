@@ -1,0 +1,25 @@
+.swiper-pagination {
+    position: absolute;
+    bottom: 5px;
+    top: auto !important;
+    left: 0 !important;
+    right: 0 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.swiper-pagination-bullet {
+    width: 9px;
+    height: 9px;
+    margin: 0 !important;
+    background-color: gray;
+    opacity: 1;
+    transition: all 0.3s ease;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: #1d5507;
+    transform: scale(1.3);
+}
