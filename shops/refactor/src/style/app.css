@@ -235,12 +235,6 @@ main {
     .hero-side {
         background: #e8f2e8;
     }
-    .cat {
-        background: var(--surface);
-    }
-    .hero-promo {
-        color: #183525;
-    }
     .car-btn {
         background: var(--field);
         color: var(--ink);
