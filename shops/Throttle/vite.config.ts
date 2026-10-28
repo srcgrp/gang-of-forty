@@ -1,14 +1,9 @@
-import { defineConfig } from "vite";
+import { defineConfig } from 'vite'
 
-const api = {
-  "/api": {
-    target: "https://gof.zzb.cx",
-    changeOrigin: true
-  }
-};
+const api = { '/api': { target: 'https://gof.zzb.cx', changeOrigin: true } }
 
 export default defineConfig({
-  base: "./",
+  base: './',
   server: { proxy: api },
-  preview: { proxy: api }
-});
+  preview: { proxy: api },
+})

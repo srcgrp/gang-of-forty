@@ -1,5 +1,5 @@
 {
-  "name": "aftab-supermarket",
+  "name": "kiss",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -7,15 +7,11 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "check": "tsc --noEmit"
-  },
-  "dependencies": {
-    "canvas-confetti": "^1.9.3",
-    "notyf": "^3.10.0"
+    "check": "tsc --noEmit",
+    "arch": "node check-arch.mjs src --shop"
   },
   "devDependencies": {
-    "@types/canvas-confetti": "^1.6.4",
-    "typescript": "^5.8.3",
-    "vite": "^6.3.5"
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4"
   }
 }
