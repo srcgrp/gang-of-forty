@@ -3,8 +3,9 @@
   <head>
     <meta charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1.0" >
-    <meta name="description" content="یاگنی٬سوپرمارکتی به وسعت قلبتان" >
-    <title>یاگنی-خرید تازه٬زندگی بهتر</title>
+    <meta name="description" content="مینا٬سوپرمارکتی به وسعت قلبتان" >
+    <title>مینا-خرید تازه٬زندگی بهتر</title>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" >
     <link rel="stylesheet" href="./styles/main.css" >
   </head>
   <body>
@@ -12,21 +13,14 @@
     <header class="header">
       <div class="header__container">
         <!-- Brand -->
-        <a
-          href="#top"
-          class="header__logo"
-          aria-label="یاگنی-فروشگاه همیشه سبز"
-        >
+        <a href="#top" class="header__logo" aria-label="مینا-فروشگاه همیشه سبز">
           <span class="header__logo-mark">
             <svg>
               <use href="./sprite.svg#logo"></use>
             </svg>
           </span>
 
-          <div class="header__brand">
-            <h1>یاگنی</h1>
-            <small>خرید تازه، زندگی بهتر</small>
-          </div>
+          <div class="header__brand" id="shop-header-brand"></div>
         </a>
 
         <!-- Search -->
@@ -35,7 +29,7 @@
 
           <input
             type="search"
-            placeholder="چی می‌خوای بخری؟"
+            placeholder="می‌تونی بین محصولات جستجو کنی"
             aria-label="جستجوی محصولات"
           >
 
@@ -53,27 +47,26 @@
         <!-- Header Actions -->
         <div>
           <!-- Cart -->
-          <a href="/#" class="header__cart">
+          <a href="#" class="header__cart">
             <span class="header__cart-icon">
               <svg>
                 <use href="./sprite.svg#basket"></use>
               </svg>
 
-              <span class="header__cart-count">۲</span>
+              <span class="header__cart-count">۰</span>
             </span>
 
             <span class="header__cart-content">
               <small>سبد خرید</small>
-              <strong>۲۴۵,۰۰۰ تومان</strong>
+              <strong>۰ تومان</strong>
             </span>
           </a>
         </div>
       </div>
     </header>
     <!-- Navbar -->
-    <nav class="navbar" aria-label="منوی اصلی">
+    <nav class="navbar">
       <input type="checkbox" id="nav-toggle" class="nav-toggle" hidden >
-
       <div class="navbar-inner">
         <!-- Mobile menu button -->
         <label for="nav-toggle" class="burger-btn">
@@ -87,155 +80,26 @@
         </label>
 
         <div class="navbar-content">
-          <ul class="nav-list">
+          <ul class="nav-list" id="navbar-list">
             <!-- Categories -->
             <li class="has-dropdown">
               <a href="#" class="nav-link is-active" aria-haspopup="true">
-                <svg class="icon">
+                <svg class="icon" aria-hidden="true">
                   <use href="./sprite.svg#dropDown"></use>
                 </svg>
 
                 همه دسته‌ها
               </a>
 
-              <ul class="dropdown">
-                <li>
-                  <a href="#" class="dropdown-item">
-                    <span class="emoji">🍎</span>
-                    میوه و سبزی
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#" class="dropdown-item">
-                    <span class="emoji">🥛</span>
-                    لبنیات
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#" class="dropdown-item">
-                    <span class="emoji">🥖</span>
-                    نان و شیرینی
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#" class="dropdown-item">
-                    <span class="emoji">🍗</span>
-                    پروتئین
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#" class="dropdown-item">
-                    <span class="emoji">🥤</span>
-                    نوشیدنی
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#" class="dropdown-item">
-                    <span class="emoji">🍪</span>
-                    تنقلات
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#" class="dropdown-item">
-                    <span class="emoji">🧻</span>
-                    شوینده و بهداشتی
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#" class="dropdown-item">
-                    <span class="emoji">🥫</span>
-                    کنسرو و غذای آماده
-                  </a>
-                </li>
-              </ul>
-            </li>
-
-            <li>
-              <a href="#suggestions" class="nav-link">پیشنهاد ویژه</a>
-            </li>
-
-            <li>
-              <a href="#" class="nav-link">میوه و سبزی</a>
-            </li>
-
-            <li>
-              <a href="#dairy" class="nav-link">لبنیات</a>
-            </li>
-
-            <li>
-              <a href="#" class="nav-link">نان تازه</a>
-            </li>
-
-            <li>
-              <a href="#" class="nav-link">تماس با ما</a>
+              <ul class="dropdown" id="navbar-categories"></ul>
             </li>
           </ul>
         </div>
       </div>
     </nav>
     <!-- Banner -->
-    <section class="banner anchor-section" id="banner">
-      <div class="banner__track">
-        <img
-          class="banner_track-image"
-          src="images/banner/banner-1.webp"
-          alt="بنر"
-        >
-
-        <img
-          class="banner_track-image"
-          src="images/banner/banner-2.webp"
-          alt="بنر"
-        >
-
-        <img
-          class="banner_track-image"
-          src="images/banner/banner-3.webp"
-          alt="بنر"
-      >
-
-        <img
-          class="banner_track-image"
-          src="images/banner/banner-4.webp"
-          alt="بنر"
-        >
-
-        <!-- Duplicate -->
-        <img
-          class="banner_track-image"
-          src="images/banner/banner-1.webp"
-          alt=""
-          aria-hidden="true"
-        >
-
-        <img
-          class="banner_track-image"
-          src="images/banner/banner-2.webp"
-          alt=""
-          aria-hidden="true"
-        >
-
-        <img
-          class="banner_track-image"
-          src="images/banner/banner-3.webp"
-          alt=""
-          aria-hidden="true"
-        >
-
-        <img
-          class="banner_track-image"
-          src="images/banner/banner-4.webp"
-          alt=""
-          aria-hidden="true"
-        >
-      </div>
+    <section class="banner anchor-section" id="banner" aria-label="بنر اصلی">
+      <div class="banner__track" id="banner-track"></div>
     </section>
     <main>
       <!-- Categories -->
@@ -246,88 +110,25 @@
       >
         <div class="categories__header">
           <h2 id="categories-title" class="categories__title">دسته‌بندی‌ها</h2>
-
-          <a href="#" class="categories__link"> مشاهده همه </a>
+          <a href="#" class="categories__link">مشاهده همه</a>
         </div>
-
-        <div class="categories__grid">
-          <a href="#" class="category-card">
-            <span class="category-card__image">
-              <img
-                src="images/category/canned-food.webp"
-                alt="کنسرو و غذای آماده"
-              >
-            </span>
-            <span class="category-card__title"> کنسرو و غذای آماده </span>
-          </a>
-
-          <a href="#" class="category-card">
-            <span class="category-card__image">
-              <img src="images/category/cleaning.webp" alt="شوینده و بهداشتی" >
-            </span>
-            <span class="category-card__title"> شوینده و بهداشتی </span>
-          </a>
-
-          <a href="#" class="category-card">
-            <span class="category-card__image">
-              <img src="images/category/snacks.webp" alt="تنقلات" >
-            </span>
-            <span class="category-card__title"> تنقلات </span>
-          </a>
-
-          <a href="#" class="category-card">
-            <span class="category-card__image">
-              <img src="images/category/drinks.webp" alt="نوشیدنی" >
-            </span>
-            <span class="category-card__title"> نوشیدنی </span>
-          </a>
-
-          <a href="#" class="category-card">
-            <span class="category-card__image">
-              <img src="images/category/bakery.webp" alt="نان و شیرینی" >
-            </span>
-            <span class="category-card__title"> نان و شیرینی </span>
-          </a>
-
-          <a href="#" class="category-card">
-            <span class="category-card__image">
-              <img src="images/category/protein.webp" alt="پروتئین" >
-            </span>
-            <span class="category-card__title"> پروتئین </span>
-          </a>
-
-          <a href="#" class="category-card">
-            <span class="category-card__image">
-              <img src="images/category/dairy.webp" alt="لبنیات" >
-            </span>
-            <span class="category-card__title"> لبنیات </span>
-          </a>
-
-          <a href="#" class="category-card">
-            <span class="category-card__image">
-              <img src="images/category/fruits.webp" alt="میوه و سبزی" >
-            </span>
-            <span class="category-card__title"> میوه و سبزی </span>
-          </a>
-        </div>
+        <div class="categories__grid" id="categories-grid"></div>
       </section>
       <!-- suggestions -->
-      <section class="carousel-container anchor-section" id="suggestions">
+      <section class="carousel-container anchor-section" id="offers">
         <div class="carousel-header">
           <h2 class="section-title">
             <span>پیشنهاد ویژه امروز</span>
             <span aria-hidden="true">🔥</span>
           </h2>
-
           <div class="nav-controls">
             <!-- Go to start -->
-            <a class="nav-btn" aria-label="ابتدای محصولات">
+            <a class="nav-btn" aria-label="ابتدای محصولات" href="#offers-start">
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-right"></use>
               </svg>
             </a>
-
-            <a class="nav-btn" aria-label="انتهای محصولات">
+            <a class="nav-btn" aria-label="انتهای محصولات" href="#offers-end">
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-left"></use>
               </svg>
@@ -335,295 +136,129 @@
           </div>
         </div>
 
-        <div class="carousel-track">
-          <!-- Product 1 -->
-          <div class="product-card">
-            <div class="product-thumb">
-              <span class="badge-discount">۲۵٪</span>
-              <img src="images/product/tomato.webp" alt="" >
-            </div>
-
-            <div class="product-info">
-              <span class="product-name">گوجه‌فرنگی گلخانه‌ای</span>
-              <span class="product-unit">۱ کیلوگرم</span>
-            </div>
-
-            <div class="product-footer">
-              <div class="product-pricing">
-                <span class="old-price">۶۰,۰۰۰</span>
-                <span class="current-price">۴۵,۰۰۰ تومان</span>
-              </div>
-
-              <button class="add-btn" type="button" aria-label="افزودن به سبد">
-                +
-              </button>
-            </div>
-          </div>
-
-          <!-- Product 2 -->
-          <div class="product-card">
-            <div class="product-thumb">
-              <span class="badge-discount">۱۵٪</span>
-              <img src="images/product/milk.webp" alt="" >
-            </div>
-
-            <div class="product-info">
-              <span class="product-name">شیر کم‌چرب</span>
-              <span class="product-unit">۱ لیتر</span>
-            </div>
-
-            <div class="product-footer">
-              <div class="product-pricing">
-                <span class="old-price">۴۰,۰۰۰</span>
-                <span class="current-price">۳۴,۰۰۰ تومان</span>
-              </div>
-
-              <button class="add-btn" type="button" aria-label="افزودن به سبد">
-                +
-              </button>
-            </div>
-          </div>
-
-          <!-- Product 3 -->
-          <div class="product-card">
-            <div class="product-thumb">
-              <img src="images/product/banana.webp" alt="" >
-            </div>
-
-            <div class="product-info">
-              <span class="product-name">موز اکوادور</span>
-              <span class="product-unit">۱ کیلوگرم</span>
-            </div>
-
-            <div class="product-footer">
-              <div class="product-pricing">
-                <span class="current-price">۹۸,۰۰۰ تومان</span>
-              </div>
-
-              <button class="add-btn" type="button" aria-label="افزودن به سبد">
-                +
-              </button>
-            </div>
-          </div>
-
-          <!-- Product 4 -->
-          <div class="product-card">
-            <div class="product-thumb">
-              <span class="badge-discount">۳۰٪</span>
-              <img src="images/product/cucamber.webp" alt="" >
-            </div>
-
-            <div class="product-info">
-              <span class="product-name">خیار سالادی</span>
-              <span class="product-unit">۱ کیلوگرم</span>
-            </div>
-
-            <div class="product-footer">
-              <div class="product-pricing">
-                <span class="old-price">۵۰,۰۰۰</span>
-                <span class="current-price">۳۵,۰۰۰ تومان</span>
-              </div>
-
-              <button class="add-btn" type="button" aria-label="افزودن به سبد">
-                +
-              </button>
-            </div>
-          </div>
-
-          <!-- Product 5 -->
-          <div class="product-card">
-            <div class="product-thumb">
-              <img src="images/product/hen.webp" alt="" >
-            </div>
-
-            <div class="product-info">
-              <span class="product-name">ران مرغ</span>
-              <span class="product-unit">۹۰۰ گرم</span>
-            </div>
-
-            <div class="product-footer">
-              <div class="product-pricing">
-                <span class="current-price">۲۱۰,۰۰۰ تومان</span>
-              </div>
-
-              <button class="add-btn" type="button" aria-label="افزودن به سبد">
-                +
-              </button>
-            </div>
-          </div>
-
-          <!-- Product 6 -->
-          <div class="product-card">
-            <div class="product-thumb">
-              <img src="images/product/orange-juice.webp" alt="" >
-            </div>
-
-            <div class="product-info">
-              <span class="product-name">آب پرتقال</span>
-              <span class="product-unit">۳۰۰ لیتر</span>
-            </div>
-
-            <div class="product-footer">
-              <div class="product-pricing">
-                <span class="current-price">۵۰,۰۰۰ تومان</span>
-              </div>
-
-              <button class="add-btn" type="button" aria-label="افزودن به سبد">
-                +
-              </button>
-            </div>
-          </div>
+        <div class="carousel-track suggestions">
+          <!-- dynamic filling from js -->
         </div>
       </section>
       <!-- Advertisement -->
       <section
         class="advertisement anchor-section"
         id="advertisement-1"
-        aria-label="تبلیغات1"
+        aria-label="1تبلیغات"
       >
-        <a href="#">
-          <img src="images/ad/Advertisemnet-1.png" alt="پیشنهاد ویژه یانگی">
-        </a>
+        <!-- dynamic filling from js -->
       </section>
       <!-- dairy -->
-      <section class="carousel-container anchor-section" id="dairy">
+      <section
+        class="carousel-container anchor-section"
+        id="dairy"
+        aria-label="لبنیات"
+      >
         <div class="carousel-header">
           <h2 class="section-title">
             <span>لبنیات</span>
             <span aria-hidden="true">🐮</span>
           </h2>
           <div class="nav-controls">
-            <button class="nav-btn" type="button" aria-label="قبلی">
+            <a
+              href="#products-2-start"
+              class="nav-btn"
+              type="button"
+              aria-label="قبلی"
+            >
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-right"></use>
               </svg>
-            </button>
+            </a>
 
-            <button class="nav-btn" type="button" aria-label="بعدی">
+            <a
+              href="#products-2-end"
+              class="nav-btn"
+              type="button"
+              aria-label="بعدی"
+            >
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-left"></use>
               </svg>
-            </button>
+            </a>
           </div>
         </div>
 
-        <div class="carousel-track">
-          <!-- Product 1 -->
-          <div class="product-card">
-            <div class="product-thumb">
-              <span class="badge-discount">۲۰٪</span>
-              <img src="images/dairy/milk.webp" alt="" >
-            </div>
-            <div class="product-info">
-              <span class="product-name">شیر کم‌چرب</span>
-              <span class="product-unit">۱ لیتر</span>
-            </div>
-            <div class="product-footer">
-              <div class="product-pricing">
-                <span class="old-price">۴۰,۰۰۰</span>
-                <span class="current-price">۳۲,۰۰۰ تومان</span>
-              </div>
-              <button class="add-btn" type="button" aria-label="افزودن به سبد">
-                +
-              </button>
-            </div>
+        <div class="carousel-track dairyProducts">
+          <!-- Dynamic filling from JS -->
+        </div>
+      </section>
+
+      <!-- fruits -->
+      <section class="carousel-container anchor-section" id="fruits">
+        <div class="carousel-header">
+          <h2 class="section-title">
+            <span>میوه و سبزی</span>
+            <span aria-hidden="true">🐮</span>
+          </h2>
+          <div class="nav-controls">
+            <a
+              href="#products-1-start"
+              class="nav-btn"
+              type="button"
+              aria-label="قبلی"
+            >
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-right"></use>
+              </svg>
+            </a>
+
+            <a
+              href="#products-1-end"
+              class="nav-btn"
+              type="button"
+              aria-label="بعدی"
+            >
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-left"></use>
+              </svg>
+            </a>
           </div>
-          <!-- Product 2 -->
-          <div class="product-card">
-            <div class="product-thumb">
-              <span class="badge-discount">۱۵٪</span>
-              <img src="images/dairy/yogurt.webp" alt="" >
-            </div>
-            <div class="product-info">
-              <span class="product-name">ماست پرچرب</span>
-              <span class="product-unit">۹۰۰ گرم</span>
-            </div>
-            <div class="product-footer">
-              <div class="product-pricing">
-                <span class="old-price">۶۵,۰۰۰</span>
-                <span class="current-price">۵۵,۰۰۰ تومان</span>
-              </div>
-              <button class="add-btn" type="button" aria-label="افزودن به سبد">
-                +
-              </button>
-            </div>
+        </div>
+
+        <div class="carousel-track fruitsVegetablesProducts">
+          <!-- fetch from api and fill by js -->
+        </div>
+      </section>
+      <!-- Bakery and Pastries -->
+      <section class="carousel-container anchor-section" id="bakery">
+        <div class="carousel-header">
+          <h2 class="section-title">
+            <span>نان و شیرینی</span>
+            <span aria-hidden="true">🐮</span>
+          </h2>
+          <div class="nav-controls">
+            <a
+              href="#products-3-start"
+              class="nav-btn"
+              type="button"
+              aria-label="قبلی"
+            >
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-right"></use>
+              </svg>
+            </a>
+
+            <a
+              href="#products-3-end"
+              class="nav-btn"
+              type="button"
+              aria-label="بعدی"
+            >
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-left"></use>
+              </svg>
+            </a>
           </div>
-          <!-- Product 3 -->
-          <div class="product-card">
-            <div class="product-thumb">
-              <img src="images/dairy/cheese.webp" alt="" >
-            </div>
-            <div class="product-info">
-              <span class="product-name">پنیر سفید</span>
-              <span class="product-unit">۴۰۰ گرم</span>
-            </div>
-            <div class="product-footer">
-              <div class="product-pricing">
-                <span class="current-price">۸۵,۰۰۰ تومان</span>
-              </div>
-              <button class="add-btn" type="button" aria-label="افزودن به سبد">
-                +
-              </button>
-            </div>
-          </div>
-          <!-- Product 4 -->
-          <div class="product-card">
-            <div class="product-thumb">
-              <span class="badge-discount">۲۵٪</span>
-              <img src="images/dairy/butter.webp" alt="" >
-            </div>
-            <div class="product-info">
-              <span class="product-name">کره پاستوریزه</span>
-              <span class="product-unit">۱۰۰ گرم</span>
-            </div>
-            <div class="product-footer">
-              <div class="product-pricing">
-                <span class="old-price">۷۵,۰۰۰</span>
-                <span class="current-price">۵۶,۰۰۰ تومان</span>
-              </div>
-              <button class="add-btn" type="button" aria-label="افزودن به سبد">
-                +
-              </button>
-            </div>
-          </div>
-          <!-- Product 5 -->
-          <div class="product-card">
-            <div class="product-thumb">
-              <img src="images/dairy/cream.webp" alt="" >
-            </div>
-            <div class="product-info">
-              <span class="product-name">خامه صبحانه</span>
-              <span class="product-unit">۲۰۰ گرم</span>
-            </div>
-            <div class="product-footer">
-              <div class="product-pricing">
-                <span class="current-price">۴۸,۰۰۰ تومان</span>
-              </div>
-              <button class="add-btn" type="button" aria-label="افزودن به سبد">
-                +
-              </button>
-            </div>
-          </div>
-          <!-- Product 6 -->
-          <div class="product-card">
-            <div class="product-thumb">
-              <span class="badge-discount">۱۰٪</span>
-              <img src="images/dairy/doogh.webp" alt="" >
-            </div>
-            <div class="product-info">
-              <span class="product-name">دوغ نعناعی</span>
-              <span class="product-unit">۱.۵ لیتر</span>
-            </div>
-            <div class="product-footer">
-              <div class="product-pricing">
-                <span class="old-price">۶۰,۰۰۰</span>
-                <span class="current-price">۵۴,۰۰۰ تومان</span>
-              </div>
-              <button class="add-btn" type="button" aria-label="افزودن به سبد">
-                +
-              </button>
-            </div>
-          </div>
+        </div>
+
+        <div class="carousel-track bakeryPastriesProducts">
+          <!-- fetch from api and fill by js -->
         </div>
       </section>
       <!-- Advertisement -->
@@ -631,10 +266,159 @@
         class="advertisement anchor-section"
         id="advertisement-2"
         aria-label="تبلیغات2"
+      ></section>
+      <!-- pantry -->
+      <section
+        class="carousel-container anchor-section"
+        id="pantry"
+        aria-label="خواربار"
       >
-        <a href="#">
-          <img src="images/ad/Advertisemnet-2.png" alt="پیشنهاد ویژه یانگی" >
-        </a>
+        <div class="carousel-header">
+          <h2 class="section-title">
+            <span>کالاهای اساسی و خواربار</span>
+            <span aria-hidden="true">🍚</span>
+          </h2>
+          <div class="nav-controls">
+            <a
+              href="#products-4-start"
+              class="nav-btn"
+              type="button"
+              aria-label="قبلی"
+            >
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-right"></use>
+              </svg>
+            </a>
+
+            <a
+              href="#products-4-end"
+              class="nav-btn"
+              type="button"
+              aria-label="بعدی"
+            >
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-left"></use>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="carousel-track staplesGroceriesProducts">
+          <!-- fetch from api and fill by js -->
+        </div>
+      </section>
+      <!-- drinks -->
+      <section class="carousel-container anchor-section" id="drinks">
+        <div class="carousel-header">
+          <h2 class="section-title">
+            <span>نوشیدنی</span>
+            <span aria-hidden="true">🍹</span>
+          </h2>
+          <div class="nav-controls">
+            <a
+              href="#products-5-start"
+              class="nav-btn"
+              type="button"
+              aria-label="قبلی"
+            >
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-right"></use>
+              </svg>
+            </a>
+
+            <a
+              href="#products-5-end"
+              class="nav-btn"
+              type="button"
+              aria-label="بعدی"
+            >
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-left"></use>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="carousel-track beveragesProducts">
+          <!-- fetch from api and fill by js -->
+        </div>
+      </section>
+
+      <!-- protein -->
+      <section class="carousel-container anchor-section" id="protein">
+        <div class="carousel-header">
+          <h2 class="section-title">
+            <span>گوشت و پروتئین</span>
+            <span aria-hidden="true">🥩</span>
+          </h2>
+          <div class="nav-controls">
+            <a
+              href="#products-6-start"
+              class="nav-btn"
+              type="button"
+              aria-label="قبلی"
+            >
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-right"></use>
+              </svg>
+            </a>
+
+            <a
+              href="#products-6-end"
+              class="nav-btn"
+              type="button"
+              aria-label="بعدی"
+            >
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-left"></use>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="carousel-track meatProteinProducts">
+          <!-- fetch from api and fill by js -->
+        </div>
+      </section>
+      <!--snacks -->
+      <section
+        class="carousel-container anchor-section"
+        id="snacks"
+        aria-label="تنقلات"
+      >
+        <div class="carousel-header">
+          <h2 class="section-title">
+            <span>تنقلات</span>
+            <span aria-hidden="true">🍿</span>
+          </h2>
+          <div class="nav-controls">
+            <a
+              href="#products-7-start"
+              class="nav-btn"
+              type="button"
+              aria-label="قبلی"
+            >
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-right"></use>
+              </svg>
+            </a>
+
+            <a
+              href="#products-7-end"
+              class="nav-btn"
+              type="button"
+              aria-label="بعدی"
+            >
+              <svg aria-hidden="true">
+                <use href="./sprite.svg#chevron-left"></use>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="carousel-track snacksProducts">
+          <!-- fetch from api and fill by js -->
+        </div>
       </section>
       <!-- Support -->
       <section
@@ -684,22 +468,25 @@
         <div class="footer-grid">
           <!-- Brand & About -->
           <div class="footer-col brand-col">
-            <h3 class="footer-heading brand-title">سوپرمارکت یاگنی</h3>
-            <p class="brand-description">
-              از سال ۱۴۰۵ کنار شما هستیم؛ کالای تازه با قیمت منصفانه.
-            </p>
+            <div class="footer-heading brand-title" id="shop-name"></div>
+
+            <p class="brand-description" id="shop-about"></p>
+
             <ul class="contact-list">
               <li>
                 <svg>
                   <use href="./sprite.svg#location"></use>
                 </svg>
-                <span>تهران، خیابان نمونه، پلاک ۴۰</span>
+
+                <span id="shop-address"></span>
               </li>
-              <li>
+
+              <li id="contact">
                 <svg>
                   <use href="./sprite.svg#call"></use>
                 </svg>
-                <span dir="ltr">۰۲۱-۱۲۳۴۵۶۷۸</span>
+
+                <span id="shop-phone" dir="ltr"></span>
               </li>
             </ul>
           </div>
@@ -707,39 +494,29 @@
           <!-- Categories -->
           <div class="footer-col">
             <h4 class="footer-heading">دسته‌ها</h4>
-            <ul class="footer-links">
-              <li><a href="#">میوه و سبزی</a></li>
-              <li><a href="#">لبنیات</a></li>
-              <li><a href="#">نان و شیرینی</a></li>
-              <li><a href="#">پروتئین</a></li>
-            </ul>
+
+            <ul class="footer-links" id="footer-categories"></ul>
           </div>
 
           <!-- Help & Links -->
           <div class="footer-col">
             <h4 class="footer-heading">راهنما</h4>
-            <ul class="footer-links">
-              <li><a href="#">شیوه ارسال</a></li>
-              <li><a href="#">بازگشت کالا</a></li>
-              <li><a href="#">پرسش‌های متداول</a></li>
-            </ul>
+
+            <ul class="footer-links" id="footer-help"></ul>
           </div>
 
           <!-- Working Hours -->
           <div class="footer-col">
             <h4 class="footer-heading">ساعت کاری</h4>
-            <div class="hours-info">
-              <p><strong>شنبه تا پنجشنبه:</strong> <span>۸ تا ۲۲</span></p>
-              <p><strong>جمعه:</strong> <span>۹ تا ۱۴</span></p>
-            </div>
+
+            <div class="hours-info" id="shop-schedule"></div>
           </div>
         </div>
 
         <!-- Footer Bottom Bar -->
         <div class="footer-bottom">
-          <p class="copyright">
-            &copy; ۱۴۰۵ سوپرمارکت یاگنی - تمامی حقوق محفوظ است
-          </p>
+          <p class="copyright" id="shop-copyright"></p>
+
           <a href="#top" class="back-to-top">
             <span>بازگشت به بالا</span>
 
@@ -750,5 +527,6 @@
         </div>
       </div>
     </footer>
+    <script type="module" src="src/main.ts"></script>
   </body>
 </html>
