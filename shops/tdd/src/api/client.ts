@@ -1,12 +1,14 @@
 import type { Product } from '../types'
 import { isProduct } from './guards'
 
-export const PRODUCTS_URL = "../../api/products.json"
-export const STOCK_URL = "../../api/stock.json"
-export const OFFERS_URL = "../../api/offers.json"
-export const CATEGORIES_URL = "../../api/categories.json"
-export const SHOP_URL = "../../api/shop.json"
-export const HOME_URL = "../../api/home.json"
+const API_URL = import.meta.env.VITE_API_URL
+
+export const PRODUCTS_URL = `${API_URL}/products.json`
+export const STOCK_URL = `${API_URL}/stock.json`
+export const OFFERS_URL = `${API_URL}/offers.json`
+export const CATEGORIES_URL = `${API_URL}/categories.json`
+export const SHOP_URL = `${API_URL}/shop.json`
+export const HOME_URL = `${API_URL}/home.json`
 
 export async function getJSON(path: string): Promise<unknown> {
     const response = await fetch(path)
