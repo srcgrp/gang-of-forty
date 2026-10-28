@@ -10,7 +10,7 @@ import { renderPageSections } from "./ui/pageSections"
 import { renderCatalogView } from "./ui/catalogView"
 import { handleNavigationLink, scrollToSection, clearSearch, setSearchDisabled } from "./ui/navigation"
 import { readCategorySlug, readSectionId, writeNavigation } from "./data/navigationUrl"
-const api = "../../api/"
+const api = import.meta.env.VITE_API_URL + "/"
 const shopName = "سوپرمارکت بوی کد"
 let shopData: ShopData | null = null
 let cart = loadCart()
