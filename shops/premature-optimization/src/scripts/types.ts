@@ -1,22 +1,3 @@
-import type { SORTS } from "./sorts";
-
-/* ------------------------- DOM ------------------------- */
-
-export type MakeElement = <T extends keyof HTMLElementTagNameMap>(
-  tag: T,
-  className?: string,
-  text?: string,
-) => HTMLElementTagNameMap[T];
-
-export type AppendLinks = (
-  container: Element,
-  label: string,
-  href?: string,
-  className?: string,
-) => HTMLAnchorElement;
-
-/* --------------------- API data ----------------------- */
-
 export interface Product {
   id: number;
   categoryId: number;
@@ -26,7 +7,6 @@ export interface Product {
   price: number;
   tags: string[];
 }
-
 export interface Category {
   id: number;
   slug: string;
@@ -35,33 +15,27 @@ export interface Category {
   emoji: string | null;
   color: string;
 }
-
 export interface Offer {
   productId: number;
   percent: number;
   label: string;
 }
-
 export interface Stock {
   updatedAt: string;
   items: Record<string, number>;
 }
-
 export interface ShopMenuItem {
   label: string;
   href: string;
 }
-
 export interface ShopScheduleItem {
   days: string;
   time: string;
 }
-
 export interface ShopHours {
   open: string;
   close: string;
 }
-
 export interface Shop {
   name: string;
   slogan: string | null;
@@ -79,13 +53,10 @@ export interface Shop {
   menu: ShopMenuItem[];
   copyright: string;
 }
-
-// home.json
 export interface CallToAction {
   label: string;
   href: string;
 }
-
 export interface BannerData {
   title: string;
   text: string;
@@ -93,14 +64,12 @@ export interface BannerData {
   emoji: string;
   cta?: CallToAction;
 }
-
 export interface Promo {
   text: string;
   href: string;
   name?: string;
   emoji: string;
 }
-
 export interface CarouselConfig {
   id: string;
   title: string;
@@ -109,16 +78,19 @@ export interface CarouselConfig {
   categoryId?: number | null;
   category?: Pick<Category, "id">;
 }
-
 export interface Home {
   hero?: BannerData | null;
   side?: BannerData | null;
   promos?: Promo[];
   carousels?: CarouselConfig[];
 }
-
-/* --------------------------- Page state -------------------------- */
-
+export type Cart = Record<string, number>;
+export interface CartLine {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+}
 export interface CatalogData {
   products: Product[];
   stock: Stock;
@@ -127,44 +99,22 @@ export interface CatalogData {
   shop: Shop;
   home: Home;
 }
-
 export type LoadState =
   | { status: "loading" }
   | ({ status: "success" } & CatalogData)
   | { status: "empty" }
   | { status: "error"; message: string };
-
-/* ----------------------------- Cart ------------------------------ */
-
-export type Cart = Record<string, number>;
-
-export interface CartLine extends Pick<Product, "id" | "name" | "price"> {
-  quantity: number;
-}
-
-/* ------------------------ Sort ---------------------- */
-
-export type Sort = (typeof SORTS)[number];
-
-/* ---------------------------- UI state --------------------------- */
-
 export interface ProductCardOptions {
   offer?: Offer;
   stock: Stock;
   categoryName: string;
+  finalPrice: number;
 }
-
 export type OptionsForProduct = (product: Product) => ProductCardOptions;
-
 export interface CarouselElements {
   products: HTMLUListElement;
   viewport: HTMLDivElement;
   previous: HTMLButtonElement;
   next: HTMLButtonElement;
 }
-
-export interface CarouselState {
-  offset: number;
-  step: number;
-  maxOffset: number;
-}
+export type Sort = "default" | "price-asc" | "price-desc" | "name";
