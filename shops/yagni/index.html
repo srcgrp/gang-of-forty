@@ -1,12 +1,11 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
   <head>
-    <meta charset="UTF-8" >
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
-    <meta name="description" content="مینا٬سوپرمارکتی به وسعت قلبتان" >
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="مینا٬سوپرمارکتی به وسعت قلبتان" />
     <title>مینا-خرید تازه٬زندگی بهتر</title>
-    <link rel="icon" href="./favicon.ico" />
-    <link rel="stylesheet" href="./styles/main.css" >
+    <link rel="stylesheet" href="./styles/main.css" />
   </head>
   <body>
     <!-- Header -->
@@ -24,18 +23,18 @@
             </svg>
           </span>
 
-<div class="header__brand" id="shop-header-brand"></div>
+          <div class="header__brand" id="shop-header-brand"></div>
         </a>
 
         <!-- Search -->
         <form class="header__search">
           <span class="header__search-label">جستجو</span>
 
-       <input
-  type="search"
-  placeholder="می‌تونی بین محصولات جستجو کنی"
-  aria-label="جستجوی محصولات"
->
+          <input
+            type="search"
+            placeholder="می‌تونی بین محصولات جستجو کنی"
+            aria-label="جستجوی محصولات"
+          />
 
           <button
             type="submit"
@@ -50,92 +49,74 @@
 
         <!-- Header Actions -->
         <div>
-      <!-- Cart -->
-<a href="#" class="header__cart">
-  <span class="header__cart-icon">
-    <svg>
-      <use href="./sprite.svg#basket"></use>
-    </svg>
+          <!-- Cart -->
+          <a href="#" class="header__cart">
+            <span class="header__cart-icon">
+              <svg>
+                <use href="./sprite.svg#basket"></use>
+              </svg>
 
-    <span class="header__cart-count">۰</span>
-  </span>
+              <span class="header__cart-count">۰</span>
+            </span>
 
-  <span class="header__cart-content">
-    <small>سبد خرید</small>
-    <strong>۰ تومان</strong>
-  </span>
-</a>
+            <span class="header__cart-content">
+              <small>سبد خرید</small>
+              <strong>۰ تومان</strong>
+            </span>
+          </a>
         </div>
       </div>
     </header>
     <!-- Navbar -->
-        <nav class="navbar">
-         <input
-  type="checkbox"
-  id="nav-toggle"
-  class="nav-toggle"
-  hidden
->
-<div class="navbar-inner">
-
-  <!-- Mobile menu button -->
-  <label for="nav-toggle" class="burger-btn">
-    <svg class="burger-icon burger-icon--open" aria-hidden="true">
-      <use href="./sprite.svg#hamburger-menu"></use>
-    </svg>
-
-    <svg class="burger-icon burger-icon--close" aria-hidden="true">
-      <use href="./sprite.svg#close"></use>
-    </svg>
-  </label>
-
-  <div class="navbar-content">
-    <ul class="nav-list" id="navbar-list">
-
-      <!-- Categories -->
-      <li class="has-dropdown">
-        <a
-          href="#"
-          class="nav-link is-active"
-          aria-haspopup="true"
-        >
-          <svg class="icon" aria-hidden="true">
-            <use href="./sprite.svg#dropDown"></use>
+    <nav class="navbar">
+      <input type="checkbox" id="nav-toggle" class="nav-toggle" hidden />
+      <div class="navbar-inner">
+        <!-- Mobile menu button -->
+        <label for="nav-toggle" class="burger-btn">
+          <svg class="burger-icon burger-icon--open" aria-hidden="true">
+            <use href="./sprite.svg#hamburger-menu"></use>
           </svg>
 
-          همه دسته‌ها
-        </a>
+          <svg class="burger-icon burger-icon--close" aria-hidden="true">
+            <use href="./sprite.svg#close"></use>
+          </svg>
+        </label>
 
-        <ul class="dropdown" id="navbar-categories"></ul>
-      </li>
+        <div class="navbar-content">
+          <ul class="nav-list" id="navbar-list">
+            <!-- Categories -->
+            <li class="has-dropdown">
+              <a href="#" class="nav-link is-active" aria-haspopup="true">
+                <svg class="icon" aria-hidden="true">
+                  <use href="./sprite.svg#dropDown"></use>
+                </svg>
 
-    </ul>
-  </div>
-</div>
-        </nav>
+                همه دسته‌ها
+              </a>
+
+              <ul class="dropdown" id="navbar-categories"></ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
     <!-- Banner -->
-      <section
-  class="banner anchor-section"
-  id="banner"
-  aria-label="بنر اصلی"
->
-  <div class="banner__track" id="banner-track"></div>
-       </section>
+    <section class="banner anchor-section" id="banner" aria-label="بنر اصلی">
+      <div class="banner__track" id="banner-track"></div>
+    </section>
     <main>
       <!-- Categories -->
-     <section
-  class="categories anchor-section"
-  id="categories"
-  aria-labelledby="categories-title"
->
-  <div class="categories__header">
-    <h2 id="categories-title" class="categories__title">
-      دسته‌بندی‌ها
-    </h2>
-    <a href="#" class="categories__link">مشاهده همه</a>
-  </div>
-  <div class="categories__grid" id="categories-grid"></div>
-</section>
+      <section
+        class="categories anchor-section"
+        id="categories"
+        aria-labelledby="categories-title"
+      >
+        <div class="categories__header">
+          <h2 id="categories-title" class="categories__title">دسته‌بندی‌ها</h2>
+          <a href="#" class="categories__link">مشاهده همه</a>
+        </div>
+        <div class="categories__grid" id="categories-grid"></div>
+      </section>
       <!-- suggestions -->
       <section class="carousel-container anchor-section" id="offers">
         <div class="carousel-header">
@@ -145,7 +126,7 @@
           </h2>
           <div class="nav-controls">
             <!-- Go to start -->
-            <a class="nav-btn" aria-label="ابتدای محصولات"   href="#offers-start">
+            <a class="nav-btn" aria-label="ابتدای محصولات" href="#offers-start">
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-right"></use>
               </svg>
@@ -159,28 +140,46 @@
         </div>
 
         <div class="carousel-track suggestions">
-       <!-- dynamic filling from js -->
-          </div>
+          <!-- dynamic filling from js -->
+        </div>
       </section>
       <!-- Advertisement -->
-     <section class="advertisement anchor-section" id="advertisement-1" aria-label="1تبلیغات">
+      <section
+        class="advertisement anchor-section"
+        id="advertisement-1"
+        aria-label="1تبلیغات"
+      >
         <!-- dynamic filling from js -->
-     </section>
+      </section>
       <!-- dairy -->
-      <section class="carousel-container anchor-section" id="dairy" aria-label="لبنیات">
+      <section
+        class="carousel-container anchor-section"
+        id="dairy"
+        aria-label="لبنیات"
+      >
         <div class="carousel-header">
           <h2 class="section-title">
             <span>لبنیات</span>
             <span aria-hidden="true">🐮</span>
           </h2>
           <div class="nav-controls">
-            <a href="#products-2-start" class="nav-btn" type="button" aria-label="قبلی">
+            <a
+              href="#products-2-start"
+              class="nav-btn"
+              type="button"
+              aria-label="قبلی"
+            >
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-right"></use>
               </svg>
             </a>
 
-            <a href="#products-2-end" class="nav-btn" type="button" aria-label="بعدی">
+            <a
+              href="#products-2-end"
+              class="nav-btn"
+              type="button"
+              aria-label="بعدی"
+            >
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-left"></use>
               </svg>
@@ -188,12 +187,12 @@
           </div>
         </div>
 
-<div class="carousel-track dairyProducts">
-  <!-- Dynamic filling from JS -->
-</div>
+        <div class="carousel-track dairyProducts">
+          <!-- Dynamic filling from JS -->
+        </div>
       </section>
 
-        <!-- fruits -->
+      <!-- fruits -->
       <section class="carousel-container anchor-section" id="fruits">
         <div class="carousel-header">
           <h2 class="section-title">
@@ -201,13 +200,23 @@
             <span aria-hidden="true">🐮</span>
           </h2>
           <div class="nav-controls">
-            <a href="#products-1-start"  class="nav-btn" type="button" aria-label="قبلی">
+            <a
+              href="#products-1-start"
+              class="nav-btn"
+              type="button"
+              aria-label="قبلی"
+            >
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-right"></use>
               </svg>
             </a>
 
-            <a href="#products-1-end"  class="nav-btn" type="button" aria-label="بعدی">
+            <a
+              href="#products-1-end"
+              class="nav-btn"
+              type="button"
+              aria-label="بعدی"
+            >
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-left"></use>
               </svg>
@@ -215,11 +224,11 @@
           </div>
         </div>
 
-        <div class="carousel-track  fruitsVegetablesProducts">
-         <!-- fetch from api and fill by js -->
+        <div class="carousel-track fruitsVegetablesProducts">
+          <!-- fetch from api and fill by js -->
         </div>
       </section>
-              <!-- Bakery and Pastries -->
+      <!-- Bakery and Pastries -->
       <section class="carousel-container anchor-section" id="bakery">
         <div class="carousel-header">
           <h2 class="section-title">
@@ -227,13 +236,23 @@
             <span aria-hidden="true">🐮</span>
           </h2>
           <div class="nav-controls">
-            <a href="#products-3-start" class="nav-btn" type="button" aria-label="قبلی">
+            <a
+              href="#products-3-start"
+              class="nav-btn"
+              type="button"
+              aria-label="قبلی"
+            >
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-right"></use>
               </svg>
             </a>
 
-            <a href="#products-3-end" class="nav-btn" type="button" aria-label="بعدی">
+            <a
+              href="#products-3-end"
+              class="nav-btn"
+              type="button"
+              aria-label="بعدی"
+            >
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-left"></use>
               </svg>
@@ -242,30 +261,44 @@
         </div>
 
         <div class="carousel-track bakeryPastriesProducts">
-         <!-- fetch from api and fill by js -->
+          <!-- fetch from api and fill by js -->
         </div>
       </section>
-                  <!-- Advertisement -->
+      <!-- Advertisement -->
       <section
-  class="advertisement anchor-section"
-  id="advertisement-2"
-  aria-label="تبلیغات2"
-></section>
-                    <!-- pantry -->
-      <section class="carousel-container anchor-section" id="pantry" aria-label="خواربار">
+        class="advertisement anchor-section"
+        id="advertisement-2"
+        aria-label="تبلیغات2"
+      ></section>
+      <!-- pantry -->
+      <section
+        class="carousel-container anchor-section"
+        id="pantry"
+        aria-label="خواربار"
+      >
         <div class="carousel-header">
           <h2 class="section-title">
             <span>کالاهای اساسی و خواربار</span>
             <span aria-hidden="true">🍚</span>
           </h2>
           <div class="nav-controls">
-            <a href="#products-4-start" class="nav-btn" type="button" aria-label="قبلی">
+            <a
+              href="#products-4-start"
+              class="nav-btn"
+              type="button"
+              aria-label="قبلی"
+            >
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-right"></use>
               </svg>
             </a>
 
-            <a href="#products-4-end"  class="nav-btn" type="button" aria-label="بعدی">
+            <a
+              href="#products-4-end"
+              class="nav-btn"
+              type="button"
+              aria-label="بعدی"
+            >
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-left"></use>
               </svg>
@@ -274,10 +307,10 @@
         </div>
 
         <div class="carousel-track staplesGroceriesProducts">
-         <!-- fetch from api and fill by js -->
+          <!-- fetch from api and fill by js -->
         </div>
       </section>
-                      <!-- drinks -->
+      <!-- drinks -->
       <section class="carousel-container anchor-section" id="drinks">
         <div class="carousel-header">
           <h2 class="section-title">
@@ -285,13 +318,23 @@
             <span aria-hidden="true">🍹</span>
           </h2>
           <div class="nav-controls">
-            <a href="#products-5-start" class="nav-btn" type="button" aria-label="قبلی">
+            <a
+              href="#products-5-start"
+              class="nav-btn"
+              type="button"
+              aria-label="قبلی"
+            >
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-right"></use>
               </svg>
             </a>
 
-            <a href="#products-5-end"  class="nav-btn" type="button" aria-label="بعدی">
+            <a
+              href="#products-5-end"
+              class="nav-btn"
+              type="button"
+              aria-label="بعدی"
+            >
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-left"></use>
               </svg>
@@ -300,11 +343,11 @@
         </div>
 
         <div class="carousel-track beveragesProducts">
-         <!-- fetch from api and fill by js -->
+          <!-- fetch from api and fill by js -->
         </div>
       </section>
 
-                        <!-- protein -->
+      <!-- protein -->
       <section class="carousel-container anchor-section" id="protein">
         <div class="carousel-header">
           <h2 class="section-title">
@@ -312,13 +355,23 @@
             <span aria-hidden="true">🥩</span>
           </h2>
           <div class="nav-controls">
-            <a href="#products-6-start" class="nav-btn" type="button" aria-label="قبلی">
+            <a
+              href="#products-6-start"
+              class="nav-btn"
+              type="button"
+              aria-label="قبلی"
+            >
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-right"></use>
               </svg>
             </a>
 
-            <a href="#products-6-end"  class="nav-btn" type="button" aria-label="بعدی">
+            <a
+              href="#products-6-end"
+              class="nav-btn"
+              type="button"
+              aria-label="بعدی"
+            >
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-left"></use>
               </svg>
@@ -327,24 +380,38 @@
         </div>
 
         <div class="carousel-track meatProteinProducts">
-         <!-- fetch from api and fill by js -->
+          <!-- fetch from api and fill by js -->
         </div>
       </section>
-                            <!--snacks -->
-      <section class="carousel-container anchor-section" id="snacks" aria-label="تنقلات">
+      <!--snacks -->
+      <section
+        class="carousel-container anchor-section"
+        id="snacks"
+        aria-label="تنقلات"
+      >
         <div class="carousel-header">
           <h2 class="section-title">
             <span>تنقلات</span>
             <span aria-hidden="true">🍿</span>
           </h2>
           <div class="nav-controls">
-            <a href="#products-7-start" class="nav-btn" type="button" aria-label="قبلی">
+            <a
+              href="#products-7-start"
+              class="nav-btn"
+              type="button"
+              aria-label="قبلی"
+            >
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-right"></use>
               </svg>
             </a>
 
-            <a href="#products-7-end" class="nav-btn" type="button" aria-label="بعدی">
+            <a
+              href="#products-7-end"
+              class="nav-btn"
+              type="button"
+              aria-label="بعدی"
+            >
               <svg aria-hidden="true">
                 <use href="./sprite.svg#chevron-left"></use>
               </svg>
@@ -353,7 +420,7 @@
         </div>
 
         <div class="carousel-track snacksProducts">
-         <!-- fetch from api and fill by js -->
+          <!-- fetch from api and fill by js -->
         </div>
       </section>
       <!-- Support -->
@@ -399,72 +466,70 @@
       </section>
     </main>
     <!-- Footer -->
- <footer class="site-footer anchor-section" id="footer">
-  <div class="footer-container">
-    <div class="footer-grid">
+    <footer class="site-footer anchor-section" id="footer">
+      <div class="footer-container">
+        <div class="footer-grid">
+          <!-- Brand & About -->
+          <div class="footer-col brand-col">
+            <div class="footer-heading brand-title" id="shop-name"></div>
 
-      <!-- Brand & About -->
-      <div class="footer-col brand-col">
-      <div class="footer-heading brand-title" id="shop-name"></div>
+            <p class="brand-description" id="shop-about"></p>
 
-        <p class="brand-description" id="shop-about"></p>
+            <ul class="contact-list">
+              <li>
+                <svg>
+                  <use href="./sprite.svg#location"></use>
+                </svg>
 
-        <ul class="contact-list">
-          <li>
+                <span id="shop-address"></span>
+              </li>
+
+              <li id="contact">
+                <svg>
+                  <use href="./sprite.svg#call"></use>
+                </svg>
+
+                <span id="shop-phone" dir="ltr"></span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Categories -->
+          <div class="footer-col">
+            <h4 class="footer-heading">دسته‌ها</h4>
+
+            <ul class="footer-links" id="footer-categories"></ul>
+          </div>
+
+          <!-- Help & Links -->
+          <div class="footer-col">
+            <h4 class="footer-heading">راهنما</h4>
+
+            <ul class="footer-links" id="footer-help"></ul>
+          </div>
+
+          <!-- Working Hours -->
+          <div class="footer-col">
+            <h4 class="footer-heading">ساعت کاری</h4>
+
+            <div class="hours-info" id="shop-schedule"></div>
+          </div>
+        </div>
+
+        <!-- Footer Bottom Bar -->
+        <div class="footer-bottom">
+          <p class="copyright" id="shop-copyright"></p>
+
+          <a href="#top" class="back-to-top">
+            <span>بازگشت به بالا</span>
+
             <svg>
-              <use href="./sprite.svg#location"></use>
+              <use href="./sprite.svg#up"></use>
             </svg>
-
-            <span id="shop-address"></span>
-          </li>
-
-          <li  id="contact">
-            <svg>
-              <use href="./sprite.svg#call"></use>
-            </svg>
-
-            <span id="shop-phone" dir="ltr"></span>
-          </li>
-        </ul>
+          </a>
+        </div>
       </div>
-
-      <!-- Categories -->
-      <div class="footer-col">
-        <h4 class="footer-heading">دسته‌ها</h4>
-
-        <ul class="footer-links" id="footer-categories"></ul>
-      </div>
-
-      <!-- Help & Links -->
-      <div class="footer-col">
-        <h4 class="footer-heading">راهنما</h4>
-
-        <ul class="footer-links" id="footer-help"></ul>
-      </div>
-
-      <!-- Working Hours -->
-      <div class="footer-col">
-        <h4 class="footer-heading">ساعت کاری</h4>
-
-        <div class="hours-info" id="shop-schedule"></div>
-      </div>
-
-    </div>
-
-    <!-- Footer Bottom Bar -->
-    <div class="footer-bottom">
-      <p class="copyright" id="shop-copyright"></p>
-
-      <a href="#top" class="back-to-top">
-        <span>بازگشت به بالا</span>
-
-        <svg>
-          <use href="./sprite.svg#up"></use>
-        </svg>
-      </a>
-    </div>
-  </div>
-</footer>
+    </footer>
     <script type="module" src="src/main.ts"></script>
   </body>
 </html>
