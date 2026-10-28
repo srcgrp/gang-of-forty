@@ -266,7 +266,7 @@ function discountedPrice(price: number, percent: number): number {
 
 /* ---------- Header and Footer ---------- */
 
-function renderShop(shop: Shop): void {
+function renderShop(shop: ReadonlyShop): void {
     dom.topBarText.textContent = shop.notice;
 
     // Main menu

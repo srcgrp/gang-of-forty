@@ -6,7 +6,7 @@ import type {
     Product,
     Shop,
     Stock,
-} from './types';
+} from './src/types';
 
 const API_BASE = '../../api/';
 
@@ -24,15 +24,16 @@ async function fetchJSON<T>(fileName: string): Promise<T> {
 
 // Reads all six files at the same time with a single Promise.all.
 export async function loadData(): Promise<AppData> {
-    const [shop, categories, home, products, stock, offers] =
-        await Promise.all([
+    const [shop, categories, home, products, stock, offers] = await Promise.all(
+        [
             fetchJSON<Shop>('shop.json'),
             fetchJSON<Category[]>('categories.json'),
             fetchJSON<Home>('home.json'),
             fetchJSON<Product[]>('products.json'),
             fetchJSON<Stock>('stock.json'),
             fetchJSON<Offer[]>('offers.json'),
-        ]);
+        ],
+    );
 
     return {shop, categories, home, products, stock, offers};
 }
