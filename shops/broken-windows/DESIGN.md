@@ -60,12 +60,32 @@
 - error=اینترنت قطع باشه یا اسم فایل رو اشتباه زده باشم و فایل پیدا نشه =متاسفیم محصولات بارگذاری نشدند.
 - empty= فایل سالم اومده ولی لیستش خالیه - این پیامو نشون میده :متأسفیم، محصولات بارگذاری نشدند. لطفاً دوباره تلاش کنید.
 ## 6. پوشه‌ها
-src/
-  types.ts   
+src/  
   api/      
-  cart/      
-  ui/        
-  main.ts   
+      client.ts
+      guards.ts
+      loadShop.ts
+      shopGuards.ts
+  catalog/   
+      cardView.ts
+      finalPrice.ts
+      lookUp.ts
+      pageView.ts
+      stock.ts   
+  ui/  
+    categoryTile.ts
+    dom.ts
+    format.ts
+    notify.ts
+    page.ts
+    productCard.ts
+    renderPage.ts
+    renderShop.ts
+    scroll.ts
+    status.ts
+    viewAll.ts      
+  main.ts  
+  types.ts  
 
   البته src فعلا خالیه
 ## 7. امنیت
