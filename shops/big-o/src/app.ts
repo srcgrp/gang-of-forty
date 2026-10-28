@@ -1,12 +1,14 @@
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
 import { CountUp } from 'countup.js';
-import type { Category, Product, Offer, Stock, Shop, CardInfo, LinkItem } from './types';
+import type {Product, Offer, Stock,CardInfo} from './types';
 import { getData } from './api/getData';
 import { loadCartCount, saveCartCount } from './storage/cart';
 import { getCategoryID, filterProductsByCategoryID, filterSpecialProducts } from './catalog/filters';
 import { renderStatus } from './ui/status';
 import { getHtmlElement } from './ui/getHtmlElement';
+import { renderCategories, renderCategoryLinks } from './ui/categories';
+import { renderShop } from './ui/shop';
 
 let cartCount: number = loadCartCount();
 
@@ -147,77 +149,6 @@ function renderProducts(data: Product[], queryId: string, offeredProducts: Offer
 
     });
     getHtmlElement<HTMLUListElement>(`#${queryId} ul`).append(...productList);
-}
-
-
-
-
-
-
-
-// Renders the category list from the template in the HTML.
-// categoryData: array from categories.json.
-// Each category gets an emoji, a name and a link to #<slug>.
-function renderCategories(categoryData: Category[]) {
-    const categoryList = getHtmlElement<HTMLUListElement>(".categories ul");
-    const template = getHtmlElement<HTMLTemplateElement>("#category-template");
-    categoryData.forEach(category => {
-        const clone = document.importNode(template.content, true);
-        getHtmlElement<HTMLAnchorElement>("a", clone).setAttribute("href", `#${category.slug}`);
-        getHtmlElement<HTMLSpanElement>("a span", clone).textContent = category.emoji;
-        getHtmlElement<HTMLHeadingElement>("a h3", clone).textContent = category.name;
-        categoryList.append(clone);
-        
-    });
-}
-
-
-
-// Builds an li with a link inside it.
-// item: { label, href }
-function createLinkItem(item: LinkItem) {
-    const li: HTMLLIElement = document.createElement("li");
-    const a: HTMLAnchorElement = document.createElement("a");
-    a.textContent = item.label;
-    a.href = item.href;
-    li.append(a);
-    return li;
-}
-
-
-// Fills the "all categories" submenu and the footer category list from categories.json.
-// categoryData: array from categories.json.
-function renderCategoryLinks(categoryData: Category[]) {
-    const links = categoryData.map(category => createLinkItem({ label: category.name, href: `#${category.slug}` }));
-    getHtmlElement<HTMLUListElement>(".mega-menu").replaceChildren(...links);
-    getHtmlElement<HTMLUListElement>("#quick-links + ul").replaceChildren(
-        ...categoryData.map(category =>
-            createLinkItem({ label: category.name, href: `#${category.slug}` })));
-}
-
-// Converts Latin digits in a string to Persian digits.
-function toPersianDigits(text: string) {
-    return text.replace(/\d/g, (digit) => "۰۱۲۳۴۵۶۷۸۹"[Number(digit)]);
-}
-
-// Fills the notice bar, tagline, phone and opening hours from shop.json.
-// shop: object from shop.json.
-function renderShop(shop: Shop) {
-    const formatter = new Intl.NumberFormat('fa-IR');
-
-    getHtmlElement<HTMLParagraphElement>(".announcement p").textContent =
-        `ارسال رایگان برای خریدهای بالای ${formatter.format(shop.freeDeliveryOver)} ${shop.currency}`;
-
-    getHtmlElement<HTMLParagraphElement>(".title p").textContent = shop.slogan;
-
-    const phoneLink = getHtmlElement<HTMLAnchorElement>("address a");
-    getHtmlElement<HTMLElement>("bdi", phoneLink).textContent = toPersianDigits(shop.phone).replace("-", "\u2011");
-    phoneLink.href = `tel:${shop.phone.replace(/[^\d+]/g, "")}`;
-    
-    const hours: HTMLParagraphElement = document.createElement("p");
-    hours.textContent = `هر روز ${toPersianDigits(shop.hours.open)} تا ${toPersianDigits(shop.hours.close)}`;
-    
-    getHtmlElement<HTMLElement>(".info").append(hours);
 }
 
 // Adds one product to the cart: shows a success toast, increases cartCount,
