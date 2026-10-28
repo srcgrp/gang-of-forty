@@ -1,7 +1,8 @@
 import { Notyf } from 'notyf'
 import 'notyf/notyf.min.css'
 import confetti from 'canvas-confetti'
-import type { Category, Home, Offer, Product, Shop, Stock } from './types'
+import type { Category, Home, Offer, Product, Shop, Stock, LoadState } from './types'
+import { assertNever } from './types'
 import { getJSON } from './api/client'
 import { loadCart, saveCart } from './storage/storage'
 import { addToCart } from './cart/cart'
@@ -30,14 +31,28 @@ const searchInput = document.querySelector<HTMLInputElement>('.search input')
 if (!nav || !sub || !mainM || !notice || !about || !addr || !phone || !fCats || !fHelp || !sched || !p1 || !p2 || !container) {
     throw new Error('المان‌های DOM یافت نشدند.')
 }
-
+function renderState(state: LoadState, targetContainer: HTMLElement): void {
+    switch (state.status) {
+        case 'loading':
+            targetContainer.textContent = 'در حال بارگذاری اطلاعات...'
+            break
+        case 'empty':
+            targetContainer.innerHTML = '<li style="padding: 1rem; width: 100%; text-align: center;">محصولی برای نمایش وجود ندارد.</li>'
+            break
+        case 'success':
+            break
+        case 'error':
+            targetContainer.innerHTML = `<li class="error-box" style="color: red; padding: 1rem; width: 100%; text-align: center;">خطا در دریافت اطلاعات: ${state.message}</li>`
+            break
+        default:
+            assertNever(state)
+    }
+}
 async function start(): Promise<void> {
     try { 
-     
-    const API_BASE = import.meta.env.VITE_API_URL ?? '/api'
-    : (import.meta.env.VITE_API_URL ?? '../../api')
+     renderState({ status: 'loading' }, container!)
+        const API_BASE = import.meta.env.VITE_API_URL ?? '/api'
         const [cats, shop, home, prods, stock, offers] = await Promise.all([
-            
             getJSON(`${API_BASE}/categories.json`) as Promise<Category[]>,
             getJSON(`${API_BASE}/shop.json`) as Promise<Shop>,
             getJSON(`${API_BASE}/home.json`) as Promise<Home>,
@@ -59,7 +74,13 @@ async function start(): Promise<void> {
             container!.textContent = ''
             list.forEach(p => container!.appendChild(createCard(p, offerMap.get(p.id), stock.items[p.id] ?? 0)))
         }
-        renderList(items)
+        if (items.length === 0) {
+            renderState({ status: 'empty' }, container!)
+        } else {
+            renderState({ status: 'success', products: items }, container!)
+            renderList(items)
+        }
+        
 
         searchForm?.addEventListener('submit', (e) => {
             e.preventDefault()
@@ -68,6 +89,8 @@ async function start(): Promise<void> {
             renderList(prods.filter(p => p.name.toLocaleLowerCase('fa-IR').includes(q) || (catMap.get(p.categoryId) ?? '').toLocaleLowerCase('fa-IR').includes(q)))
         })
     } catch (err) {
+        const message = err instanceof Error ? err.message : 'خطای نامشخص در ارتباط با سرور'
+        renderState({ status: 'error', message }, container!)
         console.error(err)
     }
 }

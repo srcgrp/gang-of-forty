@@ -1,5 +1,6 @@
 import type { CartLine } from '../types'
-import type { StoredCart } from '../storage/cart-storage'
+
+export type StoredCart = Record<string | number, number>
 
 export function addToCart(cart: StoredCart, productId: number): StoredCart {
     const count = cart[productId] ?? 0
@@ -10,12 +11,12 @@ export function addToCart(cart: StoredCart, productId: number): StoredCart {
 }
 
 export function getCartTotalCount(cart: StoredCart): number {
-    return Object.values(cart).reduce((sum, count) => sum + count, 0)
+    return Object.values(cart).reduce<number>((sum, count) => sum + Number(count ?? 0), 0)
 }
 
 export function toCartLines(cart: StoredCart): CartLine[] {
     return Object.entries(cart).map(([id, quantity]) => ({
         productId: Number(id),
-        quantity
+        quantity: Number(quantity ?? 0)
     }))
 }
