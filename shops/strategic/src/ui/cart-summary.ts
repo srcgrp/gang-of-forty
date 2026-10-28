@@ -1,7 +1,7 @@
 /* Amirhossein (Armin) Panahi */
 /* Week 4 - Strategic Supermarket - Arch */
 
-import type { CartItem } from '../types';
+import type { CartView } from '../types';
 import { cartIsOpen } from './cart-panel';
 import { $, dom } from './dom';
 import { el } from './el';
@@ -10,12 +10,10 @@ import { icon } from './media';
 import { miniItem } from './mini-item';
 import { discountLine, priceText } from './mini-parts';
 
-export type CartView = { ready: boolean; count: number; rows: readonly CartItem[]; total: number; oldTotal: number };
+export const renderTotal = (total: number, oldTotal: number, discount: number): HTMLElement =>
+  el('div', { class: 'mini__total' }, [discountLine(oldTotal, total, discount), priceText(total)]);
 
-export const renderTotal = (total: number, oldTotal: number): HTMLElement =>
-  el('div', { class: 'mini__total' }, [discountLine(oldTotal, total), priceText(total)]);
-
-export function renderCart({ ready, count, rows, total, oldTotal }: CartView): void {
+export function renderCart({ ready, count, rows, total, oldTotal, discount }: CartView): void {
   const title = el('h2', { class: 'mini__title', text: 'خلاصه سبد خرید شما' });
 
   if (!ready || count === 0) {
@@ -32,7 +30,7 @@ export function renderCart({ ready, count, rows, total, oldTotal }: CartView): v
     el('ul', { class: 'mini__list' }, rows.map((row) => miniItem(row))),
     el('p', { class: 'mini__note', id: 'mini-note', text: 'ثبت سفارش در این مرحله از پروژه فعال نیست.' }),
     el('div', { class: 'mini__foot' }, [
-      renderTotal(total, oldTotal),
+      renderTotal(total, oldTotal, discount),
       el('button', { class: 'checkout', type: 'button', 'data-action': 'checkout', 'aria-disabled': 'true', 'aria-describedby': 'mini-note', text: 'ثبت سفارش' }),
     ]),
   ]));

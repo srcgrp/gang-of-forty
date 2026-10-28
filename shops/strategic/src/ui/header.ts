@@ -1,7 +1,7 @@
 /* Amirhossein (Armin) Panahi */
 /* Week 4 - Strategic Supermarket - Arch */
 
-import type { ShopData, ShopModel } from '../types';
+import type { LinkOf, ShopData, ShopModel } from '../types';
 import { dom } from './dom';
 import { categoryImage } from './category-image';
 import { el } from './el';
@@ -14,11 +14,11 @@ export function renderNotice(shop: Readonly<ShopData>): void {
   dom.notice.replaceChildren(...(text ? [icon('truck', 'icon--mirror'), el('span', { text })] : []));
 }
 
-export function renderNav(model: ShopModel): void {
+export function renderNav(model: ShopModel, linkOf: LinkOf): void {
   const megaLinks = model.categories.map((category) =>
-    el('li', {}, [el('a', { href: `#${category.slug}` }, [categoryImage(model, category, 'cat__icon cat__icon--menu'), category.name])]));
+    el('li', {}, [el('a', { href: linkOf(category.slug), 'data-route': true }, [categoryImage(model, category, 'cat__icon cat__icon--menu'), category.name])]));
 
-  const menu = (Array.isArray(model.shop.menu) ? model.shop.menu : []).map((item) =>
+  const menu = model.shop.menu.map((item) =>
     el('li', {}, [el('a', { href: safeHref(item.href), text: stripEmoji(item.label) })]));
 
   dom.navList.replaceChildren(

@@ -13,10 +13,7 @@ export function buildModel(raw: ApiData): ShopModel {
   const { products, categories, offers, shop, home } = raw;
   const offerByProductId = pairs<number, Offer>(offers, (offer) => offer.productId);
   const categoryById = pairs<number, Category>(categories, (category) => category.id);
-  const stockOf = (id: number): number => {
-    const value = Number(raw.stock.items[id]);
-    return Number.isFinite(value) && value > 0 ? value : 0;
-  };
+  const stockOf = (id: number): number => raw.stock.items[id] ?? 0;
 
   const items = new Map<number, ProductItem>();
   const itemsByCategory = new Map<number, ProductItem[]>(categories.map((category): [number, ProductItem[]] => [category.id, []]));
@@ -39,6 +36,6 @@ export function buildModel(raw: ApiData): ShopModel {
     categoryBySlug: pairs<string, Category>(categories, (category) => category.slug),
     categoryArt: new Map(categories.map((category): [number, string | null] => [category.id, findCategoryArt(category)])),
     offerItems: offers.map((offer) => items.get(offer.productId)).filter((item): item is ProductItem => item !== undefined),
-    carousels: Array.isArray(home.carousels) ? home.carousels : [],
+    carousels: home.carousels,
   };
 }

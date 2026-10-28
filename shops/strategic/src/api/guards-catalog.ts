@@ -2,38 +2,22 @@
 /* Week 4 - Strategic Supermarket - Arch */
 
 import type { Category, Offer, Product, StockData } from '../types';
-import { isArrayOf, isFiniteNumber, isOptional, isRecord, isString } from './basic-guards';
+import { isArrayOf, isFiniteNumber, isId, isNonNegative, isQuantity, isRecord, isString } from './basic-guards';
 
 export function isProduct(value: unknown): value is Product {
-  return (
-    isRecord(value) &&
-    isFiniteNumber(value.id) &&
-    isFiniteNumber(value.categoryId) &&
-    isString(value.name) &&
-    isString(value.unit) &&
-    isFiniteNumber(value.price) &&
-    isOptional(isString)(value.emoji) &&
-    isOptional(isArrayOf(isString))(value.tags)
-  );
+  return isRecord(value) && isId(value.id) && isId(value.categoryId) &&
+    isString(value.name) && value.name.trim() !== '' && isString(value.unit) && value.unit.trim() !== '' &&
+    isNonNegative(value.price) && isString(value.emoji) && isArrayOf(isString)(value.tags);
 }
-
 export function isCategory(value: unknown): value is Category {
-  return (
-    isRecord(value) &&
-    isFiniteNumber(value.id) &&
-    isString(value.slug) &&
-    isString(value.name) &&
-    isOptional(isString)(value.color)
-  );
+  return isRecord(value) && isId(value.id) && isString(value.slug) && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value.slug) &&
+    isString(value.name) && value.name.trim() !== '' && isString(value.emoji) && isString(value.color);
 }
-
 export function isOffer(value: unknown): value is Offer {
-  return isRecord(value) && isFiniteNumber(value.productId) && isFiniteNumber(value.percent);
+  return isRecord(value) && isId(value.productId) && isFiniteNumber(value.percent) &&
+    value.percent >= 0 && value.percent <= 100 && isString(value.label);
 }
-
-const isStockAmount = (quantity: unknown): boolean =>
-  isFiniteNumber(quantity) || (isString(quantity) && quantity.trim() !== '' && Number.isFinite(Number(quantity)));
-
 export function isStock(value: unknown): value is StockData {
-  return isRecord(value) && isRecord(value.items) && Object.values(value.items).every(isStockAmount);
+  return isRecord(value) && isString(value.updatedAt) && Number.isFinite(Date.parse(value.updatedAt)) &&
+    isRecord(value.items) && Object.entries(value.items).every(([id, amount]) => /^[1-9]\d*$/.test(id) && isId(Number(id)) && isQuantity(amount));
 }

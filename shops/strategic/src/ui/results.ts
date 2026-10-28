@@ -8,7 +8,7 @@ import { icon } from './media';
 
 export const backBar = (home: string): HTMLElement =>
   el('div', { class: 'back-bar' }, [
-    el('a', { class: 'back-btn', href: home, 'data-back': true }, [icon('arrow-right'), 'بازگشت به صفحه اصلی']),
+    el('a', { class: 'back-btn', href: home, 'data-route': true }, [icon('arrow-right'), 'بازگشت به صفحه اصلی']),
   ]);
 
 export const emptySearch = (text: string): HTMLElement =>

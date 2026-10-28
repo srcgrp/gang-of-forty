@@ -1,17 +1,17 @@
 /* Amirhossein (Armin) Panahi */
 /* Week 4 - Strategic Supermarket - Arch */
 
-import type { Category, ProductItem, ShopModel } from '../../types';
+import type { ShopModel } from '../../types';
 
 export const emptyModel = (): ShopModel => ({
-  products: [], categories: [], offers: [], shop: {},
-  home: { hero: { title: '', text: '' }, side: { title: '', text: '' }, carousels: [], promos: [] },
+  products: [], categories: [], offers: [],
+  shop: {
+    name: '', slogan: '', owner: '', city: '', phone: '', hours: { open: '', close: '' },
+    deliveryFee: 0, freeDeliveryOver: 0, currency: '', notice: '', about: '', address: '',
+    schedule: [], menu: [], help: [], copyright: '',
+  },
+  home: { hero: { title: '', text: '', emoji: '' }, side: { title: '', text: '', emoji: '' }, carousels: [], promos: [] },
   stockOf: (_id: number): number => 0,
-  items: new Map<number, ProductItem>(),
-  itemsByCategory: new Map<number, ProductItem[]>(),
-  searchIndex: [],
-  categoryById: new Map<number, Category>(),
-  categoryBySlug: new Map<string, Category>(),
-  categoryArt: new Map<number, string | null>(),
-  offerItems: [], carousels: [],
+  items: new Map(), itemsByCategory: new Map(), searchIndex: [], categoryById: new Map(),
+  categoryBySlug: new Map(), categoryArt: new Map(), offerItems: [], carousels: [],
 });

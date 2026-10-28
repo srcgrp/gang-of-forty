@@ -1,28 +1,24 @@
 /* Amirhossein (Armin) Panahi */
 /* Week 4 - Strategic Supermarket - Arch */
 
+import type { Actions } from '../types';
 import { announce } from './announce';
-import { changeQuantity, drawCart } from './app-cart';
 import { cartIsOpen, closeCart, isCartPinned, openCart } from './cart-panel';
 import type { ClickRule } from './click-rule';
-import type { Context } from './context';
+import { currentBasket } from './basket-view';
 import { dom, required } from './dom';
+import { renderCart } from './cart-summary';
 
-function onAdd(ctx: Context, button: HTMLElement): void {
-  if (!(button instanceof HTMLButtonElement) || button.disabled) return;
-  const id = Number(button.dataset.id);
-  if (!Number.isSafeInteger(id)) return;
-  changeQuantity(ctx, id, 'add', 'add-button');
+function onAdd(actions: Actions, button: HTMLElement): void {
+  if (button instanceof HTMLButtonElement && !button.disabled) {
+    const id = Number(button.dataset.id);
+    if (Number.isSafeInteger(id)) actions.change(id, 'add', true);
+  }
 }
-
-function onStep(ctx: Context, button: HTMLElement): void {
-  const box = button.closest<HTMLElement>('.stepper');
-  if (!box) return;
-  const id = Number(box.dataset.id);
-  if (!Number.isSafeInteger(id)) return;
-  changeQuantity(ctx, id, button.dataset.step === 'inc' ? 'add' : 'remove');
+function onStep(actions: Actions, button: HTMLElement): void {
+  const id = Number(button.closest<HTMLElement>('.stepper')?.dataset.id);
+  if (Number.isSafeInteger(id)) actions.change(id, button.dataset.step === 'inc' ? 'add' : 'remove', false);
 }
-
 function onCheckout(): void {
   announce('ثبت سفارش در این مرحله از پروژه فعال نیست.');
   const note = required<HTMLElement>('#mini-note', dom.cartPanel);
@@ -30,15 +26,13 @@ function onCheckout(): void {
   void note.offsetWidth;
   note.classList.add('is-flash');
 }
-
-function onCartButton(ctx: Context): void {
-  if (!cartIsOpen() || !isCartPinned()) openCart(() => drawCart(ctx), { pin: true });
+function onCartButton(): void {
+  if (!cartIsOpen() || !isCartPinned()) openCart(() => renderCart(currentBasket()), { pin: true });
   else closeCart();
 }
-
-export const cartRules = (ctx: Context): ClickRule[] => [
-  ['.add', (button) => onAdd(ctx, button)],
-  ['[data-step]', (button) => onStep(ctx, button)],
+export const cartRules = (actions: Actions): ClickRule[] => [
+  ['.add', (button) => onAdd(actions, button)],
+  ['[data-step]', (button) => onStep(actions, button)],
   ['[data-action="checkout"]', onCheckout],
-  ['#cart-btn', () => onCartButton(ctx)],
+  ['#cart-btn', onCartButton],
 ];

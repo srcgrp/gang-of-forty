@@ -3,11 +3,10 @@
 
 import { el } from './el';
 import { icon } from './media';
-import { catalogUrl } from './links';
 
-export const seeAllCard = (slug: string, title: string): HTMLLIElement =>
+export const seeAllCard = (href: string, title: string): HTMLLIElement =>
   el('li', { class: 'card card--all' }, [
-    el('a', { class: 'offer-all', href: catalogUrl(slug), 'data-route': true }, [
+    el('a', { class: 'offer-all', href, 'data-route': true }, [
       el('span', { class: 'offer-all__circle' }, [icon('arrow-right', 'icon--mirror')]),
       el('span', { class: 'offer-all__text' }, ['مشاهده همه', el('span', { class: 'sr-only', text: ` ${title}` })]),
     ]),

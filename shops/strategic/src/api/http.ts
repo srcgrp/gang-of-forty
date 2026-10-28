@@ -2,25 +2,25 @@
 /* Week 4 - Strategic Supermarket - Arch */
 
 import type { ApiErrorKind } from '../types';
-
 export class ApiError extends Error {
   readonly kind: ApiErrorKind;
   readonly file: string;
-  readonly status?: number | undefined;
+  readonly status?: number;
 
   constructor(kind: ApiErrorKind, file: string, status?: number) {
     super(`${kind}: ${file}${status === undefined ? '' : ` (${status})`}`);
     this.name = 'ApiError';
     this.kind = kind;
     this.file = file;
-    this.status = status;
+    if (status !== undefined) this.status = status;
   }
 }
 
 const apiUrl: unknown = import.meta.env.VITE_API_URL;
-const API_BASE = `${typeof apiUrl === 'string' && apiUrl ? apiUrl.replace(/\/+$/, '') : '/api'}/`;
+const API_BASE = typeof apiUrl === 'string' && apiUrl.trim() ? `${apiUrl.replace(/\/+$/, '')}/` : null;
 
 export async function getJSON(path: string, signal?: AbortSignal): Promise<unknown> {
+  if (API_BASE === null) throw new ApiError('shape', 'VITE_API_URL');
   let response: Response;
   try {
     response = await fetch(`${API_BASE}${path}`, signal ? { signal } : undefined);
@@ -33,7 +33,7 @@ export async function getJSON(path: string, signal?: AbortSignal): Promise<unkno
     const payload: unknown = await response.json();
     return payload;
   } catch {
-    throw new ApiError('parse', path);
+    throw new ApiError(signal?.aborted ? 'timeout' : 'parse', path);
   }
 }
 

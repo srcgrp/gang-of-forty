@@ -8,9 +8,9 @@ import { discountLine, priceText } from './mini-parts';
 import { stepper, updateStepper } from './stepper';
 
 export function miniItem(row: CartItem): HTMLLIElement {
-  const { product, art, quantity } = row;
+  const { product, art } = row;
   const box = stepper(product);
-  updateStepper(box, row, quantity);
+  updateStepper(box, row, row.quantity);
 
   return el('li', { class: 'mini-item', 'data-id': product.id }, [
     el('div', { class: 'mini-item__pic' }, [art ? image(`${IMG}products/${art}.webp`, { width: 600, height: 600 }) : placeholderPic()]),
@@ -19,8 +19,8 @@ export function miniItem(row: CartItem): HTMLLIElement {
       el('div', { class: 'mini-item__row' }, [
         box,
         el('div', { class: 'mini-item__price' }, [
-          discountLine(row.oldPrice * quantity, row.price * quantity, row.percent),
-          priceText(row.price * quantity),
+          discountLine(row.oldSubtotal, row.subtotal, row.percent),
+          priceText(row.subtotal),
         ]),
       ]),
     ]),

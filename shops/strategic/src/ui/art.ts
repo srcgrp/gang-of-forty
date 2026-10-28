@@ -13,8 +13,6 @@ export const HERO_ART: HeroArt[] = [
   ['strawberry', 'توت‌فرنگی', 518, 560],
 ];
 
-export const HERO_NAMES: Set<string> = new Set(HERO_ART.map(([name]) => name));
-
 const BANNER_ART: BannerArt[] = [
   ['hero/breakfast-basket.webp', /صبحانه/, 1536, 1024],
   ['hero/hot-bread.webp', /نان|شیرینی/, 1536, 1024],

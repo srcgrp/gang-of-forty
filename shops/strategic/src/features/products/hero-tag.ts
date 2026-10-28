@@ -1,9 +1,8 @@
 /* Amirhossein (Armin) Panahi */
 /* Week 4 - Strategic Supermarket - Arch */
 
-import type { ProductItem } from '../types';
-import { HERO_NAMES } from './art';
-
+import type { ProductItem } from '../../types';
+const HERO_NAMES = new Set(['broccoli', 'carrot', 'pepper', 'tomato', 'orange', 'strawberry']);
 export function heroTag(offerItems: readonly ProductItem[]): ProductItem | null {
   let best: ProductItem | null = null;
   for (const item of offerItems) {

@@ -6,7 +6,6 @@ import { BRAND } from './brand';
 import { HERO_ART, findBannerArt } from './art';
 import { el } from './el';
 import { formatNumber, formatPrice } from './format';
-import { heroTag } from './hero-tag';
 import { IMG, image } from './media';
 import { safeHref, stripEmoji } from './safe';
 
@@ -26,10 +25,10 @@ function heroStage(tag: ProductItem | null, offersHref: string): HTMLElement {
   ]);
 }
 
-export function renderHero(model: ShopModel): HTMLElement {
+export function renderHero(model: ShopModel, tag: ProductItem | null): HTMLElement {
   const { hero, side } = model.home;
   const offersDef = model.carousels.find((carousel) => carousel.source === 'offers');
-  const stage = heroStage(heroTag(model.offerItems), offersDef ? `#${offersDef.id}` : '#categories');
+  const stage = heroStage(tag, offersDef ? `#${offersDef.id}` : '#categories');
 
   const feature = el('div', { class: 'hero__feature' }, [
     el('div', { class: 'hero__copy' }, [

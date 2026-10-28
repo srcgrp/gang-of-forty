@@ -1,18 +1,17 @@
 /* Amirhossein (Armin) Panahi */
 /* Week 4 - Strategic Supermarket - Arch */
 
-import type { Category, ShopModel } from '../types';
+import type { LinkOf, Category, ShopModel } from '../types';
 import { categoryImage } from './category-image';
-import { OFFERS_VIEW } from './config';
+import { OFFERS_VIEW } from '../types';
 import { el } from './el';
 import { IMG, icon, image } from './media';
 import { FALLBACK_BANNER } from './art';
-import { catalogUrl } from './links';
 import { productCard } from './product-card';
 import { stripEmoji } from './safe';
 import { arrowButton, seeAllCard } from './shelf-parts';
 
-export function offersCarousel(model: ShopModel, def: ShopModel['carousels'][number]): HTMLElement {
+export function offersCarousel(model: ShopModel, def: ShopModel['carousels'][number], linkOf: LinkOf): HTMLElement {
   const title = stripEmoji(def.title);
   const words = title.split(' ').flatMap((word, index) => (index ? [' ', el('span', { text: word })] : [el('span', { text: word })]));
   const [artFile, , artWidth, artHeight] = FALLBACK_BANNER;
@@ -20,10 +19,10 @@ export function offersCarousel(model: ShopModel, def: ShopModel['carousels'][num
   const intro = el('div', { class: 'offers__intro' }, [
     el('h2', { class: 'offers__title', id: `${def.id}-t` }, words),
     image(`${IMG}${artFile}`, { className: 'offers__art', width: artWidth, height: artHeight }),
-    el('a', { class: 'offers__all', href: catalogUrl(OFFERS_VIEW), 'data-route': true }, ['مشاهده همه ', icon('chevron-right', 'icon--mirror')]),
+    el('a', { class: 'offers__all', href: linkOf(OFFERS_VIEW), 'data-route': true }, ['مشاهده همه ', icon('chevron-right', 'icon--mirror')]),
   ]);
 
-  const list = el('ul', { class: 'offers__list' }, [...model.offerItems.map((item) => productCard(item)), seeAllCard(OFFERS_VIEW, title)]);
+  const list = el('ul', { class: 'offers__list' }, [...model.offerItems.map((item) => productCard(item)), seeAllCard(linkOf(OFFERS_VIEW), title)]);
 
   return el('section', { class: 'shelf offers', id: def.id, 'aria-labelledby': `${def.id}-t` }, [
     el('div', { class: 'offers__box' }, [
@@ -34,7 +33,7 @@ export function offersCarousel(model: ShopModel, def: ShopModel['carousels'][num
   ]);
 }
 
-export function categoryCarousel(model: ShopModel, id: string, category: Category, title: string): HTMLElement {
+export function categoryCarousel(model: ShopModel, id: string, category: Category, title: string, linkOf: LinkOf): HTMLElement {
   const items = model.itemsByCategory.get(category.id) ?? [];
   return el('section', { class: 'shelf', id, 'aria-labelledby': `${id}-t` }, [
     el('div', { class: 'sec-head' }, [
@@ -44,6 +43,6 @@ export function categoryCarousel(model: ShopModel, id: string, category: Categor
         arrowButton(1, `محصولات بعدی «${title}»`, 'arr'),
       ]),
     ]),
-    el('ul', { class: 'rail' }, [...items.map((item) => productCard(item)), seeAllCard(category.slug, title)]),
+    el('ul', { class: 'rail' }, [...items.map((item) => productCard(item)), seeAllCard(linkOf(category.slug), title)]),
   ]);
 }
