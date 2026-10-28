@@ -1492,9 +1492,8 @@ footer {
   align-items: center;
   gap: 10px;
   margin: -6px 36px 4px;
-  color: var(--text);
-  font-size: 0.95rem;
-  font-weight: 600;
+  color: var(--muted);
+  font-size: 0.9rem;
 }
 
 .sort-select-wrap {
@@ -1531,5 +1530,26 @@ footer {
 
 .sort-select:focus-visible {
   border-color: var(--navy);
+  box-shadow: 0 0 0 3px rgb(31 111 178 / 30%);
+}
+
+.api-status p {
+  margin-bottom: 8px;
+}
+
+.api-retry-button {
+  padding: 8px 20px;
+  color: var(--yellow);
+  background: var(--navy);
+  border: 0;
+  border-radius: 24px;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.api-retry-button:hover {
   box-shadow: 0 0 0 3px rgb(31 111 178 / 30%);
 }

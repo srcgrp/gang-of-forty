@@ -1,5 +1,7 @@
 import type { SORTS } from "./sorts";
 
+/* ------------------------- DOM ------------------------- */
+
 export type MakeElement = <T extends keyof HTMLElementTagNameMap>(
   tag: T,
   className?: string,
@@ -12,6 +14,8 @@ export type AppendLinks = (
   href?: string,
   className?: string,
 ) => HTMLAnchorElement;
+
+/* --------------------- API data ----------------------- */
 
 export interface Product {
   id: number;
@@ -113,13 +117,24 @@ export interface Home {
   carousels?: CarouselConfig[];
 }
 
-export type ApiFile =
-  | "products.json"
-  | "stock.json"
-  | "offers.json"
-  | "categories.json"
-  | "shop.json"
-  | "home.json";
+/* --------------------------- Page state -------------------------- */
+
+export interface CatalogData {
+  products: Product[];
+  stock: Stock;
+  offers: Offer[];
+  categories: Category[];
+  shop: Shop;
+  home: Home;
+}
+
+export type LoadState =
+  | { status: "loading" }
+  | ({ status: "success" } & CatalogData)
+  | { status: "empty" }
+  | { status: "error"; message: string };
+
+/* ----------------------------- Cart ------------------------------ */
 
 export type Cart = Record<string, number>;
 
@@ -127,7 +142,11 @@ export interface CartLine extends Pick<Product, "id" | "name" | "price"> {
   quantity: number;
 }
 
+/* ------------------------ Sort ---------------------- */
+
 export type Sort = (typeof SORTS)[number];
+
+/* ---------------------------- UI state --------------------------- */
 
 export interface ProductCardOptions {
   offer?: Offer;

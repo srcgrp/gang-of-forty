@@ -2,7 +2,8 @@ import type * as Types from "./types";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
 import { gsap } from "gsap";
-import { fetchApiFile } from "./api";
+import { loadCatalog } from "./api";
+import { assertNever } from "./guards";
 import { SORTS, SORT_LABELS, isSort, sortProducts } from "./sorts";
 
 const numberFormatter: Intl.NumberFormat = new Intl.NumberFormat("fa-IR");
@@ -50,7 +51,7 @@ function saveCartAndStock(): boolean {
     localStorage.setItem(STOCK_STORAGE_KEY, JSON.stringify(currentStock));
     return true;
   } catch {
-    notyf.error("ذخیره تغییرات با خطا مواجه شد");
+    notyf.error("تغییرات سبد خرید ذخیره نشد. لطفاً دوباره تلاش کنید.");
     return false;
   }
 }
@@ -273,7 +274,9 @@ function addToCart(
   button?: HTMLButtonElement,
 ): void {
   if (!productId) {
-    notyf.error("شناسه محصول معتبر نیست");
+    notyf.error(
+      "افزودن این محصول ممکن نشد. لطفاً صفحه را دوباره بارگذاری کنید.",
+    );
     return;
   }
 
@@ -702,7 +705,6 @@ function createCarouselSection(
       makeElement("p", "empty-message", "محصولی برای نمایش وجود ندارد."),
     );
   else {
-    // مرتب‌سازی فقط برای همین کاروسل
     section.querySelector(".recommendation-title")?.after(
       makeSortControl("default", (sort: Types.Sort): void => {
         show(sort);
@@ -967,105 +969,155 @@ function makeSortControl(
   return label;
 }
 
-async function loadPage(): Promise<void> {
-  try {
-    const [products, stock, offers, categories, shop, home] = await Promise.all(
-      [
-        fetchApiFile<Types.Product[]>("products.json"),
-        fetchApiFile<Types.Stock>("stock.json"),
-        fetchApiFile<Types.Offer[]>("offers.json"),
-        fetchApiFile<Types.Category[]>("categories.json"),
-        fetchApiFile<Types.Shop>("shop.json"),
-        fetchApiFile<Types.Home>("home.json"),
-      ],
-    );
+function clearPlaceholders(): void {
+  [
+    "#home-banners",
+    "#category-cards",
+    "#home-carousels",
+    "#home-promos",
+    "#category-product-sections",
+  ].forEach((selector: string): void => {
+    document.querySelector<HTMLElement>(selector)?.replaceChildren();
+  });
+  document
+    .querySelectorAll<HTMLElement>(".skeleton-text")
+    .forEach((item: HTMLElement): void => {
+      item.classList.remove("skeleton-text");
+    });
+}
 
-    currentStock = stock;
-    try {
-      const savedStock: string | null = localStorage.getItem(STOCK_STORAGE_KEY);
-      if (savedStock) {
-        const parsed: unknown = JSON.parse(savedStock);
-        if (
-          parsed !== null &&
-          typeof parsed === "object" &&
-          "items" in parsed &&
-          parsed.items !== null &&
-          typeof parsed.items === "object" &&
-          !Array.isArray(parsed.items)
-        ) {
-          const validStockEntries: [string, number][] = Object.entries(
-            parsed.items,
-          ).filter(
-            (entry): entry is [string, number] =>
-              typeof entry[0] === "string" &&
-              typeof entry[1] === "number" &&
-              Number.isFinite(entry[1]) &&
-              entry[1] >= 0,
-          );
-          currentStock.items = {
-            ...currentStock.items,
-            ...Object.fromEntries(validStockEntries),
-          };
-        }
-      }
-    } catch {
-      localStorage.removeItem(STOCK_STORAGE_KEY);
-    }
+function showStatusMessage(text: string, retry: boolean): void {
+  clearPlaceholders();
+  const main = document.querySelector<HTMLElement>("#main-content");
+  if (!main) return;
 
-    cartProducts = products;
-    renderCartDropdown();
-
-    const offersByProductId: Map<number, Types.Offer> = new Map(
-      offers.map((offer: Types.Offer): [number, Types.Offer] => [
-        offer.productId,
-        offer,
-      ]),
+  const box: HTMLDivElement = makeElement(
+    "div",
+    "api-status api-status--error",
+  );
+  box.setAttribute("role", "alert");
+  box.append(makeElement("p", "", text));
+  if (retry) {
+    const button: HTMLButtonElement = makeElement(
+      "button",
+      "api-retry-button",
+      "تلاش دوباره",
     );
-
-    renderShopDetails(shop);
-    renderCategories(categories);
-    renderHeroBanners(home);
-    renderPromos(home);
-
-    const configuredCategoryIds: Set<number> | null = renderHomeCarousels(
-      home,
-      products,
-      currentStock,
-      offersByProductId,
-      categories,
-    );
-    renderRemainingCategoryCarousels(
-      home,
-      categories,
-      products,
-      currentStock,
-      offersByProductId,
-      configuredCategoryIds,
-    );
-    setupSearch(products, currentStock, offersByProductId, categories);
-    updateCartCount();
-    products.forEach((product: Types.Product): void =>
-      updateProductStockUI(String(product.id)),
-    );
-  } catch (error: unknown) {
-    document
-      .querySelectorAll<HTMLElement>(".skeleton-text")
-      .forEach((item: HTMLElement): void => {
-        item.classList.remove("skeleton-text");
-      });
-    const main = document.querySelector<HTMLElement>("#main-content");
-    if (main) {
-      main.querySelector<HTMLElement>(".api-status--error")?.remove();
-      main.prepend(
-        makeElement(
-          "p",
-          "api-status api-status--error",
-          "بارگذاری اطلاعات با مشکل مواجه شد. مطمئن شو پروژه را با Live Server یا یک سرور محلی اجرا کرده‌ای.",
-        ),
-      );
-      console.error("خطا در بارگذاری APIهای سوپرینو:", error);
-    }
+    button.type = "button";
+    button.addEventListener("click", (): void => {
+      void loadPage();
+    });
+    box.append(button);
   }
+  main.prepend(box);
+}
+
+function renderCatalogPage({
+  products,
+  stock,
+  offers,
+  categories,
+  shop,
+  home,
+}: Types.CatalogData): void {
+  currentStock = stock;
+  try {
+    const savedStock: string | null = localStorage.getItem(STOCK_STORAGE_KEY);
+    if (savedStock) {
+      const parsed: unknown = JSON.parse(savedStock);
+      if (
+        parsed !== null &&
+        typeof parsed === "object" &&
+        "items" in parsed &&
+        parsed.items !== null &&
+        typeof parsed.items === "object" &&
+        !Array.isArray(parsed.items)
+      ) {
+        const validStockEntries: [string, number][] = Object.entries(
+          parsed.items,
+        ).filter(
+          (entry): entry is [string, number] =>
+            typeof entry[0] === "string" &&
+            typeof entry[1] === "number" &&
+            Number.isFinite(entry[1]) &&
+            entry[1] >= 0,
+        );
+        currentStock.items = {
+          ...currentStock.items,
+          ...Object.fromEntries(validStockEntries),
+        };
+      }
+    }
+  } catch {
+    localStorage.removeItem(STOCK_STORAGE_KEY);
+  }
+
+  cartProducts = products;
+  renderCartDropdown();
+
+  const offersByProductId: Map<number, Types.Offer> = new Map(
+    offers.map((offer: Types.Offer): [number, Types.Offer] => [
+      offer.productId,
+      offer,
+    ]),
+  );
+
+  renderShopDetails(shop);
+  renderCategories(categories);
+  renderHeroBanners(home);
+  renderPromos(home);
+
+  const configuredCategoryIds: Set<number> | null = renderHomeCarousels(
+    home,
+    products,
+    currentStock,
+    offersByProductId,
+    categories,
+  );
+  renderRemainingCategoryCarousels(
+    home,
+    categories,
+    products,
+    currentStock,
+    offersByProductId,
+    configuredCategoryIds,
+  );
+  setupSearch(products, currentStock, offersByProductId, categories);
+  updateCartCount();
+  products.forEach((product: Types.Product): void =>
+    updateProductStockUI(String(product.id)),
+  );
+}
+
+function renderState(state: Types.LoadState): void {
+  document
+    .querySelectorAll(".api-status")
+    .forEach((item: Element): void => item.remove());
+
+  switch (state.status) {
+    case "loading":
+      renderLoadingSkeletons();
+      return;
+    case "success":
+      renderCatalogPage(state);
+      return;
+    case "empty":
+      showStatusMessage(
+        "در حال حاضر محصولی برای نمایش وجود ندارد. کمی بعد دوباره سر بزنید.",
+        true,
+      );
+      return;
+    case "error":
+      showStatusMessage(state.message, true);
+      return;
+    default:
+      return assertNever(state);
+  }
+}
+
+async function loadPage(): Promise<void> {
+  renderState({ status: "loading" });
+  renderState(await loadCatalog());
 }
 
 document.addEventListener("click", (event: MouseEvent) => {
@@ -1103,5 +1155,4 @@ document.addEventListener("click", (event: MouseEvent) => {
 });
 
 updateCartCount();
-renderLoadingSkeletons();
-loadPage();
+void loadPage();

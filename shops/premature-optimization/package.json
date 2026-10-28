@@ -7,14 +7,18 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "check": "tsc --noEmit"
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.13.0",
     "typescript": "^7.0.2",
     "vite": "^8.3.4"
   },
   "dependencies": {
     "gsap": "^3.15.0",
-    "notyf": "^3.10.0"
+    "notyf": "^3.10.0",
+    "typecheck": "^0.1.2"
   }
 }
