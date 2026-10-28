@@ -1,4 +1,5 @@
 import { Notyf } from "notyf";
+import "notyf/notyf.min.css";
 import confetti from "canvas-confetti";
 import type { Cart, Product } from "./types";
 import { fetchProducts, fetchSuggestions } from "./api/products";
