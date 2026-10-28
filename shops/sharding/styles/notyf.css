@@ -1,0 +1,67 @@
+.notyf {
+  font-family: "Vazirmatn", "IRANSansX", "Segoe UI", Tahoma, sans-serif;
+  padding: var(--sp-md);
+  direction: rtl;
+}
+
+.notyf__toast {
+  position: relative;
+  background: var(--surface) !important;
+  border-radius: var(--radius) !important;
+  border: 1px solid var(--border-strong) !important; 
+  box-shadow: 0 8px 24px -8px var(--shadow-color), 0 2px 6px -2px var(--shadow-color) !important;
+  padding: 0 !important;
+  min-width: 240px;
+  max-width: 340px;
+  overflow: hidden;
+}
+
+.notyf__toast::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: 3px;
+  background: var(--accent);
+  z-index: 1;
+}
+
+.notyf__toast--error::before {
+  background: var(--red);
+}
+
+.notyf__wrapper {
+  padding: 12px 16px !important;
+  padding-inline-start: 20px !important;
+}
+
+.notyf__message {
+  font-size: 0.85rem !important;
+  font-weight: 500 !important;
+  line-height: 1.55 !important;
+  color: var(--text) !important;
+}
+
+.notyf__icon {
+  display: none !important;
+}
+
+.notyf__ripple {
+  display: none !important;
+}
+
+.notyf__dismiss-btn {
+  background: transparent !important;
+  opacity: 0.45 !important;
+  transition: opacity var(--t-fast);
+}
+
+.notyf__dismiss-btn:hover,
+.notyf__dismiss-btn:focus-visible {
+  opacity: 1 !important;
+}
+
+.notyf__dismiss-btn::before,
+.notyf__dismiss-btn::after {
+  background-color: var(--text) !important;
+}
