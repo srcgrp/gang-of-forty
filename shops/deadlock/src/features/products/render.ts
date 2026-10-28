@@ -1,6 +1,6 @@
-import type { Offer, Product, Stock, LoadState } from "../types";
+import type { Offer, Product, Stock, LoadState } from "../../types";
 import { createProductCard } from "./productCard";
-import{showMessage, textmsg} from "./messages"
+import { showMessage, textmsg } from "../../shared/messages";
 export function renderProducts(
   container: HTMLDivElement,
   productList: Product[],

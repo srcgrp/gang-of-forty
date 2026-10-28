@@ -1,11 +1,8 @@
-import { Notyf } from "notyf";
-import "notyf/notyf.min.css";
-import confetti from "canvas-confetti";
+import { render } from "./features/products/render";
 import { getJSON, isProduct, isStock, isOffer} from "./api/api";
-import { render} from "./ui/render";
 import{keepValid} from "./api/validation"
 import { readUrlState, writeUrlState } from "./api/urlState";
-
+import { initCart } from "./features/cart/cart";
 const searchInput = document.querySelector<HTMLInputElement>("#search-box");
 const searchButton = document.querySelector<HTMLButtonElement>(".search-btn");
 const initialUrlState = readUrlState();
@@ -19,22 +16,6 @@ function updateSearchUrl(): void {
   });
 }
 
-const notyf = new Notyf();
-let cartCount = 0;
-const counter = document.querySelector<HTMLSpanElement>(".cart-count");
-if (!counter) throw new Error("Missing cart counter");
-
-const handleClick = (e: MouseEvent): void => {
-  if (!(e.target instanceof Element)) return;
-  const button = e.target.closest<HTMLButtonElement>("button");
-  if (button && !button.disabled) {
-    cartCount += 1;
-    counter.textContent = cartCount.toLocaleString("fa-IR");
-    notyf.success(button.dataset.title + " به سبد خرید اضافه شد");
-    confetti({ particleCount: 60, spread: 70 });
-  }
-};
-
 async function loadProducts(): Promise<void> {
   const offersContainer = document.querySelector<HTMLDivElement>(
     "#special-offers .carousel",
@@ -43,8 +24,6 @@ async function loadProducts(): Promise<void> {
   if (!offersContainer || !container) {
     throw new Error("cannot find");
   }
-  offersContainer.addEventListener("click", handleClick);
-  container.addEventListener("click", handleClick);
 
   render(container, offersContainer, { status: "loading" });
   try {
@@ -102,5 +81,5 @@ window.addEventListener("popstate", () => {
   if (searchInput) searchInput.value = state.query;
   loadProducts();
 });
-
+initCart();
 loadProducts();

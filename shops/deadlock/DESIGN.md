@@ -56,3 +56,12 @@ Header, categories, banners and footer are static and have no states.
 ## 7. Security
 - Everything in the browser (prices, page state, `localStorage`) can be changed with DevTools. So the final cart total and any checkout must be calculated and verified by the server, never trusted from the client.
 - Every `VITE_` variable ends up in the public bundle. Only public values (like the API address) go in `.env` files, never keys or passwords.
+
+## Feature-based architecture
+
+- `src/features/cart/` contains cart interaction logic.
+- `src/features/products/` contains product rendering and product-card logic.
+- `src/shared/` contains reusable utilities shared across features.
+- `src/api/` handles API requests, validation, and URL state.
+- Features must not import directly from each other. Shared functionality belongs in `src/shared/`.
+- Search state is synchronized with URL query parameters so it can be restored after refresh.

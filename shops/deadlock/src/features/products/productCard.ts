@@ -1,5 +1,5 @@
-import type { ProductCard, Offer } from "../types";
-import { calculateDiscountedPrice } from "../catalog/pricing";
+import type { ProductCard, Offer } from "../../types";
+import { calculateDiscountedPrice } from "../../shared/pricing";
 export function createProductCard(
   product: ProductCard,
   offer: Offer | undefined,
