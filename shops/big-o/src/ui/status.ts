@@ -32,7 +32,7 @@ function clearMessage(container: string) {
     if ( box === null) {
         console.error(`index.html is missing ${container} element`)
     }else {
-        const message = box.querySelector(".msg");
+        const message = box.querySelector<HTMLParagraphElement>(".msg");
         message?.remove(); 
     }  
 }
