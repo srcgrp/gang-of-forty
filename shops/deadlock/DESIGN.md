@@ -38,10 +38,10 @@ All three are fetched together on start and each response is checked by a Type G
 In dev, `/api` is proxied to the real site. In production the page reads the address from `VITE_API_URL`.
  
 ## 5. States of each screen
-Both carousels (special offers and groceries) have four states:
+The two carousels share one page state (`LoadState`) with four values:
 - **loading:** a "loading" message inside the carousel.
 - **success:** product cards. Out-of-stock cards are dimmed with a disabled button. Offer cards show a discount badge.
-- **empty:** a message that there is nothing to show right now.
+- **empty:**there are no valid products after checking
 - **error:** a readable error message. The details go to the Console.
 Header, categories, banners and footer are static and have no states.
  
