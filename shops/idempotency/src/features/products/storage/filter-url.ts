@@ -1,4 +1,9 @@
-import type { FilterState } from "../../../shared/types/filters";
+import { FILTER_FIELDS } from "../../../shared/types/filters";
+import type { FilterField, FilterState } from "../../../shared/types/filters";
+
+function toUrlParam(field: FilterField): string {
+  return field === "query" ? "q" : "category";
+}
 
 export function readFilterUrl(): FilterState {
   const params = new URLSearchParams(window.location.search);
@@ -13,13 +18,17 @@ export function writeFilterUrl(
   mode: "push" | "replace",
 ): void {
   const url = new URL(window.location.href);
-  if (filters.category) url.searchParams.set("category", filters.category);
-  else url.searchParams.delete("category");
 
-  if (filters.query.trim()) url.searchParams.set("q", filters.query.trim());
-  else url.searchParams.delete("q");
+  for (const field of FILTER_FIELDS) {
+    const key = toUrlParam(field);
+    const value = filters[field]?.trim();
+
+    if (value) url.searchParams.set(key, value);
+    else url.searchParams.delete(key);
+  }
 
   if (url.href === window.location.href) return;
+
   if (mode === "push") window.history.pushState(null, "", url);
   else window.history.replaceState(null, "", url);
 }
