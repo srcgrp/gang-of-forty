@@ -3,26 +3,22 @@ import 'notyf/notyf.min.css'
 import Fuse from 'fuse.js'
 
 import type {
-  Product,
-  Offer,
-  Category,
-  Stock,
-  Data,
-  CardProduct,
+    Product,
+    Offer,
+    Category,
+    Stock,
+    Data,
+    CardProduct,
+    Link,
+    ScheduleRow,
+    Promo,
+    Banner,
+    Shop,
+    Carousel,
+    LoadState
 } from "./types";
 
-import type {
-  Link,
-  ScheduleRow,
-  Promo,
-  Banner,
-  Shop,
-  Home,
-} from "./content-types";
-
-import type {
-  Carousel
-} from "./content-types";
+import { loadData } from './api/load-data';
 
 function formatNumber(n: number): string {
     return new Intl.NumberFormat('fa-IR').format(n);
@@ -203,7 +199,42 @@ function addToCart(e: MouseEvent): void {
     notyf.success(`${name} به سبد خرید اضافه شد`);
 }
 
-/* loading, show the messages, call drawing functions */
+function renderLoadState(
+    state: LoadState,
+    categoryList: HTMLUListElement,
+    carouselsContainer: HTMLElement,
+): Data | null {
+    switch (state.status) {
+        case "loading":
+            showMessage(categoryList, "در حال بارگذاری...");
+            showBlockMessage(carouselsContainer, "در حال بارگذاری...");
+            return null;
+
+        case "success":
+            return state.data;
+
+        case "empty": {
+            const message = "در حال حاضر محصولی برای فروش موجود نیست.";
+            showMessage(categoryList, message);
+            showBlockMessage(carouselsContainer, message);
+            return null;
+        }
+
+        case "error": {
+            const message = "بارگذاری فروشگاه ناموفق بود. لطفاً صفحه را دوباره بارگذاری کنید.";
+            showMessage(categoryList, message);
+            showBlockMessage(carouselsContainer, message);
+            return null;
+        }
+
+        default: {
+            const unexpectedState: never = state;
+            console.error("Unexpected load state:", unexpectedState);
+            return null;
+        }
+    }
+}
+
 async function init(): Promise<void> {
 
     const categoryList = document.querySelector<HTMLUListElement>("#categories .category-list");
@@ -217,7 +248,6 @@ async function init(): Promise<void> {
     const banners = document.querySelector<HTMLElement>('#banners');
     const carouselsContainer = document.querySelector<HTMLElement>("#carousels");
     const searchInput = document.querySelector<HTMLInputElement>("#search");
-    const errorText = "دسترسی به اینترنت را بررسی و صفحه را دوباره بارگذاری کنید";
     if (!categoryList || !dropDown || !footerCategories || !mainMenu || !helpList || !hoursSection || !hero || !promo || !banners || !carouselsContainer || !searchInput) throw new Error("index.html is missing an element");
     const resultsList: HTMLUListElement = document.createElement("ul");
     resultsList.classList.add("search-results");
@@ -229,11 +259,28 @@ async function init(): Promise<void> {
         e.preventDefault();
     });
 
-    showMessage(categoryList, "در حال بارگذاری");
-    showBlockMessage(carouselsContainer, "در حال بارگذاری");
+    renderLoadState(
+        { status: "loading" },
+        categoryList,
+        carouselsContainer,
+    );
 
     try {
-        const data = await loadData();
+        const loadedData = await loadData();
+
+        const state: LoadState =
+            loadedData.products.length === 0
+                ? { status: "empty" }
+                : { status: "success", data: loadedData };
+
+        const data = renderLoadState(
+            state,
+            categoryList,
+            carouselsContainer,
+        );
+
+        if (!data) return;
+
         renderCartCount();
         renderCarousels(carouselsContainer, data);
         renderCategories(categoryList, data.categories);
@@ -247,7 +294,11 @@ async function init(): Promise<void> {
         renderBanner(promo, data.home.side);
         renderPromos(banners, data.home.promos);
         scrollToHash();
-        const fuse = new Fuse<Product>(data.products, { keys: ["name"], threshold: 0.3 });
+
+        const fuse = new Fuse<Product>(data.products, {
+            keys: ["name"],
+            threshold: 0.3,
+        });
 
         searchInput.addEventListener("input", () => {
             const query = searchInput.value.trim();
@@ -263,19 +314,27 @@ async function init(): Promise<void> {
                 showMessage(resultsList, "محصول یافت نشد");
             } else {
                 resultsList.replaceChildren();
-                results.forEach(result => {
+
+                results.forEach((result) => {
                     const li: HTMLLIElement = document.createElement("li");
                     li.textContent = result.item.name;
                     resultsList.append(li);
                 });
             }
         });
-        renderSearchPlaceholder(searchInput, data.products.length);
 
+        renderSearchPlaceholder(searchInput, data.products.length);
     } catch (error: unknown) {
         console.error(error);
-        showMessage(categoryList, errorText);
-        showBlockMessage(carouselsContainer, errorText);
+
+        renderLoadState(
+            {
+                status: "error",
+                message: "بارگذاری فروشگاه ناموفق بود. لطفاً صفحه را دوباره بارگذاری کنید.",
+            },
+            categoryList,
+            carouselsContainer,
+        );
     }
 }
 init();
@@ -287,33 +346,6 @@ function showBlockMessage(container: HTMLElement, text: string): void {
     p.classList.add("message");
     container.append(p);
 }
-
-/* share the data */
-
-async function loadData(): Promise<Data> {
-    const [productsRes, offersRes, stockRes, categoriesRes, shopRes, homeRes] = await Promise.all([
-        fetch("../../api/products.json"),
-        fetch("../../api/offers.json"),
-        fetch("../../api/stock.json"),
-        fetch("../../api/categories.json"),
-        fetch("../../api/shop.json"),
-        fetch("../../api/home.json"),
-    ]);
-    if (!productsRes.ok || !offersRes.ok || !stockRes.ok || !categoriesRes.ok || !shopRes.ok || !homeRes.ok) {
-        throw new Error("Request failed");
-    }
-    const [products, offers, stock, categories, shop, home]: [Product[], Offer[], Stock, Category[], Shop, Home] = await Promise.all([
-        productsRes.json(),
-        offersRes.json(),
-        stockRes.json(),
-        categoriesRes.json(),
-        shopRes.json(),
-        homeRes.json(),
-    ]);
-
-    return { products, offers, stock, categories, shop, home };
-}
-
 
 function withOfferAndStock(product: Product, offers: Offer[], stock: Stock): CardProduct {
     const offer = offers.find(o => o.productId === product.id);

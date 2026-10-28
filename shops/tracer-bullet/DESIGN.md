@@ -55,6 +55,8 @@ The server never learns what is in the cart: the page stores only a number in th
 
 All 6 files are requested once, when the page loads, in parallel with `Promise.all`. Today the responses are trusted as they arrive; from Step 3 each one comes in through `getJSON` as `unknown` and is checked by a Type Guard before the page uses it. If any request fails, the whole load fails and the page shows the `error` state.
 
+**What happens to invalid data:** an invalid product is dropped and logged with `console.warn`, and the rest of the page still loads. Invalid offers, categories, stock, shop or home data fail the whole load, because the page can't work without them, and the visitor sees the `error` state.
+
 | File | Shape | Type in `types.ts` | Fields |
 |---|---|---|---|
 | `/api/products.json` | list of objects | `Product[]` | `id`, `categoryId`, `name`, `emoji`, `unit`, `price`, `tags` |
@@ -111,7 +113,6 @@ Placeholders (static) come from `index.html`. Loading and error messages are wri
 - Only two sections show a message on error. Everything else stays empty or keeps its placeholder, so a failed page can look like a working one (the hero and side promo are the clearest case).
 - The cart counter shows `0` until loading finishes, even when the visitor has saved items. This was tested with items saved.
 - Search does nothing in the loading and error states, because its listener is attached only after loading succeeds. This was tested.
-- Nothing checks that the data has the right shape. This is addressed in Step 3.
 - All 43 products are listed in `stock.json` (checked against the files). A product missing from it would get `undefined` stock and be shown as available (not tested).
 - A sold-out product that also has an offer (102) gets the sold-out badge and a disabled button, but the card still shows the old and new price. This is read from the code and was not tested.
 
