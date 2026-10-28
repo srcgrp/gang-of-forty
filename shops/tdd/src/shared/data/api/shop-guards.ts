@@ -1,4 +1,4 @@
-import type { ShopLink, Shop, HomeBanner, HomePromo, CarouselConfig, Home } from '../types'
+import type { ShopLink, Shop, HomeBanner, HomePromo, CarouselConfig, Home } from '../../types'
 import { isRecord, isString, isNumber, isPositiveId, isArrayOf } from './guards'
 
 export function isShopLink(value: unknown): value is ShopLink {

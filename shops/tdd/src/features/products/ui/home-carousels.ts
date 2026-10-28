@@ -1,5 +1,5 @@
-import type { CarouselConfig, Product, Offer } from '../types'
-import { createTextElement, createLink } from './elements'
+import type { CarouselConfig, Product, Offer } from '../../../shared/types'
+import { createTextElement, createLink } from '../../../shared/ui/elements'
 import { renderProducts } from './product-carousel'
 
 export function renderHomeCarousels(configurations: CarouselConfig[], productsByCarousel: Map<string, Product[]>, unavailableByProduct: Map<number, boolean>, offers: Map<number, Offer>, finalPrices: Map<number, number>, onAdd: () => void): void {

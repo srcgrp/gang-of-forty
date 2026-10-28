@@ -8,7 +8,7 @@ export function renderSideBanner(side: HomeBanner): void {
     const photo = document.createElement("div")
     photo.className = "story-image"
     const sideImage = document.createElement("img")
-    sideImage.src = new URL('../../labaniat.jpg', import.meta.url).href
+    sideImage.src = new URL('../../../labaniat.jpg', import.meta.url).href
     sideImage.alt = "لبنیات تازه"
     photo.append(sideImage, createTextElement("span", side.title))
     const sideCopy = document.createElement("div")

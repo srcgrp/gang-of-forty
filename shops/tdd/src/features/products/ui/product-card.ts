@@ -1,4 +1,4 @@
-import type { Product, Offer } from '../types'
+import type { Product, Offer } from '../../../shared/types'
 import { createProductImage } from './product-image'
 import { createProductPrices } from './product-prices'
 

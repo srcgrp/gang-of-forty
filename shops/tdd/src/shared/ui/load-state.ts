@@ -9,6 +9,14 @@ export function clearShopSections(): void {
     })
 }
 
+export function renderLoadError(main: HTMLElement, status: HTMLParagraphElement): void {
+    clearShopSections()
+    renderLoadState({
+        status: "error",
+        message: "بارگذاری فروشگاه انجام نشد. اتصال را بررسی کنید و صفحه را دوباره بارگذاری کنید."
+    }, main, status)
+}
+
 export function renderLoadState(state: LoadState, main: HTMLElement, status: HTMLParagraphElement): void {
     main.setAttribute("aria-busy", String(state.status === "loading"))
     status.classList.toggle("is-error", state.status === "error")

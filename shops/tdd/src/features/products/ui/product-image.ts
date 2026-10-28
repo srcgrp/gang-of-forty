@@ -1,5 +1,5 @@
-import type { Product, Offer } from '../types'
-import { priceFormatter } from './elements'
+import type { Product, Offer } from '../../../shared/types'
+import { priceFormatter } from '../../../shared/ui/elements'
 
 export function createProductImage(product: Product, offer: Offer | undefined, isUnavailable: boolean): HTMLElement {
     const image = document.createElement("div")

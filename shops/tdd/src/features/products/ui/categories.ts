@@ -1,5 +1,5 @@
-import type { Category } from '../types'
-import { createTextElement, createLink } from './elements'
+import type { Category } from '../../../shared/types'
+import { createTextElement, createLink } from '../../../shared/ui/elements'
 
 export function renderCategories(categories: Category[], namesByCategory: Map<number, string[]>): void {
     const grid = document.querySelector<HTMLDivElement>("#category-grid")

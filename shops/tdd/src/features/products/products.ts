@@ -1,4 +1,4 @@
-import type { Product, Stock, Offer, Category, CarouselConfig } from '../types'
+import type { Product, Stock, Offer, Category, CarouselConfig } from '../../shared/types'
 
 export function discountedPrice(product: Product, offer?: Offer): number {
     return offer ? Math.round(product.price * (1 - offer.percent / 100)) : product.price
@@ -17,7 +17,7 @@ export function productsForCarousel(config: CarouselConfig, products: Product[],
 export function prepareProducts(products: Product[], categories: Category[], offers: Offer[], carousels: CarouselConfig[], stock: Stock) {
     const offersByProduct = new Map(offers.map(offer => [offer.productId, offer]))
     const unavailableByProduct = new Map(products.map(product =>
-        [product.id, stock.items[product.id] === 0]))
+        [product.id, (stock.items[product.id] ?? 0) === 0]))
     const finalPrices = new Map(products.map(product =>
         [product.id, discountedPrice(product, offersByProduct.get(product.id))]))
     const namesByCategory = new Map(categories.map(category =>

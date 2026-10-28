@@ -33,7 +33,7 @@ export function renderHero(heroData: HomeBanner): void {
     const frame = document.createElement("div")
     frame.className = "hero-image-frame"
     const image = document.createElement("img")
-    image.src = new URL('../../1.jpg', import.meta.url).href
+    image.src = new URL('../../../1.jpg', import.meta.url).href
     image.alt = "نارنگی‌های تازه و رسیده در سبد محصول"
     frame.append(image)
     const freshness = createTextElement("p", "", "freshness-card")
@@ -44,7 +44,7 @@ export function renderHero(heroData: HomeBanner): void {
     const orbit = document.createElement("div")
     orbit.className = "tdd-orbit"
     orbit.setAttribute("aria-hidden", "true")
-    const orbitSteps = [["معیار", "orbit-red"], ["انتخاب", "orbit-green"], ["بهبود", "orbit-blue"]]
+    const orbitSteps: [string, string][] = [["معیار", "orbit-red"], ["انتخاب", "orbit-green"], ["بهبود", "orbit-blue"]]
     orbitSteps.forEach(([text, className]) => orbit.append(createTextElement("span", text, className)))
     visual.append(frame, freshness, orbit)
     hero.append(copy, visual)

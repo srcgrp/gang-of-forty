@@ -1,4 +1,4 @@
-import type { Product, Offer } from '../types'
+import type { Product, Offer } from '../../../shared/types'
 import { createProductCard } from './product-card'
 
 type CarouselElements = {

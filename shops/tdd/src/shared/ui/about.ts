@@ -9,9 +9,11 @@ export function renderAbout(about: string): void {
     const prose = document.createElement("div")
     prose.className = "about-columns"
     const introduction = document.createElement("div")
+    const firstParagraph = brandStory.paragraphs[0]
+    if (!firstParagraph) throw new Error("Missing brand story")
     introduction.append(
         createTextElement("p", about),
-        createTextElement("p", brandStory.paragraphs[0])
+        createTextElement("p", firstParagraph)
     )
     const explanation = document.createElement("div")
     brandStory.paragraphs.slice(1).forEach(text => {
@@ -21,9 +23,10 @@ export function renderAbout(about: string): void {
     section.replaceChildren(heading, prose)
     const steps = document.createElement("div")
     steps.className = "store-sections"
+    const icons = ["🔴", "🟢", "🔵"]
     brandStory.steps.forEach((step, index) => {
         const article = document.createElement("article")
-        const icon = createTextElement("span", ["🔴", "🟢", "🔵"][index])
+        const icon = createTextElement("span", icons[index] ?? "")
         icon.setAttribute("aria-hidden", "true")
         const copy = document.createElement("div")
         copy.append(createTextElement("h3", step.title), createTextElement("p", step.text))

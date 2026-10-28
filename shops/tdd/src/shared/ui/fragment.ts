@@ -8,8 +8,16 @@ export function fragmentTarget(hash: string): HTMLElement | null {
     return document.getElementById(id)
 }
 
-export function scrollToFragment(animate: boolean = true): void {
-    const target = fragmentTarget(location.hash)
+export async function restoreFragment(hash: string): Promise<void> {
+    await document.fonts.ready
+    if (document.readyState !== "complete") {
+        await new Promise(resolve => window.addEventListener("load", resolve, { once: true }))
+    }
+    requestAnimationFrame(() => scrollToFragment(hash, false))
+}
+
+export function scrollToFragment(hash: string, animate: boolean = true): void {
+    const target = fragmentTarget(hash)
     document.querySelectorAll<HTMLElement>(".is-fragment-target").forEach(element => {
         element.classList.remove("is-fragment-target")
     })

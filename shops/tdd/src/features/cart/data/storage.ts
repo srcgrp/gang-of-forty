@@ -30,3 +30,9 @@ export function clearSavedCart(): boolean {
 export function isCartStorageEvent(event: StorageEvent): boolean {
     return event.key === CART_KEY || event.key === null
 }
+
+export function watchCartCount(onChange: (count: number) => void): void {
+    window.addEventListener("storage", event => {
+        if (isCartStorageEvent(event)) onChange(readCartCount())
+    })
+}

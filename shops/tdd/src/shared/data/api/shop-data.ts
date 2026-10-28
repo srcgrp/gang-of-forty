@@ -1,4 +1,4 @@
-import type { Stock, Offer, Category, ShopDetails, Home } from '../types'
+import type { Stock, Offer, Category, ShopDetails, Home } from '../../types'
 import { loadProducts, loadJSON, STOCK_URL, OFFERS_URL, CATEGORIES_URL, SHOP_URL, HOME_URL } from './client'
 import { isStock, isOffer, isCategory, isArrayOf } from './guards'
 import { isShop, isHome } from './shop-guards'

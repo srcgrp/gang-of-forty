@@ -1,41 +1,26 @@
-import { loadShopData } from './api/shop-data'
-import { nextCartCount } from './cart/count'
-import { prepareProducts } from './catalog/products'
-import { createProductSearch } from './catalog/search'
-import { readCartCount, saveCartCount, clearSavedCart, isCartStorageEvent } from './storage/cart'
-import { renderCartCount, cartStatus, notifyAdded, confirmClearCart, enableClearCart, watchCartChanges } from './ui/cart'
-import { enableNavigation } from './ui/navigation'
-import { renderLoadState, clearShopSections } from './ui/load-state'
-import { renderPage } from './ui/page'
-import { scrollToFragment } from './ui/fragment'
-let cartCount = readCartCount()
-function addToCart(): void {
-    const nextCount = nextCartCount(cartCount)
-    if (nextCount === cartCount) return
-    cartCount = nextCount
-    renderCartCount(cartCount)
-    cartStatus(saveCartCount(cartCount) ? "" : "کالا اضافه شد؛ ذخیره سبد برای مراجعه بعدی در این مرورگر ممکن نیست.")
-    notifyAdded()
-}
-async function clearCart(): Promise<void> {
-    if (cartCount > 0 && await confirmClearCart()) {
-        cartCount = 0
-        renderCartCount(cartCount)
-        cartStatus(clearSavedCart() ? "" : "سبد خالی شد؛ ذخیره تغییر در این مرورگر ممکن نیست.")
-    }
-}
+import { loadShopData } from './shared/data/api/shop-data'
+import { readFilters, writeFilters, readHash, linkHash } from './shared/data/url'
+import { prepareProducts } from './features/products/products'
+import { createProductSearch } from './features/products/search'
+import { startCart } from './features/cart/controller'
+import { readCartCount, saveCartCount, clearSavedCart, watchCartCount } from './features/cart/data/storage'
+import { renderCartCount, cartStatus, notifyAdded, confirmClearCart, enableClearCart } from './features/cart/ui/cart'
+import { enableNavigation } from './shared/ui/navigation'
+import { renderLoadState, renderLoadError } from './shared/ui/load-state'
+import { renderPage } from './features/products/ui/page'
+import { scrollToFragment, restoreFragment } from './shared/ui/fragment'
 
-function startCart(): void {
-    renderCartCount(cartCount)
-    enableClearCart(clearCart)
-    watchCartChanges(event => {
-        if (isCartStorageEvent(event)) {
-            cartCount = readCartCount()
-            renderCartCount(cartCount)
-        }
-    })
-}
-
+const onAdd = startCart({
+    read: readCartCount,
+    save: saveCartCount,
+    clear: clearSavedCart,
+    render: renderCartCount,
+    showStatus: cartStatus,
+    notify: notifyAdded,
+    confirmClear: confirmClearCart,
+    onClear: enableClearCart,
+    onStorageChange: watchCartCount
+})
 async function initPage(): Promise<void> {
     const main = document.querySelector<HTMLElement>("main")
     const status = document.querySelector<HTMLParagraphElement>("#page-status")
@@ -45,25 +30,29 @@ async function initPage(): Promise<void> {
         const data = await loadShopData()
         const catalog = prepareProducts(data.products, data.categories, data.offers, data.home.carousels, data.stock)
         const searchProducts = createProductSearch(data.products)
-        renderPage({ ...data, ...catalog }, addToCart, searchProducts)
-        renderLoadState(data.products.length > 0
-            ? { status: "success", products: data.products }
-            : { status: "empty" }, main, status)
-        await document.fonts.ready
-        if (document.readyState !== "complete") {
-            await new Promise(resolve => window.addEventListener("load", resolve, { once: true }))
-        }
-        requestAnimationFrame(() => scrollToFragment(false))
+        const filters = readFilters()
+        let category = data.categories.find(item => item.slug === filters.category)
+        const findProducts = (query: string) => searchProducts(query, category?.id)
+        const updateSearch = renderPage({ ...data, ...catalog }, onAdd, findProducts,
+            query => writeFilters({ ...readFilters(), q: query }), filters.q)
+        enableNavigation(linkHash, hash => {
+            const selected = data.categories.find(item => hash === `#${item.slug}`)
+            if (selected) category = selected
+            const current = readFilters()
+            writeFilters({ category: selected ? selected.slug : current.category, q: current.q }, hash)
+            updateSearch(current.q)
+            requestAnimationFrame(() => scrollToFragment(hash))
+        }, () => {
+            const current = readFilters()
+            category = data.categories.find(item => item.slug === current.category)
+            updateSearch(current.q)
+            requestAnimationFrame(() => scrollToFragment(readHash(), false))
+        })
+        renderLoadState(data.products.length ? { status: "success", products: data.products } : { status: "empty" }, main, status)
+        await restoreFragment(readHash() || (category ? `#${category.slug}` : ""))
     } catch (error: unknown) {
         console.error("Storefront loading failed:", error instanceof Error ? error.message : String(error))
-        clearShopSections()
-        renderLoadState({
-            status: "error",
-            message: "بارگذاری فروشگاه انجام نشد. اتصال را بررسی کنید و صفحه را دوباره بارگذاری کنید."
-        }, main, status)
+        renderLoadError(main, status)
     }
 }
-
-enableNavigation()
-startCart()
 initPage()

@@ -33,10 +33,6 @@ export function enableClearCart(onClear: () => void): void {
     button.addEventListener("click", onClear)
 }
 
-export function watchCartChanges(onChange: (event: StorageEvent) => void): void {
-    window.addEventListener("storage", onChange)
-}
-
 export async function confirmClearCart(): Promise<boolean> {
     const result = await Swal.fire({
         title: "سبد خرید خالی شود؟",

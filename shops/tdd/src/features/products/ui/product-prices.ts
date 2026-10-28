@@ -1,5 +1,5 @@
-import type { Product, Offer } from '../types'
-import { priceFormatter } from './elements'
+import type { Product, Offer } from '../../../shared/types'
+import { priceFormatter } from '../../../shared/ui/elements'
 
 export function createProductPrices(product: Product, finalPrice: number, offer: Offer | undefined, isUnavailable: boolean, statusId: string): HTMLElement {
     const prices = document.createElement("div")
