@@ -1,19 +1,6 @@
-// Week 4 · Lesson 5 — checks how you split shop.ts.   Run: node check-arch.mjs src/l5
-// tsc checks the types (npm run check); this checks the architecture:
-// who may import whom, which layer may touch the page, the network or storage.
-//
-// The layer of a file comes from its path inside the folder:
-//   types.ts or types/          types  the model, imports nothing
-//   api/  storage/  data/       data   talks to the outside: fetch, localStorage
-//   ui/                         ui     the page: document, DOM elements
-//   main.ts                     main   wires everything together
-//   any other folder or file    logic  the rules, pure functions
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { join, relative, dirname, normalize } from 'node:path'
 
-// Weekly shop mode (--shop): checks this shop, not the named functions of the classroom starter.
-// The 70-line limit of Week4_Frontend_Weekly_Task.pdf (step 4) stays the same in both modes.
-const weeklyShop = process.argv.includes('--shop')
 const root = process.argv[2]
 if (!root) {
     console.log('Usage: node check-arch.mjs src/l5')
@@ -100,12 +87,11 @@ for (const file of files)
     if (reaches(file, file)) problems.push(`${file}: is part of an import circle`)
 
 const all = files.map((f) => readFileSync(join(root, f), 'utf8')).join('\n')
-for (const name of weeklyShop ? [] : FUNCTIONS) {
+for (const name of FUNCTIONS) {
     if (!new RegExp(`function\\s+${name}\\b|const\\s+${name}\\s*=`).test(all)) problems.push(`function ${name} is missing`)
 }
 if (files.includes('shop.ts')) problems.push('shop.ts is still there: main.ts is the entry now')
 if (!files.includes('main.ts')) problems.push('there is no main.ts')
-
 
 const byLayer = {}
 for (const f of files) {
@@ -113,16 +99,15 @@ for (const f of files) {
     if (!byLayer[layer]) byLayer[layer] = []
     byLayer[layer].push(f)
 }
-
 const layers = ['main', 'ui', 'logic', 'data', 'types']
 for (const layer of layers) {
     console.log(layer.padEnd(6), (byLayer[layer] || []).join('  '))
 }
-console.log('')
-
+console.log()
 if (problems.length === 0) {
     console.log(`✅ ${files.length} files, every import points down, no circles. Now run: npm run check`)
 } else {
     for (const p of problems) console.log('❌ ' + p)
     console.log(`\n${problems.length} problems`)
+    process.exitCode = 1
 }
