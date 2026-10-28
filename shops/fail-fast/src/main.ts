@@ -88,7 +88,7 @@ function initializeNotyf(): void {
   });
 }
 
-// Initialize Lucide icons
+// Lucide icons
 function initializeIcons(): void {
   const searchIconEl = document.querySelector("#search-icon");
   const cartIconEl = document.querySelector("#cart-icon");
@@ -198,7 +198,7 @@ catch (error) {
 
 }
 
-// Load daily offers
+// daily offers
 async function loadDailyOffers(): Promise<void> {
   const container = document.querySelector<HTMLElement>("#dailyOffers");
 
@@ -346,7 +346,6 @@ async function loadDailyOffers(): Promise<void> {
 
 }
 
-// Initialize
 document.addEventListener("DOMContentLoaded", (): void => {
   initializeNotyf();
   initializeIcons();
