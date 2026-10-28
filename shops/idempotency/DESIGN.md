@@ -26,7 +26,11 @@ The footer displays shop information and useful links.
 
 ## 3. Data ownership
 The API provides products, categories, offers, stock, home page content, and shop information.
-The frontend keeps the current search query and UI interaction state in memory.
+The URL query parameters (`category` and `q`) own the selected product category and search text.
+`src/storage/filter-url.ts` is the responsible for the reads/writes URL filter state and handling browser history.
+The frontend renders product carousels from the URL state, including when the page reloads or the user use Back/Forward.
+Search use `replaceState` to avoid one browser-history entry per character; category selections use `pushState`.
+Other temporary UI interaction state stays in memory.
 LocalStorage stores the cart count so it remains available after refreshing the page.
 URL fragments identify sections of the page for navigation.
 Environment variables store the API base URL for different environments.
@@ -57,7 +61,7 @@ src/
 ├── types/
 ├── api/
 │   └── validation/
-├── storage/
+├── storage/ (including filter-url.ts)
 ├── cart/
 ├── catalog/
 ├── hero/
@@ -70,11 +74,12 @@ src/
 - `api/` handles HTTP requests and validates external data before returning it to the application.
 - `storage/` handles localStorage access.
 - `cart/` contains pure cart calculations.
+- `catalog/filter.ts` contains filtering logic for the selected category and search text.
 - `catalog/` contains product selection, discount calculations, carousel preparation, and search logic.
 - `hero/` prepares hero slider data without accessing the DOM.
 - `ui/` creates and updates DOM elements using data received through function parameters.
 - `data.ts` defines the static image paths for products and categories.
-- `main.ts` is the application entry point. It connects the layers, manages state, sets up events, and starts the application.
+- `main.ts` connects URL state to the category and search UI. It is the application entry point. It connects the layers, manages state, sets up events, and starts the application.
 
 ## 7. Security
 - Frontend code, API responses, and localStorage data are visible to users in the browser.

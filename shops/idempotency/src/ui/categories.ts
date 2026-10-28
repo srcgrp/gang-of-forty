@@ -7,6 +7,7 @@ function createCategoryCard(
   const card = document.createElement("a");
   card.classList.add("category-card");
   card.href = `#${category.slug}`;
+  card.dataset.categorySlug = category.slug;
 
   const image = document.createElement("img");
   image.src = imagePaths[category.id] ?? "";

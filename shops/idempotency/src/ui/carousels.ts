@@ -26,4 +26,11 @@ export function renderHomeCarousels(
   categoryContainer.replaceChildren(
     ...categories.map(createHomeCarousel),
   );
+
+  if (featured.length === 0 && categories.length === 0) {
+    const emptyMessage = document.createElement("p");
+    emptyMessage.className = "error-message";
+    emptyMessage.textContent = "محصولی با این فیلترها پیدا نشد.";
+    categoryContainer.append(emptyMessage);
+  }
 }

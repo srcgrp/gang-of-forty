@@ -16,6 +16,7 @@ export function renderCategoryDropdown(
     link.href = `#${category.slug}`;
     link.textContent = category.name;
     link.dataset.apiCategory = "true";
+    link.dataset.categorySlug = category.slug;
 
     return link;
   });

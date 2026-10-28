@@ -12,6 +12,7 @@ export function renderFooterCategories(categories: Category[]): void {
     link.href = `#${category.slug}`;
     link.textContent = category.name;
     link.dataset.apiCategory = "true";
+    link.dataset.categorySlug = category.slug;
     return link;
   });
 

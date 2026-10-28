@@ -51,3 +51,8 @@ export function renderLoadState(state: LoadState): void {
     }
   }
 }
+export function finishLoading(): void {
+  document.querySelectorAll("[aria-busy='true']").forEach((element) => {
+    element.setAttribute("aria-busy", "false");
+  });
+}

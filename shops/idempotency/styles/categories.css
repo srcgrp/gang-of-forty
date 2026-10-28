@@ -96,6 +96,11 @@
   text-align: center;
 }
 
+a[data-category-slug][aria-current="true"] {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
 .category-card:hover,
 .category-card:focus-visible {
   transform: translateY(-4px);

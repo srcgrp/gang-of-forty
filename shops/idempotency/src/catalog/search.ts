@@ -1,15 +1,21 @@
 import Fuse from "fuse.js";
-import type { SearchableProduct } from "../types/search";
+import type { Product, Category } from "../types";
+import type { SearchHandler } from "../types/search";
 
 export function createProductSearch(
-  products: SearchableProduct[],
-): (query: string) => SearchableProduct[] {
+  products: Product[],
+  categories: Category[],
+  getCategory: () => string | null,
+): SearchHandler {
   const index = new Fuse(products, {
-    keys: ["name"],
-    threshold: 0.35,
-    ignoreLocation: true,
+    keys: ["name"], threshold: 0.35, ignoreLocation: true,
   });
 
-  return (query: string) =>
-    index.search(query, { limit: 4 }).map(({ item }) => item);
+  return (query: string) => {
+    const slug = getCategory();
+    const categoryId = categories.find((item) => item.slug === slug)?.id;
+    return index.search(query).map(({ item }) => item)
+      .filter((item) => slug === null || item.categoryId === categoryId)
+      .slice(0, 4);
+  };
 }
