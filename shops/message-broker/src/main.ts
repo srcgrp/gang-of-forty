@@ -3,7 +3,7 @@ import 'notyf/notyf.min.css'
 import confetti from 'canvas-confetti'
 import type { Category, Home, Offer, Product, Shop, Stock } from './types'
 import { getJSON } from './api/client'
-import { loadCart, saveCart } from './storage/cart-storage'
+import { loadCart, saveCart } from './storage/storage'
 import { addToCart } from './cart/cart'
 import { createCard } from './ui/cards'
 import { renderCategories, renderFooter, renderMenu, renderPosters } from './ui/layout'
@@ -33,13 +33,17 @@ if (!nav || !sub || !mainM || !notice || !about || !addr || !phone || !fCats || 
 
 async function start(): Promise<void> {
     try {
+        const API_BASE = (import.meta.env.DEV || window.location.hostname === 'localhost')
+    ? '/api'
+    : (import.meta.env.VITE_API_URL ?? '../../api')
         const [cats, shop, home, prods, stock, offers] = await Promise.all([
-            getJSON('../../api/categories.json') as Promise<Category[]>,
-            getJSON('../../api/shop.json') as Promise<Shop>,
-            getJSON('../../api/home.json') as Promise<Home>,
-            getJSON('../../api/products.json') as Promise<Product[]>,
-            getJSON('../../api/stock.json') as Promise<Stock>,
-            getJSON('../../api/offers.json') as Promise<Offer[]>
+            
+            getJSON(`${API_BASE}/categories.json`) as Promise<Category[]>,
+            getJSON(`${API_BASE}/shop.json`) as Promise<Shop>,
+            getJSON(`${API_BASE}/home.json`) as Promise<Home>,
+            getJSON(`${API_BASE}/products.json`) as Promise<Product[]>,
+            getJSON(`${API_BASE}/stock.json`) as Promise<Stock>,
+            getJSON(`${API_BASE}/offers.json`) as Promise<Offer[]>
         ])
 
         renderCategories(nav!, cats)
@@ -81,4 +85,4 @@ container.addEventListener('click', (e) => {
 })
 
 start()
-
+         
