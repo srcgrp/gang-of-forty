@@ -1,29 +1,93 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت بهینه‌سازی زودرس</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
+  <title>سوپرینو</title>
+  <meta name="author" content="Eleena">
+  <meta name="description" content="سوپرینو؛ خرید آسان کالاهای روزمره">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>🏎️ سلام دنیا!</h1>
+
+<body id="top">
+  <a class="skip-link" href="#main-content">پرش به محتوای اصلی</a>
+  <header id="page-header">
+    <div class="announcement"><span class="announcement-icon"></span>
+      <p id="shop-notice" class="skeleton-text"></p>
+    </div>
+    <div class="header-part">
+      <a class="brand brand-link" href="#top">
+        <svg class="logo" focusable="false">
+          <use href="./svgs/logo.svg"></use>
+        </svg>
+        <div class="page-brand">
+          <h1 class="page-title" id="shop-name">سوپرینو</h1><span class="page-description skeleton-text"
+            id="shop-slogan"></span>
+        </div>
+      </a>
+      <label class="search"><span class="search-icon">🔍︎</span><input class="search-entry" type="search"
+          placeholder="جستجو در کالاها..."></label>
+      <div class="cart-dropdown-wrap">
+        <button class="cart-button" id="cart-button" type="button">
+          <span class="cart-icon">🛒</span><span class="cart-text">سبد خرید
+
+          </span>
+          <span class="cart-notification" id="cart-count">۰</span>
+        </button>
+        <div class="cart-dropdown" id="cart-dropdown">
+          <div class="cart-dropdown-items" id="cart-dropdown-items"></div>
+        </div>
+      </div>
+    </div>
+    <input class="mobile-menu-toggle" type="checkbox" id="mobile-menu-toggle">
+    <label class="mobile-menu-button" for="mobile-menu-toggle"><span>☰</span><span>منو</span></label>
+    <nav class="navigation" id="main-navigation">
+      <div class="menu-categories"><span class="menu-categories-span">☷ همه دسته‌ها</span>
+        <div class="hidden-content" id="category-menu-links"></div>
+      </div>
+      <div id="shop-menu-links" class="shop-menu-links"></div>
+    </nav>
   </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>بهینه‌سازی زودرس</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p>دونالد کنوت سال ۱۹۷۴ نوشت: «بهینه‌سازی زودرس ریشه همه بدی‌هاست.» یعنی قبل از اینکه بدانی کجای برنامه واقعاً کند است، کد را برای سرعت پیچیده نکن. اول درست و خوانا بنویس، بعد اندازه بگیر، بعد فقط همان تکه کُند را سریع کن.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
+
+  <main id="main-content">
+    <section class="banner" id="home-banners"></section>
+    <section class="categories" id="categories">
+      <h2 class="categories-title">دسته‌بندی‌ها</h2>
+      <div class="categories-section" id="category-cards"></div>
     </section>
+    <div id="home-carousels"></div>
+    <section class="banner-down" id="home-promos"></section>
+    <div id="category-product-sections"></div>
   </main>
-  <footer>
-    <p dir="ltr">slug: <code>premature-optimization</code></p>
+
+  <footer id="contact">
+    <div class="upper">
+      <section class="about-us">
+        <h2 class="upper-titles" id="footer-shop-name">سوپرینو</h2>
+        <div class="about-details">
+          <p id="shop-about" class="skeleton-text"></p>
+          <p class="address"><span>📍</span><span id="shop-address" class="skeleton-text"></span></p>
+          <p class="phone-number"><span>☎</span><span class="number skeleton-text" id="shop-phone"></span></p>
+        </div>
+      </section>
+      <section class="links-categories">
+        <h2 class="upper-titles">دسته‌ها</h2>
+        <div class="links-link" id="footer-category-links"></div>
+      </section>
+      <section class="hours">
+        <h2 class="upper-titles">ساعت کاری</h2>
+        <div class="hours-details" id="shop-hours"></div>
+      </section>
+    </div>
+    <div class="down">
+      <div class="copyright">
+        <p><span id="shop-copyright" class="skeleton-text"></span></p>
+      </div>
+      <div class="back-tp-up"><a class="up" href="#top"><span>↑</span><span>بازگشت به بالا</span></a></div>
+    </div>
   </footer>
+  <script type="module" src="./app.ts"></script>
 </body>
+
 </html>

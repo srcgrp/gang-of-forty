@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="سوپرمارکت یاسمن؛ خریدهای روزانه با حس خوب تازگی">
+    <title>سوپرمارکت یاسمن</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik">
+    <script type="module" src="./app.ts"></script>
+</head>
+
+<body id="top">
+    <a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+    <div class="announcement">یاسمن مارکت، جایی که خرید، یک ماجراجویی است .</div>
+    <header class="header">
+        <div class="header-content">
+            <a class="brand" href="#top">
+                <svg width="54" height="54" viewBox="0 0 64 64" role="img" aria-labelledby="logo-title">
+                    <title id="logo-title">لوگوی سوپرمارکت یاسمن</title>
+                    <circle cx="32" cy="32" r="30" fill="#fadde1" />
+                    <rect x="14" y="27" width="36" height="24" rx="5" fill="#e05780" />
+                    <rect x="21" y="17" width="22" height="18" rx="8" fill="none" stroke="#e05780" stroke-width="4" />
+                    <ellipse cx="31" cy="37" rx="5" ry="9" fill="#6a994e" />
+                    <ellipse cx="39" cy="33" rx="7" ry="4" fill="#6a994e" />
+                </svg>
+                <span><strong>سوپرمارکت یاسمن</strong><small>تازگی، نزدیک خانه ی شما</small></span>
+            </a>
+            <div class="search"><label for="search">جستجوی کالا</label><input id="search" type="search"
+                    placeholder="دنبال چه کالایی هستید؟"></div>
+            <button class="cart" type="button" aria-label="سبد خرید، صفر کالا">سبد خرید <span>۰</span></button>
+        </div>
+        <nav aria-label="منوی اصلی">
+            <details class="mobile-menu">
+                <summary>☰ منوی فروشگاه</summary>
+                <div>
+                    <a href="#offers">پیشنهاد ویژه امروز</a>
+                    <a href="#dairy">لبنیات</a>
+                    <a href="#fruit">میوه و سبزی</a>
+                    <a href="#bakery">نان و صبحانه</a>
+                    <a href="#drinks">نوشیدنی</a>
+                    <a href="#pantry">مواد غذایی</a>
+                    <a href="#about">درباره ی ما</a>
+                </div>
+            </details>
+            <div class="desktop-menu">
+                <div class="dropdown"><button type="button">همه دسته‌ها ▾</button>
+                    <div class="dropdown-links">
+                        <a href="#offers">پیشنهاد ویژه امروز</a>
+                        <a href="#dairy">لبنیات</a>
+                        <a href="#fruit">میوه و سبزی</a>
+                        <a href="#bakery">نان و صبحانه</a>
+                        <a href="#drinks">نوشیدنی</a>
+                        <a href="#pantry">مواد غذایی</a>
+                    </div>
+                </div>
+                <a href="#offers">پیشنهاد ویژه امروز</a><a href="#dairy">لبنیات</a><a
+                    href="#categories">دسته‌بندی‌ها</a><a href="#about">درباره ی ما</a>
+            </div>
+        </nav>
+    </header>
+    <main id="main" tabindex="-1">
+        <section class="hero" aria-labelledby="hero-title">
+            <div>
+                <p>به فروشگاه محله ی خودت خوش آمدی</p>
+                <h1 id="hero-title">یک سبد تازگی،<br>برای هر روز زندگی</h1>
+                <p>از صبحانه تا شام، همراه سفره ی شما هستیم.</p><a class="primary-link" href="#offers">دیدن پیشنهادهای
+                    امروز</a>
+            </div>
+            <span class="hero-icon" aria-hidden="true">🛒</span>
+        </section>
+        <section id="categories" class="categories" aria-labelledby="categories-title">
+            <h2 id="categories-title">چه چیزی لازم داری؟</h2><span class="target-note">اینجا هستید</span>
+            <div class="category-list">
+                <a href="#offers"><span aria-hidden="true">🏷️</span>پیشنهاد ویژه امروز</a>
+                <a href="#dairy"><span aria-hidden="true">🥛</span>لبنیات</a>
+                <a href="#fruit"><span aria-hidden="true">🍎</span>میوه و سبزی</a>
+                <a href="#bakery"><span aria-hidden="true">🍞</span>نان و صبحانه</a>
+                <a href="#drinks"><span aria-hidden="true">🧃</span>نوشیدنی</a>
+                <a href="#pantry"><span aria-hidden="true">🍚</span>مواد غذایی</a>
+            </div>
+        </section>
+        <section id="offers" class="shop-section" aria-labelledby="offers-title">
+            <div class="section-heading">
+                <h2 id="offers-title">پیشنهاد ویژه امروز</h2><span class="target-note">اینجا هستید</span>
+            </div>
+            <p>کالاهای تازه، انتخاب‌های خوش‌قیمت</p>
+            <div class="carousel-controls" hidden><a href="#offers-1">رفتن به ابتدا</a><a href="#offers-end">رفتن به انتها</a>
+            </div>
+            <p id="offers-status" class="load-status" role="status" aria-live="polite"></p>
+            <section id="offers-carousel" class="carousel" tabindex="0" aria-busy="true"
+                aria-label="محصولات پیشنهاد ویژه امروز؛ برای حرکت از کلیدهای جهت استفاده کنید"></section>
+        </section>
+        <aside class="banners" aria-label="پیشنهادهای فروشگاه">
+            <div>
+                <h2>صبحانه با طعم تازگی</h2>
+                <p>لبنیات تازه برای شروع یک روز خوب</p><a href="#dairy">دیدن لبنیات</a>
+            </div>
+            <div>
+                <h2>رنگ‌های تازه ی طبیعت</h2>
+                <p>میوه و سبزی برای سفرهٔ خانواده</p><a href="#fruit">دیدن دستهٔ میوه</a>
+            </div>
+        </aside>
+        <section id="dairy" class="shop-section" aria-labelledby="dairy-title">
+            <div class="section-heading">
+                <h2 id="dairy-title">لبنیات</h2><span class="target-note">اینجا هستید</span>
+            </div>
+            <p>کالاهای تازه، انتخاب‌های خوش‌قیمت</p>
+            <div class="carousel-controls" hidden><a href="#dairy-1">رفتن به ابتدا</a><a href="#dairy-end">رفتن به انتها</a>
+            </div>
+            <p id="dairy-status" class="load-status" role="status" aria-live="polite"></p>
+            <section id="dairy-carousel" class="carousel" tabindex="0" aria-busy="true"
+                aria-label="محصولات لبنیات؛ برای حرکت از کلیدهای جهت استفاده کنید"></section>
+        </section>
+        <section id="fruit" class="category-section" aria-labelledby="fruit-title">
+            <h2 id="fruit-title"><span aria-hidden="true">🍎</span> میوه و سبزی</h2>
+            <span class="target-note">اینجا هستید</span>
+            <p>سیب و سبزی تازه برای سفره ی شما</p>
+            <a href="#offers">دیدن پیشنهاد ویژه امروز</a>
+        </section>
+        <section id="bakery" class="category-section" aria-labelledby="bakery-title">
+            <h2 id="bakery-title"><span aria-hidden="true">🍞</span> نان و صبحانه</h2>
+            <span class="target-note">اینجا هستید</span>
+            <p>نان تازه، عسل و کره برای یک صبحانه ی خوب</p>
+            <a href="#offers">دیدن پیشنهاد ویژه امروز</a>
+        </section>
+        <section id="drinks" class="category-section" aria-labelledby="drinks-title">
+            <h2 id="drinks-title"><span aria-hidden="true">🧃</span> نوشیدنی</h2>
+            <span class="target-note">اینجا هستید</span>
+            <p>آب، آبمیوه و نوشیدنی‌های خنک</p>
+            <a href="#offers">دیدن پیشنهاد ویژه امروز</a>
+        </section>
+        <section id="pantry" class="category-section" aria-labelledby="pantry-title">
+            <h2 id="pantry-title"><span aria-hidden="true">🍚</span> مواد غذایی</h2>
+            <span class="target-note">اینجا هستید</span>
+            <p>برنج، چای و روغن؛ همراه آشپزخانه ی شما</p>
+            <a href="#offers">دیدن پیشنهاد ویژه امروز</a>
+        </section>
+
+    </main>
+    <footer id="about">
+        <div class="footer-content">
+            <div>
+                <h2>دربارهٔ سوپرمارکت یاسمن</h2><span class="target-note">اینجا هستید</span>
+                <p>فروشگاه کوچک محلهٔ ما؛ همراه خریدهای روزانهٔ شما.</p>
+                <address>آدرس نمونه: تهران، خیابان بهار، پلاک ۱۲<br>تلفن نمونه: <a href="tel:+982112345678"><bdi
+                            dir="ltr">۰۲۱&#8209;۱۲۳۴۵۶۷۸</bdi></a></address>
+            </div>
+            <div>
+                <h2>دسته‌بندی‌ها</h2>
+                <div class="footer-links">
+                    <a href="#offers">پیشنهاد ویژه امروز</a>
+                    <a href="#dairy">لبنیات</a>
+                    <a href="#fruit">میوه و سبزی</a>
+                    <a href="#bakery">نان و صبحانه</a>
+                    <a href="#drinks">نوشیدنی</a>
+                    <a href="#pantry">مواد غذایی</a>
+                </div>
+            </div>
+            <div>
+                <h2>ساعت کاری</h2>
+                <p>هر روز از ۸ صبح تا ۱۰ شب</p>
+                <a href="#top">بازگشت به بالا ↑</a>
+            </div>
+        </div>
+        <p class="copyright">© ۱۴۰۵ سوپرمارکت یاسمن؛ همهٔ حقوق محفوظ است.</p>
+    </footer>
+</body>
+
+</html>
