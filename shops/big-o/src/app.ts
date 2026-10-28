@@ -3,14 +3,15 @@ import 'notyf/notyf.min.css';
 import { CountUp } from 'countup.js';
 import type { Category, Product, Offer, Stock, Shop, CardInfo, MessageType, LinkItem, LoadState } from './types';
 import { getData } from './api/getData';
+import { loadCartCount, saveCartCount } from './storage/cart';
+
+
+let cartCount: number = loadCartCount();
 
 const notyf = new Notyf({
     position: { x: "center", y: "top" },
 });
-let cartCount: number = Number(localStorage.getItem("big-o-cart"));
-if(Number.isNaN(cartCount)) {
-    cartCount = 0;
-}
+
 
 // Finds a category by its name and returns its id.
 // categories: array from categories.json, name: the category to look for.
@@ -313,7 +314,7 @@ function addToCart(productName: string) {
     notyf.success(`محصول ${productName} با موفقیت به سبد خرید اضافه شد.`);
     const previousCount = cartCount;
     cartCount += 1;
-    localStorage.setItem("big-o-cart", String(cartCount));
+    saveCartCount(cartCount);
     updateCartNumber(previousCount,cartCount);
 }
 
