@@ -17,7 +17,7 @@ export type Shop = {
     help: Link[];
 };
 
-export type OffersCarousel = { id: string; title: string; emoji: string; source: string; };
+export type OffersCarousel = { id: string; title: string; emoji: string; source: "offers"; };
 
 export type CategoryCarousel = { id: string; title: string; emoji: string; categoryId: number; };
 

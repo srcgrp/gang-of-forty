@@ -42,7 +42,7 @@ function isCarousel(x: unknown): x is Carousel {
   }
 
   return (
-    (typeof x.source === "string" &&
+    (x.source === "offers" &&
       !("categoryId" in x)) ||
     (typeof x.categoryId === "number" &&
       Number.isFinite(x.categoryId) &&
