@@ -1,21 +1,13 @@
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
 import confetti from 'canvas-confetti';
-import type { Product, ProductPreview, ReadonlyProduct } from './types.ts';
+import type { Product, ProductPreview, ReadonlyProduct, LoadState } from './types.ts';
+import { isProduct } from './types.ts';
 
 const API_URL = '../../api/products.json';
 const DAIRY_CATEGORY_ID = 2;
 const SKELETON_COUNT = 6;
-const TINTS = ['t-blue', 't-yellow', 't-green', 't-pink', 't-purple', 't-orange'];
-
-class FetchError extends Error {
-    kind: 'http' | 'shape';
-
-    constructor(kind: 'http' | 'shape', message: string) {
-        super(message);
-        this.kind = kind;
-    }
-}
+const TINTS = ['t-blue', 't-yellow', 't-green', 't-pink', 't-purple', 't-orange'] as const;
 
 function getDom() {
     const list = document.querySelector<HTMLUListElement>('#dairy-list');
@@ -56,20 +48,6 @@ function setStatus(message: string): void {
     if (message) statusBox.append(message);
 }
 
-function isProduct(value: unknown): value is Product {
-    return (
-        typeof value === 'object' &&
-        value !== null &&
-        'id' in value && typeof value.id === 'number' &&
-        'categoryId' in value && typeof value.categoryId === 'number' &&
-        'name' in value && typeof value.name === 'string' &&
-        'emoji' in value && typeof value.emoji === 'string' &&
-        'unit' in value && typeof value.unit === 'string' &&
-        'price' in value && typeof value.price === 'number'
-    );
-}
-
-
 function describeProduct({ name, price }: ProductPreview): string {
     return `${name}، ${priceFormat.format(price)} تومان`;
 }
@@ -88,7 +66,6 @@ function celebrate(button: HTMLButtonElement, productName: string): void {
         },
     });
 }
-
 
 function createCard(product: ReadonlyProduct, index: number): HTMLLIElement {
     const li = el('li', 'card');
@@ -121,7 +98,9 @@ function createCard(product: ReadonlyProduct, index: number): HTMLLIElement {
         if (!(e.currentTarget instanceof HTMLButtonElement)) return;
         celebrate(e.currentTarget, product.name);
         plus.textContent = '✓';
-        setTimeout(() => { plus.textContent = '+'; }, 800);
+        setTimeout(() => {
+            plus.textContent = '+';
+        }, 800);
     });
 
     const buy = el('div', 'buy');
@@ -148,41 +127,6 @@ function createSkeleton(): HTMLLIElement {
     return li;
 }
 
-function showLoading(): void {
-    carousel.setAttribute('aria-busy', 'true');
-    setStatus('در حال بارگذاری محصولات…');
-    list.replaceChildren(...Array.from({ length: SKELETON_COUNT }, createSkeleton));
-}
-
-function showError(message: string): void {
-    carousel.setAttribute('aria-busy', 'false');
-    list.replaceChildren();
-    const retry = el('button', 'btn', 'تلاش دوباره');
-    retry.type = 'button';
-    retry.addEventListener('click', loadDairy);
-    statusBox.replaceChildren(message, retry);
-}
-
-async function fetchProducts(): Promise<Product[]> {
-    const res: Response = await fetch(API_URL);
-
-    if (!res.ok) {
-        throw new FetchError('http', `HTTP ${res.status}`);
-    }
-
-    const data: unknown = await res.json();
-    if (!Array.isArray(data) || !data.every(isProduct)) {
-        throw new FetchError('shape', 'products.json is not a list of products');
-    }
-    return data;
-}
-
-function errorMessage(err: unknown): string {
-    if (err instanceof TypeError) return 'ارتباط با سرور برقرار نشد. اینترنت خود را بررسی کنید و دوباره تلاش کنید.';
-    if (err instanceof FetchError && err.kind === 'http') return 'فهرست محصولات پیدا نشد. کمی بعد دوباره تلاش کنید.';
-    return 'اطلاعات محصولات درست دریافت نشد. کمی بعد دوباره تلاش کنید.';
-}
-
 function linkEdges(cards: HTMLLIElement[]): void {
     const first = cards[0];
     const last = cards[cards.length - 1];
@@ -191,25 +135,114 @@ function linkEdges(cards: HTMLLIElement[]): void {
     lastBtn.href = `#${last.id}`;
 }
 
-async function loadDairy(): Promise<void> {
-    showLoading();
-    try {
-        const products = await fetchProducts();
-        const dairy = products.filter((p: Product) => p.categoryId === DAIRY_CATEGORY_ID);
 
-        if (dairy.length === 0) {
-            showError('فعلاً محصولی در این دسته نیست.');
+async function getJSON(path: string): Promise<unknown> {
+    const res = await fetch(path);
+    if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`);
+    }
+    return res.json();
+}
+
+
+function parseProducts(data: unknown): Product[] {
+    if (!Array.isArray(data)) {
+        throw new Error('products.json is not an array');
+    }
+
+    const valid: Product[] = [];
+    let invalidCount = 0;
+
+    for (const item of data) {
+        if (isProduct(item)) {
+            valid.push(item);
+        } else {
+            invalidCount += 1;
+        }
+    }
+
+    if (invalidCount > 0) {
+        console.warn(`${invalidCount} محصول نامعتبر حذف شد.`);
+    }
+
+    return valid;
+}
+
+function errorMessage(err: unknown): string {
+    if (err instanceof TypeError) {
+        return 'ارتباط با سرور برقرار نشد. اینترنت خود را بررسی کنید و دوباره تلاش کنید.';
+    }
+    if (err instanceof Error && err.message.startsWith('HTTP')) {
+        return 'فهرست محصولات پیدا نشد. کمی بعد دوباره تلاش کنید.';
+    }
+    return 'اطلاعات محصولات درست دریافت نشد. کمی بعد دوباره تلاش کنید.';
+}
+
+
+function render(state: LoadState): void {
+    switch (state.status) {
+        case 'loading':
+            carousel.setAttribute('aria-busy', 'true');
+            setStatus('در حال بارگذاری محصولات…');
+            list.replaceChildren(...Array.from({ length: SKELETON_COUNT }, createSkeleton));
+            break;
+
+        case 'success': {
+            const dairy = state.products.filter((p) => p.categoryId === DAIRY_CATEGORY_ID);
+
+            if (dairy.length === 0) {
+                render({ status: 'empty' });
+                return;
+            }
+
+            const cards = dairy.map(createCard);
+            list.replaceChildren(...cards);
+            linkEdges(cards);
+            setStatus('');
+            carousel.setAttribute('aria-busy', 'false');
+            break;
+        }
+
+        case 'empty':
+            carousel.setAttribute('aria-busy', 'false');
+            list.replaceChildren();
+            setStatus('فعلاً محصولی در این دسته نیست.');
+            break;
+
+        case 'error': {
+            carousel.setAttribute('aria-busy', 'false');
+            list.replaceChildren();
+            const retry = el('button', 'btn', 'تلاش دوباره');
+            retry.type = 'button';
+            retry.addEventListener('click', loadDairy);
+            statusBox.replaceChildren(state.message, retry);
+            break;
+        }
+
+        default: {
+
+            const _exhaustive: never = state;
+            return _exhaustive;
+        }
+    }
+}
+
+async function loadDairy(): Promise<void> {
+    render({ status: 'loading' });
+
+    try {
+        const raw = await getJSON(API_URL);
+        const products = parseProducts(raw);
+
+        if (products.length === 0) {
+            render({ status: 'empty' });
             return;
         }
 
-        const cards = dairy.map(createCard);
-        list.replaceChildren(...cards);
-        linkEdges(cards);
-        setStatus('');
-        carousel.setAttribute('aria-busy', 'false');
+        render({ status: 'success', products });
     } catch (err: unknown) {
         console.warn('بارگذاری لبنیات ناموفق بود:', err);
-        showError(errorMessage(err));
+        render({ status: 'error', message: errorMessage(err) });
     }
 }
 
