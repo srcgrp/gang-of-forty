@@ -1,0 +1,99 @@
+export type Link = {href: string; label: string};
+export type ScheduleEntry = {days: string; time: string};
+
+export type Shop = {
+    name: string;
+    slogan: string;
+    owner: string;
+    city: string;
+    phone: string;
+    hours: {open: string; close: string};
+    deliveryFee: number;
+    freeDeliveryOver: number;
+    currency: string;
+    notice: string;
+    about: string;
+    address: string;
+    schedule: ScheduleEntry[];
+    menu: Link[];
+    help: Link[];
+    copyright: string;
+};
+
+export type Category = {
+    id: number;
+    slug: string;
+    name: string;
+    emoji: string;
+    color: string;
+};
+
+export type Banner = {
+    title: string;
+    text: string;
+    emoji: string;
+    cta: Link;
+};
+
+export type Promo = {
+    href: string;
+    text: string;
+    emoji: string;
+    color: string;
+};
+
+export type CarouselConfig = {
+    id: string;
+    title: string;
+    emoji: string;
+    source?: 'offers';
+    categoryId?: number;
+};
+
+export type Home = {
+    hero: Banner;
+    side: Banner;
+    promos: Promo[];
+    carousels: CarouselConfig[];
+};
+
+export type Product = {
+    id: number;
+    categoryId: number;
+    name: string;
+    emoji: string;
+    unit: string;
+    price: number;
+    tags: string[];
+};
+export type ProductPreview = Pick<Product, 'id' | 'name' | 'price'>;
+export type ReadonlyShop = Readonly<Shop>;
+
+export const SORTS = ['default', 'price-asc', 'price-desc'] as const;
+export type Sort = (typeof SORTS)[number];
+
+export type Stock = {
+    updatedAt: string;
+    items: Record<string, number>;
+};
+
+export type Offer = {
+    productId: number;
+    percent: number;
+    label: string;
+};
+
+export type Cart = Record<string, number>;
+export type CartLine = {
+    productId: number;
+} & {
+    quantity: number;
+};
+export type AppData = {
+    shop: Shop;
+    categories: Category[];
+    home: Home;
+    products: Product[];
+    stock: Stock;
+    offers: Offer[];
+};
