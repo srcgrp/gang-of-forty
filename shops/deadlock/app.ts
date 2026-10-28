@@ -1,7 +1,7 @@
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
 import confetti from "canvas-confetti";
-import type { ApiFile, Offer, Product, ProductCard, Stock ,Category} from "./src/types";
+import type { ApiFile, Offer, Product, ProductCard, Stock ,Category, LoadState} from "./src/types";
 function isProduct(p: unknown): p is Product {
   return(typeof p === "object" &&
     p !== null &&
@@ -177,6 +177,68 @@ function keepValid<T>(raw: unknown, isValid: (x: unknown) => x is T, name: strin
   if (dropped > 0) console.warn(dropped, name + " dropped")
   return good
 }
+
+function render(
+  container: HTMLDivElement,
+  offersContainer: HTMLDivElement,
+  state: LoadState,
+): void {
+  container.replaceChildren();
+  offersContainer.replaceChildren();
+
+  switch (state.status) {
+    case "loading":
+      showMessage(container, textmsg);
+      showMessage(offersContainer, textmsg);
+      break;
+
+    case "success": {
+      renderProducts(
+        container,
+        state.pantryProducts,
+        state.stock,
+        state.offers,
+      );
+
+      renderProducts(
+        offersContainer,
+        state.offerProducts,
+        state.stock,
+        state.offers,
+      );
+
+      const firstOffer = offersContainer.firstElementChild;
+      const lastOffer = offersContainer.lastElementChild;
+
+      if (firstOffer && lastOffer) {
+        firstOffer.id = "offer-first";
+        lastOffer.id = "offer-last";
+      }
+
+      break;
+    }
+
+    case "empty":
+      showMessage(container, "در حال حاضر محصولی برای نمایش نیست.");
+      showMessage(offersContainer, "در حال حاضر محصولی برای نمایش نیست.");
+      break;
+
+    case "error": {
+      const errorText =
+        `متأسفانه محصولات بارگذاری نشد. لطفاً دوباره تلاش کنید. (${state.message})`;
+
+      showMessage(container, errorText);
+      showMessage(offersContainer, errorText);
+      break;
+    }
+
+    default: {
+      const unreachable: never = state;
+      return unreachable;
+    }
+  }
+}
+
 async function loadProducts(): Promise<void> {
   const offersContainer = document.querySelector<HTMLDivElement>(
     "#special-offers .carousel",
@@ -188,8 +250,7 @@ async function loadProducts(): Promise<void> {
   offersContainer.addEventListener("click", handleClick);
   container.addEventListener("click", handleClick);
 
-  const pantryLoading = showMessage(container, textmsg);
-  const offersLoading = showMessage(offersContainer, textmsg);
+  render(container, offersContainer, { status: "loading" });
   try {
     const [products, stock, offers] = await Promise.all([
       getJSON("products"),
@@ -197,31 +258,29 @@ async function loadProducts(): Promise<void> {
       getJSON("offers"),
     ]);
     const validProducts = keepValid(products, isProduct, "products");
-    const validOffers = keepValid(offers, isOffer, "offers")
+    const validOffers = keepValid(offers, isOffer, "offers");
     if (!isStock(stock)) {
       throw new Error("Invalid stock data");
     }
-    const pantryProducts = validProducts.filter((n) => n.categoryId === 4);
-   const offerProducts = validProducts.filter((product) =>
-      validOffers.some((offer) => offer.productId === product.id)
-    );
-    pantryLoading.remove();
-    offersLoading.remove();
-    renderProducts(container, pantryProducts, stock, validOffers);
-    renderProducts(offersContainer, offerProducts, stock, validOffers);
-    const firstOffer = offersContainer.firstElementChild;
-    const lastOffer = offersContainer.lastElementChild;
-    if (firstOffer && lastOffer) {
-      firstOffer.id = "offer-first";
-      lastOffer.id = "offer-last";
+    if (validProducts.length === 0) {
+      render(container, offersContainer, { status: "empty" });
+    } else {
+      const pantryProducts = validProducts.filter((n) => n.categoryId === 4);
+      const offerProducts = validProducts.filter((product) =>
+        validOffers.some((offer) => offer.productId === product.id),
+      );
+      render(container, offersContainer, {
+        status: "success",
+        pantryProducts,
+        offerProducts,
+        stock,
+        offers: validOffers,
+      });
     }
   } catch (error) {
-    pantryLoading.remove();
-    offersLoading.remove();
-    const detail = error instanceof Error ? error.message : "خطای ناشناخته";
-    const errorText = `متأسفانه محصولات بارگذاری نشد. لطفاً دوباره تلاش کنید. (${detail})`;
-    showMessage(container, errorText);
-    showMessage(offersContainer, errorText);
+    const message = error instanceof Error ? error.message : "خطای ناشناخته";
+    render(container, offersContainer, { status: "error", message });
   }
+
 }
 loadProducts();

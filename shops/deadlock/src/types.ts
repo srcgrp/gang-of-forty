@@ -53,3 +53,15 @@ export type Shop = {
   help: ShopLink[];
   copyright: string;
 };
+
+export type LoadState =
+  | { status: "loading" }
+  | {
+      status: "success";
+      pantryProducts: Product[];
+      offerProducts: Product[];
+      stock: Stock;
+      offers: Offer[];
+    }
+  | { status: "empty" }
+  | { status: "error"; message: string }
