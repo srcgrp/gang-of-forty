@@ -4,6 +4,8 @@ import confetti from 'canvas-confetti';
 import {Notyf} from 'notyf';
 
 import {loadData} from './api';
+import {addToCart} from './src/cart/cart';
+import {loadCart, saveCart} from './src/storage/cart';
 
 import type {
     AppData,
@@ -16,15 +18,15 @@ import type {
     Offer,
     Product,
     Promo,
+    ReadonlyShop,
     ScheduleEntry,
     Shop,
-} from './types';
+} from './src/types';
 
 /* ---------- Settings ---------- */
 
 const SHOP_NAME = 'سوپرمارکت شایان';
 
-const CART_KEY = 'cart';
 const SKELETON_CARD_COUNT = 5;
 const SKELETON_CATEGORY_COUNT = 7;
 const ROUND_TO = 1000; // Discounted prices are rounded to the nearest 1,000 tomans.
@@ -57,6 +59,12 @@ type BannerOptions = {
     titleTag: 'h1' | 'h2';
     buttonClass: string;
 };
+
+type LoadState =
+    | {status: 'loading'}
+    | {status: 'success'; products: Product[]}
+    | {status: 'empty'}
+    | {status: 'error'; message: string};
 
 /* ---------- Page elements ---------- */
 
@@ -151,34 +159,6 @@ function buildContext({categories, products, stock, offers}: AppData): Context {
 /* ---------- Cart (localStorage) ---------- */
 
 // Checks the parsed localStorage value before we trust it as a Cart.
-function isCart(value: unknown): value is Cart {
-    if (typeof value !== 'object' || value === null || Array.isArray(value)) {
-        return false;
-    }
-    return Object.values(value).every(
-        (quantity: unknown): boolean => typeof quantity === 'number',
-    );
-}
-
-function loadCart(): Cart {
-    try {
-        const saved = localStorage.getItem(CART_KEY);
-        if (saved === null) return {};
-
-        const parsed: unknown = JSON.parse(saved);
-        return isCart(parsed) ? parsed : {};
-    } catch {
-        return {}; // Invalid JSON, or localStorage is unavailable.
-    }
-}
-
-function saveCart(cart: Cart): void {
-    try {
-        localStorage.setItem(CART_KEY, JSON.stringify(cart));
-    } catch {
-        // If saving fails, the cart only lives until the page is closed.
-    }
-}
 
 const cart: Cart = loadCart();
 
@@ -193,12 +173,6 @@ function renderCartCount(): void {
     const count = faNumber.format(countCartItems());
     dom.cartCount.textContent = count;
     dom.cart.setAttribute('aria-label', `سبد خرید، ${count} کالا`);
-}
-
-function addToCart(productId: string): void {
-    cart[productId] = (cart[productId] ?? 0) + 1;
-    saveCart(cart);
-    renderCartCount();
 }
 
 /* ---------- Add-to-cart feedback (notyf + canvas-confetti) ---------- */
@@ -253,7 +227,9 @@ function handleCartClick(event: MouseEvent): void {
     const {productId, productName} = button.dataset;
     if (productId === undefined || productName === undefined) return;
 
-    addToCart(productId);
+    addToCart(cart, productId);
+    saveCart(cart);
+    renderCartCount();
     showAddedFeedback(button, productName);
 }
 
@@ -626,14 +602,48 @@ function showLoading(): void {
     dom.carousels.replaceChildren(section);
 }
 
-function showError(): void {
+function showError(messageText: string = ERROR_TEXT): void {
     dom.main.setAttribute('aria-busy', 'false');
     dom.banners.replaceChildren();
     dom.carousels.replaceChildren();
 
-    const message = el('p', 'carousel-message', ERROR_TEXT);
+    const message = el('p', 'carousel-message', messageText);
     message.setAttribute('role', 'alert');
     dom.categories.replaceChildren(message);
+}
+
+function renderLoadState(state: LoadState): void {
+    switch (state.status) {
+        case 'loading':
+            showLoading();
+            break;
+
+        case 'success':
+            dom.main.setAttribute('aria-busy', 'false');
+            break;
+
+        case 'empty': {
+            dom.main.setAttribute('aria-busy', 'false');
+            dom.carousels.replaceChildren();
+
+            const message = el(
+                'p',
+                'carousel-message',
+                'محصولی برای نمایش وجود ندارد.',
+            );
+            dom.carousels.append(message);
+            break;
+        }
+
+        case 'error':
+            showError(state.message);
+            break;
+
+        default: {
+            const unreachable: never = state;
+            return unreachable;
+        }
+    }
 }
 
 /* ---------- App initialization ---------- */
@@ -663,15 +673,35 @@ function renderPage(data: AppData): void {
 }
 
 async function init(): Promise<void> {
-    renderCartCount(); // The cart count comes from localStorage, not from the API.
+    renderCartCount();
     dom.carousels.addEventListener('click', handleCartClick);
-    showLoading();
+
+    let state: LoadState = {status: 'loading'};
+    renderLoadState(state);
 
     try {
-        renderPage(await loadData());
+        const data = await loadData();
+
+        renderPage(data);
+
+        state =
+            data.products.length > 0
+                ? {status: 'success', products: data.products}
+                : {status: 'empty'};
+
+        renderLoadState(state);
     } catch (error: unknown) {
         console.warn('Loading page data failed:', error);
-        showError();
+
+        state = {
+            status: 'error',
+            message:
+                error instanceof Error
+                    ? error.message
+                    : 'بارگذاری اطلاعات ناموفق بود. لطفاً دوباره تلاش کنید.',
+        };
+
+        renderLoadState(state);
     }
 }
 

@@ -1,39 +1,69 @@
-import type {
-    AppData,
-    Category,
-    Home,
-    Offer,
-    Product,
-    Shop,
-    Stock,
-} from './src/types';
+import type {AppData, Product} from './src/types';
 
-const API_BASE = '../../api/';
+import {
+    isCategory,
+    isHome,
+    isOffer,
+    isProduct,
+    isShop,
+    isStock,
+} from './src/api/guards';
+import {getJSON} from './src/api/index';
 
-async function fetchJSON<T>(fileName: string): Promise<T> {
-    const response: Response = await fetch(`${API_BASE}${fileName}`);
+export async function loadData(): Promise<AppData> {
+    const [
+        shopData,
+        categoriesData,
+        homeData,
+        productsData,
+        stockData,
+        offersData,
+    ] = await Promise.all([
+        getJSON('shop.json'),
+        getJSON('categories.json'),
+        getJSON('home.json'),
+        getJSON('products.json'),
+        getJSON('stock.json'),
+        getJSON('offers.json'),
+    ]);
 
-    // fetch does not reject on a 404, so we have to check response.ok ourselves.
-    if (!response.ok) {
-        throw new Error(`${fileName}: HTTP ${response.status}`);
+    if (!isShop(shopData)) {
+        throw new Error('Invalid shop data');
     }
 
-    // If the body is not valid JSON, the returned promise rejects here.
-    return response.json();
-}
+    if (!Array.isArray(categoriesData) || !categoriesData.every(isCategory)) {
+        throw new Error('Invalid categories data');
+    }
 
-// Reads all six files at the same time with a single Promise.all.
-export async function loadData(): Promise<AppData> {
-    const [shop, categories, home, products, stock, offers] = await Promise.all(
-        [
-            fetchJSON<Shop>('shop.json'),
-            fetchJSON<Category[]>('categories.json'),
-            fetchJSON<Home>('home.json'),
-            fetchJSON<Product[]>('products.json'),
-            fetchJSON<Stock>('stock.json'),
-            fetchJSON<Offer[]>('offers.json'),
-        ],
-    );
+    if (!isHome(homeData)) {
+        throw new Error('Invalid home data');
+    }
 
-    return {shop, categories, home, products, stock, offers};
+    if (!Array.isArray(productsData)) {
+        throw new Error('Invalid products data');
+    }
+
+    const products: Product[] = productsData.filter(isProduct);
+    const invalidProductsCount = productsData.length - products.length;
+
+    if (invalidProductsCount > 0) {
+        console.warn(`Ignored ${invalidProductsCount} invalid product(s).`);
+    }
+
+    if (!isStock(stockData)) {
+        throw new Error('Invalid stock data');
+    }
+
+    if (!Array.isArray(offersData) || !offersData.every(isOffer)) {
+        throw new Error('Invalid offers data');
+    }
+
+    return {
+        shop: shopData,
+        categories: categoriesData,
+        home: homeData,
+        products,
+        stock: stockData,
+        offers: offersData,
+    };
 }
