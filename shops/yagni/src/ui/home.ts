@@ -1,7 +1,7 @@
 import type { Home, HomeSlide } from "../types";
 export function renderHome(data: Home): void {
   const banner = document.querySelector<HTMLElement>("#banner");
-  const track = banner?.querySelector<HTMLElement>(".banner__track");
+  const track = banner?.querySelector<HTMLDivElement>(".banner__track");
   if (track) {
     const fragment = document.createDocumentFragment();
     const slides: HomeSlide[] = [data.hero, data.side];

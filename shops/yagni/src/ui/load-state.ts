@@ -28,5 +28,5 @@ export function renderLoadState(
   }
 }
 
-// Lesson 5 public name.
+
 export const renderStatus = renderLoadState;
