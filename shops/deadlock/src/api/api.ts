@@ -53,7 +53,8 @@ export function isCategory(c: unknown): c is Category {
     typeof c.color === "string")
 }
 export async function getJSON(fileName: ApiFile): Promise<unknown> {
-  const res = await fetch(`../../api/${fileName}.json`);
+    const baseUrl = import.meta.env.VITE_API_URL;
+    const res = await fetch(`${baseUrl}/${fileName}.json`);
   if (!res.ok) {
     throw new Error(`${fileName}: HTTP ${res.status}`);
   }
