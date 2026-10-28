@@ -31,7 +31,7 @@ All shared shop data models are defined in `src/types.ts` and imported with `imp
 | `Shop` | name, slogan, contact information, opening hours, delivery settings, navigation links, and other shop details |
 | `Home` | hero, side banner, promotions, and carousel configurations |
 
-`CartItem` describes cart-related data, while the simple cart behavior uses `cartCount` to store the total number of added items.
+The cart uses `cartCount` to store only the total number of added items. It does not have a per-product cart item model.
 
 ## 4. Where does each piece live?
 
@@ -99,6 +99,7 @@ shops/tdd/
     api/
     storage/
     cart/
+    catalog/
     ui/
     main.ts
 ```
@@ -107,6 +108,7 @@ shops/tdd/
 - `src/api/`: fetch requests and validation of external JSON
 - `src/storage/`: all localStorage access
 - `src/cart/`: cart rules without DOM, fetch, or localStorage
+- `src/catalog/`: product filtering, discount calculation, and search rules
 - `src/ui/`: DOM elements and rendering
 - `src/main.ts`: application state, event handlers, and startup
 
