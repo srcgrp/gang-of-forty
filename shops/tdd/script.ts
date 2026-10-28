@@ -317,9 +317,7 @@ function createProductCard(product: Product, cardId: string, quantity: number, o
     addButton.type = "button"
     addButton.setAttribute("aria-label", `افزودن ${product.name} به سبد خرید`)
     addButton.disabled = isUnavailable;
-    addButton.addEventListener("click", () => {
-        if (!isUnavailable) addToCart();
-    });
+    addButton.addEventListener("click", addToCart);
 
     const buttonIcon = document.createElement("span");
     buttonIcon.setAttribute("aria-hidden", "true");
@@ -339,53 +337,32 @@ function renderProducts(carousel: CarouselElements, products: Product[], stock: 
 
     if (products.length === 0) {
         showStatus(carousel, "محصولی برای نمایش وجود ندارد.")
-        return
+    } else {
+        products.forEach((product, index) => {
+            let cardId = `${carousel.prefix}-product-${product.id}`
+            if (index === 0) {
+                cardId = `${carousel.prefix}-first`
+            } else if (index === products.length - 1) {
+                cardId = `${carousel.prefix}-last`
+            }
+
+            const quantity = stock.items[product.id]
+            const offer = offers.get(product.id)
+            carousel.track.append(createProductCard(product, cardId, quantity, offer))
+        })
+
+        const firstLink = carousel.controls.querySelector<HTMLAnchorElement>("a:first-child");
+        const lastLink = carousel.controls.querySelector<HTMLAnchorElement>("a:last-child");
+        if (!firstLink || !lastLink) throw new Error("Missing carousel links");
+
+        firstLink.href = `#${carousel.prefix}-first`;
+        lastLink.href = products.length === 1
+            ? `#${carousel.prefix}-first`
+            : `#${carousel.prefix}-last`;
+
+        showStatus(carousel, "");
+        carousel.controls.hidden = false;
     }
-
-    products.forEach((product, index) => {
-        let cardId = `${carousel.prefix}-product-${product.id}`
-
-        if(index === 0)
-            cardId = `${carousel.prefix}-first`
-        else if (index === products.length - 1)
-            cardId = `${carousel.prefix}-last`
-
-        const quantity = stock.items[product.id]
-
-        if (!Number.isInteger(quantity) || quantity < 0){
-            throw new Error(`Invalid stock for product ${product.id}`)
-        }
-
-        const offer = offers.get(product.id)
-
-        const card = createProductCard(product, cardId, quantity, offer)
-
-        carousel.track.append(card)
-
-    })
-
-    const firstLink =
-        carousel.controls.querySelector<HTMLAnchorElement>("a:first-child");
-
-    const lastLink =
-        carousel.controls.querySelector<HTMLAnchorElement>("a:last-child");
-
-    if (!firstLink || !lastLink) throw new Error("Missing carousel links");
-
-    firstLink.setAttribute(
-        "href",
-        `#${carousel.prefix}-first`
-    );
-
-    lastLink.setAttribute(
-        "href",
-        products.length === 1
-        ? `#${carousel.prefix}-first`
-        : `#${carousel.prefix}-last`
-    );
-
-    showStatus(carousel, "");
-    carousel.controls.hidden = false;
 }
 
 // Level 3: one category dataset supplies all navigation and destinations.
@@ -431,24 +408,24 @@ function renderCategories(categories: Category[], products: Product[] = []): voi
 
         menus.forEach(menu => menu.append(createLink(category.name, href)));
 
-        if (document.getElementById(category.slug)) return;
-        // Categories without a configured carousel retain their own destination.
-        const section = document.createElement("article");
-        section.id = category.slug;
-        section.setAttribute("aria-labelledby", `category-${category.id}-title`);
-        const sectionIcon = createTextElement("span", category.emoji);
-        sectionIcon.setAttribute("aria-hidden", "true");
-        sectionIcon.style.background = category.color;
-        const copy = document.createElement("div");
-        const heading = createTextElement("h2", category.name);
-        heading.id = `category-${category.id}-title`;
-        const categoryProducts = products.filter(product => product.categoryId === category.id);
-        copy.append(heading);
-        if (categoryProducts.length) {
-            copy.append(createTextElement("p", categoryProducts.map(product => product.name).join("، ")));
+        if (!document.getElementById(category.slug)) {
+            const section = document.createElement("article");
+            section.id = category.slug;
+            section.setAttribute("aria-labelledby", `category-${category.id}-title`);
+            const sectionIcon = createTextElement("span", category.emoji);
+            sectionIcon.setAttribute("aria-hidden", "true");
+            sectionIcon.style.background = category.color;
+            const copy = document.createElement("div");
+            const heading = createTextElement("h2", category.name);
+            heading.id = `category-${category.id}-title`;
+            const categoryProducts = products.filter(product => product.categoryId === category.id);
+            copy.append(heading);
+            if (categoryProducts.length) {
+                copy.append(createTextElement("p", categoryProducts.map(product => product.name).join("، ")));
+            }
+            section.append(sectionIcon, copy);
+            sections.append(section);
         }
-        section.append(sectionIcon, copy);
-        sections.append(section);
     });
 }
 
@@ -512,16 +489,7 @@ function fragmentTarget(hash: string): HTMLElement | null {
     } catch {
         return null;
     }
-    const aliases: Record<string, string> = {
-        "special-offers": "offers",
-        "dairy-products": "dairy",
-        fruit: "fruits",
-        herbs: "fruits",
-        proteins: "protein",
-        sweets: "bakery",
-        "daily-essentials": "dairy"
-    };
-    return document.getElementById(aliases[id] || id);
+    return document.getElementById(id);
 }
 
 function scrollToFragment(animate: boolean = true): void {
@@ -684,7 +652,7 @@ function renderAbout(about: string): void {
     section.append(steps);
 }
 
-function renderBanners(home: Home): void {
+function renderHero(heroData: HomeBanner): void {
     const banners = document.querySelector<HTMLDivElement>("#home-banners");
     if (!banners) throw new Error("Missing home banners");
     const hero = document.createElement("section");
@@ -694,11 +662,11 @@ function renderBanners(home: Home): void {
     copy.className = "hero-copy";
     const eyebrow = createTextElement("p", "تازگی، از ارزیابی تا انتخاب", "eyebrow");
     eyebrow.prepend(document.createElement("span"));
-    const title = createTextElement("h1", home.hero.title);
+    const title = createTextElement("h1", heroData.title);
     title.id = "hero-title";
     const actions = document.createElement("div");
     actions.className = "hero-actions";
-    const primary = createLink(home.hero.cta.label, home.hero.cta.href);
+    const primary = createLink(heroData.cta.label, heroData.cta.href);
     primary.className = "hero-primary-action";
     const secondary = createLink("داستان سام مارکت", "#about");
     secondary.className = "hero-secondary-action";
@@ -708,7 +676,7 @@ function renderBanners(home: Home): void {
     ["قیمت‌های روشن", "انتخاب روز", "سبد به‌صرفه"].forEach(text => {
         benefits.append(createTextElement("li", text));
     });
-    copy.append(eyebrow, title, createTextElement("p", home.hero.text), actions, benefits);
+    copy.append(eyebrow, title, createTextElement("p", heroData.text), actions, benefits);
 
     const visual = document.createElement("div");
     visual.className = "hero-visual";
@@ -731,11 +699,13 @@ function renderBanners(home: Home): void {
     visual.append(frame, freshness, orbit);
     hero.append(copy, visual);
     banners.replaceChildren(hero);
+}
 
+function renderPromos(promoData: HomePromo[]): void {
     const promos = document.querySelector<HTMLElement>("#home-promos");
     if (!promos) throw new Error("Missing home promos");
     promos.replaceChildren();
-    home.promos.forEach((promo, index) => {
+    promoData.forEach((promo, index) => {
         const article = document.createElement("article");
         article.className = index % 2 === 0 ? "promo promo-primary" : "promo promo-secondary";
         const content = document.createElement("div");
@@ -748,8 +718,9 @@ function renderBanners(home: Home): void {
         article.append(content, emoji);
         promos.append(article);
     });
+}
 
-    // The second API banner uses the original photographic story design.
+function renderSideBanner(side: HomeBanner): void {
     const story = document.querySelector<HTMLElement>("#home-side");
     if (!story) throw new Error("Missing home side section");
     story.setAttribute("aria-labelledby", "side-title");
@@ -758,16 +729,22 @@ function renderBanners(home: Home): void {
     const sideImage = document.createElement("img");
     sideImage.src = dairyImage;
     sideImage.alt = "لبنیات تازه";
-    photo.append(sideImage, createTextElement("span", home.side.title));
+    photo.append(sideImage, createTextElement("span", side.title));
     const sideCopy = document.createElement("div");
-    const sideTitle = createTextElement("h2", home.side.title);
+    const sideTitle = createTextElement("h2", side.title);
     sideTitle.id = "side-title";
     sideCopy.append(
         sideTitle,
-        createTextElement("p", home.side.text),
-        createLink(home.side.cta.label, home.side.cta.href)
+        createTextElement("p", side.text),
+        createLink(side.cta.label, side.cta.href)
     );
     story.replaceChildren(photo, sideCopy);
+}
+
+function renderBanners(home: Home): void {
+    renderHero(home.hero);
+    renderPromos(home.promos);
+    renderSideBanner(home.side);
 }
 
 function renderHomeCarousels(configurations: CarouselConfig[], products: Product[], stock: Stock, offers: Map<number, Offer>): void {
