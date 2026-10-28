@@ -1,36 +1,34 @@
 import "notyf/notyf.min.css";
-import { loadStoreData } from "./api/store-data";
-import { prepareHomeCarousels } from "./catalog/carousel-view";
-import { createCarouselFilter } from "./catalog/filter";
-import { createProductSearch } from "./catalog/search";
-import { incrementCartCount } from "./cart/count";
-import { categoryImages, productImages } from "./data";
-import { createHeroSlides } from "./hero/slides";
-import { loadCartCount, saveCartCount } from "./storage/cart";
-import { readFilterUrl, writeFilterUrl, listenToFilterHistory } from "./storage/filter-url";
-import type { FilterState } from "./types/filters";
-import type { SearchHandler } from "./types/search";
-import { setupCartView } from "./ui/cart/setup";
-import { setupCategoryFilter } from "./ui/filters/categories";
-import { createFilterView } from "./ui/filters/view";
-import { startHeroSlider } from "./ui/hero";
-import { renderLoadState, finishLoading } from "./ui/load-state";
-import { setupProductsSearch, restoreSearchQuery } from "./ui/search/events";
-import { renderShopPage } from "./ui/shop/page";
-import { setupStaticUi } from "./ui/setup";
+import { loadStoreData } from "./features/products/api/store-data";
+import { prepareHomeCarousels } from "./features/products/logic/carousel-view";
+import { createCarouselFilter } from "./features/products/logic/filter";
+import { createProductSearch } from "./features/products/logic/search";
+import { categoryImages, productImages } from "./features/products/data";
+import { createHeroSlides } from "./shared/ui/hero/slides";
+import {
+  readFilterUrl,
+  writeFilterUrl,
+  listenToFilterHistory,
+} from "./features/products/storage/filter-url";
+import type { FilterState } from "./shared/types/filters";
+import type { SearchHandler } from "./shared/types/search";
+import { setupCategoryFilter } from "./features/products/ui/filters/categories";
+import { createFilterView } from "./features/products/ui/filters/view";
+import { startHeroSlider } from "./shared/ui/hero";
+import {
+  renderLoadState,
+  finishLoading,
+} from "./features/products/ui/load-state";
+import { setupProductsSearch, restoreSearchQuery } from "./features/products/ui/search/events";
+import { renderShopPage } from "./features/products/ui/shop/page";
+import { setupStaticUi } from "./features/products/ui/setup";
+import { setupCart } from "./features/cart/setup";
+
 let searchProducts: SearchHandler = () => null;
 let applyFilters: (filters: FilterState) => void = () => {};
 function changeFilters(filters: FilterState, mode: "push" | "replace"): void {
   writeFilterUrl(filters, mode);
   applyFilters(filters);
-}
-function setupCart(): void {
-  let count = loadCartCount();
-  setupCartView(count, () => {
-    count = incrementCartCount(count);
-    saveCartCount(count);
-    return count;
-  });
 }
 async function start(): Promise<void> {
   renderLoadState({ status: "loading" });
