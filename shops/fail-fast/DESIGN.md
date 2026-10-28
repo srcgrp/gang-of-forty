@@ -75,11 +75,13 @@ API (getJSON) → Type Guards → Catalog Logic → UI Render
 
 | Endpoint | روش | توضیح |
 |----------|-----|-------|
-| `../../api/products.json` | GET | لیست همه محصولات |
-| `../../api/offers.json` | GET | لیست پیشنهادات تخفیف |
-| `../../api/stock.json` | GET | موجودی انبار |
+| `${VITE_API_URL}/products.json` | GET | لیست همه محصولات |
+| `${VITE_API_URL}/offers.json` | GET | لیست پیشنهادات تخفیف |
+| `${VITE_API_URL}/stock.json` | GET | موجودی انبار |
 
-**نکته:** URLها فعلاً hardcoded در `main.ts` هستند. در آینده باید از `import.meta.env.VITE_API_URL` استفاده شود.
+**نکته:** URLها از `import.meta.env.VITE_API_URL` خوانده می‌شوند.
+- Development: `.env.development` → `../../api`
+- Production: `.env.production` → `/api`
 
 ### ساختار داده‌ها
 
@@ -274,10 +276,10 @@ types.ts
 
 | محدودیت | وضعیت | توضیح |
 |---------|-------|-------|
-| URLهای hardcoded | ⚠️ | باید از `.env` استفاده شود |
+| URLهای hardcoded | ✅ | از `.env` و `VITE_API_URL` استفاده می‌شود |
 | بدون persist | ⚠️ | سبد خرید در refresh از بین می‌رود |
 | DOM در main | ⚠️ | هنوز رندر در main.ts است |
-| بدون exhaustive switch | ⚠️ | `LoadState` تعریف شده اما استفاده نشده |
+| LoadState استفاده نشده | ✅ | در `loadDailyOffers` پیاده‌سازی شد |
 
 ### امنیت
 
