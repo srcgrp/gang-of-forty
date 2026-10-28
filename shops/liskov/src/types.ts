@@ -97,3 +97,15 @@ export type AppData = {
     stock: Stock;
     offers: Offer[];
 };
+
+export type LoadState =
+    | {status: 'loading'}
+    | {status: 'success'; products: Product[]}
+    | {status: 'empty'}
+    | {status: 'error'; message: string};
+
+export type BannerOptions = {
+    id: string;
+    titleTag: 'h1' | 'h2';
+    buttonClass: string;
+};

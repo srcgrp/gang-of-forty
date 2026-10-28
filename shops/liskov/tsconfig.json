@@ -17,5 +17,5 @@
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true
   },
-  "include": ["*.ts"]
+  "include": ["src"]
 }
