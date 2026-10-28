@@ -9,12 +9,14 @@ export function renderProducts(
 ): void {
   for (let i = 0; i < productList.length; i++) {
     const product = productList[i];
-    const stockCount = stock.items[product.id];
+    if (!product) continue;
+
+    const stockCount = stock.items[product.id] ?? 0;
     const offer = offers.find((o) => o.productId === product.id);
 
     const card = createProductCard(product, offer, stockCount);
     container.append(card);
-  }
+    }
 }
 export function render(
   container: HTMLDivElement,
