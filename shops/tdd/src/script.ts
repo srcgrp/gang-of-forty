@@ -1,8 +1,9 @@
+import type { Product, Stock, Offer, Category, ShopLink, Shop, ShopDetails, HomeBanner, HomePromo, CarouselConfig, Home } from './types'
 import Fuse from 'fuse.js';
 import { Notyf } from 'notyf';
 import Swal from 'sweetalert2';
-import heroImage from './1.jpg';
-import dairyImage from './labaniat.jpg';
+import heroImage from '../1.jpg';
+import dairyImage from '../labaniat.jpg';
 import 'notyf/notyf.min.css';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
@@ -25,85 +26,6 @@ type CarouselElements = {
     track: HTMLElement;
     controls: HTMLElement;
     status: HTMLParagraphElement;
-};
-
-type Product = {
-    id: number;
-    categoryId: number;
-    name: string;
-    emoji: string;
-    unit: string;
-    price: number;
-    tags: string[];
-};
-
-type Stock = {
-    updatedAt: string;
-    items: Record<number, number>;
-};
-
-type Offer = {
-    productId: number;
-    percent: number;
-    label: string;
-};
-
-type Category = {
-    id: number;
-    slug: string;
-    name: string;
-    emoji: string;
-    color: string;
-};
-
-type ShopLink = { label: string; href: string };
-
-type Shop = {
-    name: string;
-    slogan: string;
-    owner: string;
-    city: string;
-    phone: string;
-    hours: { open: string; close: string };
-    deliveryFee: number;
-    freeDeliveryOver: number;
-    currency: string;
-    notice: string;
-    about: string;
-    address: string;
-    schedule: { days: string; time: string }[];
-    menu: ShopLink[];
-    help: ShopLink[];
-    copyright: string;
-};
-
-type HomeBanner = {
-    title: string;
-    text: string;
-    emoji: string;
-    cta: ShopLink;
-};
-
-type HomePromo = {
-    text: string;
-    emoji: string;
-    color: string;
-    href: string;
-};
-
-type CarouselConfig = {
-    id: string;
-    title: string;
-    emoji: string;
-    source?: "offers";
-    categoryId?: number;
-};
-
-type Home = {
-    hero: HomeBanner;
-    side: HomeBanner;
-    promos: HomePromo[];
-    carousels: CarouselConfig[];
 };
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -429,7 +351,7 @@ function renderCategories(categories: Category[], products: Product[] = []): voi
     });
 }
 
-function renderShop(shop: Shop): void {
+function renderShop(shop: ShopDetails): void {
     const notice = document.querySelector<HTMLParagraphElement>("#shop-notice");
     const slogan = document.querySelector<HTMLElement>("#shop-slogan");
     const footerAbout = document.querySelector<HTMLParagraphElement>("#footer-about-text");
@@ -835,7 +757,7 @@ async function initPage(): Promise<void> {
             loadJSON<Stock>(STOCK_URL, isStock),
             loadJSON<Offer[]>(OFFERS_URL, (value): value is Offer[] => isArrayOf(value, isOffer)),
             loadJSON<Category[]>(CATEGORIES_URL, (value): value is Category[] => isArrayOf(value, isCategory)),
-            loadJSON<Shop>(SHOP_URL, isShop),
+            loadJSON<ShopDetails>(SHOP_URL, isShop),
             loadJSON<Home>(HOME_URL, isHome)
         ]);
 
