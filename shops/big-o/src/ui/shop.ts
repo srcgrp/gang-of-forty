@@ -3,7 +3,7 @@ import { getHtmlElement } from './getHtmlElement';
 
 // Converts Latin digits in a string to Persian digits.
 function toPersianDigits(text: string) {
-    return text.replace(/\d/g, (digit) => "۰۱۲۳۴۵۶۷۸۹"[Number(digit)]);
+    return text.replace(/\d/g, (digit) => "۰۱۲۳۴۵۶۷۸۹"[Number(digit)] ?? digit);
 }
 
 // Fills the notice bar, tagline, phone and opening hours from shop.json.

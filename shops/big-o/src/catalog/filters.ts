@@ -25,6 +25,6 @@ export function filterProductsByCategoryID(id: number, products: Product[]) {
 // offers: array from offers.json, products: array from products.json,
 // stock: object from stock.json (stock.items[id] is the quantity).
 export function filterSpecialProducts(offers: Offer[], products: Product[], stock: Stock) {
-    const specialProducts = products.filter(item => offers.some(offer => item.id === offer.productId) && stock.items[item.id] > 0);
+    const specialProducts = products.filter(item => offers.some(offer => item.id === offer.productId) && (stock.items[item.id] ?? 0) > 0);
     return specialProducts;
 }
