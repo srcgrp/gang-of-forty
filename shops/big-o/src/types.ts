@@ -53,3 +53,8 @@ export type LinkItem = {
 // This type has n't used yet, the cart is a plain count for now.
 export interface CartItem extends Pick<Product, 'name'|'price'|'id'> {qty: number}
 
+export type LoadState =
+  | { status: 'loading' }
+  | { status: 'success'; products: Product[] }
+  | { status: 'empty' }
+  | { status: 'error'; message: string }

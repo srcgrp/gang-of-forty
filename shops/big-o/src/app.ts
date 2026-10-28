@@ -1,7 +1,7 @@
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
 import { CountUp } from 'countup.js';
-import type { Category, Product, Offer, Stock, Shop, CardInfo, MessageType, LinkItem } from './types';
+import type { Category, Product, Offer, Stock, Shop, CardInfo, MessageType, LinkItem, LoadState } from './types';
 
 const notyf = new Notyf({
     position: { x: "center", y: "top" },
@@ -11,19 +11,106 @@ if(Number.isNaN(cartCount)) {
     cartCount = 0;
 }
 
+// Check if the input is an object or not
+// x: an unknown input, output: true if the input is an object and false if it's not
+function isRecord(x: unknown): x is Record<string, unknown> {
+    return typeof x === 'object' && x !== null && !Array.isArray(x);
+}
+
+// Check if the input is a correct form of a product or not
+// x: an unknown input, output: true if the input is a correct form of product and false if it's not
+function isProduct(x: unknown): x is Product {
+    return (
+        isRecord(x) &&
+        typeof x.id === 'number' &&
+        typeof x.categoryId === 'number' &&
+        typeof x.name === 'string' &&
+        typeof x.emoji === 'string' && 
+        typeof x.unit === 'string' && 
+        typeof x.price === 'number' && 
+        (Array.isArray(x.tags) && x.tags.every(t => typeof t === 'string'))
+    )
+}
+
+// Check if the input is a correct form of a category or not
+// x: an unknown input, output: true if the input is a correct form of category and false if it's not
+function isCategory(x: unknown): x is Category {
+    return (
+        isRecord(x) &&
+        typeof x.id === 'number' &&
+        typeof x.slug === 'string' && 
+        typeof x.name === 'string' &&
+        typeof x.emoji === 'string'
+    )
+}
+
+// Check if the input is a correct form of an offer or not
+// x: an unknown input, output: true if the input is a correct form of offer and false if it's not
+function isOffer(x: unknown): x is Offer {
+    return (
+        isRecord(x) &&
+        typeof x.productId === 'number' &&
+        typeof x.percent === 'number' &&
+        typeof x.label === 'string'
+    )
+}
+
+// Check if the input is a correct form of a shop or not
+// x: an unknown input, output: true if the input is a correct form of shop and false if it's not
+function isShop(x: unknown): x is Shop {
+    return (
+        isRecord(x) &&
+        typeof x.name === 'string' &&
+        typeof x.slogan === 'string' && 
+        typeof x.owner === 'string' && 
+        typeof x.city === 'string' && 
+        typeof x.phone === 'string' &&
+        (isRecord(x.hours) && typeof x.hours.open === 'string' && typeof x.hours.close === 'string') &&
+        typeof x.deliveryFee === 'number' && 
+        typeof x.freeDeliveryOver === 'number' &&
+        typeof x.currency === 'string'
+    )
+}
+
+// Check if the input is a correct form of a stock or not
+// x: an unknown input, output: true if the input is a correct form of stock and false if it's not
+function isStock(x: unknown): x is Stock {
+    return (
+        isRecord(x) &&
+        typeof x.updatedAt === 'string' &&
+        (isRecord(x.items) && Object.values(x.items).every(t => typeof t === 'number'))
+    )
+}
+
+// Filtering the iput data by their guards and return the filtered data and the number of rejected data
+function keepValidData<Type>(inputArray: unknown , guard: (x: unknown) => x is Type): Type[]  {
+    if (!Array.isArray(inputArray)) {
+    return [];
+    }
+    const validItems = inputArray.filter(guard);
+    const rejectedCount = inputArray.length - validItems.length;
+    if (rejectedCount > 0) {
+        console.warn(`${rejectedCount} invalid items were removed.`)
+    }
+    return validItems;
+}
+
+
 // Fetches one JSON file and returns its parsed data.
 // Throws if the request fails or the response is not ok (e.g. 404),
 // so the caller can show an error message.
-// url: path to the JSON file, objectName: used in the error message.
-async function getDataObjects(url: string, objectName: string) {
-    const res = await fetch(url);
+// path: path to the JSON file.
+async function getJSON(path: string): Promise<unknown> {
+    const res = await fetch(path);
 
     if (!res.ok) {
-        throw new Error(`Failed to fetch ${objectName}`);
+        throw new Error(`فایل ${path.split('/').at(-1)} بارگذاری نشد (کد ${res.status})`);
     }
-
-    const resData = await res.json();
-    return resData;
+    try {
+        return await res.json();
+    } catch {
+        throw new Error(`فایل ${path.split('/').at(-1)} معتبر نیست`);
+    }
 }
 
 
@@ -32,12 +119,17 @@ async function getDataObjects(url: string, objectName: string) {
 // Returns { categories, products, offeredProducts, stock, shop }.
 // Any failure is rethrown to the caller.
 async function getData() {
-    const [categories, products, offeredProducts, stock, shop] = await Promise.all([
-        getDataObjects('../../api/categories.json', "categories"),
-        getDataObjects('../../api/products.json', "products"),
-        getDataObjects('../../api/offers.json', "offeredProducts"),
-        getDataObjects('../../api/stock.json', "stock"),
-        getDataObjects('../../api/shop.json', "shop")]);
+    const [rawCategories, rawProducts, rawOfferedProducts, stock, shop] = await Promise.all([
+        getJSON('../../api/categories.json'),
+        getJSON('../../api/products.json'),
+        getJSON('../../api/offers.json'),
+        getJSON('../../api/stock.json'),
+        getJSON('../../api/shop.json')]);
+    const categories = keepValidData(rawCategories,isCategory);
+    const products = keepValidData(rawProducts, isProduct);
+    const offeredProducts = keepValidData(rawOfferedProducts, isOffer);
+    if (!isShop(shop)) { throw new Error("اطلاعات فروشگاه معتبر نیست.") }
+    if (!isStock(stock)) { throw new Error("اطلاعات موجودی معتبر نیست.") }   
     return { categories, products, offeredProducts, stock, shop };
 }
 
@@ -247,6 +339,29 @@ function clearMessage(container: string) {
     }  
 }
 
+
+// render different statuses
+function renderStatus(state: LoadState, container: string) {
+    clearMessage(container);
+    switch (state.status) {
+        case 'loading': 
+            showMessage(container, "در حال بارگذاری…", 'load');
+            break;
+        case 'success':
+            break;
+        case 'empty': 
+            showMessage(container, "محصولی پیدا نشد …", 'load');
+            break;
+        case 'error': 
+            showMessage(container, state.message , "error");
+            break;
+        default: {
+            const unreachable: never = state;
+            return unreachable;
+        }
+    }
+}
+
 // Renders the category list from the template in the HTML.
 // categoryData: array from categories.json.
 // Each category gets an emoji, a name and a link to #<slug>.
@@ -343,35 +458,47 @@ async function init() {
     const containers = ["#dairy", "#special-products", ".categories"];
     try {
         containers.forEach(container => {
-            showMessage(container, "در حال بارگذاری…", "load");
+            renderStatus({status: 'loading'}, container)
         });
 
         const { categories, products, offeredProducts, stock, shop } = await getData();
 
         containers.forEach(container => {
-            clearMessage(container);
+            renderStatus({ status: 'success', products }, container)
         });
         updateCartNumber(cartCount,cartCount);
         renderCategories(categories);
         renderCategoryLinks(categories);
         renderShop(shop);
+
         //Get "لبنیات" products
         const categoryId = getCategoryID("لبنیات", categories);
         const filteredProducts = filterProductsByCategoryID(categoryId, products);
+
         //Get "پیشنهاد امروز" products
         const specialProducts = filterSpecialProducts(offeredProducts, products, stock);
 
-
         // Render the dairy and special products carousel
-        renderProducts(filteredProducts, "dairy", offeredProducts, stock);
-        renderProducts(specialProducts, "special-products", offeredProducts, stock);
+        if (filteredProducts.length === 0) {
+            renderStatus({ status: 'empty' }, "#dairy");
+        } 
+        else {
+            renderStatus({ status: 'success', products: filteredProducts }, "#dairy");
+            renderProducts(filteredProducts, "dairy", offeredProducts, stock);
+        }
+        
+        if (specialProducts.length === 0) {
+            renderStatus({ status: 'empty' }, "#special-products");
+        } 
+        else {
+            renderStatus({ status: 'success', products: specialProducts }, "#special-products");
+            renderProducts(specialProducts, "special-products", offeredProducts, stock);
+        }
 
     } catch (error) {
+        const reason = error instanceof Error ? error.message : "خطای ناشناخته";
         containers.forEach(container => {
-            clearMessage(container);
-        });
-        containers.forEach(container => {
-            showMessage(container, "بارگذاری اطلاعات ممکن نشد. اینترنت را بررسی کنید.", "error");
+            renderStatus({status : 'error', message: `بارگذاری اطلاعات ممکن نشد. ${reason}`}, container)
         });
         console.error(error);
     }
