@@ -15,5 +15,5 @@
     "noEmit": true,
     "skipLibCheck": true
   },
-  "include": ["*.ts", "src"]    //I should come back to this Later in Step4
+  "include": ["src"]
 }
