@@ -4,6 +4,7 @@ import { CountUp } from 'countup.js';
 import type { Category, Product, Offer, Stock, Shop, CardInfo, MessageType, LinkItem, LoadState } from './types';
 import { getData } from './api/getData';
 import { loadCartCount, saveCartCount } from './storage/cart';
+import { getCategoryID, filterProductsByCategoryID, filterSpecialProducts } from './catalog/filters';
 
 
 let cartCount: number = loadCartCount();
@@ -12,35 +13,6 @@ const notyf = new Notyf({
     position: { x: "center", y: "top" },
 });
 
-
-// Finds a category by its name and returns its id.
-// categories: array from categories.json, name: the category to look for.
-// Note: find() returns undefined if nothing matches.
-function getCategoryID(name: string, categories: Category[]) {
-    const categoryItem = categories.find(element => element.name === name);
-    if(categoryItem === undefined) {
-        throw new Error(`There isn't any category with ${name} name`);
-    }
-    return categoryItem.id;
-    
-}
-
-
-// Returns only the products that belong to the given category.
-// id: category id (a number), products: array from products.json.
-function filterProductsByCategoryID(id: number, products: Product[]) {
-    const filteredProducts = products.filter(item => item.categoryId === id);
-    return filteredProducts;
-}
-
-
-// Returns only the products that have a discount and are in stock.
-// offers: array from offers.json, products: array from products.json,
-// stock: object from stock.json (stock.items[id] is the quantity).
-function filterSpecialProducts(offers: Offer[], products: Product[], stock: Stock) {
-    const specialProducts = products.filter(item => offers.some(offer => item.id === offer.productId) && stock.items[item.id] > 0);
-    return specialProducts;
-}
 
 
 
