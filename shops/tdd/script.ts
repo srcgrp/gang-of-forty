@@ -429,11 +429,6 @@ function renderCategories(categories: Category[], products: Product[] = []): voi
     });
 }
 
-// Links use the API fragment IDs.
-function shopHref(href: string): string {
-    return href;
-}
-
 function renderShop(shop: Shop): void {
     const notice = document.querySelector<HTMLParagraphElement>("#shop-notice");
     const slogan = document.querySelector<HTMLElement>("#shop-slogan");
@@ -474,7 +469,7 @@ function renderShop(shop: Shop): void {
         if (!menu) throw new Error(`Missing navigation: ${selector}`);
         menu.querySelectorAll<HTMLAnchorElement>("[data-shop-link]").forEach(link => link.remove());
         shop.menu.forEach(item => {
-            const link = createLink(item.label, shopHref(item.href));
+            const link = createLink(item.label, item.href);
             link.dataset.shopLink = "";
             menu.append(link);
         });
@@ -573,18 +568,19 @@ function restoreCart(): void {
 }
 
 function addToCart(): void {
-    if (cartCount >= Number.MAX_SAFE_INTEGER) return;
-    cartCount += 1;
-    renderCartCount();
-    const status = document.querySelector<HTMLParagraphElement>("#cart-status");
-    if (!status) throw new Error("Missing cart status");
-    try {
-        localStorage.setItem(CART_KEY, String(cartCount));
-        status.textContent = "";
-    } catch {
-        status.textContent = "کالا اضافه شد؛ ذخیره سبد برای مراجعه بعدی در این مرورگر ممکن نیست.";
+    if (cartCount < Number.MAX_SAFE_INTEGER) {
+        cartCount += 1;
+        renderCartCount();
+        const status = document.querySelector<HTMLParagraphElement>("#cart-status");
+        if (!status) throw new Error("Missing cart status");
+        try {
+            localStorage.setItem(CART_KEY, String(cartCount));
+            status.textContent = "";
+        } catch {
+            status.textContent = "کالا اضافه شد؛ ذخیره سبد برای مراجعه بعدی در این مرورگر ممکن نیست.";
+        }
+        notyf.success("به سبد خرید اضافه شد");
     }
-    notyf.success("به سبد خرید اضافه شد");
 }
 
 function enableClearCart(): void {
@@ -593,25 +589,26 @@ function enableClearCart(): void {
     if (!button || !status) throw new Error("Missing cart controls");
 
     button.addEventListener("click", async () => {
-        if (cartCount === 0) return;
+        if (cartCount > 0) {
+            const result = await Swal.fire({
+                title: "سبد خرید خالی شود؟",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "بله، خالی شود",
+                cancelButtonText: "انصراف",
+                focusCancel: true
+            });
 
-        const result = await Swal.fire({
-            title: "سبد خرید خالی شود؟",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "بله، خالی شود",
-            cancelButtonText: "انصراف",
-            focusCancel: true
-        });
-        if (!result.isConfirmed) return;
-
-        cartCount = 0;
-        renderCartCount();
-        try {
-            localStorage.removeItem(CART_KEY);
-            status.textContent = "";
-        } catch {
-            status.textContent = "سبد خالی شد؛ ذخیره تغییر در این مرورگر ممکن نیست.";
+            if (result.isConfirmed) {
+                cartCount = 0;
+                renderCartCount();
+                try {
+                    localStorage.removeItem(CART_KEY);
+                    status.textContent = "";
+                } catch {
+                    status.textContent = "سبد خالی شد؛ ذخیره تغییر در این مرورگر ممکن نیست.";
+                }
+            }
         }
     });
 }
@@ -809,7 +806,7 @@ function enableSearch(products: Product[], stock: Stock, offers: Map<number, Off
             return;
         }
 
-        const matches = fuse.search(query).map(result => result.item);
+        const matches: Product[] = fuse.search(query).map(result => result.item);
         renderProducts({ prefix: "search-results", track, controls, status }, matches, stock, offers);
         status.textContent = matches.length
             ? `${priceFormatter.format(matches.length)} محصول پیدا شد.`
