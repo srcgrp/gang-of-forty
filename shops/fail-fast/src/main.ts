@@ -10,6 +10,7 @@ import {
 
 import type { Product, Offer, Stock, OfferProduct } from "./types.js";
 import { getJSON } from "./api/client.js";
+import { filterValidProducts, filterValidOffers, isStock } from "./api/guards.js";
 
 // API URLs
 const API_PRODUCTS_URL = "../../api/products.json";
@@ -98,12 +99,8 @@ async function loadDairyProducts(): Promise<void> {
   try {
     const data = await getJSON(API_PRODUCTS_URL);
 
-    // Runtime type assertion - data is unknown
-    if (!Array.isArray(data)) {
-      throw new Error("Invalid products data: expected array");
-    }
-
-    const products: Product[] = data as Product[];
+    // Validate products with type guards
+    const products = filterValidProducts(data);
 
     const dairyProducts = products.filter((product: Product): boolean => {
       return product.categoryId === 2;
@@ -196,20 +193,14 @@ async function loadDailyOffers(): Promise<void> {
       getJSON(API_STOCK_URL),
     ]);
 
-    // Runtime type assertions
-    if (!Array.isArray(productsData)) {
-      throw new Error("Invalid products data: expected array");
-    }
-    if (!Array.isArray(offersData)) {
-      throw new Error("Invalid offers data: expected array");
-    }
-    if (typeof stockData !== "object" || stockData === null) {
-      throw new Error("Invalid stock data: expected object");
-    }
+    // Validate with type guards
+    const products = filterValidProducts(productsData);
+    const offers = filterValidOffers(offersData);
 
-    const products: Product[] = productsData as Product[];
-    const offers: Offer[] = offersData as Offer[];
-    const stock: Stock = stockData as Stock;
+    if (!isStock(stockData)) {
+      throw new Error("Invalid stock data: missing or malformed items");
+    }
+    const stock: Stock = stockData;
 
     loadingMessage.remove();
 
