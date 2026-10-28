@@ -32,9 +32,9 @@ if (!nav || !sub || !mainM || !notice || !about || !addr || !phone || !fCats || 
 }
 
 async function start(): Promise<void> {
-    try {
-        const API_BASE = (import.meta.env.DEV || window.location.hostname === 'localhost')
-    ? '/api'
+    try { 
+     
+    const API_BASE = import.meta.env.VITE_API_URL ?? '/api'
     : (import.meta.env.VITE_API_URL ?? '../../api')
         const [cats, shop, home, prods, stock, offers] = await Promise.all([
             
