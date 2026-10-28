@@ -8,9 +8,10 @@ import {
   AlertCircle,
 } from "lucide-static";
 
-import type { Product, Offer, Stock, OfferProduct } from "./types.js";
+import type { Product, Stock, OfferProduct } from "./types.js";
 import { getJSON } from "./api/client.js";
 import { filterValidProducts, filterValidOffers, isStock } from "./api/guards.js";
+import { filterDairyProducts, buildOfferProducts } from "./catalog/catalog.js";
 
 // API URLs
 const API_PRODUCTS_URL = "../../api/products.json";
@@ -102,9 +103,7 @@ async function loadDairyProducts(): Promise<void> {
     // Validate products with type guards
     const products = filterValidProducts(data);
 
-    const dairyProducts = products.filter((product: Product): boolean => {
-      return product.categoryId === 2;
-    });
+    const dairyProducts = filterDairyProducts(products);
 
     loadingMessage.remove();
 
@@ -204,23 +203,8 @@ async function loadDailyOffers(): Promise<void> {
 
     loadingMessage.remove();
 
-    // Filter products that have offers
-    const offerProducts: OfferProduct[] = products
-      .map((product: Product): OfferProduct | null => {
-        const offer = offers.find((item: Offer): boolean => item.productId === product.id);
-
-        if (!offer) {
-          return null;
-        }
-
-        return {
-          ...product,
-          percent: offer.percent,
-          quantity: stock.items[product.id] ?? 0,
-          discountedPrice: Math.round(product.price * (1 - offer.percent / 100)),
-        };
-      })
-      .filter((product: OfferProduct | null): product is OfferProduct => product !== null);
+    // Build offer products using catalog logic
+    const offerProducts = buildOfferProducts(products, offers, stock);
 
     const template = container.querySelector<HTMLElement>("#offer-template");
 
