@@ -1,11 +1,12 @@
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
 import { CountUp } from 'countup.js';
-import type { Category, Product, Offer, Stock, Shop, CardInfo, MessageType, LinkItem, LoadState } from './types';
+import type { Category, Product, Offer, Stock, Shop, CardInfo, LinkItem } from './types';
 import { getData } from './api/getData';
 import { loadCartCount, saveCartCount } from './storage/cart';
 import { getCategoryID, filterProductsByCategoryID, filterSpecialProducts } from './catalog/filters';
-
+import { renderStatus } from './ui/status';
+import { getHtmlElement } from './ui/getHtmlElement';
 
 let cartCount: number = loadCartCount();
 
@@ -16,12 +17,7 @@ const notyf = new Notyf({
 
 
 
-// Get html element and return error if it doesn't exist.
-function getHtmlElement<Type extends Element>(selector: string, parent: ParentNode = document): Type {
-    const element = parent.querySelector<Type>(selector);
-    if (element === null) throw new Error(`The ${selector} selector doesn't exist.`)
-    return element;
-}
+
 
 // Builds one product card (an li element) from a product and returns it.
 // product: an item from products.json.
@@ -154,65 +150,10 @@ function renderProducts(data: Product[], queryId: string, offeredProducts: Offer
 }
 
 
-// Show message for loading data and errors
-// container: html tag which message be shown in that, text : the content of message, type: load or error
-function showMessage(container: string, text: string, type: MessageType ) {
-    const content: HTMLParagraphElement = document.createElement("p");
-    content.textContent = text;
-    content.classList.add("msg");
-
-    if (type === "load") {
-        content.classList.add("load-msg");
-        content.setAttribute("role", "status");
-    }
-    else {
-        content.classList.add("error-msg");
-        content.setAttribute("role", "alert");
-    }
-    const box = document.querySelector<HTMLElement>(container);
-    if ( box === null) {
-        console.error(`index.html is missing ${container} element`)
-    }
-    else{
-        box.append(content);
-    }
-}
-
-// Removes the message (loading or error) shown by showMessage.
-// container: CSS selector of the section that holds it (e.g. "#dairy").
-// Does nothing if there is no message.
-function clearMessage(container: string) {
-    const box = document.querySelector<HTMLElement>(container);
-    if ( box === null) {
-        console.error(`index.html is missing ${container} element`)
-    }else {
-        const message = box.querySelector(".msg");
-        message?.remove(); 
-    }  
-}
 
 
-// render different statuses
-function renderStatus(state: LoadState, container: string) {
-    clearMessage(container);
-    switch (state.status) {
-        case 'loading': 
-            showMessage(container, "در حال بارگذاری…", 'load');
-            break;
-        case 'success':
-            break;
-        case 'empty': 
-            showMessage(container, "محصولی پیدا نشد …", 'load');
-            break;
-        case 'error': 
-            showMessage(container, state.message , "error");
-            break;
-        default: {
-            const unreachable: never = state;
-            return unreachable;
-        }
-    }
-}
+
+
 
 // Renders the category list from the template in the HTML.
 // categoryData: array from categories.json.
