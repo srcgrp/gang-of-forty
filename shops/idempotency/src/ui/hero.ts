@@ -1,3 +1,4 @@
+
 import type { HeroSlide } from "../types";
 import { renderHero } from "./hero/render";
 
@@ -19,12 +20,22 @@ function showHeroSlide(slide: HeroSlide): void {
 }
 
 export function startHeroSlider(slides: HeroSlide[]): void {
-  let currentIndex = 0;
+  const firstSlide = slides[0];
 
-  showHeroSlide(slides[currentIndex]);
+  if (!firstSlide) {
+    throw new Error("Hero slider needs at least one slide.");
+  }
+
+  let currentIndex = 0;
+  showHeroSlide(firstSlide);
 
   setInterval(() => {
     currentIndex = (currentIndex + 1) % slides.length;
-    showHeroSlide(slides[currentIndex]);
+
+    const slide = slides[currentIndex];
+
+    if (slide) {
+      showHeroSlide(slide);
+    }
   }, 5000);
 }

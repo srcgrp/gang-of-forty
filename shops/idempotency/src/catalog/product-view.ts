@@ -1,3 +1,4 @@
+
 import type { Product, Offer } from "../types";
 import type { ProductCardView } from "../types/catalog";
 
@@ -11,14 +12,14 @@ export function toProductCardView(
     id: product.id,
     name: product.name,
     unit: product.unit,
-    emoji: product.emoji,
-    imagePath,
     price: product.price,
-    discountedPrice: offer
-      ? Math.round(product.price * (1 - offer.percent / 100))
-      : undefined,
-    offerPercent: offer?.percent,
-    offerLabel: offer?.label,
     isAvailable: quantity > 0,
+    ...(product.emoji !== undefined ? { emoji: product.emoji } : {}),
+    ...(imagePath !== undefined ? { imagePath } : {}),
+    ...(offer ? {
+      discountedPrice: Math.round(product.price * (1 - offer.percent / 100)),
+      offerPercent: offer.percent,
+      offerLabel: offer.label,
+    } : {}),
   };
 }
