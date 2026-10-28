@@ -1,12 +1,12 @@
-import * as Types from "./types"
-import { Notyf } from 'notyf'
-import 'notyf/notyf.min.css'
+import * as Types from "./types";
+import { Notyf } from "notyf";
+import "notyf/notyf.min.css";
 import { gsap } from "gsap";
 import { fetchApiFile } from "./api";
 
-const numberFormatter: Intl.NumberFormat = new Intl.NumberFormat("fa-IR")
-const CART_STORAGE_KEY: string = "superino-cart"
-let cart = readCart()
+const numberFormatter: Intl.NumberFormat = new Intl.NumberFormat("fa-IR");
+const CART_STORAGE_KEY: string = "superino-cart";
+let cart = readCart();
 let cartProducts: Types.Product[] = [];
 const STOCK_STORAGE_KEY = "superino-stock";
 let currentStock: Types.Stock = {
@@ -24,19 +24,24 @@ const notyf = new Notyf({
 });
 
 const makeElement: Types.MakeElement = (tag, className = "", text = "") => {
-  const element = document.createElement(tag)
-  if (className) element.className = className
-  if (text !== "") element.textContent = text
+  const element = document.createElement(tag);
+  if (className) element.className = className;
+  if (text !== "") element.textContent = text;
 
-  return element
+  return element;
 };
 
-const appendLink: Types.AppendLinks = (container, label, href = "#", className = "") => {
-  const link = makeElement("a", className, label)
-  link.href = href || "#"
-  container.append(link)
-  return link
-}
+const appendLink: Types.AppendLinks = (
+  container,
+  label,
+  href = "#",
+  className = "",
+) => {
+  const link = makeElement("a", className, label);
+  link.href = href || "#";
+  container.append(link);
+  return link;
+};
 
 function saveCartAndStock(): boolean {
   try {
@@ -51,43 +56,50 @@ function saveCartAndStock(): boolean {
 
 function updateProductStockUI(productId: string): void {
   const quantity: number = currentStock.items[productId] ?? 0;
-  document.querySelectorAll<HTMLButtonElement>(
-    `.buy-button[data-product-id="${CSS.escape(productId)}"]`
-  ).forEach((button: HTMLButtonElement): void => {
-    const card = button.closest<HTMLElement>(".product-item");
-    if (!card) return;
-    const outOfStock: boolean = quantity <= 0;
-    button.disabled = outOfStock;
-    button.title = outOfStock ? "موجودی این محصول تمام شده است" : "افزودن محصول به سبد خرید";
-    card.classList.toggle("product-item--unavailable", outOfStock);
-  });
+  document
+    .querySelectorAll<HTMLButtonElement>(
+      `.buy-button[data-product-id="${CSS.escape(productId)}"]`,
+    )
+    .forEach((button: HTMLButtonElement): void => {
+      const card = button.closest<HTMLElement>(".product-item");
+      if (!card) return;
+      const outOfStock: boolean = quantity <= 0;
+      button.disabled = outOfStock;
+      button.title = outOfStock
+        ? "موجودی این محصول تمام شده است"
+        : "افزودن محصول به سبد خرید";
+      card.classList.toggle("product-item--unavailable", outOfStock);
+    });
 }
 
 function readCart(): Types.Cart {
   try {
-    const value: unknown = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "{}")
+    const value: unknown = JSON.parse(
+      localStorage.getItem(CART_STORAGE_KEY) || "{}",
+    );
 
-    if (!value || typeof value !== "object" || Array.isArray(value)) return {}
-    const entries = Object.entries(value)
+    if (!value || typeof value !== "object" || Array.isArray(value)) return {};
+    const entries = Object.entries(value);
     const validEntries: [string, number][] = entries.filter(
       (entry): entry is [string, number] =>
         typeof entry[0] === "string" &&
         typeof entry[1] === "number" &&
         Number.isFinite(entry[1]) &&
-        entry[1] > 0
-    )
-    return Object.fromEntries(validEntries)
+        entry[1] > 0,
+    );
+    return Object.fromEntries(validEntries);
   } catch {
-    return {}
+    return {};
   }
 }
 
 function updateCartCount(): void {
   const count: number = Object.values(cart).reduce(
     (sum: number, value: number): number => sum + Math.max(0, value),
-    0
+    0,
   );
-  const badge: HTMLSpanElement | null = document.querySelector<HTMLSpanElement>("#cart-count");
+  const badge: HTMLSpanElement | null =
+    document.querySelector<HTMLSpanElement>("#cart-count");
 
   if (badge) badge.textContent = numberFormatter.format(count);
   renderCartDropdown();
@@ -111,7 +123,7 @@ function animateCartIcon(): void {
       onComplete: (): void => {
         gsap.set(cartButton, { clearProps: "transform" });
       },
-    }
+    },
   );
 }
 
@@ -134,7 +146,9 @@ function animateProductToCart(button: HTMLButtonElement): void {
     return;
   }
 
-  const flyingImage: HTMLImageElement = productImage.cloneNode(true) as HTMLImageElement;
+  const flyingImage: HTMLImageElement = productImage.cloneNode(
+    true,
+  ) as HTMLImageElement;
   Object.assign(flyingImage.style, {
     position: "fixed",
     left: `${imageRect.left}px`,
@@ -150,8 +164,10 @@ function animateProductToCart(button: HTMLButtonElement): void {
   });
   document.body.append(flyingImage);
 
-  const deltaX: number = cartRect.left + cartRect.width / 2 - (imageRect.left + imageRect.width / 2);
-  const deltaY: number = cartRect.top + cartRect.height / 2 - (imageRect.top + imageRect.height / 2);
+  const deltaX: number =
+    cartRect.left + cartRect.width / 2 - (imageRect.left + imageRect.width / 2);
+  const deltaY: number =
+    cartRect.top + cartRect.height / 2 - (imageRect.top + imageRect.height / 2);
 
   gsap.to(flyingImage, {
     x: deltaX,
@@ -170,33 +186,48 @@ function animateProductToCart(button: HTMLButtonElement): void {
 }
 
 function renderCartDropdown(): void {
-  const container = document.querySelector<HTMLDivElement>("#cart-dropdown-items")
-  if (!container) return
+  const container = document.querySelector<HTMLDivElement>(
+    "#cart-dropdown-items",
+  );
+  if (!container) return;
 
-  container.replaceChildren()
-  const entries = Object.entries(cart).filter(([, quantity]) => Number(quantity) > 0)
+  container.replaceChildren();
+  const entries = Object.entries(cart).filter(
+    ([, quantity]) => Number(quantity) > 0,
+  );
 
   if (entries.length === 0) {
-    container.append(makeElement("p", "cart-empty", "سبد خرید شما خالی است"))
-    return
+    container.append(makeElement("p", "cart-empty", "سبد خرید شما خالی است"));
+    return;
   }
 
   entries.forEach(([productId, quantity]) => {
-    const product = cartProducts.find((item) => String(item.id) === productId)
-    const row = makeElement("div", "cart-dropdown-item")
-    const details = makeElement("div", "cart-dropdown-details")
+    const product = cartProducts.find((item) => String(item.id) === productId);
+    const row = makeElement("div", "cart-dropdown-item");
+    const details = makeElement("div", "cart-dropdown-details");
     details.append(
-      makeElement("span", "cart-dropdown-name", product?.name || `محصول ${productId}`),
-      makeElement("span", "cart-dropdown-quantity", `تعداد: ${numberFormatter.format(Number(quantity) || 0)}`)
-    )
-    const removeButton = makeElement("button", "cart-remove-button", "❌")
-    removeButton.type = "button"
-    removeButton.dataset.cartRemoveId = productId
-    removeButton.setAttribute("aria-label", `حذف ${product?.name || "محصول"} از سبد خرید`)
-    removeButton.title = "حذف محصول"
-    row.append(details, removeButton)
-    container.append(row)
-  })
+      makeElement(
+        "span",
+        "cart-dropdown-name",
+        product?.name || `محصول ${productId}`,
+      ),
+      makeElement(
+        "span",
+        "cart-dropdown-quantity",
+        `تعداد: ${numberFormatter.format(Number(quantity) || 0)}`,
+      ),
+    );
+    const removeButton = makeElement("button", "cart-remove-button", "❌");
+    removeButton.type = "button";
+    removeButton.dataset.cartRemoveId = productId;
+    removeButton.setAttribute(
+      "aria-label",
+      `حذف ${product?.name || "محصول"} از سبد خرید`,
+    );
+    removeButton.title = "حذف محصول";
+    row.append(details, removeButton);
+    container.append(row);
+  });
 }
 
 function removeFromCart(productId: string): void {
@@ -215,7 +246,7 @@ function removeFromCart(productId: string): void {
   }
 
   currentStock.items[productId] = previousStock + 1;
-  currentStock.updatedAt = String(Date.now())
+  currentStock.updatedAt = String(Date.now());
 
   if (!saveCartAndStock()) {
     cart[productId] = previousQuantity;
@@ -230,8 +261,10 @@ function removeFromCart(productId: string): void {
   notyf.success("محصول از سبد خرید حذف شد");
 }
 
-
-function addToCart(productId: string | undefined, button?: HTMLButtonElement): void {
+function addToCart(
+  productId: string | undefined,
+  button?: HTMLButtonElement,
+): void {
   if (!productId) {
     notyf.error("شناسه محصول معتبر نیست");
     return;
@@ -248,10 +281,9 @@ function addToCart(productId: string | undefined, button?: HTMLButtonElement): v
   const previousQuantity = Number(cart[key]) || 0;
   const lastUpdate = currentStock.updatedAt;
 
-
   cart[key] = previousQuantity + 1;
   currentStock.items[key] = stock - 1;
-  currentStock.updatedAt = String(Date.now())
+  currentStock.updatedAt = String(Date.now());
 
   if (!saveCartAndStock()) {
     cart[key] = previousQuantity;
@@ -268,57 +300,78 @@ function addToCart(productId: string | undefined, button?: HTMLButtonElement): v
   notyf.success("محصول به سبد خرید اضافه شد");
 }
 
-
 function makeSkeleton(className: string = ""): HTMLDivElement {
-  return makeElement("div", `skeleton ${className}`.trim())
+  return makeElement("div", `skeleton ${className}`.trim());
 }
 
 function renderLoadingSkeletons(): void {
-  const banner = document.querySelector<HTMLElement>("#home-banners")
-  const categories = document.querySelector<HTMLDivElement>("#category-cards")
-  const carouselContainer = document.querySelector<HTMLDivElement>("#home-carousels")
-  const promos = document.querySelector<HTMLElement>("#home-promos")
+  const banner = document.querySelector<HTMLElement>("#home-banners");
+  const categories = document.querySelector<HTMLDivElement>("#category-cards");
+  const carouselContainer =
+    document.querySelector<HTMLDivElement>("#home-carousels");
+  const promos = document.querySelector<HTMLElement>("#home-promos");
   if (!banner || !categories || !carouselContainer || !promos) {
-    return
+    return;
   }
-  banner.replaceChildren(makeSkeleton("skeleton-banner"), makeSkeleton("skeleton-banner"))
-  categories.replaceChildren(...Array.from({ length: 7 }, () => makeSkeleton("skeleton-category")))
-  carouselContainer.replaceChildren()
+  banner.replaceChildren(
+    makeSkeleton("skeleton-banner"),
+    makeSkeleton("skeleton-banner"),
+  );
+  categories.replaceChildren(
+    ...Array.from({ length: 7 }, () => makeSkeleton("skeleton-category")),
+  );
+  carouselContainer.replaceChildren();
   for (let i = 0; i < 2; i++) {
-    const section: HTMLElement = makeElement("section", "recommendation")
-    section.append(makeSkeleton("skeleton-heading"))
-    const row: HTMLDivElement = makeElement("div", "skeleton-products")
-    for (let j = 0; j < 4; j++) row.append(makeSkeleton("skeleton-product"))
-    section.append(row)
-    carouselContainer.append(section)
+    const section: HTMLElement = makeElement("section", "recommendation");
+    section.append(makeSkeleton("skeleton-heading"));
+    const row: HTMLDivElement = makeElement("div", "skeleton-products");
+    for (let j = 0; j < 4; j++) row.append(makeSkeleton("skeleton-product"));
+    section.append(row);
+    carouselContainer.append(section);
   }
-  promos.replaceChildren(makeSkeleton("skeleton-banner"), makeSkeleton("skeleton-banner"))
+  promos.replaceChildren(
+    makeSkeleton("skeleton-banner"),
+    makeSkeleton("skeleton-banner"),
+  );
 }
 
 function makeProductCard(
   product: Types.Product,
-  { offer, stock, categoryName }: Types.ProductCardOptions
+  { offer, stock, categoryName }: Types.ProductCardOptions,
 ): HTMLLIElement {
   const card: HTMLLIElement = makeElement("li", "product-item");
-  const image: HTMLDivElement = makeElement("div", "product-icon product-emoji");
+  const image: HTMLDivElement = makeElement(
+    "div",
+    "product-icon product-emoji",
+  );
   const img: HTMLImageElement = makeElement("img");
   img.src = product.image;
   img.alt = product.name;
   image.append(img);
 
   const tag: HTMLParagraphElement = makeElement(
-    "p", "item-tag", categoryName || product.categoryName || "محصول"
+    "p",
+    "item-tag",
+    categoryName || product.categoryName || "محصول",
   );
   const quantity: number = stock.items[String(product.id)] ?? 0;
   const outOfStock: boolean = quantity <= 0;
   const discount: HTMLSpanElement = makeElement("span", "product-discount");
-  const title: HTMLHeadingElement = makeElement("h3", "item-title", product.name);
-  const description: HTMLParagraphElement = makeElement("p", "item-description", product.unit);
+  const title: HTMLHeadingElement = makeElement(
+    "h3",
+    "item-title",
+    product.name,
+  );
+  const description: HTMLParagraphElement = makeElement(
+    "p",
+    "item-description",
+    product.unit,
+  );
   const oldPrice: HTMLParagraphElement = makeElement("p", "item-old-price");
   const buyRow: HTMLDivElement = makeElement("div", "item-buy");
   const price: HTMLSpanElement = makeElement("span", "item-price");
   const finalPrice: number = offer
-    ? Math.round(product.price * (100 - offer.percent) / 100)
+    ? Math.round((product.price * (100 - offer.percent)) / 100)
     : product.price;
 
   price.textContent = `${numberFormatter.format(finalPrice)} تومان`;
@@ -344,16 +397,19 @@ function makeProductCard(
   return card;
 }
 
-function renderProducts(container: HTMLElement, products: Types.Product[], optionsForProduct: Types.OptionsForProduct): void {
-  const fragment = document.createDocumentFragment()
+function renderProducts(
+  container: HTMLElement,
+  products: Types.Product[],
+  optionsForProduct: Types.OptionsForProduct,
+): void {
+  const fragment = document.createDocumentFragment();
   products.forEach((product: Types.Product) =>
-    fragment.append(
-      makeProductCard(product, optionsForProduct(product))
-    )
-  )
-  container.replaceChildren(fragment)
+    fragment.append(makeProductCard(product, optionsForProduct(product))),
+  );
+  container.replaceChildren(fragment);
 
-  const cards: NodeListOf<HTMLElement> = container.querySelectorAll<HTMLElement>(".product-item");
+  const cards: NodeListOf<HTMLElement> =
+    container.querySelectorAll<HTMLElement>(".product-item");
   if (cards.length > 0) {
     gsap.from(cards, {
       opacity: 0,
@@ -386,14 +442,20 @@ function setupCarousel({
     const styles = getComputedStyle(products);
     const gap: number = Number.parseFloat(styles.columnGap || styles.gap) || 0;
     carousel.step = firstCard.getBoundingClientRect().width + gap;
-    carousel.maxOffset = Math.max(0, products.scrollWidth - viewport.clientWidth);
+    carousel.maxOffset = Math.max(
+      0,
+      products.scrollWidth - viewport.clientWidth,
+    );
     carousel.offset = Math.min(carousel.offset, carousel.maxOffset);
     gsap.set(products, { x: carousel.offset });
     previous.disabled = carousel.offset <= 0;
     next.disabled = carousel.offset >= carousel.maxOffset - 1;
   };
   const move = (direction: -1 | 1): void => {
-    carousel.offset = Math.max(0, Math.min(carousel.maxOffset, carousel.offset + direction * carousel.step));
+    carousel.offset = Math.max(
+      0,
+      Math.min(carousel.maxOffset, carousel.offset + direction * carousel.step),
+    );
     gsap.to(products, {
       x: carousel.offset,
       duration: 0.15,
@@ -412,7 +474,7 @@ function setupCarousel({
 function renderShopDetails(shop: Types.Shop): void {
   const setText = (
     selector: string,
-    value: string | null | undefined
+    value: string | null | undefined,
   ): void => {
     const element = document.querySelector<HTMLElement>(selector);
     if (element && value != null) {
@@ -433,28 +495,47 @@ function renderShopDetails(shop: Types.Shop): void {
   const menu = document.querySelector<HTMLDivElement>("#shop-menu-links");
   const hours = document.querySelector<HTMLDivElement>("#shop-hours");
   if (!menu || !hours) {
-    return
+    return;
   }
   menu.replaceChildren();
-  (shop.menu || []).forEach((item) => appendLink(menu, item.label, item.href, "menu-texts"));
+  (shop.menu || []).forEach((item) =>
+    appendLink(menu, item.label, item.href, "menu-texts"),
+  );
   hours.replaceChildren();
-  (shop.schedule || []).forEach((item) => hours.append(makeElement("p", "", `${item.days}: ${item.time}`)));
+  (shop.schedule || []).forEach((item) =>
+    hours.append(makeElement("p", "", `${item.days}: ${item.time}`)),
+  );
 }
 
 function renderCategories(categories: Types.Category[]): void {
-  const categoryMenu = document.querySelector<HTMLDivElement>("#category-menu-links");
-  const categoryCards = document.querySelector<HTMLDivElement>("#category-cards");
-  const footerCategories = document.querySelector<HTMLDivElement>("#footer-category-links");
+  const categoryMenu = document.querySelector<HTMLDivElement>(
+    "#category-menu-links",
+  );
+  const categoryCards =
+    document.querySelector<HTMLDivElement>("#category-cards");
+  const footerCategories = document.querySelector<HTMLDivElement>(
+    "#footer-category-links",
+  );
   if (!categoryMenu || !categoryCards || !footerCategories) {
-    return
+    return;
   }
   categoryMenu.replaceChildren();
   categoryCards.replaceChildren();
   footerCategories.replaceChildren();
   categories.forEach((category) => {
     const href: string = `#${category.slug}`;
-    appendLink(categoryMenu, `${category.emoji || "🛒"} ${category.name}`, href, "hidden-content-links");
-    const card: HTMLAnchorElement = appendLink(categoryCards, "", href, "categories-box");
+    appendLink(
+      categoryMenu,
+      `${category.emoji || "🛒"} ${category.name}`,
+      href,
+      "hidden-content-links",
+    );
+    const card: HTMLAnchorElement = appendLink(
+      categoryCards,
+      "",
+      href,
+      "categories-box",
+    );
     const icon: HTMLSpanElement = makeElement("span", "categories-icon");
     icon.style.backgroundColor = category.color || "var(--light-blue)";
     if (category.image?.endsWith(".svg")) {
@@ -470,13 +551,30 @@ function renderCategories(categories: Types.Category[]): void {
   });
 }
 
-function makeBanner(data: Types.BannerData | null | undefined, variant: string): HTMLElement | null {
+function makeBanner(
+  data: Types.BannerData | null | undefined,
+  variant: string,
+): HTMLElement | null {
   if (!data) return null;
   const article = makeElement("article", variant);
   const content = makeElement("div", `banner-content ${variant}-content`);
-  content.append(makeElement("h2", `banner-title ${variant}-title`, `${data.title || ""}`.trim()));
-  content.append(makeElement("p", `banner-details ${variant}-details`, data.text || ""));
-  if (data.cta) appendLink(content, data.cta.label || "مشاهده", data.cta.href || "#", `banner-button ${variant}-button`);
+  content.append(
+    makeElement(
+      "h2",
+      `banner-title ${variant}-title`,
+      `${data.title || ""}`.trim(),
+    ),
+  );
+  content.append(
+    makeElement("p", `banner-details ${variant}-details`, data.text || ""),
+  );
+  if (data.cta)
+    appendLink(
+      content,
+      data.cta.label || "مشاهده",
+      data.cta.href || "#",
+      `banner-button ${variant}-button`,
+    );
   const icon = makeElement("span", "banner-art");
   if (data.emoji?.endsWith(".svg")) {
     const image = makeElement("img");
@@ -509,7 +607,9 @@ function renderPromos(home: Types.Home): void {
       const variant = index % 2 === 0 ? "banner-breakfast" : "banner-bread";
       const article = makeElement("article", variant);
       const content = makeElement("div", "banner-content");
-      content.append(makeElement("h2", "banner-title", `${promo.text || ""}`.trim()));
+      content.append(
+        makeElement("h2", "banner-title", `${promo.text || ""}`.trim()),
+      );
       appendLink(content, "دیدن محصولات", promo.href || "#", "promo-link");
       const icon = makeElement("span", "promo-emoji");
       if (promo.emoji?.endsWith(".svg")) {
@@ -531,21 +631,32 @@ function createCarouselSection(
   products: Types.Product[],
   stock: Types.Stock,
   offersByProductId: Map<number, Types.Offer>,
-  categories: Types.Category[]
+  categories: Types.Category[],
 ): HTMLElement {
   const section = makeElement("section", "recommendation");
   section.id = config.id;
-  section.append(makeElement("h2", "recommendation-title", `${config.emoji || "🛒"} ${config.title || "محصولات"}`.trim()));
+  section.append(
+    makeElement(
+      "h2",
+      "recommendation-title",
+      `${config.emoji || "🛒"} ${config.title || "محصولات"}`.trim(),
+    ),
+  );
   const carousel = makeElement("div", "dairy-carousel");
   const viewport = makeElement("div", "dairy-carousel-viewport");
   const list = makeElement("ul", "products");
   const previous = makeElement("button", "dairy-prev-button", "→");
-  previous.type = "button"; previous.disabled = true; previous.title = "محصول قبلی";
+  previous.type = "button";
+  previous.disabled = true;
+  previous.title = "محصول قبلی";
   const next = makeElement("button", "dairy-next-button", "←");
-  next.type = "button"; next.title = "محصول بعدی";
+  next.type = "button";
+  next.title = "محصول بعدی";
   const controls = makeElement("div", "dairy-carousel-controls");
   controls.append(previous, next);
-  viewport.append(list); carousel.append(viewport, controls); section.append(carousel);
+  viewport.append(list);
+  carousel.append(viewport, controls);
+  section.append(carousel);
 
   let selected: Types.Product[];
   if (config.source === "offers" || config.id === "offers") {
@@ -555,13 +666,20 @@ function createCarouselSection(
     });
   } else {
     const categoryId = config.categoryId ?? config.category?.id;
-    selected = products.filter(
-      (product) => product.categoryId === categoryId
-    );
+    selected = products.filter((product) => product.categoryId === categoryId);
   }
-  const category = categories.find((item) => item.id === (config.categoryId ?? config.category?.id));
-  renderProducts(list, selected, (product) => ({ offer: offersByProductId.get(product.id), stock, categoryName: category?.name || config.title || "محصول" }));
-  if (!selected.length) section.append(makeElement("p", "empty-message", "محصولی برای نمایش وجود ندارد."));
+  const category = categories.find(
+    (item) => item.id === (config.categoryId ?? config.category?.id),
+  );
+  renderProducts(list, selected, (product) => ({
+    offer: offersByProductId.get(product.id),
+    stock,
+    categoryName: category?.name || config.title || "محصول",
+  }));
+  if (!selected.length)
+    section.append(
+      makeElement("p", "empty-message", "محصولی برای نمایش وجود ندارد."),
+    );
   setupCarousel({ products: list, viewport, previous, next });
   return section;
 }
@@ -571,11 +689,11 @@ function renderHomeCarousels(
   products: Types.Product[],
   stock: Types.Stock,
   offersByProductId: Map<number, Types.Offer>,
-  categories: Types.Category[]
+  categories: Types.Category[],
 ): Set<number> | null {
   const container = document.querySelector<HTMLDivElement>("#home-carousels");
   if (!container) {
-    return null
+    return null;
   }
   container.replaceChildren();
 
@@ -596,8 +714,8 @@ function renderHomeCarousels(
           products,
           stock,
           offersByProductId,
-          categories
-        )
+          categories,
+        ),
       );
     });
 
@@ -610,50 +728,175 @@ function renderRemainingCategoryCarousels(
   products: Types.Product[],
   stock: Types.Stock,
   offersByProductId: Map<number, Types.Offer>,
-  configuredCategoryIds: Set<number> | null
+  configuredCategoryIds: Set<number> | null,
 ): void {
-  const container = document.querySelector<HTMLDivElement>("#category-product-sections");
+  const container = document.querySelector<HTMLDivElement>(
+    "#category-product-sections",
+  );
   if (!container) return;
   container.replaceChildren();
 
   const renderedCategoryIds: Set<number> = new Set(configuredCategoryIds ?? []);
   (home.carousels ?? [])
-    .filter((config: Types.CarouselConfig) => config.id !== "offers" && config.title !== "پیشنهاد ویژه")
+    .filter(
+      (config: Types.CarouselConfig) =>
+        config.id !== "offers" && config.title !== "پیشنهاد ویژه",
+    )
     .forEach((config: Types.CarouselConfig): void => {
-      const categoryId: number | undefined = config.categoryId ?? config.category?.id;
+      const categoryId: number | undefined =
+        config.categoryId ?? config.category?.id;
       if (categoryId == null || renderedCategoryIds.has(categoryId)) return;
-      container.append(createCarouselSection(config, products, stock, offersByProductId, categories));
+      container.append(
+        createCarouselSection(
+          config,
+          products,
+          stock,
+          offersByProductId,
+          categories,
+        ),
+      );
       renderedCategoryIds.add(categoryId);
     });
 
   categories
     .filter((category: Types.Category) => !renderedCategoryIds.has(category.id))
     .forEach((category: Types.Category): void => {
-      container.append(createCarouselSection({
-        id: category.slug,
-        title: category.name,
-        emoji: category.emoji,
-        categoryId: category.id,
-      }, products, stock, offersByProductId, categories));
+      container.append(
+        createCarouselSection(
+          {
+            id: category.slug,
+            title: category.name,
+            emoji: category.emoji,
+            categoryId: category.id,
+          },
+          products,
+          stock,
+          offersByProductId,
+          categories,
+        ),
+      );
       renderedCategoryIds.add(category.id);
     });
 }
 
-function setupSearch(products: Types.Product[]): void {
+function normalizeText(value: string): string {
+  return value
+    .replace(/ي/g, "ی")
+    .replace(/ك/g, "ک")
+    .replace(/[\u200c\u200f\u200e]/g, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+}
+
+const SEARCH_HIDDEN_SELECTORS: string[] = [
+  "#home-banners",
+  "#categories",
+  "#home-carousels",
+  "#home-promos",
+  "#category-product-sections",
+];
+
+function setupSearch(
+  products: Types.Product[],
+  stock: Types.Stock,
+  offersByProductId: Map<number, Types.Offer>,
+  categories: Types.Category[],
+): void {
   const input = document.querySelector<HTMLInputElement>(".search-entry");
-  if (input) input.placeholder = `جستجو در میان ${numberFormatter.format(products.length)} کالا...`;
+  const results = document.querySelector<HTMLElement>("#search-results");
+  if (!input || !results) return;
+  input.placeholder = `جستجو در میان ${numberFormatter.format(products.length)} کالا...`;
+
+  const categoryNames: Map<number, string> = new Map(
+    categories.map((c) => [c.id, c.name]),
+  );
+  const index: { product: Types.Product; text: string }[] = products.map(
+    (product) => ({
+      product,
+      text: normalizeText(
+        `${product.name} ${categoryNames.get(product.categoryId) ?? ""}`,
+      ),
+    }),
+  );
+
+  const run = (): void => {
+    const query: string = normalizeText(input.value);
+    const searching: boolean = query !== "";
+    SEARCH_HIDDEN_SELECTORS.forEach((selector: string): void => {
+      const element = document.querySelector<HTMLElement>(selector);
+      if (element) element.hidden = searching;
+    });
+    results.hidden = !searching;
+
+    const url = new URL(window.location.href);
+    if (searching) url.searchParams.set("q", input.value.trim());
+    else url.searchParams.delete("q");
+    history.replaceState(null, "", url);
+
+    if (!searching) {
+      results.replaceChildren();
+      return;
+    }
+
+    const words: string[] = query.split(" ");
+    const matches: Types.Product[] = index
+      .filter((entry) =>
+        words.every((word: string): boolean => entry.text.includes(word)),
+      )
+      .map((entry) => entry.product);
+
+    results.replaceChildren(
+      makeElement(
+        "h2",
+        "recommendation-title",
+        `🔍 نتایج جستجو برای «${input.value.trim()}»`,
+      ),
+    );
+    if (matches.length === 0) {
+      results.append(makeElement("p", "empty-message", "چیزی پیدا نشد."));
+      return;
+    }
+    const list: HTMLUListElement = makeElement("ul", "products");
+    matches.forEach((product: Types.Product): void => {
+      list.append(
+        makeProductCard(product, {
+          offer: offersByProductId.get(product.id),
+          stock,
+          categoryName: categoryNames.get(product.categoryId) ?? "",
+        }),
+      );
+    });
+    results.append(list);
+  };
+
+  input.addEventListener("input", run);
+  input
+    .closest("label")
+    ?.addEventListener("submit", (event: Event): void =>
+      event.preventDefault(),
+    );
+  const initial: string | null = new URLSearchParams(
+    window.location.search,
+  ).get("q");
+  if (initial) {
+    input.value = initial;
+    run();
+  }
 }
 
 async function loadPage(): Promise<void> {
   try {
-    const [products, stock, offers, categories, shop, home] = await Promise.all([
-      fetchApiFile<Types.Product[]>("products.json"),
-      fetchApiFile<Types.Stock>("stock.json"),
-      fetchApiFile<Types.Offer[]>("offers.json"),
-      fetchApiFile<Types.Category[]>("categories.json"),
-      fetchApiFile<Types.Shop>("shop.json"),
-      fetchApiFile<Types.Home>("home.json"),
-    ]);
+    const [products, stock, offers, categories, shop, home] = await Promise.all(
+      [
+        fetchApiFile<Types.Product[]>("products.json"),
+        fetchApiFile<Types.Stock>("stock.json"),
+        fetchApiFile<Types.Offer[]>("offers.json"),
+        fetchApiFile<Types.Category[]>("categories.json"),
+        fetchApiFile<Types.Shop>("shop.json"),
+        fetchApiFile<Types.Home>("home.json"),
+      ],
+    );
 
     currentStock = stock;
     try {
@@ -668,12 +911,14 @@ async function loadPage(): Promise<void> {
           typeof parsed.items === "object" &&
           !Array.isArray(parsed.items)
         ) {
-          const validStockEntries: [string, number][] = Object.entries(parsed.items).filter(
+          const validStockEntries: [string, number][] = Object.entries(
+            parsed.items,
+          ).filter(
             (entry): entry is [string, number] =>
               typeof entry[0] === "string" &&
               typeof entry[1] === "number" &&
               Number.isFinite(entry[1]) &&
-              entry[1] >= 0
+              entry[1] >= 0,
           );
           currentStock.items = {
             ...currentStock.items,
@@ -689,7 +934,10 @@ async function loadPage(): Promise<void> {
     renderCartDropdown();
 
     const offersByProductId: Map<number, Types.Offer> = new Map(
-      offers.map((offer: Types.Offer): [number, Types.Offer] => [offer.productId, offer])
+      offers.map((offer: Types.Offer): [number, Types.Offer] => [
+        offer.productId,
+        offer,
+      ]),
     );
 
     renderShopDetails(shop);
@@ -698,26 +946,41 @@ async function loadPage(): Promise<void> {
     renderPromos(home);
 
     const configuredCategoryIds: Set<number> | null = renderHomeCarousels(
-      home, products, currentStock, offersByProductId, categories
+      home,
+      products,
+      currentStock,
+      offersByProductId,
+      categories,
     );
     renderRemainingCategoryCarousels(
-      home, categories, products, currentStock, offersByProductId, configuredCategoryIds
+      home,
+      categories,
+      products,
+      currentStock,
+      offersByProductId,
+      configuredCategoryIds,
     );
-    setupSearch(products);
+    setupSearch(products, currentStock, offersByProductId, categories);
     updateCartCount();
-    products.forEach((product: Types.Product): void => updateProductStockUI(String(product.id)));
+    products.forEach((product: Types.Product): void =>
+      updateProductStockUI(String(product.id)),
+    );
   } catch (error: unknown) {
-    document.querySelectorAll<HTMLElement>(".skeleton-text").forEach((item: HTMLElement): void => {
-      item.classList.remove("skeleton-text");
-    });
+    document
+      .querySelectorAll<HTMLElement>(".skeleton-text")
+      .forEach((item: HTMLElement): void => {
+        item.classList.remove("skeleton-text");
+      });
     const main = document.querySelector<HTMLElement>("#main-content");
     if (main) {
       main.querySelector<HTMLElement>(".api-status--error")?.remove();
-      main.prepend(makeElement(
-        "p",
-        "api-status api-status--error",
-        "بارگذاری اطلاعات با مشکل مواجه شد. مطمئن شو پروژه را با Live Server یا یک سرور محلی اجرا کرده‌ای."
-      ));
+      main.prepend(
+        makeElement(
+          "p",
+          "api-status api-status--error",
+          "بارگذاری اطلاعات با مشکل مواجه شد. مطمئن شو پروژه را با Live Server یا یک سرور محلی اجرا کرده‌ای.",
+        ),
+      );
       console.error("خطا در بارگذاری APIهای سوپرینو:", error);
     }
   }
@@ -726,7 +989,9 @@ async function loadPage(): Promise<void> {
 document.addEventListener("click", (event: MouseEvent) => {
   if (!(event.target instanceof Element)) return;
 
-  const removeButton = event.target.closest<HTMLButtonElement>("[data-cart-remove-id]");
+  const removeButton = event.target.closest<HTMLButtonElement>(
+    "[data-cart-remove-id]",
+  );
   if (removeButton) {
     event.preventDefault();
     event.stopPropagation();
@@ -742,15 +1007,18 @@ document.addEventListener("click", (event: MouseEvent) => {
     return;
   }
 
-  const button = event.target.closest<HTMLButtonElement>(".buy-button[data-product-id]");
+  const button = event.target.closest<HTMLButtonElement>(
+    ".buy-button[data-product-id]",
+  );
   if (button && !button.disabled) addToCart(button.dataset.productId, button);
 
   if (!event.target.closest(".cart-dropdown-wrap")) {
     document.querySelector(".cart-dropdown-wrap")?.classList.remove("is-open");
-    document.querySelector<HTMLButtonElement>("#cart-button")?.setAttribute("aria-expanded", "false");
+    document
+      .querySelector<HTMLButtonElement>("#cart-button")
+      ?.setAttribute("aria-expanded", "false");
   }
 });
-
 
 updateCartCount();
 renderLoadingSkeletons();
