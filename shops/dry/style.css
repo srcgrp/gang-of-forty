@@ -817,15 +817,20 @@ address { font-style: normal; color: var(--secondary-color); line-height: 2; mar
   margin: 0;
   padding: 18px;
   border-radius: 14px;
-  background: var(--secondary-color);
+  background: var(--muted-bg);
+  color: var(--primary-color);
   text-align: center;
 }
 
 .carousel .status.error {
+  background: rgba(230, 18, 61, .12);
   border: 1px solid #e6123d;
   color: var(--primary-color);
 }
 
+.carousel .status.error::before {
+  content: '⚠ ' / '';
+}
 .svg-sprite { position: absolute; }
 
 .add-btn {
