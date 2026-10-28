@@ -1,5 +1,5 @@
-import sunIcon from "../../icons/sun.svg";
-import moonIcon from "../../icons/moon.svg";
+import sunIcon from "../../../icons/sun.svg";
+import moonIcon from "../../../icons/moon.svg";
 export function applyTheme(dark: boolean): void {
   const button = document.querySelector<HTMLButtonElement>("#theme-toggle");
   if (!button) throw new Error("دکمه تغییر تم پیدا نشد.");

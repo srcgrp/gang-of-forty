@@ -1,4 +1,4 @@
-import type { Category, SearchState } from "../types";
+import type { Category, SearchState } from "../../../shared/types";
 export function bindSearch(categories: Category[],
   onSearch: (state: SearchState, fragment?: string) => void): void {
   const input = document.querySelector<HTMLInputElement>("#product-search");

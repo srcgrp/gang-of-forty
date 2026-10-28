@@ -1,5 +1,5 @@
-import type { SectionView, PageView, CartItem } from "../types";
-import { createElement } from "./elements";
+import type { SectionView, PageView, CartItem } from "../../../shared/types";
+import { createElement } from "../../../shared/ui/elements";
 import { createProductCard } from "./product-card";
 import { createCarouselControls, fillCarouselControls } from "./carousel-controls";
 function createSection(section: SectionView, onAdd: (item: CartItem) => void): HTMLElement {

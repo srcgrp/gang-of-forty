@@ -1,4 +1,4 @@
-import type { ShopData, PageView, SectionView } from "../types";
+import type { ShopData, PageView, SectionView } from "../../../shared/types";
 import { offersById, toCards } from "./cards";
 export function buildPage(data: ShopData): PageView {
   const offers = offersById(data.offers);

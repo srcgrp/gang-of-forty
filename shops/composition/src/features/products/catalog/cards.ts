@@ -1,5 +1,5 @@
-import type { Product, Stock, Offer, CardView } from "../types";
-import { formatNumber, formatPrice } from "./format";
+import type { Product, Stock, Offer, CardView } from "../../../shared/types";
+import { formatNumber, formatPrice } from "../../../shared/format";
 export function offersById(offers: Offer[]): Map<number, Offer> {
   const result = new Map<number, Offer>();
   for (const offer of offers) {

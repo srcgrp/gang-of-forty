@@ -1,4 +1,4 @@
-import type { Category, SearchState } from "../types";
+import type { Category, SearchState } from "../../../shared/types";
 export function fillCategoryFilter(categories: Category[]): void {
   const select = document.querySelector<HTMLSelectElement>("#category-filter");
   if (!select) throw new Error("فهرست دسته‌بندی پیدا نشد.");

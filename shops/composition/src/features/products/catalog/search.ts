@@ -1,5 +1,5 @@
 import Fuse from "fuse.js";
-import type { Product } from "../types";
+import type { Product } from "../../../shared/types";
 export function normalizeSearch(text: string): string {
   return text.replaceAll("ي", "ی").replaceAll("ك", "ک")
     .replace(/‌/g, " ").replace(/[ًٌٍَُِّْ]/g, "").replace(/\s+/g, " ").trim();

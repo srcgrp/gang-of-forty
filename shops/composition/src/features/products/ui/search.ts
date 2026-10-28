@@ -1,4 +1,4 @@
-import type { CardView, CartItem } from "../types";
+import type { CardView, CartItem } from "../../../shared/types";
 import { createProductCard } from "./product-card";
 export function setSearchReady(ready: boolean, placeholder: string): void {
   const input = document.querySelector<HTMLInputElement>("#product-search");

@@ -1,5 +1,5 @@
-import type { Category } from "../types";
-import { createElement, createLink } from "./elements";
+import type { Category } from "../../../shared/types";
+import { createElement, createLink } from "../../../shared/ui/elements";
 export function showCategories(categories: Category[]): void {
   const categoryHeading = document.querySelector<HTMLElement>(
     "#categories-heading",

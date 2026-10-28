@@ -1,4 +1,4 @@
-import type { Product } from "../types";
+import type { Product } from "../../../shared/types";
 export const SORT_OPTIONS = ["default", "price-asc", "price-desc"] as const;
 
 export type SortOption = (typeof SORT_OPTIONS)[number];

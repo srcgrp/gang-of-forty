@@ -1,5 +1,5 @@
-import type { CardView, CartItem } from "../types";
-import { createElement } from "./elements";
+import type { CardView, CartItem } from "../../../shared/types";
+import { createElement } from "../../../shared/ui/elements";
 import { createProductImage } from "./product-image";
 export function createProductCard(card: CardView, onAdd: (item: CartItem) => void): HTMLElement {
   const article = createElement("article", "product-card", "");

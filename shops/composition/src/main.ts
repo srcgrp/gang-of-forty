@@ -1,20 +1,22 @@
-import type { CartItem, SearchState } from "./types";
-import { loadShopData } from "./api/shop-data";
-import { loadCartCount, saveCartCount } from "./storage/cart";
-import { loadTheme, saveTheme } from "./storage/theme";
-import { readSearchUrl, writeSearchUrl, watchSearchUrl, readFragment } from "./storage/url";
-import { addToCart } from "./cart/count";
-import { buildPage } from "./catalog/sections";
-import { formatNumber } from "./catalog/format";
-import { cleanSearch, createResults } from "./catalog/results";
-import { showPage } from "./ui/page";
-import { updateCart, showCartMessage } from "./ui/cart";
-import { applyTheme, bindTheme } from "./ui/theme";
-import { bindSearch } from "./ui/search-events";
-import { setSearchControls } from "./ui/search-controls";
-import { showSearch, setSearchReady } from "./ui/search";
-import { renderLoadStatus } from "./ui/load-status";
-import { goToFragment, bindMobileMenu } from "./ui/navigation";
+import type { CartItem, SearchState } from "./shared/types";
+import { loadCatalog } from "./features/products/api/catalog-data";
+import { getShop, getHome } from "./shared/api/site";
+import { showSite } from "./shared/ui/site";
+import { loadCartCount, saveCartCount } from "./features/cart/storage/cart";
+import { loadTheme, saveTheme } from "./shared/storage/theme";
+import { readSearchUrl, writeSearchUrl, watchSearchUrl, readFragment } from "./shared/storage/url";
+import { addToCart } from "./features/cart/logic/count";
+import { buildPage } from "./features/products/catalog/sections";
+import { formatNumber } from "./shared/format";
+import { cleanSearch, createResults } from "./features/products/catalog/results";
+import { showPage } from "./features/products/ui/page";
+import { updateCart, showCartMessage } from "./features/cart/ui/cart";
+import { applyTheme, bindTheme } from "./shared/ui/theme";
+import { bindSearch } from "./features/products/ui/search-events";
+import { setSearchControls } from "./features/products/ui/search-controls";
+import { showSearch, setSearchReady } from "./features/products/ui/search";
+import { renderLoadStatus } from "./shared/ui/load-status";
+import { goToFragment, bindMobileMenu } from "./shared/ui/navigation";
 let count = loadCartCount();
 let dark = loadTheme();
 function onAdd(item: CartItem): void {
@@ -26,7 +28,8 @@ async function start(): Promise<void> {
   renderLoadStatus({ status: "loading" });
   setSearchReady(false, "دنبال چی می‌گردی؟");
   try {
-    const data = await loadShopData();
+    const [catalog, shop, home] = await Promise.all([loadCatalog(), getShop(), getHome()]);
+    const data = { ...catalog, shop, home };
     const getResults = createResults(data);
     let state = cleanSearch(readSearchUrl(), data);
     function renderSearch(): void {
@@ -34,6 +37,7 @@ async function start(): Promise<void> {
       setSearchControls(state);
       showSearch(result.active, result.cards, result.message, onAdd);
     }
+    showSite(shop, home);
     showPage(data, buildPage(data), onAdd);
     setSearchReady(true, "جست‌وجو در میان " + formatNumber(data.products.length) + " کالا…");
     bindSearch(data.categories, (next: SearchState, fragment = "") => {
@@ -48,13 +52,11 @@ async function start(): Promise<void> {
       goToFragment(readFragment());
     });
     renderSearch();
-    renderLoadStatus(data.products.length ?
-      { status: "success", products: data.products } : { status: "empty" });
+    renderLoadStatus(data.products.length ? { status: "success", products: data.products } : { status: "empty" });
     goToFragment(readFragment());
   } catch (error: unknown) {
     console.error("خطا در دریافت اطلاعات فروشگاه:", error);
-    renderLoadStatus({ status: "error",
-      message: "دریافت اطلاعات ممکن نشد. اتصال اینترنت را بررسی و صفحه را تازه‌سازی کنید." });
+    renderLoadStatus({ status: "error", message: "دریافت اطلاعات ممکن نشد. اتصال اینترنت را بررسی و صفحه را تازه‌سازی کنید." });
   }
 }
 applyTheme(dark);

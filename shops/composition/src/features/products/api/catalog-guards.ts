@@ -1,5 +1,5 @@
-import type { Category, Offer, Stock } from "../types";
-import { isObject, isId, isAmount } from "./validation";
+import type { Category, Offer, Stock } from "../../../shared/types";
+import { isObject, isId, isAmount } from "../../../shared/api/validation";
 
 export function isCategory(value: unknown): value is Category {
   if (!isObject(value)) return false;

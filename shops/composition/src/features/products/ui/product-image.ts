@@ -1,6 +1,6 @@
-import flatbreadIcon from "../../icons/flatbread.svg";
-import beansIcon from "../../icons/beans.svg";
-import { createElement } from "./elements";
+import flatbreadIcon from "../../../../icons/flatbread.svg";
+import beansIcon from "../../../../icons/beans.svg";
+import { createElement } from "../../../shared/ui/elements";
 export function createProductImage(emoji: string): HTMLElement {
   const image = createElement("div", "product-image product-emoji", "");
   if (emoji === "🫓" || emoji === "🫘") {

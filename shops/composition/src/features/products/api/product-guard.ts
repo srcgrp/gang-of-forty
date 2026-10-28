@@ -1,5 +1,5 @@
-import type { Product } from "../types";
-import { isObject, isId, isAmount, isList } from "./validation";
+import type { Product } from "../../../shared/types";
+import { isObject, isId, isAmount, isList } from "../../../shared/api/validation";
 
 export function isProduct(value: unknown): value is Product {
   if (!isObject(value)) return false;

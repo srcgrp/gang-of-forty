@@ -1,8 +1,8 @@
-import type { SearchState, ShopData, CardView } from "../types";
+import type { SearchState, ShopData, CardView } from "../../../shared/types";
 import { createSearch, normalizeSearch } from "./search";
 import { readSortOption, sortProducts } from "./sorting";
 import { offersById, toCards } from "./cards";
-import { formatNumber } from "./format";
+import { formatNumber } from "../../../shared/format";
 export function cleanSearch(state: SearchState, data: ShopData): SearchState {
   return { query: state.query,
     category: data.categories.some(category => category.slug === state.category) ? state.category : "",

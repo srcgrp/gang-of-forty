@@ -1,4 +1,4 @@
-import { createElement, createLink } from "./elements";
+import { createElement, createLink } from "../../../shared/ui/elements";
 export function createCarouselControls(title: string): HTMLElement {
   const controls = createElement("div", "carousel-controls", "");
   controls.setAttribute("role", "group");
