@@ -75,7 +75,7 @@ export type Stock = {
 // Utility Type 2: Pick<T, Keys>
 // در اینجا زیرمجموعه ای از فیلدهای تایپ دیگه جدا میشه تا از تکرار جلوگیری بشه
 // کارش استخراج فیلد های ضروری کالا برای سبد خرید هست
-export type ProductSummary = pick<Product, 'id' | 'name' | 'price'>
+export type ProductSummary = Pick<Product, 'id' | 'name' | 'price'>
 export type CartItem = ProductSummary & {
     quantity: number
 }
@@ -90,8 +90,15 @@ export const SORTS = ['cheapest', 'expensive', 'popular'] as const
 export type SortOption = typeof SORTS[number]
 
 //وضعیت بارگذاری
-export type LoadState<T> =
+export type LoadState =
     | { status: 'loading' }
-    | { status: 'success'; data: T }
+    | { status: 'success'; products: Product[] }
     | { status: 'empty' }
     | { status: 'error'; message: string }
+    
+export type CartLine = {
+    productId: number
+    quantity: number
+}
+
+ 
