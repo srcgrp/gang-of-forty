@@ -1,11 +1,11 @@
 import type { Product } from '../types.ts';
+import { API_URL } from './config.ts';
 import { isProduct } from './guards.ts';
 import { FetchError, getJSON } from './http.ts';
 
-const PRODUCTS_URL = '../../api/products.json';
 
 export async function fetchProducts(): Promise<Product[]> {
-    const data = await getJSON(PRODUCTS_URL);
+    const data = await getJSON(`${API_URL}/products.json`);
 
     if (!Array.isArray(data)) {
         throw new FetchError('shape', 'products.json is not a list');
