@@ -26,9 +26,55 @@ export interface Category {
   color: string;
 }
 
+export interface ProductView {
+  product: Product;
+  offer?: Offer;
+  stock?: number;
+}
 
 export type LoadState =
   | { status: 'loading' }
-  | { status: 'success'; products: Product[] }
+  | { status: 'success'; products: ProductView[] }
   | { status: 'empty' }
   | { status: 'error'; message: string };
+
+
+  
+export interface CartLine {
+  productId: number;
+  qty: number;
+}
+
+export interface ShopLink {
+  label: string;
+  href: string;
+}
+
+export interface ShopSchedule {
+  days: string;
+  time: string;
+}
+
+export interface ShopHours {
+  open: string;
+  close: string;
+}
+
+export interface Shop {
+  name: string;
+  slogan: string;
+  owner: string;
+  city: string;
+  phone: string;
+  hours: ShopHours;
+  deliveryFee: number;
+  freeDeliveryOver: number;
+  currency: string;
+  notice: string;
+  about: string;
+  address: string;
+  schedule: ShopSchedule[];
+  menu: ShopLink[];
+  help: ShopLink[];
+  copyright: string;
+}

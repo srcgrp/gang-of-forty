@@ -17,14 +17,20 @@ export const renderCarousel = (carousel: HTMLElement, state: LoadState): void =>
     }
   }
 
+  carousel
+    .querySelectorAll<HTMLElement>(':scope > .product-cart')
+    .forEach((card) => {
+      card.remove();
+    });
+
   if (state.status === 'success') {
-    state.products.forEach((product) => {
-      carousel.appendChild(createProductCard(product));
+    state.products.forEach((item) => {
+      carousel.appendChild(createProductCard(item));
     });
   }
 
   if (state.status === 'empty') {
-    const emptyText: HTMLParagraphElement = document.createElement('p');
+    const emptyText = document.createElement('p');
     emptyText.textContent = describeState(state);
     carousel.appendChild(emptyText);
   }

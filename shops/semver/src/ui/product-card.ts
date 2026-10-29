@@ -1,11 +1,35 @@
 import confetti from 'canvas-confetti';
-import type { Product } from '../types';
+import type { ProductView } from '../types';
 import { formatPrice } from './format';
 import { notyf } from './notify';
 
-export const createProductCard = (product: Product): HTMLElement => {
+const discountedPrice = (price: number, percent: number): number => {
+  return Math.round((price * (100 - percent)) / 100);
+};
+
+export const createProductCard = (item: ProductView): HTMLElement => {
+  const { product, offer, stock } = item;
+  const isOutOfStock = stock === 0;
+
   const card: HTMLElement = document.createElement('article');
   card.className = 'product-cart';
+  if (isOutOfStock) {
+    card.classList.add('out-of-stock');
+  }
+
+  if (offer && !isOutOfStock) {
+    const badge: HTMLElement = document.createElement('span');
+    badge.className = 'offer-badge';
+    badge.textContent = `${offer.percent}٪ تخفیف`;
+    card.appendChild(badge);
+  }
+
+  if (isOutOfStock) {
+    const badge: HTMLElement = document.createElement('span');
+    badge.className = 'stock-badge';
+    badge.textContent = 'ناموجود';
+    card.appendChild(badge);
+  }
 
   const imgBox: HTMLDivElement = document.createElement('div');
   imgBox.className = 'img';
@@ -36,29 +60,47 @@ export const createProductCard = (product: Product): HTMLElement => {
   const cardBtn: HTMLElement = document.createElement('div');
   cardBtn.className = 'card-btn';
 
+  const prices: HTMLElement = document.createElement('div');
+  prices.className = 'prices';
+
+  const finalPrice = offer ? discountedPrice(product.price, offer.percent) : product.price;
+
+  if (offer) {
+    const oldPrice: HTMLElement = document.createElement('span');
+    oldPrice.className = 'price-old';
+    oldPrice.textContent = formatPrice(product.price);
+    prices.appendChild(oldPrice);
+  }
+
   const priceLabel: HTMLElement = document.createElement('p');
   priceLabel.className = 'price-label';
-  priceLabel.textContent = formatPrice(product.price);
+  priceLabel.textContent = formatPrice(finalPrice);
+  prices.appendChild(priceLabel);
 
   const buyBtn: HTMLButtonElement = document.createElement('button');
   buyBtn.className = 'buynow-btn';
   buyBtn.setAttribute('type', 'button');
-  buyBtn.setAttribute('aria-label', `افزودن ${product.name} به سبد خرید`);
   buyBtn.textContent = '+';
 
-  buyBtn.addEventListener('click', (e: MouseEvent) => {
-    e.stopPropagation();
+  if (isOutOfStock) {
+    buyBtn.disabled = true;
+    buyBtn.setAttribute('aria-label', `${product.name} ناموجود است`);
+  } else {
+    buyBtn.setAttribute('aria-label', `افزودن ${product.name} به سبد خرید`);
+    buyBtn.addEventListener('click', (e: MouseEvent) => {
+      e.stopPropagation();
 
-    notyf.success(`${product.name} به سبد خرید اضافه شد!`);
+      notyf.success(`${product.name} به سبد خرید اضافه شد!`);
 
-    confetti({
-      particleCount: 50,
-      spread: 60,
-      origin: { y: 0.8 },
+      confetti({
+        particleCount: 50,
+        spread: 60,
+        origin: { y: 0.8 },
+      });
     });
-  });
+  }
 
-  cardBtn.appendChild(priceLabel);
+  cardBtn.appendChild(prices);
   cardBtn.appendChild(buyBtn);
 
   card.appendChild(imgBox);
