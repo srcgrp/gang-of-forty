@@ -1,13 +1,13 @@
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
 import confetti from 'canvas-confetti';
-import type { Product, ProductPreview, ReadonlyProduct, LoadState } from './types.ts';
-import { isProduct } from './types.ts';
+import { FetchError } from './api/http.ts';
+import { fetchProducts } from './api/products.ts';
+import type { LoadState, Product, ProductPreview, ReadonlyProduct } from './types.ts';
 
-const API_URL = '../../api/products.json';
 const DAIRY_CATEGORY_ID = 2;
 const SKELETON_COUNT = 6;
-const TINTS = ['t-blue', 't-yellow', 't-green', 't-pink', 't-purple', 't-orange'] as const;
+const TINTS = ['t-blue', 't-yellow', 't-green', 't-pink', 't-purple', 't-orange'];
 
 function getDom() {
     const list = document.querySelector<HTMLUListElement>('#dairy-list');
@@ -98,9 +98,7 @@ function createCard(product: ReadonlyProduct, index: number): HTMLLIElement {
         if (!(e.currentTarget instanceof HTMLButtonElement)) return;
         celebrate(e.currentTarget, product.name);
         plus.textContent = '✓';
-        setTimeout(() => {
-            plus.textContent = '+';
-        }, 800);
+        setTimeout(() => { plus.textContent = '+'; }, 800);
     });
 
     const buy = el('div', 'buy');
@@ -136,114 +134,84 @@ function linkEdges(cards: HTMLLIElement[]): void {
 }
 
 
-async function getJSON(path: string): Promise<unknown> {
-    const res = await fetch(path);
-    if (!res.ok) {
-        throw new Error(`HTTP ${res.status}`);
-    }
-    return res.json();
+function showLoading(): void {
+    carousel.setAttribute('aria-busy', 'true');
+    setStatus('در حال بارگذاری محصولات…');
+    list.replaceChildren(...Array.from({ length: SKELETON_COUNT }, createSkeleton));
 }
 
-
-function parseProducts(data: unknown): Product[] {
-    if (!Array.isArray(data)) {
-        throw new Error('products.json is not an array');
-    }
-
-    const valid: Product[] = [];
-    let invalidCount = 0;
-
-    for (const item of data) {
-        if (isProduct(item)) {
-            valid.push(item);
-        } else {
-            invalidCount += 1;
-        }
-    }
-
-    if (invalidCount > 0) {
-        console.warn(`${invalidCount} محصول نامعتبر حذف شد.`);
-    }
-
-    return valid;
+function showProducts(products: Product[]): void {
+    const cards = products.map(createCard);
+    list.replaceChildren(...cards);
+    linkEdges(cards);
+    setStatus('');
+    carousel.setAttribute('aria-busy', 'false');
 }
+
+function showEmpty(): void {
+    carousel.setAttribute('aria-busy', 'false');
+    list.replaceChildren();
+    setStatus('فعلاً محصولی در این دسته نیست.');
+}
+
+function showError(message: string): void {
+    carousel.setAttribute('aria-busy', 'false');
+    list.replaceChildren();
+    const retry = el('button', 'btn', 'تلاش دوباره');
+    retry.type = 'button';
+    retry.addEventListener('click', () => { void loadDairy(); });
+    statusBox.replaceChildren(message, retry);
+}
+
+function assertNever(value: never): never {
+    throw new Error(`Unhandled state: ${JSON.stringify(value)}`);
+}
+
+function render(state: LoadState): void {
+    switch (state.status) {
+        case 'loading':
+            showLoading();
+            break;
+        case 'success':
+            showProducts(state.products);
+            break;
+        case 'empty':
+            showEmpty();
+            break;
+        case 'error':
+            showError(state.message);
+            break;
+        default:
+            assertNever(state);
+    }
+}
+
 
 function errorMessage(err: unknown): string {
     if (err instanceof TypeError) {
         return 'ارتباط با سرور برقرار نشد. اینترنت خود را بررسی کنید و دوباره تلاش کنید.';
     }
-    if (err instanceof Error && err.message.startsWith('HTTP')) {
+    if (err instanceof FetchError && err.kind === 'http') {
         return 'فهرست محصولات پیدا نشد. کمی بعد دوباره تلاش کنید.';
     }
     return 'اطلاعات محصولات درست دریافت نشد. کمی بعد دوباره تلاش کنید.';
 }
 
-
-function render(state: LoadState): void {
-    switch (state.status) {
-        case 'loading':
-            carousel.setAttribute('aria-busy', 'true');
-            setStatus('در حال بارگذاری محصولات…');
-            list.replaceChildren(...Array.from({ length: SKELETON_COUNT }, createSkeleton));
-            break;
-
-        case 'success': {
-            const dairy = state.products.filter((p) => p.categoryId === DAIRY_CATEGORY_ID);
-
-            if (dairy.length === 0) {
-                render({ status: 'empty' });
-                return;
-            }
-
-            const cards = dairy.map(createCard);
-            list.replaceChildren(...cards);
-            linkEdges(cards);
-            setStatus('');
-            carousel.setAttribute('aria-busy', 'false');
-            break;
-        }
-
-        case 'empty':
-            carousel.setAttribute('aria-busy', 'false');
-            list.replaceChildren();
-            setStatus('فعلاً محصولی در این دسته نیست.');
-            break;
-
-        case 'error': {
-            carousel.setAttribute('aria-busy', 'false');
-            list.replaceChildren();
-            const retry = el('button', 'btn', 'تلاش دوباره');
-            retry.type = 'button';
-            retry.addEventListener('click', loadDairy);
-            statusBox.replaceChildren(state.message, retry);
-            break;
-        }
-
-        default: {
-
-            const _exhaustive: never = state;
-            return _exhaustive;
-        }
-    }
-}
-
 async function loadDairy(): Promise<void> {
     render({ status: 'loading' });
-
     try {
-        const raw = await getJSON(API_URL);
-        const products = parseProducts(raw);
+        const products = await fetchProducts();
+        const dairy = products.filter((p: Product) => p.categoryId === DAIRY_CATEGORY_ID);
 
-        if (products.length === 0) {
+        if (dairy.length === 0) {
             render({ status: 'empty' });
             return;
         }
-
-        render({ status: 'success', products });
+        render({ status: 'success', products: dairy });
     } catch (err: unknown) {
         console.warn('بارگذاری لبنیات ناموفق بود:', err);
         render({ status: 'error', message: errorMessage(err) });
     }
 }
 
-loadDairy();
+void loadDairy();
