@@ -1,6 +1,6 @@
-/* ================================
+/* =========================
    Navbar
-================================ */
+========================= */
 
 .navbar {
   position: sticky;
@@ -12,7 +12,13 @@
   box-shadow: 0 4px 16px rgb(0 0 0 / 3%);
 }
 
+/* Hide checkbox */
+.nav-toggle {
+  display: none;
+}
+
 .navbar-inner {
+  position: relative; /* important for mobile dropdown */
   width: min(1240px, calc(100% - 40px));
   min-height: 58px;
   margin-inline: auto;
@@ -23,30 +29,21 @@
 
 .navbar-content {
   width: 100%;
+  z-index: 20;
 }
-
-/* ================================
-   Navigation List
-================================ */
 
 .nav-list {
   display: flex;
   align-items: center;
   gap: 4px;
-
   margin: 0;
   padding: 0;
-
   list-style: none;
 }
 
 .nav-list > li {
   position: relative;
 }
-
-/* ================================
-   Navigation Links
-================================ */
 
 .nav-link {
   position: relative;
@@ -61,10 +58,8 @@
   border-radius: 10px;
 
   color: var(--text-muted);
-
   font-size: 0.76rem;
   font-weight: 600;
-
   white-space: nowrap;
 
   transition:
@@ -79,20 +74,13 @@
 
 .nav-link.is-active {
   color: var(--primary);
-
   background: color-mix(in srgb, var(--primary) 10%, transparent);
-
   font-weight: 750;
 }
-
-/* ================================
-   Dropdown Icon
-================================ */
 
 .nav-link .icon {
   width: 18px;
   height: 18px;
-
   flex-shrink: 0;
 
   color: currentColor;
@@ -100,9 +88,9 @@
   transition: transform 0.2s ease;
 }
 
-/* ================================
+/* =========================
    Dropdown
-================================ */
+========================= */
 
 .has-dropdown {
   position: relative;
@@ -110,7 +98,7 @@
 
 .dropdown {
   position: absolute;
-
+  z-index: 20;
   top: calc(100% + 8px);
   right: 0;
 
@@ -118,7 +106,6 @@
 
   display: grid;
   grid-template-columns: 1fr 1fr;
-
   gap: 4px;
 
   margin: 0;
@@ -127,7 +114,6 @@
   list-style: none;
 
   background: var(--surface);
-
   border: 1px solid var(--border);
   border-radius: 14px;
 
@@ -135,7 +121,6 @@
 
   opacity: 0;
   visibility: hidden;
-
   transform: translateY(-6px);
 
   transition:
@@ -150,10 +135,6 @@
   transform: translateY(0);
 }
 
-/* ================================
-   Dropdown Items
-================================ */
-
 .dropdown-item {
   min-height: 42px;
 
@@ -166,7 +147,6 @@
   border-radius: 9px;
 
   color: var(--text);
-
   font-size: 0.72rem;
 
   transition:
@@ -177,15 +157,9 @@
 
 .dropdown-item:hover {
   color: var(--primary);
-
   background: color-mix(in srgb, var(--primary) 8%, transparent);
-
   transform: translateX(-2px);
 }
-
-/* ================================
-   Dropdown Emoji
-================================ */
 
 .emoji {
   width: 28px;
@@ -193,19 +167,17 @@
 
   display: grid;
   place-items: center;
-
   flex-shrink: 0;
 
   border-radius: 8px;
-
   background: var(--background);
 
   font-size: 1rem;
 }
 
-/* ================================
-   Mobile Menu Button
-================================ */
+/* =========================
+   Burger
+========================= */
 
 .burger-btn {
   display: none;
@@ -220,16 +192,17 @@
   border-radius: 10px;
 
   background: transparent;
-
-  color: var(--text);
+  color: var(--primary);
 
   cursor: pointer;
-  color: var(--primary);
-  background: color-mix(in srgb, var(--primary) 8%, transparent);
 
   transition:
     color 0.2s ease,
     background-color 0.2s ease;
+}
+
+.burger-btn:hover {
+  background: color-mix(in srgb, var(--primary) 8%, transparent);
 }
 
 .burger-icon {
@@ -249,9 +222,9 @@
   display: none;
 }
 
-/* ================================
-   Mobile
-================================ */
+/* =========================
+   Tablet / Mobile
+========================= */
 
 @media (max-width: 850px) {
   .navbar-inner {
@@ -265,7 +238,6 @@
 
   .navbar-content {
     position: absolute;
-
     top: 100%;
     right: 0;
     left: 0;
@@ -273,20 +245,34 @@
     padding: 10px;
 
     background: var(--surface);
-
     border-bottom: 1px solid var(--border);
-
     box-shadow: 0 12px 30px rgb(0 0 0 / 8%);
 
     opacity: 0;
     visibility: hidden;
-
     transform: translateY(-8px);
 
     transition:
       opacity 0.2s ease,
       visibility 0.2s ease,
       transform 0.2s ease;
+  }
+
+  /* Open mobile menu */
+  .nav-toggle:checked ~ .navbar-inner .navbar-content {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  /* Open icon → hidden */
+  .nav-toggle:checked ~ .navbar-inner .burger-icon--open {
+    display: none;
+  }
+
+  /* Close icon → visible */
+  .nav-toggle:checked ~ .navbar-inner .burger-icon--close {
+    display: block;
   }
 
   .nav-list {
@@ -296,7 +282,6 @@
 
     flex-direction: column;
     align-items: stretch;
-
     gap: 3px;
   }
 
@@ -304,27 +289,9 @@
     width: 100%;
   }
 
-  /* Open mobile menu */
-
-  .nav-toggle:checked ~ .navbar-inner .navbar-content {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-  }
-
-  /* Hamburger → Close */
-
-  .nav-toggle:checked ~ .navbar-inner .burger-icon--open {
-    display: none;
-  }
-
-  .nav-toggle:checked ~ .navbar-inner .burger-icon--close {
-    display: block;
-  }
-
-  /* ================================
-     Mobile Dropdown
-  ================================= */
+  /* =========================
+     Mobile dropdown
+  ========================= */
 
   .dropdown {
     position: static;
@@ -339,7 +306,6 @@
 
     opacity: 1;
     visibility: visible;
-
     transform: none;
 
     display: none;
@@ -349,21 +315,20 @@
     display: grid;
   }
 
-  /* Don't rotate dropdown icon on mobile */
-
   .has-dropdown:hover > .nav-link .icon {
     transform: none;
   }
 }
+
+/* =========================
+   Small mobile
+========================= */
 
 @media (max-width: 600px) {
   .navbar {
     top: 64px;
   }
 }
-/* ================================
-   Small Mobile
-================================ */
 
 @media (max-width: 450px) {
   .dropdown {
