@@ -175,6 +175,26 @@ nav {
   border: 2px solid var(--primary-dark);
 }
 
+.cart-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 10px;
+  height: 14px;
+  padding: 0 2px;
+  border-radius: 999px;
+  background-color: var(--surface);
+  color: var(--primary);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.cart-count[hidden] {
+  display: none;
+}
+
+
 #user-actions{
   display: flex;
   flex-direction: row;

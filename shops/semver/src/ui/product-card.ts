@@ -81,15 +81,14 @@ export const createProductCard = (item: ProductView): HTMLElement => {
   buyBtn.className = 'buynow-btn';
   buyBtn.setAttribute('type', 'button');
   buyBtn.textContent = '+';
+  buyBtn.dataset.productId = String(product.id);
 
   if (isOutOfStock) {
     buyBtn.disabled = true;
     buyBtn.setAttribute('aria-label', `${product.name} ناموجود است`);
   } else {
     buyBtn.setAttribute('aria-label', `افزودن ${product.name} به سبد خرید`);
-    buyBtn.addEventListener('click', (e: MouseEvent) => {
-      e.stopPropagation();
-
+    buyBtn.addEventListener('click', () => {
       notyf.success(`${product.name} به سبد خرید اضافه شد!`);
 
       confetti({
@@ -99,6 +98,7 @@ export const createProductCard = (item: ProductView): HTMLElement => {
       });
     });
   }
+
 
   cardBtn.appendChild(prices);
   cardBtn.appendChild(buyBtn);

@@ -1,4 +1,11 @@
-import type { Category, LoadState, Offer, Product, ProductView } from './types';
+import type {
+  CartLine,
+  Category,
+  LoadState,
+  Offer,
+  Product,
+  ProductView,
+} from './types';
 import {
   fetchCategories,
   fetchHome,
@@ -7,13 +14,51 @@ import {
   fetchShop,
   fetchStock,
 } from './api/shop-api';
+import { addItem } from './cart/cart';
+import { loadCart, saveCart } from './storage/cart-storage';
+import { renderCartBadge } from './ui/cart-badge';
 import { renderCarousel } from './ui/carousel';
 import { renderCategories } from './ui/categories';
 import { createShelf, renderShelf } from './ui/shelves';
 import { renderShop } from './ui/layout';
 import { buildCarouselSections, renderHomeBanners } from './ui/home';
+import { formatCount } from './ui/format';
 
 const LATEST_COUNT = 8;
+
+let cartLines: CartLine[] = loadCart();
+
+const addToCart = (productId: number): void => {
+  cartLines = addItem(cartLines, productId);
+  saveCart(cartLines);
+  renderCartBadge(cartLines);
+};
+
+const watchCartButtons = (): void => {
+  document.addEventListener('click', (event: MouseEvent) => {
+    const target = event.target;
+    if (!(target instanceof Element)) {
+      return;
+    }
+
+    const rawId = target.closest<HTMLElement>('.buynow-btn')?.dataset.productId;
+    if (!rawId) {
+      return;
+    }
+
+    const productId = Number(rawId);
+    if (Number.isFinite(productId)) {
+      addToCart(productId);
+    }
+  });
+};
+
+const setSearchPlaceholder = (count: number): void => {
+  const input = document.querySelector<HTMLInputElement>('#search-input');
+  if (input) {
+    input.placeholder = `جستجو در میان ${formatCount(count)} کالا…`;
+  }
+};
 
 const showCarousel = (selector: string, state: LoadState): void => {
   const carousel = document.querySelector<HTMLElement>(selector);
@@ -84,6 +129,8 @@ const renderCategoryLinks = (
 };
 
 const start = async (): Promise<void> => {
+  watchCartButtons();
+  renderCartBadge(cartLines);
   showCarousel('#latest-carousel', { status: 'loading' });
 
   try {
@@ -95,6 +142,8 @@ const start = async (): Promise<void> => {
       fetchShop(),
       fetchHome(),
     ]);
+
+    setSearchPlaceholder(products.length);
 
     const offerByProduct = new Map<number, Offer>();
     offers.forEach((offer) => offerByProduct.set(offer.productId, offer));
@@ -110,8 +159,9 @@ const start = async (): Promise<void> => {
 
     showCarousel('#latest-carousel', successOrEmpty(newest));
 
-    const categoryList =
-      document.querySelector<HTMLElement>('.flex-item-categories');
+    const categoryList = document.querySelector<HTMLElement>(
+      '.flex-item-categories',
+    );
     if (categoryList) {
       renderCategories(categoryList, categories);
     }
