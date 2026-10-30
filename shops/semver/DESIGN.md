@@ -34,7 +34,7 @@ changing quantities, checkout, login, payment.
 | Brand and nav | `#site-brand`, `nav` | Logo `pomegranate-logo-02.svg`, name, tagline, search box, cart button |
 | Category menu | `#header-categories` | "All categories" dropdown and quick links |
 | Hero | `.hero-container` | Big title, text and the call-to-action button |
-| Categories | `.flex-item-categories` | One card per category (emoji, name, color) |
+| Categories | `#categories` | One card per category (emoji, name, color) |
 | Offers carousel | `#offers-carousel` | Products that have an offer |
 | Second carousel | `#discounted-carousel` | Products of one category (currently snacks, id 7) |
 | Feature banners | `.feature-container` | Two text banners |
@@ -99,9 +99,10 @@ Base address: `import.meta.env.VITE_API_URL`.
 |---|---|---|---|---|
 | `categories.json` | `fetchCategories` | At start | `Category[]` | `isCategory` |
 | `products.json` | `fetchProducts` | At start | `Product[]` | `isProduct` |
-| `offers.json` | offers loader | At start | `Offer[]` | `isOffer` |
-| `stock.json` | stock loader | At start | `Stock` | `isStock` |
-| `shop.json`, `home.json` | not used yet | Later | `Shop` | later |
+| `offers.json` | `fetchOffers` | At start | `Offer[]` | `isOffer` |
+| `stock.json` | `fetchStock` | At start | `Stock` | `isStock` |
+| `shop.json` | `fetchShop` | At start | `Shop` | `isShop` |
+| `home.json` | `fetchHome` | At start | `Home` | `isHome` |
 
 How one fetch works:
 
@@ -120,7 +121,7 @@ I test it by changing the file name to `broken.json` (invalid JSON) and then to
 | Offers carousel | "در حال بارگذاری محصولات..." | Product cards with discount | "No offers today" | Error message |
 | Second carousel | Same loading text | Product cards | "No products in this category" | Error message |
 | Categories | Nothing yet | Category cards | Nothing | Message in the console (to improve) |
-| Cart count (later) | 0 | Saved count | 0 | Empty cart if stored data is invalid |
+| Cart count | 0 | Saved count | 0 | Empty cart if stored data is invalid |
 
 - Text comes from `ui/state-text.ts`, from one `switch` on `status`.
 - The `default` branch assigns the state to a `never` variable. If a new state
@@ -128,58 +129,52 @@ I test it by changing the file name to `broken.json` (invalid JSON) and then to
 - A product with stock `0` still appears, with "out of stock" and a disabled button.
 
 ## 7. Folders and layers
+
 shops/semver/
 
-index.html loads /src/main.ts
-
-style.css
-
-DESIGN.md
-
-vite.config.ts base “./”, dev proxy /api -> https://gof.zzb.cx
-
-tsconfig.json strict, include [“src”]
-
-.env.development VITE_API_URL=/api
-
-.env.production VITE_API_URL=…/…/api
+    index.html              loads /src/main.ts
+    style.css
+    DESIGN.md               step 1
+    package.json
+    package-lock.json
+    tsconfig.json           step 0, strict, include ["src"]
+    vite.config.ts          step 5, base "./", dev proxy /api -> https://gof.zzb.cx
+    .env.development        step 5, VITE_API_URL=/api
+    .env.production         step 5, VITE_API_URL=../../api
+    font/                   Yorghan and Vazirmatn fonts (assets)
+    image/                  logos and photos (assets)
 
 src/
 
-types.ts types imports nothing
+    types.ts                types; imports nothing
+    main.ts                 main; holds State, wires events, starts the app
 
-api/
+    api/                    data layer; the only place with fetch
+      client.ts             getJSON, fetchChecked, fetchList
+      guards.ts             isProduct, isOffer, isCategory, isStock, isShop, isHome
+      shop-api.ts           fetchCategories, fetchProducts, fetchOffers, fetchStock, fetchShop, fetchHome
 
-client.ts data getJSON, fetchChecked, fetchList
+    storage/                data layer; the only place with localStorage
+      cart-storage.ts       loadCart, saveCart (key "cart")
 
-guards.ts data isProduct, isOffer, isCategory, isStock
+    cart/                   logic layer; pure cart rules, no DOM
+      cart.ts               addItem, setQty, removeItem, totalPrice
 
-shop-api.ts data fetchCategories, fetchProducts
-
-storage/ data the only place with localStorage
-
-cart/ logic pure cart rules
-
-ui/ ui builds DOM from parameters
-
-format.ts price and number formatting
-
-notify.ts notifications
-
-product-card.ts one product card
-
-state-text.ts text for each LoadState
-
-carousel.ts draws a carousel from a LoadState
-
-categories.ts draws category cards
-
-main.ts main state, events, start
-
+    ui/                     ui layer; builds DOM from parameters
+      format.ts             price and number formatting
+      notify.ts             notifications
+      product-card.ts       one product card
+      state-text.ts         text for each LoadState
+      carousel.ts           draws a carousel from a LoadState
+      categories.ts         draws category cards
+      shelves.ts            one shelf (section) per category
+      layout.ts             header, notice, menu, footer from Shop
+      home.ts               hero, banners and promos from Home
+      cart-badge.ts         cart count badge
 
 Rules:
 
-- Imports only go down: `main → ui / logic / data → types`. No cycles.
+- Imports only go down: `main → ui / cart → storage / api → types`. No cycles.
 - Only `src/api/` has `fetch`. Only `src/storage/` has `localStorage`.
 - `src/ui/` only draws. It does no fetch and no calculation.
 - No file longer than 70 lines.
@@ -202,19 +197,23 @@ Rules:
 
 Done:
 
-- `strict` mode, `types.ts`, guards, `getJSON`, layered folders.
+- `strict` mode, `types.ts`, guards, `getJSON`, layered folders
+  (`api/`, `storage/`, `cart/`, `ui/`).
 - `index.html` loads `src/main.ts`. `script.ts` is removed.
-- Categories and the second carousel render from the API.
+- Categories, offers carousel and the per-category shelves render from the API.
+- Offers and stock are joined to products in `main.ts`; price with discount and
+  "out of stock" are shown.
+- `shop.json` fills the header, menu, notice and footer; `home.json` builds the
+  hero, banners and the carousels.
+- Cart logic in `src/cart/` and `src/storage/`; the cart badge survives a
+  reload and the search box shows the real product count.
 - `VITE_API_URL` and the env files.
 - Favicon, and the logo renamed without a space.
 
 Not done yet:
 
-- `loadOffers` and `#offers-carousel` are not connected to the API.
-- Offers and stock are not joined to products yet.
-- The category container (`.flex-item-categories`) has no `id`.
-- `shop.json` and `home.json` are not used. The header, footer and hero text are still static in the HTML.
-- Search, cart and `src/storage/`, `src/cart/` are not built yet.
-- The hero redesign is on the branch `style/hero-redesign`. It is design work and is not part of this task.
-`
-    
+- Working search: the box shows the real count but typing does not filter yet.
+- A real cart page: no removing items, changing quantities, checkout, login or
+  payment. `localStorage` is only a display helper.
+- The hero redesign is on the branch `style/hero-redesign`. It is design work
+  and is not part of this task.
