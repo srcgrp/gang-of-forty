@@ -1,13 +1,19 @@
 {
-    "compilerOptions": {
-        "target": "ES2022",
-        "module": "ESnext",
-        "moduleResolution": "bundler",
-        "lib": ["ES2022","DOM","DOM.Iterable"],
-        "types": ["vite/client"],
-        "strict": true,
-        "noEmit": true,
-        "skipLibCheck": true 
-    },
-    "include": ["*.ts"]
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESnext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2023", "DOM"],
+    "types": ["vite/client"],
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
+    "moduleDetection": "force",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src", "src/guards/index-guards.ts"]
 }
