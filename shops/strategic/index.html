@@ -81,13 +81,41 @@
       <symbol id="i-chevron-right" viewBox="0 0 24 24">
       <path d="m9 18 6-6-6-6" />
       </symbol>
+      <symbol id="i-alert" viewBox="0 0 24 24">
+      <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+      <path d="M12 9v4" />
+      <path d="M12 17h.01" />
+      </symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24">
+      <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
+      <path d="M21 3v5h-5" />
+      </symbol>
+      <symbol id="i-bag" viewBox="0 0 24 24">
+      <path d="M16 10a4 4 0 0 1-8 0" />
+      <path d="M3.103 6.034h17.794" />
+      <path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z" />
+      </symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24">
+      <path d="M5 12h14" />
+      <path d="M12 5v14" />
+      </symbol>
+      <symbol id="i-minus" viewBox="0 0 24 24">
+      <path d="M5 12h14" />
+      </symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24">
+      <path d="M3 6h18" />
+      <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+      <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+      <path d="M10 11v6" />
+      <path d="M14 11v6" />
+      </symbol>
     </svg>
 
-    <!-- ========== skip link ========== -->
+    <!-- ========== SKIP LINK ========== -->
 
     <a class="skip" href="#main">پرش به محتوای اصلی</a>
 
-    <!-- ========== BANNER ========== -->
+    <!-- ========== NOTICE BAR ========== -->
 
     <aside class="header-banner" aria-label="اطلاعیه فروشگاه">
       <svg class="icon icon--mirror" aria-hidden="true" focusable="false"><use href="#i-truck" /></svg>
@@ -99,7 +127,7 @@
     <header class="site-header">
       <div class="bar">
         <a class="logo" href="#top" aria-label="سوپرمارکت آرمین، بازگشت به بالای صفحه">
-          <!-- SVG LOGO -->
+                    <!-- SVG LOGO -->
           <svg
             width="512"
             height="512"
@@ -466,13 +494,17 @@
           >
         </div>
 
-        <button class="cart" type="button" aria-label="سبد خرید، ۳ کالا">
-          <span aria-hidden="true">
-            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-cart" /></svg>
-            <span class="cart-txt">سبد خرید</span>
-          </span>
-          <b aria-hidden="true">۳</b>
-        </button>
+        <!-- ========== CART: button + hover summary (filled by script.ts) ========== -->
+        <div class="cart-wrap" id="cart-wrap">
+          <button class="cart" id="cart-btn" type="button" aria-label="سبد خرید، ۰ کالا" aria-expanded="false" aria-controls="cart-panel">
+            <span aria-hidden="true">
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-cart" /></svg>
+              <span class="cart-txt">سبد خرید</span>
+            </span>
+            <b id="cart-count" aria-hidden="true">۰</b>
+          </button>
+          <section class="cart-panel" id="cart-panel" aria-label="خلاصه سبد خرید" tabindex="-1"></section>
+        </div>
 
         <input
           class="sr-only menu-toggle"
@@ -485,7 +517,8 @@
           ><span class="bars"></span
         ></label>
         <label class="scrim" for="menu-toggle" aria-hidden="true"></label>
-        <!-- ========== MAIN MENU (NAV) ========== -->
+
+        <!-- ========== MAIN MENU (built from categories.json + shop.json) ========== -->
         <nav class="main-nav" id="primary-nav" aria-label="منوی اصلی">
           <ul>
             <!-- ========== MEGA MENU ========== -->
@@ -1627,60 +1660,29 @@
               >
             </address>
             <h3 class="foot-social__title" id="foot-social-t">ما را دنبال کنید</h3>
-            <ul class="foot-social" aria-labelledby="foot-social-t">
-              <li>
-                <a href="https://instagram.com/arminmarket"
-                  ><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-instagram" /></svg>
-                  اینستاگرام</a
-                >
-              </li>
-              <li>
-                <a href="https://t.me/arminmarket"
-                  ><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-telegram" /></svg>
-                  تلگرام</a
-                >
-              </li>
-              <li>
-                <a href="https://wa.me/989121234567"
-                  ><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-whatsapp" /></svg>
-                  واتس‌اپ</a
-                >
-              </li>
-            </ul>
+            <ul class="foot-social" id="foot-social" aria-labelledby="foot-social-t"></ul>
           </div>
           <nav aria-label="دسته‌ها در پاورقی">
             <h2>دسته‌ها</h2>
-            <ul>
-              <li><a href="#produce">میوه و سبزی</a></li>
-              <li><a href="#dairy">لبنیات</a></li>
-              <li><a href="#bakery">نان و شیرینی</a></li>
-              <li><a href="#protein">پروتئین</a></li>
-              <li><a href="#drinks">نوشیدنی</a></li>
-              <li><a href="#snacks">تنقلات</a></li>
-            </ul>
+            <ul id="foot-cats"></ul>
           </nav>
           <div>
             <h2>راهنما</h2>
-            <ul>
-              <li>شیوه ارسال</li>
-              <li>بازگشت کالا</li>
-              <li>پرسش‌های پرتکرار</li>
-            </ul>
+            <ul id="foot-help"></ul>
           </div>
           <div>
             <h2>ساعت کاری</h2>
-            <ul>
-              <li>شنبه تا پنجشنبه: ۸ تا ۲۲</li>
-              <li>جمعه: ۹ تا ۱۴</li>
-            </ul>
+            <ul id="foot-hours"></ul>
           </div>
         </div>
         <div class="foot-bar">
-          <p>© ۱۴۰۵ تمامی حقوق برای سوپرمارکت آرمین محفوظ است</p>
+          <p id="foot-copy"></p>
           <a href="#top"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-up" /></svg> بازگشت به بالا</a>
         </div>
       </div>
     </footer>
 
+    <!-- ========== LIVE REGION ========== -->
+    <div class="sr-only" id="live" role="status"></div>
   </body>
 </html> 
