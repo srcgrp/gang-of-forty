@@ -4,7 +4,6 @@ const createCategoryCard = (category: Category): HTMLElement => {
   const card = document.createElement('a');
   card.className = 'item';
   card.href = `#${category.slug}`;
-  card.style.backgroundColor = category.color;
   card.setAttribute('aria-label', `رفتن به دسته ${category.name}`);
 
   const emoji = document.createElement('span');
