@@ -1,6 +1,7 @@
 import type { Category, LoadState, Offer, Product, ProductView } from './types';
 import {
   fetchCategories,
+  fetchHome,
   fetchOffers,
   fetchProducts,
   fetchShop,
@@ -10,8 +11,8 @@ import { renderCarousel } from './ui/carousel';
 import { renderCategories } from './ui/categories';
 import { createShelf, renderShelf } from './ui/shelves';
 import { renderShop } from './ui/layout';
+import { buildCarouselSections, renderHomeBanners } from './ui/home';
 
-const DAIRY_ID = 2;
 const LATEST_COUNT = 8;
 
 const showCarousel = (selector: string, state: LoadState): void => {
@@ -64,80 +65,90 @@ const fillShelves = (
 const renderCategoryLinks = (
   containerSelector: string,
   categories: Category[],
-  withPrefix: boolean,
 ): void => {
   const container = document.querySelector<HTMLElement>(containerSelector);
-  if (!container) return;
+  if (!container) {
+    return;
+  }
+
   container.replaceChildren();
+
   categories.forEach((category) => {
-    const item = document.createElement('li');
+    const li = document.createElement('li');
     const link = document.createElement('a');
     link.href = `#${category.slug}`;
-    link.textContent = withPrefix
-      ? `${category.emoji} ${category.name}`
-      : category.name;
-    item.appendChild(link);
-    container.appendChild(item);
+    link.textContent = `${category.emoji} ${category.name}`;
+    li.appendChild(link);
+    container.appendChild(li);
   });
 };
 
 const start = async (): Promise<void> => {
-  showCarousel('#offers-carousel', { status: 'loading' });
-  showCarousel('#discounted-carousel', { status: 'loading' });
   showCarousel('#latest-carousel', { status: 'loading' });
 
   try {
-    const [products, offers, stock, categories, shop] = await Promise.all([
+    const [products, offers, stock, categories, shop, home] = await Promise.all([
       fetchProducts(),
       fetchOffers(),
       fetchStock(),
       fetchCategories(),
       fetchShop(),
+      fetchHome(),
     ]);
 
     const offerByProduct = new Map<number, Offer>();
-    offers.forEach((offer) => {
-      offerByProduct.set(offer.productId, offer);
-    });
+    offers.forEach((offer) => offerByProduct.set(offer.productId, offer));
 
     const views = products.map((product) =>
       toView(product, offerByProduct, stock.items),
     );
 
-    const offerViews = views.filter((view) => view.offer);
-    const dairyViews = views.filter(
-      (view) => view.product.categoryId === DAIRY_ID,
-    );
-    const latestViews = [...views]
-      .sort((first, second) => second.product.id - first.product.id)
-      .slice(0, LATEST_COUNT);
+    const newest = [...products]
+      .sort((a, b) => b.id - a.id)
+      .slice(0, LATEST_COUNT)
+      .map((product) => toView(product, offerByProduct, stock.items));
 
-    showCarousel('#offers-carousel', successOrEmpty(offerViews));
-    showCarousel('#discounted-carousel', successOrEmpty(dairyViews));
-    showCarousel('#latest-carousel', successOrEmpty(latestViews));
+    showCarousel('#latest-carousel', successOrEmpty(newest));
 
-    const shelfContainer = document.querySelector<HTMLElement>(
-      '#category-shelves',
-    );
-    if (shelfContainer) {
-      fillShelves(shelfContainer, categories, views);
-    }
-
-    const categoryList = document.querySelector<HTMLElement>(
-      '.flex-item-categories',
-    );
+    const categoryList =
+      document.querySelector<HTMLElement>('.flex-item-categories');
     if (categoryList) {
       renderCategories(categoryList, categories);
     }
+    renderCategoryLinks('#dropdown-menu', categories);
 
-    renderCategoryLinks('#dropdown-menu', categories, true);
+    const shelves = document.querySelector<HTMLElement>('#category-shelves');
+    if (shelves) {
+      fillShelves(shelves, categories, views);
+    }
+
     renderShop(shop, categories);
+    renderHomeBanners(home);
+
+    const carouselsBox = document.querySelector<HTMLElement>('#carousels');
+    if (carouselsBox) {
+      const slugs = new Set(categories.map((category) => category.slug));
+      const sections = buildCarouselSections(
+        carouselsBox,
+        home.carousels,
+        slugs,
+      );
+
+      sections.forEach(({ config, element }) => {
+        const items =
+          config.source === 'offers'
+            ? views.filter((view) => view.offer !== undefined)
+            : views.filter(
+                (view) => view.product.categoryId === config.categoryId,
+              );
+
+        renderCarousel(element, successOrEmpty(items));
+      });
+    }
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'خطای ناشناخته';
-    showCarousel('#offers-carousel', { status: 'error', message });
-    showCarousel('#discounted-carousel', { status: 'error', message });
+    const message = error instanceof Error ? error.message : 'خطای نامشخص';
     showCarousel('#latest-carousel', { status: 'error', message });
   }
 };
 
-start();
+void start();

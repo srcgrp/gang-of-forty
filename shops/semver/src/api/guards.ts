@@ -1,5 +1,10 @@
 import type {
+  CarouselConfig,
   Category,
+  Home,
+  HomeBanner,
+  HomeCta,
+  HomePromo,
   Offer,
   Product,
   Shop,
@@ -8,7 +13,6 @@ import type {
   ShopSchedule,
   StockData,
 } from '../types';
-
 
 const isObject = (x: unknown): x is Record<string, unknown> =>
   typeof x === 'object' && x !== null;
@@ -43,7 +47,9 @@ export const isStock = (x: unknown): x is StockData =>
   isObject(x.items) &&
   Object.values(x.items).every((v) => typeof v === 'number');
 
-  const isShopLink = (x: unknown): x is ShopLink =>
+/* ----------------------------- فروشگاه ----------------------------- */
+
+const isShopLink = (x: unknown): x is ShopLink =>
   isObject(x) && typeof x.label === 'string' && typeof x.href === 'string';
 
 const isShopSchedule = (x: unknown): x is ShopSchedule =>
@@ -62,7 +68,45 @@ export const isShop = (x: unknown): x is Shop =>
   typeof x.address === 'string' &&
   typeof x.copyright === 'string' &&
   isShopHours(x.hours) &&
-  Array.isArray(x.schedule) && x.schedule.every(isShopSchedule) &&
-  Array.isArray(x.menu) && x.menu.every(isShopLink) &&
-  Array.isArray(x.help) && x.help.every(isShopLink);
+  Array.isArray(x.schedule) &&
+  x.schedule.every(isShopSchedule) &&
+  Array.isArray(x.menu) &&
+  x.menu.every(isShopLink) &&
+  Array.isArray(x.help) &&
+  x.help.every(isShopLink);
 
+/* ------------------------------- خانه ------------------------------- */
+
+export const isHomeCta = (x: unknown): x is HomeCta =>
+  isObject(x) && typeof x.label === 'string' && typeof x.href === 'string';
+
+export const isHomeBanner = (x: unknown): x is HomeBanner =>
+  isObject(x) &&
+  typeof x.title === 'string' &&
+  typeof x.text === 'string' &&
+  typeof x.emoji === 'string' &&
+  isHomeCta(x.cta);
+
+export const isHomePromo = (x: unknown): x is HomePromo =>
+  isObject(x) &&
+  typeof x.text === 'string' &&
+  typeof x.emoji === 'string' &&
+  typeof x.color === 'string' &&
+  typeof x.href === 'string';
+
+export const isCarouselConfig = (x: unknown): x is CarouselConfig =>
+  isObject(x) &&
+  typeof x.id === 'string' &&
+  typeof x.title === 'string' &&
+  typeof x.emoji === 'string' &&
+  (x.source === undefined || typeof x.source === 'string') &&
+  (x.categoryId === undefined || typeof x.categoryId === 'number');
+
+export const isHome = (x: unknown): x is Home =>
+  isObject(x) &&
+  isHomeBanner(x.hero) &&
+  isHomeBanner(x.side) &&
+  Array.isArray(x.promos) &&
+  x.promos.every(isHomePromo) &&
+  Array.isArray(x.carousels) &&
+  x.carousels.every(isCarouselConfig);

@@ -201,6 +201,7 @@ nav {
   margin: 0px auto;
   padding: 8px 0px;
   color: var(--ink);
+  
 }
 
 .has-dropdown {
@@ -265,6 +266,14 @@ nav {
   border-radius: 8px;
 }
 
+#btn-categories>li>a {
+  color: inherit;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 #btn-categories>li:hover {
   background-color: var(--tint);
   padding: 6px 12px;
@@ -279,6 +288,38 @@ nav {
   width: 100%;
   align-items: center;
   border-radius: 8px;
+}
+
+.feature-container {
+  display: flex;
+  gap: 24px;
+}
+
+.promo-card {
+  flex: 1;
+  min-height: 250px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.promo-card:hover {
+  transform: translateY(-4px);
+}
+
+.promo-emoji {
+  font-size: 48px;
+}
+
+.promo-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: #222;
 }
 
 #hero-right {
@@ -296,7 +337,7 @@ nav {
 
 }
 
-/* #hero-left {
+#hero-left {
   flex: 1;
   background-image: url(./image/laurenz-heymann-al6s6JpnZis-unsplash.jpg);
   background-color: rgba(110,16,41,.75);
@@ -305,7 +346,7 @@ nav {
   height: 550px;
   border-radius: 8px;
   background-position: center;
-} */
+}
 
 #hero-title1 {
   display: block;
@@ -352,6 +393,8 @@ nav {
 }
 
 #cta {
+  display: inline;
+  width: 250px;
   color: var(--ink);
   background-color: var(--highlight);
   border: 3px solid var(--highlight);
@@ -431,7 +474,14 @@ i.ph-arrow-left {
   gap: 12px;
   margin-top: 12px;
   border-radius: 300px;
+  color: var(--ink);
+  text-decoration: none;
 }
+
+.item:hover {
+  color: var(--primary);
+}
+
 
 .category-emoji{
   font-size: 42px;

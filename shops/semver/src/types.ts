@@ -78,3 +78,37 @@ export interface Shop {
   help: ShopLink[];
   copyright: string;
 }
+
+export interface HomeCta {
+  label: string;
+  href: string;
+}
+
+export interface HomeBanner {
+  title: string;
+  text: string;
+  emoji: string;
+  cta: HomeCta;
+}
+
+export interface HomePromo {
+  text: string;
+  emoji: string;
+  color: string;
+  href: string;
+}
+
+export interface CarouselConfig {
+  id: string;
+  title: string;
+  emoji: string;
+  source?: string;
+  categoryId?: number;
+}
+
+export interface Home {
+  hero: HomeBanner;
+  side: HomeBanner;
+  promos: HomePromo[];
+  carousels: CarouselConfig[];
+}

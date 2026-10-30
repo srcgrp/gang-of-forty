@@ -1,9 +1,15 @@
-import type { Category, Offer, Product, Shop, StockData } from '../types';
+import type { Category, Home, Offer, Product, Shop, StockData } from '../types';
 import { fetchChecked, fetchList } from './client';
-import { isCategory, isOffer, isProduct, isShop, isStock } from './guards';
+import {
+  isCategory,
+  isHome,
+  isOffer,
+  isProduct,
+  isShop,
+  isStock,
+} from './guards';
 
-
-const BASE = import.meta.env.VITE_API_URL
+const BASE = import.meta.env.VITE_API_URL;
 
 export const fetchProducts = (): Promise<Product[]> =>
   fetchList(`${BASE}/products.json`, isProduct);
@@ -20,3 +26,5 @@ export const fetchStock = (): Promise<StockData> =>
 export const fetchShop = (): Promise<Shop> =>
   fetchChecked(`${BASE}/shop.json`, isShop);
 
+export const fetchHome = (): Promise<Home> =>
+  fetchChecked(`${BASE}/home.json`, isHome);
