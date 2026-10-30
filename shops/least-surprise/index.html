@@ -51,7 +51,7 @@
         <button type="button" class="cart-btn" aria-label="سبد خرید شامل ۳ کالا">
           <span class="cart-icon">🛒</span>
           <span class="cart-title">سبد خرید</span>
-          <span class="badge">۳</span>
+          <span id="cart-badge" class="badge">۳</span>
         </button>
       </div>
 
@@ -406,6 +406,8 @@
               <span class="current-price">۵۴,۰۰۰ تومان</span>
             </div>
             <button type="button" class="add-to-cart-btn">➕ افزودن به سبد</button>
+          
+
           </article>
 
           <article class="product-card" id="dairy-6">
@@ -424,6 +426,14 @@
       </section>
 
     </div>
+    <section id="products-container" class="container" aria-label="محصولات">
+</section>
+ <section class="products-section">
+  
+  <!-- این همان المنتی است که کد دنبالش می‌گردد: -->
+  <div id="products-container" class="products-grid"></div>
+</section>
+
   </main>
 
   <!-- فوتر فروشگاه -->
@@ -462,6 +472,11 @@
       </div>
     </div>
   </footer>
+  
 
+    <script type="module" src="/src/main.ts"></script>
+
+
+ 
 </body>
 </html>
