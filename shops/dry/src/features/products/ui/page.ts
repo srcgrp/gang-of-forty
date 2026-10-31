@@ -1,8 +1,8 @@
 export type Page = {
-  dairyBox: HTMLElement
   offersBox: HTMLElement
-  dairySection: HTMLElement
   offersSection: HTMLElement
+  sectionsHost: HTMLElement
+  categoryGrid: HTMLElement
   searchInput: HTMLInputElement
   resultsSection: HTMLElement
   resultsBox: HTMLElement
@@ -19,10 +19,10 @@ export function findPage(): Page {
   const searchInput: HTMLInputElement | null = document.querySelector<HTMLInputElement>('#search')
   if (!searchInput) throw new Error('index.html is missing #search')
   return {
-    dairyBox: find('#dairy .carousel'),
     offersBox: find('#offers .carousel'),
-    dairySection: find('#dairy'),
     offersSection: find('#offers'),
+    sectionsHost: find('#category-sections'),
+    categoryGrid: find('#category-grid'),
     searchInput,
     resultsSection: find('#search-results'),
     resultsBox: find('#results'),

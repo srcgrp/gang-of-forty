@@ -58,12 +58,25 @@ export type Card = {
     inStock: boolean
 }
 
+export type CategoryCard = {
+    slug: string
+    name: string
+    emoji: string
+    image: string | null
+}
+
+export type Section = {
+    slug: string
+    name: string
+    cards: Card[]
+}
+
 export const SORTS = ['default', 'price-asc', 'price-desc'] as const
 export type Sort = (typeof SORTS)[number]
 
 export type LoadState = 
 | { status: 'loading' }
-| { status: 'success'; products: Product[]; stock: Stock; offers: Offer[] }
+| { status: 'success'; products: Product[]; stock: Stock; offers: Offer[]; categories: Category[] }
 | {status: 'empty' }
 | { status: 'error'; message: string }
 

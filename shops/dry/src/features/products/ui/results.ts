@@ -5,7 +5,7 @@ import type { Page } from './page.ts'
 function setSearching(page: Page, on: boolean): void {
   page.resultsSection.hidden = !on
   page.offersSection.hidden = on
-  page.dairySection.hidden = on
+  page.sectionsHost.hidden = on
 }
 
 export function renderResults(page: Page, cards: Card[], summary: string): void {
