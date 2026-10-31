@@ -1,29 +1,207 @@
+
 <!doctype html>
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت کارگزار پیام</title>
+  <title>میوه فروشی من</title>
   <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
   <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
+  <meta name="description" content="فروشگاه آنلاین میوه و سبزی تازه">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>📬 سلام دنیا!</h1>
+
+  <header class="header" id="top">
+
+    <a class="skip" href="#main">پرش به محتوای اصلی</a>
+
+
+      <div class="top-bar">
+        <p id="notice"></p>
+      </div>
+      <input type="checkbox" id="menu-toggle" aria-label="باز و بسته کردن منو">
+
+      <div class="bar">
+        <a href="#top" class="logo" aria-label="سوپرمارکت نمونه، بازگشت به ابتدای صفحه">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60" aria-hidden="true" focusable="false">
+            <circle cx="30" cy="30" r="29" fill="#dff0e0" />
+            <path d="M19 29 C19 16 41 16 41 29" fill="none" stroke="#2f7d4a" stroke-width="2.8" stroke-linecap="round" />
+            <path d="M14 29 H46 L42 45 H18 Z" fill="#2f7d4a" />
+            <path d="M23 33 V41 M30 33 V41 M37 33 V41" fill="none" stroke="#dff0e0" stroke-width="2" stroke-linecap="round" />
+            <path d="M32 18 C34 11 42 10 45 13 C43 19 36 21 32 18 Z" fill="#58a468" />
+          </svg>
+          <span class="logo-text">
+            <strong>سوپرمارکت نمونه</strong>
+            <small>تازه، نزدیک، به‌صرفه</small>
+          </span>
+        </a>
+
+        <form class="search" role="search" action="#">
+          <input type="search" placeholder="جستجو در میان هزاران کالا" aria-label="جستجوی محصولات">
+          <button type="submit" aria-label="جستجو"><span aria-hidden="true">🔍</span></button>
+        </form>
+
+        <button class="cart" type="button" aria-label="سبد خرید">
+          <span aria-hidden="true">🛍️</span> سبد خرید <b id="cart-count" aria-hidden="true">۰</b>
+        </button>
+
+        <label for="menu-toggle" class="burger" aria-hidden="true">☰</label>
+      </div>
+
+            <nav class="nav" aria-label="منوی اصلی">
+              <ul class="menu" id="main-menu">
+                <li class="has-sub">
+                  <a href="#categories">همه دسته‌ها</a>
+                  <ul class="submenu" id="submenu"></ul>
+                </li>
+              </ul>
+            </nav>
   </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>کارگزار پیام</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p><bdi>Message Broker</bdi> نرم‌افزاری مثل <bdi>RabbitMQ</bdi> یا <bdi>Kafka</bdi> است که بین سرویس‌ها می‌نشیند. فرستنده پیام را در صف می‌گذارد و منتظر نمی‌ماند؛ گیرنده هر وقت آماده بود برش می‌دارد. وقتی سفارشی ثبت شد، پیام «سفارش جدید» در صف می‌رود و انبار، ایمیل و حسابداری هر کدام جدا آن را برمی‌دارند. اگر یکی موقتاً خراب باشد، پیام گم نمی‌شود.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
-    </section>
-  </main>
-  <footer>
-    <p dir="ltr">slug: <code>message-broker</code></p>
-  </footer>
+
+    <main id="main">
+
+      <!-- Posters -->
+
+      <section class="posters" id="posters" aria-label="پیشنهادهای ویژه">
+
+      </section>
+
+      <!-- Categories -->
+            <nav class="categories" id="categories" aria-label="دسته‌بندی محصولات">
+
+            </nav>
+
+    <!-- Products -->
+     <section class="wrap" id="best-selling" aria-labelledby="best-title">
+       <div class="head">
+     <h2 id="best-title">پیشنهاد ویژه</h2>
+     <div class="jump"><a href="#b1">ابتدا</a><a href="#b6">انتها</a></div>
+     </div>
+
+      <ul class="carousel" id="best-carousel" tabindex="0" aria-label="کاروسل محصولات پرفروش">
+  </ul>
+</section>
+
+<section class="posters" id="posters-2" aria-label="پیشنهادهای ویژه بیشتر">
+
+</section>
+
+<section class="wrap" id="new-products" aria-labelledby="new-title">
+  <div class="head">
+
+    <h2 id="new-title">محصولات جدید</h2>
+
+    <div class="jump"><a href="#n1">ابتدا</a><a href="#n6">انتها</a></div>
+  </div>
+  <ul class="carousel" tabindex="0" aria-label="کاروسل محصولات جدید">
+    <li class="card" id="n1">
+
+      <article>
+        <div class="img fruit-icon">
+          <span aria-hidden="true">🍓</span>
+        </div>
+        <h3>توت فرنگی</h3>
+        <p><s>۲۵۰٬۰۰۰</s> <b>۲۰۰٬۰۰۰ تومان</b></p>
+        <span class="off">۲۰٪ تخفیف</span>
+        <button type="button">افزودن</button>
+      </article>
+
+    </li>
+    <li class="card" id="n2">
+      <article>
+        <div class="img fruit-icon">
+          <span aria-hidden="true">🥝</span>
+        </div>
+        <h3>کیوی</h3>
+        <p><s>۳۰۰٬۰۰۰</s> <b>۱۵۰٬۰۰۰ تومان</b></p>
+        <span class="off">۵۰٪ تخفیف</span>
+        <button type="button">افزودن</button>
+      </article>
+    </li>
+
+    <li class="card" id="n3">
+      <article>
+        <div class="img fruit-icon">
+          <span aria-hidden="true">🍎</span>
+        </div>
+        <h3>سیب</h3>
+        <p><s>۳۵۰٬۰۰۰</s> <b>۳۰۰٬۰۰۰ تومان</b></p>
+        <span class="off">۱۴٪ تخفیف</span>
+        <button type="button">افزودن</button>
+      </article>
+    </li>
+
+    <li class="card" id="n4">
+      <article>
+        <div class="img fruit-icon">
+          <span aria-hidden="true">🍌</span>
+        </div>
+        <h3>موز</h3>
+        <p><s>۵۰۰٬۰۰۰</s> <b>۳۵۰٬۰۰۰ تومان</b></p>
+        <span class="off">۳۰٪ تخفیف</span>
+        <button type="button">افزودن</button>
+      </article>
+    </li>
+
+    <li class="card" id="n5">
+      <article>
+        <div class="img fruit-icon">
+          <span aria-hidden="true">🍊</span>
+        </div>
+        <h3>هلو</h3>
+        <p><s>۵۵۰٬۰۰۰</s> <b>۴۵۰٬۰۰۰ تومان</b></p>
+        <span class="off">۱۸٪ تخفیف</span>
+        <button type="button">افزودن</button>
+      </article>
+    </li>
+
+    <li class="card" id="n6">
+      <article>
+        <div class="img fruit-icon">
+          <span aria-hidden="true">🍉</span>
+        </div>
+        <h3>هندوانه</h3>
+        <p><s>۴۵۰٬۰۰۰</s> <b>۳۵۰٬۰۰۰ تومان</b></p>
+        <span class="off">۲۲٪ تخفیف</span>
+        <button type="button">افزودن</button>
+      </article>
+    </li>
+     </ul>
+   </section>
+
+</main>
+
+    <footer class="footer" id="footer">
+
+    <div class="footer-container">
+      <div class="footer-column">
+        <h3>درباره ما</h3>
+        <p id="about"></p>
+        <p id="address"></p>
+        <p id="phone"></p>
+      </div>
+      <div class="footer-column">
+        <h3>دسته‌ها</h3>
+        <ul id="footer-categories"></ul>
+      </div>
+      <div class="footer-column">
+        <h3>راهنما</h3>
+        <ul id="footer-help"></ul>
+      </div>
+      <div class="footer-column">
+        <h3>ساعت کاری</h3>
+        <ul id="schedule"></ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; تمامی حقوق این فروشگاه محفوظ است</p>
+      <a href="#top">بازگشت به بالا</a>
+    </div>
+    </footer>
+<script src="app.js" defer></script>
+<script src="layout.js" defer></script>
 </body>
+
 </html>
