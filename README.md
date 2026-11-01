@@ -1,295 +1,111 @@
-# 🛒 سبزکاله — فروشگاه آنلاین
+<div align="center">
 
-> فروشگاه اینترنتی سبزکاله: نمایش محصولات تازه، سبد خرید هوشمند، و تجربه‌ای سریع و پایدار حتی در شرایط آفلاین.
+# 🛒 Deep Module Supermarket
 
-![JavaScript](https://img.shields.io/badge/JavaScript-ES2022-F7DF1E?logo=javascript&logoColor=black)
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
-![License](https://img.shields.io/badge/license-MIT-blue)
-![No Build](https://img.shields.io/badge/build-zero--config-success)
+### یه سوپرمارکت آنلاین، فقط با HTML و CSS — بدون یه خط JavaScript
 
----
+[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
+[![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
+[![No JavaScript](https://img.shields.io/badge/JavaScript-0_lines-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](#)
+[![RTL](https://img.shields.io/badge/RTL-Persian-2ea44f?style=for-the-badge)](https://en.wikipedia.org/wiki/Right-to-left_script)
+[![Accessibility](https://img.shields.io/badge/A11y-WCAG_AA-blueviolet?style=for-the-badge)](#-دسترسپذیری)
 
-## 📖 درباره پروژه
+<br>
 
-**سبزکاله** یک فروشگاه آنلاین سبک و سریع است که با **Vanilla JavaScript** (بدون هیچ فریمورک یا باندلری) ساخته شده. طراحی آن بر سه اصل بنا شده:
+<img src="assets/preview-desktop.png" alt="پیش‌نمایش دسکتاپ" width="720">
 
-- **امنیت**: هیچ‌جا از `innerHTML`، `outerHTML` یا `insertAdjacentHTML` استفاده نمی‌شود. تمام DOM به‌صورت برنامه‌نویسی‌شده با `createElement` و `textContent` ساخته می‌شود.
-- **پایداری**: اگر API قطع شود، کش محلی وارد عمل می‌شود. اگر اینترنت نباشد، کاربر پیام شفاف می‌بیند و تجربه‌اش نمی‌شکند.
-- **دسترس‌پذیری**: پشتیبانی از `aria-*`، `role`، ناوبری کیبورد و `prefers-color-scheme`.
+<br>
+<br>
 
----
+**Week 1 Project · Gang of Forty · Deep Module Shop**
 
-## ✨ ویژگی‌ها
-
-### 🛍 تجربه خرید
-
-- کاروسل محصولات در دسته‌بندی‌های مختلف
-- مودال جزئیات محصول با تصویر، قیمت و توضیحات
-- سبد خرید با ذخیره‌سازی در `localStorage` (پایدار بین رفرش‌ها)
-- افزایش/کاهش/حذف اقلام با اعتبارسنجی کامل داده
-- پیشنهادهای ویژه با نمایش قیمت خط‌خورده و تخفیف
-
-### 🔍 فیلتر و جستجو
-
-- فیلتر بر اساس دسته‌بندی، موجودی، تخفیف
-- مرتب‌سازی بر اساس قیمت (صعودی/نزولی) و نام
-- شمارنده زنده کالاهای فیلترشده
-- نشان‌گر تعداد فیلترهای فعال
-
-### 🎨 طراحی و تم
-
-- تم روشن، تاریک و **خودکار** (پیروی از سیستم‌عامل)
-- آیکون پویا خورشید/ماه در دکمه تغییر تم
-- واکنش زنده به تغییر تم سیستم (بدون رفرش)
-- انیمیشن‌های نرم و اسکلتون لودینگ
-
-### 📡 پایداری شبکه
-
-- لایه API با **timeout** قابل تنظیم (پیش‌فرض ۸ ثانیه)
-- **Retry با backoff نمایی** (۳ بار: ۰.۵s، ۱s، ۲s)
-- **کش در `localStorage`** با TTL قابل تنظیم (پیش‌فرض ۳۰ دقیقه)
-- **Fallback** به کش در صورت شکست کامل
-- بنر آفلاین شفاف و مخفی‌سازی خودکار هنگام آنلاین‌شدن
-
-### ♿ دسترس‌پذیری
-
-- `aria-label` روی همه دکمه‌های آیکونی
-- `role="alert"` برای بنر آفلاین
-- `aria-hidden="true"` روی آیکون‌های تزئینی
-- ناوبری کامل با کیبورد (ESC برای بستن مودال‌ها)
-- پیام‌های خطای کاربرپسند
+</div>
 
 ---
 
-## 🗂 ساختار پروژه
+## ✨ درباره پروژه
 
-```
-gang-of-forty/
-├── index.html
-├── style/
-│   ├── base.css
-│   ├── layout.css
-│   ├── components.css
-│   ├── states.css
-│   └── theme.css
-├── js/
-│   ├── main.js              # نقطه ورود، هماهنگ‌کننده اصلی
-│   ├── api.js               # لایه fetch + retry + cache
-│   ├── cart.js              # سبد خرید و مودال
-│   ├── states.js            # رندر حالت‌های loading/error/empty/offline
-│   ├── theme.js             # مدیریت تم (light/dark/auto)
-│   ├── product-detail.js    # مودال جزئیات محصول
-│   └── utils.js             # توابع کمکی (format, validate, safe-href)
-├── api/
-│   ├── products.json
-│   ├── categories.json
-│   ├── shop.json
-│   ├── home.json
-│   ├── offers.json
-│   └── stock.json
-└── README.md
-```
+**Deep Module Supermarket** صفحه‌ی اصلی یک فروشگاه آنلاین واقعیه که **فقط با HTML و CSS** ساخته شده. نه JavaScript، نه فریم‌ورک، نه کتابخانه.
+
+همه‌ی تعامل‌های صفحه — از باز شدن منو و کاروسل، تا حرکت بین بخش‌ها و منوی موبایل — با تکنیک‌های خالص CSS پیاده‌سازی شدن.
+
+> 🧠 این پروژه یه تمرین عملی از درس **Gang of Forty** و مخصوص هفته‌ی اوله، برای تسلط روی HTML سمنتیک، SVG، CSS مدرن، دسترس‌پذیری و Reflow.
 
 ---
 
-## 🚀 شروع سریع
+## 🎬 دموی زنده
 
-پروژه **نیازی به نصب هیچ وابستگی ندارد**. فقط یک وب‌سرور ساده برای سرو کردن فایل‌های استاتیک کافی است.
-
-### گزینه ۱: با Python (ساده‌ترین)
-
-```bash
-# Python 3
-python3 -m http.server 3000
-
-# سپس باز کنید:
-# http://localhost:3000
-```
-
-### گزینه ۲: با Node.js
-
-```bash
-npx serve .
-```
-
-### گزینه ۳: با VS Code
-
-افزونه **Live Server** را نصب کن، روی `index.html` راست‌کلیک کرده و «Open with Live Server» را بزن.
-
-> ⚠️ **مهم**: چون از `fetch` و moduleهای ES استفاده می‌شود، اگر فایل را مستقیم با `file://` باز کنی، CORS و MIME-error می‌گیری. **حتماً از یک وب‌سرور محلی استفاده کن.**
+🔗 **نسخه آنلاین:** [`deep-module-supermarket`](https://ArmanGhM.github.io/gang-of-fourty/shops/deep-module/) _(بعد از deploy فعال می‌شه)_
 
 ---
 
-## 🔧 پیکربندی
-
-### مسیر API
-
-در فایل `js/api.js`:
-
-```js
-const API_BASE = "../../api";
-```
-
-اگر پروژه‌ات در ریشه سرو می‌شود، احتمالاً باید تغییرش بدهی به:
-
-```js
-const API_BASE = "/api";
-```
-
-### تنظیمات پیش‌فرض
-
-| پارامتر           | پیش‌فرض    | توضیح                           |
-| ----------------- | ---------- | ------------------------------- |
-| `DEFAULT_TIMEOUT` | `8000`     | تایم‌اوت درخواست (میلی‌ثانیه)   |
-| `MAX_RETRIES`     | `3`        | تعداد تلاش مجدد بعد از شکست اول |
-| `CACHE_TTL`       | `30 دقیقه` | عمر کش محلی                     |
-| `MAX_ITEMS`       | `100`      | حداکثر اقلام سبد                |
-| `MAX_QUANTITY`    | `99`       | حداکثر تعداد هر قلم             |
-
----
-
-## 🧠 تصمیمات طراحی
-
-### چرا `innerHTML` استفاده نشده؟
-
-استفاده از `innerHTML` برای ساخت DOM سه مشکل دارد:
-
-1. **XSS**: هر داده‌ای که از API یا `localStorage` می‌آید، اگر با escape ناقص وارد شود، می‌تواند کد اجرا کند.
-2. **عملکرد**: `innerHTML` کل زیردرخت DOM را دوباره parse می‌کند و حتی event listenerهای موجود را از بین می‌برد.
-3. **نگهداری**: بررسی امنیتی هر نقطه‌ی `innerHTML` نیاز به بازبینی دستی همه‌ی interpolateها دارد.
-
-به جایش از یک الگوی کوچک builder استفاده شده:
-
-```js
-el(
-  "div",
-  { class: "card" },
-  el("h3", { text: product.name }),
-  el("p", { text: product.unit }),
-);
-```
-
-نتیجه: **صفر نقطه ورود HTML**، **صفر XSS**، و **DOM سبک‌تر**.
-
-### چرا کش در `localStorage`؟
-
-- ساده، بدون نیاز به Service Worker یا IndexedDB
-- کافی برای JSONهای کوچک (محصولات، دسته‌بندی‌ها)
-- شفاف برای دیباگ (از DevTools قابل مشاهده است)
-
-اگر روزی داده‌ها بزرگ شدند (عکس‌ها، فایل‌های صوتی)، باید به IndexedDB مهاجرت کرد.
-
-### چرا retry با backoff؟
-
-شبکه‌های موبایل ناپایدارند. یک درخواست که در ثانیه اول شکست می‌خورد، ممکن است در ثانیه دوم موفق شود. Backoff نمایی از فشار روی سرور هم جلوگیری می‌کند.
-
----
-
-## 🧪 تست دستی
-
-### سناریوی آفلاین
-
-1. DevTools را باز کن → تب **Network** → **Offline** را تیک بزن.
-2. صفحه را رفرش کن.
-3. باید **بنر آفلاین** بالای صفحه ظاهر شود.
-4. اگر قبلاً داده لود شده بود، از کش نمایش داده می‌شود.
-5. آنلاین شو → بنر خودکار محو می‌شود و در صورت لزوم داده‌ها رفرش می‌شوند.
-
-### سناریوی خطای سرور
-
-1. در `js/api.js` مسیر `API_BASE` را به یک مسیر نامعتبر تغییر بده.
-2. صفحه را رفرش کن.
-3. باید **کارت خطا با دکمه تلاش مجدد** ببینی.
-4. روی دکمه بزن → باید اسپینر و پیام «در حال تلاش...» ببینی.
-
-### سناریوی تم
-
-1. دکمه تغییر تم را بزن.
-2. تم بین light و dark سوییچ می‌شود و آیکون عوض می‌شود.
-3. مقدار ذخیره‌شده در `localStorage` را با key `theme` بررسی کن.
-4. تم سیستم‌عامل را تغییر بده (در ویندوز/مک) → اگر تم روی `auto` باشد، خودکار عوض می‌شود.
-
----
-
-## 🧰 تکنولوژی‌ها
-
-| بخش        | تکنولوژی                                 |
-| ---------- | ---------------------------------------- |
-| HTML       | HTML5 semantic + ARIA                    |
-| CSS        | CSS3 با Custom Properties، Flexbox، Grid |
-| JavaScript | ES Modules (بدون build step)             |
-| ذخیره‌سازی | `localStorage`                           |
-| شبکه       | `fetch` + `AbortController`              |
-| ابزار      | بدون هیچ کتابخانه خارجی                  |
-
----
-
-## 🐛 رفع اشکالات رایج
-
-### صفحه سفید می‌شود
-
-احتمالاً فایل را با `file://` باز کرده‌ای. از وب‌سرور محلی استفاده کن (بخش «شروع سریع»).
-
-### `CORS error` در کنسول
-
-مسیر `API_BASE` را بررسی کن. اگر API روی دامنه دیگری است، سرور باید `Access-Control-Allow-Origin` بدهد.
-
-### داده‌های قدیمی نمایش داده می‌شوند
-
-کش ۳۰ دقیقه اعتبار دارد. برای پاک کردن دستی در کنسول:
-
-```js
-Object.keys(localStorage)
-  .filter((k) => k.startsWith("shop_cache_"))
-  .forEach((k) => localStorage.removeItem(k));
-```
-
-یا تابع `clearCache()` را از `js/api.js` صدا بزن.
-
-### سبد خرید خالی می‌شود
-
-اگر داده‌ی `localStorage` با نسخه‌ی جدید اسکیما سازگار نباشد، `getCart()` آن را پاک می‌کند. این رفتار عمدی است تا از داده‌های خراب جلوگیری شود.
-
----
-
-## 🗺 نقشه راه
-
-- [ ] جستجوی زنده در محصولات
-- [ ] صفحه‌ی تسویه‌حساب با آدرس و پرداخت
-- [ ] ذخیره‌ی سفارش‌ها در `IndexedDB`
-- [ ] PWA (offline-first با Service Worker)
-- [ ] تست‌های واحد با Vitest
-- [ ] پشتیبانی از RTL/LTR دوطرفه
-
----
-
-## 🤝 مشارکت
-
-Pull Requestها خوش‌آمدند. قبل از ارسال:
-
-1. یک شاخه‌ی جدید بساز: `git checkout -b feat/your-feature`
-2. تغییرات را commit کن: `git commit -m "feat: add X"`
-3. push کن: `git push origin feat/your-feature`
-4. یک PR به شاخه `main` باز کن
-
-### قواعد کد
-
-- **بدون `innerHTML`** — همه‌ی DOM با `createElement`/`textContent` ساخته شود.
-- **بدون کتابخانه‌های خارجی** مگر ضرورت مطلق.
-- نام‌گذاری متغیرها انگلیسی، پیام‌های کاربر فارسی.
-- هر فایل جدید باید در `index.html` یا `main.js` import شود.
-
----
-
-## 📄 مجوز
-
-این پروژه تحت مجوز **MIT** منتشر شده است. برای جزئیات به فایل `LICENSE` مراجعه کن.
-
----
+## 🖼 پیش‌نمایش
 
 <div align="center">
 
-ساخته شده با 💚 در ایران
+### 🖥 دسکتاپ
+
+<img src="assets/preview-desktop.png" alt="دسکتاپ" width="700">
+
+### 📱 موبایل
+
+<img src="assets/preview-mobile.png" alt="موبایل" width="280">
 
 </div>
+
+---
+
+## 🚀 ویژگی‌ها
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+### 🎨 طراحی و ظاهر
+
+- ✅ لوگوی اختصاصی با **SVG** (بدون تصویر خارجی)
+- ✅ پالت رنگی سبز-نارنجی الهام‌گرفته از سوپرمارکت واقعی
+- ✅ فونت **Vazirmatn** به‌صورت local (بدون CDN)
+- ✅ طراحی **Responsive** از 320px تا 4K
+- ✅ **Dark Mode** با `prefers-color-scheme`
+- ✅ احترام به `prefers-reduced-motion`
+
+</td>
+<td width="50%" valign="top">
+
+### ⚡ تعامل‌های بدون JS
+
+- ✅ منوی «همه دسته‌ها» با `:hover` و `:focus-within`
+- ✅ کاروسل با `scroll-snap-type`
+- ✅ حرکت نرم بین بخش‌ها با `scroll-behavior: smooth`
+- ✅ منوی موبایل با `checkbox hack`
+- ✅ Hover و Focus کارت‌های محصول
+- ✅ Skip-to-content link
+
+</td>
+</tr>
+</table>
+
+---
+
+## 🧩 ساختار صفحه
+
+```text
+┌──────────────────────────────────────┐
+│  📢  نوار اطلاع‌رسانی (ارسال رایگان)   │
+├──────────────────────────────────────┤
+│  🏪  Header (لوگو + جستجو + سبد)      │
+├──────────────────────────────────────┤
+│  📂  منوی اصلی (همه دسته‌ها Dropdown)  │
+├──────────────────────────────────────┤
+│  🎯  Banner تبلیغاتی                  │
+├──────────────────────────────────────┤
+│  🍎  ۶ دسته‌بندی اصلی                 │
+├──────────────────────────────────────┤
+│  🔥  کاروسل «پیشنهاد ویژه امروز»      │
+├──────────────────────────────────────┤
+│  🥖  کاروسل «لبنیات»                  │
+├──────────────────────────────────────┤
+│  🦶  Footer (راهنما، ساعت کاری، تماس) │
+└──────────────────────────────────────┘
+```
