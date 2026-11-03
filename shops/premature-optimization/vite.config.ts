@@ -1,9 +1,12 @@
 import {defineConfig} from 'vite'
 
-const api = {'api': {target: 'https://gop.zzd.cx', changeOrigin: true}}
+const api = {'/api': {target: 'https://gof.zzb.cx', changeOrigin: true}}
 
-export default defineConfig({
-    base: './',
-    server: { proxy: api},
-    preview: { proxy: api },
+export default defineConfig(({mode}) => {
+    const proxy = mode === 'mine' ? undefined : api
+    return {
+        base: '',
+        server: { proxy },
+        preview: { proxy },
+    }
 })
