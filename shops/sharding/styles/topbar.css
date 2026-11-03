@@ -1,0 +1,133 @@
+.topbar {
+  background: var(--navy);
+  color: var(--faint);
+  font-size: 12px;
+}
+
+.topbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+}
+
+.topbar__note {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  color: var(--faint);
+  text-align: center;
+}
+
+.topbar__note svg {
+  width: 14px;
+  height: 14px;
+  fill: var(--lime);
+  flex-shrink: 0;
+}
+
+.topbar__links {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .topbar__inner {
+    justify-content: space-between;
+    gap: var(--sp-md);
+    min-height: 38px;
+  }
+
+  .topbar__note {
+    text-align: start;
+  }
+
+  .topbar__links {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-lg);
+  }
+
+  .topbar__links a {
+    transition: color 0.15s var(--ease);
+  }
+
+  .topbar__links a:hover {
+    color: var(--lime);
+  }
+}
+
+.skeleton-text {
+  display: inline-block;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(
+    90deg,
+    var(--skeleton-base) 25%,
+    var(--skeleton-highlight) 50%,
+    var(--skeleton-base) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+  color: transparent !important;
+  vertical-align: middle;
+  user-select: none;
+  pointer-events: none;
+}
+
+.skeleton-text--topbar {
+  width: min(28ch, 70vw);
+  height: 0.85em;
+  /* topbar is dark; use softer contrast on navy */
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.08) 25%,
+    rgba(255, 255, 255, 0.16) 50%,
+    rgba(255, 255, 255, 0.08) 75%
+  );
+  background-size: 200% 100%;
+}
+
+.skeleton-text--link {
+  width: 6.5em;
+  height: 0.85em;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.08) 25%,
+    rgba(255, 255, 255, 0.16) 50%,
+    rgba(255, 255, 255, 0.08) 75%
+  );
+  background-size: 200% 100%;
+}
+
+.skeleton-text--nav {
+  width: 5.5em;
+  height: 1.6em;
+  margin-block: 4px;
+}
+
+.skeleton-text--nav:nth-child(1),
+li:nth-child(1) > .skeleton-text--nav { width: 3.2em; }
+li:nth-child(2) > .skeleton-text--nav { width: 7em; }
+li:nth-child(3) > .skeleton-text--nav { width: 7.5em; }
+li:nth-child(4) > .skeleton-text--nav { width: 4.5em; }
+li:nth-child(5) > .skeleton-text--nav { width: 4em; }
+li:nth-child(6) > .skeleton-text--nav { width: 6.5em; }
+li:nth-child(7) > .skeleton-text--nav { width: 8em; }
+
+.skeleton-text--mobile {
+  display: block;
+  width: 70%;
+  height: 1.1em;
+  margin: 14px 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-text {
+    animation: none;
+    background: var(--skeleton-text);
+  }
+
+  .skeleton-text--topbar,
+  .skeleton-text--link {
+    background: rgba(255, 255, 255, 0.12);
+  }
+}

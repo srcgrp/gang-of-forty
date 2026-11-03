@@ -1,0 +1,32 @@
+.hero-carousel__track,
+.categories__list,
+.products__grid {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+.hero-carousel__track::-webkit-scrollbar,
+.categories__list::-webkit-scrollbar,
+.products__grid::-webkit-scrollbar {
+  height: 6px;
+}
+
+.hero-carousel__track::-webkit-scrollbar-track,
+.categories__list::-webkit-scrollbar-track,
+.products__grid::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+  border-radius: var(--radius-full);
+}
+
+.hero-carousel__track::-webkit-scrollbar-thumb,
+.categories__list::-webkit-scrollbar-thumb,
+.products__grid::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: var(--radius-full);
+}
+
+.hero-carousel__track::-webkit-scrollbar-thumb:hover,
+.categories__list::-webkit-scrollbar-thumb:hover,
+.products__grid::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}

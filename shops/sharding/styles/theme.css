@@ -1,0 +1,158 @@
+:root {
+  color-scheme: light;
+
+  --navy: light-dark(#0F1319, #F0F3F8);
+  --navy-2: light-dark(#1A2030, #D4DAE5);
+  --lime: #B5C400;
+  --lime-ring: light-dark(rgba(181, 196, 0, 0.18), rgba(181, 196, 0, 0.32));
+  --lime-dark: light-dark(#8A9700, #D4E34A);
+  --lime-soft: light-dark(#F6F8DC, #1A2110);
+  --lime-hover: light-dark(#A8B800, #C8D62A);
+  --on-lime: #0F1319;
+
+  --text: light-dark(#12161F, #E8ECF2);
+  --muted: light-dark(#59617A, #A8B0C0);
+  --faint: light-dark(#A5AAB8, #7A8295);
+
+  --border: light-dark(#E6E9EE, #2E3444);
+  --white: light-dark(#FFFFFF, #151A24);
+  --surface: light-dark(#FAFBFC, #1A1F2B);
+  --bg: light-dark(#F6F7F9, #0B0E14);
+  --red: light-dark(#CB1400, #FF5A45);
+  --dough: light-dark(#F5EBD8, #1F2532);
+  --topbar-bg: light-dark(#0F1319, #05070B);
+
+  --shadow: light-dark(
+    0 2px 8px -2px rgba(18, 22, 31, 0.08),
+    0 2px 8px -2px rgba(0, 0, 0, 0.6)
+  );
+  --shadow-md: light-dark(
+    0 4px 16px -4px rgba(18, 22, 31, 0.12),
+    0 4px 16px -4px rgba(0, 0, 0, 0.7)
+  );
+  --shadow-lg: light-dark(
+    0 8px 24px -8px rgba(18, 22, 31, 0.18),
+    0 8px 24px -8px rgba(0, 0, 0, 0.8)
+  );
+  --shadow-lime: light-dark(
+    0 10px 28px -12px rgba(181, 196, 0, 0.45),
+    0 10px 28px -12px rgba(181, 196, 0, 0.25)
+  );
+
+  --hero-overlay: light-dark(
+    linear-gradient(
+      270deg,
+      rgba(15, 19, 25, 0.82) 0%,
+      rgba(15, 19, 25, 0.5) 45%,
+      rgba(15, 19, 25, 0) 100%
+    ),
+    linear-gradient(
+      270deg,
+      rgba(0, 0, 0, 0.9) 0%,
+      rgba(0, 0, 0, 0.55) 45%,
+      rgba(0, 0, 0, 0) 100%
+    )
+  );
+
+  --categories-bg: light-dark(
+    linear-gradient(135deg, #F6F8DC 0%, #F5F8D6 45%, #FFFFFF 100%),
+    #14181F
+  );
+  --categories-border: light-dark(
+    rgba(181, 196, 0, 0.25),
+    rgba(181, 196, 0, 0.1)
+  );
+
+  --scrollbar-thumb: light-dark(#B5C400, #2E3444);
+  --scrollbar-thumb-hover: light-dark(#8A9700, #7A8295);
+  --scrollbar-track: light-dark(#F6F7F9, transparent);
+
+  --skeleton-base: light-dark(#eef0f3, #1a1f2b);
+  --skeleton-highlight: light-dark(#dde1e8, #252b3a);
+  --skeleton-text: light-dark(#e8ebf0, #252b3a);
+
+  /* fixed, not themed */
+  --offers-bg: #5a1e28;
+  --offers-accent: #FFD84D;
+
+  /* always dark */
+  --video-bg: #0F1319;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="auto"] {
+    color-scheme: dark;
+  }
+}
+
+.topbar {
+  background: var(--topbar-bg);
+}
+
+.hero-video::after {
+  background: var(--hero-overlay);
+}
+
+/* beats theme overlay */
+.hero-video.hero-video--skeleton::after {
+  background: none;
+  opacity: 0;
+}
+
+.search:focus-within {
+  background: var(--surface);
+  border-color: var(--lime);
+  box-shadow: 0 0 0 3px var(--lime-ring);
+}
+
+.categories > .container {
+  background: var(--categories-bg);
+  border-color: var(--categories-border);
+}
+
+.dept-btn,
+.hero-video__cta,
+.badge,
+.product__add,
+.skip-link {
+  color: var(--on-lime);
+}
+
+.dept-btn svg,
+.hero-video__cta svg,
+.product__add svg,
+.skip-link svg {
+  fill: var(--on-lime);
+}
+
+.hero-video__cta:hover {
+  color: #fff;
+}
+
+.hero-video__cta:hover svg {
+  fill: #fff;
+}
+
+.product__add:hover {
+  background: var(--lime-dark);
+}
+
+.product__add:hover svg {
+  fill: #fff;
+}
+
+body {
+  transition:
+    background-color 0.3s var(--ease),
+    color 0.3s var(--ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    transition: none;
+  }
+}
