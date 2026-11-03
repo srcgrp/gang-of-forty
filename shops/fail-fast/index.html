@@ -6,6 +6,35 @@
   <meta name="description" content="بازارچه؛ سوپرمارکت آنلاین با طراحی واکنش‌گرا و دسترس‌پذیر">
   <title>اسپیس مارکت | سوپرمارکت شما</title>
   <link rel="stylesheet" href="./src/css/style.css">
+
+  <style>
+    /* Custom Notyf RTL Support */
+    .notyf__toast {
+      direction: rtl;
+    }
+    
+    /* Lucide Icons Styling */
+    #search-icon svg,
+    #cart-icon svg {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+    
+    .notyf__icon svg {
+      width: 20px;
+      height: 20px;
+      stroke: white;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+  </style>
 </head>
 
 <body>
@@ -40,14 +69,15 @@
       <div class="search-box" role="search">
         <label for="search" class="visually-hidden">جستجو در اسپیس مارکت</label>
         <input id="search" type="search" placeholder="جستجو در اسپیس مارکت...">
-        <span class="search-icon" aria-hidden="true">⌕</span>
+        <span class="search-icon" id="search-icon" aria-hidden="true"></span>
       </div>
 
-      <a href="#cart" class="cart" aria-label="سبد خرید - ۳ محصول">
-        <span class="cart-icon" aria-hidden="true">🛒</span>
+      <a href="#cart" class="cart" aria-label="سبد خرید">
+        <span class="cart-icon" id="cart-icon" aria-hidden="true"></span>
         <span>سبد خرید</span>
-        <b aria-hidden="true">۳</b>
+        <b id="cart-count" aria-live="polite">0</b>
       </a>
+
 
     </div>
 
@@ -56,7 +86,7 @@
         <div class="categories-menu">
           <button class="active" aria-haspopup="true" aria-expanded="false" type="button">دسته‌بندی‌ها</button>
           <div class="categories-dropdown" role="menu">
-            <a href="#dairy" role="menuitem"><span aria-hidden="true">🥛</span> لبنیات و تخم‌مرغ</a>
+            <a href="#dairy-products" role="menuitem"><span aria-hidden="true">🥛</span> لبنیات و تخم‌مرغ</a>
             <a href="#vegtables" role="menuitem"><span aria-hidden="true">🥬</span> میوه و سبزیجات</a>
             <a href="#bread" role="menuitem"><span aria-hidden="true">🍞</span> نان و غلات</a>
             <a href="#snacks" role="menuitem"><span aria-hidden="true">🍪</span> تنقلات و شیرینی</a>
@@ -65,9 +95,9 @@
           </div>
 
         </div>
-        <a href="#offers">پیشنهادهای امروز</a>
-        <a href="#sales">تخفیف‌دار ها</a>
-        <a href="#dairy">لبنیات</a>
+        <a href="#dailyOffers">پیشنهادهای امروز</a>
+        <a href="#dailyOffers">تخفیف‌دار ها</a>
+        <a href="#dairy-products">لبنیات</a>
         <a href="#snacks">تنقلات</a>
         <a href="#drinks">نوشیدنی</a>
         <a href="#cosmetics">آرایشی و بهداشتی</a>
@@ -103,7 +133,7 @@
       <div class="popular-products" tabindex="0">
 
         <article class="popular-products-items">
-          <a href="#milks">
+          <a href="#dairy-products">
             <div class="popular-products-cards">
               <img src="./src/images/dairy-eggs.png"
                    width="60"
@@ -316,6 +346,6 @@
     </div>
 
   </footer>
-  <script src="./app.js"> </script>
+  <script type="module" src="./script.ts"></script>
 </body>
 </html>

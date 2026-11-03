@@ -1,0 +1,23 @@
+{
+    "name": "refactor",
+    "version": "1.0.0",
+    "private": true,
+    "keywords": [],
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc --noEmit && vite build",
+        "preview": "vite preview",
+        "check": "tsc --noEmit"
+    },
+    "devDependencies": {
+        "@types/canvas-confetti": "^1.9.0",
+        "typescript": "^7.0.2",
+        "vite": "^8.3.4"
+    },
+    "dependencies": {
+        "canvas-confetti": "^1.9.4",
+        "sweetalert2": "^11.26.25",
+        "swiper": "^14.3.0"
+    }
+}
