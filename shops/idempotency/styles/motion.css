@@ -1,0 +1,74 @@
+
+@media (prefers-reduced-motion: reduce) {
+    .home-promo-card {
+        transition: none;
+    }
+
+    .home-promo-card:hover {
+        transform: none;
+    }
+}
+
+/*Reduced Motion */
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .category-card,
+  .product-card,
+  .footer-social-link,
+  .dropdown-menu,
+  .cart-toast {
+    transition: none;
+  }
+
+  .category-card:hover,
+  .category-card:focus-visible,
+  .product-card:hover,
+  .product-card:focus-within,
+  .footer-social-link:hover,
+  .footer-social-link:focus-visible {
+    transform: none;
+  }
+
+  .categories:target,
+  .product-section:target,
+  #about:target,
+  #contact:target {
+    animation: none;
+  }
+
+  .categories:target .target-location,
+  .product-section:target .target-location,
+  #about:target .target-location,
+  #contact:target .target-location {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+@keyframes mobile-menu-open {
+    from {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mobile-nav[open] .mobile-nav-menu {
+        animation: none;
+    }
+}

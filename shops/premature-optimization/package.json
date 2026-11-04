@@ -5,16 +5,21 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:mine": "vite --mode mine",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
+    "lint": "eslint .",
     "check": "tsc --noEmit"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.13.0",
     "typescript": "^7.0.2",
     "vite": "^8.3.4"
   },
   "dependencies": {
     "gsap": "^3.15.0",
-    "notyf": "^3.10.0"
+    "notyf": "^3.10.0",
+    "typecheck": "^0.1.2"
   }
 }

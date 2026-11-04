@@ -1,0 +1,173 @@
+
+.home-side-banner {
+    height: 100%;
+    padding: 28px;
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    background-color: var(--color-surface);
+    text-align: center;
+
+    background-image: url("/asset/banners/banner-discount-light.webp");
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-shadow: 0 2px 2px rgb(230, 216, 190);
+}
+
+html[data-theme="dark"] .home-side-banner {
+    background-image: url("/asset/banners/banner-discount-dark.webp");
+    box-shadow: 0 2px 2px rgb(32, 20, 18);
+}
+
+html[data-theme="dark"] #home-promos .home-promo-card:nth-child(1) {
+    background-image: url("/asset/banners/banner-breakfast-dark.webp");
+    box-shadow: 0 2px 2px rgb(32, 20, 18);
+}
+
+html[data-theme="dark"] #home-promos .home-promo-card:nth-child(2) {
+    background-image: url("/asset/banners/banner-bread-dark.webp");
+    box-shadow: 0 2px 2px rgb(32, 20, 18);
+}
+
+/* Level 4 - Home banners */
+
+.home-banners {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 28px 32px;
+}
+
+.home-side-banner {
+    position: relative;
+    height: 100%;
+    padding: 28px;
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    background-color: var(--color-surface);
+    text-align: center;
+}
+
+.banner-percent {
+    position: absolute;
+    top: 66%;
+    right: 15%;
+    transform: translate(50%, -50%);
+
+    font-family: "Lalezar", sans-serif;
+    font-size: 60px;
+    line-height: 1;
+    color: #F7EEDC;
+    pointer-events: none;
+}
+
+html[data-theme="dark"] .banner-percent {
+    position: absolute;
+    top: 60%;
+    right: 17%;
+    transform: translate(50%, -50%);
+
+    font-family: "Lalezar", sans-serif;
+    font-size: 60px;
+    line-height: 1;
+    color: #F7EEDC;
+    pointer-events: none;
+}
+
+.home-side-banner h2 {
+    margin: 0 0 12px;
+    color: var(--color-primary);
+    font-family: "Lalezar", sans-serif;
+    font-size: 28px;
+}
+
+.home-side-banner p {
+    margin: 0 0 20px;
+    color: var(--color-text-soft);
+}
+
+.home-banner-link {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 10px;
+    background-color: var(--color-secondary);
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+#home-promos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.home-promo-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 160px;
+    padding: 20px;
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    background-color: var(--color-surface);
+    color: var(--color-primary);
+    font-family: "Lalezar", sans-serif;
+    font-size: 24px;
+    text-align: center;
+    text-decoration: none;
+    transition: transform 180ms ease;
+}
+
+.home-promo-card {
+    flex-direction: column;
+    line-height: 0;
+    gap: 12px;
+    box-shadow: 0 2px 2px rgb(230, 216, 190);
+    padding-top: 40px;
+    padding-right: 85px;
+    padding-left: 12px;
+}
+
+.home-promo-card::after {
+    content: "";
+    display: block;
+    width: 70%;
+    height: 28px;
+    background-image: url("/asset/banners/banner-ornament.webp");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Breakfast card */
+
+#home-promos .home-promo-card:nth-child(1) {
+    background-image: url("/asset/banners/banner-breakfast-light.webp");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Fresh bread card */
+
+#home-promos .home-promo-card:nth-child(2) {
+    background-image: url("/asset/banners/banner-bread-light.webp");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.home-promo-card:hover {
+    transform: translateY(-4px);
+}
+
+#home-featured-carousels,
+#home-category-carousels {
+    display: flex;
+    flex-direction: column;
+}
+
+.home-carousel-section {
+    width: 100%;
+}
