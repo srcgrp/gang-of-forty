@@ -1,4 +1,4 @@
-import type { ProductCardProps } from "../../types";
+import type { ProductCardProps } from "../types";
 import { formatPrice } from "../shared/ui/format";
 
 export function ProductCard({

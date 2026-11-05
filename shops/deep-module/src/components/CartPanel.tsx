@@ -1,4 +1,4 @@
-import type { CartLine } from "../../types";
+import type { CartLine } from "../types";
 import { formatPrice } from "../shared/ui/format";
 
 export function CartPanel({ cart }: { cart: CartLine[] }) {
