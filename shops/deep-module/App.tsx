@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
 import type { AppData, CartLine, LoadState, Product } from "./types";
-import { loadAll } from "./shared/api/load";
-import { Header } from "./components/Header";
-import { CategoryNav } from "./components/CategoryNav";
-import { ProductGrid } from "./components/ProductGrid";
-import { CartPanel } from "./components/CartPanel";
-import { SearchBox } from "./components/SearchBox";
-import { SaleCountdown } from "./components/SaleCountdown";
-
+import { loadAll } from "./src/shared/api/load";
+import { Header } from "./src/components/Header";
+import { CategoryNav } from "./src/components/CategoryNav";
+import { ProductGrid } from "./src/components/ProductGrid";
+import { CartPanel } from "./src/components/CartPanel";
+import { SearchBox } from "./src/components/SearchBox";
+import { SaleCountdown } from "./src/components/SaleCountdown";
 export default function App() {
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const [cart, setCart] = useState<CartLine[]>([]);
@@ -53,8 +52,14 @@ export default function App() {
 
   if (state.status === "loading")
     return <div className="global-loader">در حال بارگذاری...</div>;
-  if (state.status === "error")
-    return <div className="state-error">{state.message}</div>;
+  if (state.status === "error") {
+    return (
+      <div className="state-error">
+        <p>{state.message}</p>
+        <button onClick={() => window.location.reload()}>تلاش مجدد</button>
+      </div>
+    );
+  }
 
   const { products, categories } = state.data;
   const filtered = products.filter(

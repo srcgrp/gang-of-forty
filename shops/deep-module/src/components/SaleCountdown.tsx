@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 export function SaleCountdown() {
-  const [seconds, setSeconds] = useState(3600); // 1 ساعت
+  const [seconds, setSeconds] = useState(3600);
 
   useEffect(() => {
     const timer = setInterval(() => {
