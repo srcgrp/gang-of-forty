@@ -5,6 +5,7 @@ import Footer from './components/Footer.tsx'
 import Header from './components/Header.tsx'
 import Hero from './components/Hero.tsx'
 import LogoSprite from './components/LogoSprite.tsx'
+import CategoryGrid from './components/CategoryGrid.tsx'
 
 const SAMPLE_CARD: Card = {
   id: 102,
@@ -19,16 +20,17 @@ const SAMPLE_CARD: Card = {
 }
 
 export default function App() {
-    return (
-        <>
+  return (
+    <>
       <LogoSprite />
       <Header />
       <CategoryNav />
       <main id="main">
         <Hero />
+        <CategoryGrid />
+        <ProductCard card={SAMPLE_CARD} onAdd={(id) => console.log('add', id)} />
       </main>
-      <ProductCard card={SAMPLE_CARD} onAdd={(id) => console.log('add', id)} />
       <Footer />
-        </>
-    )
+    </>
+  )
 }
