@@ -1130,6 +1130,7 @@ nav a:focus-visible {
   font-weight: 700;
   line-height: 1.6;
   color: var(--text);
+  line-clamp: 2;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }

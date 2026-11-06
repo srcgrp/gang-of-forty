@@ -4,18 +4,20 @@ import type {
   Catalog,
   CatalogItem,
   Category,
-  Offer,
-  Product,
+  LoadState,
   Sort,
   SortComparators,
-  Stock,
+  StateView,
 } from "./types";
+import { DataError, HttpError, getList, getValidated } from "./api/api";
+import { isCategory, isOffer, isProduct, isShop, isStock } from "./api/guard";
 
 const API = {
   products: "/api/products.json",
   offers: "/api/offers.json",
   stock: "/api/stock.json",
   categories: "/api/categories.json",
+  shop: "/api/shop.json",
 } as const;
 
 const LOW_STOCK = 5;
@@ -98,20 +100,22 @@ function el<K extends keyof HTMLElementTagNameMap>(
   return node;
 }
 
-//T : the type of the data we expect to receive from the API
-async function fetchJson<T>(url: string): Promise<T> {
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`${url} responded ${res.status}`);
-  return (await res.json()) as T;
-}
+const DEFAULT_CURRENCY = "تومان";
+let shopCurrency = DEFAULT_CURRENCY;
 
 async function loadCatalog(): Promise<Catalog> {
-  const [products, offers, stock, categories] = await Promise.all([
-    fetchJson<Product[]>(API.products),
-    fetchJson<Offer[]>(API.offers),
-    fetchJson<Stock>(API.stock),
-    fetchJson<Category[]>(API.categories),
+  const [products, offers, stock, categories, shop] = await Promise.all([
+    getList(API.products, isProduct),
+    getList(API.offers, isOffer),
+    getValidated(API.stock, isStock),
+    getList(API.categories, isCategory),
+    getValidated(API.shop, isShop).catch((err: unknown) => {
+      console.warn("shop.json ignored:", err);
+      return null;
+    }),
   ]);
+
+  if (shop) shopCurrency = shop.currency;
 
   const offerByProduct = new Map(offers.map((o) => [o.productId, o]));
   const categoryById = new Map(categories.map((c) => [c.id, c]));
@@ -134,7 +138,7 @@ async function loadCatalog(): Promise<Catalog> {
   const specials = offers
     .map((o) => itemById.get(o.productId))
     //note: Type Predicate: tells TypeScript that the filter will only keep items that are not undefined
-    .filter((i): i is CatalogItem => i !== undefined);
+    .filter((i): i is CatalogItem => i !== undefined); 
 
   return { items, specials, categories };
 }
@@ -144,11 +148,69 @@ let catalogPromise: Promise<Catalog> | null = null;
 //note: getCatalog function caches the catalog data in catalogPromise variable,
 //so that subsequent calls to getCatalog will return the cached data instead of making another API request. 
 function getCatalog(): Promise<Catalog> {
-  catalogPromise ??= loadCatalog().catch((err) => {
+  catalogPromise ??= loadCatalog().catch((err: unknown) => {
     catalogPromise = null;
     throw err;
   });
   return catalogPromise;
+}
+
+function describeError(err: unknown): string {
+  if (err instanceof HttpError) {
+    return err.status === 404
+      ? "فایل داده پیدا نشد."
+      : `سرور خطا برگرداند (کد ${toPersianDigits(err.status)}).`;
+  }
+  if (err instanceof DataError) return "داده‌های دریافتی خراب یا نامعتبر است.";
+  return "ارتباط با سرور برقرار نشد.";
+}
+
+async function loadState(
+  pick: (catalog: Catalog) => CatalogItem[]
+): Promise<LoadState<CatalogItem>> {
+  try {
+    const products = pick(await getCatalog());
+    return products.length === 0
+      ? { status: "empty" }
+      : { status: "success", products };
+  } catch (err) {
+    console.error(err);
+    return { status: "error", message: describeError(err) };
+  }
+}
+
+//note: if a new status is ever added to LoadState, the `never` parameter makes tsc fail right here
+function assertNever(value: never): never {
+  throw new Error(`Unhandled state: ${JSON.stringify(value)}`);
+}
+
+function renderState(
+  target: HTMLElement,
+  state: LoadState<CatalogItem>,
+  view: StateView
+): void {
+  target.setAttribute("aria-busy", String(state.status === "loading"));
+
+  switch (state.status) {
+    case "loading":
+      if (view.skeletons > 0) {
+        target.replaceChildren(
+          ...Array.from({ length: view.skeletons }, () => el("div", "offer-skeleton"))
+        );
+      }
+      break;
+    case "success":
+      target.replaceChildren(...view.build(state.products));
+      break;
+    case "empty":
+      showMessage(target, view.emptyText);
+      break;
+    case "error":
+      showMessage(target, `${view.errorTitle} ${state.message}`, view.retry);
+      break;
+    default:
+      assertNever(state);
+  }
 }
 
 const inStockFirst = (a: CatalogItem, b: CatalogItem): number =>
@@ -241,7 +303,7 @@ function createCard(item: CatalogItem): HTMLElement {
 
   const prices = el("div", "offer-prices");
   const price = el("span", "offer-price", formatPrice(item.price));
-  price.append(el("small", null, "تومان"));
+  price.append(el("small", null, shopCurrency));
   prices.append(price);
   if (item.oldPrice != null) {
     prices.append(el("del", "offer-old-price", formatPrice(item.oldPrice)));
@@ -303,28 +365,19 @@ async function renderSpecialOffers(section: HTMLElement): Promise<void> {
   const track = section.querySelector<HTMLElement>(".carousel");
   if (!track) return;
 
-  track.setAttribute("aria-busy", "true");
-  track.replaceChildren(
-    ...Array.from({ length: 5 }, () => el("div", "offer-skeleton"))
-  );
+  const view: StateView = {
+    skeletons: 5,
+    emptyText: "فعلاً پیشنهاد ویژه‌ای نداریم.",
+    errorTitle: "بارگذاری پیشنهادها انجام نشد.",
+    retry: () => void renderSpecialOffers(section),
+    build: (products) => sortItems(products).map((item) => createCard(item)),
+  };
 
-  try {
-    const { specials } = await getCatalog();
-    if (specials.length === 0) {
-      showMessage(track, "فعلاً پیشنهاد ویژه‌ای نداریم.");
-    } else {
-      track.replaceChildren(...sortItems(specials).map(createCard));
-    }
-  } catch (err) {
-    console.error(err);
-    showMessage(track, "بارگذاری پیشنهادها انجام نشد.", () =>
-      void renderSpecialOffers(section)
-    );
-  } finally {
-    track.setAttribute("aria-busy", "false");
-    track.scrollTo({ left: 0 });
-    track.dispatchEvent(new Event("scroll"));
-  }
+  renderState(track, { status: "loading" }, view);
+  renderState(track, await loadState((catalog) => catalog.specials), view);
+
+  track.scrollTo({ left: 0 });
+  track.dispatchEvent(new Event("scroll"));
 }
 
 function createCategorySection(category: Category, items: CatalogItem[]): HTMLElement {
@@ -357,31 +410,39 @@ function createCategorySection(category: Category, items: CatalogItem[]): HTMLEl
   return section;
 }
 
+function buildCategorySections(
+  items: CatalogItem[],
+  categories: Category[]
+): HTMLElement[] {
+  return categories
+    .map((category) => ({
+      category,
+      list: sortItems(items.filter((i) => i.categoryId === category.id)),
+    }))
+    .filter(({ list }) => list.length > 0)
+    .map(({ category, list }) => createCategorySection(category, list));
+}
+
 async function renderCategoryCarousels(container: HTMLElement): Promise<void> {
-  container.setAttribute("aria-busy", "true");
+  const makeView = (categories: Category[]): StateView => ({
+    skeletons: 0, //note: 0 = keep whatever is in the container while loading
+    emptyText: "فعلاً کالایی برای نمایش نداریم.",
+    errorTitle: "بارگذاری دسته‌بندی‌ها انجام نشد.",
+    retry: () => void renderCategoryCarousels(container),
+    build: (items) => buildCategorySections(items, categories),
+  });
 
-  try {
-    const { items, categories } = await getCatalog();
-    const sections = categories
-      .map((category) => ({
-        category,
-        list: sortItems(items.filter((i) => i.categoryId === category.id)),
-      }))
-      .filter(({ list }) => list.length > 0)
-      .map(({ category, list }) => createCategorySection(category, list));
+  renderState(container, { status: "loading" }, makeView([]));
 
-    container.replaceChildren(...sections);
-    container
-      .querySelectorAll<HTMLElement>(".carousel")
-      .forEach((t) => t.dispatchEvent(new Event("scroll")));
-  } catch (err) {
-    console.error(err);
-    showMessage(container, "بارگذاری دسته‌بندی‌ها انجام نشد.", () =>
-      void renderCategoryCarousels(container)
-    );
-  } finally {
-    container.setAttribute("aria-busy", "false");
-  }
+  const state = await loadState((catalog) => catalog.items);
+  //note: getCatalog() is cached, so after a "success" this resolves immediately and cannot fail
+  const categories =
+    state.status === "success" ? (await getCatalog()).categories : [];
+  renderState(container, state, makeView(categories));
+
+  container
+    .querySelectorAll<HTMLElement>(".carousel")
+    .forEach((t) => t.dispatchEvent(new Event("scroll")));
 }
 
 const specialSection = document.querySelector<HTMLElement>(".special-offer");
