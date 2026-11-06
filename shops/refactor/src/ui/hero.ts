@@ -3,7 +3,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { A11y, Keyboard, Pagination, Autoplay } from 'swiper/modules';
 import type { Banner, Home } from '../types';
-import { el, link } from './dom';
+import { el, link, icon } from './dom';
 
 let slider: Swiper | undefined;
 
@@ -12,7 +12,7 @@ const banner = (data: Banner, side = false): HTMLElement => {
   if (!side) {
     const image = el('img', 'hero-main__image');
     image.src = `${import.meta.env.BASE_URL}img/bg.png`;
-    image.alt = ''; image.width = 560; image.height = 400; article.append(image);
+    image.alt = 'تصویر بنر';  article.append(image);
   }
   const content = el('div', side ? 'hero-side-content' : 'hero-main__content');
   const emoji = el('span', side ? 'side-icon' : 'hero-emoji', data.emoji);
@@ -47,10 +47,19 @@ export const renderHero = (home: Home): void => {
 
 export const createPromos = (home: Home): HTMLElement => {
   const promos = el('div', 'hero-promos container');
-  for (const promo of home.promos) {
-    const item = link('', promo.href, 'hero-promo'); item.style.backgroundColor = promo.color;
-    const emoji = el('span', '', promo.emoji); emoji.setAttribute('aria-hidden', 'true');
-    item.append(emoji, el('span', '', promo.text)); promos.append(item);
+  for (const [i, promo] of home.promos.entries()) {
+    const item = link('', promo.href, `hero-promo hero-promo--${i === 0 ? 'breakfast' : 'bakery'}`);
+    const info = el('div', 'hero-promo__info');
+    const title = el('h3', 'hero-promo__title', promo.text);
+    const sub = el('p', 'hero-promo__sub', i === 0 ? 'لبنیات و فرآورده‌های تازه از مزرعه' : 'پخت گرم و تازه، ارسال سریع صبحگاهی');
+    const cta = el('span', 'hero-promo__cta', 'مشاهده و خرید'); cta.append(icon('i-arrow-left'));
+    info.append(title, sub, cta);
+    const media = el('div', 'hero-promo__media');
+    const img = el('img', 'hero-promo__img');
+    img.src = `${import.meta.env.BASE_URL}img/promo-${i === 0 ? 'breakfast' : 'bakery'}.png`;
+    img.alt = promo.text; img.loading = 'lazy'; media.append(img);
+    item.append(info, media); promos.append(item);
   }
   return promos;
 };
+
