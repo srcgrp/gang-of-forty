@@ -1,0 +1,81 @@
+:root {
+  --navy: #022571;
+  --blue: #1f6fb2;
+  --light-blue: #bbe1f8;
+  --yellow: #ffbf00;
+  --red: #c9363e;
+  --background: #ebf5ff;
+  --white: #fff;
+  --text: #172033;
+  --white-text: #e2f1ff;
+  --muted: #737d92;
+  --fade: #a5adb7;
+  --border: #c9d8e8;
+  --card-gap: 20px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 190px;
+}
+
+body {
+  color: var(--navy);
+  background: #fafcff;
+  line-height: 1.6;
+  overflow-x: clip;
+}
+
+button,
+a,
+label {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a:focus-visible,
+button:focus-visible,
+label:focus-visible,
+input:focus-visible {
+  outline: 3px solid #b6570a;
+  outline-offset: 3px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 2000;
+  top: 8px;
+  right: 8px;
+  padding: 12px 16px;
+  color: #fff;
+  background: var(--navy);
+  border: 3px solid var(--yellow);
+  border-radius: 8px;
+  transform: translateY(-160%);
+  transition: transform 160ms ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+@media (max-width: 700px) {
+  html {
+      scroll-padding-top: 150px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+      scroll-behavior: auto;
+    }
+}
