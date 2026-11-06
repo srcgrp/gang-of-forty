@@ -1,61 +1,51 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { addToCart, cartCount, removeFromCart } from './features/cart/rules/lines.ts'
+import { loadState } from './features/products/api/load.ts'
+import { cardsOf } from './features/products/catalog/view.ts'
+import Blog from './components/Blog.tsx'
 import CartPanel from './components/CartPanel.tsx'
+import Catalog from './components/Catalog.tsx'
 import CategoryGrid from './components/CategoryGrid.tsx'
 import CategoryNav from './components/CategoryNav.tsx'
 import Footer from './components/Footer.tsx'
 import Header from './components/Header.tsx'
 import Hero from './components/Hero.tsx'
 import LogoSprite from './components/LogoSprite.tsx'
-import ProductGrid from './components/ProductGrid.tsx'
-import { addToCart, cartCount, removeFromCart } from './features/cart/rules/lines.ts'
-import { inCategory, offerMap } from './features/products/catalog/select.ts'
-import { toCard } from './features/products/catalog/toCard.ts'
-import { SAMPLE_OFFERS, SAMPLE_PRODUCTS, SAMPLE_STOCK } from './sample.ts'
-import type { Card, CartLine, Product } from './shared/types.ts'
-import Blog from './components/Blog.tsx'
 import PromoBanners from './components/PromoBanners.tsx'
+import type { CartLine, LoadState } from './shared/types.ts'
 
 export default function App() {
   const [cart, setCart] = useState<CartLine[]>([])
   const [categoryId, setCategoryId] = useState<number | null>(null)
+  const [state, setState] = useState<LoadState>({ status: 'loading' })
 
-  const offers = offerMap(SAMPLE_OFFERS)
-  const toCards = (products: Product[]): Card[] =>
-    products.map((p) => toCard(p, SAMPLE_STOCK, offers.get(p.id)))
+  useEffect(() => {
+    let ignore = false
+    loadState().then((next) => {
+      if (!ignore) setState(next)
+    })
+    return () => {
+      ignore = true
+    }
+  }, [])
 
-  const allCards = toCards(SAMPLE_PRODUCTS)
-  const shownCards = toCards(
-    categoryId === null ? SAMPLE_PRODUCTS : inCategory(SAMPLE_PRODUCTS, categoryId),
-  )
-  const count = cartCount(cart)
-
-  function handleAdd(id: number) {
-    setCart(addToCart(cart, id))
-  }
-
-  function handleRemove(id: number) {
-    setCart(removeFromCart(cart, id))
-  }
+  const cards = state.status === 'success' ? cardsOf(state) : []
+  const handleAdd = (id: number) => setCart(addToCart(cart, id))
+  const handleRemove = (id: number) => setCart(removeFromCart(cart, id))
 
   return (
     <>
-     <div id="top" />
+      <div id="top" />
       <LogoSprite />
-      <Header count={count} />
+      <Header count={cartCount(cart)} />
       <CategoryNav selected={categoryId} onPick={setCategoryId} />
       <main id="main">
         <Hero />
         <CategoryGrid />
-        <ProductGrid
-          id="products"
-          title="محصولات"
-          prefix="product"
-          cards={shownCards}
-          onAdd={handleAdd}
-        />
+        <Catalog state={state} categoryId={categoryId} onAdd={handleAdd} />
         <PromoBanners />
         <Blog />
-        <CartPanel lines={cart} cards={allCards} onRemove={handleRemove} />
+        <CartPanel lines={cart} cards={cards} onRemove={handleRemove} />
       </main>
       <Footer />
     </>
