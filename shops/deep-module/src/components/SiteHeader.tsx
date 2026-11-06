@@ -3,6 +3,7 @@ import { SearchBox } from "./SearchBox";
 import { TopBar } from "./TopBar";
 import { MainNav } from "./MainNav";
 import { ThemeIcon } from "./ThemeIcon";
+import { Logo } from "./Logo";
 import { useTheme } from "../hooks/useTheme";
 
 interface SiteHeaderProps {
@@ -35,14 +36,7 @@ export function SiteHeader({
         <div className="header__wrapper">
           <a href="#main" className="brand" aria-label="صفحه اصلی">
             <span className="brand__icon" aria-hidden="true">
-              <svg viewBox="0 0 64 64" focusable="false">
-                <circle cx="32" cy="32" r="30" fill="#d7ff00" />
-                <path
-                  d="M32 12 C 18 20, 14 36, 24 48 C 34 56, 46 50, 48 38 C 50 26, 44 16, 32 12 Z"
-                  fill="#111318"
-                />
-                <circle cx="40" cy="20" r="3" fill="#fff" opacity="0.9" />
-              </svg>
+              <Logo size={46} />
             </span>
             <span className="brand__name">
               <strong>{shop.name || "سبزکاله"}</strong>
