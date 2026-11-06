@@ -1,13 +1,14 @@
 import type { Card } from '../shared/types.ts'
 
 type ProductCardProps = {
-    card: Card
-    onAdd: (id: number) => void
+  card: Card
+  onAdd: (id: number) => void
+  anchorId?: string
 }
 
-export default function ProductCard({ card, onAdd }: ProductCardProps) {
-    return (
-        <div className={card.inStock ? 'product-card' : 'product-card out'}>
+export default function ProductCard({ card, onAdd, anchorId }: ProductCardProps) {
+  return (
+    <div id={anchorId} className={card.inStock ? 'product-card' : 'product-card out'}>
             {card.discount && <span className="discount">{card.discount}</span>}
 
             <button type="button" className="favorite" aria-label="علاقه مندی">

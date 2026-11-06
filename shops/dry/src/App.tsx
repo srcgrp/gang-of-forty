@@ -1,4 +1,3 @@
-import ProductCard from './components/ProductCard.tsx'
 import type { Card } from './shared/types.ts'
 import CategoryNav from './components/CategoryNav.tsx'
 import Footer from './components/Footer.tsx'
@@ -6,18 +5,25 @@ import Header from './components/Header.tsx'
 import Hero from './components/Hero.tsx'
 import LogoSprite from './components/LogoSprite.tsx'
 import CategoryGrid from './components/CategoryGrid.tsx'
-
-const SAMPLE_CARD: Card = {
-  id: 102,
-  title: 'پرتقال',
-  unit: 'هر کیلو',
-  emoji: '🍊',
-  image: null,
-  price: '۴۵٬۰۰۰ تومان',
-  oldPrice: '۵۰٬۰۰۰ تومان',
-  discount: '۱۰٪',
-  inStock: true,
-}
+import ProductGrid from './components/ProductGrid.tsx'
+const SAMPLE: Card[] = [
+  {
+    id: 102, title: 'پرتقال', unit: 'هر کیلو', emoji: '🍊', image: null,
+    price: '۴۵٬۰۰۰ تومان', oldPrice: '۵۰٬۰۰۰ تومان', discount: '۱۰٪', inStock: true,
+  },
+  {
+    id: 103, title: 'موز', unit: 'هر کیلو', emoji: '🍌', image: null,
+    price: '۶۰٬۰۰۰ تومان', oldPrice: null, discount: null, inStock: true,
+  },
+  {
+    id: 201, title: 'شیر', unit: 'یک لیتر', emoji: '🥛', image: null,
+    price: '۳۵٬۰۰۰ تومان', oldPrice: null, discount: null, inStock: false,
+  },
+  {
+    id: 402, title: 'عسل', unit: '۵۰۰ گرم', emoji: '🍯', image: null,
+    price: '۱۲۰٬۰۰۰ تومان', oldPrice: null, discount: null, inStock: true,
+  },
+]
 
 export default function App() {
   return (
@@ -28,7 +34,13 @@ export default function App() {
       <main id="main">
         <Hero />
         <CategoryGrid />
-        <ProductCard card={SAMPLE_CARD} onAdd={(id) => console.log('add', id)} />
+       <ProductGrid
+  id="offers"
+  title="پیشنهادهای ویژه"
+  prefix="offer"
+  cards={SAMPLE}
+  onAdd={(id) => console.log('add', id)}
+/>
       </main>
       <Footer />
     </>
