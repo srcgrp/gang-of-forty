@@ -5,7 +5,17 @@ interface MainNavProps {
   categories: Category[];
 }
 
+const DEFAULT_LINKS = [
+  { label: "خانه", href: "#main" },
+  { label: "دسته‌بندی‌ها", href: "#categories" },
+  { label: "پیشنهاد ویژه", href: "#special" },
+  { label: "تمام محصولات", href: "#all-products" },
+  { label: "تماس", href: "#contact" },
+];
+
 export function MainNav({ shop, categories }: MainNavProps) {
+  const links = shop.menu && shop.menu.length > 0 ? shop.menu : DEFAULT_LINKS;
+
   return (
     <>
       <input
@@ -22,7 +32,9 @@ export function MainNav({ shop, categories }: MainNavProps) {
             className="menu-toggle"
             aria-label="باز و بسته کردن منو"
           >
-            <span></span><span></span><span></span>
+            <span></span>
+            <span></span>
+            <span></span>
           </label>
 
           <div className="mega">
@@ -31,7 +43,21 @@ export function MainNav({ shop, categories }: MainNavProps) {
               className="mega__trigger"
               aria-haspopup="true"
             >
-              <span className="mega__icon" aria-hidden="true">☰</span>
+              <span className="mega__icon" aria-hidden="true">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  focusable="false"
+                >
+                  <path
+                    d="M4 6h16M4 12h16M4 18h16"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </span>
               <span>همه دسته‌ها</span>
             </button>
             <div className="mega__menu" role="menu" aria-label="دسته‌بندی‌ها">
@@ -49,7 +75,7 @@ export function MainNav({ shop, categories }: MainNavProps) {
           </div>
 
           <ul className="nav__links">
-            {(shop.menu || []).map((item, i) => (
+            {links.map((item, i) => (
               <li key={i}>
                 <a href={item.href}>{item.label}</a>
               </li>
