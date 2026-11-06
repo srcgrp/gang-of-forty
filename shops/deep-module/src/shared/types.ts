@@ -10,11 +10,9 @@ export interface Product {
 export interface Category {
   id: number;
   name: string;
-  slug?: string;
   emoji?: string;
-  color?: string;
+  slug?: string;
 }
-
 export type ProductId = Pick<Product, "id">;
 export type StockMap = Record<number, number>;
 
