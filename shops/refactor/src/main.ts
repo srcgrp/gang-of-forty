@@ -14,7 +14,7 @@ import { renderState, announce, scrollToFragment, scrollToCatalog } from './ui/s
 import { bindEvents } from './ui/events';
 import { addedToCart } from './ui/feedback';
 
-let state: LoadState = { status: 'loading' };
+let state: LoadState = {status: 'loading' };
 let items: CartItem[] = readCart();
 let query: CatalogQuery = readQuery();
 
@@ -52,7 +52,7 @@ const show = (next: LoadState): void => {
   if (next.status === 'success' || next.status === 'empty') render(next.data);
 };
 const start = createLoadFlow({
-  load: (signal) => loadWithDeadline(signal, () => announce('اتصال قطع است یا پاسخ فروشگاه دیر رسیده؛ در حال تلاش برای دریافت اطلاعات…')),
+  load: (signal) => loadWithDeadline(signal, () => announce('در حال دریافت اطلاعات ....')),
   explain: loadErrorMessage, show,
 });
 
@@ -64,3 +64,7 @@ bindEvents({
   restoreNavigation: () => { query = readQuery(); const shop = data(); if (shop) refreshCatalog(shop); applyFragment(); },
 });
 void start();
+
+
+
+
