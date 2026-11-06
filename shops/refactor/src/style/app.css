@@ -147,7 +147,43 @@ main {
 .hero-promos {
     width: 100%;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    padding-block: 14px;
+    gap: 1.5rem;
+    padding-block: 16px;
+}
+
+@media (max-width: 640px) {
+    .hero-promos {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    .hero-promo {
+        min-height: auto;
+        padding: 1.35rem 1.25rem;
+        border-radius: 22px;
+        flex-direction: column-reverse;
+        align-items: stretch;
+        text-align: right;
+    }
+    .hero-promo__info {
+        padding-left: 0;
+    }
+    .hero-promo__title {
+        font-size: 1.2rem;
+    }
+    .hero-promo__media {
+        flex: 0 0 140px;
+        width: 140px;
+        height: 140px;
+        margin: 0 auto;
+    }
+    .hero-promo__media::before {
+        width: 100px;
+        height: 100px;
+    }
+    .hero-promo__cta {
+        padding: 0.45rem 1.1rem;
+        font-size: 0.78rem;
+    }
 }
 
 .hero-side {
@@ -262,6 +298,16 @@ main {
 @media (prefers-reduced-motion: reduce) {
     .loading-card {
         animation: none;
+    }
+    .hero-promo,
+    .hero-promo::before,
+    .hero-promo::after,
+    .hero-promo__img,
+    .hero-promo__cta,
+    .hero-promo__cta .icon {
+        transition: none !important;
+        transform: none !important;
+        animation: none !important;
     }
 }
 
