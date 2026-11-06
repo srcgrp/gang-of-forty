@@ -10,6 +10,7 @@ import { CategoriesSection } from "./components/CategoriesSection";
 import { SaleCountdown } from "./components/SaleCountdown";
 import { SpecialOffers } from "./components/SpecialOffers";
 import { BannersSection } from "./components/BannersSection";
+import { CategorySections } from "./components/CategorySections";
 import { ProductGrid } from "./components/ProductGrid";
 import { CartPanel } from "./components/CartPanel";
 import { SiteFooter } from "./components/SiteFooter";
@@ -42,6 +43,7 @@ export default function App() {
 
   const { products, categories, shop, home, offers, stock } = state.data;
   const filtered = applyFilters(products, filters, offers, stock, query);
+  const hasActiveFilter = activeCount > 0 || query.length > 0;
 
   return (
     <>
@@ -68,6 +70,16 @@ export default function App() {
         />
         <BannersSection home={home} />
 
+        {!hasActiveFilter && (
+          <CategorySections
+            products={products}
+            categories={categories}
+            offers={offers}
+            stock={stock}
+            onAdd={addToCart}
+          />
+        )}
+
         <section id="all-products" className="products-section">
           <div className="products-section__head">
             <h2 className="section-head__title">
@@ -75,7 +87,7 @@ export default function App() {
             </h2>
             <div className="products-section__actions">
               <span className="section-head__count">
-                {filtered.length} محصول
+                {filtered.length.toLocaleString("fa-IR")} محصول
               </span>
               <button
                 type="button"
@@ -98,7 +110,6 @@ export default function App() {
       </main>
       <SiteFooter shop={shop} categories={categories} />
 
-      {/* Cart Modal */}
       {cartOpen && (
         <div
           className="modal modal--open"
@@ -137,7 +148,6 @@ export default function App() {
         </div>
       )}
 
-      {/* Filter Modal */}
       <FilterModal
         isOpen={filterOpen}
         onClose={() => setFilterOpen(false)}
