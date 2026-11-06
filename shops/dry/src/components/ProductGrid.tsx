@@ -20,16 +20,20 @@ export default function ProductGrid({ id, title, prefix, cards, onAdd }: Product
         </div>
       </div>
 
-      <div className="carousel">
-        {cards.map((card, i) => (
-          <ProductCard
-            key={card.id}
-            card={card}
-            onAdd={onAdd}
-            anchorId={`${prefix}-${i + 1}`}
-          />
-        ))}
-      </div>
+            {cards.length === 0 ? (
+        <p className="status">محصولی برای نمایش وجود ندارد.</p>
+      ) : (
+        <div className="carousel">
+          {cards.map((card, i) => (
+            <ProductCard
+              key={card.id}
+              card={card}
+              onAdd={onAdd}
+              anchorId={`${prefix}-${i + 1}`}
+            />
+          ))}
+        </div>
+      )}
     </section>
   )
 }

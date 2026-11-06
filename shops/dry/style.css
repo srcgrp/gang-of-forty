@@ -891,3 +891,8 @@ address { font-style: normal; color: var(--secondary-color); line-height: 2; mar
   gap: 1rem;
   padding: 0.5rem 0;
 }
+
+.category-nav a[aria-current='true'] {
+  font-weight: 700;
+  text-decoration: underline;
+}
