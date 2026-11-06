@@ -1,5 +1,6 @@
 import type { Shop } from "../types";
 import { SearchBox } from "./SearchBox";
+import { useTheme } from "../hooks/useTheme";
 
 interface SiteHeaderProps {
   shop: Shop;
@@ -14,6 +15,8 @@ export function SiteHeader({
   query,
   onQuery,
 }: SiteHeaderProps) {
+  const { mode, toggle } = useTheme();
+
   return (
     <>
       <div className="topbar" role="region" aria-label="اطلاع‌رسانی">
@@ -44,9 +47,15 @@ export function SiteHeader({
           <SearchBox query={query} onQuery={onQuery} />
 
           <div className="header__actions">
-            <button type="button" className="theme-btn" aria-label="تغییر حالت">
+            <button
+              type="button"
+              className="theme-btn"
+              onClick={toggle}
+              aria-label="تغییر حالت روشن و تاریک"
+              aria-pressed={mode === "dark"}
+            >
               <span className="theme-btn__icon" aria-hidden="true">
-                🌙
+                {mode === "dark" ? "☀️" : "🌙"}
               </span>
             </button>
             <a href="#login" className="action-btn">
