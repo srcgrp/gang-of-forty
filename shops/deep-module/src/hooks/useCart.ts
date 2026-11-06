@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import type { CartLine, Product } from "../types";
+import { toast } from "../shared/ui/toast";
 
 export function useCart() {
   const [cart, setCart] = useState<CartLine[]>([]);
@@ -27,6 +28,7 @@ export function useCart() {
         },
       ];
     });
+    toast.success(`${product.name} به سبد اضافه شد ✅`);
   };
 
   return { cart, addToCart };
