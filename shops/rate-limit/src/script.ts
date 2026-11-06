@@ -1,3 +1,16 @@
+import type {
+  CartAddDetail,
+  CartLine,
+  Catalog,
+  CatalogItem,
+  Category,
+  Offer,
+  Product,
+  Sort,
+  SortComparators,
+  Stock,
+} from "./types";
+
 const API = {
   products: "/api/products.json",
   offers: "/api/offers.json",
@@ -13,60 +26,6 @@ const CHEVRON_PREV =
   '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
 const CHEVRON_NEXT =
   '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>';
-
-interface Product {
-  id: number;
-  categoryId: number;
-  name: string;
-  emoji: string;
-  unit: string;
-  price: number;
-  tags: string[];
-}
-
-interface Offer {
-  productId: number;
-  percent: number;
-  label: string;
-}
-
-interface StockResponse {
-  updatedAt: string;
-  items: Record<string, number>;
-}
-
-interface Category {
-  id: number;
-  slug: string;
-  name: string;
-  emoji: string;
-  color: string;
-}
-
-interface CatalogItem extends Product {
-  stock: number;
-  color?: string;
-  percent?: number;
-  label?: string;
-  oldPrice?: number;
-}
-
-interface Catalog {
-  items: CatalogItem[];
-  specials: CatalogItem[];
-  categories: Category[];
-}
-
-interface CartAddDetail {
-  product: CatalogItem;
-  quantity: number;
-}
-
-declare global {
-  interface DocumentEventMap {
-    "cart:add": CustomEvent<CartAddDetail>;
-  }
-}
 
 const PERSIAN_DIGITS = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
 
@@ -150,7 +109,7 @@ async function loadCatalog(): Promise<Catalog> {
   const [products, offers, stock, categories] = await Promise.all([
     fetchJson<Product[]>(API.products),
     fetchJson<Offer[]>(API.offers),
-    fetchJson<StockResponse>(API.stock),
+    fetchJson<Stock>(API.stock),
     fetchJson<Category[]>(API.categories),
   ]);
 
@@ -175,7 +134,7 @@ async function loadCatalog(): Promise<Catalog> {
   const specials = offers
     .map((o) => itemById.get(o.productId))
     //note: Type Predicate: tells TypeScript that the filter will only keep items that are not undefined
-    .filter((i): i is CatalogItem => i !== undefined); 
+    .filter((i): i is CatalogItem => i !== undefined);
 
   return { items, specials, categories };
 }
@@ -192,22 +151,38 @@ function getCatalog(): Promise<Catalog> {
   return catalogPromise;
 }
 
-const inStockFirst = (list: CatalogItem[]): CatalogItem[] =>
-  [...list].sort((a, b) => Number(b.stock > 0) - Number(a.stock > 0));
+const inStockFirst = (a: CatalogItem, b: CatalogItem): number =>
+  Number(b.stock > 0) - Number(a.stock > 0);
 
-const cart = new Map<number, number>();
+//note: one comparator per Sort value; Record<Sort, ...> makes TypeScript complain if we forget one
+const SORT_COMPARATORS: SortComparators = {
+  default: inStockFirst,
+  "price-asc": (a, b) => inStockFirst(a, b) || a.price - b.price,
+  "price-desc": (a, b) => inStockFirst(a, b) || b.price - a.price,
+  discount: (a, b) => inStockFirst(a, b) || (b.percent ?? 0) - (a.percent ?? 0),
+};
+
+const sortItems = (list: CatalogItem[], sort: Sort = "default"): CatalogItem[] =>
+  [...list].sort(SORT_COMPARATORS[sort]);
+
+const cart = new Map<number, CartLine>();
 
 function updateCartCount(): void {
-  const total = [...cart.values()].reduce((sum, qty) => sum + qty, 0);
+  const total = [...cart.values()].reduce((sum, line) => sum + line.quantity, 0);
   const badge = document.querySelector<HTMLElement>(".cart-count");
   if (badge) badge.textContent = toPersianDigits(total);
 }
 
 function addToCart(item: CatalogItem, button: HTMLButtonElement): void {
-  const qty = cart.get(item.id) ?? 0;
+  const qty = cart.get(item.id)?.quantity ?? 0;
   if (qty >= item.stock) return;
 
-  cart.set(item.id, qty + 1);
+  cart.set(item.id, {
+    id: item.id,
+    name: item.name,
+    price: item.price,
+    quantity: qty + 1,
+  });
   updateCartCount();
   document.dispatchEvent(
     new CustomEvent<CartAddDetail>("cart:add", {
@@ -338,7 +313,7 @@ async function renderSpecialOffers(section: HTMLElement): Promise<void> {
     if (specials.length === 0) {
       showMessage(track, "فعلاً پیشنهاد ویژه‌ای نداریم.");
     } else {
-      track.replaceChildren(...inStockFirst(specials).map(createCard));
+      track.replaceChildren(...sortItems(specials).map(createCard));
     }
   } catch (err) {
     console.error(err);
@@ -390,7 +365,7 @@ async function renderCategoryCarousels(container: HTMLElement): Promise<void> {
     const sections = categories
       .map((category) => ({
         category,
-        list: inStockFirst(items.filter((i) => i.categoryId === category.id)),
+        list: sortItems(items.filter((i) => i.categoryId === category.id)),
       }))
       .filter(({ list }) => list.length > 0)
       .map(({ category, list }) => createCategorySection(category, list));
