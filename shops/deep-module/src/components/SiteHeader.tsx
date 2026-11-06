@@ -1,4 +1,4 @@
-import type { Shop } from "../types";
+import type { Product, Shop } from "../types";
 import { SearchBox } from "./SearchBox";
 import { useTheme } from "../hooks/useTheme";
 
@@ -7,6 +7,8 @@ interface SiteHeaderProps {
   cartCount: number;
   query: string;
   onQuery: (q: string) => void;
+  suggestions: Product[];
+  onPickProduct: (p: Product) => void;
 }
 
 export function SiteHeader({
@@ -14,6 +16,8 @@ export function SiteHeader({
   cartCount,
   query,
   onQuery,
+  suggestions,
+  onPickProduct,
 }: SiteHeaderProps) {
   const { mode, toggle } = useTheme();
 
@@ -44,7 +48,12 @@ export function SiteHeader({
             </span>
           </a>
 
-          <SearchBox query={query} onQuery={onQuery} />
+          <SearchBox
+            query={query}
+            onQuery={onQuery}
+            suggestions={suggestions}
+            onPickProduct={onPickProduct}
+          />
 
           <div className="header__actions">
             <button

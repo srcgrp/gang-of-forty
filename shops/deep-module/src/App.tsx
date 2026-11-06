@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useShopData } from "./hooks/useShopData";
 import { useCart } from "./hooks/useCart";
+import { useSearch } from "./hooks/useSearch";
 import { SiteHeader } from "./components/SiteHeader";
 import { Hero } from "./components/Hero";
 import { HeroCards } from "./components/HeroCards";
@@ -19,6 +20,9 @@ export default function App() {
   const [query, setQuery] = useState("");
   const state = useShopData(attempt);
   const { cart, addToCart } = useCart();
+
+  const allProducts = state.status === "success" ? state.data.products : [];
+  const suggestions = useSearch(allProducts, query);
 
   if (state.status === "loading") {
     return <div className="global-loader">در حال بارگذاری...</div>;
@@ -46,6 +50,8 @@ export default function App() {
         cartCount={cart.length}
         query={query}
         onQuery={setQuery}
+        suggestions={suggestions}
+        onPickProduct={addToCart}
       />
       <main>
         <Hero home={home} />
