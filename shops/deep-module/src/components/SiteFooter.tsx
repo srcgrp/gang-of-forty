@@ -16,8 +16,16 @@ export function SiteFooter({
             <p className="footer__text">
               {shop.about || "از سال ۱۴۰۰، کنار شما هستیم."}
             </p>
+            {shop.phone && (
+              <p className="footer__contact">
+                <span aria-hidden="true">📞</span>
+                <a href={`tel:${shop.phone.replace(/[^\d+]/g, "")}`} dir="ltr">
+                  {shop.phone}
+                </a>
+              </p>
+            )}
           </div>
-          <nav className="footer__col">
+          <nav className="footer__col" aria-label="دسترسی‌ها">
             <h2 className="footer__title">دسترسی‌ها</h2>
             <ul className="footer__list">
               {categories.slice(0, 5).map((c) => (
@@ -27,9 +35,22 @@ export function SiteFooter({
               ))}
             </ul>
           </nav>
+          <nav className="footer__col" aria-label="راهنما">
+            <h2 className="footer__title">راهنما</h2>
+            <ul className="footer__list">
+              {(shop.help || []).slice(0, 5).map((item, i) => (
+                <li key={i}>
+                  <a href={item.href}>{item.label}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
         <div className="footer__bottom">
           <p className="footer__copy">{shop.copyright || "© ۱۴۰۴ سبزکاله"}</p>
+          <a href="#" className="footer__top" aria-label="بازگشت به بالا">
+            بازگشت به بالا <span aria-hidden="true">↑</span>
+          </a>
         </div>
       </div>
     </footer>
