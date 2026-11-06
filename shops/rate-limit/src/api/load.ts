@@ -1,33 +1,5 @@
-export class HttpError extends Error {
-  url: string;
-  status: number;
-
-  constructor(url: string, status: number) {
-    super(`${url} responded ${status}`);
-    this.name = "HttpError";
-    this.url = url;
-    this.status = status;
-  }
-}
-
-export class DataError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = "DataError";
-  }
-}
-
-export async function getJSON(path: string): Promise<unknown> {
-  const res = await fetch(path);
-  if (!res.ok) throw new HttpError(path, res.status);
-
-  try {
-    const data: unknown = await res.json();
-    return data;
-  } catch {
-    throw new DataError(`${path} is not valid JSON`);
-  }
-}
+import { DataError } from "./errors";
+import { getJSON } from "./http";
 
 export async function getValidated<T>(
   path: string,
