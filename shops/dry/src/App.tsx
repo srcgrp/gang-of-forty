@@ -41,7 +41,7 @@ export default function App() {
       <CategoryNav selected={categoryId} onPick={setCategoryId} />
       <main id="main">
         <Hero />
-        <CategoryGrid />
+        <CategoryGrid onPick={setCategoryId} />
         <Catalog state={state} categoryId={categoryId} onAdd={handleAdd} />
         <PromoBanners />
         <Blog />

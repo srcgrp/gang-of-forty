@@ -23,7 +23,7 @@ export default function ProductGrid({ id, title, prefix, cards, onAdd }: Product
             {cards.length === 0 ? (
         <p className="status">محصولی برای نمایش وجود ندارد.</p>
       ) : (
-        <div className="carousel">
+                <div className="carousel" tabIndex={0} aria-label={title}>
           {cards.map((card, i) => (
             <ProductCard
               key={card.id}

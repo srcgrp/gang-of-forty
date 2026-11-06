@@ -8,27 +8,38 @@ import pantryImg from '../../assets/products/food-products.png'
 type CategoryCardData = {
   slug: string
   title: string
-  href: string
   image: string
+  categoryId?: number
+}
+
+type CategoryGridProps = {
+  onPick: (id: number) => void
 }
 
 const CATEGORY_CARDS: CategoryCardData[] = [
-  { slug: 'fruit', title: 'میوه و سبزی', href: '?category=fruit', image: fruitImg },
-  { slug: 'dairy', title: 'لبنیات', href: '?category=dairy', image: dairyImg },
-  { slug: 'meat', title: 'گوشت و پروتئین', href: '#offers', image: meatImg },
-  { slug: 'nuts', title: 'خشکبار', href: '#offers', image: nutsImg },
-  { slug: 'drinks', title: 'نوشیدنی', href: '?category=drinks', image: drinksImg },
-  { slug: 'pantry', title: 'مواد غذایی', href: '?category=pantry', image: pantryImg },
+  { slug: 'fruit', title: 'میوه و سبزی', image: fruitImg, categoryId: 1 },
+  { slug: 'dairy', title: 'لبنیات', image: dairyImg, categoryId: 2 },
+  { slug: 'meat', title: 'گوشت و پروتئین', image: meatImg },
+  { slug: 'nuts', title: 'خشکبار', image: nutsImg },
+  { slug: 'drinks', title: 'نوشیدنی', image: drinksImg, categoryId: 5 },
+  { slug: 'pantry', title: 'مواد غذایی', image: pantryImg, categoryId: 4 },
 ]
 
-export default function CategoryGrid() {
+export default function CategoryGrid({ onPick }: CategoryGridProps) {
   return (
     <section className="categories" id="categories">
       <h2>دسته‌بندی‌ها</h2>
 
       <div className="category-grid">
         {CATEGORY_CARDS.map((c) => (
-          <a className="category-card" href={c.href} key={c.slug}>
+          <a
+            className="category-card"
+            href={c.categoryId === undefined ? '#offers' : '#products'}
+            key={c.slug}
+            onClick={() => {
+              if (c.categoryId !== undefined) onPick(c.categoryId)
+            }}
+          >
             <img src={c.image} alt="" />
             <h3>{c.title}</h3>
           </a>
