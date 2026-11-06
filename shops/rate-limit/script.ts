@@ -70,15 +70,11 @@ declare global {
 
 const PERSIAN_DIGITS = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
 
-const toPersianDigits = (value: string | number): string =>
-  String(value).replace(/\d/g, (d) => PERSIAN_DIGITS[Number(d)] ?? d);
-
-function toPersian(text: string): string {
-  return text.replace(/[0-9]/g, (digit: string) =>
-    PERSIAN_DIGITS[Number(digit)]
-  );
+function toPersianDigits(value: string | number): string {
+  return String(value).replace(/\d/g, (d) => PERSIAN_DIGITS[Number(d)] ?? d);
 }
 
+//note: making sure the toPersianDigits function wont be called on everything in the HTML file like the CSS or script tags.
 function convertPage(): void {
   const elements: NodeListOf<Element> =
     document.body.querySelectorAll("*");
@@ -86,12 +82,11 @@ function convertPage(): void {
   elements.forEach((element: Element) => {
     element.childNodes.forEach((child: ChildNode) => {
       if (child.nodeType === Node.TEXT_NODE) {
-        child.nodeValue = toPersian(child.nodeValue ?? "");
+        child.nodeValue = toPersianDigits(child.nodeValue ?? "");
       }
     });
   });
 }
-
 
 function setupCategoryDropdown(): void {
   const categoryToggle =
@@ -117,13 +112,22 @@ function setupCategoryDropdown(): void {
   });
 }
 
-
 convertPage();
 setupCategoryDropdown();
 
 const formatPrice = (n: number): string =>
   toPersianDigits(Math.round(n).toLocaleString("en-US")).replace(/,/g, "٬");
 
+//note: helps creating HTML elements with shorter syntax
+//instead of:
+//            const title = document.createElement("h1");
+//            title.className = "title";
+//            title.textContent = "Hello";
+//we can write:
+//            const title = el("h1", "title", "Hello");   
+
+//K : Type Parameter
+//<K extends keyof HTMLElementTagNameMap> : K can be a valid HTML tag
 function el<K extends keyof HTMLElementTagNameMap>(
   tag: K,
   className?: string | null,
@@ -135,6 +139,7 @@ function el<K extends keyof HTMLElementTagNameMap>(
   return node;
 }
 
+//T : the type of the data we expect to receive from the API
 async function fetchJson<T>(url: string): Promise<T> {
   const res = await fetch(url);
   if (!res.ok) throw new Error(`${url} responded ${res.status}`);
@@ -155,7 +160,8 @@ async function loadCatalog(): Promise<Catalog> {
   const items: CatalogItem[] = products.map((p) => {
     const offer = offerByProduct.get(p.id);
     return {
-      ...p,
+      ...p,     //note: Spread Operator: copies all properties from p to the new object
+
       price: offer ? Math.round((p.price * (100 - offer.percent)) / 100) : p.price,
       oldPrice: offer ? p.price : undefined,
       percent: offer?.percent,
@@ -168,13 +174,16 @@ async function loadCatalog(): Promise<Catalog> {
   const itemById = new Map(items.map((i) => [i.id, i]));
   const specials = offers
     .map((o) => itemById.get(o.productId))
-    .filter((i): i is CatalogItem => i !== undefined);
+    //note: Type Predicate: tells TypeScript that the filter will only keep items that are not undefined
+    .filter((i): i is CatalogItem => i !== undefined); 
 
   return { items, specials, categories };
 }
 
 let catalogPromise: Promise<Catalog> | null = null;
 
+//note: getCatalog function caches the catalog data in catalogPromise variable,
+//so that subsequent calls to getCatalog will return the cached data instead of making another API request. 
 function getCatalog(): Promise<Catalog> {
   catalogPromise ??= loadCatalog().catch((err) => {
     catalogPromise = null;
@@ -410,4 +419,4 @@ if (specialSection) {
 const categoryContainer = document.querySelector<HTMLElement>("#category-carousels");
 if (categoryContainer) void renderCategoryCarousels(categoryContainer);
 
-export {};
+export { };
