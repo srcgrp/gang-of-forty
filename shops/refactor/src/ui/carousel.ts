@@ -8,7 +8,7 @@ const createCarousel = (id: string, title: string, emoji: string, products: Prod
     const carousel = el('div', 'carousel');
     const head = el('div', 'section-head');
     const heading = el('h2', 'section-title', `${emoji} ${title}`); heading.id = `${id}-title`;
-    const here = el('span', 'target-marker', 'اینجا هستید');
+    const here = el('span', 'target-marker', '');
     const controls = el('div', 'wrapper-car-btn');
     const prev = button('', 'car-btn'), next = button('', 'car-btn');
     prev.setAttribute('aria-label', `قبلی؛ ${title}`); next.setAttribute('aria-label', `بعدی؛ ${title}`);
@@ -57,3 +57,4 @@ export {
     createCarousel,
     clearCarousels
 }
+
