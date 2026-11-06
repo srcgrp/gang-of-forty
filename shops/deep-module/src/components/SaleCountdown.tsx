@@ -1,21 +1,49 @@
-import { useState, useEffect } from "react";
+import { useCountdown } from "../hooks/useCountdown";
+
+function pad(n: number): string {
+  return n.toString().padStart(2, "0");
+}
+
+function toFa(s: string): string {
+  return s.replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[Number(d)] ?? d);
+}
 
 export function SaleCountdown() {
-  const [seconds, setSeconds] = useState(3600);
+  const t = useCountdown();
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setSeconds((s) => (s > 0 ? s - 1 : 0));
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
+  if (t.isExpired) {
+    return (
+      <div className="sale-countdown sale-countdown--expired">
+        <span className="sale-countdown__label">⏰</span>
+        <strong className="sale-countdown__title">حراج به پایان رسید</strong>
+      </div>
+    );
+  }
 
-  const mins = Math.floor(seconds / 60);
-  const secs = seconds % 60;
+  const cells = [
+    { value: t.days, label: "روز" },
+    { value: t.hours, label: "ساعت" },
+    { value: t.minutes, label: "دقیقه" },
+    { value: t.seconds, label: "ثانیه" },
+  ];
 
   return (
-    <div className="sale-countdown">
-      ⏳ زمان باقی‌مانده: {mins} دقیقه و {secs} ثانیه
+    <div className="sale-countdown" role="timer" aria-live="off">
+      <div className="sale-countdown__head">
+        <span className="sale-countdown__flame" aria-hidden="true">
+          🔥
+        </span>
+        <strong className="sale-countdown__title">حراج ویژه پایان هفته</strong>
+        <span className="sale-countdown__label">فرصت محدود</span>
+      </div>
+      <div className="sale-countdown__timer">
+        {cells.map((c) => (
+          <div key={c.label} className="sale-countdown__cell">
+            <span className="sale-countdown__value">{toFa(pad(c.value))}</span>
+            <span className="sale-countdown__unit">{c.label}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
