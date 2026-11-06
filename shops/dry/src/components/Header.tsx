@@ -1,4 +1,9 @@
-export default function Header() {
+import { formatNumber } from '../features/products/catalog/format.ts'
+
+type HeaderProps = {
+  count: number
+}
+export default function Header({ count }: HeaderProps) {
   return (
     <>
       <a className="skip-link" href="#main">پرش به محتوای اصلی</a>
@@ -27,7 +32,7 @@ export default function Header() {
           />
           <button type="button">
             <span aria-hidden="true">🛒</span> سبد خرید{' '}
-            <span className="cart-count" id="cart-count" aria-live="polite">۰</span>
+            <span className="cart-count" id="cart-count" aria-live="polite">{formatNumber(count)}</span>
           </button>
         </div>
       </header>
