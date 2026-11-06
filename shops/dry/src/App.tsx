@@ -12,6 +12,8 @@ import { inCategory, offerMap } from './features/products/catalog/select.ts'
 import { toCard } from './features/products/catalog/toCard.ts'
 import { SAMPLE_OFFERS, SAMPLE_PRODUCTS, SAMPLE_STOCK } from './sample.ts'
 import type { Card, CartLine, Product } from './shared/types.ts'
+import Blog from './components/Blog.tsx'
+import PromoBanners from './components/PromoBanners.tsx'
 
 export default function App() {
   const [cart, setCart] = useState<CartLine[]>([])
@@ -37,6 +39,7 @@ export default function App() {
 
   return (
     <>
+     <div id="top" />
       <LogoSprite />
       <Header count={count} />
       <CategoryNav selected={categoryId} onPick={setCategoryId} />
@@ -50,6 +53,8 @@ export default function App() {
           cards={shownCards}
           onAdd={handleAdd}
         />
+        <PromoBanners />
+        <Blog />
         <CartPanel lines={cart} cards={allCards} onRemove={handleRemove} />
       </main>
       <Footer />
