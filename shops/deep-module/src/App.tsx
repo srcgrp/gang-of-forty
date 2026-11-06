@@ -1,68 +1,33 @@
-import { useState, useEffect } from "react";
-import type { AppData, CartLine, LoadState, Product } from "./types";
-import { loadAll } from "./shared/api/load";
-import { Header } from "./components/Header";
+import { useState } from "react";
+import { useShopData } from "./hooks/useShopData";
+import { useCart } from "./hooks/useCart";
+import { SiteHeader } from "./components/SiteHeader";
+import { SaleCountdown } from "./components/SaleCountdown";
 import { CategoryNav } from "./components/CategoryNav";
 import { ProductGrid } from "./components/ProductGrid";
 import { CartPanel } from "./components/CartPanel";
-import { SearchBox } from "./components/SearchBox";
-import { SaleCountdown } from "./components/SaleCountdown";
 
 export default function App() {
+  const [attempt, setAttempt] = useState(0);
   const [categoryId, setCategoryId] = useState<number | null>(null);
-  const [cart, setCart] = useState<CartLine[]>([]);
   const [query, setQuery] = useState("");
-  const [state, setState] = useState<LoadState<AppData>>({ status: "loading" });
+  const state = useShopData(attempt);
+  const { cart, addToCart } = useCart();
 
-  useEffect(() => {
-    let ignore = false;
-    async function fetchData() {
-      const res = await loadAll();
-      if (!ignore) setState(res as LoadState<AppData>);
-    }
-    fetchData();
-    return () => {
-      ignore = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
-    document.title = cart.length > 0 ? `(${cart.length}) سبزکاله` : "سبزکاله";
-  }, [cart]);
-
-  const addToCart = (product: Product) => {
-    setCart((prev) => {
-      const existing = prev.find((i) => i.id === product.id);
-      if (existing) {
-        return prev.map((i) =>
-          i.id === product.id ? { ...i, quantity: i.quantity + 1 } : i,
-        );
-      }
-      return [
-        ...prev,
-        {
-          id: product.id,
-          name: product.name,
-          price: product.price,
-          quantity: 1,
-        },
-      ];
-    });
-  };
-
-  if (state.status === "loading")
+  if (state.status === "loading") {
     return <div className="global-loader">در حال بارگذاری...</div>;
+  }
+
   if (state.status === "error") {
     return (
       <div className="state-error">
         <p>{state.message}</p>
-        <button onClick={() => window.location.reload()}>تلاش مجدد</button>
+        <button onClick={() => setAttempt((a) => a + 1)}>تلاش مجدد</button>
       </div>
     );
   }
 
-  const { products, categories } = state.data;
+  const { products, categories, shop } = state.data;
   const filtered = products.filter(
     (p) =>
       (categoryId === null || p.categoryId === categoryId) &&
@@ -71,9 +36,13 @@ export default function App() {
 
   return (
     <>
-      <Header />
+      <SiteHeader
+        shop={shop}
+        cartCount={cart.length}
+        query={query}
+        onQuery={setQuery}
+      />
       <SaleCountdown />
-      <SearchBox query={query} onQuery={setQuery} />
       <CategoryNav
         categories={categories}
         activeId={categoryId}

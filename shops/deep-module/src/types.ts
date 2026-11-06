@@ -70,10 +70,9 @@ export interface CartLine {
   price: number;
   quantity: number;
 }
-
 export type ProductCardProps = {
   product: Product;
-  stock?: number;
-  discountPercent?: number;
+  stock?: number | undefined;
+  discountPercent?: number | undefined;
   onAdd: (id: number) => void;
 };
