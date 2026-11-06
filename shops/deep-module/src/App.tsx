@@ -2,25 +2,28 @@ import { useState } from "react";
 import { useShopData } from "./hooks/useShopData";
 import { useCart } from "./hooks/useCart";
 import { useSearch } from "./hooks/useSearch";
+import { useFilters, applyFilters } from "./hooks/useFilters";
 import { SiteHeader } from "./components/SiteHeader";
 import { Hero } from "./components/Hero";
 import { HeroCards } from "./components/HeroCards";
 import { CategoriesSection } from "./components/CategoriesSection";
 import { SaleCountdown } from "./components/SaleCountdown";
-import { CategoryNav } from "./components/CategoryNav";
 import { SpecialOffers } from "./components/SpecialOffers";
 import { BannersSection } from "./components/BannersSection";
 import { ProductGrid } from "./components/ProductGrid";
 import { CartPanel } from "./components/CartPanel";
 import { SiteFooter } from "./components/SiteFooter";
+import { FilterModal } from "./components/FilterModal";
 
 export default function App() {
   const [attempt, setAttempt] = useState(0);
-  const [categoryId, setCategoryId] = useState<number | null>(null);
   const [query, setQuery] = useState("");
   const [cartOpen, setCartOpen] = useState(false);
+  const [filterOpen, setFilterOpen] = useState(false);
   const state = useShopData(attempt);
-  const { cart, addToCart } = useCart();
+  const { cart, addToCart, increase, decrease, removeItem, checkout } =
+    useCart();
+  const { filters, update, reset, activeCount } = useFilters();
 
   const allProducts = state.status === "success" ? state.data.products : [];
   const suggestions = useSearch(allProducts, query);
@@ -38,11 +41,7 @@ export default function App() {
   }
 
   const { products, categories, shop, home, offers, stock } = state.data;
-  const filtered = products.filter(
-    (p) =>
-      (categoryId === null || p.categoryId === categoryId) &&
-      p.name.includes(query),
-  );
+  const filtered = applyFilters(products, filters, offers, stock, query);
 
   return (
     <>
@@ -61,11 +60,6 @@ export default function App() {
         <HeroCards home={home} />
         <CategoriesSection categories={categories} />
         <SaleCountdown />
-        <CategoryNav
-          categories={categories}
-          activeId={categoryId}
-          onPick={setCategoryId}
-        />
         <SpecialOffers
           products={products}
           offers={offers}
@@ -73,12 +67,38 @@ export default function App() {
           onAdd={addToCart}
         />
         <BannersSection home={home} />
+
         <section id="all-products" className="products-section">
+          <div className="products-section__head">
+            <h2 className="section-head__title">
+              <span aria-hidden="true">🛒</span> تمام محصولات
+            </h2>
+            <div className="products-section__actions">
+              <span className="section-head__count">
+                {filtered.length} محصول
+              </span>
+              <button
+                type="button"
+                className="filter-btn"
+                onClick={() => setFilterOpen(true)}
+                aria-haspopup="dialog"
+                aria-label="باز کردن فیلتر"
+              >
+                <span aria-hidden="true">🎯</span> فیلتر
+                {activeCount > 0 && (
+                  <span className="filter-btn__badge">
+                    {activeCount.toLocaleString("fa-IR")}
+                  </span>
+                )}
+              </button>
+            </div>
+          </div>
           <ProductGrid products={filtered} onAdd={addToCart} />
         </section>
       </main>
       <SiteFooter shop={shop} categories={categories} />
 
+      {/* Cart Modal */}
       {cartOpen && (
         <div
           className="modal modal--open"
@@ -102,11 +122,30 @@ export default function App() {
               </button>
             </header>
             <div className="modal__body">
-              <CartPanel cart={cart} />
+              <CartPanel
+                cart={cart}
+                onIncrease={increase}
+                onDecrease={decrease}
+                onRemove={removeItem}
+                onCheckout={() => {
+                  checkout();
+                  setCartOpen(false);
+                }}
+              />
             </div>
           </div>
         </div>
       )}
+
+      {/* Filter Modal */}
+      <FilterModal
+        isOpen={filterOpen}
+        onClose={() => setFilterOpen(false)}
+        categories={categories}
+        filters={filters}
+        onChange={update}
+        onReset={reset}
+      />
     </>
   );
 }

@@ -8,7 +8,7 @@ export function SiteFooter({
   categories: Category[];
 }) {
   return (
-    <footer className="site-footer">
+    <footer id="contact" className="site-footer">
       <div className="footer__wrapper">
         <div className="footer__grid">
           <div className="footer__col">
