@@ -1,0 +1,76 @@
+
+/*Accessibility & Focus */
+
+.product-card button,
+.hero-button,
+.promo-button,
+.mobile-nav summary {
+  min-height: 44px;
+}
+
+.hero-button,
+.promo-button,
+.mobile-nav summary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.mobile-nav summary:focus {
+    outline: none;
+}
+
+.mobile-nav summary:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+}
+
+html[data-theme="dark"] .mobile-nav summary:focus-visible {
+    outline-color: #F7EEDC;
+}
+
+.skip-link {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 10px 14px;
+  background-color: var(--color-deep);
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  transform: translateY(-150%);
+  z-index: 3000;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.product-track:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 4px;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+summary:focus-visible,
+.product-track:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+html[data-theme="dark"] a:focus-visible,
+html[data-theme="dark"] button:focus-visible,
+html[data-theme="dark"] input:focus-visible,
+html[data-theme="dark"] summary:focus-visible,
+html[data-theme="dark"] .product-track:focus-visible {
+    outline-color: #F7EEDC;
+}
+
+.site-footer a:focus-visible {
+  outline-color: var(--color-gold);
+}
+
+#main-content {
+  scroll-margin-top: 170px;
+}

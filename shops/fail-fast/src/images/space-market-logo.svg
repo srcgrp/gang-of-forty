@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="254" height="98" viewBox="0 0 254 98">
+  <rect width="254" height="98" fill="#ffffff"/>
+
+  <!-- Planet ring behind the planet -->
+  <ellipse cx="86" cy="49" rx="43" ry="13"
+           fill="none" stroke="#F28A2E" stroke-width="7"
+           transform="rotate(-24 86 49)"/>
+
+  <!-- Planet -->
+  <circle cx="78" cy="49" r="27" fill="#17365F"/>
+
+  <!-- Subtle planet highlight -->
+  <path d="M60 35 C67 27, 77 24, 87 26 C79 29, 71 34, 66 42 C63 46, 61 50, 60 55 C57 48, 57 41, 60 35Z"
+        fill="#244B78" opacity=".9"/>
+
+  <!-- Ring foreground segment -->
+  <path d="M48 60 C59 66, 76 67, 93 61 C102 58, 109 54, 113 49"
+        fill="none" stroke="#F28A2E" stroke-width="7"
+        stroke-linecap="round"/>
+
+  <!-- Wordmark -->
+  <g fill="#071A43"
+     font-family="'Comic Sans MS','Trebuchet MS',cursive"
+     font-weight="700">
+    <text x="103" y="43" font-size="30" letter-spacing="-1.2">Space</text>
+    <text x="103" y="77" font-size="30" letter-spacing="-1.1">Market</text>
+  </g>
+</svg>

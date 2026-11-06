@@ -1,0 +1,21 @@
+{
+  "name": "golrokh",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "canvas-confetti": "^1.9.4",
+    "notyf": "^3.10.0"
+  },
+  "devDependencies": {
+    "@types/canvas-confetti": "^1.9.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4"
+  }
+}

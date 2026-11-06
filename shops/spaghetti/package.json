@@ -1,0 +1,21 @@
+{
+  "name": "shop-spaghetti",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/canvas-confetti": "^1.9.0",
+    "@types/node": "^26.6.5",
+    "typescript": "^7.0.2",
+    "vite": "^6.4.5"
+  },
+  "dependencies": {
+    "canvas-confetti": "^1.9.4",
+    "notyf": "^3.10.0"
+  }
+}

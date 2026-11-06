@@ -1,0 +1,46 @@
+{
+  "hero": {
+    "title": "میوه‌های ارگانیک، سبزی‌های تازه",
+    "text": "گلچین از بهترین باغ‌های اطراف",
+    "emoji": "/svgs/bannerFruit.svg",
+    "cta": {
+      "label": "خرید میوه و سبزی",
+      "href": "#fruits"
+    }
+  },
+  "side": {
+    "title": "تا ۱۰٪ تخفیف لبنیات",
+    "text": "فقط تا پایان امروز",
+    "emoji": "/svgs/bannerDairy.svg",
+    "cta": {
+      "label": "دیدن محصولات",
+      "href": "#dairy"
+    }
+  },
+  "promos": [
+    {
+      "text": "تنقلات برای شب‌های پرهیجان",
+      "emoji": "/svgs/banner-snacks.svg",
+      "href": "#snacks"
+    },
+    {
+      "text": "نان داغ، هر روز ساعت ۷",
+      "emoji": "/svgs/bread-banner.svg",
+      "href": "#bakery"
+    }
+  ],
+  "carousels": [
+    {
+      "id": "offers",
+      "title": "پیشنهاد ویژه امروز",
+      "emoji": "🔥",
+      "source": "offers"
+    },
+    {
+      "id": "dairy",
+      "title": "لبنیات",
+      "emoji": "🥛",
+      "categoryId": 1
+    }
+  ]
+}
