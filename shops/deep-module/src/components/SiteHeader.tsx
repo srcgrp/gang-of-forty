@@ -1,9 +1,12 @@
-import type { Product, Shop } from "../types";
+import type { Category, Product, Shop } from "../types";
 import { SearchBox } from "./SearchBox";
+import { TopBar } from "./TopBar";
+import { MainNav } from "./MainNav";
 import { useTheme } from "../hooks/useTheme";
 
 interface SiteHeaderProps {
   shop: Shop;
+  categories: Category[];
   cartCount: number;
   query: string;
   onQuery: (q: string) => void;
@@ -13,6 +16,7 @@ interface SiteHeaderProps {
 
 export function SiteHeader({
   shop,
+  categories,
   cartCount,
   query,
   onQuery,
@@ -23,13 +27,7 @@ export function SiteHeader({
 
   return (
     <>
-      <div className="topbar" role="region" aria-label="اطلاع‌رسانی">
-        <div className="topbar__inner">
-          <span>
-            {shop.notice || "ارسال رایگان برای خرید بالای ۵۰۰ هزار تومان"}
-          </span>
-        </div>
-      </div>
+      <TopBar notice={shop.notice} />
       <header className="site-header">
         <div className="header__wrapper">
           <a href="#main" className="brand" aria-label="صفحه اصلی">
@@ -94,6 +92,8 @@ export function SiteHeader({
           </div>
         </div>
       </header>
+
+      <MainNav shop={shop} categories={categories} />
     </>
   );
 }

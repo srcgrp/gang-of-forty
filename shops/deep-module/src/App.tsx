@@ -47,6 +47,7 @@ export default function App() {
     <>
       <SiteHeader
         shop={shop}
+        categories={categories}
         cartCount={cart.length}
         query={query}
         onQuery={setQuery}
