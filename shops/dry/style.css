@@ -870,3 +870,24 @@ address { font-style: normal; color: var(--secondary-color); line-height: 2; mar
 @media (max-width: 560px) {
   .results-grid { grid-template-columns: 1fr; }
 }
+
+.cart-panel {
+  margin: 2rem auto;
+  padding: 1rem 1.5rem;
+  max-width: 40rem;
+  border: 1px solid currentColor;
+  border-radius: 1rem;
+}
+
+.cart-panel ul {
+  list-style: none;
+  padding: 0;
+}
+
+.cart-panel li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0;
+}
