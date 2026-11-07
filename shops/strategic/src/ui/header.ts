@@ -1,9 +1,7 @@
 /* Amirhossein (Armin) Panahi */
-/* Week 4 - Strategic Supermarket - Arch */
 
 import type { LinkOf, ShopData, ShopModel } from '../types';
 import { dom } from './dom';
-import { categoryImage } from './category-image';
 import { el } from './el';
 import { formatNumber } from './format';
 import { icon } from './media';
@@ -15,8 +13,20 @@ export function renderNotice(shop: Readonly<ShopData>): void {
 }
 
 export function renderNav(model: ShopModel, linkOf: LinkOf): void {
-  const megaLinks = model.categories.map((category) =>
-    el('li', {}, [el('a', { href: linkOf(category.slug), 'data-route': true }, [categoryImage(model, category, 'cat__icon cat__icon--menu'), category.name])]));
+  const megaLinks = model.categories.map((category) => {
+    const emoji = el('span', {
+      class: 'cat__icon cat__icon--menu',
+      'aria-hidden': 'true',
+      text: category.emoji,
+    });
+
+    const link = el('a', {
+      href: linkOf(category.slug),
+      'data-route': true,
+    }, [emoji, category.name]);
+
+    return el('li', {}, [link]);
+  });
 
   const menu = model.shop.menu.map((item) =>
     el('li', {}, [el('a', { href: safeHref(item.href), text: stripEmoji(item.label) })]));
@@ -28,5 +38,6 @@ export function renderNav(model: ShopModel, linkOf: LinkOf): void {
     ]),
     ...menu,
   );
+
   dom.search.placeholder = `جستجو در میان ${formatNumber(model.products.length)} کالا…`;
 }
