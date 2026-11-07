@@ -13,9 +13,10 @@ const quantityOf = (id: number): number => cart.qtyOf(lines, id);
 const basket = (bump = false): void =>
   ui.drawBasket(cart.cartView(lines, model.items, load.status === 'success' || load.status === 'empty'), model.items, quantityOf, bump);
 function render(options: DrawOptions = {}): void {
-  ui.renderStatus(load, () => ui.render({ model, products: productView(model, url.readRoute()), home: url.homePath(),
-    hashId: url.readHashId(), linkOf: url.catalogUrl, cartIds: lines.map((line) => line.productId), qtyOf: quantityOf }, options),
-  load.status === 'error' ? load.failure : undefined);
+  ui.renderStatus(load, () => ui.render({
+    model, products: productView(model, url.readRoute()), home: url.homePath(),
+    hashId: url.readHashId(), linkOf: url.catalogUrl, cartIds: lines.map((line) => line.productId), qtyOf: quantityOf,
+  }, options));
   basket();
 }
 function search(text: string): void {

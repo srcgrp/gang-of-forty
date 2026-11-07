@@ -1,5 +1,4 @@
 /* Amirhossein (Armin) Panahi */
-/* Week 4 - Strategic Supermarket - Arch */
 
 import type { ApiFailure, LoadState } from '../types';
 import { dom } from './dom';
@@ -23,7 +22,11 @@ function renderError(message: string, error?: ApiFailure): void {
       el('h2', { class: 'state__title', text: 'بارگذاری محصولات ممکن نشد' }),
       el('p', { text: message }),
       detail,
-      el('button', { class: 'btn btn--green', type: 'button', 'data-action': 'retry' }, [icon('refresh'), ' تلاش دوباره']),
+      el('button', {
+        class: 'btn btn--green',
+        type: 'button',
+        'data-action': 'retry',
+      }, [icon('refresh'), ' تلاش دوباره']),
     ]),
   );
 }
@@ -38,21 +41,17 @@ function renderEmpty(): void {
   );
 }
 
-export function renderStatus(state: LoadState, onSuccess: () => void, error?: ApiFailure): void {
+export function renderStatus(state: LoadState, onSuccess: () => void): void {
   switch (state.status) {
     case 'loading':
-      renderLoading();
-      return;
+      return renderLoading();
     case 'success':
       dom.main.removeAttribute('aria-busy');
-      onSuccess();
-      return;
+      return onSuccess();
     case 'empty':
-      renderEmpty();
-      return;
+      return renderEmpty();
     case 'error':
-      renderError(state.message, error);
-      return;
+      return renderError(state.message, state.failure);
     default: {
       const exhaustive: never = state;
       return exhaustive;
