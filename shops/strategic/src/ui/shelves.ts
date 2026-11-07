@@ -1,8 +1,6 @@
 /* Amirhossein (Armin) Panahi */
-/* Week 4 - Strategic Supermarket - Arch */
 
 import type { LinkOf, Category, ShopModel } from '../types';
-import { categoryImage } from './category-image';
 import { OFFERS_VIEW } from '../types';
 import { el } from './el';
 import { IMG, icon, image } from './media';
@@ -35,9 +33,15 @@ export function offersCarousel(model: ShopModel, def: ShopModel['carousels'][num
 
 export function categoryCarousel(model: ShopModel, id: string, category: Category, title: string, linkOf: LinkOf): HTMLElement {
   const items = model.itemsByCategory.get(category.id) ?? [];
+  const emoji = el('span', {
+    class: 'cat__icon cat__icon--head',
+    'aria-hidden': 'true',
+    text: category.emoji,
+  });
+
   return el('section', { class: 'shelf', id, 'aria-labelledby': `${id}-t` }, [
     el('div', { class: 'sec-head' }, [
-      el('h2', { id: `${id}-t` }, [categoryImage(model, category, 'cat__icon cat__icon--head', false), title]),
+      el('h2', { id: `${id}-t` }, [emoji, title]),
       el('div', { class: 'arrows' }, [
         arrowButton(-1, `محصولات قبلی «${title}»`, 'arr'),
         arrowButton(1, `محصولات بعدی «${title}»`, 'arr'),
