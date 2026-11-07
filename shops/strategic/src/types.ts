@@ -6,7 +6,10 @@ export type Offer = { productId: number; percent: number; label: string };
 export type StockData = { updatedAt: string; items: Record<string, number> };
 export type CallToAction = { label: string; href: string };
 export type HomeSection = { title: string; text: string; emoji: string; cta?: CallToAction | null };
-export type CarouselDefinition = { id: string; title: string; emoji: string; source?: 'offers'; categoryId?: number };
+export type CarouselDefinition = { id: string; title: string; emoji: string } & (
+  | { source: 'offers'; categoryId?: number }
+  | { source?: never; categoryId: number }
+);
 export type Promo = { text: string; href: string; emoji: string; color: string };
 export type HomeData = { hero: HomeSection; side: HomeSection; carousels: CarouselDefinition[]; promos: Promo[] };
 export type ShopMenuItem = { label: string; href: string };
