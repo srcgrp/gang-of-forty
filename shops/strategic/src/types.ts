@@ -1,4 +1,5 @@
 /* Amirhossein (Armin) Panahi */
+
 export type Product = { id: number; categoryId: number; name: string; emoji: string; unit: string; price: number; tags: string[] };
 export type Category = { id: number; slug: string; name: string; emoji: string; color: string };
 export type Offer = { productId: number; percent: number; label: string };
@@ -33,7 +34,7 @@ export type ShopModel = {
   products: Product[]; categories: Category[]; offers: Offer[]; shop: Readonly<ShopData>; home: HomeData;
   stockOf: (id: number) => number; items: Map<number, ProductItem>; itemsByCategory: Map<number, ProductItem[]>;
   searchIndex: SearchIndexEntry[]; categoryById: Map<number, Category>; categoryBySlug: Map<string, Category>;
-  categoryArt: Map<number, string | null>; offerItems: ProductItem[]; carousels: CarouselDefinition[];
+  offerItems: ProductItem[]; carousels: CarouselDefinition[];
 };
 export type Route = { type: 'home' } | { type: 'catalog'; slug: string; query: string } | { type: 'search'; query: string };
 export type ApiErrorKind = 'network' | 'http' | 'parse' | 'timeout' | 'shape';
