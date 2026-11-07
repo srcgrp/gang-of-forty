@@ -1,11 +1,13 @@
-import {defineConfig} from 'vite'
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
-const api = {'/api': {target: 'https://gof.zzb.cx', changeOrigin: true}}
+const api = { '/api': { target: 'https://gof.zzb.cx', changeOrigin: true } }
 
-export default defineConfig(({mode}) => {
+export default defineConfig(({ mode }) => {
     const proxy = mode === 'mine' ? undefined : api
     return {
-        base: '',
+        plugins: [react()],
+        base: './',
         server: { proxy },
         preview: { proxy },
     }
