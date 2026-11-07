@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import type { Product } from "../types";
 import { formatPrice } from "../shared/ui/format";
+import { useAutoAnimate } from "../hooks/useAutoAnimate";
 
 interface SearchBoxProps {
   query: string;
@@ -17,6 +18,7 @@ export function SearchBox({
 }: SearchBoxProps) {
   const [open, setOpen] = useState(false);
   const boxRef = useRef<HTMLFormElement>(null);
+  const listRef = useAutoAnimate<HTMLDivElement>();
 
   useEffect(() => {
     function onClickOutside(e: MouseEvent) {
@@ -84,6 +86,7 @@ export function SearchBox({
 
       {showList && (
         <div
+          ref={listRef}
           id="search-suggestions"
           className="search__suggestions search__suggestions--visible"
           role="listbox"

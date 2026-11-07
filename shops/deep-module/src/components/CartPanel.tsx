@@ -1,5 +1,6 @@
 import type { CartLine } from "../types";
 import { formatPrice } from "../shared/ui/format";
+import { useAutoAnimate } from "../hooks/useAutoAnimate";
 
 interface CartPanelProps {
   cart: CartLine[];
@@ -16,6 +17,7 @@ export function CartPanel({
   onRemove,
   onCheckout,
 }: CartPanelProps) {
+  const ulRef = useAutoAnimate<HTMLUListElement>();
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   if (cart.length === 0) {
@@ -32,7 +34,7 @@ export function CartPanel({
 
   return (
     <>
-      <ul className="cart-list">
+      <ul ref={ulRef} className="cart-list">
         {cart.map((item) => (
           <li key={item.id} className="cart-item">
             <div className="cart-item__media" aria-hidden="true">
