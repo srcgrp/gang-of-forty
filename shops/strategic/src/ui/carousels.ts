@@ -15,7 +15,7 @@ export function renderCarousels(model: ShopModel, linkOf: LinkOf): HTMLElement[]
     if (def.source === 'offers') {
       sections.push(offersCarousel(model, def, linkOf));
       usedIds.add(def.id);
-    } else if (typeof def.categoryId === 'number') {
+    } else {
       const category = model.categoryById.get(def.categoryId);
       if (!category) continue;
 
