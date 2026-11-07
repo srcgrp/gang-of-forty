@@ -1,5 +1,4 @@
 /* Amirhossein (Armin) Panahi */
-/* Week 4 - Strategic Supermarket - Arch */
 
 import type { DrawOptions, PageView } from '../types';
 import { BRAND } from './brand';
@@ -15,8 +14,10 @@ import { renderSearch } from './view-search';
 export function drawRoute(env: PageView, { focus = false, smooth = false, top }: DrawOptions = {}): void {
   const { model, products: { route, catalog, matches, tag } } = env;
   syncSearchBox(route);
-  const view = route.type === 'catalog' ? renderCatalog(model, catalog, env.home)
+
+  const view = route.type === 'catalog' ? renderCatalog(catalog, env.home)
     : route.type === 'search' ? renderSearch(route.query, matches) : renderHome(model, env.linkOf, tag);
+
   document.title = view.title ? `${view.title} | ${BRAND.name}` : BRAND.name;
   resetCarousels();
   dom.main.replaceChildren(...view.nodes);
