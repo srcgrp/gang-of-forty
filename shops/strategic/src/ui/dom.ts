@@ -1,6 +1,5 @@
 /* Amirhossein (Armin) Panahi */
 
-export type View = { title: string | null; nodes: HTMLElement[] };
 export const $ = <T extends Element>(selector: string, root: ParentNode = document): T | null => root.querySelector<T>(selector);
 
 export function required<T extends Element>(selector: string, root: ParentNode = document): T {

@@ -1,10 +1,8 @@
 /* Amirhossein (Armin) Panahi */
-/* Week 4 - Strategic Supermarket - Arch */
 
-import type { Actions } from '../types';
+import type { Actions, ClickRule } from '../types';
 import { announce } from './announce';
 import { cartIsOpen, closeCart, isCartPinned, openCart } from './cart-panel';
-import type { ClickRule } from './click-rule';
 import { currentBasket } from './basket-view';
 import { dom, required } from './dom';
 import { renderCart } from './cart-summary';

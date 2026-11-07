@@ -1,8 +1,6 @@
 /* Amirhossein (Armin) Panahi */
-/* Week 4 - Strategic Supermarket - Arch */
 
-export type ClickHandler = (node: HTMLElement, event: MouseEvent) => void;
-export type ClickRule = readonly [selector: string, handler: ClickHandler];
+import type { ClickRule } from '../types';
 
 export function matchRule(rules: readonly ClickRule[], target: Element, event: MouseEvent): boolean {
   for (const [selector, handler] of rules) {
