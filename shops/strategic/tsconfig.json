@@ -4,6 +4,7 @@
     "lib": ["ES2023", "DOM"],
     "module": "esnext",
     "moduleResolution": "bundler",
+    "jsx": "react-jsx",
     "types": ["vite/client"],
     "allowImportingTsExtensions": true,
     "noEmit": true,
