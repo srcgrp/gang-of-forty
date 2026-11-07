@@ -1,7 +1,7 @@
 import type { Product, Category } from '../types';
 import ProductGrid from './ProductGrid';
 
-export default function CategoryShelf({ products, category }: { products: Product[]; category: Category }) {
+export default function CategoryShelf({ products, category, onAdd }: { products: Product[]; category: Category; onAdd: (id: number) => void }) {
   return (
     <section className="shelf" id={category.slug} aria-labelledby={`${category.slug}-t`}>
       <div className="sec-head">
@@ -15,7 +15,7 @@ export default function CategoryShelf({ products, category }: { products: Produc
         </div>
       </div>
       <ul className="rail">
-        <ProductGrid products={products} />
+        <ProductGrid products={products} onAdd={onAdd} />
         <li className="card card--all">
           <a className="offer-all" href={`?category=${category.slug}`} data-route="">
             <span className="offer-all__circle"><svg className="icon icon--mirror" aria-hidden="true" focusable="false"><use href="#i-arrow-right" /></svg></span>

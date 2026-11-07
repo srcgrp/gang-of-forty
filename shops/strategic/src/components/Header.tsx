@@ -1,6 +1,7 @@
+import CategoryLink, { type CategoryListProps } from './CategoryLink';
 import CartPanel from './CartPanel';
 
-export default function Header() {
+export default function Header({ categories, onPick }: CategoryListProps) {
   return (
     <>
     <a className="skip" href="#main">پرش به محتوای اصلی</a>
@@ -149,48 +150,14 @@ export default function Header() {
                 {" همه دسته‌ها"}
               </a>
               <ul className="mega-panel">
-                <li>
-                  <a href="./?category=fruits" data-route="">
-                    <span className="cat__icon cat__icon--menu" aria-hidden="true">🍎</span>
-                    میوه و سبزی
-                  </a>
-                </li>
-                <li>
-                  <a href="./?category=dairy" data-route="">
-                    <span className="cat__icon cat__icon--menu" aria-hidden="true">🥛</span>
-                    لبنیات
-                  </a>
-                </li>
-                <li>
-                  <a href="./?category=bakery" data-route="">
-                    <span className="cat__icon cat__icon--menu" aria-hidden="true">🥖</span>
-                    نان و شیرینی
-                  </a>
-                </li>
-                <li>
-                  <a href="./?category=pantry" data-route="">
-                    <span className="cat__icon cat__icon--menu" aria-hidden="true">🍚</span>
-                    خواربار
-                  </a>
-                </li>
-                <li>
-                  <a href="./?category=drinks" data-route="">
-                    <span className="cat__icon cat__icon--menu" aria-hidden="true">🧃</span>
-                    نوشیدنی
-                  </a>
-                </li>
-                <li>
-                  <a href="./?category=protein" data-route="">
-                    <span className="cat__icon cat__icon--menu" aria-hidden="true">🍗</span>
-                    پروتئین
-                  </a>
-                </li>
-                <li>
-                  <a href="./?category=snacks" data-route="">
-                    <span className="cat__icon cat__icon--menu" aria-hidden="true">🍪</span>
-                    تنقلات
-                  </a>
-                </li>
+                {categories.map(category => (
+                  <li key={category.id}>
+                    <CategoryLink category={category} onPick={onPick}>
+                      <span className="cat__icon cat__icon--menu" aria-hidden="true">{category.emoji}</span>
+                      {category.name}
+                    </CategoryLink>
+                  </li>
+                ))}
               </ul>
             </li>
             <li><a href="#offers">پیشنهاد ویژه</a></li>

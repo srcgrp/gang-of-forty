@@ -1,6 +1,11 @@
 import type { ProductItem } from '../types';
 
-export default function ProductCard({ item }: { item: ProductItem }) {
+type ProductCardProps = {
+  item: ProductItem;
+  onAdd: (id: number) => void;
+};
+
+export default function ProductCard({ item, onAdd }: ProductCardProps) {
   const { product, price, oldPrice, percent, soldOut, art } = item;
   return (
     <li className={soldOut ? 'card card--out' : 'card'}>
@@ -18,7 +23,7 @@ export default function ProductCard({ item }: { item: ProductItem }) {
             <strong>{price.toLocaleString('fa-IR')} تومان</strong>
           </p>
           <div className="buy__control" data-id={product.id}>
-            <button className="add" type="button" disabled={soldOut} aria-label={`افزودن ${product.name} به سبد خرید`}>+</button>
+            <button className="add" type="button" disabled={soldOut} onClick={() => onAdd(product.id)} aria-label={`افزودن ${product.name} به سبد خرید`}>+</button>
           </div>
         </div>
       </article>

@@ -107,7 +107,17 @@ const categories: Category[] = [
   }
 ];
 
+const navigationCategories = [...categories].sort((a, b) => a.id - b.id);
+
 export default function App() {
+  function handleAdd(id: number) {
+    console.info('افزودن محصول', id);
+  }
+
+  function handlePick(slug: string) {
+    window.location.assign(`?category=${encodeURIComponent(slug)}`);
+  }
+
   const params = new URLSearchParams(window.location.search);
   const slug = params.get('category');
   const query = params.get('q')?.trim() ?? '';
@@ -121,20 +131,20 @@ export default function App() {
   return (
     <>
       <IconSprite />
-      <Header />
+      <Header categories={navigationCategories} onPick={handlePick} />
       <main id="main" className="wrap" tabIndex={-1}>
-        {slug || query ? <Catalog title={title} category={category} products={matches} /> : <>
+        {slug || query ? <Catalog onAdd={handleAdd} title={title} category={category} products={matches} /> : <>
         <Hero />
-        <CategoryNav />
-        <OffersShelf products={SAMPLE} />
+        <CategoryNav categories={navigationCategories} onPick={handlePick} />
+        <OffersShelf onAdd={handleAdd} products={SAMPLE} />
         <Promos />
         {categories.map(category => (
-          <CategoryShelf key={category.id} category={category}
+          <CategoryShelf onAdd={handleAdd} key={category.id} category={category}
             products={SAMPLE.filter(product => product.categoryId === category.id)} />
         ))}
         </>}
       </main>
-      <Footer />
+      <Footer categories={navigationCategories} onPick={handlePick} />
       <div className="sr-only" id="live" role="status" />
     </>
   );

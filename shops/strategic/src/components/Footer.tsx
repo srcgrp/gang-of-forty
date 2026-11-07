@@ -1,4 +1,5 @@
-export default function Footer() {
+import CategoryLink, { type CategoryListProps } from './CategoryLink';
+export default function Footer({ categories, onPick }: CategoryListProps) {
   return (
     <footer className="site-footer" id="contact">
       <div className="wrap">
@@ -53,13 +54,13 @@ export default function Footer() {
           <nav aria-label="دسته‌ها در پاورقی">
             <h2>دسته‌ها</h2>
             <ul id="foot-cats">
-              <li><a href="./?category=fruits" data-route="">میوه و سبزی</a></li>
-              <li><a href="./?category=dairy" data-route="">لبنیات</a></li>
-              <li><a href="./?category=bakery" data-route="">نان و شیرینی</a></li>
-              <li><a href="./?category=pantry" data-route="">خواربار</a></li>
-              <li><a href="./?category=drinks" data-route="">نوشیدنی</a></li>
-              <li><a href="./?category=protein" data-route="">پروتئین</a></li>
-              <li><a href="./?category=snacks" data-route="">تنقلات</a></li>
+              {categories.map(category => (
+                <li key={category.id}>
+                  <CategoryLink category={category} onPick={onPick}>
+                    {category.name}
+                  </CategoryLink>
+                </li>
+              ))}
             </ul>
           </nav>
           <div>

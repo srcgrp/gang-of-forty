@@ -1,9 +1,9 @@
 import type { Category, Product } from '../types';
 import ProductGrid from './ProductGrid';
 
-type CatalogProps = { title: string; category?: Category | undefined; products: Product[] };
+type CatalogProps = { title: string; category?: Category | undefined; products: Product[]; onAdd: (id: number) => void };
 
-export default function Catalog({ title, category, products }: CatalogProps) {
+export default function Catalog({ title, category, products, onAdd }: CatalogProps) {
   return (
     <>
       <div className="back-bar">
@@ -17,7 +17,7 @@ export default function Catalog({ title, category, products }: CatalogProps) {
           </h1>
           <p className="catalog__count">{products.length.toLocaleString('fa-IR')} کالا</p>
         </div>
-        {products.length ? <ul className="grid"><ProductGrid products={products} /></ul> :
+        {products.length ? <ul className="grid"><ProductGrid products={products} onAdd={onAdd} /></ul> :
           <p className="state">فعلاً کالایی در این بخش نداریم.</p>}
       </section>
     </>

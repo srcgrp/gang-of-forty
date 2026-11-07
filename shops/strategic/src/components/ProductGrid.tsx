@@ -31,12 +31,12 @@ const stock: Record<string, number> = {
   "102": 0
 };
 
-export default function ProductGrid({ products }: { products: Product[] }) {
+export default function ProductGrid({ products, onAdd }: { products: Product[]; onAdd: (id: number) => void }) {
   return (
     <>
       {products.map(product => {
         const offer = offers.find(entry => entry.productId === product.id);
-        return <ProductCard key={product.id} item={toCard(product, offer, stock[product.id] ?? 0)} />;
+        return <ProductCard key={product.id} onAdd={onAdd} item={toCard(product, offer, stock[product.id] ?? 0)} />;
       })}
     </>
   );
