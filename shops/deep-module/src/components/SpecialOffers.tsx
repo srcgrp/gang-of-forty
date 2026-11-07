@@ -3,17 +3,19 @@ import { FreeMode, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
-import type { Offer, Product, StockData } from "../types";
+import type { CartLine, Offer, Product, StockData } from "../types";
 import { ProductCard } from "./ProductCard";
 
 interface Props {
   products: Product[];
+  cart: CartLine[];
   offers: Offer[];
   stock: StockData;
   onAdd: (p: Product) => void;
 }
 
-export function SpecialOffers({ products, offers, stock, onAdd }: Props) {
+export function SpecialOffers({ products, cart, offers, stock, onAdd }: Props) {
+  const cartMap = new Map(cart.map((i) => [i.id, i.quantity]));
   const offerMap = new Map(offers.map((o) => [o.productId, o.percent]));
   const specials = products.filter((p) => offerMap.has(p.id));
 
@@ -44,6 +46,7 @@ export function SpecialOffers({ products, offers, stock, onAdd }: Props) {
               product={p}
               stock={stock.items[p.id]}
               discountPercent={offerMap.get(p.id)}
+              cartQuantity={cartMap.get(p.id) ?? 0}
               onAdd={() => onAdd(p)}
             />
           </SwiperSlide>

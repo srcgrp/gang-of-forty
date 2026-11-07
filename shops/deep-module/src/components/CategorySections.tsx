@@ -1,9 +1,10 @@
-import type { Category, Offer, Product, StockData } from "../types";
+import type { CartLine, Category, Offer, Product, StockData } from "../types";
 import { CategorySlider } from "./CategorySlider";
 
 interface Props {
   products: Product[];
   categories: Category[];
+  cart: CartLine[];
   offers: Offer[];
   stock: StockData;
   onAdd: (p: Product) => void;
@@ -12,6 +13,7 @@ interface Props {
 export function CategorySections({
   products,
   categories,
+  cart,
   offers,
   stock,
   onAdd,
@@ -47,6 +49,7 @@ export function CategorySections({
             </div>
             <CategorySlider
               products={catProducts}
+              cart={cart}
               offers={offers}
               stock={stock}
               onAdd={onAdd}

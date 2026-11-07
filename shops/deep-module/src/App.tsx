@@ -1,8 +1,10 @@
 import { useState } from "react";
+import type { StockData } from "./types";
 import { useShopData } from "./hooks/useShopData";
 import { useCart } from "./hooks/useCart";
 import { useSearch } from "./hooks/useSearch";
 import { useFilters, applyFilters } from "./hooks/useFilters";
+import { useConsumedStock } from "./hooks/useConsumedStock";
 import { SiteHeader } from "./components/SiteHeader";
 import { Hero } from "./components/Hero";
 import { HeroCards } from "./components/HeroCards";
@@ -25,6 +27,7 @@ export default function App() {
   const { cart, addToCart, increase, decrease, removeItem, checkout } =
     useCart();
   const { filters, update, reset, activeCount } = useFilters();
+  const { consumed, consume } = useConsumedStock();
 
   const allProducts = state.status === "success" ? state.data.products : [];
   const suggestions = useSearch(allProducts, query);
@@ -42,8 +45,27 @@ export default function App() {
   }
 
   const { products, categories, shop, home, offers, stock } = state.data;
-  const filtered = applyFilters(products, filters, offers, stock, query);
+
+  const effectiveStock: StockData = { items: {} };
+  for (const [k, v] of Object.entries(stock.items)) {
+    const id = Number(k);
+    effectiveStock.items[id] = Math.max(0, v - (consumed[id] ?? 0));
+  }
+
+  const filtered = applyFilters(
+    products,
+    filters,
+    offers,
+    effectiveStock,
+    query,
+  );
   const hasActiveFilter = activeCount > 0 || query.length > 0;
+
+  const handleCheckout = () => {
+    consume(cart);
+    checkout();
+    setCartOpen(false);
+  };
 
   return (
     <>
@@ -60,12 +82,13 @@ export default function App() {
       <main id="main" tabIndex={-1}>
         <Hero home={home} />
         <HeroCards home={home} />
-        <CategoriesSection categories={categories} />
         <SaleCountdown />
+        <CategoriesSection categories={categories} />
         <SpecialOffers
           products={products}
+          cart={cart}
           offers={offers}
-          stock={stock}
+          stock={effectiveStock}
           onAdd={addToCart}
         />
         <BannersSection home={home} />
@@ -74,8 +97,9 @@ export default function App() {
           <CategorySections
             products={products}
             categories={categories}
+            cart={cart}
             offers={offers}
-            stock={stock}
+            stock={effectiveStock}
             onAdd={addToCart}
           />
         )}
@@ -87,7 +111,8 @@ export default function App() {
             </h2>
             <div className="products-section__actions">
               <span className="section-head__count">
-                {filtered.length.toLocaleString("fa-IR")} محصول
+                {filtered.length.toLocaleString("fa-IR")} محصول از{" "}
+                {products.length.toLocaleString("fa-IR")}
               </span>
               <button
                 type="button"
@@ -105,7 +130,13 @@ export default function App() {
               </button>
             </div>
           </div>
-          <ProductGrid products={filtered} onAdd={addToCart} />
+          <ProductGrid
+            products={filtered}
+            cart={cart}
+            offers={offers}
+            stock={effectiveStock}
+            onAdd={addToCart}
+          />
         </section>
       </main>
       <SiteFooter shop={shop} categories={categories} />
@@ -138,10 +169,7 @@ export default function App() {
                 onIncrease={increase}
                 onDecrease={decrease}
                 onRemove={removeItem}
-                onCheckout={() => {
-                  checkout();
-                  setCartOpen(false);
-                }}
+                onCheckout={handleCheckout}
               />
             </div>
           </div>

@@ -12,8 +12,8 @@ export interface Category {
   id: number;
   name: string;
   emoji?: string;
+  slug?: string;
 }
-
 export interface Offer {
   productId: number;
   percent: number;
@@ -74,5 +74,6 @@ export type ProductCardProps = {
   product: Product;
   stock?: number | undefined;
   discountPercent?: number | undefined;
+  cartQuantity?: number | undefined;
   onAdd: (id: number) => void;
 };
