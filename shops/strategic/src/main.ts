@@ -1,4 +1,5 @@
-import { asApiFailure, loadWithSlowNotice } from './api/load-slow';
+import { asApiFailure } from './api/http';
+import { loadWithSlowNotice } from './api/load-slow';
 import * as cart from './features/cart/cart';
 import { buildModel, emptyModel, productView } from './features/products/products';
 import { loadCart, saveCart, watchCart } from './storage/cart-storage';
@@ -10,17 +11,14 @@ let load: LoadState = { status: 'loading' };
 let lines = loadCart();
 let pending: string | null = null;
 const quantityOf = (id: number): number => cart.qtyOf(lines, id);
-const basket = (bump = false): void =>
-  ui.drawBasket(cart.cartView(lines, model.items, load.status === 'success' || load.status === 'empty'), model.items, quantityOf, bump);
+const basket = (bump = false): void => ui.drawBasket(cart.cartView(lines, model.items, load.status === 'success' || load.status === 'empty'), model.items, quantityOf, bump);
 function render(options: DrawOptions = {}): void {
   ui.renderStatus(load, () => ui.render({
     model, products: productView(model, url.readRoute()), home: url.homePath(),
-    hashId: url.readHashId(), linkOf: url.catalogUrl, cartIds: lines.map((line) => line.productId), qtyOf: quantityOf,
-  }, options));
+    hashId: url.readHashId(), linkOf: url.catalogUrl, cartIds: lines.map((line) => line.productId), qtyOf: quantityOf,}, options));
   basket();
 }
-function search(text: string): void {
-  url.writeQuery(text);
+function search(text: string): void {url.writeQuery(text);
   pending = null;
   render();
 }
