@@ -1,5 +1,17 @@
-import { useMemo, useState } from "react";
-import type { Cart, Categories, HomeSlide, Offer, Product, ProductCardData } from "./types";
+import { useEffect, useMemo, useState } from "react";
+import type {
+  Cart,
+  Categories,
+  Home,
+  LoadState,
+  Offers,
+  ProductCardData,
+  Shop,
+  Stock,
+} from "./types";
+import { fetchSuggestions } from "./api/products";
+import { fetchShop } from "./api/shop";
+import { fetchHome } from "./api/home";
 import { addProduct, countCartItems, removeFromCart, totalCartPrice } from "./cart/cart-logic";
 import { toCard, visibleProducts } from "./catalog/catalog-logic";
 import { readCart, writeCart } from "./storage/cart-storage";
@@ -12,42 +24,56 @@ import ProductGrid from "./components/ProductGrid";
 import StoreFooter from "./components/StoreFooter";
 import StoreSupport from "./components/StoreSupport";
 
-const SAMPLE_CATEGORIES: Categories = [
-  { id: 1, slug: "fruits", name: "میوه و سبزی", emoji: "🍎", color: "#fce7e7" },
-  { id: 2, slug: "dairy", name: "لبنیات", emoji: "🥛", color: "#e4f2ff" },
-  { id: 3, slug: "bakery", name: "نان و شیرینی", emoji: "🥐", color: "#fff0d8" },
-  { id: 4, slug: "pantry", name: "خواربار", emoji: "🍚", color: "#e8f5e9" },
-];
-
-const SAMPLE: Product[] = [
-  { id: 101, categoryId: 1, name: "سیب قرمز دماوند", emoji: "🍎", unit: "هر کیلوگرم", price: 85000, tags: ["تازه"] },
-  { id: 201, categoryId: 2, name: "شیر پرچرب تازه", emoji: "🥛", unit: "بطری ۱ لیتری", price: 38000, tags: ["روزانه"] },
-  { id: 301, categoryId: 3, name: "نان کروسان", emoji: "🥐", unit: "بسته ۲ عددی", price: 62000, tags: ["تازه پخت"] },
-  { id: 401, categoryId: 4, name: "برنج ایرانی", emoji: "🍚", unit: "هر کیلوگرم", price: 145000, tags: ["محبوب"] },
-];
-
-const SAMPLE_OFFERS: Offer[] = [
-  { productId: 101, percent: 10, label: "پیشنهاد ویژه" },
-  { productId: 301, percent: 15, label: "تخفیف امروز" },
-];
-
-const SAMPLE_SLIDES: HomeSlide[] = [
-  { emoji: "🥬", title: "تازگی را به خانه ببرید", text: "محصولات تازه و باکیفیت را هر روز از فروشگاه مینا تهیه کنید.", cta: { href: "#fruits", label: "مشاهده محصولات" } },
-  { emoji: "🛒", title: "خریدی آسان و دلپذیر", text: "نیازهای روزانه‌تان را به‌سادگی از یک‌جا تهیه کنید.", cta: { href: "#products", label: "شروع خرید" } },
-];
-
 export default function App() {
   const [cart, setCart] = useState<Cart>(() => readCart());
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [loadState, setLoadState] = useState<LoadState>({ status: "loading" });
+  const [categories, setCategories] = useState<Categories>([]);
+  const [offers, setOffers] = useState<Offers>([]);
+  const [stock, setStock] = useState<Stock>({ updatedAt: "", items: {} });
+  const [home, setHome] = useState<Home | null>(null);
+  const [shop, setShop] = useState<Shop | null>(null);
 
+  useEffect(() => {
+    let ignore = false;
+
+    Promise.all([fetchSuggestions(), fetchShop(), fetchHome()])
+      .then(([suggestionsData, shopData, homeData]) => {
+        if (ignore) return;
+
+        setCategories(shopData.categories);
+        setShop(shopData.shop);
+        setOffers(suggestionsData.offers);
+        setStock(suggestionsData.stock);
+        setHome(homeData);
+        setLoadState(
+          suggestionsData.products.length > 0
+            ? { status: "success", products: suggestionsData.products }
+            : { status: "empty" },
+        );
+      })
+      .catch(() => {
+        if (ignore) return;
+        setLoadState({
+          status: "error",
+          message: "دریافت اطلاعات فروشگاه با خطا مواجه شد. لطفاً دوباره تلاش کنید.",
+        });
+      });
+
+    return () => {
+      ignore = true;
+    };
+  }, []);
+
+  const products = loadState.status === "success" ? loadState.products : [];
   const filteredProducts = useMemo(
-    () => visibleProducts(SAMPLE, searchQuery),
-    [searchQuery],
+    () => visibleProducts(products, searchQuery),
+    [products, searchQuery],
   );
   const cards: ProductCardData[] = useMemo(
-    () => filteredProducts.map((product) => toCard(product, SAMPLE_OFFERS)),
-    [filteredProducts],
+    () => filteredProducts.map((product) => toCard(product, offers, stock.items)),
+    [filteredProducts, offers, stock],
   );
 
   function saveCart(nextCart: Cart) {
@@ -75,7 +101,59 @@ export default function App() {
     ));
   }
 
-  const offerCards = cards.filter((card) => card.discountPercent !== undefined);
+  function renderCatalog() {
+    switch (loadState.status) {
+      case "loading":
+        return (
+          <section className="carousel-container" aria-live="polite" aria-label="در حال بارگذاری محصولات">
+            <div className="carousel-header"><h2 className="section-title">در حال دریافت محصولات...</h2></div>
+            <div className="carousel-track">
+              {Array.from({ length: 5 }, (_, index) => <div className="product-skeleton" key={index} />)}
+            </div>
+          </section>
+        );
+      case "success": {
+        const offerCards = cards.filter((card) => card.discountPercent !== undefined);
+        return (
+          <>
+            <ProductGrid
+              id="offers"
+              title="پیشنهاد ویژه امروز"
+              emoji="🔥"
+              products={offerCards}
+              onAdd={handleAdd}
+            />
+            {categories.map((category) => (
+              <ProductGrid
+                key={category.id}
+                id={category.slug}
+                title={category.name}
+                emoji={category.emoji}
+                products={cards.filter((card) => card.product.categoryId === category.id)}
+                onAdd={handleAdd}
+              />
+            ))}
+          </>
+        );
+      }
+      case "empty":
+        return <p className="product-empty" role="status">در حال حاضر محصولی برای نمایش وجود ندارد.</p>;
+      case "error":
+        return (
+          <div className="product-error" role="alert">
+            <span className="product-error__icon" aria-hidden="true">!</span>
+            <p className="product-error__message">{loadState.message}</p>
+            <button className="product-error__retry" type="button" onClick={() => window.location.reload()}>
+              تلاش مجدد
+            </button>
+          </div>
+        );
+      default: {
+        const exhaustiveCheck: never = loadState;
+        return exhaustiveCheck;
+      }
+    }
+  }
 
   return (
     <>
@@ -85,30 +163,22 @@ export default function App() {
         onOpenCart={() => setIsCartOpen(true)}
         onSearch={setSearchQuery}
       />
-      <CategoryNav categories={SAMPLE_CATEGORIES} />
-      <Banner slides={SAMPLE_SLIDES} />
+      <CategoryNav categories={categories} />
+      {home && <Banner slides={[home.hero, home.side]} />}
       <main>
-        <CategoryGrid categories={SAMPLE_CATEGORIES} />
-        <ProductGrid
-          id="offers"
-          title="پیشنهاد ویژه امروز"
-          emoji="🔥"
-          products={offerCards}
-          onAdd={handleAdd}
-        />
-        {SAMPLE_CATEGORIES.map((category) => (
-          <ProductGrid
-            key={category.id}
-            id={category.slug}
-            title={category.name}
-            emoji={category.emoji}
-            products={cards.filter((card) => card.product.categoryId === category.id)}
-            onAdd={handleAdd}
-          />
+        {categories.length > 0 && <CategoryGrid categories={categories} />}
+        {renderCatalog()}
+        {home?.promos.map((promo, index) => (
+          <section className="advertisement anchor-section" id={`advertisement-${index + 1}`} key={`${promo.href}-${index}`}>
+            <a href={promo.href} style={{ backgroundColor: promo.color }}>
+              <span className="advertisement__emoji" aria-hidden="true">{promo.emoji}</span>
+              <span className="advertisement__text">{promo.text}</span>
+            </a>
+          </section>
         ))}
       </main>
       <StoreSupport />
-      <StoreFooter />
+      {shop && <StoreFooter shop={shop} categories={categories} />}
       <CartPanel
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
