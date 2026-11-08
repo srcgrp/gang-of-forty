@@ -1,9 +1,12 @@
 import { formatNumber } from '../features/products/catalog/format.ts'
+import SearchBox from './SearchBox.tsx'
 
 type HeaderProps = {
   count: number
+  query: string
+  onQuery: (value: string) => void
 }
-export default function Header({ count }: HeaderProps) {
+export default function Header({ count, query, onQuery }: HeaderProps) {
   return (
     <>
       <a className="skip-link" href="#main">پرش به محتوای اصلی</a>
@@ -24,12 +27,7 @@ export default function Header({ count }: HeaderProps) {
         </a>
 
         <div className="header-actions">
-          <input
-            type="search"
-            id="search"
-            placeholder="جستجوی محصولات..."
-            aria-label="جستجوی محصولات"
-          />
+        <SearchBox query={query} onQuery={onQuery} />
           <button type="button">
             <span aria-hidden="true">🛒</span> سبد خرید{' '}
             <span className="cart-count" id="cart-count" aria-live="polite">{formatNumber(count)}</span>

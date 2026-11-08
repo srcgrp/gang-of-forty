@@ -22,6 +22,7 @@ export default function App() {
   const [cart, setCart] = useState<CartLine[]>(() => loadCart())
   const [categoryId, setCategoryId] = useState<number | null>(null)
   const [state, setState] = useState<LoadState>({ status: 'loading' })
+  const [query, setQuery] = useState('')
 
   useEffect(() => {
     let ignore = false
@@ -49,12 +50,12 @@ export default function App() {
     <>
       <div id="top" />
       <LogoSprite />
-      <Header count={cartCount(cart)} />
+      <Header count={cartCount(cart)} query={query} onQuery={setQuery} />
       <CategoryNav selected={categoryId} onPick={setCategoryId} />
       <main id="main">
         <Hero />
         <CategoryGrid onPick={setCategoryId} />
-        <Catalog state={state} categoryId={categoryId} onAdd={handleAdd} />
+        <Catalog state={state} categoryId={categoryId} query={query} onAdd={handleAdd} />
         <PromoBanners />
         <Blog />
         <CartPanel lines={cart} cards={cards} onRemove={handleRemove} />

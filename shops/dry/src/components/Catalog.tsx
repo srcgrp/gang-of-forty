@@ -7,9 +7,10 @@ type CatalogProps = {
   state: LoadState
   categoryId: number | null
   onAdd: (id: number) => void
+  query: string
 }
 
-export default function Catalog({ state, categoryId, onAdd }: CatalogProps) {
+export default function Catalog({ state, categoryId, query, onAdd }: CatalogProps) {
   if (state.status !== 'success') return <Status state={state} />
 
   return (
@@ -19,7 +20,7 @@ export default function Catalog({ state, categoryId, onAdd }: CatalogProps) {
       <ProductGrid id="dairy" title="لبنیات" prefix="dairy"
         cards={dairyCards(state)} onAdd={onAdd} />
       <ProductGrid id="products" title="محصولات" prefix="product"
-        cards={cardsInCategory(state, categoryId)} onAdd={onAdd} />
+        cards={cardsInCategory(state, categoryId, query)} onAdd={onAdd} />
     </>
   )
 }
