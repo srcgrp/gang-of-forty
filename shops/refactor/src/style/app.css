@@ -259,6 +259,41 @@ main {
     }
 }
 
+
+/* ---------- cart panel ---------- */
+
+.cart-panel {
+    margin-block: 24px;
+    padding: 16px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    color: var(--ink);
+}
+
+.cart-rows {
+    display: grid;
+    gap: 8px;
+    margin-block: 12px;
+}
+
+.cart-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    border-radius: 12px;
+    background: var(--surface);
+}
+
+.cart-row-name {
+    flex: 1 1 auto;
+}
+
+.cart-total {
+    margin: 0;
+    font-size: 1.05rem;
+}
+
 @media (prefers-reduced-motion: reduce) {
     .loading-card {
         animation: none;
