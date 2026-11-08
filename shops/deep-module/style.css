@@ -5128,3 +5128,340 @@ html {
   contain: layout style;
   overflow-anchor: none;
 }
+@media (max-width: 420px) {
+  .brand__name {
+    display: none;
+  }
+}
+.notyf {
+  z-index: 9999 !important;
+  padding-inline: 16px;
+  pointer-events: none;
+}
+
+.notyf__toast {
+  pointer-events: auto;
+  position: relative;
+  max-width: 440px;
+  min-width: 320px;
+  margin-block-end: 14px;
+  padding: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  font-family: var(
+    --font-family-base,
+    var(--font, "Kalameh", "Vazirmatn", sans-serif)
+  );
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  animation: toastIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  z-index: 9999 !important;
+}
+
+.notyf__wrapper {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  position: relative;
+  z-index: 1;
+}
+
+.notyf__icon {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  position: relative;
+  isolation: isolate;
+}
+
+.notyf__icon svg {
+  width: 22px;
+  height: 22px;
+  stroke-width: 2.5;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
+}
+
+.notyf__message {
+  flex: 1;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+  line-height: 1.6;
+  padding-right: 4px;
+}
+
+.notyf__dismiss-btn {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.06);
+  border: 0;
+  border-radius: 9px;
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 15px;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    transform 0.15s;
+}
+
+.notyf__dismiss-btn:hover {
+  background: rgba(0, 0, 0, 0.12);
+  color: rgba(0, 0, 0, 0.8);
+  transform: scale(1.1);
+}
+
+.notyf__dismiss-btn:active {
+  transform: scale(0.92);
+}
+
+.notyf__toast::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-end: 0;
+  block-size: 3px;
+  inline-size: 100%;
+  animation: toastProgress 3s linear forwards;
+  z-index: 2;
+}
+
+@keyframes toastProgress {
+  from {
+    inline-size: 100%;
+  }
+  to {
+    inline-size: 0%;
+  }
+}
+
+@keyframes toastIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-24px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.notyf__toast--success {
+  background:
+    radial-gradient(
+      ellipse at top left,
+      color-mix(
+        in oklab,
+        var(--brand, var(--color-primary, #ffb000)) 10%,
+        transparent
+      ),
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse at bottom right,
+      color-mix(
+        in oklab,
+        var(--brand, var(--color-primary, #ffb000)) 6%,
+        transparent
+      ),
+      transparent 60%
+    ),
+    var(--surface, var(--color-surface, #ffffff));
+  box-shadow:
+    0 0 0 1.5px
+      color-mix(
+        in oklab,
+        var(--brand, var(--color-primary, #ffb000)) 40%,
+        transparent
+      ),
+    0 20px 40px -12px
+      color-mix(
+        in oklab,
+        var(--brand, var(--color-primary, #ffb000)) 35%,
+        transparent
+      ),
+    0 6px 12px -4px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.notyf__toast--success .notyf__message {
+  color: var(--color-heading, var(--text, #222222));
+}
+
+.notyf__toast--success .notyf__icon {
+  background: linear-gradient(
+    135deg,
+    var(--brand-hi, var(--color-primary, #ffb000)),
+    var(--brand, var(--color-primary-strong, #ffb000))
+  );
+  box-shadow:
+    0 8px 20px -6px color-mix(in oklab, var(--brand, #ffb000) 60%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.notyf__toast--success .notyf__icon svg {
+  color: var(--on-brand, var(--color-heading, #222222));
+}
+
+.notyf__toast--success::after {
+  background: linear-gradient(
+    90deg,
+    var(--brand, var(--color-primary, #ffb000)),
+    var(--brand-hi, #ffc93d)
+  );
+  box-shadow: 0 0 12px var(--brand, var(--color-primary, #ffb000));
+}
+
+.notyf__toast--error {
+  background:
+    radial-gradient(
+      ellipse at top left,
+      rgba(220, 38, 38, 0.08),
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse at bottom right,
+      rgba(248, 113, 113, 0.05),
+      transparent 60%
+    ),
+    var(--surface, var(--color-surface, #ffffff));
+  box-shadow:
+    0 0 0 1.5px
+      color-mix(
+        in oklab,
+        var(--red, var(--color-danger, #dc2626)) 40%,
+        transparent
+      ),
+    0 20px 40px -12px
+      color-mix(
+        in oklab,
+        var(--red, var(--color-danger, #dc2626)) 35%,
+        transparent
+      ),
+    0 6px 12px -4px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.notyf__toast--error .notyf__message {
+  color: var(--color-heading, var(--text, #222222));
+}
+
+.notyf__toast--error .notyf__icon {
+  background: linear-gradient(
+    135deg,
+    #f87171 0%,
+    var(--red, var(--color-danger, #dc2626)) 100%
+  );
+  box-shadow:
+    0 8px 20px -6px rgba(220, 38, 38, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.notyf__toast--error .notyf__icon svg {
+  color: #ffffff;
+}
+
+.notyf__toast--error::after {
+  background: linear-gradient(
+    90deg,
+    var(--red, var(--color-danger, #dc2626)),
+    #f87171
+  );
+  box-shadow: 0 0 12px var(--red, var(--color-danger, #dc2626));
+}
+
+.notyf__ripple {
+  display: none !important;
+}
+
+@media (max-width: 480px) {
+  .notyf__toast {
+    max-width: calc(100vw - 24px);
+    min-width: 0;
+    border-radius: 16px;
+  }
+  .notyf__wrapper {
+    gap: 12px;
+    padding: 14px 16px;
+  }
+  .notyf__icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+  }
+  .notyf__icon svg {
+    width: 20px;
+    height: 20px;
+  }
+  .notyf__message {
+    font-size: 0.875rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .notyf__toast--success {
+    background:
+      radial-gradient(
+        ellipse at top left,
+        color-mix(
+          in oklab,
+          var(--brand, var(--color-primary, #ffb000)) 14%,
+          transparent
+        ),
+        transparent 55%
+      ),
+      radial-gradient(
+        ellipse at bottom right,
+        color-mix(
+          in oklab,
+          var(--brand, var(--color-primary, #ffb000)) 8%,
+          transparent
+        ),
+        transparent 60%
+      ),
+      var(--surface, #1f1f1f);
+  }
+
+  .notyf__toast--success .notyf__message {
+    color: var(--text, #f0f0f0);
+  }
+
+  .notyf__toast--error {
+    background:
+      radial-gradient(
+        ellipse at top left,
+        rgba(220, 38, 38, 0.14),
+        transparent 55%
+      ),
+      radial-gradient(
+        ellipse at bottom right,
+        rgba(248, 113, 113, 0.08),
+        transparent 60%
+      ),
+      var(--surface, #1f1f1f);
+  }
+
+  .notyf__toast--error .notyf__message {
+    color: var(--text, #f0f0f0);
+  }
+
+  .notyf__dismiss-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .notyf__dismiss-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.9);
+  }
+}
