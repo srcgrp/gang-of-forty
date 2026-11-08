@@ -6,8 +6,11 @@ export interface Product {
   emoji?: string;
   unit?: string;
   desc?: string;
+  rating?: number;
+  reviews?: number;
+  brand?: string;
+  oldPrice?: number;
 }
-
 export interface Category {
   id: number;
   name: string;
