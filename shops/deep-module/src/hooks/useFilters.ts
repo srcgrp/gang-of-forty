@@ -19,6 +19,17 @@ const DEFAULT: FilterValues = {
   sort: "default",
 };
 
+function normalizeText(str: string): string {
+  return str
+    .replace(/\u064A/g, "\u06CC")
+    .replace(/\u0643/g, "\u06A9")
+    .replace(/[\u064B-\u065F\u0670]/g, "")
+    .replace(/\u200C/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+}
+
 export function useFilters() {
   const [filters, setFilters] = useState<FilterValues>(DEFAULT);
 
@@ -43,7 +54,12 @@ export function applyFilters(
   stock: StockData,
   query: string,
 ): Product[] {
-  let result = products.filter((p) => p.name.includes(query));
+  let result = products;
+
+  const q = normalizeText(query);
+  if (q) {
+    result = result.filter((p) => normalizeText(p.name).includes(q));
+  }
 
   if (filters.categoryId !== null) {
     result = result.filter((p) => p.categoryId === filters.categoryId);

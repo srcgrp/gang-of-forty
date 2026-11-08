@@ -1,10 +1,11 @@
 import { useState } from "react";
-import type { StockData } from "./types";
+import type { Product, StockData } from "./types";
 import { useShopData } from "./hooks/useShopData";
 import { useCart } from "./hooks/useCart";
 import { useSearch } from "./hooks/useSearch";
 import { useFilters, applyFilters } from "./hooks/useFilters";
 import { useConsumedStock } from "./hooks/useConsumedStock";
+import { toast } from "./shared/ui/toast";
 import { SiteHeader } from "./components/SiteHeader";
 import { Hero } from "./components/Hero";
 import { HeroCards } from "./components/HeroCards";
@@ -52,6 +53,25 @@ export default function App() {
     effectiveStock.items[id] = Math.max(0, v - (consumed[id] ?? 0));
   }
 
+  const handleAddToCart = (product: Product): boolean => {
+    const available = effectiveStock.items[product.id] ?? Infinity;
+    const existing = cart.find((i) => i.id === product.id);
+    const currentInCart = existing?.quantity ?? 0;
+
+    if (available === 0) {
+      toast.error(`${product.name} موجود نیست`);
+      return false;
+    }
+
+    if (currentInCart >= available) {
+      toast.error(`حداکثر ${available} عدد از ${product.name} موجوده`);
+      return false;
+    }
+
+    addToCart(product);
+    return true;
+  };
+
   const filtered = applyFilters(
     products,
     filters,
@@ -59,7 +79,7 @@ export default function App() {
     effectiveStock,
     query,
   );
-  const hasActiveFilter = activeCount > 0 || query.length > 0;
+  const hasActiveFilter = activeCount > 0 || query.trim().length > 0;
 
   const handleCheckout = () => {
     consume(cart);
@@ -76,9 +96,10 @@ export default function App() {
         query={query}
         onQuery={setQuery}
         suggestions={suggestions}
-        onPickProduct={addToCart}
+        onPickProduct={handleAddToCart}
         onOpenCart={() => setCartOpen(true)}
       />
+
       <main id="main" tabIndex={-1}>
         <Hero home={home} />
         <HeroCards home={home} />
@@ -89,7 +110,7 @@ export default function App() {
           cart={cart}
           offers={offers}
           stock={effectiveStock}
-          onAdd={addToCart}
+          onAdd={handleAddToCart}
         />
         <BannersSection home={home} />
 
@@ -100,45 +121,78 @@ export default function App() {
             cart={cart}
             offers={offers}
             stock={effectiveStock}
-            onAdd={addToCart}
+            onAdd={handleAddToCart}
           />
         )}
 
+        {/* بخش تمام محصولات - اصلاح شد */}
         <section id="all-products" className="products-section">
-          <div className="products-section__head">
-            <h2 className="section-head__title">
-              <span aria-hidden="true">🛒</span> تمام محصولات
-            </h2>
-            <div className="products-section__actions">
+          <header className="products-section__head all-products__header">
+            <div className="all-products__title-wrap">
+              <h2 className="section-head__title">
+                <span aria-hidden="true">🛒</span> تمام محصولات
+              </h2>
               <span className="section-head__count">
-                {filtered.length.toLocaleString("fa-IR")} محصول از{" "}
-                {products.length.toLocaleString("fa-IR")}
+                {filtered.length.toLocaleString("fa-IR")} محصول
               </span>
-              <button
-                type="button"
-                className="filter-btn"
-                onClick={() => setFilterOpen(true)}
-                aria-haspopup="dialog"
-                aria-label="باز کردن فیلتر"
-              >
-                <span aria-hidden="true">🎯</span> فیلتر
-                {activeCount > 0 && (
-                  <span className="filter-btn__badge">
-                    {activeCount.toLocaleString("fa-IR")}
-                  </span>
-                )}
-              </button>
             </div>
-          </div>
+
+            <div className="all-products__sort" role="tablist">
+              {[
+                { v: "default" as const, l: "پیش‌فرض" },
+                { v: "price-asc" as const, l: "ارزان‌ترین" },
+                { v: "price-desc" as const, l: "گران‌ترین" },
+                { v: "name" as const, l: "الفبا" },
+              ].map((s) => (
+                <button
+                  key={s.v}
+                  type="button"
+                  role="tab"
+                  aria-selected={filters.sort === s.v}
+                  className={`all-products__sort-btn ${filters.sort === s.v ? "is-active" : ""}`}
+                  onClick={() => update({ sort: s.v })}
+                >
+                  {s.l}
+                </button>
+              ))}
+            </div>
+
+            <button
+              type="button"
+              className={`filter-btn ${activeCount > 0 || query.length > 0 ? "filter-btn--active" : ""}`}
+              onClick={() => setFilterOpen(true)}
+              aria-haspopup="dialog"
+              aria-label="باز کردن فیلتر"
+            >
+              <span className="filter-btn__icon" aria-hidden="true">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path d="M4 6h16M7 12h10M10 18h4" />
+                </svg>
+              </span>
+              فیلتر
+              {activeCount > 0 && (
+                <span className="filter-btn__badge">
+                  {activeCount.toLocaleString("fa-IR")}
+                </span>
+              )}
+            </button>
+          </header>
+
           <ProductGrid
             products={filtered}
             cart={cart}
             offers={offers}
             stock={effectiveStock}
-            onAdd={addToCart}
+            onAdd={handleAddToCart}
           />
         </section>
       </main>
+
       <SiteFooter shop={shop} categories={categories} />
 
       {cartOpen && (

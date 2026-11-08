@@ -16,25 +16,37 @@ export function ProductGrid({
   stock,
   onAdd,
 }: ProductGridProps) {
-  if (products.length === 0)
-    return <div className="state-empty">محصولی یافت نشد</div>;
+  // اصلاح حالت خالی (Empty State) مطابق با کلاس‌های CSS
+  if (products.length === 0) {
+    return (
+      <div className="products-empty">
+        <span className="products-empty__icon" aria-hidden="true">
+          🔍
+        </span>
+        <p className="products-empty__text">محصولی یافت نشد</p>
+        <p className="products-empty__hint">
+          لطفاً فیلترها را تغییر دهید یا عبارت دیگری جستجو کنید.
+        </p>
+      </div>
+    );
+  }
 
   const cartMap = new Map(cart.map((i) => [i.id, i.quantity]));
   const offerMap = new Map(offers.map((o) => [o.productId, o.percent]));
 
+  // تغییر ul/li به div تا CSS Grid و افکت Bento به درستی کار کند
   return (
-    <ul className="products-grid">
+    <div className="products-grid">
       {products.map((p) => (
-        <li key={p.id}>
-          <ProductCard
-            product={p}
-            stock={stock?.items[p.id]}
-            discountPercent={offerMap.get(p.id)}
-            cartQuantity={cartMap.get(p.id) ?? 0}
-            onAdd={() => onAdd(p)}
-          />
-        </li>
+        <ProductCard
+          key={p.id}
+          product={p}
+          stock={stock?.items[p.id]}
+          discountPercent={offerMap.get(p.id)}
+          cartQuantity={cartMap.get(p.id) ?? 0}
+          onAdd={() => onAdd(p)}
+        />
       ))}
-    </ul>
+    </div>
   );
 }

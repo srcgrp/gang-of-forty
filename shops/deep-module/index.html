@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fa" dir="rtl">
   <head>
     <meta charset="UTF-8" />
@@ -38,6 +38,27 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      (function () {
+        const palettes = ["fresh", "lime", "ocean", "violet", "rose", "amber"];
+        const html = document.documentElement;
+
+        function switchPalette(name) {
+          html.classList.add("theme-switching");
+          html.dataset.palette = name;
+          clearTimeout(html._themeTimer);
+          html._themeTimer = setTimeout(function () {
+            html.classList.remove("theme-switching");
+          }, 450);
+        }
+
+        let i = Math.floor(Math.random() * palettes.length);
+        switchPalette(palettes[i]);
+
+        i = (i + 1) % palettes.length;
+        switchPalette(palettes[i]);
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
