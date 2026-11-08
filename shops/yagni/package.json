@@ -1,21 +1,28 @@
 {
-    "name": "yagni",
-    "version": "1.0.0",
-    "private": true,
-    "type": "module",
-    "scripts": {
-        "dev": "vite",
-        "build": "tsc --noEmit && vite build",
-        "preview": "vite preview",
-        "check": "tsc --noEmit"
-    },
-    "devDependencies": {
-        "@types/canvas-confetti": "^1.9.0",
-        "typescript": "^7.0.2",
-        "vite": "^8.3.4"
-    },
-    "dependencies": {
-        "canvas-confetti": "^1.9.4",
-        "notyf": "^3.10.0"
-    }
+  "name": "yagni",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "check": "tsc --noEmit",
+    "lint": "oxlint src"
+  },
+  "devDependencies": {
+    "@types/canvas-confetti": "^1.9.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.2.1",
+    "oxlint": "^1.92.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4"
+  },
+  "dependencies": {
+    "canvas-confetti": "^1.9.4",
+    "notyf": "^3.10.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  }
 }
