@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { addToCart, cartCount, removeFromCart } from './features/cart/rules/lines.ts'
 import { loadState } from './features/products/api/load.ts'
 import { cardsOf } from './features/products/catalog/view.ts'
+import { loadCart, saveCart } from './features/cart/storage/cartStorage.ts'
+import { formatNumber } from './features/products/catalog/format.ts'
 import Blog from './components/Blog.tsx'
 import CartPanel from './components/CartPanel.tsx'
 import Catalog from './components/Catalog.tsx'
@@ -14,8 +16,10 @@ import LogoSprite from './components/LogoSprite.tsx'
 import PromoBanners from './components/PromoBanners.tsx'
 import type { CartLine, LoadState } from './shared/types.ts'
 
+const SHOP_NAME = 'MARTO'
+
 export default function App() {
-  const [cart, setCart] = useState<CartLine[]>([])
+  const [cart, setCart] = useState<CartLine[]>(() => loadCart())
   const [categoryId, setCategoryId] = useState<number | null>(null)
   const [state, setState] = useState<LoadState>({ status: 'loading' })
 
@@ -29,6 +33,14 @@ export default function App() {
     }
   }, [])
 
+  useEffect(() => {
+    saveCart(cart)
+  }, [cart])
+
+  useEffect(() => {
+    document.title = `${SHOP_NAME} · 🛒 ${formatNumber(cartCount(cart))}`
+  }, [cart])
+    
   const cards = state.status === 'success' ? cardsOf(state) : []
   const handleAdd = (id: number) => setCart(addToCart(cart, id))
   const handleRemove = (id: number) => setCart(removeFromCart(cart, id))
