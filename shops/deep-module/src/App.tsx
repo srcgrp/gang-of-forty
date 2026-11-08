@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useLayoutEffect, useRef } from "react";
 import type { Product, StockData } from "./types";
 import { useShopData } from "./hooks/useShopData";
 import { useCart } from "./hooks/useCart";
@@ -24,14 +24,36 @@ export default function App() {
   const [query, setQuery] = useState("");
   const [cartOpen, setCartOpen] = useState(false);
   const [filterOpen, setFilterOpen] = useState(false);
+
+  // ✅ ref برای ذخیره موقعیت اسکرول
+  const scrollRef = useRef<number>(0);
+  const prevQueryRef = useRef<string>("");
+
   const state = useShopData(attempt);
   const { cart, addToCart, increase, decrease, removeItem, checkout } =
     useCart();
-  const { filters, update, reset, activeCount } = useFilters();
+  const { filters, update, reset } = useFilters();
   const { consumed, consume } = useConsumedStock();
 
   const allProducts = state.status === "success" ? state.data.products : [];
   const suggestions = useSearch(allProducts, query);
+
+  // ✅ وقتی query تغییر می‌کند، موقعیت اسکرول را حفظ کن
+  useLayoutEffect(() => {
+    if (prevQueryRef.current !== query) {
+      const saved = scrollRef.current;
+      prevQueryRef.current = query;
+      if (saved > 0) {
+        window.scrollTo({ top: saved, behavior: "instant" });
+      }
+    }
+  }, [query]);
+
+  // ✅ قبل از هر تغییر query، موقعیت فعلی را ذخیره کن
+  const handleQuery = (q: string) => {
+    scrollRef.current = window.scrollY;
+    setQuery(q);
+  };
 
   if (state.status === "loading") {
     return <div className="global-loader">در حال بارگذاری...</div>;
@@ -72,14 +94,17 @@ export default function App() {
     return true;
   };
 
-  const filtered = applyFilters(
-    products,
-    filters,
-    offers,
-    effectiveStock,
-    query,
-  );
-  const hasActiveFilter = activeCount > 0 || query.trim().length > 0;
+  const filtered = applyFilters(products, filters, offers, effectiveStock, "");
+
+  const hasRealFilters =
+    filters.categoryId !== null ||
+    filters.stock !== "all" ||
+    filters.discount !== "all";
+
+  const realActiveCount =
+    (filters.categoryId !== null ? 1 : 0) +
+    (filters.stock !== "all" ? 1 : 0) +
+    (filters.discount !== "all" ? 1 : 0);
 
   const handleCheckout = () => {
     consume(cart);
@@ -94,7 +119,7 @@ export default function App() {
         categories={categories}
         cartCount={cart.length}
         query={query}
-        onQuery={setQuery}
+        onQuery={handleQuery}
         suggestions={suggestions}
         onPickProduct={handleAddToCart}
         onOpenCart={() => setCartOpen(true)}
@@ -114,7 +139,7 @@ export default function App() {
         />
         <BannersSection home={home} />
 
-        {!hasActiveFilter && (
+        {!hasRealFilters && (
           <CategorySections
             products={products}
             categories={categories}
@@ -125,7 +150,6 @@ export default function App() {
           />
         )}
 
-        {/* بخش تمام محصولات - اصلاح شد */}
         <section id="all-products" className="products-section">
           <header className="products-section__head all-products__header">
             <div className="all-products__title-wrap">
@@ -159,7 +183,7 @@ export default function App() {
 
             <button
               type="button"
-              className={`filter-btn ${activeCount > 0 || query.length > 0 ? "filter-btn--active" : ""}`}
+              className={`filter-btn ${hasRealFilters ? "filter-btn--active" : ""}`}
               onClick={() => setFilterOpen(true)}
               aria-haspopup="dialog"
               aria-label="باز کردن فیلتر"
@@ -175,9 +199,9 @@ export default function App() {
                 </svg>
               </span>
               فیلتر
-              {activeCount > 0 && (
+              {realActiveCount > 0 && (
                 <span className="filter-btn__badge">
-                  {activeCount.toLocaleString("fa-IR")}
+                  {realActiveCount.toLocaleString("fa-IR")}
                 </span>
               )}
             </button>
