@@ -1,12 +1,13 @@
-import type { ProductView } from '../types'
-import ProductCard from './ProductCard'
-import { formatNumber } from './format'
+import type { ProductView } from "../types";
+import ProductCard from "./ProductCard";
+import { formatNumber } from "./format";
 
 type ProductGridProps = {
-  products: ProductView[]
-}
+  products: ProductView[];
+  onAdd: (id: number) => void;
+};
 
-export default function ProductGrid({ products }: ProductGridProps) {
+export default function ProductGrid({ products, onAdd }: ProductGridProps) {
   return (
     <section className="catalog-section container" id="catalog">
       <div className="section-head">
@@ -20,12 +21,20 @@ export default function ProductGrid({ products }: ProductGridProps) {
       </p>
 
       <ul className="catalog-grid">
-        {products.length === 0
-          ? <li className="empty-message">کالایی با این مشخصات پیدا نشد.</li>
-          : products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+        {products.length === 0 ? (
+          <li className="empty-message">کالایی با این مشخصات پیدا نشد.</li>
+        ) : (
+          products.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              inStock={product.stock > 0}
+              discount={product.percent > 0 ? product.percent : undefined}
+              onAdd={onAdd}
+            />
+          ))
+        )}
       </ul>
     </section>
-  )
+  );
 }
