@@ -1,12 +1,10 @@
 import type { CatalogQuery, CatalogView, Carousel, CarouselView, Category, ProductView } from '../../types';
 
-const normalize = (value: string): string => value.trim().toLocaleLowerCase('fa-IR')
-  .replace(/ي/g, 'ی').replace(/ك/g, 'ک').replace(/[\u200c\s]+/g, ' ');
 export const selectProducts = (products: ProductView[], query: CatalogQuery, categoryId?: number): ProductView[] => {
-  const term = normalize(query.search);
+  const term = query.search.trim().toLowerCase();
   return products.filter((product) =>
     (categoryId === undefined || product.categoryId === categoryId)
-    && (!term || normalize(`${product.name} ${product.tags.join(' ')}`).includes(term)));
+    && (!term || product.name.toLowerCase().includes(term)));
 };
 export const selectCarousel = (products: ProductView[], carousel: Carousel): ProductView[] =>
   carousel.source === 'offers'
