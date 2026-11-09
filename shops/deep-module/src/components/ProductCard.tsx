@@ -22,7 +22,6 @@ export function ProductCard({
       ? Math.round(product.price / (1 - discountPercent / 100))
       : null);
 
-  // رنگ‌های شاد برای هر کارت (بر اساس id)
   const gradients = [
     "linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)",
     "linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)",
@@ -39,7 +38,6 @@ export function ProductCard({
     <article
       className={`product-card ${unavailable ? "product-card--unavailable" : ""}`}
     >
-      {/* پس‌زمینه رنگی هاله‌ای */}
       <div
         className="product-card__glow"
         style={{ background: bgGradient }}
@@ -52,6 +50,7 @@ export function ProductCard({
           {faNum(discountPercent)}٪
         </span>
       )}
+
       <button
         type="button"
         className={`product-card__wishlist ${isLiked ? "is-liked" : ""}`}
