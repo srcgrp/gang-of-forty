@@ -1,5 +1,6 @@
-import { useState } from 'react'
-import type { Banner, CartItem, Category, ProductView, ShopInfo } from './types'
+import { useEffect, useState } from 'react'
+import type { CartItem, LoadState } from './types'
+import { loadShop } from './api/load-shop'
 import { addToCart, cartCount, cartLines, cartTotal, removeFromCart } from './features/cart/calculate'
 import { selectProducts } from './features/products/select'
 import CartPanel from './components/CartPanel'
@@ -8,121 +9,50 @@ import Footer from './components/Footer'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import ProductGrid from './components/ProductGrid'
-
-const SHOP: ShopInfo = {
-  name: "مینا",
-  slogan: "تازه، نزدیک، به‌صرفه",
-  notice: "🚚 ارسال رایگان برای خریدهای بالای ۵۰۰ هزار تومان",
-  owner: "",
-  city: "تهران",
-  phone: "021-12345678",
-  currency: "تومان",
-  hours: { open: "08:00", close: "22:00" },
-  about: "کالای تازه با قیمت منصفانه.",
-  address: "تهران، خیابان نمونه، پلاک ۴۰",
-  copyright: "© ۱۴۰۵ مینا",
-  deliveryFee: 35000,
-  freeDeliveryOver: 500000,
-  menu: [
-    { label: "پیشنهاد ویژه", href: "#offers" },
-    { label: "تماس با ما", href: "#contact" },
-  ],
-  help: [
-    { label: "شیوه ارسال", href: "#" },
-    { label: "بازگشت کالا", href: "#" },
-  ],
-  schedule: [
-    { days: "شنبه تا پنجشنبه", time: "۸ تا ۲۲" },
-    { days: "جمعه", time: "۹ تا ۱۴" },
-  ],
-};
-const CATEGORIES: Category[] = [
-  { id: 1, slug: "fruits", name: "میوه و سبزی", emoji: "🍎", color: "#fde3dc" },
-  { id: 2, slug: "dairy", name: "لبنیات", emoji: "🥛", color: "#e2eefc" },
-  { id: 3, slug: "bakery", name: "نان تازه", emoji: "🍞", color: "#fff1d6" },
-];
-const SAMPLE: ProductView[] = [
-  {
-    id: 101,
-    categoryId: 1,
-    name: "سیب قرمز دماوند",
-    emoji: "🍎",
-    unit: "۱ کیلو",
-    price: 85000,
-    tags: [],
-    stock: 24,
-    percent: 0,
-    originalPrice: 85000,
-  },
-  {
-    id: 102,
-    categoryId: 1,
-    name: "پرتقال تامسون شمال",
-    emoji: "🍊",
-    unit: "۱ کیلو",
-    price: 61200,
-    tags: [],
-    stock: 12,
-    percent: 15,
-    originalPrice: 72000,
-  },
-  {
-    id: 201,
-    categoryId: 2,
-    name: "شیر کم‌چرب",
-    emoji: "🥛",
-    unit: "۱ لیتر",
-    price: 38000,
-    tags: [],
-    stock: 0,
-    percent: 0,
-    originalPrice: 38000,
-  },
-  {
-    id: 301,
-    categoryId: 3,
-    name: "نان سنگک",
-    emoji: "🍞",
-    unit: "۱ عدد",
-    price: 15000,
-    tags: [],
-    stock: 30,
-    percent: 0,
-    originalPrice: 15000,
-  },
-];
-const HERO: Banner = {
-  emoji: "🍉",
-  title: "میوه‌های تازه، هر روز صبح",
-  text: "مستقیم از باغ‌های اطراف شهر.",
-  cta: { label: "خرید میوه و سبزی", href: "#fruits" },
-};
-const SIDE: Banner = {
-  emoji: "🧀",
-  title: "تا ۲۰٪ تخفیف لبنیات",
-  text: "فقط تا پایان هفته",
-  cta: { label: "دیدن محصولات", href: "#dairy" },
-};
+import Status from './components/Status'
 
 export default function App() {
- const [categoryId, setCategoryId] = useState<number | null>(null)
+  const [state, setState] = useState<LoadState>({ status: 'loading' })
+  const [categoryId, setCategoryId] = useState<number | null>(null)
   const [cart, setCart] = useState<CartItem[]>([])
-  const visible = selectProducts(SAMPLE, categoryId)
-  const lines = cartLines(cart, SAMPLE)
-  const count = cartCount(lines)
+
+  useEffect(() => {
+    let ignore = false
+    loadShop()
+      .then((data) => {
+        if (!ignore) {
+          setState({ status: data.products.length > 0 ? 'success' : 'empty', data })
+        }
+      })
+      .catch((error: unknown) => {
+        const message = error instanceof Error ? error.message : 'خطای ناشناخته'
+        if (!ignore) {
+          setState({ status: 'error', message })
+        }
+      })
+    return () => {
+      ignore = true
+    }
+  }, [])
+
+  if (state.status !== 'success') {
+    return <Status state={state} />
+  }
+  const { products, categories, home, shop } = state.data
+  const lines = cartLines(cart, products)
   const total = cartTotal(lines)
   return (
     <>
-    <a className="skip-link" href="#content">پرش به محتوای اصلی</a>
-      <Header shop={SHOP} categories={CATEGORIES} cartCount={count} productCount={SAMPLE.length} />
+      <a className="skip-link" href="#content">پرش به محتوای اصلی</a>
+      <Header shop={shop} categories={categories} cartCount={cartCount(lines)} productCount={products.length} />
       <main id="content" tabIndex={-1}>
         <h1 className="sr-only">ریفکتور؛ سوپرمارکت آنلاین</h1>
-        <Hero main={HERO} side={SIDE} />
-        <CategoryNav categories={CATEGORIES} activeId={categoryId} onPick={setCategoryId} />
-        <ProductGrid products={visible} onAdd={(id) => setCart(addToCart(cart, id))} />
+        <Hero main={home.hero} side={home.side} />
+        <CategoryNav categories={categories} activeId={categoryId} onPick={setCategoryId} />
+        <ProductGrid products={selectProducts(products, categoryId)} onAdd={(id) => setCart(addToCart(cart, id))} />
         <CartPanel lines={lines} total={total} onRemove={(id) => setCart(removeFromCart(cart, id))} />
       </main>
-      <Footer shop={SHOP} categories={CATEGORIES} />
+      <Footer shop={shop} categories={categories} />
     </>
-  );
+  )
 }
