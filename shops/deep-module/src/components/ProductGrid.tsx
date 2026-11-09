@@ -7,6 +7,8 @@ interface ProductGridProps {
   offers?: Offer[];
   stock?: StockData;
   onAdd: (p: Product) => void;
+  wishlistIds?: number[];
+  onToggleWishlist?: (p: Product) => void;
 }
 
 export function ProductGrid({
@@ -15,8 +17,9 @@ export function ProductGrid({
   offers = [],
   stock,
   onAdd,
+  wishlistIds = [],
+  onToggleWishlist,
 }: ProductGridProps) {
-  // اصلاح حالت خالی (Empty State) مطابق با کلاس‌های CSS
   if (products.length === 0) {
     return (
       <div className="products-empty">
@@ -34,7 +37,6 @@ export function ProductGrid({
   const cartMap = new Map(cart.map((i) => [i.id, i.quantity]));
   const offerMap = new Map(offers.map((o) => [o.productId, o.percent]));
 
-  // تغییر ul/li به div تا CSS Grid و افکت Bento به درستی کار کند
   return (
     <div className="products-grid">
       {products.map((p) => (
@@ -45,6 +47,8 @@ export function ProductGrid({
           discountPercent={offerMap.get(p.id)}
           cartQuantity={cartMap.get(p.id) ?? 0}
           onAdd={() => onAdd(p)}
+          isLiked={wishlistIds.includes(p.id)}
+          onToggleWishlist={onToggleWishlist}
         />
       ))}
     </div>

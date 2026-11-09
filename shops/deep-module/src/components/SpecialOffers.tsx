@@ -14,7 +14,15 @@ interface Props {
   onAdd: (p: Product) => void;
 }
 
-export function SpecialOffers({ products, cart, offers, stock, onAdd }: Props) {
+export function SpecialOffers({
+  products,
+  cart,
+  offers,
+  stock,
+  onAdd,
+  wishlistIds = [],
+  onToggleWishlist,
+}: Props) {
   const cartMap = new Map(cart.map((i) => [i.id, i.quantity]));
   const offerMap = new Map(offers.map((o) => [o.productId, o.percent]));
   const specials = products.filter((p) => offerMap.has(p.id));
@@ -48,6 +56,8 @@ export function SpecialOffers({ products, cart, offers, stock, onAdd }: Props) {
               discountPercent={offerMap.get(p.id)}
               cartQuantity={cartMap.get(p.id) ?? 0}
               onAdd={() => onAdd(p)}
+              isLiked={wishlistIds.includes(p.id)}
+              onToggleWishlist={onToggleWishlist}
             />
           </SwiperSlide>
         ))}
