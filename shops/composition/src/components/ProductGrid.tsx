@@ -1,8 +1,8 @@
 import type { SectionView } from "../shared/types";
 import ProductCard from "./ProductCard";
 
-type Props = { section: SectionView };
-export default function ProductGrid({ section }: Props) {
+type Props = { section: SectionView; onAdd: (id: number) => void };
+export default function ProductGrid({ section, onAdd }: Props) {
   const title = <h2 id={section.id + "-title"}>{section.title}</h2>;
   return (
     <section id={section.id} className="product-section" aria-labelledby={section.id + "-title"}>
@@ -23,7 +23,7 @@ export default function ProductGrid({ section }: Props) {
         role={section.carousel ? "group" : undefined}
         aria-label={section.carousel ? section.title + "؛ برای پیمایش از کلیدهای جهت استفاده کنید" : undefined}>
         {section.cards.map((card, index) => (
-          <ProductCard key={card.id} card={card}
+          <ProductCard key={card.id} card={card} onAdd={onAdd}
             id={section.id + (index === 0 ? "-first" : index === section.cards.length - 1 ? "-last" : "-" + card.id)} />
         ))}
       </div>

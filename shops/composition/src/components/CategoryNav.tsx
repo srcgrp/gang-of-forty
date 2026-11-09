@@ -1,14 +1,15 @@
 import type { Category } from "../shared/types";
 
-type Props = { categories: Category[] };
+type Props = { categories: Category[]; onPick: (categoryId: number) => void };
 
-export default function CategoryNav({ categories }: Props) {
+export default function CategoryNav({ categories, onPick }: Props) {
   return (
     <section id="categories" aria-labelledby="category-title">
       <div className="section-heading"><h2 id="category-title">از اینجا شروع کن</h2></div>
       <nav className="categories" aria-label="دسته‌بندی محصولات">
         {categories.map((category) => (
-          <a key={category.id} className="category-tile" href={"#" + category.slug}>
+          <a key={category.id} className="category-tile" href={"#" + category.slug}
+            onClick={() => onPick(category.id)}>
             <span className="category-emoji" style={{ backgroundColor: category.color }} aria-hidden="true">
               {category.emoji}
             </span>

@@ -26,6 +26,12 @@ const SAMPLE_CATEGORIES: Category[] = [
 ];
 
 export default function App() {
+  function handleAdd(productId: number): void {
+    console.log("شناسهٔ محصول انتخاب‌شده:", productId);
+  }
+  function handlePick(categoryId: number): void {
+    console.log("شناسهٔ دستهٔ انتخاب‌شده:", categoryId);
+  }
   const page = buildPage({ products: SAMPLE_PRODUCTS, categories: SAMPLE_CATEGORIES,
     shop: SAMPLE_SHOP, home: SAMPLE_HOME, stock: SAMPLE_STOCK, offers: SAMPLE_OFFERS });
   return (
@@ -34,16 +40,16 @@ export default function App() {
       <Header shop={SAMPLE_SHOP} categories={SAMPLE_CATEGORIES} />
       <main id="main" className="wrap" tabIndex={-1}>
         <Hero home={SAMPLE_HOME} />
-        <CategoryNav categories={SAMPLE_CATEGORIES} />
+        <CategoryNav categories={SAMPLE_CATEGORIES} onPick={handlePick} />
         <Promos promos={SAMPLE_HOME.promos} />
         <div id="carousels">
           {page.sections.filter(section => section.carousel).map(section => (
-            <ProductGrid key={section.id} section={section} />
+            <ProductGrid key={section.id} section={section} onAdd={handleAdd} />
           ))}
         </div>
         <div id="category-products">
           {page.sections.filter(section => !section.carousel).map(section => (
-            <ProductGrid key={section.id} section={section} />
+            <ProductGrid key={section.id} section={section} onAdd={handleAdd} />
           ))}
         </div>
         <CartPanel />
