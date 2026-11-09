@@ -1,48 +1,75 @@
-import { useState } from 'react'
-import type { Product, Category, Cart } from './shared/types'
+import { useEffect, useState } from 'react'
+import type { AppState, Cart, Offer } from './shared/types'
+import { loadAllData } from './shared/api/load-all'
+import { stockOf } from './shared/logic/stock'
+import { withCategoryImages } from './shared/logic/content-utils'
 import { addToCart, removeFromCart, removeLine, cartCount } from './features/cart/logic/cart'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import CategoryNav from './components/CategoryNav'
-import ProductGrid from './components/ProductGrid'
 import Footer from './components/Footer'
 import CartPanel from './components/CartPanel'
+import ProductsSection from './components/ProductsSection'
+import { BANNER_IMAGES } from './shared/content'
 
-const SAMPLE_PRODUCTS: Product[] = [
-  { id: 101, categoryId: 1, name: 'سیب قرمز', emoji: '🍎', unit: 'کیلو', price: 45000, tags: ['میوه'] },
-  { id: 201, categoryId: 2, name: 'شیر پرچرب', emoji: '🥛', unit: 'لیتر', price: 32000, tags: ['لبنیات'] },
-  { id: 301, categoryId: 3, name: 'نان سنگک', emoji: '🥖', unit: 'عدد', price: 15000, tags: ['نان'] },
-  { id: 401, categoryId: 4, name: 'نوشابه', emoji: '🥤', unit: 'بطری', price: 25000, tags: ['نوشیدنی'] },
-]
-
-const SAMPLE_CATEGORIES: Category[] = [
-  { id: 1, slug: 'fruits', name: 'میوه', emoji: '🍎' },
-  { id: 2, slug: 'dairy', name: 'لبنیات', emoji: '🥛' },
-  { id: 3, slug: 'bakery', name: 'نان', emoji: '🥖' },
-  { id: 4, slug: 'drinks', name: 'نوشیدنی', emoji: '🥤' },
-]
-
-const SAMPLE_BANNERS = [
-  './assets/images/banners/banner-1.webp',
-  './assets/images/banners/banner-2.webp',
-  './assets/images/banners/banner-3.webp',
-]
+const EMPTY_STATE: AppState = {
+  shop: null,
+  home: null,
+  categories: [],
+  products: [],
+  stock: null,
+  offerMap: new Map<number, Offer>(),
+  cart: {},
+  res: { status: 'loading' },
+}
 
 export default function App() {
+  const [data, setData] = useState<AppState>(EMPTY_STATE)
+  const [cart, setCart] = useState<Cart>({})
+  const [cartOpen, setCartOpen] = useState(false)
   const [categoryId, setCategoryId] = useState<number | null>(null)
 
-  const [cart, setCart] = useState<Cart>({})
+  useEffect(() => {
+    let ignore = false
 
-  const [cartOpen, setCartOpen] = useState(false)
+    loadAllData()
+      .then((result) => {
+        if (ignore) return
+        setData({
+          shop: result.shop,
+          home: result.home,
+          categories: withCategoryImages(result.categories),
+          products: result.products,
+          stock: result.stock,
+          offerMap: result.offerMap,
+          cart: {},
+          res: result.res,
+        })
+      })
+      .catch(() => {
+        if (ignore) return
+        setData((prev) => ({
+          ...prev,
+          res: {
+            status: 'error',
+            message: 'داده‌های دریافتی معتبر نبودند. لطفاً دوباره تلاش کنید.',
+          },
+        }))
+      })
 
-  const visibleProducts = categoryId === null
-    ? SAMPLE_PRODUCTS
-    : SAMPLE_PRODUCTS.filter((p) => p.categoryId === categoryId)
+    return () => {
+      ignore = true
+    }
+  }, [])
 
   const count = cartCount(cart)
 
+  const visibleProducts = categoryId === null
+    ? data.products
+    : data.products.filter((p) => p.categoryId === categoryId)
+
   function handleAdd(id: number): void {
-    const max = 10
+    const max = stockOf(id, data.stock)
     setCart((prev) => addToCart(prev, id, max))
   }
 
@@ -57,22 +84,25 @@ export default function App() {
   return (
     <>
       <Header
-        shopName="کیوی"
+        shopName={data.shop?.name ?? 'فروشگاه'}
         cartCount={count}
         onOpenCart={() => setCartOpen(true)}
       />
 
       <main id="main-content" tabIndex={-1}>
-        <Hero banners={SAMPLE_BANNERS} />
+        <Hero banners={BANNER_IMAGES} />
+
         <CategoryNav
-          categories={SAMPLE_CATEGORIES}
+          categories={data.categories}
           activeId={categoryId}
           onPick={setCategoryId}
         />
-        <ProductGrid
-          title={categoryId === null ? 'همه محصولات' : 'محصولات دسته'}
+
+        <ProductsSection
+          res={data.res}
           products={visibleProducts}
           cart={cart}
+          stock={data.stock}
           onAdd={handleAdd}
           onRemove={handleRemove}
         />
@@ -82,7 +112,7 @@ export default function App() {
       <CartPanel
         open={cartOpen}
         cart={cart}
-        products={SAMPLE_PRODUCTS}
+        products={data.products}
         onClose={() => setCartOpen(false)}
         onRemoveLine={handleRemoveLine}
       />

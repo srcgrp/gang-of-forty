@@ -5,12 +5,13 @@ import OfferBadge from './OfferBadge'
 type ProductCardProps = {
   product: Product
   quantity: number
+  stockQty: number
   onAdd: (id: number) => void
   onRemove: (id: number) => void
 }
 
-export default function ProductCard({ product, quantity, onAdd, onRemove }: ProductCardProps) {
-  const inStock = true
+export default function ProductCard({ product, quantity, stockQty, onAdd, onRemove }: ProductCardProps) {
+  const inStock = stockQty > 0
   const discountPercent = 10
 
   return (
@@ -20,6 +21,7 @@ export default function ProductCard({ product, quantity, onAdd, onRemove }: Prod
           <span className="product__img">
             <span className="product__emoji">{product.emoji}</span>
             {inStock && <OfferBadge percent={discountPercent} />}
+            {!inStock && <span className="product__badge-stock">ناموجود</span>}
           </span>
           <h3 className="product__name">{product.name} — {product.unit}</h3>
         </div>
@@ -27,7 +29,16 @@ export default function ProductCard({ product, quantity, onAdd, onRemove }: Prod
         <div className="product__footer">
           <Price value={product.price} />
           <div className="product__actions">
-            {quantity === 0 ? (
+            {!inStock ? (
+              <button
+                type="button"
+                className="product__add"
+                disabled
+                aria-label={`${product.name} ناموجود است`}
+              >
+                <svg aria-hidden="true"><use href="./icons.svg#plus" /></svg>
+              </button>
+            ) : quantity === 0 ? (
               <button
                 type="button"
                 className="product__add"
@@ -52,6 +63,7 @@ export default function ProductCard({ product, quantity, onAdd, onRemove }: Prod
                   className="product__qty-btn"
                   onClick={() => onAdd(product.id)}
                   aria-label={`افزودن ${product.name}`}
+                  disabled={quantity >= stockQty}
                 >
                   +
                 </button>

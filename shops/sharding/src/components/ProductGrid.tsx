@@ -1,15 +1,17 @@
-import type { Product, Cart } from '../shared/types'
+import type { Product, Cart, Stock } from '../shared/types'
+import { stockOf } from '../shared/logic/stock'
 import ProductCard from './ProductCard'
 
 type ProductGridProps = {
   title: string
   products: Product[]
   cart: Cart
+  stock: Stock | null
   onAdd: (id: number) => void
   onRemove: (id: number) => void
 }
 
-export default function ProductGrid({ title, products, cart, onAdd, onRemove }: ProductGridProps) {
+export default function ProductGrid({ title, products, cart, stock, onAdd, onRemove }: ProductGridProps) {
   return (
     <section className="product-shelf" id="shelf-main" aria-labelledby="shelf-main-title">
       <div className="container">
@@ -25,6 +27,7 @@ export default function ProductGrid({ title, products, cart, onAdd, onRemove }: 
                   key={product.id}
                   product={product}
                   quantity={cart[String(product.id)] ?? 0}
+                  stockQty={stockOf(product.id, stock)}
                   onAdd={onAdd}
                   onRemove={onRemove}
                 />
