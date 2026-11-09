@@ -1,9 +1,10 @@
 
 import Header from "./components/Header";
 import ProductGrid from "./components/ProductGrid";
-import type { Product } from "./shared/types/products";
+import type { Product,Offer,Stock,Category,} from "./shared/types/products";
 import Hero from "./components/Hero";
 import Footer from "./components/Footer";
+import CategoryGrid from "./components/CategoryGrid";
 
 const SAMPLE: Product[] = [
   {
@@ -36,26 +37,52 @@ const SAMPLE: Product[] = [
   },
 ];
 
+const SAMPLE_OFFERS: Offer[] = [
+  {
+    productId: 202,
+    percent: 20,
+    label: "پیشنهاد ویژه",
+  },
+];
+
+const SAMPLE_STOCK: Stock = {
+  items: {
+    101: 8,
+    201: 5,
+    202: 2,
+    301: 0,
+  },
+};
+
+const SAMPLE_CATEGORIES: Category[] = [
+  { id: 1, name: "میوه و سبزی", slug: "fruits" },
+  { id: 2, name: "لبنیات", slug: "dairy" },
+  { id: 3, name: "نان و غلات", slug: "bakery" },
+];
+
 export default function App() {
+  function handleAdd(productId: number): void {
+  console.log("Add product:", productId);
+}
+function handlePickCategory(id: number | null): void {
+  console.log("Selected category:", id);
+}
   return (
     <>
-      <Header />
+      <Header
+       categories={SAMPLE_CATEGORIES}
+  onPickCategory={handlePickCategory}
+   />
 
       <main id="main-content">
         <Hero />
 
-        <section
-          id="categories"
-          className="categories"
-        >
-          <h2>دسته‌بندی‌ها</h2>
-          <p>
-            دسته‌بندی محصولات در مراحل بعد
-            اضافه می‌شود.
-          </p>
-        </section>
+       <CategoryGrid
+  categories={SAMPLE_CATEGORIES}
+  onPick={handlePickCategory}
+/>
 
-        <ProductGrid products={SAMPLE} />
+        <ProductGrid products={SAMPLE} offers={SAMPLE_OFFERS} stock={SAMPLE_STOCK} onAdd={handleAdd} />
       </main>
 
       <Footer />

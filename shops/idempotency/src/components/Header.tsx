@@ -1,8 +1,14 @@
 import Brand from "./Brand";
 import CategoryNav from "./CategoryNav";
 import CartPanel from "./CartPanel";
+import type { Category } from "../shared/types/products";
 
-export default function Header() {
+type HeaderProps = {
+  categories: Category[];
+  onPickCategory: (id: number | null) => void;
+};
+
+export default function Header({ categories,onPickCategory,} :HeaderProps) {
   return (
     <header className="site-header">
       <div className="top-bar">
@@ -48,7 +54,9 @@ export default function Header() {
           </div>
         </form>
       </div>
-      <CategoryNav/>
+      <CategoryNav
+      categories={categories}
+      onPick={onPickCategory}/>
     </header>
   );
 }
