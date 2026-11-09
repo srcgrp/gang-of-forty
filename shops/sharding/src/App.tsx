@@ -1,4 +1,5 @@
 import { useTheme } from './hooks/useTheme'
+import { useUrlFilters } from './hooks/useUrlFilters'
 import { useEffect, useState } from 'react'
 import type { AppState, Cart, Offer } from './shared/types'
 import { loadAllData } from './shared/api/load-all'
@@ -26,11 +27,18 @@ const EMPTY_STATE: AppState = {
 }
 
 export default function App() {
-  const [theme, setTheme] = useTheme()      
+  const [theme, setTheme] = useTheme()
+  const [filters, setFilters] = useUrlFilters()
   const [data, setData] = useState<AppState>(EMPTY_STATE)
   const [cart, setCart] = useState<Cart>(() => loadCart())
   const [cartOpen, setCartOpen] = useState(false)
-  const [categoryId, setCategoryId] = useState<number | null>(null)
+
+  const activeCategory = filters.category
+    ? data.categories.find((c) => c.slug === filters.category)
+    : undefined
+  const categoryId = activeCategory?.id ?? null
+
+  // const _query = filters.query
 
   useEffect(() => {
     let ignore = false
@@ -81,6 +89,13 @@ export default function App() {
     ? data.products
     : data.products.filter((p) => p.categoryId === categoryId)
 
+  function handlePickCategory(id: number | null): void {
+    const slug = id === null
+      ? ''
+      : data.categories.find((c) => c.id === id)?.slug ?? ''
+    setFilters({ category: slug, query: filters.query }, 'push')
+  }
+
   function handleAdd(id: number): void {
     const max = stockOf(id, data.stock)
     setCart((prev) => addToCart(prev, id, max))
@@ -109,7 +124,7 @@ export default function App() {
         <CategoryNav
           categories={data.categories}
           activeId={categoryId}
-          onPick={setCategoryId}
+          onPick={handlePickCategory}
         />
         <ProductsSection
           res={data.res}
