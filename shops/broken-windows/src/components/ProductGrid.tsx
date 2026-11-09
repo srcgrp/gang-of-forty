@@ -1,19 +1,29 @@
 import ProductCard from "./ProductCard";
+import type { Product, Offer, StockData } from "../types";
 
 type ProductGridProps = {
   title: string;
   id: string;
   nuts?: boolean;
+  products: Product[];
+  offers: Offer[];
+  stock: StockData;
+  onAdd: (id: number) => void;
 };
 
 export default function ProductGrid({
+  title,
   id,
   nuts = false,
+  products,
+  offers,
+  stock,
+  onAdd,
 }: ProductGridProps) {
   return (
     <article className="special-offer" id={id}>
       <div className="special-offer-title">
-        <h2 className="items-header">لبنیات</h2>
+        <h2 className="items-header">{title}</h2>
 
         <a
           className="items-header-link"
@@ -45,34 +55,29 @@ export default function ProductGrid({
       </div>
 
       <div className="special-offer-items">
-        {nuts ? (
-          <>
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard unavailable />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-          </>
-        ) : (
-          <>
-            <ProductCard />
-            <ProductCard discount="۵٪" />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard discount="۳٪" />
-            <ProductCard discount="۵٪" />
-            <ProductCard discount="۵٪" />
-            <ProductCard discount="۵٪" />
-            <ProductCard discount="۵٪" />
-            <ProductCard discount="۵٪" />
-            <ProductCard discount="۵٪" />
-            <ProductCard discount="۵٪" />
-          </>
-        )}
+        {products.map((p) => {
+          const percent = offers.find(
+            (offer) => offer.productId === p.id
+          )?.percent;
+
+          const unavailable = (stock.items[p.id] ?? 0) <= 0;
+
+          const finalPrice =
+            percent !== undefined
+              ? Math.round(p.price * (100 - percent) / 100)
+              : p.price;
+
+          return (
+            <ProductCard
+              key={p.id}
+              product={p}
+              percent={percent}
+              unavailable={unavailable}
+              finalPrice={finalPrice}
+              onAdd={onAdd}
+            />
+          );
+        })}
       </div>
     </article>
   );

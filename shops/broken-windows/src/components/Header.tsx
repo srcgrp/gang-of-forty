@@ -1,8 +1,10 @@
+import { formatNumber } from "../ui/format";
+
 export default function Header(){ 
      return (
 <>
   <input type="checkbox" id="menu-toggle" className="menu-toggle" aria-label="باز و بسته کردن منو"/>
-    <div className="discount" id="notice"></div>
+    <div className="discount" id="notice">ارسال رایگان برای خرید های بالای{formatNumber(200)} هزار تومن</div>
     <div className="header" id="header">
         <label htmlFor="menu-toggle" className="menu-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
