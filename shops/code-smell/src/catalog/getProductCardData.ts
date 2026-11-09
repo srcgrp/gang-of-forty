@@ -14,7 +14,7 @@ export function getProductCardData(
     return {
         ...product,
         offer: offer,
-        isUnavailable: stock[product.id] === 0,
+        isUnavailable: (stock[String(product.id)] ?? 0) <= 0,
         categoryName: category ? category.name : "",
         finalPrice: getFinalPrice(product, offer)
     }

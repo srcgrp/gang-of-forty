@@ -12,14 +12,18 @@ function isCart(value: unknown): value is Cart {
     }
 
     return Object.values(value).every(function (quantity: unknown) {
-        return typeof quantity === "number"
+        return (
+            typeof quantity === "number" &&
+            Number.isInteger(quantity) &&
+            quantity >= 0
+        )
     })
 }
 
 export function loadCart(): Cart {
     try {
         const value: unknown = JSON.parse(
-            localStorage.getItem(cartKey) || "{}"
+            localStorage.getItem(cartKey) ?? "{}"
         )
 
         if (isCart(value)) {
@@ -32,6 +36,11 @@ export function loadCart(): Cart {
     }
 }
 
-export function saveCart(cart: Cart): void {
-    localStorage.setItem(cartKey, JSON.stringify(cart))
+export function saveCart(cart: Cart): boolean {
+    try {
+        localStorage.setItem(cartKey, JSON.stringify(cart))
+        return true
+    } catch {
+        return false
+    }
 }

@@ -41,3 +41,11 @@ export function renderSlowStatus(): void {
         "اتصال کند است؛ هنوز در حال دریافت اطلاعات فروشگاه هستیم..."
     )
 }
+export function renderCartSaveStatus(isSaved: boolean): void {
+    if (!isSaved) {
+        renderStatus({
+            status: "error",
+            message: "کالا به سبد اضافه شد. ذخیرهٔ سبد در این مرورگر ممکن نیست."
+        })
+    }
+}

@@ -15,7 +15,7 @@ export type Category = {
     color: string
 }
 export type Offer = { productId: number, percent: number, label: string }
-export type Stock = { updatedAt: string, items: Record<number, number> }
+export type Stock = { updatedAt: string, items: Record<string, number> }
 export type Link = { label: string, href: string }
 export type Shop = {
     name: string, slogan: string
@@ -46,7 +46,7 @@ export type Home = {
     promos: { text: string, emoji: string, color: string, href: string }[]
     carousels: Carousel[]
 }
-export type Cart = Record<number, number>
+export type Cart = Record<string, number>
 export type CartItem = Pick<Product, "id"> & { quantity: number }
 export type ProductCardData = Product & {
     offer: Offer | undefined

@@ -4,7 +4,7 @@ import { loadCart, saveCart } from "./storage/cartStorage"
 import { cartCount, addToCart } from "./cart/cartRules"
 import { getSelectedCategory, getCatalogCarousels } from "./catalog/catalogSelection"
 import { renderCartCount } from "./ui/renderCartCount"
-import { renderStatus, renderSlowStatus } from "./ui/renderStatus"
+import { renderStatus, renderSlowStatus, renderCartSaveStatus } from "./ui/renderStatus"
 import { initializeHeader } from "./ui/headerBase"
 import { renderPageSections } from "./ui/pageSections"
 import { renderCatalogView } from "./ui/catalogView"
@@ -18,7 +18,7 @@ let cart = loadCart()
 function handleAddToCart(cartItem: CartItem): void {
     cart = addToCart(cart, cartItem)
     renderCartCount(cartCount(cart))
-    saveCart(cart)
+    renderCartSaveStatus(saveCart(cart))
 }
 
 function followRoute(shouldScroll: boolean = false): void {

@@ -12,9 +12,10 @@ export function cartCount(cart: Cart): number {
 
 export function addToCart(cart: Cart, cartItem: CartItem): Cart {
     const updatedCart = { ...cart }
+    const productId = String(cartItem.id)
 
-    updatedCart[cartItem.id] =
-        (updatedCart[cartItem.id] || 0) + cartItem.quantity
+    updatedCart[productId] =
+        (updatedCart[productId] ?? 0) + cartItem.quantity
 
     return updatedCart
 }
