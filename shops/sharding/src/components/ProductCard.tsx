@@ -4,13 +4,14 @@ import OfferBadge from './OfferBadge'
 
 type ProductCardProps = {
   product: Product
+  quantity: number
   onAdd: (id: number) => void
-  quantity: number 
+  onRemove: (id: number) => void
 }
 
-export default function ProductCard({ product, onAdd, quantity }: ProductCardProps) {
+export default function ProductCard({ product, quantity, onAdd, onRemove }: ProductCardProps) {
   const inStock = true
-  const discountPercent = 10 
+  const discountPercent = 10
 
   return (
     <li className="product-item">
@@ -37,9 +38,23 @@ export default function ProductCard({ product, onAdd, quantity }: ProductCardPro
               </button>
             ) : (
               <div className="product__qty">
-                <button type="button" className="product__qty-btn" aria-label={`کم کردن ${product.name}`}>−</button>
-                <span className="product__qty-val">{quantity}</span>
-                <button type="button" className="product__qty-btn" aria-label={`افزودن ${product.name}`}>+</button>
+                <button
+                  type="button"
+                  className="product__qty-btn"
+                  onClick={() => onRemove(product.id)}
+                  aria-label={`کم کردن ${product.name}`}
+                >
+                  −
+                </button>
+                <span className="product__qty-val" aria-live="polite">{quantity}</span>
+                <button
+                  type="button"
+                  className="product__qty-btn"
+                  onClick={() => onAdd(product.id)}
+                  aria-label={`افزودن ${product.name}`}
+                >
+                  +
+                </button>
               </div>
             )}
           </div>

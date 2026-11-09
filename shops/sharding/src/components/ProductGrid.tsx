@@ -1,13 +1,15 @@
-import type { Product } from '../shared/types'
+import type { Product, Cart } from '../shared/types'
 import ProductCard from './ProductCard'
 
 type ProductGridProps = {
   title: string
   products: Product[]
+  cart: Cart
   onAdd: (id: number) => void
+  onRemove: (id: number) => void
 }
 
-export default function ProductGrid({ title, products, onAdd }: ProductGridProps) {
+export default function ProductGrid({ title, products, cart, onAdd, onRemove }: ProductGridProps) {
   return (
     <section className="product-shelf" id="shelf-main" aria-labelledby="shelf-main-title">
       <div className="container">
@@ -22,8 +24,9 @@ export default function ProductGrid({ title, products, onAdd }: ProductGridProps
                 <ProductCard
                   key={product.id}
                   product={product}
+                  quantity={cart[String(product.id)] ?? 0}
                   onAdd={onAdd}
-                  quantity={0} 
+                  onRemove={onRemove}
                 />
               ))}
             </ul>

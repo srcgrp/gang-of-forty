@@ -5,9 +5,10 @@ import ThemeSwitch from './ThemeSwitch'
 type HeaderProps = {
   shopName: string
   cartCount: number
+  onOpenCart: () => void
 }
 
-export default function Header({ shopName, cartCount }: HeaderProps) {
+export default function Header({ shopName, cartCount, onOpenCart }: HeaderProps) {
   return (
     <>
       <Topbar />
@@ -50,18 +51,27 @@ export default function Header({ shopName, cartCount }: HeaderProps) {
               </svg>
               <span className="action__label">حساب من</span>
             </a>
-            <a href="#" className="action action--cart" aria-label="سبد خرید">
+            <button
+              type="button"
+              className="action action--cart"
+              onClick={onOpenCart}
+              aria-label="سبد خرید"
+            >
               <svg className="action__icon" aria-hidden="true">
                 <use href="./icons.svg#cart" />
               </svg>
               <span className="action__label">سبد خرید</span>
-              {cartCount > 0 && <span className="badge">{cartCount}</span>}
-            </a>
+              {cartCount > 0 && (
+                <span className="badge" aria-label={`${cartCount} کالا در سبد`}>
+                  {cartCount}
+                </span>
+              )}
+            </button>
           </div>
 
           <ThemeSwitch />
         </div>
-        
+
         <nav className="header-nav" aria-label="ناوبری اصلی">
           <div className="container header-nav__inner">
             <div className="mega-menu">

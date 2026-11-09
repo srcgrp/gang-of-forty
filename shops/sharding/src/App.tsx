@@ -1,4 +1,6 @@
-import type { Product, Category } from './shared/types'
+import { useState } from 'react'
+import type { Product, Category, Cart } from './shared/types'
+import { addToCart, removeFromCart, removeLine, cartCount } from './features/cart/logic/cart'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import CategoryNav from './components/CategoryNav'
@@ -26,27 +28,64 @@ const SAMPLE_BANNERS = [
   './assets/images/banners/banner-3.webp',
 ]
 
-
 export default function App() {
-  function handleAddToCart(id: number): void {
-    console.log('Add to cart:', id)
+  const [categoryId, setCategoryId] = useState<number | null>(null)
+
+  const [cart, setCart] = useState<Cart>({})
+
+  const [cartOpen, setCartOpen] = useState(false)
+
+  const visibleProducts = categoryId === null
+    ? SAMPLE_PRODUCTS
+    : SAMPLE_PRODUCTS.filter((p) => p.categoryId === categoryId)
+
+  const count = cartCount(cart)
+
+  function handleAdd(id: number): void {
+    const max = 10
+    setCart((prev) => addToCart(prev, id, max))
   }
+
+  function handleRemove(id: number): void {
+    setCart((prev) => removeFromCart(prev, id))
+  }
+
+  function handleRemoveLine(id: number): void {
+    setCart((prev) => removeLine(prev, id))
+  }
+
   return (
     <>
-      <Header shopName="کیوی" cartCount={0} />
+      <Header
+        shopName="کیوی"
+        cartCount={count}
+        onOpenCart={() => setCartOpen(true)}
+      />
 
       <main id="main-content" tabIndex={-1}>
         <Hero banners={SAMPLE_BANNERS} />
-        <CategoryNav categories={SAMPLE_CATEGORIES} />
+        <CategoryNav
+          categories={SAMPLE_CATEGORIES}
+          activeId={categoryId}
+          onPick={setCategoryId}
+        />
         <ProductGrid
-          title="پیشنهادهای ویژه امروز"
-          products={SAMPLE_PRODUCTS}
-          onAdd={handleAddToCart}
+          title={categoryId === null ? 'همه محصولات' : 'محصولات دسته'}
+          products={visibleProducts}
+          cart={cart}
+          onAdd={handleAdd}
+          onRemove={handleRemove}
         />
       </main>
 
       <Footer />
-      <CartPanel />
+      <CartPanel
+        open={cartOpen}
+        cart={cart}
+        products={SAMPLE_PRODUCTS}
+        onClose={() => setCartOpen(false)}
+        onRemoveLine={handleRemoveLine}
+      />
     </>
   )
 }
