@@ -3,14 +3,17 @@ import type { Cart, LoadState } from "./scripts/types";
 import { USER_MESSAGES } from "./api/api-config.ts";
 import { loadCatalog } from "./api/index-api.ts";
 import { addItem } from "./scripts/logic/cart/add-item.ts";
+import { cartCount } from "./scripts/logic/cart/cart-lines.ts";
 import { removeItem } from "./scripts/logic/cart/remove-item.ts";
+import { readCart, saveCart } from "./scripts/storage/cart-storage.ts";
 import Status from "./components/Status.tsx";
 import Storefront from "./components/Storefront.tsx";
 
 export default function App() {
   const [state, setState] = useState<LoadState>({ status: "loading" });
-  const [cart, setCart] = useState<Cart>({});
+  const [cart, setCart] = useState<Cart>(readCart);
   const [categoryId, setCategoryId] = useState<number | null>(null);
+  const shopName = state.status === "success" ? 'سوپرینو' : "";
 
   useEffect(() => {
     let ignore = false;
@@ -28,15 +31,21 @@ export default function App() {
     };
   }, []);
 
-  function handleAdd(id: number) {
+  useEffect(() => {
+    saveCart(cart);
+  }, [cart]);
+
+  useEffect(() => {
+    if (shopName)
+      document.title = `${shopName} (${cartCount(cart).toLocaleString("fa-IR")}) 🛒`;
+  }, [cart, shopName]);
+
+  const handleAdd = (id: number) =>
     setCart((prev) => addItem(prev, String(id)));
-  }
-  function handleRemove(id: number) {
+  const handleRemove = (id: number) =>
     setCart((prev) => removeItem(prev, String(id)));
-  }
-  function handlePick(id: number) {
+  const handlePick = (id: number) =>
     setCategoryId((prev) => (prev === id ? null : id));
-  }
 
   switch (state.status) {
     case "loading":

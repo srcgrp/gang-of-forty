@@ -34,6 +34,9 @@ export default function Storefront({
   onPick,
 }: StorefrontProps) {
   const { products, stock, offers, categories, shop, home } = data;
+  shop.name = shop.name.replace("سوپرمارکت مینا", "سوپرینو");
+  shop.copyright = shop.copyright.replace("سوپرمارکت مینا", "سوپرینو");
+  
   const lines = getPricedLines(cart, products, offers);
   const shared = {
     offers,
