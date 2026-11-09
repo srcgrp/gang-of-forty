@@ -1,28 +1,38 @@
+import type { BannerData, Home } from "../scripts/types";
 import Art from "./Art.tsx";
-import { BANNERS } from "./sampleData.ts";
 
-export default function Hero() {
+type HeroProps = Pick<Home, "hero" | "side">;
+
+function BannerArticle({
+  data,
+  variant,
+}: {
+  data: BannerData;
+  variant: string;
+}) {
+  return (
+    <article className={variant}>
+      <div className={`banner-content ${variant}-content`}>
+        <h2 className={`banner-title ${variant}-title`}>{data.title}</h2>
+        <p className={`banner-details ${variant}-details`}>{data.text}</p>
+        {data.cta && (
+          <a className={`banner-button ${variant}-button`} href={data.cta.href}>
+            {data.cta.label}
+          </a>
+        )}
+      </div>
+      <span className="banner-art">
+        <Art value={data.emoji} alt={data.title} />
+      </span>
+    </article>
+  );
+}
+
+export default function Hero({ hero, side }: HeroProps) {
   return (
     <section className="banner" id="home-banners">
-      {BANNERS.map((b) => (
-        <article key={b.variant} className={b.variant}>
-          <div className={`banner-content ${b.variant}-content`}>
-            <h2 className={`banner-title ${b.variant}-title`}>{b.title}</h2>
-            <p className={`banner-details ${b.variant}-details`}>{b.text}</p>
-            {b.cta && (
-              <a
-                className={`banner-button ${b.variant}-button`}
-                href={b.cta.href}
-              >
-                {b.cta.label}
-              </a>
-            )}
-          </div>
-          <span className="banner-art">
-            <Art value={b.emoji} alt={b.title} />
-          </span>
-        </article>
-      ))}
+      {hero && <BannerArticle data={hero} variant="banner-fruit" />}
+      {side && <BannerArticle data={side} variant="banner-sale" />}
     </section>
   );
 }

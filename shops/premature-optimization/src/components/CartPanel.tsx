@@ -1,9 +1,14 @@
-import { CART_LINES } from "./sampleData.ts";
+import type { CartLine } from "../scripts/types";
 
 const format = new Intl.NumberFormat("fa-IR");
 
-export default function CartPanel() {
-  const count = CART_LINES.reduce((sum, line) => sum + line.quantity, 0);
+type CartPanelProps = {
+  lines: CartLine[];
+  onRemove: (id: number) => void;
+};
+
+export default function CartPanel({ lines, onRemove }: CartPanelProps) {
+  const count = lines.reduce((sum, line) => sum + line.quantity, 0);
 
   return (
     <div className="cart-dropdown-wrap">
@@ -16,10 +21,10 @@ export default function CartPanel() {
       </button>
       <div className="cart-dropdown" id="cart-dropdown">
         <div className="cart-dropdown-items" id="cart-dropdown-items">
-          {CART_LINES.length === 0 ? (
+          {lines.length === 0 ? (
             <p className="cart-empty">سبد خرید شما خالی است</p>
           ) : (
-            CART_LINES.map((line) => (
+            lines.map((line) => (
               <div key={line.id} className="cart-dropdown-item">
                 <div className="cart-dropdown-details">
                   <span className="cart-dropdown-name">{line.name}</span>
@@ -31,6 +36,7 @@ export default function CartPanel() {
                   className="cart-remove-button"
                   type="button"
                   aria-label={`حذف ${line.name} از سبد خرید`}
+                  onClick={() => onRemove(line.id)}
                 >
                   ❌
                 </button>

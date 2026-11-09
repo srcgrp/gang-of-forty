@@ -1,17 +1,32 @@
-import type { Product } from "../scripts/types";
+import type { Offer, Product } from "../scripts/types";
 import OfferBadge from "./OfferBadge.tsx";
 import Price from "./Price.tsx";
-import { CATEGORIES } from "./sampleData.ts";
 
-type ProductCardProps = { product: Product; percent?: number };
+type ProductCardProps = {
+  product: Product;
+  onAdd: (id: number) => void;
+  offer?: Offer;
+  finalPrice?: number;
+  quantity?: number;
+  categoryName?: string;
+};
 
-export default function ProductCard({ product, percent }: ProductCardProps) {
-  const finalPrice = percent
-    ? Math.round((product.price * (100 - percent)) / 100)
-    : product.price;
+export default function ProductCard({
+  product,
+  onAdd,
+  offer,
+  finalPrice = product.price,
+  quantity = 1,
+  categoryName = "محصول",
+}: ProductCardProps) {
+  const soldOut = quantity <= 0;
 
   return (
-    <li className="product-item">
+    <li
+      className={
+        soldOut ? "product-item product-item--unavailable" : "product-item"
+      }
+    >
       <div className="product-icon product-emoji">
         {product.image ? (
           <img src={product.image} alt={product.name} />
@@ -19,23 +34,27 @@ export default function ProductCard({ product, percent }: ProductCardProps) {
           <span className="product-emoji-char">{product.emoji || "🛍️"}</span>
         )}
       </div>
-      <p className="item-tag">
-        {CATEGORIES.find((c) => c.id === product.categoryId)?.name ?? "محصول"}
-      </p>
-      {percent ? <OfferBadge percent={percent} /> : null}
+      <p className="item-tag">{categoryName}</p>
+      {offer && <OfferBadge percent={offer.percent} />}
       <h3 className="item-title">{product.name}</h3>
       <p className="item-description">{product.unit}</p>
-      {percent ? (
+      {offer && (
         <p className="item-old-price">
           <Price value={product.price} />
         </p>
-      ) : null}
+      )}
       <div className="item-buy">
         <Price value={finalPrice} className="item-price" />
         <button
           className="buy-button"
           type="button"
-          title={`افزودن ${product.name} به سبد خرید`}
+          disabled={soldOut}
+          title={
+            soldOut
+              ? "موجودی این محصول تمام شده است"
+              : `افزودن ${product.name} به سبد خرید`
+          }
+          onClick={() => onAdd(product.id)}
         >
           +
         </button>

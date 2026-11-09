@@ -1,10 +1,12 @@
+import type { Promo } from "../scripts/types";
 import Art from "./Art.tsx";
-import { PROMOS } from "./sampleData.ts";
 
-export default function Promos() {
+type PromosProps = { promos: Promo[] };
+
+export default function Promos({ promos }: PromosProps) {
   return (
     <section className="banner-down" id="home-promos">
-      {PROMOS.map((promo, index) => (
+      {promos.map((promo, index) => (
         <article
           key={promo.href}
           className={index % 2 ? "banner-bread" : "banner-breakfast"}

@@ -1,13 +1,25 @@
+import type { CartLine, Category, Shop } from "../scripts/types";
 import CartPanel from "./CartPanel.tsx";
 import SearchBox from "./Search.tsx";
-import { CATEGORIES, SHOP } from "./sampleData.ts";
 
-export default function Header() {
+type HeaderProps = {
+  shop: Shop;
+  categories: Category[];
+  cartLines: CartLine[];
+  onRemove: (id: number) => void;
+};
+
+export default function Header({
+  shop,
+  categories,
+  cartLines,
+  onRemove,
+}: HeaderProps) {
   return (
     <header id="page-header">
       <div className="announcement">
         <span className="announcement-icon"></span>
-        <p id="shop-notice">{SHOP.notice}</p>
+        <p id="shop-notice">{shop.notice}</p>
       </div>
       <div className="header-part">
         <a className="brand brand-link" href="#top">
@@ -16,15 +28,15 @@ export default function Header() {
           </svg>
           <div className="page-brand">
             <h1 className="page-title" id="shop-name">
-              {SHOP.name}
+              {shop.name}
             </h1>
             <span className="page-description" id="shop-slogan">
-              {SHOP.slogan}
+              {shop.slogan}
             </span>
           </div>
         </a>
         <SearchBox />
-        <CartPanel />
+        <CartPanel lines={cartLines} onRemove={onRemove} />
       </div>
       <input
         className="mobile-menu-toggle"
@@ -39,7 +51,7 @@ export default function Header() {
         <div className="menu-categories">
           <span className="menu-categories-span">☷ همه دسته‌ها</span>
           <div className="hidden-content" id="category-menu-links">
-            {CATEGORIES.map((c) => (
+            {categories.map((c) => (
               <a
                 key={c.id}
                 className="hidden-content-links"
@@ -51,7 +63,7 @@ export default function Header() {
           </div>
         </div>
         <div id="shop-menu-links" className="shop-menu-links">
-          {SHOP.menu.map((item) => (
+          {shop.menu.map((item) => (
             <a key={item.href} className="menu-texts" href={item.href}>
               {item.label}
             </a>
