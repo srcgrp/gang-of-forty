@@ -600,3 +600,12 @@ html[data-theme="dark"] .cart-popover {
 .cart-item-action:disabled:hover {
   background: transparent;
 }
+
+.cart-popover {
+  display: none;
+}
+
+.cart-summary:hover .cart-popover,
+.cart-summary:focus-within .cart-popover {
+  display: block;
+}
