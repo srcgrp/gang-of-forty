@@ -35,13 +35,6 @@ export type AppData = {
 
 export const API_FILES = ['products.json', 'stock.json', 'offers.json', 'categories.json', 'home.json', 'shop.json'] as const satisfies readonly string[];
 export type ApiFile = (typeof API_FILES)[number];
-export const FILTER_FIELDS = ['category', 'search'] as const satisfies readonly string[];
-export type FilterField = (typeof FILTER_FIELDS)[number];
-export type CatalogQuery = Record<FilterField, string>;
-export type CarouselView = Carousel & { products: ProductView[] };
-export type CatalogView = {
-    products: ProductView[]; query: CatalogQuery; category: Category | undefined; active: boolean;
-};
 
 export type LoadState =
     | { status: 'loading' }

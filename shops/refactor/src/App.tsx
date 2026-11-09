@@ -1,16 +1,13 @@
-import type {
-  Banner,
-  CartLine,
-  Category,
-  ProductView,
-  ShopInfo,
-} from "./types";
-import CartPanel from "./components/CartPanel";
-import CategoryNav from "./components/CategoryNav";
-import Footer from "./components/Footer";
-import Header from "./components/Header";
-import Hero from "./components/Hero";
-import ProductGrid from "./components/ProductGrid";
+import { useState } from 'react'
+import type { Banner, CartItem, Category, ProductView, ShopInfo } from './types'
+import { addToCart, cartCount, cartLines, cartTotal, removeFromCart } from './features/cart/calculate'
+import { selectProducts } from './features/products/select'
+import CartPanel from './components/CartPanel'
+import CategoryNav from './components/CategoryNav'
+import Footer from './components/Footer'
+import Header from './components/Header'
+import Hero from './components/Hero'
+import ProductGrid from './components/ProductGrid'
 
 const SHOP: ShopInfo = {
   name: "مینا",
@@ -106,39 +103,24 @@ const SIDE: Banner = {
   text: "فقط تا پایان هفته",
   cta: { label: "دیدن محصولات", href: "#dairy" },
 };
-const LINES: CartLine[] = [
-  {
-    id: 101,
-    name: "سیب قرمز دماوند",
-    emoji: "🍎",
-    price: 85000,
-    stock: 24,
-    quantity: 2,
-    subtotal: 170000,
-  },
-];
 
 export default function App() {
-  const total = LINES.reduce((sum, line) => sum + line.subtotal, 0);
-  const handleAdd = (id: number) => console.log("add product", id);
-  const handlePick = (id: number) => console.log("pick category", id);
+ const [categoryId, setCategoryId] = useState<number | null>(null)
+  const [cart, setCart] = useState<CartItem[]>([])
+  const visible = selectProducts(SAMPLE, categoryId)
+  const lines = cartLines(cart, SAMPLE)
+  const count = cartCount(lines)
+  const total = cartTotal(lines)
   return (
     <>
-      <a className="skip-link" href="#content">
-        پرش به محتوای اصلی
-      </a>
-      <Header
-        shop={SHOP}
-        categories={CATEGORIES}
-        cartCount={2}
-        productCount={SAMPLE.length}
-      />
+    <a className="skip-link" href="#content">پرش به محتوای اصلی</a>
+      <Header shop={SHOP} categories={CATEGORIES} cartCount={count} productCount={SAMPLE.length} />
       <main id="content" tabIndex={-1}>
         <h1 className="sr-only">ریفکتور؛ سوپرمارکت آنلاین</h1>
         <Hero main={HERO} side={SIDE} />
-        <CategoryNav categories={CATEGORIES} onPick={handlePick} />
-        <ProductGrid products={SAMPLE} onAdd={handleAdd} />
-        <CartPanel lines={LINES} total={total} />
+        <CategoryNav categories={CATEGORIES} activeId={categoryId} onPick={setCategoryId} />
+        <ProductGrid products={visible} onAdd={(id) => setCart(addToCart(cart, id))} />
+        <CartPanel lines={lines} total={total} onRemove={(id) => setCart(removeFromCart(cart, id))} />
       </main>
       <Footer shop={SHOP} categories={CATEGORIES} />
     </>
