@@ -27,10 +27,13 @@ export function writeFilterUrl(
     else url.searchParams.delete(key);
   }
 
-  if (url.href === window.location.href) return;
-
-  if (mode === "push") window.history.pushState(null, "", url);
-  else window.history.replaceState(null, "", url);
+ if (url.href !== window.location.href) {
+  if (mode === "push") {
+    window.history.pushState(null, "", url);
+  } else {
+    window.history.replaceState(null, "", url);
+  }
+}
 }
 
 export function listenToFilterHistory(

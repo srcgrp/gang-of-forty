@@ -44,12 +44,58 @@
           </nav>
         </details>
       </div>
-      <div class="cart-summary">
-        <img class="cart-icon" src="./asset/icons/cart.svg"
-             alt="" aria-hidden="true">
-        <span>سبد خرید</span>
-        <span class="cart-count" id="cart-count">۰</span>
-      </div>
+<div class="cart-summary" id="cart-widget">
+  <button
+    type="button"
+    class="cart-trigger"
+    id="cart-trigger"
+    aria-expanded="false"
+    aria-controls="cart-popover"
+  >
+    <img class="cart-icon" src="./asset/icons/cart.svg" alt="" aria-hidden="true">
+    <span>سبد خرید</span>
+    <span class="cart-count" id="cart-count">۰</span>
+  </button>
+
+  <section
+    class="cart-popover"
+    id="cart-popover"
+    aria-label="جزئیات سبد خرید"
+    hidden
+  >
+    <div class="cart-popover-header">
+      <h2>سبد خرید شما</h2>
+<button
+  type="button"
+  class="cart-clear"
+  id="cart-clear"
+  aria-label="خالی کردن تمام محصولات سبد خرید"
+>
+  خالی کردن
+</button>
+      <button
+        type="button"
+        class="cart-popover-close"
+        id="cart-popover-close"
+        aria-label="بستن سبد خرید"
+      >
+        ×
+      </button>
+    </div>
+
+    <div class="cart-popover-items" id="cart-popover-items">
+      <p class="cart-empty">
+        در حال آماده‌سازی فهرست سبد خرید...
+      </p>
+    </div>
+
+    <div class="cart-popover-footer">
+      <span>جمع کل:</span>
+      <strong id="cart-subtotal">۰ تومان</strong>
+    </div>
+  </section>
+</div>
+
       <div class="theme-toggle" role="group" aria-label="انتخاب تم">
         <button type="button" class="theme-button"
                 id="theme-light-button" aria-pressed="true"

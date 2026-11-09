@@ -14,6 +14,7 @@ function showError(selector: string, message: string): void {
   container.setAttribute("aria-busy", "false");
 }
 
+
 export function renderLoadState(state: LoadState): void {
   switch (state.status) {
     case "loading":
@@ -27,22 +28,22 @@ export function renderLoadState(state: LoadState): void {
         container.setAttribute("aria-busy", "true");
         container.replaceChildren(createProductSkeletons(4));
       }
-      return;
+      break;
 
     case "success":
       updateSearchPlaceholder(state.products.length);
-      return;
+      break;
 
     case "empty":
       showError("#home-featured-carousels", "محصولی برای نمایش وجود ندارد.");
       showError("#home-category-carousels", "محصولی برای نمایش وجود ندارد.");
-      return;
+      break;
 
     case "error":
       showError("#category-grid", "دریافت دسته‌بندی‌ها با مشکل مواجه شد.");
       showError("#home-featured-carousels", state.message);
       showError("#home-category-carousels", state.message);
-      return;
+      break;
 
     default: {
       const exhaustiveCheck: never = state;
@@ -50,6 +51,7 @@ export function renderLoadState(state: LoadState): void {
     }
   }
 }
+
 export function finishLoading(): void {
   document.querySelectorAll("[aria-busy='true']").forEach((element) => {
     element.setAttribute("aria-busy", "false");
