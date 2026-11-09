@@ -184,11 +184,15 @@ img {
 
 
 }
-
-.nav {
-  text-decoration: none;
+.nav{
+display: grid;
+    grid-template-columns: repeat(9, minmax(0, 1fr));
+    align-items: center;
+    width: 100%;
+    gap: 0;
+    padding: 0;
+    margin: 0;
 }
-
 .nav a {
   text-decoration: none;
   color: #5F5E5A;
@@ -198,7 +202,11 @@ img {
 .nav a:hover {
   color: #0F6E56;
 }
-
+.nav > li {
+    min-width: 0;
+    text-align: center;
+    white-space: nowrap;
+}
 li {
   display: inline;
   margin-left: 30px;
