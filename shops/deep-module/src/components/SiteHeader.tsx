@@ -10,26 +10,26 @@ interface SiteHeaderProps {
   shop: Shop;
   categories: Category[];
   cartCount: number;
+  wishlistCount: number;
+  onOpenWishlist: () => void;
   query: string;
   onQuery: (q: string) => void;
   suggestions: Product[];
   onPickProduct: (p: Product) => void;
   onOpenCart: () => void;
-  wishlistCount: number;
-  onOpenWishlist: () => void;
 }
 
 export function SiteHeader({
   shop,
   categories,
   cartCount,
+  wishlistCount,
+  onOpenWishlist,
   query,
   onQuery,
   suggestions,
   onPickProduct,
   onOpenCart,
-  wishlistCount,
-  onOpenWishlist,
 }: SiteHeaderProps) {
   const { mode, toggle } = useTheme();
 
@@ -68,33 +68,6 @@ export function SiteHeader({
               </span>
             </button>
 
-            <a href="#login" className="action-btn">
-              <span className="action-btn__icon" aria-hidden="true">
-                <svg
-                  viewBox="0 0 24 24"
-                  width="22"
-                  height="22"
-                  focusable="false"
-                >
-                  <path
-                    d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  />
-                  <path
-                    d="M4 20c0-4 4-6 8-6s8 2 8 6"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </span>
-              <span className="action-btn__text">
-                <small>ورود | ثبت‌نام</small>
-              </span>
-            </a>
             <button
               type="button"
               className="action-btn action-btn--wishlist"
@@ -122,6 +95,7 @@ export function SiteHeader({
                 <small>علاقه‌مندی</small>
               </span>
             </button>
+
             <span className="header__divider" aria-hidden="true"></span>
 
             <button
