@@ -1,6 +1,7 @@
 import type { Offer, Product } from "../scripts/types";
 import OfferBadge from "./OfferBadge.tsx";
 import Price from "./Price.tsx";
+import { assetUrl } from './Art.tsx'
 
 type ProductCardProps = {
   product: Product;
@@ -29,7 +30,7 @@ export default function ProductCard({
     >
       <div className="product-icon product-emoji">
         {product.image ? (
-          <img src={product.image} alt={product.name} />
+          <img src={assetUrl(product.image)} alt={product.name} />
         ) : (
           <span className="product-emoji-char">{product.emoji || "🛍️"}</span>
         )}

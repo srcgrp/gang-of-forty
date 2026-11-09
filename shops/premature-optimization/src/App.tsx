@@ -1,104 +1,60 @@
-import { useState } from 'react'
-import type { Cart, Offer, Product, Stock } from './scripts/types'
-import { addItem } from './scripts/logic/cart/add-item.ts'
-import { removeItem } from './scripts/logic/cart/remove-item.ts'
-import { cartCount, cartTotal, getCartLines } from './scripts/logic/cart/cart-lines.ts'
-import { calculatePrice } from './scripts/logic/catalog/calculate-price.ts'
-import { CATEGORIES, HOME, PRODUCTS, SHOP, OFFERS, STOCK } from './components/sampleData.ts'
-import Header from './components/Header.tsx'
-import Hero from './components/Hero.tsx'
-import CategoryNav from './components/CategoryNav.tsx'
-import ProductGrid from './components/ProductGrid.tsx'
-import Promos from './components/Promo.tsx'
-import Footer from './components/Footer.tsx'
-
+import { useEffect, useState } from "react";
+import type { Cart, LoadState } from "./scripts/types";
+import { USER_MESSAGES } from "./api/api-config.ts";
+import { loadCatalog } from "./api/index-api.ts";
+import { addItem } from "./scripts/logic/cart/add-item.ts";
+import { removeItem } from "./scripts/logic/cart/remove-item.ts";
+import Status from "./components/Status.tsx";
+import Storefront from "./components/Storefront.tsx";
 
 export default function App() {
-  const [categoryId, setCategoryId] = useState<number | null>(null)
-  const [cart, setCart] = useState<Cart>({})
+  const [state, setState] = useState<LoadState>({ status: "loading" });
+  const [cart, setCart] = useState<Cart>({});
+  const [categoryId, setCategoryId] = useState<number | null>(null);
 
-  const lines = getCartLines(cart, PRODUCTS).map((line) => ({
-    ...line,
-    price: calculatePrice(line.price, OFFERS.find((o) => o.productId === line.id)),
-  }))
-  const count = cartCount(cart)
-  const total = cartTotal(lines)
-
-  const availableStock: Stock = {
-    ...STOCK,
-    items: Object.fromEntries(
-      Object.entries(STOCK.items).map(([id, quantity]) => [id, quantity - (cart[id] ?? 0)]),
-    ),
-  }
-
-  const specialOffers = PRODUCTS.filter((p) =>
-    OFFERS.some((o) => o.productId === p.id && o.label === 'پیشنهاد ویژه'),
-  )
-
-  const sections = CATEGORIES.filter((c) => categoryId === null || c.id === categoryId)
-    .map((category) => ({
-      category,
-      items: PRODUCTS.filter((p) => p.categoryId === category.id),
-    }))
-    .filter((section) => section.items.length > 0)
+  useEffect(() => {
+    let ignore = false;
+    loadCatalog()
+      .then((next) => {
+        if (ignore) return;
+        setState(next);
+      })
+      .catch(() => {
+        if (ignore) return;
+        setState({ status: "error", message: USER_MESSAGES.unknown });
+      });
+    return () => {
+      ignore = true;
+    };
+  }, []);
 
   function handleAdd(id: number) {
-    if ((availableStock.items[String(id)] ?? 0) <= 0) return
-    setCart((prev) => addItem(prev, String(id)))
+    setCart((prev) => addItem(prev, String(id)));
   }
-
   function handleRemove(id: number) {
-    setCart((prev) => removeItem(prev, String(id)))
+    setCart((prev) => removeItem(prev, String(id)));
   }
-
   function handlePick(id: number) {
-    setCategoryId((prev) => (prev === id ? null : id))
+    setCategoryId((prev) => (prev === id ? null : id));
   }
 
-  return (
-    <>
-      <Header
-        shop={SHOP}
-        categories={CATEGORIES}
-        cartLines={lines}
-        count={count}
-        total={total}
-        onRemove={handleRemove}
-      />
-      <main id="main-content">
-        <Hero hero={HOME.hero} side={HOME.side} />
-        <CategoryNav categories={CATEGORIES} activeId={categoryId} onPick={handlePick} />
-
-        {specialOffers.length > 0 && (
-          <ProductGrid
-            id="offers"
-            title="پیشنهاد ویژه"
-            products={specialOffers}
-            offers={OFFERS}
-            stock={availableStock}
-            categories={CATEGORIES}
-            onAdd={handleAdd}
-          />
-        )}
-
-        <Promos promos={HOME.promos ?? []} />
-
-        {sections.length === 0 && <p>محصولی در این دسته وجود ندارد.</p>}
-
-        {sections.map(({ category, items }) => (
-          <ProductGrid
-            key={category.id}
-            id={category.slug}
-            title={category.name}
-            products={items}
-            offers={OFFERS}
-            stock={availableStock}
-            categories={CATEGORIES}
-            onAdd={handleAdd}
-          />
-        ))}
-      </main>
-      <Footer shop={SHOP} categories={CATEGORIES} />
-    </>
-  )
+  switch (state.status) {
+    case "loading":
+      return <Status message="در حال بارگذاری..." />;
+    case "empty":
+      return <Status message="در حال حاضر محصولی برای نمایش وجود ندارد." />;
+    case "error":
+      return <Status message={state.message} isError />;
+    case "success":
+      return (
+        <Storefront
+          data={state}
+          cart={cart}
+          categoryId={categoryId}
+          onAdd={handleAdd}
+          onRemove={handleRemove}
+          onPick={handlePick}
+        />
+      );
+  }
 }

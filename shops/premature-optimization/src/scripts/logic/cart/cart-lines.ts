@@ -1,4 +1,6 @@
-import type { Cart, CartLine, Product } from "../../types";
+import type { Cart, CartLine, Offer, Product } from "../../types";
+import { calculatePrice } from "../catalog/calculate-price";
+
 export function getCartLines(cart: Cart, products: Product[]): CartLine[] {
   return Object.entries(cart)
     .filter(([, quantity]) => quantity > 0)
@@ -21,4 +23,18 @@ export function cartCount(cart: Cart): number {
 
 export function cartTotal(lines: CartLine[]): number {
   return lines.reduce((sum, line) => sum + line.price * line.quantity, 0);
+}
+
+export function getPricedLines(
+  cart: Cart,
+  products: Product[],
+  offers: Offer[],
+): CartLine[] {
+  return getCartLines(cart, products).map((line) => ({
+    ...line,
+    price: calculatePrice(
+      line.price,
+      offers.find((offer) => offer.productId === line.id),
+    ),
+  }));
 }

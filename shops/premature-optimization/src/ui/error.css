@@ -12,6 +12,13 @@
   line-height: 1.8;
 }
 
+.api-status {
+  margin: 24px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-align: center;
+}
+
 .api-status p {
   margin-bottom: 8px;
 }
