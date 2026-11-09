@@ -509,7 +509,7 @@ footer nav {
 
 .sample-products {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fill, min(100%, 220px));
   gap: 16px;
   padding: 10px 4px 20px;
 }
