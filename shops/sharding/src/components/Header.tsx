@@ -2,7 +2,12 @@ import Topbar from './Topbar'
 import SearchBox from './SearchBox'
 import ThemeSwitch from './ThemeSwitch'
 
-export default function Header() {
+type HeaderProps = {
+  shopName: string
+  cartCount: number
+}
+
+export default function Header({ shopName, cartCount }: HeaderProps) {
   return (
     <>
       <Topbar />
@@ -25,7 +30,7 @@ export default function Header() {
               <img className="logo-img" src="./assets/images/logo/kiwi-fruit.svg" alt="" width="48" height="48" />
             </span>
             <span className="identity__text">
-              <span className="identity__name">کیوی</span>
+              <span className="identity__name">{shopName}</span>
               <span className="identity__tagline">تازه، سریع، ارزان</span>
             </span>
           </a>
@@ -50,13 +55,13 @@ export default function Header() {
                 <use href="./icons.svg#cart" />
               </svg>
               <span className="action__label">سبد خرید</span>
-              <span className="badge" hidden>۰</span>
+              {cartCount > 0 && <span className="badge">{cartCount}</span>}
             </a>
           </div>
 
           <ThemeSwitch />
         </div>
-
+        
         <nav className="header-nav" aria-label="ناوبری اصلی">
           <div className="container header-nav__inner">
             <div className="mega-menu">

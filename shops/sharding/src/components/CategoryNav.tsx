@@ -1,4 +1,10 @@
-export default function CategoryNav() {
+import type { Category } from '../shared/types'
+
+type CategoryNavProps = {
+  categories: Category[]
+}
+
+export default function CategoryNav({ categories }: CategoryNavProps) {
   return (
     <section className="categories" aria-labelledby="categories-title">
       <div className="container">
@@ -26,14 +32,16 @@ export default function CategoryNav() {
             </a>
           </li>
 
-          <li>
-            <a href="#fruits" className="category">
-              <span className="category__img">
-                <span className="product__emoji">🍎</span>
-              </span>
-              <span className="category__name">میوه</span>
-            </a>
-          </li>
+          {categories.map((cat) => (
+            <li key={cat.id}>
+              <a href={`#${cat.slug}`} className="category">
+                <span className="category__img">
+                  <span className="product__emoji">{cat.emoji}</span>
+                </span>
+                <span className="category__name">{cat.name}</span>
+              </a>
+            </li>
+          ))}
         </ul>
       </div>
     </section>

@@ -1,6 +1,10 @@
 import BannerCarousel from './BannerCarousel'
 
-export default function Hero() {
+type HeroProps = {
+  banners: string[]
+}
+
+export default function Hero({ banners }: HeroProps) {
   return (
     <section className="hero" aria-labelledby="hero-title">
       <div className="container">
@@ -26,7 +30,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <BannerCarousel />
+        <BannerCarousel banners={banners} />
       </div>
     </section>
   )
