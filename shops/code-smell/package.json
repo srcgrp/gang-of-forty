@@ -4,7 +4,6 @@
   "private": true,
   "type": "module",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "dev": "vite",
     "check": "tsc --noEmit",

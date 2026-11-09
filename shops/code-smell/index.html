@@ -13,11 +13,9 @@
     <meta content="سوپرمارکت بوی کد" property="og:title">
     <meta content="خرید تازه، سریع و آسان؛ همه چیز تازه و یکجا." property="og:description">
     <link href="/svg/logo.svg" rel="icon" type="image/svg+xml">
-    <link as="font" crossorigin href="font/KalamehWebFaNum-Regular.woff" rel="preload" type="font/woff">
-    <link as="font" crossorigin href="font/KalamehWebFaNum-Bold.woff" rel="preload" type="font/woff">
     <link href="style.css" rel="stylesheet">
     <link href="responsive.css" rel="stylesheet">
-    <script type="module" src="./index.ts"></script>
+    <script type="module" src="/src/main.ts"></script>
 </head>
 
 <body id="top">
@@ -53,6 +51,7 @@
     </header>
     <main id="main-content" tabindex="-1">
         <div class="container" id="page-status" role="status" aria-live="polite"></div>
+        <div class="container" id="cart-save-status" role="status" aria-live="polite" hidden></div>
         <section class="hero" id="hero" hidden></section>
         <section class="section" id="categories" hidden></section>
         <section class="section section--flush-top" id="special-offers" hidden></section>
