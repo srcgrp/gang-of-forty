@@ -3,12 +3,12 @@ import { ProductCard } from "./ProductCard";
 
 interface ProductGridProps {
   products: Product[];
-  cart?: CartLine[];
-  offers?: Offer[];
-  stock?: StockData;
+  cart?: CartLine[] | undefined;
+  offers?: Offer[] | undefined;
+  stock?: StockData | undefined;
   onAdd: (p: Product) => void;
-  wishlistIds?: number[];
-  onToggleWishlist?: (p: Product) => void;
+  wishlistIds?: number[] | undefined;
+  onToggleWishlist?: ((p: Product) => void) | undefined;
 }
 
 export function ProductGrid({
