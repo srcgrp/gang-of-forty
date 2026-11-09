@@ -1,5 +1,11 @@
 import { CATEGORIES, SHOP } from "./sampleData.ts";
 
+const FA_DIGITS = '۰۱۲۳۴۵۶۷۸۹'
+
+export function toFaDigits(text: string): string {
+  return text.replace(/\d/g, (d) => FA_DIGITS[Number(d)])
+}
+
 export default function Footer() {
   return (
     <footer id="contact">
@@ -17,7 +23,7 @@ export default function Footer() {
             <p className="phone-number">
               <span>☎️</span>
               <span className="number" id="shop-phone">
-                {SHOP.phone}
+                {toFaDigits(SHOP.phone)}
               </span>
             </p>
           </div>
