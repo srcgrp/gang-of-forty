@@ -10,7 +10,6 @@ import { renderPageSections } from "./ui/pageSections"
 import { renderCatalogView } from "./ui/catalogView"
 import { handleNavigationLink, scrollToSection, clearSearch, setSearchDisabled } from "./ui/navigation"
 import { readCategorySlug, readSectionId, writeNavigation } from "./data/navigationUrl"
-const api = import.meta.env.VITE_API_URL + "/"
 const shopName = "سوپرمارکت بوی کد"
 let shopData: ShopData | null = null
 let cart = loadCart()
@@ -48,15 +47,16 @@ async function loadPage(): Promise<void> {
     setSearchDisabled(true)
     renderStatus({ status: "loading" })
     try {
-        shopData = await loadShopData(api, renderSlowStatus)
+        shopData = await loadShopData(renderSlowStatus)
         renderPageSections(shopData, shopName, navigate)
         followRoute(true)
         renderStatus(shopData.products.length > 0
             ? { status: "success", products: shopData.products }
             : { status: "empty" }
         )
-    } catch {
-        renderStatus({ status: "error", message: "دریافت اطلاعات فروشگاه انجام نشد. لطفاً صفحه را دوباره بارگذاری کنید." })
+    } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : "دریافت اطلاعات فروشگاه انجام نشد."
+        renderStatus({ status: "error", message: message })
     }
 }
 

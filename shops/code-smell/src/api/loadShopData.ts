@@ -7,19 +7,18 @@ import { loadHome } from "./loadHome"
 import type { ShopData } from "../types"
 
 export async function loadShopData(
-    apiUrl: string,
     onSlow: () => void
 ): Promise<ShopData> {
     let slowTimer: number | undefined
 
     try {
         const requests = Promise.all([
-            loadProducts(apiUrl + "products.json"),
-            loadStock(apiUrl + "stock.json"),
-            loadOffers(apiUrl + "offers.json"),
-            loadCategories(apiUrl + "categories.json"),
-            loadShop(apiUrl + "shop.json"),
-            loadHome(apiUrl + "home.json")
+            loadProducts("products.json"),
+            loadStock("stock.json"),
+            loadOffers("offers.json"),
+            loadCategories("categories.json"),
+            loadShop("shop.json"),
+            loadHome("home.json")
         ])
 
         const slowConnection = new Promise<"slow">(function (resolve) {
