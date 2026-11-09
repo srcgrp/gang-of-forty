@@ -51,7 +51,10 @@ export function ProductCard({
       <button
         type="button"
         className={`product-card__wishlist ${isLiked ? "is-liked" : ""}`}
-        aria-label={isLiked ? "اضافه شد" : "افزودن به علاقه‌مندی"}
+        aria-label={
+          isLiked ? "به علاقه‌مندی‌ها اضافه شد" : "افزودن به علاقه‌مندی"
+        }
+        aria-pressed={isLiked}
         disabled={isLiked}
         onClick={() => {
           if (!isLiked) onToggleWishlist?.(product);
