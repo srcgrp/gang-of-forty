@@ -12,6 +12,8 @@ interface Props {
   offers: Offer[];
   stock: StockData;
   onAdd: (p: Product) => void;
+  wishlistIds?: number[];
+  onToggleWishlist?: (p: Product) => void;
 }
 
 export function SpecialOffers({
