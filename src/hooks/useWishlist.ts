@@ -25,12 +25,17 @@ export function useWishlist() {
       /* ignore */
     }
   }, [ids]);
+
   const add = (id: number, name: string): void => {
+    let wasAdded = false;
     setIds((prev) => {
       if (prev.includes(id)) return prev;
-      toast.success(`${name} به علاقه‌مندی‌ها اضافه شد ❤️`);
+      wasAdded = true;
       return [...prev, id];
     });
+    if (wasAdded) {
+      toast.success(`${name} به علاقه‌مندی‌ها اضافه شد ❤️`);
+    }
   };
 
   const remove = (id: number): void => {
