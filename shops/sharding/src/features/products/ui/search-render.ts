@@ -8,6 +8,7 @@ export function createSearchFor(
   box: HTMLElement,
 ) {
   let fusePromise: Promise<import('fuse.js').default<Product>> | null = null;
+  let request = 0;
   
   const getFuse = () => {
     if (!fusePromise) {
@@ -19,6 +20,7 @@ export function createSearchFor(
   };
 
   const close = () => {
+    request++;
     box.hidden = true;
     box.replaceChildren();
   };
@@ -26,8 +28,9 @@ export function createSearchFor(
   const searchFor = async (query: string): Promise<void> => {
     const q = query.trim();
     if (!q) return close();
+    const currentRequest = ++request;
     const fuse = await getFuse();
-    if (input.value.trim() !== q) return;
+    if (currentRequest !== request || input.value.trim() !== q) return;
     const hits = fuse.search(q).map((r) => r.item).slice(0, 8);
     renderSearchResults(box, hits, toCard);
   };

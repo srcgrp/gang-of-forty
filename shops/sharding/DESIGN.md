@@ -81,13 +81,13 @@ type LoadState =
 
 Empty is not the same as error. I test with `broken.json` and `missing.json` and the page must show a message, not a white page.
 
-Note: If `stock.json` fails, we assume items are in stock to avoid breaking the UI, because the stock limit is a soft constraint.
+Note: If `stock.json` fails, availability is unknown and adding items is disabled. The saved cart is retained and its items can still be removed.
 
 ## 6. Folders
 
 ```text
 src/
-  main.ts               Entry point: wires features and shared, no business logic.
+  main.ts               Entry point: loads data and connects features.
   
   shared/               Code used by more than one feature.
     types.ts            Global types, imports nothing.
@@ -101,11 +101,11 @@ src/
   features/             Isolated business domains.
     cart/               Cart logic, UI panel, and cart rows.
       logic/            Pure cart state functions (add, remove, count).
-      ui/               DOM rendering for the cart panel and buttons.
+      ui/               Cart display, events, and their coordination.
       
     products/           Product shelves, categories, search, and header.
       logic/            Pure product filtering and card mapping.
-      ui/               DOM rendering for products, search, and header.
+      ui/               Product display, search, and filter coordination.
 ```
 
 Imports only go down:
@@ -125,4 +125,4 @@ Other rules: max 70 lines per file, no `utils.ts` or `helpers.ts`, a function wi
 - `href` attributes from the API are validated with `isLink` to prevent `javascript:` XSS.
 - `base: './'` and relative asset paths, so `dist/` works under `/shops/<slug>/`.
 - `.env.development`: `VITE_API_URL=/api`. `.env.production`: `VITE_API_URL=../../api`.
-- Before PR: `npm run check`, `node check-arch.mjs src --shop`, `npm run build` and `npm run preview` with no errors in Console and all files 200 in Network. To test the subfolder, serve the `dist` folder under a subpath.
+- Before PR: `npm run check`, `node check-arch.mjs src --feature-based`, `npm run build` and `npm run preview` with no errors in Console and all files 200 in Network. To test the subfolder, serve the `dist` folder under a subpath.

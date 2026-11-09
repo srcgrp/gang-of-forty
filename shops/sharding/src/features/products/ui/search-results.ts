@@ -35,7 +35,7 @@ export function renderSearchResults(
     if (card.inStock) {
       renderCartButton(actions, card.id, card.name, card.qty, card.stockQty); 
     } else {
-      actions.appendChild(h('span', { className: 'search-results__out', textContent: 'ناموجود' }));
+      actions.appendChild(h('span', { className: 'search-results__out', textContent: card.stockKnown ? 'ناموجود' : 'موجودی نامشخص' }));
     }
 
     const item = h('li', { className: 'search-results__item' });

@@ -1,4 +1,4 @@
-export type IconName = 'plus' | 'grid' | 'arrowRight' | 'arrowLeft' | 'arrowUp' | 'arrowForward' | 'warning' | 'empty';
+type IconName = 'plus' | 'grid' | 'arrowRight' | 'arrowLeft' | 'arrowUp' | 'arrowForward' | 'warning' | 'empty';
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
 export function createIcon(name: IconName, className = ''): SVGSVGElement {

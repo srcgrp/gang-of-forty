@@ -20,7 +20,7 @@ export function renderProductCard(card: Card): HTMLLIElement {
   }
 
   if (!card.inStock) {
-    imgWrap.appendChild(h('span', { className: 'product__badge-stock', textContent: 'ناموجود' }));
+    imgWrap.appendChild(h('span', { className: 'product__badge-stock', textContent: card.stockKnown ? 'ناموجود' : 'موجودی نامشخص' }));
   } else if (card.discountPercent) {
     imgWrap.appendChild(h('span', {
       className: 'product__discount',
@@ -41,7 +41,7 @@ export function renderProductCard(card: Card): HTMLLIElement {
 
   const actions = h('div', { className: 'product__actions', dataset: { productId: String(card.id), productName: card.name } });
   if (!card.inStock) {
-    const addBtn = mkBtn('product__add', `${card.name} ناموجود است`);
+    const addBtn = mkBtn('product__add', card.stockKnown ? `${card.name} ناموجود است` : `موجودی ${card.name} نامشخص است`);
     addBtn.disabled = true;
     addBtn.appendChild(createIcon('plus'));
     actions.appendChild(addBtn);

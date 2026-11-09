@@ -1,7 +1,4 @@
-export type UrlFilters = {
-  category: string;
-  query: string;
-};
+import type { UrlFilters } from '../types';
 
 export function readUrlFilters(): UrlFilters {
   const params = new URLSearchParams(location.search);

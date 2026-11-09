@@ -1,5 +1,4 @@
-import type { Cart, Product, Offer, CartRow, CartView } from '../../shared/types';
-import type { AppState } from '../../shared/state/app-state';
+import type { AppState, Cart, Product, Offer, CartRow, CartView } from '../../shared/types';
 import { finalPrice } from '../../shared/logic/pricing';
 import { cartCount } from './logic/cart';
 import { stockOf } from '../../shared/logic/stock';
@@ -7,50 +6,40 @@ import { stockOf } from '../../shared/logic/stock';
 export function cartRows(cart: Cart, products: Product[], offers: Map<number, Offer>): CartRow[] {
   const rows: CartRow[] = [];
   for (const [id, qty] of Object.entries(cart)) {
-    const p = products.find((x) => x.id === Number(id));
-    if (!p) continue;
-    const unit = finalPrice(p.price, offers.get(p.id));
+    const product = products.find((item) => item.id === Number(id));
+    if (!product) continue;
+    const unitPrice = finalPrice(product.price, offers.get(product.id));
     rows.push({
-      id: p.id,
-      name: p.name,
+      id: product.id,
+      name: product.name,
       qty,
-      lineTotal: unit * qty,
-      ...(p.image === undefined ? {} : { image: p.image }),
-      emoji: p.emoji,
+      lineTotal: unitPrice * qty,
+      ...(product.image === undefined ? {} : { image: product.image }),
+      emoji: product.emoji,
     });
   }
   return rows;
 }
 
-export function cartTotal(cart: Cart, products: Product[], offers: Map<number, Offer>): number {
-  let total = 0;
-  for (const [id, qty] of Object.entries(cart)) {
-    const p = products.find((x) => x.id === Number(id));
-    if (!p) continue;
-    total += finalPrice(p.price, offers.get(p.id)) * qty;
-  }
-  return total;
+export function cartTotal(rows: CartRow[]): number {
+  return rows.reduce((sum, row) => sum + row.lineTotal, 0);
 }
 
-export function buildCartView(s: AppState): CartView {
-  const rows = cartRows(s.cart, s.products, s.offerMap);
-  const total = rows.reduce((sum, r) => sum + r.lineTotal, 0);
-  return { count: cartCount(s.cart), rows, total };
+export function buildCartView(state: AppState): CartView {
+  const rows = cartRows(state.cart, state.products, state.offerMap);
+  const total = cartTotal(rows);
+  return { count: cartCount(state.cart), rows, total };
 }
 
-export function pruneCart(s: AppState): Cart {
-  if (s.products.length === 0 || !s.stock) return s.cart;
+export function pruneCart(state: AppState): Cart {
+  if (state.products.length === 0 || !state.stock) return state.cart;
   const next: Cart = {};
-  for (const [id, qty] of Object.entries(s.cart)) {
-    const numId = Number(id);
-    const q = Math.min(qty, stockOf(numId, s.stock));
-    if (q > 0 && s.products.some((p) => p.id === numId)) {
-      next[id] = q;
+  for (const [id, quantity] of Object.entries(state.cart)) {
+    const productId = Number(id);
+    const availableQuantity = Math.min(quantity, stockOf(productId, state.stock));
+    if (availableQuantity > 0 && state.products.some((product) => product.id === productId)) {
+      next[id] = availableQuantity;
     }
   }
   return next;
-}
-
-export function getCartUI(s: AppState): CartView {
-  return buildCartView(s);
 }

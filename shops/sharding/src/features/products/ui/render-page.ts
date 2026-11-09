@@ -9,7 +9,7 @@ import { setupCarouselControls } from '../../../shared/ui/carousel-controls';
 import { startHeroVideo } from '../../../shared/ui/hero-video';
 import { hideSkeletons } from '../../../shared/ui/skeleton';
 
-export type PageView = {
+type PageView = {
   shop: Shop | null;
   home: Home | null;
   categories: Category[];

@@ -17,7 +17,6 @@ export async function getJSON(path: string): Promise<unknown> {
   try {
     const res = await fetch(`${API_BASE}/${path}`, { signal: controller.signal });
     if (!res.ok) {
-      console.error(`[api] GET ${path} → HTTP ${res.status}`);
       throw new HTTPError(res.status);
     }
     const data: unknown = await res.json();
