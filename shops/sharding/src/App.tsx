@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { AppState, Cart, Offer } from './shared/types'
 import { loadAllData } from './shared/api/load-all'
+import { loadCart, saveCart } from './shared/storage/cart-storage'
 import { stockOf } from './shared/logic/stock'
 import { withCategoryImages } from './shared/logic/content-utils'
 import { addToCart, removeFromCart, removeLine, cartCount } from './features/cart/logic/cart'
@@ -25,7 +26,7 @@ const EMPTY_STATE: AppState = {
 
 export default function App() {
   const [data, setData] = useState<AppState>(EMPTY_STATE)
-  const [cart, setCart] = useState<Cart>({})
+  const [cart, setCart] = useState<Cart>(() => loadCart())
   const [cartOpen, setCartOpen] = useState(false)
   const [categoryId, setCategoryId] = useState<number | null>(null)
 
@@ -62,7 +63,17 @@ export default function App() {
     }
   }, [])
 
+  useEffect(() => {
+    saveCart(cart)
+  }, [cart])
+
   const count = cartCount(cart)
+
+  useEffect(() => {
+    const shopName = data.shop?.name ?? 'فروشگاه'
+    const countPart = count > 0 ? ` · ${count} 🛒` : ''
+    document.title = `${shopName}${countPart}`
+  }, [data.shop?.name, count])
 
   const visibleProducts = categoryId === null
     ? data.products
@@ -91,13 +102,11 @@ export default function App() {
 
       <main id="main-content" tabIndex={-1}>
         <Hero banners={BANNER_IMAGES} />
-
         <CategoryNav
           categories={data.categories}
           activeId={categoryId}
           onPick={setCategoryId}
         />
-
         <ProductsSection
           res={data.res}
           products={visibleProducts}
