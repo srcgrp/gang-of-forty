@@ -29,6 +29,7 @@ export default function App() {
   const [filterOpen, setFilterOpen] = useState(false);
   const [wishlistOpen, setWishlistOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
+
   const state = useShopData(attempt);
   const { cart, addToCart, increase, decrease, removeItem, checkout } =
     useCart();
@@ -91,13 +92,29 @@ export default function App() {
     (filters.discount !== "all" ? 1 : 0);
 
   const handleToggleWishlist = (p: Product): void => {
-    wishlist.toggle(p.id, p.name);
+    wishlist.add(p.id, p.name);
   };
 
   const handleCheckout = () => {
+    const willBecomeUnavailable: string[] = [];
+    for (const item of cart) {
+      const currentStock = effectiveStock.items[item.id] ?? Infinity;
+      if (currentStock !== Infinity && currentStock - item.quantity <= 0) {
+        willBecomeUnavailable.push(item.name);
+      }
+    }
+
     consume(cart);
     checkout();
     setCartOpen(false);
+
+    if (willBecomeUnavailable.length > 0) {
+      setTimeout(() => {
+        toast.error(
+          `📦 ${willBecomeUnavailable.join("، ")} به پایان موجودی رسید`,
+        );
+      }, 1200);
+    }
   };
 
   return (
