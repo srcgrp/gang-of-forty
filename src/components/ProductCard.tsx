@@ -5,16 +5,13 @@ export function ProductCard({
   product,
   stock,
   discountPercent,
-  cartQuantity = 0,
   onAdd,
   isLiked = false,
   onToggleWishlist,
 }: ProductCardProps) {
   const available = stock ?? Infinity;
-  const remaining = available - cartQuantity;
   const isOutOfStock = available === 0;
-  const isFull = remaining <= 0 && available !== Infinity;
-  const unavailable = isOutOfStock || isFull;
+  const unavailable = isOutOfStock;
 
   const originalPrice =
     product.oldPrice ||
@@ -54,10 +51,7 @@ export function ProductCard({
       <button
         type="button"
         className={`product-card__wishlist ${isLiked ? "is-liked" : ""}`}
-        aria-label={
-          isLiked ? "به علاقه‌مندی‌ها اضافه شد" : "افزودن به علاقه‌مندی"
-        }
-        aria-pressed={isLiked}
+        aria-label={isLiked ? "اضافه شد" : "افزودن به علاقه‌مندی"}
         disabled={isLiked}
         onClick={() => {
           if (!isLiked) onToggleWishlist?.(product);
@@ -118,17 +112,17 @@ export function ProductCard({
 
         {available !== Infinity && (
           <div className="product-card__stock-row">
-            {remaining <= 0 ? (
+            {available === 0 ? (
               <span className="product-card__stock product-card__stock--out">
                 ناموجود
               </span>
-            ) : remaining <= 5 ? (
+            ) : available <= 5 ? (
               <span className="product-card__stock product-card__stock--low">
-                ⚡ فقط {faNum(remaining)} عدد
+                ⚡ فقط {faNum(available)} عدد
               </span>
             ) : (
               <span className="product-card__stock product-card__stock--ok">
-                موجودی: {faNum(remaining)} عدد
+                موجودی: {faNum(available)} عدد
               </span>
             )}
           </div>
