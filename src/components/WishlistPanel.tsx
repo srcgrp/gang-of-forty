@@ -1,9 +1,10 @@
-import type { Product } from "../types";
+import type { CartLine, Product } from "../types";
 import { formatPrice } from "../shared/ui/format";
 
 interface Props {
   products: Product[];
   wishlistIds: number[];
+  cart: CartLine[];
   onRemove: (id: number) => void;
   onAdd: (p: Product) => void;
   onClose: () => void;
@@ -13,12 +14,14 @@ interface Props {
 export function WishlistPanel({
   products,
   wishlistIds,
+  cart,
   onRemove,
   onAdd,
   onClose,
   onClear,
 }: Props) {
   const items = products.filter((p) => wishlistIds.includes(p.id));
+  const cartMap = new Map(cart.map((i) => [i.id, i.quantity]));
 
   return (
     <div
@@ -63,55 +66,76 @@ export function WishlistPanel({
             </div>
           ) : (
             <ul className="wishlist-list">
-              {items.map((p) => (
-                <li key={p.id} className="wishlist-item">
-                  <span className="wishlist-item__emoji" aria-hidden="true">
-                    {p.emoji || "📦"}
-                  </span>
-                  <div className="wishlist-item__info">
-                    <strong className="wishlist-item__name">{p.name}</strong>
-                    <small className="wishlist-item__price">
-                      {formatPrice(p.price)}
-                    </small>
-                  </div>
-                  <button
-                    type="button"
-                    className="wishlist-item__add"
-                    onClick={() => onAdd(p)}
-                    aria-label="افزودن به سبد"
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      width="18"
-                      height="18"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
+              {items.map((p) => {
+                const inCart = (cartMap.get(p.id) ?? 0) > 0;
+                return (
+                  <li key={p.id} className="wishlist-item">
+                    <span className="wishlist-item__emoji" aria-hidden="true">
+                      {p.emoji || "📦"}
+                    </span>
+                    <div className="wishlist-item__info">
+                      <strong className="wishlist-item__name">{p.name}</strong>
+                      <small className="wishlist-item__price">
+                        {formatPrice(p.price)}
+                      </small>
+                    </div>
+                    <button
+                      type="button"
+                      className={`wishlist-item__add ${inCart ? "is-added" : ""}`}
+                      onClick={() => {
+                        if (!inCart) onAdd(p);
+                      }}
+                      disabled={inCart}
+                      aria-label={inCart ? "به سبد اضافه شد" : "افزودن به سبد"}
                     >
-                      <path d="M12 5v14M5 12h14" />
-                    </svg>
-                  </button>
-                  <button
-                    type="button"
-                    className="wishlist-item__remove"
-                    onClick={() => onRemove(p.id)}
-                    aria-label="حذف از علاقه‌مندی"
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      width="16"
-                      height="16"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
+                      {inCart ? (
+                        <svg
+                          viewBox="0 0 24 24"
+                          width="18"
+                          height="18"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="3"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M5 13l4 4L19 7" />
+                        </svg>
+                      ) : (
+                        <svg
+                          viewBox="0 0 24 24"
+                          width="18"
+                          height="18"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                        >
+                          <path d="M12 5v14M5 12h14" />
+                        </svg>
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      className="wishlist-item__remove"
+                      onClick={() => onRemove(p.id)}
+                      aria-label="حذف از علاقه‌مندی"
                     >
-                      <path d="M18 6 6 18M6 6l12 12" />
-                    </svg>
-                  </button>
-                </li>
-              ))}
+                      <svg
+                        viewBox="0 0 24 24"
+                        width="16"
+                        height="16"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                      >
+                        <path d="M18 6 6 18M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </li>
+                );
+              })}
             </ul>
           )}
         </div>
