@@ -28,10 +28,12 @@ import Header from "./components/Header";
 import ProductGrid from "./components/ProductGrid";
 import StoreFooter from "./components/StoreFooter";
 import StoreSupport from "./components/StoreSupport";
+import SaleCountdown from "./components/SaleCountdown";
 
 export default function App() {
   const [cart, setCart] = useState<Cart>(() => readCart());
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isSaleCountdownVisible, setIsSaleCountdownVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [loadState, setLoadState] = useState<LoadState>({ status: "loading" });
   const [categories, setCategories] = useState<Categories>([]);
@@ -200,6 +202,19 @@ export default function App() {
       />
       <CategoryNav categories={categories} />
       {home && <Banner slides={[home.hero, home.side]} />}
+      <section className="sale-countdown-area">
+        <button
+          className="sale-countdown-toggle"
+          type="button"
+          onClick={() => setIsSaleCountdownVisible((visible) => !visible)}
+          aria-expanded={isSaleCountdownVisible}
+        >
+          {isSaleCountdownVisible
+            ? "بستن شمارش معکوس تخفیف"
+            : "نمایش شمارش معکوس تخفیف"}
+        </button>
+        {isSaleCountdownVisible && <SaleCountdown />}
+      </section>
       <main>
         {categories.length > 0 && <CategoryGrid categories={categories} />}
         {renderCatalog()}
