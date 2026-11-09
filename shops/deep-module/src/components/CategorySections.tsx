@@ -8,6 +8,8 @@ interface Props {
   offers: Offer[];
   stock: StockData;
   onAdd: (p: Product) => void;
+  wishlistIds?: number[] | undefined;
+  onToggleWishlist?: ((p: Product) => void) | undefined;
 }
 
 export function CategorySections({
@@ -17,6 +19,8 @@ export function CategorySections({
   offers,
   stock,
   onAdd,
+  wishlistIds = [],
+  onToggleWishlist,
 }: Props) {
   return (
     <div className="category-sections">
@@ -53,6 +57,8 @@ export function CategorySections({
               offers={offers}
               stock={stock}
               onAdd={onAdd}
+              wishlistIds={wishlistIds}
+              onToggleWishlist={onToggleWishlist}
             />
           </section>
         );
