@@ -1,3 +1,4 @@
+
 {
   "compilerOptions": {
     "target": "es2023",
@@ -12,11 +13,12 @@
     "verbatimModuleSyntax": true,
     "erasableSyntaxOnly": true,
     "moduleDetection": "force",
+    "jsx": "react-jsx",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true
   },
-"include": ["src/**/*.ts", "vite.config.ts"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "vite.config.ts"]
 }
