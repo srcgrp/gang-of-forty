@@ -7,6 +7,8 @@ export function ProductCard({
   discountPercent,
   cartQuantity = 0,
   onAdd,
+  isLiked = false,
+  onToggleWishlist,
 }: ProductCardProps) {
   const available = stock ?? Infinity;
   const remaining = available - cartQuantity;
@@ -50,17 +52,18 @@ export function ProductCard({
           {faNum(discountPercent)}٪
         </span>
       )}
-
       <button
         type="button"
-        className="product-card__wishlist"
-        aria-label="افزودن به علاقه‌مندی"
+        className={`product-card__wishlist ${isLiked ? "is-liked" : ""}`}
+        aria-label={isLiked ? "حذف از علاقه‌مندی" : "افزودن به علاقه‌مندی"}
+        aria-pressed={isLiked}
+        onClick={() => onToggleWishlist?.(product)}
       >
         <svg
           viewBox="0 0 24 24"
           width="16"
           height="16"
-          fill="none"
+          fill={isLiked ? "currentColor" : "none"}
           stroke="currentColor"
           strokeWidth="2.2"
           strokeLinecap="round"

@@ -79,4 +79,6 @@ export type ProductCardProps = {
   discountPercent?: number | undefined;
   cartQuantity?: number | undefined;
   onAdd: (id: number) => void;
+  isLiked?: boolean | undefined;
+  onToggleWishlist?: ((p: Product) => void) | undefined;
 };
