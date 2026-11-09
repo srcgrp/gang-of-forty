@@ -1,6 +1,3 @@
-/* Amirhossein (Armin) Panahi */
-/* Week 4 - Strategic Supermarket - Arch */
-
 import { isRecord } from '../api/basic-guards';
 import { CATEGORY_PARAM, QUERY_PARAM } from '../types';
 import type { Route } from '../types';
@@ -43,6 +40,8 @@ export function writeQuery(text: string): void {
   const url = routeUrl(next);
   if (url !== location.pathname + location.search + location.hash) goToUrl(url, alreadySearching);
 }
+export const isRouteLink = (link: HTMLAnchorElement): boolean =>
+  link.origin === location.origin && link.pathname === location.pathname && !link.hash;
 export const pushHash = (href: string): void => {
   if (href.startsWith('#') && location.hash !== href) history.pushState(history.state, '', href);
 };

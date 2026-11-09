@@ -1,11 +1,14 @@
+import QuantityControl from './QuantityControl';
+import type { CartControls } from '../cart-controls';
 import type { ProductItem } from '../types';
 
 type ProductCardProps = {
   item: ProductItem;
-  onAdd: (id: number) => void;
+  quantity: number;
+  controls: CartControls;
 };
 
-export default function ProductCard({ item, onAdd }: ProductCardProps) {
+export default function ProductCard({ item, quantity, controls }: ProductCardProps) {
   const { product, price, oldPrice, percent, soldOut, art } = item;
   return (
     <li className={soldOut ? 'card card--out' : 'card'}>
@@ -23,7 +26,8 @@ export default function ProductCard({ item, onAdd }: ProductCardProps) {
             <strong>{price.toLocaleString('fa-IR')} تومان</strong>
           </p>
           <div className="buy__control" data-id={product.id}>
-            <button className="add" type="button" disabled={soldOut} onClick={() => onAdd(product.id)} aria-label={`افزودن ${product.name} به سبد خرید`}>+</button>
+            {quantity > 0 ? <QuantityControl item={item} quantity={quantity} controls={controls} /> :
+            <button className="add" type="button" disabled={soldOut} onClick={() => controls.onAdd(product.id)} aria-label={`افزودن ${product.name} به سبد خرید`}>+</button>}
           </div>
         </div>
       </article>

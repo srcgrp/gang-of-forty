@@ -1,5 +1,5 @@
 import CategoryLink, { type CategoryListProps } from './CategoryLink';
-export default function Footer({ categories, onPick }: CategoryListProps) {
+export default function Footer({ categories, categoryId, onPick }: CategoryListProps) {
   return (
     <footer className="site-footer" id="contact">
       <div className="wrap">
@@ -56,7 +56,7 @@ export default function Footer({ categories, onPick }: CategoryListProps) {
             <ul id="foot-cats">
               {categories.map(category => (
                 <li key={category.id}>
-                  <CategoryLink category={category} onPick={onPick}>
+                  <CategoryLink active={category.id === categoryId} category={category} onPick={onPick}>
                     {category.name}
                   </CategoryLink>
                 </li>

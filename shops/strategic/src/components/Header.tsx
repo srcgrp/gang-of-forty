@@ -1,7 +1,20 @@
-import CategoryLink, { type CategoryListProps } from './CategoryLink';
-import CartPanel from './CartPanel';
+import type { ReactNode } from 'react';
+import type { CategoryListProps } from './CategoryLink';
+import CategoryNav from './CategoryNav';
 
-export default function Header({ categories, onPick }: CategoryListProps) {
+
+type HeaderProps = CategoryListProps & {
+  productCount: number;
+  query: string;
+  onSearch: (text: string) => void;
+  cartCount: number;
+  cartOpen: boolean;
+  onCartToggle: () => void;
+  cartPanel: ReactNode;
+};
+
+export default function Header({ categories, categoryId, onPick, productCount, query, onSearch, cartCount, cartOpen, onCartToggle, cartPanel }: HeaderProps) {
+  const count = cartCount.toLocaleString('fa-IR');
   return (
     <>
     <a className="skip" href="#main">پرش به محتوای اصلی</a>
@@ -130,12 +143,21 @@ export default function Header({ categories, onPick }: CategoryListProps) {
             <small>همه‌چیز برای یک خرید خوب</small>
           </span>
         </a>
-        <form className="search" role="search" action="./">
+        <form className="search" role="search" action="./" onSubmit={event => { event.preventDefault(); onSearch(String(new FormData(event.currentTarget).get("q") ?? "")); }}>
           <label className="sr-only" htmlFor="q">جستجوی کالا</label>
           <span className="search-ico" aria-hidden="true"><svg className="icon" aria-hidden="true" focusable="false"><use href="#i-search" /></svg></span>
-          <input name="q" defaultValue={new URLSearchParams(window.location.search).get("q") ?? ""} id="q" type="search" placeholder="جستجو در میان ۴ کالا…" autoComplete="off" />
+          <input key={query} name="q" defaultValue={query} id="q" type="search" placeholder={`جستجو در میان ${productCount.toLocaleString('fa-IR')} کالا…`} autoComplete="off" />
         </form>
-        <CartPanel />
+        <div id="cart-wrap" className={cartOpen ? 'cart-wrap is-open' : 'cart-wrap'}>
+          <button className="cart" id="cart-btn" type="button" aria-label={`سبد خرید، ${count} کالا`} aria-expanded={cartOpen} onClick={onCartToggle} aria-controls="cart-panel">
+            <span aria-hidden="true">
+              <svg className="icon" aria-hidden="true" focusable="false"><use href="#i-cart" /></svg>
+              <span className="cart-txt">سبد خرید</span>
+            </span>
+            <b id="cart-count" aria-hidden="true">{count}</b>
+          </button>
+          {cartPanel}
+        </div>
         <input className="sr-only menu-toggle" type="checkbox" id="menu-toggle" aria-controls="primary-nav" />
         <label className="burger" htmlFor="menu-toggle">
           <span className="sr-only">باز و بسته کردن منوی اصلی</span>
@@ -149,16 +171,7 @@ export default function Header({ categories, onPick }: CategoryListProps) {
                 <svg className="icon" aria-hidden="true" focusable="false"><use href="#i-menu" /></svg>
                 {" همه دسته‌ها"}
               </a>
-              <ul className="mega-panel">
-                {categories.map(category => (
-                  <li key={category.id}>
-                    <CategoryLink category={category} onPick={onPick}>
-                      <span className="cat__icon cat__icon--menu" aria-hidden="true">{category.emoji}</span>
-                      {category.name}
-                    </CategoryLink>
-                  </li>
-                ))}
-              </ul>
+              <CategoryNav menu categories={categories} categoryId={categoryId} onPick={onPick} />
             </li>
             <li><a href="#offers">پیشنهاد ویژه</a></li>
             <li><a href="#fruits">میوه و سبزی</a></li>

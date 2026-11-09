@@ -1,5 +1,3 @@
-/* Amirhossein (Armin) Panahi */
-
 export type Product = { id: number; categoryId: number; name: string; emoji: string; unit: string; price: number; tags: string[] };
 export type Category = { id: number; slug: string; name: string; emoji: string; color: string };
 export type Offer = { productId: number; percent: number; label: string };
@@ -56,6 +54,7 @@ export type Actions = {
 export const CATEGORY_PARAM = 'category';
 export const QUERY_PARAM = 'q';
 export const OFFERS_VIEW = 'offers';
+export const OFFERS_ID = 0;
 export const SORTS = ['relevance', 'name'] as const;
 export type Sort = (typeof SORTS)[number];
 export type View = { title: string | null; nodes: HTMLElement[] };
