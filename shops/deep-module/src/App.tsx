@@ -1,10 +1,11 @@
-import { useState, useLayoutEffect, useRef } from "react";
+import { useState } from "react";
 import type { Product, StockData } from "./types";
 import { useShopData } from "./hooks/useShopData";
 import { useCart } from "./hooks/useCart";
 import { useSearch } from "./hooks/useSearch";
 import { useFilters, applyFilters } from "./hooks/useFilters";
 import { useConsumedStock } from "./hooks/useConsumedStock";
+import { useWishlist } from "./hooks/useWishlist";
 import { toast } from "./shared/ui/toast";
 import { SiteHeader } from "./components/SiteHeader";
 import { Hero } from "./components/Hero";
@@ -18,42 +19,23 @@ import { ProductGrid } from "./components/ProductGrid";
 import { CartPanel } from "./components/CartPanel";
 import { SiteFooter } from "./components/SiteFooter";
 import { FilterModal } from "./components/FilterModal";
+import { WishlistPanel } from "./components/WishlistPanel";
 
 export default function App() {
   const [attempt, setAttempt] = useState(0);
   const [query, setQuery] = useState("");
   const [cartOpen, setCartOpen] = useState(false);
   const [filterOpen, setFilterOpen] = useState(false);
-
-  // ✅ ref برای ذخیره موقعیت اسکرول
-  const scrollRef = useRef<number>(0);
-  const prevQueryRef = useRef<string>("");
-
+  const [wishlistOpen, setWishlistOpen] = useState(false);
   const state = useShopData(attempt);
   const { cart, addToCart, increase, decrease, removeItem, checkout } =
     useCart();
   const { filters, update, reset } = useFilters();
   const { consumed, consume } = useConsumedStock();
+  const wishlist = useWishlist();
 
   const allProducts = state.status === "success" ? state.data.products : [];
   const suggestions = useSearch(allProducts, query);
-
-  // ✅ وقتی query تغییر می‌کند، موقعیت اسکرول را حفظ کن
-  useLayoutEffect(() => {
-    if (prevQueryRef.current !== query) {
-      const saved = scrollRef.current;
-      prevQueryRef.current = query;
-      if (saved > 0) {
-        window.scrollTo({ top: saved, behavior: "instant" });
-      }
-    }
-  }, [query]);
-
-  // ✅ قبل از هر تغییر query، موقعیت فعلی را ذخیره کن
-  const handleQuery = (q: string) => {
-    scrollRef.current = window.scrollY;
-    setQuery(q);
-  };
 
   if (state.status === "loading") {
     return <div className="global-loader">در حال بارگذاری...</div>;
@@ -106,6 +88,10 @@ export default function App() {
     (filters.stock !== "all" ? 1 : 0) +
     (filters.discount !== "all" ? 1 : 0);
 
+  const handleToggleWishlist = (p: Product): void => {
+    wishlist.toggle(p.id, p.name);
+  };
+
   const handleCheckout = () => {
     consume(cart);
     checkout();
@@ -118,8 +104,10 @@ export default function App() {
         shop={shop}
         categories={categories}
         cartCount={cart.length}
+        wishlistCount={wishlist.ids.length}
+        onOpenWishlist={() => setWishlistOpen(true)}
         query={query}
-        onQuery={handleQuery}
+        onQuery={setQuery}
         suggestions={suggestions}
         onPickProduct={handleAddToCart}
         onOpenCart={() => setCartOpen(true)}
@@ -136,6 +124,8 @@ export default function App() {
           offers={offers}
           stock={effectiveStock}
           onAdd={handleAddToCart}
+          wishlistIds={wishlist.ids}
+          onToggleWishlist={handleToggleWishlist}
         />
         <BannersSection home={home} />
 
@@ -147,6 +137,8 @@ export default function App() {
             offers={offers}
             stock={effectiveStock}
             onAdd={handleAddToCart}
+            wishlistIds={wishlist.ids}
+            onToggleWishlist={handleToggleWishlist}
           />
         )}
 
@@ -213,6 +205,8 @@ export default function App() {
             offers={offers}
             stock={effectiveStock}
             onAdd={handleAddToCart}
+            wishlistIds={wishlist.ids}
+            onToggleWishlist={handleToggleWishlist}
           />
         </section>
       </main>
@@ -252,6 +246,17 @@ export default function App() {
             </div>
           </div>
         </div>
+      )}
+
+      {wishlistOpen && (
+        <WishlistPanel
+          products={products}
+          wishlistIds={wishlist.ids}
+          onRemove={wishlist.remove}
+          onAdd={handleAddToCart}
+          onClose={() => setWishlistOpen(false)}
+          onClear={wishlist.clear}
+        />
       )}
 
       <FilterModal
