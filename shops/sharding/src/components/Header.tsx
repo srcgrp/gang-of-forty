@@ -1,14 +1,23 @@
 import Topbar from './Topbar'
 import SearchBox from './SearchBox'
 import ThemeSwitch from './ThemeSwitch'
+import type { Theme } from '../shared/types'
 
 type HeaderProps = {
   shopName: string
   cartCount: number
+  theme: Theme
+  onTheme: (next: Theme) => void
   onOpenCart: () => void
 }
 
-export default function Header({ shopName, cartCount, onOpenCart }: HeaderProps) {
+export default function Header({
+  shopName,
+  cartCount,
+  theme,
+  onTheme,
+  onOpenCart,
+}: HeaderProps) {
   return (
     <>
       <Topbar />
@@ -69,7 +78,7 @@ export default function Header({ shopName, cartCount, onOpenCart }: HeaderProps)
             </button>
           </div>
 
-          <ThemeSwitch />
+          <ThemeSwitch value={theme} onChange={onTheme} />
         </div>
 
         <nav className="header-nav" aria-label="ناوبری اصلی">

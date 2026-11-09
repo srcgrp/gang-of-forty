@@ -1,3 +1,4 @@
+import { useTheme } from './hooks/useTheme'
 import { useEffect, useState } from 'react'
 import type { AppState, Cart, Offer } from './shared/types'
 import { loadAllData } from './shared/api/load-all'
@@ -25,6 +26,7 @@ const EMPTY_STATE: AppState = {
 }
 
 export default function App() {
+  const [theme, setTheme] = useTheme()      
   const [data, setData] = useState<AppState>(EMPTY_STATE)
   const [cart, setCart] = useState<Cart>(() => loadCart())
   const [cartOpen, setCartOpen] = useState(false)
@@ -97,6 +99,8 @@ export default function App() {
       <Header
         shopName={data.shop?.name ?? 'فروشگاه'}
         cartCount={count}
+        theme={theme}
+        onTheme={setTheme}
         onOpenCart={() => setCartOpen(true)}
       />
 

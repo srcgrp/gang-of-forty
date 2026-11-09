@@ -1,48 +1,38 @@
-export default function ThemeSwitch() {
+import type { Theme } from '../shared/types'
+
+const OPTIONS: { value: Theme; icon: string; label: string }[] = [
+  { value: 'auto', icon: 'themeAuto', label: 'پیروی از سیستم' },
+  { value: 'light', icon: 'themeLight', label: 'حالت روشن' },
+  { value: 'dark', icon: 'themeDark', label: 'حالت تاریک' },
+]
+
+type ThemeSwitchProps = {
+  value: Theme
+  onChange: (next: Theme) => void
+}
+
+export default function ThemeSwitch({ value, onChange }: ThemeSwitchProps) {
   return (
     <div className="theme-switch" role="radiogroup" aria-label="انتخاب پوسته">
-      <input
-        type="radio"
-        name="theme-header"
-        id="theme-header-auto"
-        value="auto"
-        className="theme-switch__input"
-        defaultChecked
-      />
-      <label htmlFor="theme-header-auto" className="theme-switch__label" title="پیروی از سیستم">
-        <span className="visually-hidden">پیروی از تنظیمات سیستم</span>
-        <svg className="theme-switch__icon" aria-hidden="true">
-          <use href="./icons.svg#themeAuto" />
-        </svg>
-      </label>
-
-      <input
-        type="radio"
-        name="theme-header"
-        id="theme-header-light"
-        value="light"
-        className="theme-switch__input"
-      />
-      <label htmlFor="theme-header-light" className="theme-switch__label" title="حالت روشن">
-        <span className="visually-hidden">حالت روشن</span>
-        <svg className="theme-switch__icon" aria-hidden="true">
-          <use href="./icons.svg#themeLight" />
-        </svg>
-      </label>
-
-      <input
-        type="radio"
-        name="theme-header"
-        id="theme-header-dark"
-        value="dark"
-        className="theme-switch__input"
-      />
-      <label htmlFor="theme-header-dark" className="theme-switch__label" title="حالت تاریک">
-        <span className="visually-hidden">حالت تاریک</span>
-        <svg className="theme-switch__icon" aria-hidden="true">
-          <use href="./icons.svg#themeDark" />
-        </svg>
-      </label>
+      {OPTIONS.map((opt) => (
+        <div key={opt.value} className="theme-switch__item">
+          <input
+            type="radio"
+            name="theme"
+            id={`theme-${opt.value}`}
+            value={opt.value}
+            className="theme-switch__input"
+            checked={value === opt.value}
+            onChange={() => onChange(opt.value)}
+          />
+          <label htmlFor={`theme-${opt.value}`} className="theme-switch__label" title={opt.label}>
+            <span className="visually-hidden">{opt.label}</span>
+            <svg className="theme-switch__icon" aria-hidden="true">
+              <use href={`./icons.svg#${opt.icon}`} />
+            </svg>
+          </label>
+        </div>
+      ))}
     </div>
   )
 }

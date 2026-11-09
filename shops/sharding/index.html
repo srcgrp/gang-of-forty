@@ -9,6 +9,18 @@
   <link rel="icon" href="./favicon.ico">
   <link rel="stylesheet" href="/styles/main.css">
 </head>
+<script>
+  (function () {
+    try {
+      var key = 'sharding:v1:theme';
+      var t = localStorage.getItem(key);
+      if (t !== 'light' && t !== 'dark' && t !== 'auto') t = 'auto';
+      document.documentElement.dataset.theme = t;
+    } catch (e) {
+      document.documentElement.dataset.theme = 'auto';
+    }
+  })();
+</script>
 <body>
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
