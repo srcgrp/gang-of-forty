@@ -18,3 +18,7 @@ export function cartCount(cart: Cart): number {
     0,
   );
 }
+
+export function cartTotal(lines: CartLine[]): number {
+  return lines.reduce((sum, line) => sum + line.price * line.quantity, 0);
+}

@@ -3,10 +3,15 @@ import Art from "./Art.tsx";
 
 type CategoryNavProps = {
   categories: Category[];
+  activeId: number | null;
   onPick: (id: number) => void;
 };
 
-export default function CategoryNav({ categories, onPick }: CategoryNavProps) {
+export default function CategoryNav({
+  categories,
+  activeId,
+  onPick,
+}: CategoryNavProps) {
   return (
     <section className="categories" id="categories">
       <h2 className="categories-title">دسته‌بندی‌ها</h2>
@@ -14,8 +19,11 @@ export default function CategoryNav({ categories, onPick }: CategoryNavProps) {
         {categories.map((c) => (
           <a
             key={c.id}
-            className="categories-box"
+            className={
+              c.id === activeId ? "categories-box is-active" : "categories-box"
+            }
             href={`#${c.slug}`}
+            aria-current={c.id === activeId ? "true" : undefined}
             onClick={() => onPick(c.id)}
           >
             <span

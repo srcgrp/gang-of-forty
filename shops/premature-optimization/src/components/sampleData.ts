@@ -1,4 +1,4 @@
-import type { CartLine, Category, Home, Shop, Product, Offer, Stock } from "../scripts/types";
+import type { Category, Home, Shop, Product, Offer, Stock } from "../scripts/types";
 
 export const SHOP: Shop = {
   name: "سوپرینو",
@@ -21,8 +21,7 @@ export const SHOP: Shop = {
     { label: "پیشنهاد ویژه", href: "#offers" },
     { label: "لبنیات", href: "#dairy" },
     { label: "میوه و سبزیجات", href: "#fruits" },
-    { label: "خواربار و نان", href: "#bread" },
-    { label: "تماس با ما", href: "#contact" },
+    { label: "خواربار و نان", href: "#bakery" }
   ],
   copyright: "© ۱۴۰۵ سوپرینو · عضو دار و دسته چهل‌نفره",
 };
@@ -72,15 +71,6 @@ export const HOME: Home = {
   ]
 };
 
-export const CART_LINES: CartLine[] = [
-  {
-    id: 101,
-    name: "شیر پرچرب حاوی ویتامین D3 میهن",
-    price: 108500,
-    quantity: 2,
-  },
-  { id: 102, name: "شیر کاکائو پرچرب تازه میهن", price: 50400, quantity: 1 },
-];
 
 export const PRODUCTS: Product[] = [
   {"id": 101, "categoryId": 1, "name": "سیب قرمز دماوند", "emoji": "🍎", "unit": "۱ کیلو", "price": 85000, "tags": ["تازه"]},

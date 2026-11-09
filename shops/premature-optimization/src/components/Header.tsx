@@ -6,6 +6,8 @@ type HeaderProps = {
   shop: Shop;
   categories: Category[];
   cartLines: CartLine[];
+  count: number;
+  total: number;
   onRemove: (id: number) => void;
 };
 
@@ -13,6 +15,8 @@ export default function Header({
   shop,
   categories,
   cartLines,
+  count,
+  total,
   onRemove,
 }: HeaderProps) {
   return (
@@ -36,7 +40,7 @@ export default function Header({
           </div>
         </a>
         <SearchBox />
-        <CartPanel lines={cartLines} onRemove={onRemove} />
+        <CartPanel lines={cartLines} count={count} total={total} onRemove={onRemove} />
       </div>
       <input
         className="mobile-menu-toggle"

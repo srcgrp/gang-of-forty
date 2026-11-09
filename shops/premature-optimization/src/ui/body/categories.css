@@ -60,6 +60,15 @@
   object-fit: contain;
 }
 
+.categories-box.is-active .categories-icon {
+  outline: 3px solid var(--navy);
+  outline-offset: 3px;
+}
+
+.categories-box.is-active .categories-name {
+  font-weight: 800;
+}
+
 @media (min-width: 1500px) {
   .banner,
   .banner-down,
