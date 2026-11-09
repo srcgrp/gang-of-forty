@@ -5,8 +5,8 @@
 
 @font-face {
   font-family: Peyda;
-  src: url(Peyda-SemiBold.ttf);
-  src: url(Peyda-Regular.ttf);
+  src: url(../fonts/Peyda-SemiBold.ttf);
+  src: url(../fonts/Peyda-Regular.ttf);
   font-weight: Bold;
   font-weight: Regular;
 }

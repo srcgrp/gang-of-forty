@@ -1,0 +1,32 @@
+.header-part {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+  padding: 0.5rem 3rem;
+  border-bottom: 2px solid rgb(31 112 178 / 60%);
+}
+
+
+@media (max-width: 1100px) {
+  .header-part {
+      gap: 18px;
+      padding: 12px 24px;
+    }
+}
+
+@media (max-width: 700px) {
+  .header-part {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      padding: 10px 14px;
+    }
+}
+
+@media (max-width: 380px) {
+  .header-part {
+      padding: 8px 10px;
+    }
+}
