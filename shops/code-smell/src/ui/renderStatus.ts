@@ -42,10 +42,12 @@ export function renderSlowStatus(): void {
     )
 }
 export function renderCartSaveStatus(isSaved: boolean): void {
-    if (!isSaved) {
-        renderStatus({
-            status: "error",
-            message: "کالا به سبد اضافه شد. ذخیرهٔ سبد در این مرورگر ممکن نیست."
-        })
+    const cartStatus = document.querySelector<HTMLElement>("#cart-save-status")
+
+    if (cartStatus) {
+        cartStatus.hidden = isSaved
+        cartStatus.textContent = isSaved
+            ? ""
+            : "کالا به سبد اضافه شد. ذخیرهٔ سبد در این مرورگر ممکن نیست."
     }
 }
