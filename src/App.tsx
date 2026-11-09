@@ -272,13 +272,13 @@ export default function App() {
         <WishlistPanel
           products={products}
           wishlistIds={wishlist.ids}
+          cart={cart}
           onRemove={wishlist.remove}
           onAdd={handleAddToCart}
           onClose={() => setWishlistOpen(false)}
           onClear={wishlist.clear}
         />
       )}
-
       <FilterModal
         isOpen={filterOpen}
         onClose={() => setFilterOpen(false)}
