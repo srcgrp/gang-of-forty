@@ -3713,6 +3713,7 @@ main > section.products-section {
   }
 }
 .cart-item {
+  margin: 10px 0px;
   display: grid;
   grid-template:
     "media info remove" "media controls price"/64px minmax(0, 1fr)
@@ -5859,4 +5860,47 @@ html {
   50% {
     transform: scale(1.05);
   }
+}
+.cart-item__btn {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--r-sm);
+  background: transparent;
+  border: 0;
+  color: var(--color-primary, var(--primary, #ffb000));
+  cursor: pointer;
+  transition:
+    background var(--duration-base, 200ms) ease,
+    color var(--duration-base, 200ms) ease,
+    transform 0.2s var(--spring, ease);
+}
+
+.cart-item__btn svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+
+@media (hover: hover) {
+  .cart-item__btn:hover {
+    background: var(--color-primary, var(--brand, #ffb000));
+    color: var(--color-surface, white);
+  }
+}
+
+.cart-item__btn:active {
+  transform: scale(0.85);
+}
+
+.cart-item__btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  background: transparent;
+}
+
+.cart-item__btn:disabled:hover {
+  background: transparent;
+  color: var(--color-text-muted, #999);
 }
