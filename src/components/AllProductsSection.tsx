@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import type { CartLine, Offer, Product, StockData } from "../types";
 import type { FilterValues, SortFilter } from "../hooks/useFilters";
 import { ProductGrid } from "./ProductGrid";
@@ -9,8 +8,6 @@ const SORTS: { v: SortFilter; l: string }[] = [
   { v: "price-desc", l: "گران‌ترین" },
   { v: "name", l: "الفبا" },
 ];
-
-const PAGE_SIZE = 8;
 
 interface Props {
   filtered: Product[];
@@ -28,20 +25,6 @@ interface Props {
 }
 
 export function AllProductsSection(p: Props) {
-  const [visible, setVisible] = useState(PAGE_SIZE);
-
-  useEffect(() => {
-    setVisible(PAGE_SIZE);
-  }, [
-    p.filters.categoryId,
-    p.filters.stock,
-    p.filters.discount,
-    p.filters.sort,
-  ]);
-
-  const visibleProducts = p.filtered.slice(0, visible);
-  const hasMore = visible < p.filtered.length;
-
   return (
     <section id="all-products" className="products-section">
       <header className="products-section__head all-products__header">
@@ -93,7 +76,7 @@ export function AllProductsSection(p: Props) {
         </button>
       </header>
       <ProductGrid
-        products={visibleProducts}
+        products={p.filtered}
         cart={p.cart}
         offers={p.offers}
         stock={p.stock}
@@ -101,35 +84,6 @@ export function AllProductsSection(p: Props) {
         wishlistIds={p.wishlistIds}
         onToggleWishlist={p.onToggleWishlist}
       />
-      {hasMore && (
-        <div className="all-products__more">
-          <button
-            type="button"
-            className="all-products__more-btn"
-            onClick={() => setVisible((v) => v + PAGE_SIZE)}
-          >
-            <span>مشاهده محصولات بیشتر</span>
-            <svg
-              viewBox="0 0 24 24"
-              width="18"
-              height="18"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M6 9l6 6 6-6" />
-            </svg>
-            <span className="all-products__more-count">
-              {Math.min(PAGE_SIZE, p.filtered.length - visible).toLocaleString(
-                "fa-IR",
-              )}{" "}
-              مورد دیگر
-            </span>
-          </button>
-        </div>
-      )}
     </section>
   );
 }
