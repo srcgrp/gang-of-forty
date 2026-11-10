@@ -38,8 +38,11 @@ export default function App() {
     : undefined
   const categoryId = activeCategory?.id ?? null
 
-  // const _query = filters.query
+  const query = filters.query
 
+  function handleQuery(next: string): void {
+    setFilters({ category: filters.category, query: next })
+  }
   useEffect(() => {
     let ignore = false
 
@@ -117,6 +120,10 @@ export default function App() {
         theme={theme}
         onTheme={setTheme}
         onOpenCart={() => setCartOpen(true)}
+        products={data.products}
+        query={query}
+        onQuery={handleQuery}
+        onAddToCart={handleAdd}
       />
 
       <main id="main-content" tabIndex={-1}>

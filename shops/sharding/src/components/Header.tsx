@@ -1,7 +1,7 @@
 import Topbar from './Topbar'
 import SearchBox from './SearchBox'
 import ThemeSwitch from './ThemeSwitch'
-import type { Theme } from '../shared/types'
+import type { Theme, Product } from '../shared/types'
 
 type HeaderProps = {
   shopName: string
@@ -9,6 +9,10 @@ type HeaderProps = {
   theme: Theme
   onTheme: (next: Theme) => void
   onOpenCart: () => void
+  products: Product[]
+  query: string
+  onQuery: (next: string) => void
+  onAddToCart: (id: number) => void
 }
 
 export default function Header({
@@ -17,6 +21,10 @@ export default function Header({
   theme,
   onTheme,
   onOpenCart,
+  products,
+  query,
+  onQuery,
+  onAddToCart,
 }: HeaderProps) {
   return (
     <>
@@ -45,7 +53,12 @@ export default function Header({
             </span>
           </a>
 
-          <SearchBox />
+          <SearchBox
+            products={products}
+            query={query}
+            onQuery={onQuery}
+            onAdd={onAddToCart}
+          />
 
           <div className="header__actions">
             <a href="#" className="action action--location" aria-label="موقعیت مکانی">
