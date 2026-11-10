@@ -26,12 +26,13 @@ export function useCart() {
           name: product.name,
           price: product.price,
           quantity: 1,
-          emoji: product.emoji,    
+          emoji: product.emoji,
         },
       ];
     });
     toast.success(`${product.name} به سبد اضافه شد ✅`);
   };
+
   const increase = (id: number) => {
     setCart((prev) =>
       prev.map((i) => (i.id === id ? { ...i, quantity: i.quantity + 1 } : i)),
