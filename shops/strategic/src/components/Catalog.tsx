@@ -2,7 +2,7 @@ import type { CartControls } from '../cart-controls';
 import type { Category, ProductItem } from '../types';
 import ProductGrid from './ProductGrid';
 
-type CatalogProps = { title: string; category?: Category | undefined; items: ProductItem[]; controls: CartControls };
+type CatalogProps = { title: string; category?: Category | undefined; items: readonly ProductItem[]; controls: CartControls };
 
 export default function Catalog({ title, category, items, controls }: CatalogProps) {
   return (

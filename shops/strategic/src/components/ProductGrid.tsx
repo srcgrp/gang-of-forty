@@ -3,7 +3,7 @@ import type { ProductItem } from '../types';
 import { qtyOf } from '../features/cart/cart';
 import ProductCard from './ProductCard';
 
-export default function ProductGrid({ items, controls }: { items: ProductItem[]; controls: CartControls }) {
+export default function ProductGrid({ items, controls }: { items: readonly ProductItem[]; controls: CartControls }) {
   return (
     <>
       {items.map(item => (
