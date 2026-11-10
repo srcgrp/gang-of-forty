@@ -1,5 +1,5 @@
-import type { Category } from "../scripts/types";
-import Art from "./Art.tsx";
+import type { Category } from "../../scripts/types";
+import { Art } from "../shared/Art.tsx";
 
 type CategoryNavProps = {
   categories: Category[];

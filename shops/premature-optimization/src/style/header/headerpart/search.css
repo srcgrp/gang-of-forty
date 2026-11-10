@@ -44,9 +44,17 @@
 
 .search-results .products {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  width: auto;
-  margin: 20px 36px 0;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 20px 0 0;
+  padding: 0 36px;
+}
+
+.search-results .products > * {
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 

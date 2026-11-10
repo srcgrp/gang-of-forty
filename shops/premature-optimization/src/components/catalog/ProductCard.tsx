@@ -1,11 +1,11 @@
-import type { Offer, Product } from "../scripts/types";
-import OfferBadge from "./OfferBadge.tsx";
-import Price from "./Price.tsx";
-import { assetUrl } from './Art.tsx'
+import type { Offer, Product } from "../../scripts/types";
+import OfferBadge from "../shared/OfferBadge.tsx";
+import Price from "../shared/Price.tsx";
+import { assetUrl } from "../../lib/assetUrl.ts";
 
 type ProductCardProps = {
   product: Product;
-  onAdd: (id: number) => void;
+  onAdd: (id: number, button: HTMLButtonElement) => void;
   offer?: Offer;
   finalPrice?: number;
   quantity?: number;
@@ -55,7 +55,7 @@ export default function ProductCard({
               ? "موجودی این محصول تمام شده است"
               : `افزودن ${product.name} به سبد خرید`
           }
-          onClick={() => onAdd(product.id)}
+          onClick={(e) => onAdd(product.id, e.currentTarget)}
         >
           +
         </button>

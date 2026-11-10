@@ -4,51 +4,45 @@ import {
   cartTotal,
   getPricedLines,
 } from "../scripts/logic/cart/cart-lines.ts";
-import {
-  categorySections,
-  specialOffers,
-} from "../scripts/logic/catalog/sections.ts";
 import { availableStock } from "../scripts/logic/stock/available-stock.ts";
-import Header from "./Header.tsx";
-import Hero from "./Hero.tsx";
-import CategoryNav from "./CategoryNav.tsx";
-import ProductGrid from "./ProductGrid.tsx";
-import Promos from "./Promo.tsx";
-import Footer from "./Footer.tsx";
+import Catalog from "./catalog/Catalog.tsx";
+import Footer from "./layout/Footer.tsx";
+import Header from "./layout/Header.tsx";
 
 type StorefrontProps = {
   data: CatalogData;
   cart: Cart;
   categoryId: number | null;
-  onAdd: (id: number) => void;
+  query: string;
+  onAdd: (id: number, button: HTMLButtonElement) => void;
   onRemove: (id: number) => void;
   onPick: (id: number) => void;
+  onQuery: (query: string) => void;
 };
 
 export default function Storefront({
   data,
   cart,
   categoryId,
+  query,
   onAdd,
   onRemove,
   onPick,
+  onQuery,
 }: StorefrontProps) {
-  const { products, stock, offers, categories, shop, home } = data;
-  shop.name = shop.name.replace("سوپرمارکت مینا", "سوپرینو");
-  shop.copyright = shop.copyright.replace("سوپرمارکت مینا", "سوپرینو");
-  
-  const lines = getPricedLines(cart, products, offers);
-  const shared = {
-    offers,
-    stock: availableStock(stock, cart),
-    categories,
-    onAdd,
+  const { products, stock, offers, categories } = data;
+  const shop = {
+    ...data.shop,
+    name: "سوپرینو",
+    copyright: "© ۱۴۰۵ سوپرینو · عضو دار و دسته چهل‌نفره",
   };
-  const special = specialOffers(products, offers);
-  const sections = categorySections(products, categories, categoryId);
+  const lines = getPricedLines(cart, products, offers);
 
   return (
     <>
+      <a className="skip-link" href="#main-content">
+        پرش به محتوای اصلی
+      </a>
       <Header
         shop={shop}
         categories={categories}
@@ -56,34 +50,18 @@ export default function Storefront({
         count={cartCount(cart)}
         total={cartTotal(lines)}
         onRemove={onRemove}
+        productCount={products.length}
+        query={query}
+        onQuery={onQuery}
       />
-      <main id="main-content">
-        <Hero hero={home.hero} side={home.side} />
-        <CategoryNav
-          categories={categories}
-          activeId={categoryId}
-          onPick={onPick}
-        />
-        {special.length > 0 && (
-          <ProductGrid
-            id="offers"
-            title="پیشنهاد ویژه"
-            products={special}
-            {...shared}
-          />
-        )}
-        <Promos promos={home.promos ?? []} />
-        {sections.length === 0 && <p>محصولی در این دسته وجود ندارد.</p>}
-        {sections.map(({ category, items }) => (
-          <ProductGrid
-            key={category.id}
-            id={category.slug}
-            title={category.name}
-            products={items}
-            {...shared}
-          />
-        ))}
-      </main>
+      <Catalog
+        data={data}
+        stock={availableStock(stock, cart)}
+        categoryId={categoryId}
+        query={query}
+        onAdd={onAdd}
+        onPick={onPick}
+      />
       <Footer shop={shop} categories={categories} />
     </>
   );

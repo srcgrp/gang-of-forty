@@ -6,14 +6,21 @@ import { addItem } from "./scripts/logic/cart/add-item.ts";
 import { cartCount } from "./scripts/logic/cart/cart-lines.ts";
 import { removeItem } from "./scripts/logic/cart/remove-item.ts";
 import { readCart, saveCart } from "./scripts/storage/cart-storage.ts";
-import Status from "./components/Status.tsx";
-import Storefront from "./components/Storefront.tsx";
+import { readQuery, writeQuery } from "./scripts/storage/query-url.ts";
+import {
+  addedFeedback,
+  removedFeedback,
+  saveFailedFeedback,
+} from "./lib/animations/feedback.ts";
+import Page from "./components/Page.tsx";
 
 export default function App() {
   const [state, setState] = useState<LoadState>({ status: "loading" });
   const [cart, setCart] = useState<Cart>(readCart);
   const [categoryId, setCategoryId] = useState<number | null>(null);
-  const shopName = state.status === "success" ? 'سوپرینو' : "";
+  const [query, setQuery] = useState(readQuery);
+  const [attempt, setAttempt] = useState(0);
+  const shopName = state.status === "success" ? "سوپرینو" : "";
 
   useEffect(() => {
     let ignore = false;
@@ -29,41 +36,43 @@ export default function App() {
     return () => {
       ignore = true;
     };
-  }, []);
+  }, [attempt]);
 
   useEffect(() => {
-    saveCart(cart);
+    if (!saveCart(cart)) saveFailedFeedback();
   }, [cart]);
-
+  useEffect(() => writeQuery(query), [query]);
   useEffect(() => {
     if (shopName)
       document.title = `${shopName} (${cartCount(cart).toLocaleString("fa-IR")}) 🛒`;
   }, [cart, shopName]);
 
-  const handleAdd = (id: number) =>
+  const handleAdd = (id: number, button: HTMLButtonElement) => {
     setCart((prev) => addItem(prev, String(id)));
-  const handleRemove = (id: number) =>
+    addedFeedback(button);
+  };
+  const handleRemove = (id: number) => {
     setCart((prev) => removeItem(prev, String(id)));
+    removedFeedback();
+  };
   const handlePick = (id: number) =>
     setCategoryId((prev) => (prev === id ? null : id));
+  const handleRetry = () => {
+    setState({ status: "loading" });
+    setAttempt((n) => n + 1);
+  };
 
-  switch (state.status) {
-    case "loading":
-      return <Status message="در حال بارگذاری..." />;
-    case "empty":
-      return <Status message="در حال حاضر محصولی برای نمایش وجود ندارد." />;
-    case "error":
-      return <Status message={state.message} isError />;
-    case "success":
-      return (
-        <Storefront
-          data={state}
-          cart={cart}
-          categoryId={categoryId}
-          onAdd={handleAdd}
-          onRemove={handleRemove}
-          onPick={handlePick}
-        />
-      );
-  }
+  return (
+    <Page
+      state={state}
+      cart={cart}
+      categoryId={categoryId}
+      query={query}
+      onAdd={handleAdd}
+      onRemove={handleRemove}
+      onPick={handlePick}
+      onQuery={setQuery}
+      onRetry={handleRetry}
+    />
+  );
 }

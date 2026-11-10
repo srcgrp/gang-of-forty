@@ -1,6 +1,6 @@
-import type { CartLine, Category, Shop } from "../scripts/types";
-import CartPanel from "./CartPanel.tsx";
-import SearchBox from "./Search.tsx";
+import type { CartLine, Category, Shop } from "../../scripts/types";
+import CartPanel from "../cart/CartPanel.tsx";
+import { Search } from "../shared/Search.tsx";
 
 type HeaderProps = {
   shop: Shop;
@@ -8,6 +8,9 @@ type HeaderProps = {
   cartLines: CartLine[];
   count: number;
   total: number;
+  productCount: number;
+  query: string;
+  onQuery: (query: string) => void;
   onRemove: (id: number) => void;
 };
 
@@ -17,6 +20,9 @@ export default function Header({
   cartLines,
   count,
   total,
+  productCount,
+  query,
+  onQuery,
   onRemove,
 }: HeaderProps) {
   return (
@@ -39,8 +45,13 @@ export default function Header({
             </span>
           </div>
         </a>
-        <SearchBox />
-        <CartPanel lines={cartLines} count={count} total={total} onRemove={onRemove} />
+        <Search total={productCount} query={query} onQuery={onQuery} />
+        <CartPanel
+          lines={cartLines}
+          count={count}
+          total={total}
+          onRemove={onRemove}
+        />
       </div>
       <input
         className="mobile-menu-toggle"

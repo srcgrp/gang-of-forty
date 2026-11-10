@@ -1,5 +1,5 @@
-import type { BannerData, Home } from "../scripts/types";
-import Art from "./Art.tsx";
+import type { BannerData, Home } from "../../scripts/types";
+import { Art } from "../shared/Art.tsx";
 
 type HeroProps = Pick<Home, "hero" | "side">;
 

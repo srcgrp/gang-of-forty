@@ -7,7 +7,7 @@ export const SORT_LABELS: Record<Sort, string> = {
   name: "نام محصول",
 };
 export function isSort(value: string): value is Sort {
-  return SORTS.includes(value as Sort);
+  return SORTS.some((sort) => sort === value);
 }
 export function sortProducts(products: Product[], sort: Sort): Product[] {
   const copy = [...products];

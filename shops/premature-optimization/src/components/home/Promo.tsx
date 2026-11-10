@@ -1,5 +1,5 @@
-import type { Promo } from "../scripts/types";
-import Art from "./Art.tsx";
+import type { Promo } from "../../scripts/types";
+import { Art } from "../shared/Art.tsx";
 
 type PromosProps = { promos: Promo[] };
 

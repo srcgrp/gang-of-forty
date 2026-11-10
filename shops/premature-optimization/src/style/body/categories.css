@@ -107,8 +107,10 @@
     text-align: center;
   }
   .categories-icon {
+    flex: 0 0 auto;
     width: clamp(48px, 15vw, 64px);
-    height: clamp(42px, 15vw, 60px);
+    height: auto;
+    aspect-ratio: 1;
     padding: 4px;
     font-size: clamp(1.6rem, 7.5vw, 2.4rem);
   }
