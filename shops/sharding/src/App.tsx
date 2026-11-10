@@ -6,7 +6,9 @@ import { loadAllData } from './shared/api/load-all'
 import { loadCart, saveCart } from './shared/storage/cart-storage'
 import { stockOf } from './shared/logic/stock'
 import { withCategoryImages } from './shared/logic/content-utils'
-import { addToCart, removeFromCart, removeLine, cartCount } from './features/cart/logic/cart'
+import { applyCartChange, cartCount } from './features/cart/logic/cart'
+import { notyf } from './lib/toast'
+import { fireConfetti } from './lib/confetti'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import CategoryNav from './components/CategoryNav'
@@ -40,9 +42,6 @@ export default function App() {
 
   const query = filters.query
 
-  function handleQuery(next: string): void {
-    setFilters({ category: filters.category, query: next })
-  }
   useEffect(() => {
     let ignore = false
 
@@ -99,17 +98,46 @@ export default function App() {
     setFilters({ category: slug, query: filters.query }, 'push')
   }
 
+  function handleQuery(next: string): void {
+    setFilters({ category: filters.category, query: next })
+  }
+
   function handleAdd(id: number): void {
     const max = stockOf(id, data.stock)
-    setCart((prev) => addToCart(prev, id, max))
+    const name = data.products.find((p) => p.id === id)?.name ?? 'کالا'
+    const { cart: nextCart, result } = applyCartChange(cart, id, 'add', max)
+
+    if (result.status === 'max') {
+      notyf.error(`بیشتر از موجودی انبار ${name} نمی‌توانید اضافه کنید.`)
+      return
+    }
+    if (result.status === 'noop') return
+
+    setCart(nextCart)
+    notyf.success(`${name} به سبد اضافه شد`)
+    void fireConfetti()
   }
 
   function handleRemove(id: number): void {
-    setCart((prev) => removeFromCart(prev, id))
+    const name = data.products.find((p) => p.id === id)?.name ?? 'کالا'
+    const { cart: nextCart, result } = applyCartChange(cart, id, 'remove', 0)
+
+    if (result.status === 'noop') return
+
+    setCart(nextCart)
+    if (result.after === 0) {
+      notyf.error(`${name} از سبد حذف شد`)
+    }
   }
 
   function handleRemoveLine(id: number): void {
-    setCart((prev) => removeLine(prev, id))
+    const name = data.products.find((p) => p.id === id)?.name ?? 'کالا'
+    const { cart: nextCart, result } = applyCartChange(cart, id, 'remove-line', 0)
+
+    if (result.status === 'noop') return
+
+    setCart(nextCart)
+    notyf.error(`${name} از سبد حذف شد`)
   }
 
   return (
