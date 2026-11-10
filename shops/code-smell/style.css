@@ -1185,6 +1185,7 @@ button {
 }
 
 .cart-button {
+    text-decoration: none;
     grid-area: cart;
     display: inline-flex;
     align-items: center;
