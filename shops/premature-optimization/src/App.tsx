@@ -55,8 +55,6 @@ export default function App() {
     setCart((prev) => removeItem(prev, String(id)));
     removedFeedback();
   };
-  const handlePick = (id: number) =>
-    setCategoryId((prev) => (prev === id ? null : id));
   const handleRetry = () => {
     setState({ status: "loading" });
     setAttempt((n) => n + 1);
@@ -70,7 +68,7 @@ export default function App() {
       query={query}
       onAdd={handleAdd}
       onRemove={handleRemove}
-      onPick={handlePick}
+      onPick={setCategoryId}
       onQuery={setQuery}
       onRetry={handleRetry}
     />

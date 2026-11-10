@@ -11,10 +11,8 @@ export function specialOffers(products: Product[], offers: Offer[]): Product[] {
 export function categorySections(
   products: Product[],
   categories: Category[],
-  categoryId: number | null,
 ): Section[] {
   return categories
-    .filter((c) => categoryId === null || c.id === categoryId)
     .map((category) => ({
       category,
       items: products.filter((p) => p.categoryId === category.id),

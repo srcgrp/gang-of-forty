@@ -33,7 +33,7 @@ export default function Catalog({
   const main = useRef<HTMLElement>(null);
   const shared = { offers, stock, categories, onAdd };
   const special = specialOffers(products, offers);
-  const sections = categorySections(products, categories, categoryId);
+  const sections = categorySections(products, categories);
 
   useEffect(
     () => (main.current ? revealSections(main.current) : undefined),
@@ -65,7 +65,6 @@ export default function Catalog({
             />
           )}
           <Promos promos={home.promos ?? []} />
-          {sections.length === 0 && <p>محصولی در این دسته وجود ندارد.</p>}
           {sections.map(({ category, items }) => (
             <ProductGrid
               key={category.id}
