@@ -1,10 +1,15 @@
 import type { Category } from "../types"
+import CategoryCard from "./CategoryCard"
 
 type CategoriesProps = {
     categories: Category[]
+    onPick: (id: number | null) => void
 }
 
-export default function Categories({ categories }: CategoriesProps) {
+export default function Categories({
+    categories,
+    onPick
+}: CategoriesProps) {
     return (
         <section
             className="section"
@@ -24,6 +29,9 @@ export default function Categories({ categories }: CategoriesProps) {
                     <a
                         className="button button--secondary category-reset"
                         href="#categories"
+                        onClick={function () {
+                            onPick(null)
+                        }}
                     >
                         مشاهده همه‌ی دسته‌ها
                     </a>
@@ -31,32 +39,11 @@ export default function Categories({ categories }: CategoriesProps) {
                 <ul className="category-grid">
                     {categories.map(function (category) {
                         return (
-                            <li
+                            <CategoryCard
                                 key={category.id}
-                                className="category-card"
-                                id={"category-" + category.slug}
-                            >
-                                <a
-                                    className="category-card__link"
-                                    href={"#" + category.slug}
-                                >
-                                    <span
-                                        className="category-card__icon category-visual"
-                                        style={{ backgroundColor: category.color }}
-                                        aria-hidden="true"
-                                    >
-                                        <span className="category-icon__emoji">
-                                            {category.emoji}
-                                        </span>
-                                    </span>
-                                    <h3 className="category-card__title">
-                                        {category.name}
-                                    </h3>
-                                    <p className="category-card__meta">
-                                        دیدن کالاها ←
-                                    </p>
-                                </a>
-                            </li>
+                                category={category}
+                                onPick={onPick}
+                            />
                         )
                     })}
                 </ul>

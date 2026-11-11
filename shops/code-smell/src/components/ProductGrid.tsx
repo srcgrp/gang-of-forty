@@ -1,11 +1,15 @@
-import type { Product } from "../types"
+import type { ProductCardData } from "../types"
 import ProductCard from "./ProductCard"
 
 type ProductGridProps = {
-    products: Product[]
+    products: ProductCardData[]
+    onAdd: (id: number) => void
 }
 
-export default function ProductGrid({ products }: ProductGridProps) {
+export default function ProductGrid({
+    products,
+    onAdd
+}: ProductGridProps) {
     return (
         <section
             className="section section--muted"
@@ -21,7 +25,11 @@ export default function ProductGrid({ products }: ProductGridProps) {
                 <ul className="product-grid">
                     {products.map(function (product) {
                         return (
-                            <ProductCard key={product.id} product={product} />
+                            <ProductCard
+                                key={product.id}
+                                product={product}
+                                onAdd={onAdd}
+                            />
                         )
                     })}
                 </ul>

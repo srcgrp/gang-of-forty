@@ -1,26 +1,12 @@
-import type { Category, Link, Product } from "./types"
+import type { Product } from "./types"
 import ShopPage from "./components/ShopPage"
-const sampleCategories: Category[] = [
-    {
-        id: 1,
-        slug: "fruits",
-        name: "میوه‌ها",
-        emoji: "🍎",
-        color: "#fde3dc"
-    },
-    {
-        id: 2,
-        slug: "dairy",
-        name: "لبنیات",
-        emoji: "🥛",
-        color: "#e2eefc"
-    }
-]
-
-const sampleMenu: Link[] = [
-    { label: "پیشنهاد ویژه", href: "#special-offers" },
-    { label: "راهنمای خرید", href: "#shopping-guide" }
-]
+import { getProductCardData } from "./catalog/getProductCardData"
+import {
+    sampleCategories,
+    sampleMenu,
+    sampleOffers,
+    sampleStock
+} from "./data/sampleCatalog"
 
 const sampleProducts: Product[] = [
     {
@@ -53,11 +39,30 @@ const sampleProducts: Product[] = [
 ]
 
 export default function App() {
+    function handleAdd(id: number): void {
+        console.log("درخواست افزودن کالا:" + " " + id)
+    }
+
+    function handlePick(id: number | null): void {
+        console.log("دستهٔ انتخاب‌شده:", id)
+    }
+
+    const cards = sampleProducts.map(function (product) {
+        return getProductCardData(
+            product,
+            sampleCategories,
+            sampleOffers,
+            sampleStock
+        )
+    })
+
     return (
         <ShopPage
             categories={sampleCategories}
             menu={sampleMenu}
-            products={sampleProducts}
+            products={cards}
+            onAdd={handleAdd}
+            onPick={handlePick}
         />
     )
 }

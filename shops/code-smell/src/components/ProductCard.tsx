@@ -1,11 +1,17 @@
-import type { Product } from "../types"
+import type { ProductCardData } from "../types"
 import Price from "./Price"
+import OfferBadge from "./OfferBadge"
+import AddToCartButton from "./AddToCartButton"
 
 type ProductCardProps = {
-    product: Product
+    product: ProductCardData
+    onAdd: (id: number) => void
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({
+    product,
+    onAdd
+}: ProductCardProps) {
     return (
         <li>
             <article className="product-card">
@@ -13,6 +19,9 @@ export default function ProductCard({ product }: ProductCardProps) {
                     <span className="product-card__emoji" aria-hidden="true">
                         {product.emoji}
                     </span>
+                    {product.offer && (
+                        <OfferBadge offer={product.offer} />
+                    )}
                 </div>
                 <h3 className="product-card__title">{product.name}</h3>
                 <p className="product-card__unit">{product.unit}</p>
@@ -23,15 +32,17 @@ export default function ProductCard({ product }: ProductCardProps) {
                     {product.tags.join(" · ")}
                 </p>
                 <div className="product-card__footer">
-                    <Price amount={product.price} />
-                    <button
-                        className="button button--secondary button--block"
-                        type="button"
-                        aria-label={"افزودن به سبد خرید:" + " " + product.name}
-                    >
-                        <span aria-hidden="true">+</span>
-                        <span>افزودن به سبد خرید</span>
-                    </button>
+                    <Price
+                        amount={product.finalPrice}
+                        originalPrice={
+                            product.offer ? product.price : undefined
+                        }
+                    />
+                    <AddToCartButton
+                        product={product}
+                        inStock={!product.isUnavailable}
+                        onAdd={onAdd}
+                    />
                 </div>
             </article>
         </li>

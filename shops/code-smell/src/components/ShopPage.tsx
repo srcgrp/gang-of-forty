@@ -1,23 +1,27 @@
-import type { Category, Link, Product } from "../types"
+import type { Category, Link, ProductCardData } from "../types"
 import Header from "./Header"
 import Hero from "./Hero"
-import ProductGrid from "./ProductGrid"
-import CartPanel from "./CartPanel"
 import Categories from "./Categories"
 import Promos from "./Promos"
+import ProductGrid from "./ProductGrid"
+import CartPanel from "./CartPanel"
 import Guide from "./Guide"
 import Footer from "./Footer"
 
 type ShopPageProps = {
     categories: Category[]
     menu: Link[]
-    products: Product[]
+    products: ProductCardData[]
+    onAdd: (id: number) => void
+    onPick: (id: number | null) => void
 }
 
 export default function ShopPage({
     categories,
     menu,
-    products
+    products,
+    onAdd,
+    onPick
 }: ShopPageProps) {
     return (
         <>
@@ -27,9 +31,9 @@ export default function ShopPage({
             <Header categories={categories} menu={menu} />
             <main id="main-content" tabIndex={-1}>
                 <Hero />
-                <Categories categories={categories} />
+                <Categories categories={categories} onPick={onPick} />
                 <Promos />
-                <ProductGrid products={products} />
+                <ProductGrid products={products} onAdd={onAdd} />
                 <Guide />
                 <CartPanel />
             </main>
