@@ -7,6 +7,17 @@ export async function getJSON(fileName: string): Promise<unknown> {
         throw new Error(fileName + ":" + " " + "HTTP" + " " + response.status)
     }
 
-    const data: unknown = await response.json()
-    return data
+    try {
+        const data: unknown = await response.json()
+        return data
+    } catch (error: unknown) {
+        if (error instanceof SyntaxError) {
+            throw new Error(
+                "اطلاعات فایل" + " " + fileName + " " +
+                "قابل خواندن نیست. لطفاً دوباره تلاش کنید."
+            )
+        } else {
+            throw error
+        }
+    }
 }

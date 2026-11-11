@@ -39,3 +39,14 @@ export function getCatalogCarousels(
         )
     }
 }
+
+export function getVisibleCarousels(
+    data: ShopData,
+    categoryId: number | null
+): CarouselWithProducts[] {
+    const category = data.categories.find(function (item) {
+        return item.id === categoryId
+    }) ?? null
+
+    return getCatalogCarousels(data, category)
+}

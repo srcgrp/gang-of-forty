@@ -51,7 +51,7 @@ async function loadPage(): Promise<void> {
         renderPageSections(shopData, shopName, navigate)
         followRoute(true)
         renderStatus(shopData.products.length > 0
-            ? { status: "success", products: shopData.products }
+            ? { status: "success", data: shopData }
             : { status: "empty" }
         )
     } catch (error: unknown) {

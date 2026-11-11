@@ -1,4 +1,4 @@
-import type { Category, CartRowData, Link, ProductCardData } from "../types"
+import type { CartRowData, CarouselWithProducts, ShopData } from "../types"
 import type { CartButtonProps } from "./CartButton"
 import Header from "./Header"
 import Hero from "./Hero"
@@ -10,9 +10,8 @@ import Guide from "./Guide"
 import Footer from "./Footer"
 
 type ShopPageProps = {
-    categories: Category[]
-    menu: Link[]
-    products: ProductCardData[]
+    data: ShopData
+    carousels: CarouselWithProducts[]
     categoryId: number | null
     cartControls: CartButtonProps
     rows: CartRowData[]
@@ -23,9 +22,8 @@ type ShopPageProps = {
 }
 
 export default function ShopPage({
-    categories,
-    menu,
-    products,
+    data,
+    carousels,
     categoryId,
     cartControls,
     rows,
@@ -40,18 +38,23 @@ export default function ShopPage({
                 پرش به محتوای اصلی
             </a>
             <Header
-                categories={categories}
-                menu={menu}
+                categories={data.categories}
+                shop={data.shop}
                 categoryId={categoryId}
                 cartControls={cartControls}
                 onPick={onPick}
             />
             <main id="main-content" tabIndex={-1}>
-                <Hero />
-                <Categories categories={categories} onPick={onPick} />
-                <Promos />
-                <ProductGrid products={products} onAdd={onAdd} />
-                <Guide />
+                <Hero
+                    hero={data.home.hero}
+                    shop={data.shop}
+                    categories={data.categories}
+                    onPick={onPick}
+                />
+                <Categories categories={data.categories} onPick={onPick} />
+                <Promos home={data.home} categories={data.categories} onPick={onPick} />
+                <ProductGrid carousels={carousels} onAdd={onAdd} />
+                <Guide shop={data.shop} />
                 <CartPanel
                     rows={rows}
                     total={total}
@@ -60,7 +63,7 @@ export default function ShopPage({
                     onToggle={cartControls.onToggle}
                 />
             </main>
-            <Footer categories={categories} onPick={onPick} />
+            <Footer categories={data.categories} shop={data.shop} onPick={onPick} />
         </>
     )
 }

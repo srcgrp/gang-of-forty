@@ -1,30 +1,30 @@
-import type { Category, Link } from "../types"
+import type { Category, Shop } from "../types"
 import type { CartButtonProps } from "./CartButton"
 import BrandLogo from "./BrandLogo"
 import CategoryNav from "./CategoryNav"
 import CartButton from "./CartButton"
 
 type HeaderProps = {
-    categories?: Category[]
-    menu?: Link[]
+    categories: Category[]
+    shop: Shop
     categoryId: number | null
     cartControls: CartButtonProps
     onPick: (id: number | null) => void
 }
 
 export default function Header({
-    categories = [],
-    menu = [],
+    categories,
+    shop,
     categoryId,
     cartControls,
     onPick
 }: HeaderProps) {
-    const navigationProps = { categories, menu, categoryId, onPick }
+    const navigationProps = { categories, menu: shop.menu, categoryId, onPick }
 
     return (
         <header className="site-header">
             <p className="announcement" id="announcement">
-                🚚 ارسال رایگان برای خریدهای بالای ۵۰۰ هزار تومان
+                {shop.notice}
             </p>
             <div className="site-header__bar container" id="header-bar">
                 <a className="brand" href="#top">
@@ -33,6 +33,7 @@ export default function Header({
                         <strong className="brand__name">
                             سوپرمارکت بوی کد
                         </strong>
+                        <span className="brand__tagline">{shop.slogan}</span>
                     </span>
                 </a>
                 <div className="search" id="search-root" role="search">

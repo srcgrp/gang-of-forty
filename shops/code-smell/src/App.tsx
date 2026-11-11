@@ -1,70 +1,69 @@
-import { useState } from "react"
-import type { Cart } from "./types"
+import { useEffect, useState } from "react"
+import type { Cart, LoadState } from "./types"
+import { loadShopData } from "./api/loadShopData"
+import { addToCart, removeFromCart, cartCount, cartRows, cartTotal } from "./cart/cartRules"
+import { getVisibleCarousels } from "./catalog/catalogSelection"
 import ShopPage from "./components/ShopPage"
-import {
-    addToCart,
-    cartCount,
-    cartRows,
-    cartTotal,
-    removeFromCart
-} from "./cart/cartRules"
-import { getProductCardData } from "./catalog/getProductCardData"
-import {
-    sampleCategories,
-    sampleMenu,
-    sampleOffers,
-    sampleStock,
-    sampleProducts
-} from "./data/sampleCatalog"
+import Status from "./components/Status"
 
 export default function App() {
+    const [state, setState] = useState<LoadState>({ status: "loading" })
     const [categoryId, setCategoryId] = useState<number | null>(null)
     const [cart, setCart] = useState<Cart>({})
     const [cartOpen, setCartOpen] = useState(false)
+    useEffect(function () {
+        let ignore = false
+        function showSlowConnection(): void {
+            if (!ignore) {
+                setState({
+                    status: "loading",
+                    message: "اتصال کند است؛ هنوز در حال دریافت اطلاعات فروشگاه هستیم..."
+                })
+            }
+        }
+        loadShopData(showSlowConnection)
+            .then(function (data) {
+                if (!ignore) {
+                    setState(data.products.length > 0
+                        ? { status: "success", data: data }
+                        : { status: "empty" })
+                }
+            })
+            .catch(function (error: unknown) {
+                if (!ignore) {
+                    const message = error instanceof Error
+                        ? error.message
+                        : "دریافت اطلاعات فروشگاه انجام نشد."
+                    setState({ status: "error", message: message })
+                }
+            })
+        return function () {
+            ignore = true
+        }
+    }, [])
 
-    const count = cartCount(cart)
-    const rows = cartRows(cart, sampleProducts, sampleOffers)
-    const total = cartTotal(rows)
-
-    function handleAdd(id: number): void {
-        setCart(addToCart(cart, { id, quantity: 1 }))
-    }
-
-    function handleRemove(id: number): void {
-        setCart(removeFromCart(cart, id))
-    }
-
-    function handleToggleCart(): void {
-        setCartOpen(!cartOpen)
-    }
-
-    const cartControls = { count, cartOpen, onToggle: handleToggleCart }
-
-    const visibleProducts = sampleProducts.filter(function (product) {
-        return categoryId === null || product.categoryId === categoryId
-    })
-
-    const cards = visibleProducts.map(function (product) {
-        return getProductCardData(
-            product,
-            sampleCategories,
-            sampleOffers,
-            sampleStock
+    if (state.status === "success") {
+        const data = state.data
+        const rows = cartRows(cart, data.products, data.offers)
+        const cartControls = {
+            count: cartCount(cart),
+            cartOpen: cartOpen,
+            onToggle: () => setCartOpen(!cartOpen)
+        }
+        return (
+            <ShopPage
+                data={data}
+                carousels={getVisibleCarousels(data, categoryId)}
+                categoryId={categoryId}
+                cartControls={cartControls}
+                rows={rows}
+                total={cartTotal(rows)}
+                onAdd={(id: number) => setCart(addToCart(cart, { id, quantity: 1 }))}
+                onPick={setCategoryId}
+                onRemove={(id: number) => setCart(removeFromCart(cart, id))}
+            />
         )
-    })
-
-    return (
-        <ShopPage
-            categories={sampleCategories}
-            menu={sampleMenu}
-            products={cards}
-            categoryId={categoryId}
-            cartControls={cartControls}
-            rows={rows}
-            total={total}
-            onAdd={handleAdd}
-            onPick={setCategoryId}
-            onRemove={handleRemove}
-        />
-    )
+    } else {
+        return <Status state={state} />
+    }
 }

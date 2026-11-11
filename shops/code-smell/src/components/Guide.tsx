@@ -1,19 +1,30 @@
+import type { Shop } from "../types"
 import Faq from "./Faq"
 
-const guideCards = [
-    {
-        id: "shipping",
-        title: "شیوه ارسال",
-        text: "سفارش‌ها در بازه‌های دوساعته ارسال می‌شوند؛ شنبه تا پنج‌شنبه از ۸ تا ۲۲ و جمعه از ۹ تا ۱۴. ارسال سفارش‌های بالای ۵۰۰٬۰۰۰ تومان رایگان است."
-    },
-    {
-        id: "returns",
-        title: "بازگشت کالا",
-        text: "اگر کالایی آسیب‌دیده یا نزدیک به تاریخ انقضا به دستتان رسید، تا ۲۴ ساعت پس از تحویل با پشتیبانی تماس بگیرید تا بدون هزینه تعویض یا مبلغ آن بازگردانده شود."
-    }
-]
+type GuideProps = {
+    shop: Shop
+}
 
-export default function Guide() {
+export default function Guide({ shop }: GuideProps) {
+    const schedule = shop.schedule.map(function (entry) {
+        return entry.days + " " + entry.time
+    }).join("؛ ")
+    const guideCards = [
+        {
+            id: "shipping",
+            title: "شیوه ارسال",
+            text: "سفارش‌ها در بازه‌های دوساعته ارسال می‌شوند؛" + " " +
+                schedule + "." + " " + "ارسال سفارش‌های بالای" + " " +
+                shop.freeDeliveryOver.toLocaleString("fa-IR") + " " +
+                shop.currency + " " + "رایگان است."
+        },
+        {
+            id: "returns",
+            title: "بازگشت کالا",
+            text: "اگر کالایی آسیب‌دیده یا نزدیک به تاریخ انقضا به دستتان رسید، تا ۲۴ ساعت پس از تحویل با پشتیبانی تماس بگیرید تا بدون هزینه تعویض یا مبلغ آن بازگردانده شود."
+        }
+    ]
+
     return (
         <section
             className="section"
@@ -48,7 +59,7 @@ export default function Guide() {
                             )
                         })}
                     </div>
-                    <Faq />
+                    <Faq shop={shop} />
                 </div>
             </div>
         </section>

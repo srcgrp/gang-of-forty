@@ -55,8 +55,8 @@ export type ProductCardData = Product & {
     finalPrice: number
 }
 export type LoadState =
-    | { status: "loading" }
-    | { status: "success", products: Product[] }
+    | { status: "loading", message?: string }
+    | { status: "success", data: ShopData }
     | { status: "empty" }
     | { status: "error", message: string }
 export type CarouselWithProducts = Carousel & { products: ProductCardData[] }

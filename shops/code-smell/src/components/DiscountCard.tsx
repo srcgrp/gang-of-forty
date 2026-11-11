@@ -13,22 +13,18 @@ export default function DiscountCard() {
                 {minimumOrderAmount.toLocaleString("fa-IR")}{" "}
                 تومان، این کد را هنگام پرداخت وارد کنید.
             </p>
-            <button
-                className="button button--primary"
-                type="button"
-                aria-controls="first-order-discount"
-                aria-expanded="false"
-            >
-                دریافت کد تخفیف
-            </button>
-            <p
-                className="promo-card__code"
-                id="first-order-discount"
-                hidden
-            >
-                کد تخفیف:{" "}
-                <code dir="ltr">SMELL100</code>
-            </p>
+            <details>
+                <summary className="button button--primary">
+                    دریافت کد تخفیف
+                </summary>
+                <p
+                    className="promo-card__code"
+                    id="first-order-discount"
+                >
+                    کد تخفیف:{" "}
+                    <code dir="ltr">SMELL100</code>
+                </p>
+            </details>
             <img
                 className="promo-card__art"
                 src="images/Gift%20Box.webp"

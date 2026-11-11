@@ -1,26 +1,17 @@
-import type { Category, Link, Shop } from "../types"
+import type { Category, Shop } from "../types"
 import FooterAbout from "./FooterAbout"
 import FooterLinks from "./FooterLinks"
 import FooterHours from "./FooterHours"
 
 type FooterProps = {
     categories: Category[]
+    shop: Shop
     onPick: (id: number) => void
 }
 
-const helpLinks: Link[] = [
-    { label: "شیوه ارسال", href: "#shipping" },
-    { label: "بازگشت کالا", href: "#returns" },
-    { label: "پرسش‌های پرتکرار", href: "#faq" }
-]
-
-const sampleSchedule: Shop["schedule"] = [
-    { days: "شنبه تا پنج‌شنبه", time: "۸ تا ۲۲" },
-    { days: "جمعه", time: "۹ تا ۱۴" }
-]
-
 export default function Footer({
     categories,
+    shop,
     onPick
 }: FooterProps) {
     const categoryLinks = categories.map(function (category) {
@@ -35,7 +26,7 @@ export default function Footer({
         <footer className="site-footer" id="footer">
             <span className="category-anchor" id="contact" />
             <div className="site-footer__grid container">
-                <FooterAbout />
+                <FooterAbout shop={shop} />
                 <FooterLinks
                     title="دسته‌بندی کالاها"
                     headingId="footer-categories-title"
@@ -45,13 +36,16 @@ export default function Footer({
                 <FooterLinks
                     title="راهنمای خرید"
                     headingId="footer-guide-title"
-                    entries={helpLinks}
+                    entries={shop.help}
                 />
-                <FooterHours schedule={sampleSchedule} />
+                <FooterHours schedule={shop.schedule} />
             </div>
             <div className="site-footer__bottom container">
                 <p className="copyright">
-                    تمامی حقوق سوپرمارکت بوی کد محفوظ است.
+                    {shop.copyright.replaceAll(
+                        shop.name,
+                        "سوپرمارکت بوی کد"
+                    )}
                 </p>
                 <a className="back-to-top" href="#top">
                     بازگشت به بالا

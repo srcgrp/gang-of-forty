@@ -1,7 +1,12 @@
+import type { Shop } from "../types"
 import BrandLogo from "./BrandLogo"
 
-export default function FooterAbout() {
-    const phoneNumber = "021-00000000"
+type FooterAboutProps = {
+    shop: Shop
+}
+
+export default function FooterAbout({ shop }: FooterAboutProps) {
+    const phoneNumber = shop.phone
 
     return (
         <section
@@ -15,9 +20,7 @@ export default function FooterAbout() {
                 <BrandLogo className="footer-brand__logo" />
                 سوپرمارکت بوی کد
             </h2>
-            <p className="footer-column__text">
-                کالاهای مورد نیاز روزانه‌تان را در فروشگاه بوی کد پیدا کنید.
-            </p>
+            <p className="footer-column__text">{shop.about}</p>
             <address className="footer-contact">
                 <p className="footer-contact__item">
                     <img
@@ -28,7 +31,7 @@ export default function FooterAbout() {
                         height={18}
                         aria-hidden="true"
                     />
-                    آدرس فروشگاه
+                    {shop.address}
                 </p>
                 <p className="footer-contact__item">
                     <img
