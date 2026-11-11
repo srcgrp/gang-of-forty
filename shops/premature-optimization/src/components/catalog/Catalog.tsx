@@ -11,6 +11,7 @@ import Hero from "../home/Hero.tsx";
 import ProductGrid from "./ProductGrid.tsx";
 import Promos from "../home/Promo.tsx";
 import { SearchResults } from "../shared/Search.tsx";
+import SaleBanner from '../home/SaleBanner.tsx'
 
 type CatalogProps = {
   data: CatalogData;
@@ -51,6 +52,7 @@ export default function Catalog({
       ) : (
         <>
           <Hero hero={home.hero} side={home.side} />
+          <SaleBanner />
           <CategoryNav
             categories={categories}
             activeId={categoryId}

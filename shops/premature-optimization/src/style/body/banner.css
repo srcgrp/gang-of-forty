@@ -111,6 +111,41 @@
   text-decoration: underline;
 }
 
+.sale-countdown {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 20px 36px;
+  padding: 12px 20px;
+  color: var(--navy);
+  background: var(--light-blue);
+  border: 2px solid var(--blue);
+  border-radius: 16px;
+}
+
+.sale-countdown-title {
+  font-size: 1.1rem;
+}
+
+.sale-countdown-time {
+  direction: ltr;
+  font-size: 1.6rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.sale-countdown-toggle {
+  padding: 6px 16px;
+  color: var(--yellow);
+  background: var(--navy);
+  border: 0;
+  border-radius: 24px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
 @media (min-width: 1500px) {
   .banner,
   .banner-down,
@@ -167,6 +202,10 @@
   .promo-emoji img {
     max-width: 100%;
     max-height: 100%;
+  }
+  .sale-countdown {
+    flex-wrap: wrap;
+    margin: 16px 14px;
   }
 }
 
