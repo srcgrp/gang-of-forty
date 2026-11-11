@@ -1,4 +1,4 @@
-import type { Shop, Home, Stock, Offer } from "./shared/types";
+import type { Shop, Home, Stock, Offer, Category } from "./shared/types";
 
 export const SAMPLE_SHOP: Shop = {"name": "سوپرمارکت مینا", "slogan": "تازه، نزدیک، به‌صرفه", "owner": "", "city": "تهران", "phone": "021-12345678", "hours": {"open": "08:00", "close": "22:00"}, "deliveryFee": 35000, "freeDeliveryOver": 500000, "currency": "تومان", "notice": "🚚 ارسال رایگان برای خریدهای بالای ۵۰۰ هزار تومان", "about": "از سال ۱۴۰۵ کنار شما هستیم؛ کالای تازه با قیمت منصفانه.", "address": "تهران، خیابان نمونه، پلاک ۴۰", "schedule": [{"days": "شنبه تا پنجشنبه", "time": "۸ تا ۲۲"}, {"days": "جمعه", "time": "۹ تا ۱۴"}], "menu": [{"label": "پیشنهاد ویژه", "href": "#offers"}, {"label": "میوه و سبزی", "href": "#fruits"}, {"label": "لبنیات", "href": "#dairy"}, {"label": "نان تازه", "href": "#bakery"}, {"label": "تماس با ما", "href": "#contact"}], "help": [{"label": "شیوه ارسال", "href": "#"}, {"label": "بازگشت کالا", "href": "#"}, {"label": "پرسش‌های پرتکرار", "href": "#"}], "copyright": "© ۱۴۰۵ سوپرمارکت مینا · عضو دار و دسته چهل‌نفره"};
 
@@ -7,3 +7,13 @@ export const SAMPLE_HOME: Home = {"hero": {"title": "میوه‌های تازه�
 export const SAMPLE_STOCK: Stock = {"updatedAt": "2026-10-05T08:00:00+03:30", "items": {"101": 24, "102": 0, "103": 9, "104": 40, "105": 30, "106": 8, "107": 5, "201": 15, "202": 3, "203": 0, "204": 20, "205": 6, "206": 14, "301": 60, "302": 12, "303": 5, "304": 10, "305": 25, "306": 9, "401": 7, "402": 2, "403": 4, "404": 0, "405": 33, "406": 12, "501": 11, "502": 18, "503": 80, "504": 7, "505": 4, "506": 9, "601": 6, "602": 5, "603": 3, "604": 0, "605": 8, "606": 40, "701": 50, "702": 45, "703": 16, "704": 70, "705": 2, "706": 11}};
 
 export const SAMPLE_OFFERS: Offer[] = [{"productId": 102, "percent": 15, "label": "حراج فصل"}, {"productId": 104, "percent": 25, "label": "تخفیف روز"}, {"productId": 105, "percent": 30, "label": "تخفیف روز"}, {"productId": 201, "percent": 15, "label": "پیشنهاد ویژه"}, {"productId": 202, "percent": 10, "label": "پیشنهاد ویژه"}, {"productId": 204, "percent": 20, "label": "تخفیف لبنیات"}, {"productId": 402, "percent": 20, "label": "تخفیف مهر"}, {"productId": 501, "percent": 12, "label": "پیشنهاد ویژه"}, {"productId": 601, "percent": 10, "label": "پیشنهاد ویژه"}, {"productId": 703, "percent": 15, "label": "تخفیف مهر"}];
+
+export const SAMPLE_CATEGORIES: Category[] = [
+  {"id": 1, "slug": "fruits", "name": "میوه و سبزی", "emoji": "🍎", "color": "#fde3dc"},
+  {"id": 2, "slug": "dairy", "name": "لبنیات", "emoji": "🥛", "color": "#e2eefc"},
+  {"id": 3, "slug": "bakery", "name": "نان و شیرینی", "emoji": "🥖", "color": "#fff0cc"},
+  {"id": 4, "slug": "pantry", "name": "خواربار", "emoji": "🍚", "color": "#e3f1e7"},
+  {"id": 5, "slug": "drinks", "name": "نوشیدنی", "emoji": "🧃", "color": "#e0f5ef"},
+  {"id": 6, "slug": "protein", "name": "پروتئین", "emoji": "🍗", "color": "#fbe0e6"},
+  {"id": 7, "slug": "snacks", "name": "تنقلات", "emoji": "🍪", "color": "#f1e6fb"}
+];

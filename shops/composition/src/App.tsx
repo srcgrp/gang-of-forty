@@ -1,11 +1,14 @@
-import type { Product, Category } from "./shared/types";
+import { useState } from "react";
+import { addItem, removeItem, cartCount, cartTotal } from "./features/cart/logic/items";
+import { toCard, offersById } from "./features/products/catalog/cards";
+import type { Product, CartItem } from "./shared/types";
 import { buildPage } from "./features/products/catalog/sections";
-import { SAMPLE_SHOP, SAMPLE_HOME, SAMPLE_STOCK, SAMPLE_OFFERS } from "./sample-data";
+import { SAMPLE_SHOP, SAMPLE_HOME, SAMPLE_STOCK, SAMPLE_OFFERS, SAMPLE_CATEGORIES } from "./sample-data";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import CategoryNav from "./components/CategoryNav";
 import Promos from "./components/Promos";
-import ProductGrid from "./components/ProductGrid";
+import ProductSections from "./components/ProductSections";
 import CartPanel from "./components/CartPanel";
 import Footer from "./components/Footer";
 
@@ -15,46 +18,42 @@ const SAMPLE_PRODUCTS: Product[] = [
   {"id": 301, "categoryId": 3, "name": "نان سنگک", "emoji": "🫓", "unit": "۱ عدد", "price": 12000, "tags": ["تازه"]},
   {"id": 406, "categoryId": 4, "name": "عدس", "emoji": "🫘", "unit": "۹۰۰ گرم", "price": 98000, "tags": []}
 ];
-const SAMPLE_CATEGORIES: Category[] = [
-  {"id": 1, "slug": "fruits", "name": "میوه و سبزی", "emoji": "🍎", "color": "#fde3dc"},
-  {"id": 2, "slug": "dairy", "name": "لبنیات", "emoji": "🥛", "color": "#e2eefc"},
-  {"id": 3, "slug": "bakery", "name": "نان و شیرینی", "emoji": "🥖", "color": "#fff0cc"},
-  {"id": 4, "slug": "pantry", "name": "خواربار", "emoji": "🍚", "color": "#e3f1e7"},
-  {"id": 5, "slug": "drinks", "name": "نوشیدنی", "emoji": "🧃", "color": "#e0f5ef"},
-  {"id": 6, "slug": "protein", "name": "پروتئین", "emoji": "🍗", "color": "#fbe0e6"},
-  {"id": 7, "slug": "snacks", "name": "تنقلات", "emoji": "🍪", "color": "#f1e6fb"}
-];
+
 
 export default function App() {
+  const [categoryId, setCategoryId] = useState<number | null>(null);
+  const [cartOpen, setCartOpen] = useState(false);
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const count = cartCount(cart);
+  const total = cartTotal(cart);
+  const category = SAMPLE_CATEGORIES.find(item => item.id === categoryId);
   function handleAdd(productId: number): void {
-    console.log("شناسهٔ محصول انتخاب‌شده:", productId);
+    const product = SAMPLE_PRODUCTS.find(item => item.id === productId);
+    if (!product) return;
+    const card = toCard(product, SAMPLE_STOCK, offersById(SAMPLE_OFFERS));
+    if (!card.available) return;
+    setCart(previous => addItem(previous, card.item, SAMPLE_STOCK.items[productId] ?? 0));
   }
-  function handlePick(categoryId: number): void {
-    console.log("شناسهٔ دستهٔ انتخاب‌شده:", categoryId);
+  function handleRemove(productId: number): void {
+    setCart(previous => removeItem(previous, productId));
   }
   const page = buildPage({ products: SAMPLE_PRODUCTS, categories: SAMPLE_CATEGORIES,
     shop: SAMPLE_SHOP, home: SAMPLE_HOME, stock: SAMPLE_STOCK, offers: SAMPLE_OFFERS });
   return (
     <div id="top">
       <a className="skip-link" href="#main">پرش به محتوای اصلی</a>
-      <Header shop={SAMPLE_SHOP} categories={SAMPLE_CATEGORIES} />
+      <Header shop={SAMPLE_SHOP} categories={SAMPLE_CATEGORIES} count={count} onPick={setCategoryId}
+        cartOpen={cartOpen} onCartOpen={setCartOpen}>
+        <CartPanel cart={cart} total={total} onRemove={handleRemove}
+          open={cartOpen} onClose={() => setCartOpen(false)} />
+      </Header>
       <main id="main" className="wrap" tabIndex={-1}>
-        <Hero home={SAMPLE_HOME} />
-        <CategoryNav categories={SAMPLE_CATEGORIES} onPick={handlePick} />
-        <Promos promos={SAMPLE_HOME.promos} />
-        <div id="carousels">
-          {page.sections.filter(section => section.carousel).map(section => (
-            <ProductGrid key={section.id} section={section} onAdd={handleAdd} />
-          ))}
-        </div>
-        <div id="category-products">
-          {page.sections.filter(section => !section.carousel).map(section => (
-            <ProductGrid key={section.id} section={section} onAdd={handleAdd} />
-          ))}
-        </div>
-        <CartPanel />
+        <Hero home={SAMPLE_HOME} onNavigate={() => setCategoryId(null)} />
+        <CategoryNav categories={SAMPLE_CATEGORIES} categoryId={categoryId} onPick={setCategoryId} />
+        <Promos promos={SAMPLE_HOME.promos} onNavigate={() => setCategoryId(null)} />
+        <ProductSections page={page} category={category} onAdd={handleAdd} />
       </main>
-      <Footer shop={SAMPLE_SHOP} categories={SAMPLE_CATEGORIES} />
+      <Footer shop={SAMPLE_SHOP} categories={SAMPLE_CATEGORIES} onNavigate={() => setCategoryId(null)} />
     </div>
   );
 }

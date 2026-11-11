@@ -1,7 +1,7 @@
 import type { Shop, Category } from "../shared/types";
 
-type Props = { shop: Shop; categories: Category[] };
-export default function Footer({ shop, categories }: Props) {
+type Props = { shop: Shop; categories: Category[]; onNavigate: () => void };
+export default function Footer({ shop, categories, onNavigate }: Props) {
   return (
     <footer id="contact">
       <div className="wrap footer-grid">
@@ -12,7 +12,7 @@ export default function Footer({ shop, categories }: Props) {
         <nav id="footer-categories" aria-label="دسته‌بندی‌های پایین صفحه">
           <h2>دسته‌بندی‌ها</h2>
           {categories.map(category => (
-            <a key={category.id} href={"#" + category.slug}>{category.name}</a>
+            <a key={category.id} href={"#" + category.slug} onClick={onNavigate}>{category.name}</a>
           ))}
         </nav>
         <div id="shop-hours">
