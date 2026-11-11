@@ -1,4 +1,4 @@
-import type { AppState, LoadState, Cart } from '../shared/types'
+import type { AppState, Cart } from '../shared/types'
 import { buildShelves } from '../features/products/logic/shelves'
 import { cardOf } from '../features/products/logic/to-card'
 import ProductGrid from './ProductGrid'

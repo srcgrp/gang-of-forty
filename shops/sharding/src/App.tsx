@@ -150,7 +150,10 @@ export default function App() {
       />
 
       <main id="main-content" tabIndex={-1}>
-        <Hero banners={BANNER_IMAGES} />
+        <Hero 
+          banners={BANNER_IMAGES} 
+          loading={data.res.status === 'loading'} 
+        />
         <CategoryNav
           categories={data.categories}
           activeId={categoryId}
