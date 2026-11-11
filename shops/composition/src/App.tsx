@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import type { CartItem, LoadState, ShopData } from "./shared/types";
 import { loadCatalog } from "./features/products/api/catalog-data";
 import { getShop, getHome } from "./shared/api/site";
-import { addItem, removeItem } from "./features/cart/logic/items";
+import { addItem, removeItem, cartCount } from "./features/cart/logic/items";
 import { toCard, offersById } from "./features/products/catalog/cards";
+import { loadCart, saveCart } from "./features/cart/storage/cart";
 import LoadStatus from "./components/LoadStatus";
 import ShopView from "./components/ShopView";
 
@@ -11,7 +12,7 @@ export default function App() {
   const [state, setState] = useState<LoadState<ShopData>>({ status: "loading" });
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const [cartOpen, setCartOpen] = useState(false);
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const [cart, setCart] = useState<CartItem[]>(() => loadCart());
   useEffect(() => {
     let ignore = false;
     Promise.all([loadCatalog(), getShop(), getHome()])
@@ -27,6 +28,10 @@ export default function App() {
       });
     return () => { ignore = true; };
   }, []);
+  useEffect(() => { saveCart(cart); }, [cart]);
+  useEffect(() => {
+    document.title = "بت‌شاپ · " + cartCount(cart).toLocaleString("fa-IR") + " 🛒";
+  }, [cart]);
   function handleAdd(productId: number): void {
     if (state.status !== "success") return;
     const { products, stock, offers } = state.data;

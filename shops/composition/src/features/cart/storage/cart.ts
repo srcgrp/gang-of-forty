@@ -1,13 +1,20 @@
-export function loadCartCount(): number {
+import type { CartItem } from "../../../shared/types";
+import { isCartItem } from "../logic/guard";
+
+const cartKey = "batshop-cart";
+export function loadCart(): CartItem[] {
   try {
-    const count = Number(localStorage.getItem("batshop-cart-count"));
-    if (Number.isSafeInteger(count) && count >= 0) return count;
-  } catch { return 0; }
-  return 0;
+    const data: unknown = JSON.parse(localStorage.getItem(cartKey) ?? "[]");
+    if (!Array.isArray(data)) return [];
+    const items: unknown[] = data;
+    if (!items.every(isCartItem)) return [];
+    if (new Set(items.map(item => item.id)).size !== items.length) return [];
+    return items;
+  } catch { return []; }
 }
-export function saveCartCount(count: number): boolean {
+export function saveCart(cart: readonly CartItem[]): boolean {
   try {
-    localStorage.setItem("batshop-cart-count", String(count));
+    localStorage.setItem(cartKey, JSON.stringify(cart));
     return true;
   } catch { return false; }
 }

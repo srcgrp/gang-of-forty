@@ -2,7 +2,6 @@
   "name": "composition",
   "version": "1.0.0",
   "description": "",
-  "main": "apicall.js",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
