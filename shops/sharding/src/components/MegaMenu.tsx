@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import type { Category, Product } from '../shared/types'
 import { PROMO_IMAGES } from '../shared/content'
 
@@ -9,14 +9,24 @@ type MegaMenuProps = {
 
 export default function MegaMenu({ categories, products }: MegaMenuProps) {
   const [activeIndex, setActiveIndex] = useState(0)
+  const [open, setOpen] = useState(false)
+
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') setOpen(false)
+    }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [])
 
   return (
-    <div className="mega-menu">
+    <div className="mega-menu" data-state={open ? 'open' : undefined}>
       <button
         type="button"
         className="mega-menu__trigger"
         aria-haspopup="true"
-        aria-controls="mega-menu-panel"
+        aria-expanded={open}
+        onClick={() => setOpen(!open)}
       >
         <svg className="mega-menu__trigger-icon" aria-hidden="true">
           <use href="./icons.svg#grid" />
@@ -39,7 +49,7 @@ export default function MegaMenu({ categories, products }: MegaMenuProps) {
                 onMouseEnter={() => setActiveIndex(index)}
                 onFocus={() => setActiveIndex(index)}
               >
-                <a className="mega-menu__category-link" href={`#${cat.slug}`}>
+                <a className="mega-menu__category-link" href={`#shelf-${cat.slug}`} onClick={() => setOpen(false)}>
                   {cat.name}
                 </a>
                 
@@ -51,14 +61,14 @@ export default function MegaMenu({ categories, products }: MegaMenuProps) {
                     ) : (
                       items.map((p) => (
                         <li key={p.id}>
-                          <a href={`#${cat.slug}`}>{p.name}</a>
+                          <a href={`#shelf-${cat.slug}`} onClick={() => setOpen(false)}>{p.name}</a>
                         </li>
                       ))
                     )}
                   </ul>
                 </div>
 
-                <a className="mega-menu__promo" href={`#${cat.slug}`}>
+                <a className="mega-menu__promo" href={`#shelf-${cat.slug}`} onClick={() => setOpen(false)}>
                   <span className="mega-menu__promo-media" aria-hidden="true">
                     {promoImage && (
                       <img src={promoImage} alt="" loading="lazy" width={400} height={600} />

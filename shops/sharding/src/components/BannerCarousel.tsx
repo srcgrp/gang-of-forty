@@ -1,5 +1,6 @@
 import { useCarousel } from '../hooks/useCarousel'
 import CarouselNav from './CarouselNav'
+import BasketSlide from './BasketSlide'
 
 type BannerCarouselProps = {
   banners: string[]
@@ -7,7 +8,7 @@ type BannerCarouselProps = {
 }
 
 export default function BannerCarousel({ banners, loading }: BannerCarouselProps) {
-  const { trackRef } = useCarousel()
+  const { trackRef, isAtStart, isAtEnd, scrollPrev, scrollNext } = useCarousel()
 
   if (loading) {
     return (
@@ -26,15 +27,23 @@ export default function BannerCarousel({ banners, loading }: BannerCarouselProps
   return (
     <div className="hero-carousel">
       <ul ref={trackRef} className="hero-carousel__track" id="banner-track" tabIndex={0} aria-label="کاروسل پیشنهادهای ویژه">
+        <BasketSlide />
         {banners.map((src, i) => (
-          <li key={src} className="hero-carousel__slide" id={i === 0 ? 'banner-start' : i === banners.length - 1 ? 'banner-end' : undefined}>
+          <li key={src} className="hero-carousel__slide">
             <a className="hero-banner" href="#offers">
               <img src={src} alt={`بنر ${i + 1}`} width={800} height={500} decoding="async" loading="lazy" />
             </a>
           </li>
         ))}
       </ul>
-      <CarouselNav variant="hero" startHref="#banner-start" endHref="#banner-end" label="پیشنهادها" />
+      <CarouselNav
+        variant="hero"
+        isAtStart={isAtStart}
+        isAtEnd={isAtEnd}
+        onPrev={scrollPrev}
+        onNext={scrollNext}
+        label="پیشنهادها"
+      />
     </div>
   )
 }

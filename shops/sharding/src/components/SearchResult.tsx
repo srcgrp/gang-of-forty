@@ -14,7 +14,11 @@ export default function SearchResult({ product, quantity, onAdd, onRemove, onJum
   return (
     <li className="search-results__item" onClick={() => onJump(product.id)} style={{ cursor: 'pointer' }}>
       <span className="search-results__img">
-        <span className="product__emoji">{product.emoji}</span>
+        {product.image ? (
+          <img src={product.image} alt={product.name} />
+        ) : (
+          <span className="product__emoji">{product.emoji}</span>
+        )}
       </span>
       
       <span className="search-results__info">

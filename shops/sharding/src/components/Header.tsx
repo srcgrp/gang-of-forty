@@ -72,10 +72,10 @@ export default function Header({
           <div className="container header-nav__inner">
             <MegaMenu categories={categories} products={products} />
             <ul className="nav" id="nav-list">
-              <li><a href="#">خانه</a></li>
-              <li><a href="#">پیشنهاد ویژه</a></li>
-              <li><a href="#">تازه‌ها</a></li>
-              <li><a href="#">تماس با ما</a></li>
+              <li><a href="#main-content">خانه</a></li>
+              <li><a href="#shelf-offers">پیشنهاد ویژه</a></li>
+              <li><a href="#shelf-fruits">تازه‌ها</a></li>
+              <li><a href="#footer">تماس با ما</a></li>
             </ul>
           </div>
         </nav>

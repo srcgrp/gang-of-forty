@@ -32,7 +32,7 @@
   display: flex;
   gap: var(--sp-sm);
   overflow-x: auto;
-  scroll-snap-type: x mandatory;
+  scroll-snap-type: x proximity;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   padding-block: 14px 16px;

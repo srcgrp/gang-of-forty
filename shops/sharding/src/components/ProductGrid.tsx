@@ -12,7 +12,7 @@ type ProductGridProps = {
 }
 
 export default function ProductGrid({ id, title, cards, onAdd, onRemove }: ProductGridProps) {
-  const { trackRef } = useCarousel()
+  const { trackRef, isAtStart, isAtEnd, scrollPrev, scrollNext } = useCarousel()
   const titleId = `${id}-title`
   const isOffers = id === 'shelf-offers'
 
@@ -23,22 +23,24 @@ export default function ProductGrid({ id, title, cards, onAdd, onRemove }: Produ
           <div className="product-shelf__main">
             <div className="product-shelf__head">
               <h2 id={titleId} className="product-shelf__title">{title}</h2>
-              <CarouselNav startHref={`#${id}-start`} endHref={`#${id}-end`} label={title} />
+              <CarouselNav
+                isAtStart={isAtStart}
+                isAtEnd={isAtEnd}
+                onPrev={scrollPrev}
+                onNext={scrollNext}
+                label={title}
+              />
             </div>
 
             <ul ref={trackRef} className="product-shelf__grid" id={`${id}-grid`} tabIndex={0} aria-label={title}>
-              {cards.map((card, i) => {
-                const cardId = i === 0 ? `${id}-start` : i === cards.length - 1 ? `${id}-end` : undefined
-                return (
-                  <ProductCard
-                    key={card.id}
-                    {...(cardId !== undefined ? { id: cardId } : {})}
-                    card={card}
-                    onAdd={onAdd}
-                    onRemove={onRemove}
-                  />
-                )
-              })}
+              {cards.map((card) => (
+                <ProductCard
+                  key={card.id}
+                  card={card}
+                  onAdd={onAdd}
+                  onRemove={onRemove}
+                />
+              ))}
             </ul>
           </div>
         </div>

@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import type { Card } from '../shared/types'
 import Price from './Price'
 import OfferBadge from './OfferBadge'
@@ -10,12 +11,26 @@ type ProductCardProps = {
 }
 
 export default function ProductCard({ card, id, onAdd, onRemove }: ProductCardProps) {
+  const [pulse, setPulse] = useState(false)
+
+  useEffect(() => {
+    if (card.qty === 0) return
+    setPulse(true)
+    const timer = setTimeout(() => setPulse(false), 300)
+    return () => clearTimeout(timer)
+  }, [card.qty])
+
   return (
     <li className="product-item" id={id} data-product-id={card.id}>
-      <article className="product" data-stock={card.inStock ? 'in' : 'out'}>
+      <article className={`product ${pulse ? 'product--cart-pulse' : ''}`} data-stock={card.inStock ? 'in' : 'out'}>
         <div className="product__link">
-          <span className="product__img">
-            <span className="product__emoji">{card.emoji}</span>
+          <span className={`product__img ${!card.image ? 'product__img--emoji' : ''}`}>
+            {card.image ? (
+              <img src={card.image} alt={card.name} loading="lazy" />
+            ) : (
+              <span className="product__emoji">{card.emoji}</span>
+            )}
+            
             {!card.inStock && (
               <span className="product__badge-stock">
                 {card.stockKnown ? 'ناموجود' : 'موجودی نامشخص'}

@@ -10,7 +10,7 @@ type CategoryNavProps = {
 }
 
 export default function CategoryNav({ categories, activeId, onPick, loading }: CategoryNavProps) {
-  const { trackRef } = useCarousel()
+  const { trackRef, isAtStart, isAtEnd, scrollPrev, scrollNext } = useCarousel()
 
   return (
     <section className="categories" aria-labelledby="categories-title">
@@ -18,7 +18,13 @@ export default function CategoryNav({ categories, activeId, onPick, loading }: C
         <div className="categories__head">
           <h2 id="categories-title" className="categories__title">دسته‌بندی محصولات</h2>
           {!loading && (
-            <CarouselNav startHref="#cat-start" endHref="#cat-end" label="دسته‌بندی‌ها" />
+            <CarouselNav
+              isAtStart={isAtStart}
+              isAtEnd={isAtEnd}
+              onPrev={scrollPrev}
+              onNext={scrollNext}
+              label="دسته‌بندی‌ها"
+            />
           )}
         </div>
 
@@ -38,7 +44,6 @@ export default function CategoryNav({ categories, activeId, onPick, loading }: C
                 <button
                   type="button"
                   className="category"
-                  id="cat-start"
                   data-category="all"
                   aria-current={activeId === null ? 'page' : undefined}
                   onClick={() => onPick(null)}
@@ -52,12 +57,11 @@ export default function CategoryNav({ categories, activeId, onPick, loading }: C
                 </button>
               </li>
 
-              {categories.map((cat, i) => (
+              {categories.map((cat) => (
                 <li key={cat.id}>
                   <button
                     type="button"
                     className="category"
-                    id={i === categories.length - 1 ? 'cat-end' : undefined}
                     aria-current={activeId === cat.id ? 'page' : undefined}
                     onClick={() => onPick(cat.id)}
                   >

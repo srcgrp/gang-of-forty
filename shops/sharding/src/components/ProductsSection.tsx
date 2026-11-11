@@ -14,8 +14,45 @@ type ProductsSectionProps = {
 
 export default function ProductsSection({ data, cart, activeCategoryId, onAdd, onRemove }: ProductsSectionProps) {
   if (data.res.status === 'loading') return <ProductSkeleton />
-  if (data.res.status === 'empty') return <div style={{ padding: '40px', textAlign: 'center' }}><h2>محصولی یافت نشد</h2></div>
-  if (data.res.status === 'error') return <div style={{ padding: '40px', textAlign: 'center' }}><h2>خطا</h2><button onClick={() => window.location.reload()}>تلاش دوباره</button></div>
+  
+  if (data.res.status === 'empty') return (
+    <section className="product-shelf" aria-labelledby="status-title">
+      <div className="container">
+        <div className="product-shelf__inner">
+          <div className="product-shelf__main">
+            <div className="product-shelf__head">
+              <h2 id="status-title" className="product-shelf__title">محصولی یافت نشد</h2>
+            </div>
+            <div className="product-shelf__status" data-variant="empty" role="status" aria-live="polite">
+              <p className="product-shelf__status-title">هنوز محصولی برای نمایش نداریم</p>
+              <p className="product-shelf__status-text">به‌زودی محصولات تازه اضافه می‌شوند.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+
+  if (data.res.status === 'error') return (
+    <section className="product-shelf" aria-labelledby="status-title">
+      <div className="container">
+        <div className="product-shelf__inner">
+          <div className="product-shelf__main">
+            <div className="product-shelf__head">
+              <h2 id="status-title" className="product-shelf__title">خطا</h2>
+            </div>
+            <div className="product-shelf__status" data-variant="error" role="status" aria-live="polite">
+              <p className="product-shelf__status-title">بارگذاری محصولات ناموفق بود</p>
+              <p className="product-shelf__status-text">{data.res.message}</p>
+              <button type="button" className="product-shelf__status-retry" onClick={() => window.location.reload()}>
+                تلاش دوباره
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
 
   const currentState = { ...data, cart }
 

@@ -41,23 +41,21 @@ export default function SearchBox({ products, cart, query, onQuery, onAdd, onRem
   }
 
   const showDropdown = open && query.trim() !== ''
+  const placeholder = products.length > 0
+    ? `جستجو در میان ${new Intl.NumberFormat('fa-IR').format(products.length)} کالا…`
+    : 'جستجو در محصولات…'
 
   return (
     <form ref={boxRef} className="search" role="search" autoComplete="off" onSubmit={(e) => e.preventDefault()}>
       <label htmlFor="search-input" className="visually-hidden">جستجو در محصولات</label>
-      <span className="search__icon" aria-hidden="true">
-        <svg><use href="./icons.svg#search" /></svg>
-      </span>
+      <span className="search__icon" aria-hidden="true"><svg><use href="./icons.svg#search" /></svg></span>
       <input
         id="search-input"
         className="search__input"
         type="search"
-        placeholder="جستجو در محصولات…"
+        placeholder={placeholder}
         value={query}
-        onChange={(e) => {
-          onQuery(e.target.value)
-          setOpen(true)
-        }}
+        onChange={(e) => { onQuery(e.target.value); setOpen(true) }}
         onFocus={() => { if (query.trim()) setOpen(true) }}
       />
       {showDropdown && (

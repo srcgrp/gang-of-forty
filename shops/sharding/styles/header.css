@@ -515,12 +515,12 @@
   color: inherit;
 }
 
-.theme-switch__input:checked+.theme-switch__label {
+.theme-switch__input:checked + .theme-switch__label {
   background: var(--accent);
   color: var(--on-accent);
 }
 
-.theme-switch__input:focus-visible+.theme-switch__label {
+.theme-switch__input:focus-visible + .theme-switch__label {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
@@ -747,7 +747,6 @@
   transition: opacity var(--t-base), transform var(--t-base), visibility 0s var(--t-base);
 }
 
-/* باز شدن با هاور (فقط روی دستگاه‌های دارای ماوس) */
 @media (hover: hover) {
   .mega-menu:hover .mega-menu__panel {
     opacity: 1;
@@ -758,7 +757,6 @@
   }
 }
 
-/* باز شدن با فوکوس کیبورد (Tab) */
 .mega-menu:focus-within .mega-menu__panel {
   opacity: 1;
   visibility: visible;
@@ -767,7 +765,6 @@
   transition: opacity var(--t-base), transform var(--t-base), visibility 0s 0s;
 }
 
-/* باز شدن دستی (کلیک / تاچ) */
 .mega-menu[data-state="open"] .mega-menu__panel {
   opacity: 1;
   visibility: visible;
@@ -775,8 +772,6 @@
   pointer-events: auto;
   transition: opacity var(--t-base), transform var(--t-base), visibility 0s 0s;
 }
-
-
 
 .mega-menu::after {
   content: "";
@@ -808,7 +803,7 @@
   transition: background var(--t-fast), color var(--t-fast);
 }
 
-.mega-menu__item[data-state="active"]>.mega-menu__category-link {
+.mega-menu__item[data-state="active"] > .mega-menu__category-link {
   background: var(--accent-soft);
   color: var(--accent);
   font-weight: 700;
@@ -820,8 +815,8 @@
   opacity: 0;
 }
 
-.mega-menu__item[data-state="active"]>.mega-menu__products-panel,
-.mega-menu__item[data-state="active"]>.mega-menu__promo {
+.mega-menu__item[data-state="active"] > .mega-menu__products-panel,
+.mega-menu__item[data-state="active"] > .mega-menu__promo {
   visibility: visible;
   opacity: 1;
 }

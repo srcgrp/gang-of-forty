@@ -31,13 +31,15 @@ export function useCarousel() {
 
   function scrollPrev(): void {
     const el = trackRef.current
-    if (el) el.scrollBy({ left: el.clientWidth * 0.8, behavior: 'smooth' })
+    if (!el) return
+    el.scrollBy({ left: el.clientWidth * 0.8, behavior: 'smooth' })
   }
 
   function scrollNext(): void {
     const el = trackRef.current
-    if (el) el.scrollBy({ left: -el.clientWidth * 0.8, behavior: 'smooth' })
+    if (!el) return
+    el.scrollBy({ left: -(el.clientWidth * 0.8), behavior: 'smooth' })
   }
 
-  return { trackRef, isAtStart, isAtEnd, scrollNext, scrollPrev }
+  return { trackRef, isAtStart, isAtEnd, scrollPrev, scrollNext }
 }
