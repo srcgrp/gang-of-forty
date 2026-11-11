@@ -40,7 +40,8 @@ App
 ├─ Header
 │  ├─ SearchBox
 │  ├─ ThemeToggle
-│  ├─ FavoritesMenu           (کشوی علاقه‌مندی‌ها)
+│  ├─ FavoritesMenu           (دکمه‌ی ♥ و شمارنده)
+│  │  └─ FavoritesDrawer      (کشوی علاقه‌مندی‌ها)
 │  └─ Toaster                 (پیام کوتاه افزودن)
 ├─ CategoryNav
 ├─ main
