@@ -1,6 +1,6 @@
 import { formatNumber } from "../ui/format";
-
-export default function Header(){ 
+type Props = { cartCount: number };
+export default function Header({ cartCount }: Props) {  
      return (
 <>
   <input type="checkbox" id="menu-toggle" className="menu-toggle" aria-label="باز و بسته کردن منو"/>
@@ -49,8 +49,9 @@ export default function Header(){
                 <path d="M17 17h-11v-14h-2" />
                 <path d="M6 5l14 1l-1 7h-13" />
             </svg>
+            </a>
             <span className="cart-label">سبد خرید</span>
-            <span className="cart-count">۳</span></a>
+            <span className="cart-count">{formatNumber(cartCount)}</span> 
     </div>
 
    </> 

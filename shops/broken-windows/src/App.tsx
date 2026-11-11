@@ -7,7 +7,12 @@ import Middle from "./components/Middle"
 import Navigation from "./components/Navigation"
 import Notification from "./components/Notification"
 import ProductGrid from "./components/ProductGrid"
-import type { Product, Offer, StockData } from "./types"
+import CartPanel from "./components/CartPanel"; // NEW: shows cart rows and total
+import type { Product, Offer, StockData, Category, CartLine } from "./types"; // all types used here
+import { addToCart } from "./api/cart/addToCart"; // pure function: add to cart
+import { removeFromCart } from "./api/cart/removeFromCart"; // pure function: remove from cart
+import { cartTotal, cartCount } from "./api/cart/totals"; // pure functions: total and count
+import { useState } from "react";
 
 export default function App() {
   const products: Product[] = [
@@ -80,46 +85,97 @@ export default function App() {
     "701": 50, "702": 45, "703": 16, "704": 70, "705": 2, "706": 11
   }
 }
-function handleAdd(id: number) {
-    console.log("محصول انتخاب‌شده:", id);
-  }
-  return (
+const categories: Category[] = [
+    { id: 1, name: "میوه و سبزی", emoji: "🍎", slug: "fruit", color: "#0F6E56" }, // products 1xx
+    { id: 2, name: "لبنیات و بستنی", emoji: "🥛", slug: "dairy", color: "#D4537E" }, // products 2xx
+    { id: 3, name: "نان و شیرینی", emoji: "🍞", slug: "bread", color: "#D4537E" }, // products 3xx
+    { id: 4, name: "خواربار", emoji: "🍚", slug: "grocery", color: "#0F6E56" }, // products 4xx
+    { id: 5, name: "نوشیدنی", emoji: "🥤", slug: "drinks", color: "#D4537E" }, // products 5xx
+    { id: 6, name: "پروتئین", emoji: "🍗", slug: "protein", color: "#0F6E56" }, // products 6xx
+    { id: 7, name: "تنقلات و آجیل", emoji: "🍿", slug: "snacks", color: "#D4537E" }, // products 7xx
+  ];
+   const [categoryId, setCategoryId] = useState<number | null>(null); // selected category, null = no filter
   
-    <>
-      <Header />
+   const [cart, setCart] = useState<CartLine[]>([]); // cart lines, starts empty
+const dairyProducts = products.filter((p) => p.categoryId === 2); 
+   const visibleProducts =
+    categoryId === null // no category selected?
+      ? products // then show every product
+      : products.filter((p) => p.categoryId === categoryId); // else keep only this category
+  const total = cartTotal(cart); // total price computed from cart
+  const count = cartCount(cart); // total item count computed from cart
+function handlePick(id: number) { // called by CategoryNav when a category is clicked
+    setCategoryId(id === categoryId ? null : id); // clicking the active one clears the filter
+  }
 
+   function handleAdd(id: number) { // called by ProductGrid when "+" is clicked
+    const product = products.find((p) => p.id === id); // find the clicked product
+    if (!product) return; // safety: unknown id, do nothing
+    const percent = offers.find((o) => o.productId === id)?.percent; // discount percent, or undefined
+    const price =
+      percent === undefined // no discount?
+        ? product.price // use the normal price
+        : Math.round((product.price * (100 - percent)) / 100); // else apply the discount
+    setCart((prev) => addToCart(prev, product, price)); // prev = latest cart; we pass a NEW array
+  }
+
+  function handleRemove(id: number) { // called by CartPanel when ✕ is clicked
+    setCart((prev) => removeFromCart(prev, id)); // set a NEW array without that line
+  }
+
+  return (
+    <>
+      {/* Header receives the item count as a prop */}
+      <Header cartCount={count} />
+
+      {/* Top navigation, unchanged */}
       <Navigation />
 
+      {/* Main content wrapper */}
       <main className="site-main">
+        {/* Banner, unchanged */}
         <Hero />
 
+        {/* Benefits strip, unchanged */}
         <Benefits />
 
-        <CategoryNav />
+        {/* Categories: data goes down, click event goes up */}
+        <CategoryNav categories={categories} activeId={categoryId} onPick={handlePick} />
 
+        {/* First carousel now shows only the filtered products */}
         <ProductGrid
-  title="پرفروش‌های امروز"
-  id="special-offer"
-  products={products}
-  offers={offers}
-  stock={stock}
-  onAdd={handleAdd}
-/>
+          title="پرفروش‌های امروز" // section title
+          id="special-offer" // anchor id
+          products={visibleProducts} // filtered list
+          offers={offers} // discounts
+          stock={stock} // stock info
+          onAdd={handleAdd} // "+" click handler
+        />
+
+        {/* Broken-window section, unchanged */}
         <Middle />
 
-<ProductGrid
-  title="پیشنهاد ویژه"
-  id="special-offer-nuts"
-  nuts
-  products={products}
-  offers={offers}
-  stock={stock}
-  onAdd={handleAdd}
-/>
+        {/* Second carousel is not filtered, it always shows all products */}
+        <ProductGrid
+          title="لبنیات و بستنی "
+          id="special-offer-nuts" 
+          nuts
+          products={dairyProducts}
+          offers={offers} 
+          stock={stock} 
+          onAdd={handleAdd} 
+        />
+
+        {/* Cart rows, remove buttons and total */}
+        <CartPanel cart={cart} total={total} onRemove={handleRemove} />
+
+        {/* Newsletter section, unchanged */}
         <Notification />
       </main>
 
+      {/* Footer, unchanged */}
       <Footer />
     </>
-)
+  );
 }
+
