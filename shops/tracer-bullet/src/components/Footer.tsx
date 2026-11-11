@@ -1,0 +1,39 @@
+export default function Footer(){
+    return (
+    <footer>
+    <div className="footer-columns">
+      <div>
+        <p className="footer-brand">پرتقال<img className="icon-inline" src="png/orange-slice.png" alt="" width="32" height="32"/>
+        </p>
+        <p className="about"></p>
+      </div>
+      <section id="contact">
+
+        <h2><img className="icon-inline" src="png/phone-fill.png" alt="" width="20" height="20"/>راه ارتباطی</h2>
+        <address>
+          <p className="address"></p>
+          <p className="phone"><a href="tel:+982100000000" dir="ltr">&#8209;</a></p>
+        </address>
+      </section>
+      <nav className="footer-nav" aria-label="پیوندهای پایین صفحه">
+        <div>
+          <h2><img className="icon-inline" src="png/folders-fill.png" alt="" width="20" height="20"/>دسته‌ها</h2>
+          <ul className="footer-categories">
+          </ul>
+        </div>
+        <div>
+          <h2><img className="icon-inline" src="png/hand-pointing-fill.png" alt="" width="20" height="20"/>راهنما</h2>
+          <ul className="footer-help">
+          </ul>
+        </div>
+      </nav>
+      <section id="working-hours">
+        <h2><img className="icon-inline" src="png/clock-fill.png" alt="" width="20" height="20"/>ساعت کاری</h2>
+      </section>
+    </div>
+    <div className="footer-bottom">
+      <p><small>© ۱۴۰۵ پرتقال</small></p>
+      <a href="#top">بازگشت به بالا</a>
+    </div>
+  </footer>)
+}
