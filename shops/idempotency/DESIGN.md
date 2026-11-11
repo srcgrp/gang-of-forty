@@ -4,14 +4,15 @@ This document explains how the project works and how the code is organized.
 
 ## 1. What must it do? (requirements)
 
-- Customers can search products and categories.
-- Customers can search for products and filter them by category.
-- Search text and selected category stay in the URL, even after refreshing or sharing the link.
+- Customers can see products and filter them by category.
 - Customers can see product prices, offers, and availability.
-- Customers can search product carousels and promotional banners.
-- Customers can add products to the cart and see the cart count.
+- Customers can see product carousels and promotional banners.
+- Customers can add products to the cart and change their quantities.
+- Customers can see the products inside their cart.
+- Cart items stay saved after refreshing the page.
 - Customers can switch between light and dark themes.
-- Not now: login, online payment, checkout, order tracking, and viewing all items inside the cart.
+- Product search and URL filters will be added later.
+- Not now: login, online payment, checkout, and order tracking.
 
 ## 2. Screens and parts
 
@@ -28,8 +29,7 @@ There are promotional banners for breakfast, bakery, and dairy products.
 The special offer carousel shows discounted products. Clicking on the special offer section can also show a confetti effect.
 
 The categories section shows product categories. Users can select a category to filter the products.
-
-Product carousels show products based on the selected category and search text.
+Product carousels show products based on the selected category.
 
 Product cards show the product name, price, discount, availability, and add-to-cart button.
 
@@ -37,24 +37,26 @@ The footer shows shop information and useful links.
 
 ## 3. Data ownership
 
-The API gives products, categories, offers, stock, homepage data, and shop information.
+The API gives products, categories, offers, stock,
+homepage data, and shop information.
 
-The URL keeps the selected category and search text using `category` and `q`.
+React keeps the selected category in App State.
 
-The file `src/features/products/storage/filter-url.ts` is responsible for reading and updating these values in the URL. It also handles browser Back and Forward.
+The cart is also stored in App State.
+LocalStorage saves the cart items and their quantities,
+so the cart stays saved after refreshing the page.
 
-When the page loads, the website reads the filters from the URL and shows the matching products. This means refreshing the page or opening the same link in another tab keeps the filters.
+Other UI states, like the open cart and active hero slide,
+are managed by their own React components.
 
-Usage of replaceState and pushState:
-For search, I used `replaceState` so typing each character doesn't create a new browser history entry. For category changes, I used `pushState` so Back and Forward can work.
+URL fragments are used to navigate to different
+sections of the page.
 
-Other temporary UI states stay in memory.
+Product search and saving filters in the URL
+are not connected to React yet.
 
-LocalStorage saves the cart count so it doesn't disappear after refreshing the page.
-
-URL fragments are used to navigate to different sections of the page.
-
-Environment variables define the API URL for development and production.
+Environment variables define the API URL
+for development and production.
 
 ## 4. API contract
 
@@ -81,7 +83,7 @@ In Vite, `base: "./"` is used so the built files can work when the website is pl
 
 - Loading: Show product skeletons while data is being fetched.
 - Success: Show the homepage, categories, and product carousels with the loaded data.
-- Empty: Show a message when there are no products or no products match the selected filters.
+- Empty: Show a message when there are no products to display.
 - Error: Show an error message if the API request fails or the returned data is invalid.
 
 The cart count and theme buttons can work without waiting for API data.
@@ -90,73 +92,83 @@ The cart count and theme buttons can work without waiting for API data.
 
 ```text
 src/
+├── main.tsx
+├── App.tsx
+├── store-cart.ts
+├── components/
+│
 ├── features/
 │   ├── cart/
+│   │   ├── hooks/
 │   │   ├── logic/
 │   │   ├── storage/
-│   │   ├── ui/
-│   │   └── setup.ts
+│   │   └── ui/
 │   │
 │   └── products/
 │       ├── api/
-│       │   └── validation/
+│       ├── hooks/
 │       ├── logic/
 │       ├── storage/
 │       ├── ui/
-│       │   ├── carousels/
-│       │   ├── categories/
-│       │   ├── filters/
-│       │   ├── search/
-│       │   └── shop/
 │       └── data.ts
 │
-├── shared/
-│   ├── api/
-│   │   └── validation/
-│   ├── types/
-│   ├── ui/
-│   │   ├── hero/
-│   │   └── shop/
-│   └── validation/
-│
-└── main.ts
+└── shared/
+    ├── api/
+    ├── types/
+    ├── ui/
+    └── validation/
 ```
 
-I changed the project structure to Feature-based, so files related to the same feature are kept together.
+The project uses React and is organized by features.
 
-`features/cart/`
+### Main files
 
-Contains everything related to the cart, including cart count calculations, localStorage, click events, updating the cart count, and showing toast messages.
+- `main.tsx` starts the React application.
+- `App.tsx` manages the cart and selected category.
+- `store-cart.ts` connects cart actions with product data.
+- `components/` contains the React components for the page.
 
-The Cart feature has its own `setup.ts` file to connect these parts.
+### Cart feature
 
-`features/products/`
+`features/cart/` contains the cart-related code.
 
-Contains code related to products, categories, searching, filtering, carousels, and product cards.
+- `hooks/` saves cart changes and updates the page title.
+- `logic/` handles cart items, quantities, and totals.
+- `storage/` reads and saves the cart in localStorage.
+- `ui/` contains helpers such as cart notifications.
 
-- `api/` fetches product data and checks the API responses.
-- `logic/` handles product selection, search, filtering, discounts, and preparing carousel data.
-- `storage/` handles the URL filters.
-- `ui/` creates and updates the product-related parts of the page.
-- `data.ts` contains image paths for products and categories.
+### Products feature
 
-**`shared/`**
+`features/products/` contains product-related code.
 
-Contains code that can be used by different parts of the project.
+- `api/` fetches and checks API data.
+- `hooks/` loads store data using React.
+- `logic/` prepares products, offers, and carousels.
+- `storage/` contains URL filter helpers.
+- `ui/` contains product UI helpers, including older DOM code.
+- `data.ts` contains product and category image paths.
 
+### Shared files
+
+`shared/` contains code used by different parts of the project.
+
+- `api/` contains general API functions.
 - `types/` contains TypeScript types.
-- `api/` contains general API functions and shop/home data requests.
+- `ui/` contains shared UI helpers.
 - `validation/` contains common validation functions.
-- `ui/` contains general UI parts like the hero slider, theme, banners, and shop information.
 
-How features work together:
-Cart and Products should not directly import files from each other.
+### How the parts work together
 
-Both can use files from `shared/`, but `shared/` should not depend on Cart or Products.
+App manages the main State and passes data and callbacks
+to React components.
 
-`main.ts` is the entry point of the application. It starts the features and connects the different parts together.
+Components display the data and handle user actions.
 
-This way, the code for each feature stays in one place, and changing one feature is less likely to affect another one.
+Feature files keep the API, cart, and product logic separate
+from the React components.
+
+Some helper files from the old DOM version are still present,
+but the current page is rendered using React.
 
 ## 7. Security
 
@@ -166,3 +178,65 @@ This way, the code for each feature stays in one place, and changing one feature
 - Users can change cart data and prices in their own browser.
 - The server must calculate the final cart price using trusted product prices and discounts.
 - Frontend values should not be trusted for payment calculations.
+
+## 8. React Component Tree
+
+We uses React components instead of manually
+creating and updating DOM elements.
+
+```text
+App
+└── StorePage
+    ├── Header
+    │   ├── Brand
+    │   ├── MobileNav
+    │   ├── CategoryNav
+    │   ├── HeaderSearch
+    │   ├── ThemeToggle
+    │   └── CartPanel
+    │       └── CartPopover
+    │           └── CartPanelItems
+    │               └── CartItemRow
+    │                   └── CartItemStepper
+    └── StoreBody
+        ├── Hero
+        ├── HomeBanners
+        ├── CategoryGrid
+        ├── ProductSections
+        │   └── ProductGrid × n
+        │       ├── ProductCard × n
+        │       └── CarouselControls
+        ├── LoadingProductSections / LoadStatus
+        └── Footer
+            ├── FooterAbout
+            ├── FooterLinks
+            └── FooterContact
+```
+
+App owns the shared cart and selected category states.
+StorePage passes data and event callbacks to its children.
+Product and cart components receive typed props.
+User interactions are handled through callbacks.
+
+## 9. State Ownership
+
+| State       | Owner        | Updated by                              | Persistence               |
+| ----------- | ------------ | --------------------------------------- | ------------------------- |
+| cart        | App          | Add, remove, quantity and clear actions | localStorage              |
+| categoryId  | App          | Category selection callbacks            | React memory              |
+| storeData   | useStoreData | API response                            | React memory              |
+| loadState   | useStoreData | API loading and error handling          | React memory              |
+| isOpen      | CartPanel    | Mouse and click events                  | React memory              |
+| activeSlide | Hero         | Slider interval                         | React memory              |
+| theme       | ThemeToggle  | Theme button                            | Applied to document theme |
+
+### Derived Values
+
+Some values are calculated from existing data instead of being stored as separate State.
+
+For example:
+
+- Cart count and total price are calculated from the cart.
+- Product sections are created using the loaded products and selected category.
+
+We don't need extra State for these values because we can calculate them from the data we already have.
