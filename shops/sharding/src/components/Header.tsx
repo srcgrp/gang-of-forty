@@ -1,11 +1,14 @@
 import Topbar from './Topbar'
 import SearchBox from './SearchBox'
 import ThemeSwitch from './ThemeSwitch'
-import MegaMenu from './MegaMenu'
+import HeaderNav from './HeaderNav'
+import ShopIdentity from './ShopIdentity'
 import type { Theme, Product, Category, Cart } from '../shared/types'
 
 type HeaderProps = {
   shopName: string
+  slogan: string
+  notice: string
   cartCount: number
   theme: Theme
   loading: boolean
@@ -22,31 +25,19 @@ type HeaderProps = {
 }
 
 export default function Header({
-  shopName, cartCount, theme, loading, onTheme, onOpenCart, onOpenMenu,
+  shopName, slogan, notice, cartCount, theme, loading, onTheme, onOpenCart, onOpenMenu,
   products, categories, cart, query, onQuery, onAddToCart, onRemoveFromCart
 }: HeaderProps) {
   return (
     <>
-      <Topbar />
+      <Topbar notice={notice} />
       <header className="header">
         <div className="container header__inner">
           <button type="button" className="icon-btn header__menu-btn" onClick={onOpenMenu} aria-label="باز کردن منو">
             <svg className="icon-btn__icon" aria-hidden="true"><use href="./icons.svg#menu" /></svg>
           </button>
 
-          <a href="#" className="identity" aria-label="بازگشت به بالای صفحه">
-            <span className="identity__logo" aria-hidden="true">
-              <img className="logo-img" src="./assets/images/logo/kiwi-fruit.svg" alt="" width="48" height="48" />
-            </span>
-            <span className="identity__text">
-              <span className={`identity__name ${loading ? 'skeleton skeleton--brand' : ''}`}>
-                {loading ? ' ' : shopName}
-              </span>
-              <span className={`identity__tagline ${loading ? 'skeleton skeleton--tagline' : ''}`}>
-                {loading ? ' ' : 'تازه، سریع، ارزان'}
-              </span>
-            </span>
-          </a>
+          <ShopIdentity name={shopName} slogan={slogan} loading={loading} />
 
           <SearchBox
             products={products}
@@ -68,17 +59,7 @@ export default function Header({
           <ThemeSwitch value={theme} onChange={onTheme} />
         </div>
 
-        <nav className="header-nav" aria-label="ناوبری اصلی">
-          <div className="container header-nav__inner">
-            <MegaMenu categories={categories} products={products} />
-            <ul className="nav" id="nav-list">
-              <li><a href="#main-content">خانه</a></li>
-              <li><a href="#shelf-offers">پیشنهاد ویژه</a></li>
-              <li><a href="#shelf-fruits">تازه‌ها</a></li>
-              <li><a href="#footer">تماس با ما</a></li>
-            </ul>
-          </div>
-        </nav>
+        <HeaderNav categories={categories} products={products} />
       </header>
     </>
   )

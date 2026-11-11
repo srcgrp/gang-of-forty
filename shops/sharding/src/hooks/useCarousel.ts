@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
-export function useCarousel() {
+export function useCarousel(itemCount = 0) {
   const trackRef = useRef<HTMLUListElement>(null)
   const [isAtStart, setIsAtStart] = useState(true)
   const [isAtEnd, setIsAtEnd] = useState(false)
@@ -27,7 +27,7 @@ export function useCarousel() {
       el.removeEventListener('scroll', updateState)
       window.removeEventListener('resize', updateState)
     }
-  }, [])
+  }, [itemCount])
 
   function scrollPrev(): void {
     const el = trackRef.current

@@ -1,4 +1,8 @@
-export default function Footer() {
+import type { Shop } from '../shared/types'
+
+type FooterProps = { shop: Shop | null }
+
+export default function Footer({ shop }: FooterProps) {
   return (
     <footer className="footer" id="footer">
       <div className="container">
@@ -9,41 +13,30 @@ export default function Footer() {
                 <img className="logo-img" src="./assets/images/logo/kiwi-fruit.svg" alt="" width="48" height="48" />
               </span>
               <span className="identity__text">
-                <span className="identity__name">کیوی</span>
-                <span className="identity__tagline">تازه، سریع، ارزان</span>
+                <span className="identity__name">{shop?.name}</span>
+                <span className="identity__tagline">{shop?.slogan}</span>
               </span>
             </a>
-            <p className="footer__about">
-              فروشگاه آنلاین کیوی، عرضه‌کننده مواد غذایی تازه و باکیفیت.
-            </p>
+            <p className="footer__about">{shop?.about}</p>
           </div>
-
           <div className="footer__col">
             <h3 className="footer__title">خدمات مشتریان</h3>
             <ul className="footer__list">
-              <li><a href="#">پیگیری سفارش</a></li>
-              <li><a href="#">سؤالات متداول</a></li>
-              <li><a href="#">تماس با پشتیبانی</a></li>
+              {shop?.help.map((link) => <li key={link.label}><a href={link.href}>{link.label}</a></li>)}
             </ul>
           </div>
-
-          <div className="footer__col">
+          <div className="footer__col" id="contact">
             <h3 className="footer__title">تماس با ما</h3>
             <ul className="footer__list">
-              <li><a href="tel:02112345678" dir="ltr">021-12345678</a></li>
-              <li>تهران، خیابان ولیعصر</li>
+              {shop && <li><a href={`tel:${shop.phone}`} dir="ltr">{shop.phone}</a></li>}
+              <li>{shop?.address}</li>
+              {shop?.schedule.map((row) => <li key={row.days}>{row.days}: {row.time}</li>)}
             </ul>
           </div>
         </div>
-
         <div className="footer__bottom">
-          <p className="footer__copy">© ۱۴۰۴ — تمام حقوق محفوظ است</p>
-          <a href="#main-content" className="footer__top">
-            <span>بازگشت به بالا</span>
-            <svg className="footer__top-icon" aria-hidden="true">
-              <use href="./icons.svg#arrowUp" />
-            </svg>
-          </a>
+          <p className="footer__copy">{shop?.copyright}</p>
+          <a href="#main-content" className="footer__top">بازگشت به بالا</a>
         </div>
       </div>
     </footer>

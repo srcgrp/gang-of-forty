@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import type { Product, Cart, Offer } from '../shared/types'
 import Price from './Price'
-import { finalPrice } from '../shared/logic/pricing'
+import { cartRows, cartTotal } from '../features/cart/cart-rows'
 
 type CartPanelProps = {
   open: boolean
@@ -21,7 +21,7 @@ export default function CartPanel({ open, cart, products, offerMap, onClose, onR
       if (e.key === 'Escape') onClose()
     }
     function onClick(e: MouseEvent) {
-      if (panelRef.current && !panelRef.current.contains(e.target as Node)) onClose()
+      if (e.target instanceof Node && panelRef.current && !panelRef.current.contains(e.target)) onClose()
     }
     document.addEventListener('keydown', onKey)
     document.addEventListener('mousedown', onClick)
@@ -31,16 +31,8 @@ export default function CartPanel({ open, cart, products, offerMap, onClose, onR
     }
   }, [open, onClose])
 
-  const rows = Object.entries(cart)
-    .map(([id, qty]) => {
-      const product = products.find((p) => p.id === Number(id))
-      if (!product) return null
-      const unitPrice = finalPrice(product.price, offerMap.get(product.id))
-      return { product, qty, linePrice: unitPrice * qty }
-    })
-    .filter((r): r is { product: Product; qty: number; linePrice: number } => r !== null)
-
-  const total = rows.reduce((sum, r) => sum + r.linePrice, 0)
+  const rows = cartRows(cart, products, offerMap)
+  const total = cartTotal(rows)
 
   return (
     <aside ref={panelRef} id="cart-panel" className="cart-panel" hidden={!open} aria-label="سبد خرید">
@@ -54,11 +46,11 @@ export default function CartPanel({ open, cart, products, offerMap, onClose, onR
           <li className="cart-row cart-row--empty">سبد خرید خالی است</li>
         ) : (
           rows.map((r) => (
-            <li key={r.product.id} className="cart-row">
-              <span className="cart-row__name">{r.product.name}</span>
+            <li key={r.id} className="cart-row">
+              <span className="cart-row__name">{r.name}</span>
               <span className="cart-row__qty">{r.qty} ×</span>
-              <span className="cart-row__total"><Price value={r.linePrice} /></span>
-              <button type="button" className="cart-row__remove" onClick={() => onRemoveLine(r.product.id)} aria-label={`حذف ${r.product.name}`}>×</button>
+              <span className="cart-row__total"><Price value={r.lineTotal} /></span>
+              <button type="button" className="cart-row__remove" onClick={() => onRemoveLine(r.id)} aria-label={`حذف ${r.name}`}>×</button>
             </li>
           ))
         )}

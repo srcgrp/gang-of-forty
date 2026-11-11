@@ -12,9 +12,9 @@ type ProductGridProps = {
 }
 
 export default function ProductGrid({ id, title, cards, onAdd, onRemove }: ProductGridProps) {
-  const { trackRef, isAtStart, isAtEnd, scrollPrev, scrollNext } = useCarousel()
+  const { trackRef, isAtStart, isAtEnd, scrollPrev, scrollNext } = useCarousel(cards.length)
   const titleId = `${id}-title`
-  const isOffers = id === 'shelf-offers'
+  const isOffers = id === 'offers'
 
   return (
     <section className="product-shelf" id={id} aria-labelledby={titleId} data-variant={isOffers ? 'offers' : undefined}>
@@ -29,6 +29,7 @@ export default function ProductGrid({ id, title, cards, onAdd, onRemove }: Produ
                 onPrev={scrollPrev}
                 onNext={scrollNext}
                 label={title}
+                sectionId={id}
               />
             </div>
 

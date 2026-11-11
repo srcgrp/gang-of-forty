@@ -8,7 +8,7 @@ type BannerCarouselProps = {
 }
 
 export default function BannerCarousel({ banners, loading }: BannerCarouselProps) {
-  const { trackRef, isAtStart, isAtEnd, scrollPrev, scrollNext } = useCarousel()
+  const { trackRef, isAtStart, isAtEnd, scrollPrev, scrollNext } = useCarousel(loading ? 0 : banners.length + 1)
 
   if (loading) {
     return (
@@ -43,6 +43,7 @@ export default function BannerCarousel({ banners, loading }: BannerCarouselProps
         onPrev={scrollPrev}
         onNext={scrollNext}
         label="پیشنهادها"
+        sectionId="banner-track"
       />
     </div>
   )

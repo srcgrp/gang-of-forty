@@ -12,6 +12,12 @@ export function readUrlHash(): string {
   return location.hash;
 }
 
+export function writeUrlHash(id: string): void {
+  const url = new URL(location.href);
+  url.hash = id;
+  if (url.href !== location.href) history.pushState(null, '', url);
+}
+
 export function writeUrlFilters(
   filters: UrlFilters,
   mode: 'push' | 'replace' = 'replace',

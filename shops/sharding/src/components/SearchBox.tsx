@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { Product, Cart } from '../shared/types'
 import { useSearch } from '../hooks/useSearch'
-import SearchResult from './SearchResult'
+import SearchResults from './SearchResults'
 
 type SearchBoxProps = {
   products: Product[]
@@ -18,20 +18,18 @@ export default function SearchBox({ products, cart, query, onQuery, onAdd, onRem
   const boxRef = useRef<HTMLFormElement>(null)
 
   useEffect(() => {
-    function onDocClick(e: MouseEvent): void {
-      if (!boxRef.current || !(e.target instanceof Node)) return
-      if (!boxRef.current.contains(e.target)) setOpen(false)
+    function onDocClick(event: MouseEvent): void {
+      if (event.target instanceof Node && !boxRef.current?.contains(event.target)) setOpen(false)
+    }
+    function onKey(event: KeyboardEvent): void {
+      if (event.key === 'Escape') setOpen(false)
     }
     document.addEventListener('mousedown', onDocClick)
-    return () => document.removeEventListener('mousedown', onDocClick)
-  }, [])
-
-  useEffect(() => {
-    function onKey(e: KeyboardEvent): void {
-      if (e.key === 'Escape') setOpen(false)
-    }
     document.addEventListener('keydown', onKey)
-    return () => document.removeEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('mousedown', onDocClick)
+      document.removeEventListener('keydown', onKey)
+    }
   }, [])
 
   function jumpTo(id: number): void {
@@ -63,17 +61,9 @@ export default function SearchBox({ products, cart, query, onQuery, onAdd, onRem
           {search.status === 'loading' && <li className="search-results__empty">در حال بارگذاری…</li>}
           {search.status === 'error' && <li className="search-results__empty">{search.message}</li>}
           {search.status === 'ready' && search.results.length === 0 && <li className="search-results__empty">نتیجه‌ای یافت نشد</li>}
-          
-          {search.status === 'ready' && search.results.map((p) => (
-            <SearchResult
-              key={p.id}
-              product={p}
-              quantity={cart[String(p.id)] ?? 0}
-              onAdd={onAdd}
-              onRemove={onRemove}
-              onJump={jumpTo}
-            />
-          ))}
+          {search.status === 'ready' && (
+            <SearchResults products={search.results} cart={cart} onAdd={onAdd} onRemove={onRemove} onJump={jumpTo} />
+          )}
         </ul>
       )}
     </form>

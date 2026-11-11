@@ -1,3 +1,4 @@
+import { useId } from 'react'
 import type { Theme } from '../shared/types'
 
 const OPTIONS: { value: Theme; icon: string; label: string }[] = [
@@ -12,20 +13,22 @@ type ThemeSwitchProps = {
 }
 
 export default function ThemeSwitch({ value, onChange }: ThemeSwitchProps) {
+  const groupId = useId()
+
   return (
     <div className="theme-switch" role="radiogroup" aria-label="انتخاب پوسته">
       {OPTIONS.map((opt) => (
         <div key={opt.value} className="theme-switch__item">
           <input
             type="radio"
-            name="theme"
-            id={`theme-${opt.value}`}
+            name={groupId}
+            id={`${groupId}-${opt.value}`}
             value={opt.value}
             className="theme-switch__input"
             checked={value === opt.value}
             onChange={() => onChange(opt.value)}
           />
-          <label htmlFor={`theme-${opt.value}`} className="theme-switch__label" title={opt.label}>
+          <label htmlFor={`${groupId}-${opt.value}`} className="theme-switch__label" title={opt.label}>
             <span className="visually-hidden">{opt.label}</span>
             <svg className="theme-switch__icon" aria-hidden="true">
               <use href={`./icons.svg#${opt.icon}`} />

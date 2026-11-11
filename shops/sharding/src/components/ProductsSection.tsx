@@ -1,87 +1,49 @@
 import type { AppState, Cart } from '../shared/types'
 import { buildShelves } from '../features/products/logic/shelves'
-import { cardOf } from '../features/products/logic/to-card'
+import { searchProducts } from '../features/products/logic/filters'
 import ProductGrid from './ProductGrid'
 import ProductSkeleton from './ProductSkeleton'
+import ProductStatus from './ProductStatus'
 
 type ProductsSectionProps = {
   data: AppState
   cart: Cart
   activeCategoryId: number | null
+  query: string
+  onRetry: () => void
   onAdd: (id: number) => void
   onRemove: (id: number) => void
 }
 
-export default function ProductsSection({ data, cart, activeCategoryId, onAdd, onRemove }: ProductsSectionProps) {
-  if (data.res.status === 'loading') return <ProductSkeleton />
-  
-  if (data.res.status === 'empty') return (
-    <section className="product-shelf" aria-labelledby="status-title">
-      <div className="container">
-        <div className="product-shelf__inner">
-          <div className="product-shelf__main">
-            <div className="product-shelf__head">
-              <h2 id="status-title" className="product-shelf__title">محصولی یافت نشد</h2>
-            </div>
-            <div className="product-shelf__status" data-variant="empty" role="status" aria-live="polite">
-              <p className="product-shelf__status-title">هنوز محصولی برای نمایش نداریم</p>
-              <p className="product-shelf__status-text">به‌زودی محصولات تازه اضافه می‌شوند.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-
-  if (data.res.status === 'error') return (
-    <section className="product-shelf" aria-labelledby="status-title">
-      <div className="container">
-        <div className="product-shelf__inner">
-          <div className="product-shelf__main">
-            <div className="product-shelf__head">
-              <h2 id="status-title" className="product-shelf__title">خطا</h2>
-            </div>
-            <div className="product-shelf__status" data-variant="error" role="status" aria-live="polite">
-              <p className="product-shelf__status-title">بارگذاری محصولات ناموفق بود</p>
-              <p className="product-shelf__status-text">{data.res.message}</p>
-              <button type="button" className="product-shelf__status-retry" onClick={() => window.location.reload()}>
-                تلاش دوباره
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-
-  const currentState = { ...data, cart }
-
-  if (activeCategoryId !== null) {
-    const filtered = data.products.filter((p) => p.categoryId === activeCategoryId)
-    return (
-      <ProductGrid
-        id="shelf-filtered"
-        title="محصولات دسته‌بندی"
-        cards={filtered.map((p) => cardOf(p, currentState))}
-        onAdd={onAdd}
-        onRemove={onRemove}
-      />
-    )
+export default function ProductsSection({ data, cart, activeCategoryId, query, onRetry, onAdd, onRemove }: ProductsSectionProps) {
+  switch (data.res.status) {
+    case 'loading':
+      return <ProductSkeleton />
+    case 'empty':
+      return <ProductStatus variant="empty" title="محصولی یافت نشد" text="به‌زودی محصولات تازه اضافه می‌شوند." />
+    case 'error':
+      return <ProductStatus variant="error" title="بارگذاری محصولات ناموفق بود" text={data.res.message} onRetry={onRetry} />
+    case 'success': {
+      const products = searchProducts(data.products, query)
+      const shelves = buildShelves({ ...data, cart, products })
+      const visible = activeCategoryId === null ? shelves : shelves.filter(
+        ({ shelf }) => shelf.categoryId === activeCategoryId,
+      )
+      if (query.trim() && visible.every(({ cards }) => cards.length === 0)) {
+        return <ProductStatus variant="empty" title="نتیجه‌ای یافت نشد" text="عبارت یا دسته‌بندی دیگری را امتحان کنید." />
+      }
+      return (
+        <>
+          {visible.filter(({ cards }) => !query.trim() || cards.length > 0).map(({ shelf, cards }) => (
+            <ProductGrid key={shelf.id} id={shelf.id} title={shelf.title} cards={cards}
+              onAdd={onAdd} onRemove={onRemove} />
+          ))}
+        </>
+      )
+    }
+    default: {
+      const unreachable: never = data.res
+      return unreachable
+    }
   }
-
-  const shelves = buildShelves(currentState)
-  return (
-    <>
-      {shelves.map((shelfView) => (
-        <ProductGrid
-          key={shelfView.shelf.id}
-          id={`shelf-${shelfView.shelf.id}`}
-          title={shelfView.shelf.title}
-          cards={shelfView.cards}
-          onAdd={onAdd}
-          onRemove={onRemove}
-        />
-      ))}
-    </>
-  )
 }

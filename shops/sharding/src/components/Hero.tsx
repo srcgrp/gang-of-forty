@@ -1,21 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
 import BannerCarousel from './BannerCarousel'
+import type { Home } from '../shared/types'
 
 type HeroProps = {
   banners: string[]
-  title?: string
-  text?: string
-  ctaLabel?: string
-  ctaHref?: string
+  home: Home | null
   loading?: boolean
 }
 
 export default function Hero({
   banners,
-  title = 'فروشگاه آنلاین کیوی',
-  text = 'تازه‌ترین مواد غذایی، مستقیم از مزرعه',
-  ctaLabel = 'مشاهده محصولات',
-  ctaHref = '#fruits',
+  home,
   loading = false,
 }: HeroProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -51,14 +46,14 @@ export default function Hero({
           />
           <div className="hero-video__overlay">
             <h1 className="hero-video__title" id="hero-title">
-              {loading ? ' ' : title}
+              {loading ? ' ' : home?.hero?.title ?? 'فروشگاه آنلاین کیوی'}
             </h1>
             <p className="hero-video__desc">
-              {loading ? ' ' : text}
+              {loading ? ' ' : home?.hero?.text ?? 'تازه‌ترین مواد غذایی، مستقیم از مزرعه'}
             </p>
             {!loading && (
-              <a href={ctaHref} className="hero-video__cta">
-                <span>{ctaLabel}</span>
+              <a href={home?.hero?.cta?.href ?? '#fruits'} className="hero-video__cta">
+                <span>{home?.hero?.cta?.label ?? 'مشاهده محصولات'}</span>
                 <svg className="hero-video__cta-icon" aria-hidden="true">
                   <use href="./icons.svg#arrowForward" />
                 </svg>
