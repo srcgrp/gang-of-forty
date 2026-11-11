@@ -1,6 +1,33 @@
 import CategoryNav from './CategoryNav';
+import CartPanel from './CartPanel';
+import type { CartLine, Category, Product } from '../types';
+import { formatCount } from '../ui/format';
 
-export default function Header() {
+type HeaderProps = {
+  cartCount: number;
+  cartOpen: boolean;
+  onCartClick: () => void;
+  cart: CartLine[];
+  products: Product[];
+  cartTotal: number;
+  onCartRemove: (productId: number) => void;
+  categories: Category[];
+  activeCategoryId: number | null;
+  onCategoryPick: (categoryId: number | null) => void;
+};
+
+export default function Header({
+  cartCount,
+  cartOpen,
+  onCartClick,
+  cart,
+  products,
+  cartTotal,
+  onCartRemove,
+  categories,
+  activeCategoryId,
+  onCategoryPick,
+}: HeaderProps) {
   return (
     <header>
       <article>
@@ -32,21 +59,45 @@ export default function Header() {
           />
           <div id="user-actions">
             <i className="ph ph-bell"></i>
-            <button
-              id="shopping-cart-button"
-              type="button"
-              aria-label="مشاهده سبد خرید"
-            >
-              سبد خرید
-              <span id="cart-count" className="cart-count" hidden>
-                ۰
-              </span>
-              <i className="ph ph-shopping-cart-simple"></i>
-            </button>
+            <div id="cart-action">
+              <button
+                id="shopping-cart-button"
+                type="button"
+                aria-label={
+                  cartCount === 0
+                    ? 'مشاهده سبد خرید'
+                    : `سبد خرید، ${formatCount(cartCount)} کالا`
+                }
+                aria-controls="cart-panel"
+                aria-expanded={cartOpen}
+                onClick={onCartClick}
+              >
+                سبد خرید
+                <span
+                  id="cart-count"
+                  className="cart-count"
+                  hidden={cartCount === 0}
+                >
+                  {formatCount(cartCount)}
+                </span>
+                <i className="ph ph-shopping-cart-simple"></i>
+              </button>
+              <CartPanel
+                open={cartOpen}
+                cart={cart}
+                products={products}
+                total={cartTotal}
+                onRemove={onCartRemove}
+              />
+            </div>
           </div>
         </section>
       </nav>
-      <CategoryNav />
+      <CategoryNav
+        categories={categories}
+        activeCategoryId={activeCategoryId}
+        onPick={onCategoryPick}
+      />
       <section className="hero-container">
         <div id="hero-right">
           <div id="hero-title1">
