@@ -1,6 +1,7 @@
 import type { Card } from '../shared/types'
 import ProductCard from './ProductCard'
 import CarouselNav from './CarouselNav'
+import SalePromotion from './SalePromotion'
 import { useCarousel } from '../hooks/useCarousel'
 
 type ProductGridProps = {
@@ -22,7 +23,10 @@ export default function ProductGrid({ id, title, cards, onAdd, onRemove }: Produ
         <div className="product-shelf__inner">
           <div className="product-shelf__main">
             <div className="product-shelf__head">
-              <h2 id={titleId} className="product-shelf__title">{title}</h2>
+              <div className="product-shelf__heading">
+                <h2 id={titleId} className="product-shelf__title">{title}</h2>
+                {isOffers && <SalePromotion />}
+              </div>
               <CarouselNav
                 isAtStart={isAtStart}
                 isAtEnd={isAtEnd}

@@ -1,5 +1,6 @@
 import type { AppState, CartChange, Theme, UrlFilters } from '../shared/types'
 import { BANNER_IMAGES } from '../shared/content'
+import { cartCount } from '../features/cart/logic/cart'
 import { useScrollToHash } from '../hooks/useScrollToHash'
 import Header from './Header'
 import Hero from './Hero'
@@ -9,25 +10,24 @@ import Footer from './Footer'
 import CartPanel from './CartPanel'
 import MobileMenu from './MobileMenu'
 import SlowNotice from './SlowNotice'
-import SalePromotion from './SalePromotion'
 
 type ShopPageProps = {
   data: AppState
-  filters: UrlFilters
-  onFilters: (filters: UrlFilters, mode?: 'push' | 'replace') => void
-  theme: Theme
-  onTheme: (theme: Theme) => void
-  count: number
+  filters: [UrlFilters, (filters: UrlFilters, mode?: 'push' | 'replace') => void]
+  theme: [Theme, (theme: Theme) => void]
   onCartChange: (id: number, change: CartChange) => void
-  cartOpen: boolean
-  onCartOpen: (open: boolean) => void
-  menuOpen: boolean
-  onMenuOpen: (open: boolean) => void
+  cartPanel: [boolean, (open: boolean) => void]
+  mobileMenu: [boolean, (open: boolean) => void]
   onRetry: () => void
 }
 
-export default function ShopPage({ data, filters, onFilters, theme, onTheme, count,
-  onCartChange, cartOpen, onCartOpen, menuOpen, onMenuOpen, onRetry }: ShopPageProps) {
+export default function ShopPage({ data, filters: filterState, theme: themeState,
+  onCartChange, cartPanel, mobileMenu, onRetry }: ShopPageProps) {
+  const [filters, onFilters] = filterState
+  const [theme, onTheme] = themeState
+  const [cartOpen, onCartOpen] = cartPanel
+  const [menuOpen, onMenuOpen] = mobileMenu
+  const count = cartCount(data.cart)
   const loading = data.res.status === 'loading'
   const activeCategory = data.categories.find((category) => category.slug === filters.category)
   useScrollToHash(!loading)
@@ -51,7 +51,6 @@ export default function ShopPage({ data, filters, onFilters, theme, onTheme, cou
         onAddToCart={(id) => onCartChange(id, 'add')} onRemoveFromCart={(id) => onCartChange(id, 'remove')} />
       <main id="main-content" tabIndex={-1}>
         <Hero banners={BANNER_IMAGES} loading={loading} home={data.home} />
-        <SalePromotion />
         <CategoryNav categories={data.categories} activeId={activeCategory?.id ?? null} onPick={pickCategory} loading={loading} />
         <ProductsSection data={data} cart={data.cart} activeCategoryId={activeCategory?.id ?? null} query={filters.query} onRetry={onRetry}
           onAdd={(id) => onCartChange(id, 'add')} onRemove={(id) => onCartChange(id, 'remove')} />
