@@ -288,6 +288,15 @@
   outline: none;
 }
 
+.search-results__link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: start;
+}
+
 .search-results__img {
   width: 40px;
   height: 40px;
@@ -328,6 +337,11 @@
   font-size: 0.75rem;
   color: var(--muted);
   font-weight: 500;
+}
+
+.search-results__out {
+  color: var(--muted);
+  font-size: var(--text-xs);
 }
 
 .search-results__actions {

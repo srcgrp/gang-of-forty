@@ -5,13 +5,13 @@ import { isRecord } from './is-record';
 function isProduct(v: unknown): v is Product {
   if (!isRecord(v)) return false;
   return (
-    typeof v.id === 'number' &&
-    typeof v.categoryId === 'number' &&
+    typeof v.id === 'number' && Number.isSafeInteger(v.id) && v.id > 0 &&
+    typeof v.categoryId === 'number' && Number.isSafeInteger(v.categoryId) && v.categoryId > 0 &&
     typeof v.name === 'string' &&
     typeof v.emoji === 'string' &&
     typeof v.unit === 'string' &&
     typeof v.price === 'number' &&
-    v.price >= 0 &&
+    Number.isFinite(v.price) && v.price >= 0 &&
     Array.isArray(v.tags) &&
     v.tags.every((t) => typeof t === 'string') &&
     (v.image === undefined || typeof v.image === 'string')

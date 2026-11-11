@@ -46,7 +46,7 @@ export default function CategoryItems({ categories, activeId, onPick, loading }:
               aria-current={activeId === cat.id ? 'page' : undefined}
               onClick={() => onPick(cat.id)}
             >
-              <span className="category__img">
+              <span className="category__img" style={{ backgroundColor: cat.color }}>
                 {cat.image ? <img src={cat.image} alt="" /> : <span className="product__emoji">{cat.emoji}</span>}
               </span>
               <span className="category__name">{cat.name}</span>

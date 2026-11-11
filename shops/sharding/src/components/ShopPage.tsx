@@ -1,11 +1,9 @@
 import type { AppState, CartChange, Theme, UrlFilters } from '../shared/types'
-import { BANNER_IMAGES } from '../shared/content'
 import { cartCount } from '../features/cart/logic/cart'
 import { useScrollToHash } from '../hooks/useScrollToHash'
+import { useCategoryLinks } from '../hooks/useCategoryLinks'
 import Header from './Header'
-import Hero from './Hero'
-import CategoryNav from './CategoryNav'
-import ProductsSection from './ProductsSection'
+import ShopMain from './ShopMain'
 import Footer from './Footer'
 import CartPanel from './CartPanel'
 import MobileMenu from './MobileMenu'
@@ -27,40 +25,46 @@ export default function ShopPage({ data, filters: filterState, theme: themeState
   const [theme, onTheme] = themeState
   const [cartOpen, onCartOpen] = cartPanel
   const [menuOpen, onMenuOpen] = mobileMenu
-  const count = cartCount(data.cart)
   const loading = data.res.status === 'loading'
   const activeCategory = data.categories.find((category) => category.slug === filters.category)
   useScrollToHash(!loading)
-
-  function pickCategory(id: number | null): void {
-    const category = data.categories.find((item) => item.id === id)?.slug ?? ''
-    onFilters({ ...filters, category }, 'push')
-    requestAnimationFrame(() => {
-      const target = category ? document.getElementById(category) : document.querySelector('.product-shelf')
-      target?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    })
-  }
+  useCategoryLinks(data.categories, filters, onFilters)
 
   return (
     <>
       <a href="#main-content" className="skip-link"><span className="container">پرش به محتوای اصلی</span></a>
-      <Header shopName={data.shop?.name ?? 'فروشگاه'} slogan={data.shop?.slogan ?? ''} notice={data.shop?.notice ?? ''} cartCount={count} theme={theme}
-        loading={loading} onTheme={onTheme} onOpenCart={() => onCartOpen(true)}
-        onOpenMenu={() => onMenuOpen(true)} products={data.products} categories={data.categories}
-        cart={data.cart} query={filters.query} onQuery={(query) => onFilters({ ...filters, query })}
-        onAddToCart={(id) => onCartChange(id, 'add')} onRemoveFromCart={(id) => onCartChange(id, 'remove')} />
-      <main id="main-content" tabIndex={-1}>
-        <Hero banners={BANNER_IMAGES} loading={loading} home={data.home} />
-        <CategoryNav categories={data.categories} activeId={activeCategory?.id ?? null} onPick={pickCategory} loading={loading} />
-        <ProductsSection data={data} cart={data.cart} activeCategoryId={activeCategory?.id ?? null} query={filters.query} onRetry={onRetry}
-          onAdd={(id) => onCartChange(id, 'add')} onRemove={(id) => onCartChange(id, 'remove')} />
-      </main>
+      <Header
+        data={data}
+        activeCategoryId={activeCategory?.id ?? null}
+        cartCount={cartCount(data.cart)}
+        theme={theme}
+        loading={loading}
+        onTheme={onTheme}
+        cartPanel={cartPanel}
+        mobileMenu={mobileMenu}
+        query={filters.query}
+        onQuery={(query) => onFilters({ ...filters, query })}
+        onAddToCart={(id) => onCartChange(id, 'add')}
+        onRemoveFromCart={(id) => onCartChange(id, 'remove')}
+      />
+      <ShopMain data={data} filters={filters} onFilters={onFilters} onCartChange={onCartChange} onRetry={onRetry} />
       <Footer shop={data.shop} />
       <SlowNotice loading={loading} />
-      <CartPanel open={cartOpen} cart={data.cart} products={data.products} offerMap={data.offerMap}
-        onClose={() => onCartOpen(false)} onRemoveLine={(id) => onCartChange(id, 'remove-line')} />
-      <MobileMenu open={menuOpen} onClose={() => onMenuOpen(false)} menu={data.shop?.menu ?? []}
-        theme={theme} onTheme={onTheme} />
+      <CartPanel
+        open={cartOpen}
+        cart={data.cart}
+        products={data.products}
+        offerMap={data.offerMap}
+        onClose={() => onCartOpen(false)}
+        onRemoveLine={(id) => onCartChange(id, 'remove-line')}
+      />
+      <MobileMenu
+        open={menuOpen}
+        onClose={() => onMenuOpen(false)}
+        menu={data.shop?.menu ?? []}
+        theme={theme}
+        onTheme={onTheme}
+      />
     </>
   )
 }

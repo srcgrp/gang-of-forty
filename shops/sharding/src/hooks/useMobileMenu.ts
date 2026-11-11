@@ -1,9 +1,11 @@
 import { useEffect, useRef } from 'react'
+import { usePanelFocus } from './usePanelFocus'
 
 const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
 
 export function useMobileMenu(open: boolean, onClose: () => void) {
   const panelRef = useRef<HTMLDivElement>(null)
+  usePanelFocus(open, panelRef)
 
   useEffect(() => {
     function onKey(e: KeyboardEvent): void {

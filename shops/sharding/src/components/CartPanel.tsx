@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import type { Product, Cart, Offer } from '../shared/types'
 import Price from './Price'
 import { cartRows, cartTotal } from '../features/cart/cart-rows'
+import { usePanelFocus } from '../hooks/usePanelFocus'
 
 type CartPanelProps = {
   open: boolean
@@ -13,7 +14,8 @@ type CartPanelProps = {
 }
 
 export default function CartPanel({ open, cart, products, offerMap, onClose, onRemoveLine }: CartPanelProps) {
-  const panelRef = useRef<HTMLDivElement>(null)
+  const panelRef = useRef<HTMLElement>(null)
+  usePanelFocus(open, panelRef)
 
   useEffect(() => {
     if (!open) return
@@ -38,7 +40,7 @@ export default function CartPanel({ open, cart, products, offerMap, onClose, onR
     <aside ref={panelRef} id="cart-panel" className="cart-panel" hidden={!open} aria-label="سبد خرید">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h2 className="cart-panel__title">سبد خرید</h2>
-        <button type="button" onClick={onClose} aria-label="بستن سبد">×</button>
+        <button type="button" onClick={onClose} aria-label="بستن سبد" data-initial-focus="">×</button>
       </div>
 
       <ul className="cart-panel__list">

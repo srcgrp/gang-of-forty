@@ -56,12 +56,11 @@ export type CartRow = {
 export type CartView = { count: number; rows: CartRow[]; total: number };
 export type ShelfView = { shelf: Shelf; cards: Card[] };
 
-export type UrlFilters = { category: string; query: string };
+export const FILTER_FIELDS = ['category', 'query'] as const;
+export type UrlFilters = Record<(typeof FILTER_FIELDS)[number], string>;
 export type AppState = {
   shop: Readonly<Shop> | null; home: Home | null; categories: Category[];
   products: Product[]; stock: Stock | null; offerMap: Map<number, Offer>;
   cart: Cart; res: LoadState;
 };
 
-export const SORTS = ['default', 'price-asc', 'price-desc', 'discount'] as const;
-export type Sort = (typeof SORTS)[number];

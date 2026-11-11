@@ -5,7 +5,7 @@ import { isRecord } from './is-record';
 function isCategory(v: unknown): v is Category {
   if (!isRecord(v)) return false;
   return (
-    typeof v.id === 'number' &&
+    typeof v.id === 'number' && Number.isSafeInteger(v.id) && v.id > 0 &&
     typeof v.slug === 'string' &&
     typeof v.name === 'string' &&
     typeof v.emoji === 'string' &&
@@ -16,8 +16,11 @@ function isCategory(v: unknown): v is Category {
 
 export async function loadCategories(): Promise<Category[]> {
   const data = await getJSON('categories.json');
-  if (!Array.isArray(data) || !data.every(isCategory)) {
+  if (!Array.isArray(data)) {
     throw new Error('Invalid categories.json');
   }
-  return data;
+  const categories = data.filter(isCategory);
+  const dropped = data.length - categories.length;
+  if (dropped > 0) console.warn(`[api] ${dropped} invalid category(ies) removed`);
+  return categories;
 }

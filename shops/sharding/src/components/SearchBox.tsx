@@ -1,20 +1,22 @@
 import { useEffect, useRef, useState } from 'react'
-import type { Product, Cart } from '../shared/types'
-import { useSearch } from '../hooks/useSearch'
+import type { AppState } from '../shared/types'
+import { searchProducts } from '../features/products/logic/filters'
 import SearchResults from './SearchResults'
 
 type SearchBoxProps = {
-  products: Product[]
-  cart: Cart
+  data: AppState
+  activeCategoryId: number | null
   query: string
   onQuery: (next: string) => void
   onAdd: (id: number) => void
   onRemove: (id: number) => void
 }
 
-export default function SearchBox({ products, cart, query, onQuery, onAdd, onRemove }: SearchBoxProps) {
+export default function SearchBox({ data, activeCategoryId, query, onQuery, onAdd, onRemove }: SearchBoxProps) {
   const [open, setOpen] = useState(false)
-  const search = useSearch({ products, query })
+  const results = query.trim() ? searchProducts(data.products, query)
+    .filter((product) => activeCategoryId === null || product.categoryId === activeCategoryId)
+    .slice(0, 8) : []
   const boxRef = useRef<HTMLFormElement>(null)
 
   useEffect(() => {
@@ -39,8 +41,8 @@ export default function SearchBox({ products, cart, query, onQuery, onAdd, onRem
   }
 
   const showDropdown = open && query.trim() !== ''
-  const placeholder = products.length > 0
-    ? `جستجو در میان ${new Intl.NumberFormat('fa-IR').format(products.length)} کالا…`
+  const placeholder = data.products.length > 0
+    ? `جستجو در میان ${new Intl.NumberFormat('fa-IR').format(data.products.length)} کالا…`
     : 'جستجو در محصولات…'
 
   return (
@@ -57,13 +59,9 @@ export default function SearchBox({ products, cart, query, onQuery, onAdd, onRem
         onFocus={() => { if (query.trim()) setOpen(true) }}
       />
       {showDropdown && (
-        <ul className="search-results" role="listbox">
-          {search.status === 'loading' && <li className="search-results__empty">در حال بارگذاری…</li>}
-          {search.status === 'error' && <li className="search-results__empty">{search.message}</li>}
-          {search.status === 'ready' && search.results.length === 0 && <li className="search-results__empty">نتیجه‌ای یافت نشد</li>}
-          {search.status === 'ready' && (
-            <SearchResults products={search.results} cart={cart} onAdd={onAdd} onRemove={onRemove} onJump={jumpTo} />
-          )}
+        <ul className="search-results">
+          {results.length === 0 && <li className="search-results__empty">نتیجه‌ای یافت نشد</li>}
+          <SearchResults products={results} data={data} onAdd={onAdd} onRemove={onRemove} onJump={jumpTo} />
         </ul>
       )}
     </form>

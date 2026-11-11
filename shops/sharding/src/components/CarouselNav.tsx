@@ -26,7 +26,7 @@ export default function CarouselNav({ isAtStart, isAtEnd, onPrev, onNext, label,
         type="button"
         className={btnClass}
         onClick={() => navigate(onPrev)}
-        aria-label={`رفتن به ابتدای ${label}`}
+        aria-label={`نمایش موارد قبلی ${label}`}
         aria-disabled={isAtStart}
         disabled={isAtStart}
       >
@@ -37,7 +37,7 @@ export default function CarouselNav({ isAtStart, isAtEnd, onPrev, onNext, label,
         type="button"
         className={btnClass}
         onClick={() => navigate(onNext)}
-        aria-label={`رفتن به انتهای ${label}`}
+        aria-label={`نمایش موارد بعدی ${label}`}
         aria-disabled={isAtEnd}
         disabled={isAtEnd}
       >

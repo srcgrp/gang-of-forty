@@ -6,8 +6,11 @@ export default function SaleCountdown() {
   const [seconds, setSeconds] = useState(INITIAL_SECONDS)
 
   useEffect(() => {
+    let remaining = INITIAL_SECONDS
     const timer = setInterval(() => {
-      setSeconds((current) => Math.max(0, current - 1))
+      remaining -= 1
+      setSeconds(remaining)
+      if (remaining === 0) clearInterval(timer)
     }, 1000)
     return () => clearInterval(timer)
   }, [])
@@ -17,7 +20,7 @@ export default function SaleCountdown() {
   const format = new Intl.NumberFormat('fa-IR', { minimumIntegerDigits: 2 })
 
   return (
-    <div className="sale-countdown__time" aria-label={`${minutes} دقیقه و ${remaining} ثانیه`}>
+    <div className="sale-countdown__time" dir="ltr" aria-label={`${minutes} دقیقه و ${remaining} ثانیه`}>
       <span className="sale-countdown__unit"><strong>{format.format(minutes)}</strong><small>دقیقه</small></span>
       <span className="sale-countdown__separator" aria-hidden="true">:</span>
       <span className="sale-countdown__unit"><strong>{format.format(remaining)}</strong><small>ثانیه</small></span>

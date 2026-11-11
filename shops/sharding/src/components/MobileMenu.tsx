@@ -19,7 +19,7 @@ export default function MobileMenu({ open, onClose, menu, theme, onTheme }: Mobi
       <div className="mobile-menu__overlay" onClick={onClose} />
       <div className="mobile-menu__panel" ref={menuRef}>
         <div className="mobile-menu__head">
-          <button type="button" className="icon-btn" onClick={onClose} aria-label="بستن منو">
+          <button type="button" className="icon-btn" onClick={onClose} aria-label="بستن منو" data-initial-focus="">
             <svg className="icon-btn__icon" aria-hidden="true"><use href="./icons.svg#close" /></svg>
           </button>
           <span className="mobile-menu__title">منو</span>

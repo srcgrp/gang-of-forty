@@ -15,13 +15,14 @@ App
     │   ├── Topbar, ShopIdentity, ThemeSwitch
     │   ├── SearchBox → SearchResults → SearchResult
     │   └── HeaderNav → MegaMenu → MegaMenuItem
-    ├── Hero → BannerCarousel → BasketSlide, CarouselNav
-    ├── CategoryNav → CategoryItems, CarouselNav
-    ├── ProductsSection
-    │   ├── ProductSkeleton or ProductStatus
-    │   └── ProductGrid × n → CarouselNav, ProductCard × n
-    │       ├── Price, OfferBadge (inside ProductCard)
-    │       └── SalePromotion → SaleCountdown (offers shelf, while open)
+    ├── ShopMain
+    │   ├── Hero → BannerCarousel → BasketSlide, CarouselNav
+    │   ├── CategoryNav → CategoryItems, CarouselNav
+    │   └── ProductsSection
+    │       ├── ProductSkeleton or ProductStatus
+    │       └── ProductGrid × n → CarouselNav, ProductCard × n
+    │           ├── Price, OfferBadge (inside ProductCard)
+    │           └── SalePromotion → SaleCountdown (offers shelf, while open)
     ├── Footer
     ├── SlowNotice
     ├── CartPanel → Price
@@ -52,7 +53,7 @@ The separate `shop.json` at the project root records the exercise week; it is no
 
 `App` calls `loadAllData` in an Effect. It loads `shop.json`, `home.json`, `categories.json`, `products.json`, `offers.json` and `stock.json` concurrently with `Promise.all`. If any request or validation fails, the Effect sets an error state. The retry button sets loading and increments `attempt`, triggering the same Effect again. `StrictMode` can start the Effect twice in development; its cleanup marks the first result as ignored so it cannot update state after cleanup.
 
-`getJSON` returns `Promise<unknown>`, checks the HTTP response and times out with an abort. Each loader validates its data. Invalid products are filtered and counted in the console; invalid shop links and the invalid home CTA are removed before validation. Other invalid data can reject its loader.
+`getJSON` returns `Promise<unknown>`, requires the configured API URL, checks the HTTP response and times out with an abort. Each loader validates its data. Invalid products, categories and offers are filtered and counted in the console; invalid shop links and the invalid home CTA are removed before validation. A malformed response or other invalid data can reject its loader.
 
 `Product.categoryId` refers to `Category.id`, `Offer.productId` refers to `Product.id`, and `Stock.items` is keyed by product ID. The offer map is built from the loaded offers. Category shelves are built from the loaded categories and products; the offers shelf uses the offer map.
 
@@ -76,7 +77,7 @@ src/
   main.tsx              Mounts React and App.
   App.tsx               Owns page state, data loading, cart updates and Effects.
   components/           React page, UI components and component-specific props.
-  hooks/                Theme, URL, carousel, search and menu behavior.
+  hooks/                Theme, URL, carousel, category links and menu behavior.
   lib/                  Toast and confetti integrations.
   shared/
     types.ts            Shared application and API types.
@@ -102,13 +103,13 @@ The cart and products features do not import each other. `App` and the component
 | Category and search query | `App` via `useUrlFilters` | Category selection, search input and browser history | React state and URL |
 | Theme | `App` via `useTheme` | Theme controls | React state and localStorage |
 | Cart and mobile menu open/closed | `App` | Header, panels and close actions | React state only |
-| Search dropdown and Fuse index/error | `SearchBox` and `useSearch` | Input/focus events and search loading Effect | React state only |
+| Search dropdown open/closed | `SearchBox` | Input, focus and dismissal events | React state only |
 | Mega menu open/active category | `MegaMenu` | Menu events | React state only |
 | Carousel edge positions | Each `useCarousel` caller | Scroll, resize and item-count changes | React state only |
 | Video ready, slow notice and card pulse | `Hero`, `SlowNotice` and each `ProductCard` | Video, timer and interaction events | React state only |
 | Countdown visibility and seconds | `SalePromotion` and `SaleCountdown` | Open/close button and interval | React state only |
 
-Cart count, cart rows and total, active category, visible shelves, search results and card prices are calculated from existing state and data during rendering. Category and search are applied together to the shelves. They are not separate persistent state, so they do not need to be synchronized with their inputs. The sample countdown stops when closed and starts again from ten minutes when reopened; it does not represent a server-side sale deadline.
+Cart count, cart rows and total, active category, visible shelves, search results and card prices are calculated from existing state and data during rendering. Category and search are applied together to the shelves and search dropdown. Following a category or offers link clears the search so the destination is visible. These calculated values are not separate persistent state. The sample countdown stops at zero or when closed and starts again from ten minutes when reopened; it does not represent a server-side sale deadline.
 
 ## 8. Security and deployment
 
