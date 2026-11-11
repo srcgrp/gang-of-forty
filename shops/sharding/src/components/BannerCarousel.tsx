@@ -1,11 +1,17 @@
+import { useCarousel } from '../hooks/useCarousel'
+import CarouselNav from './CarouselNav'
+
 type BannerCarouselProps = {
   banners: string[]
 }
 
 export default function BannerCarousel({ banners }: BannerCarouselProps) {
+  const { trackRef, isAtStart, isAtEnd, scrollPrev, scrollNext } = useCarousel()
+
   return (
     <div className="hero-carousel">
       <ul
+        ref={trackRef}
         className="hero-carousel__track"
         id="banner-track"
         tabIndex={0}
@@ -26,6 +32,14 @@ export default function BannerCarousel({ banners }: BannerCarouselProps) {
           </li>
         ))}
       </ul>
+      
+      <CarouselNav
+        variant="hero"
+        isAtStart={isAtStart}
+        isAtEnd={isAtEnd}
+        onPrev={scrollPrev}
+        onNext={scrollNext}
+      />
     </div>
   )
 }
