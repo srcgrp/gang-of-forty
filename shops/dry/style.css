@@ -910,3 +910,15 @@ main > .status {
   font-family: inherit;
   cursor: pointer;
 }
+
+.retry-btn {
+  display: block;
+  margin: 0.75rem auto 0;
+  padding: 0.5rem 1.25rem;
+  border: 1px solid currentColor;
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}

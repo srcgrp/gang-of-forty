@@ -23,16 +23,13 @@ export default function App() {
   const [categoryId, setCategoryId] = useState<number | null>(null)
   const [state, setState] = useState<LoadState>({ status: 'loading' })
   const [query, setQuery] = useState('')
+  const [attempt, setAttempt] = useState(0)
 
-  useEffect(() => {
+    useEffect(() => {
     let ignore = false
-    loadState().then((next) => {
-      if (!ignore) setState(next)
-    })
-    return () => {
-      ignore = true
-    }
-  }, [])
+    loadState().then((next) => { if (!ignore) setState(next) })
+    return () => { ignore = true }
+  }, [attempt])
 
   useEffect(() => {
     saveCart(cart)
@@ -45,6 +42,10 @@ export default function App() {
   const cards = state.status === 'success' ? cardsOf(state) : []
   const handleAdd = (id: number) => setCart(addToCart(cart, id))
   const handleRemove = (id: number) => setCart(removeFromCart(cart, id))
+  const handleRetry = () => {
+    setState({ status: 'loading' })
+    setAttempt(attempt + 1)
+  }
 
   return (
     <>
@@ -55,7 +56,7 @@ export default function App() {
       <main id="main">
         <Hero />
         <CategoryGrid onPick={setCategoryId} />
-        <Catalog state={state} categoryId={categoryId} query={query} onAdd={handleAdd} />
+        <Catalog state={state} categoryId={categoryId} query={query} onAdd={handleAdd} onRetry={handleRetry} />
         <PromoBanners />
         <Blog />
         <CartPanel lines={cart} cards={cards} onRemove={handleRemove} />

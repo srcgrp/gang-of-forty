@@ -8,10 +8,11 @@ type CatalogProps = {
   categoryId: number | null
   onAdd: (id: number) => void
   query: string
+  onRetry: () => void
 }
 
-export default function Catalog({ state, categoryId, query, onAdd }: CatalogProps) {
-  if (state.status !== 'success') return <Status state={state} />
+export default function Catalog({ state, categoryId, query, onAdd, onRetry }: CatalogProps) {
+  if (state.status !== 'success') return <Status state={state} onRetry={onRetry} />
 
   return (
     <>
