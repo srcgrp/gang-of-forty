@@ -3,13 +3,15 @@ import type { Link } from "../types"
 type FooterLinksProps = {
     title: string
     headingId: string
-    entries: Link[]
+    entries: (Link & { categoryId?: number })[]
+    onPick?: (id: number) => void
 }
 
 export default function FooterLinks({
     title,
     headingId,
-    entries
+    entries,
+    onPick
 }: FooterLinksProps) {
     return (
         <nav className="footer-column" aria-labelledby={headingId}>
@@ -19,8 +21,16 @@ export default function FooterLinks({
             <ul className="footer-links">
                 {entries.map(function (entry) {
                     return (
-                        <li key={entry.href}>
-                            <a className="footer-link" href={entry.href}>
+                        <li key={entry.categoryId ?? entry.href}>
+                            <a
+                                className="footer-link"
+                                href={entry.href}
+                                onClick={function () {
+                                    if (entry.categoryId !== undefined && onPick) {
+                                        onPick(entry.categoryId)
+                                    }
+                                }}
+                            >
                                 <img
                                     className="footer-link__icon"
                                     src="svg/caret-left.svg"

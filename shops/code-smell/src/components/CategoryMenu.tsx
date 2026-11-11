@@ -1,12 +1,17 @@
 import type { Category } from "../types"
+import CategoryMenuItem from "./CategoryMenuItem"
 
 type CategoryMenuProps = {
     categories: Category[]
+    categoryId: number | null
+    onPick: (id: number | null) => void
     isMobile?: boolean
 }
 
 export default function CategoryMenu({
     categories,
+    categoryId,
+    onPick,
     isMobile = false
 }: CategoryMenuProps) {
     const title = (
@@ -22,24 +27,17 @@ export default function CategoryMenu({
             />
         </>
     )
+
     const links = (
         <ul className={isMobile ? "mobile-categories" : "category-menu__list"}>
             {categories.map(function (category) {
                 return (
-                    <li key={category.id}>
-                        <a className="menu-link" href={"#" + category.slug}>
-                            <span
-                                className="menu-link__icon category-visual"
-                                style={{ backgroundColor: category.color }}
-                                aria-hidden="true"
-                            >
-                                <span className="category-icon__emoji">
-                                    {category.emoji}
-                                </span>
-                            </span>
-                            {category.name}
-                        </a>
-                    </li>
+                    <CategoryMenuItem
+                        key={category.id}
+                        category={category}
+                        isActive={categoryId === category.id}
+                        onPick={onPick}
+                    />
                 )
             })}
         </ul>

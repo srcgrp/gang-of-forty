@@ -1,53 +1,50 @@
-import type { Product } from "./types"
+import { useState } from "react"
+import type { Cart } from "./types"
 import ShopPage from "./components/ShopPage"
+import {
+    addToCart,
+    cartCount,
+    cartRows,
+    cartTotal,
+    removeFromCart
+} from "./cart/cartRules"
 import { getProductCardData } from "./catalog/getProductCardData"
 import {
     sampleCategories,
     sampleMenu,
     sampleOffers,
-    sampleStock
+    sampleStock,
+    sampleProducts
 } from "./data/sampleCatalog"
 
-const sampleProducts: Product[] = [
-    {
-        id: 1,
-        categoryId: 1,
-        name: "سیب",
-        emoji: "🍎",
-        unit: "۱ کیلوگرم",
-        price: 85000,
-        tags: ["تازه"]
-    },
-    {
-        id: 2,
-        categoryId: 1,
-        name: "پرتقال",
-        emoji: "🍊",
-        unit: "۱ کیلوگرم",
-        price: 70000,
-        tags: ["تازه"]
-    },
-    {
-        id: 3,
-        categoryId: 2,
-        name: "شیر",
-        emoji: "🥛",
-        unit: "۱ لیتر",
-        price: 45000,
-        tags: []
-    }
-]
-
 export default function App() {
+    const [categoryId, setCategoryId] = useState<number | null>(null)
+    const [cart, setCart] = useState<Cart>({})
+    const [cartOpen, setCartOpen] = useState(false)
+
+    const count = cartCount(cart)
+    const rows = cartRows(cart, sampleProducts, sampleOffers)
+    const total = cartTotal(rows)
+
     function handleAdd(id: number): void {
-        console.log("درخواست افزودن کالا:" + " " + id)
+        setCart(addToCart(cart, { id, quantity: 1 }))
     }
 
-    function handlePick(id: number | null): void {
-        console.log("دستهٔ انتخاب‌شده:", id)
+    function handleRemove(id: number): void {
+        setCart(removeFromCart(cart, id))
     }
 
-    const cards = sampleProducts.map(function (product) {
+    function handleToggleCart(): void {
+        setCartOpen(!cartOpen)
+    }
+
+    const cartControls = { count, cartOpen, onToggle: handleToggleCart }
+
+    const visibleProducts = sampleProducts.filter(function (product) {
+        return categoryId === null || product.categoryId === categoryId
+    })
+
+    const cards = visibleProducts.map(function (product) {
         return getProductCardData(
             product,
             sampleCategories,
@@ -61,8 +58,13 @@ export default function App() {
             categories={sampleCategories}
             menu={sampleMenu}
             products={cards}
+            categoryId={categoryId}
+            cartControls={cartControls}
+            rows={rows}
+            total={total}
             onAdd={handleAdd}
-            onPick={handlePick}
+            onPick={setCategoryId}
+            onRemove={handleRemove}
         />
     )
 }

@@ -24,8 +24,7 @@ export type Shop = {
     hours: { open: string, close: string }
     deliveryFee: number, freeDeliveryOver: number
     currency: string
-    notice: string
-    about: string
+    notice: string, about: string
     schedule: { days: string, time: string }[]
     menu: Link[], help: Link[]
     copyright: string
@@ -48,6 +47,7 @@ export type Home = {
 }
 export type Cart = Record<string, number>
 export type CartItem = Pick<Product, "id"> & { quantity: number }
+export type CartRowData = Product & CartItem & { lineTotal: number }
 export type ProductCardData = Product & {
     offer: Offer | undefined
     isUnavailable: boolean

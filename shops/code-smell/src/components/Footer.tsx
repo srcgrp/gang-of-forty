@@ -5,6 +5,7 @@ import FooterHours from "./FooterHours"
 
 type FooterProps = {
     categories: Category[]
+    onPick: (id: number) => void
 }
 
 const helpLinks: Link[] = [
@@ -18,11 +19,15 @@ const sampleSchedule: Shop["schedule"] = [
     { days: "جمعه", time: "۹ تا ۱۴" }
 ]
 
-export default function Footer({ categories }: FooterProps) {
-    const categoryLinks: Link[] = categories.map(function (category) {
+export default function Footer({
+    categories,
+    onPick
+}: FooterProps) {
+    const categoryLinks = categories.map(function (category) {
         return {
             label: category.name,
-            href: "#" + category.slug
+            href: "#products",
+            categoryId: category.id
         }
     })
 
@@ -35,6 +40,7 @@ export default function Footer({ categories }: FooterProps) {
                     title="دسته‌بندی کالاها"
                     headingId="footer-categories-title"
                     entries={categoryLinks}
+                    onPick={onPick}
                 />
                 <FooterLinks
                     title="راهنمای خرید"

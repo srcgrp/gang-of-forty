@@ -1,4 +1,4 @@
-import type { Category, Link, Offer, Stock } from "../types"
+import type { Category, Link, Offer, Product, Stock } from "../types"
 
 export const sampleCategories: Category[] = [
     {
@@ -35,3 +35,32 @@ export const sampleStock: Stock["items"] = {
     "2": 0,
     "3": 8
 }
+export const sampleProducts: Product[] = [
+    {
+        id: 1,
+        categoryId: 1,
+        name: "سیب",
+        emoji: "🍎",
+        unit: "۱ کیلوگرم",
+        price: 85000,
+        tags: ["تازه"]
+    },
+    {
+        id: 2,
+        categoryId: 1,
+        name: "پرتقال",
+        emoji: "🍊",
+        unit: "۱ کیلوگرم",
+        price: 70000,
+        tags: ["تازه"]
+    },
+    {
+        id: 3,
+        categoryId: 2,
+        name: "شیر",
+        emoji: "🥛",
+        unit: "۱ لیتر",
+        price: 45000,
+        tags: []
+    }
+]

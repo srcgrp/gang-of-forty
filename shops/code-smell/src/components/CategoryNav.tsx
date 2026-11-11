@@ -4,12 +4,16 @@ import CategoryMenu from "./CategoryMenu"
 type CategoryNavProps = {
     categories: Category[]
     menu: Link[]
+    categoryId: number | null
+    onPick: (id: number | null) => void
     isMobile?: boolean
 }
 
 export default function CategoryNav({
     categories,
     menu,
+    categoryId,
+    onPick,
     isMobile = false
 }: CategoryNavProps) {
     return (
@@ -18,7 +22,12 @@ export default function CategoryNav({
             aria-label={isMobile ? "منوی اصلی موبایل" : "منوی اصلی"}
         >
             <ul className="site-nav__list container">
-                <CategoryMenu categories={categories} isMobile={isMobile} />
+                <CategoryMenu
+                    categories={categories}
+                    categoryId={categoryId}
+                    onPick={onPick}
+                    isMobile={isMobile}
+                />
                 {menu.map(function (entry) {
                     return (
                         <li key={entry.href}>

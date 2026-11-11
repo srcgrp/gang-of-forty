@@ -1,16 +1,26 @@
 import type { Category, Link } from "../types"
+import type { CartButtonProps } from "./CartButton"
 import BrandLogo from "./BrandLogo"
 import CategoryNav from "./CategoryNav"
+import CartButton from "./CartButton"
 
 type HeaderProps = {
     categories?: Category[]
     menu?: Link[]
+    categoryId: number | null
+    cartControls: CartButtonProps
+    onPick: (id: number | null) => void
 }
 
 export default function Header({
     categories = [],
-    menu = []
+    menu = [],
+    categoryId,
+    cartControls,
+    onPick
 }: HeaderProps) {
+    const navigationProps = { categories, menu, categoryId, onPick }
+
     return (
         <header className="site-header">
             <p className="announcement" id="announcement">
@@ -45,26 +55,15 @@ export default function Header({
                         disabled
                     />
                 </div>
-                <a className="cart-button" id="cart-button" href="#cart">
-                    <img
-                        className="cart-button__icon"
-                        src="svg/shopping-cart.svg"
-                        alt=""
-                        width={20}
-                        height={20}
-                        aria-hidden="true"
-                    />
-                    <span className="cart-button__label">سبد خرید</span>
-                    <span className="cart-button__badge">۰</span>
-                </a>
+                <CartButton {...cartControls} />
                 <details className="mobile-menu" id="mobile-menu">
                     <summary className="menu-toggle" aria-label="منوی اصلی">
                         ☰
                     </summary>
-                    <CategoryNav categories={categories} menu={menu} isMobile />
+                    <CategoryNav {...navigationProps} isMobile />
                 </details>
             </div>
-            <CategoryNav categories={categories} menu={menu} />
+            <CategoryNav {...navigationProps} />
         </header>
     )
 }
