@@ -26,6 +26,7 @@ export default function ProductCard({
 
   return (
     <article
+      data-api-product={product.id}
       className={`product-card${offer ? " product-card-discount" : ""}${!isAvailable ? " product-card-unavailable" : ""}`}
     >
       {offer && (
@@ -34,9 +35,7 @@ export default function ProductCard({
         </span>
       )}
 
-      {!isAvailable && (
-        <span className="unavailable-badge">ناموجود</span>
-      )}
+      {!isAvailable && <span className="unavailable-badge">ناموجود</span>}
 
       {imagePath ? (
         <img src={imagePath} alt={product.name} loading="lazy" />
@@ -50,9 +49,7 @@ export default function ProductCard({
       <p className="product-meta">{product.unit}</p>
 
       <div className="price-box">
-        {offer && (
-          <p className="old-price">{formatPrice(product.price)}</p>
-        )}
+        {offer && <p className="old-price">{formatPrice(product.price)}</p>}
         <p className="product-price">{formatPrice(finalPrice)}</p>
       </div>
 

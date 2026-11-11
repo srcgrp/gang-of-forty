@@ -13,9 +13,9 @@ import { useCartEffects } from "./features/cart/hooks/useCartEffects";
 export default function App() {
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const [cart, setCart] = useState<CartItem[]>(loadCart);
+  const [query, setQuery] = useState("");
   useCartEffects(cart);
-  const { loadState, storeData } = useStoreData();
-
+  const { loadState, storeData, retry } = useStoreData();
   function handleAdd(id: number): void {
     if (!storeData) return;
 
@@ -55,8 +55,11 @@ export default function App() {
     <StorePage
       data={storeData}
       loadState={loadState}
+      onRetry={retry}
       cart={cart}
       categoryId={categoryId}
+      query={query}
+      onQuery={setQuery}
       onPickCategory={setCategoryId}
       onAdd={handleAdd}
       onCartAction={handleCartAction}

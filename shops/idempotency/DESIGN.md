@@ -11,14 +11,19 @@ This document explains how the project works and how the code is organized.
 - Customers can see the products inside their cart.
 - Cart items stay saved after refreshing the page.
 - Customers can switch between light and dark themes.
-- Product search and URL filters will be added later.
+- Customers can search products using Fuse.js.
+- Search suggestions appear below the search box.
+- Customers can retry loading data if the API fails.
+- Customers can see, close, and reopen a sale countdown.
+- Search text and selected category are not saved in the URL yet.
 - Not now: login, online payment, checkout, and order tracking.
 
 ## 2. Screens and parts
 
 The website has one main page.
 
-The header contains the logo, search input, cart count, and theme buttons.
+The header contains the logo, search box, cart count, and theme buttons.
+The search box shows product suggestions while typing.
 
 The navigation menu has links to different sections of the page.
 
@@ -29,7 +34,11 @@ There are promotional banners for breakfast, bakery, and dairy products.
 The special offer carousel shows discounted products. Clicking on the special offer section can also show a confetti effect.
 
 The categories section shows product categories. Users can select a category to filter the products.
-Product carousels show products based on the selected category.
+
+Product carousels show products based on the selected category and search text.
+
+A sale countdown appears below the special offer title.
+Users can close and reopen it.
 
 Product cards show the product name, price, discount, availability, and add-to-cart button.
 
@@ -52,8 +61,12 @@ are managed by their own React components.
 URL fragments are used to navigate to different
 sections of the page.
 
-Product search and saving filters in the URL
-are not connected to React yet.
+The search text is stored in App State.
+
+Fuse.js uses the search text to find matching products
+and show search suggestions.
+
+Search text and category filters are not saved in the URL yet.
 
 Environment variables define the API URL
 for development and production.
@@ -84,9 +97,9 @@ In Vite, `base: "./"` is used so the built files can work when the website is pl
 - Loading: Show product skeletons while data is being fetched.
 - Success: Show the homepage, categories, and product carousels with the loaded data.
 - Empty: Show a message when there are no products to display.
-- Error: Show an error message if the API request fails or the returned data is invalid.
-
-The cart count and theme buttons can work without waiting for API data.
+- Error: Show an error message and a Retry button if the API request fails.
+  Clicking Retry starts a new API request and shows the loading state again.
+  The cart count and theme buttons can work without waiting for API data.
 
 ## 6. Folders and responsibilities
 
@@ -181,8 +194,8 @@ but the current page is rendered using React.
 
 ## 8. React Component Tree
 
-We uses React components instead of manually
-creating and updating DOM elements.
+We use React components instead of manually creating
+and updating DOM elements.
 
 ```text
 App
@@ -191,19 +204,22 @@ App
     │   ├── Brand
     │   ├── MobileNav
     │   ├── CategoryNav
-    │   ├── HeaderSearch
+    │   ├── SearchBox
     │   ├── ThemeToggle
     │   └── CartPanel
     │       └── CartPopover
     │           └── CartPanelItems
     │               └── CartItemRow
     │                   └── CartItemStepper
+    │
     └── StoreBody
         ├── Hero
         ├── HomeBanners
-        ├── CategoryGrid
+        ├── CategoryGrid / CategoryFallback
         ├── ProductSections
         │   └── ProductGrid × n
+        │       ├── SaleCountdown (offers only)
+        │       │   └── CountdownTimer
         │       ├── ProductCard × n
         │       └── CarouselControls
         ├── LoadingProductSections / LoadStatus
@@ -213,30 +229,67 @@ App
             └── FooterContact
 ```
 
-App owns the shared cart and selected category states.
-StorePage passes data and event callbacks to its children.
-Product and cart components receive typed props.
-User interactions are handled through callbacks.
+App manages the cart, selected category, and search text.
+
+StorePage passes data and callbacks to its children.
+
+Components use props to receive data and report user actions.
+
+Product search, cart actions, and API loading use
+separate functions and hooks.
 
 ## 9. State Ownership
 
-| State       | Owner        | Updated by                              | Persistence               |
-| ----------- | ------------ | --------------------------------------- | ------------------------- |
-| cart        | App          | Add, remove, quantity and clear actions | localStorage              |
-| categoryId  | App          | Category selection callbacks            | React memory              |
-| storeData   | useStoreData | API response                            | React memory              |
-| loadState   | useStoreData | API loading and error handling          | React memory              |
-| isOpen      | CartPanel    | Mouse and click events                  | React memory              |
-| activeSlide | Hero         | Slider interval                         | React memory              |
-| theme       | ThemeToggle  | Theme button                            | Applied to document theme |
+| State       | Owner          | Updated by              | Persistence             |
+| ----------- | -------------- | ----------------------- | ----------------------- |
+| cart        | App            | Cart actions            | localStorage            |
+| categoryId  | App            | Category selection      | React memory            |
+| query       | App            | Search input            | React memory            |
+| storeData   | useStoreData   | API response            | React memory            |
+| loadState   | useStoreData   | Loading, success, error | React memory            |
+| attempt     | useStoreData   | Retry button            | React memory            |
+| isOpen      | CartPanel      | Mouse and click events  | React memory            |
+| open        | SearchBox      | Focus and input events  | React memory            |
+| activeSlide | Hero           | Slider interval         | React memory            |
+| theme       | ThemeToggle    | Theme button            | React memory / document |
+| visible     | SaleCountdown  | Close and reopen        | React memory            |
+| left        | CountdownTimer | Timer interval          | React memory            |
 
 ### Derived Values
 
-Some values are calculated from existing data instead of being stored as separate State.
+Some values are calculated from existing data
+instead of being stored as separate State.
 
 For example:
 
 - Cart count and total price are calculated from the cart.
 - Product sections are created using the loaded products and selected category.
+- Search results are calculated from the products and search text.
+- Search suggestions are calculated using Fuse.js.
 
-We don't need extra State for these values because we can calculate them from the data we already have.
+We don't need extra State for these values because
+we can calculate them from the data we already have.
+
+## 10. Bonus Features
+
+### Product Search
+
+Customers can search for products using Fuse.js.
+
+The search text is stored in App State. The matching products are calculated from the loaded data and selected category.
+
+The search box also shows product suggestions.
+
+### Retry Button
+
+If loading the API data fails, the page shows a Retry button.
+
+Clicking the button starts a new request without refreshing the page.
+
+### Sale Countdown
+
+The special offer section has a two-minute countdown.
+
+The timer uses useEffect and setInterval to update every second.
+
+Users can close and reopen the timer. When the timer is closed, the cleanup function stops the interval.

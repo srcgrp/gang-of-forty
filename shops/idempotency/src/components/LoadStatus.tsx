@@ -2,9 +2,10 @@ import type { LoadState } from "../shared/types/products";
 
 type LoadStatusProps = {
   state: LoadState;
+  onRetry: () => void;
 };
 
-export default function LoadStatus({ state }: LoadStatusProps) {
+export default function LoadStatus({ state, onRetry }: LoadStatusProps) {
   switch (state.status) {
     case "loading":
       return (
@@ -18,9 +19,12 @@ export default function LoadStatus({ state }: LoadStatusProps) {
 
     case "error":
       return (
-        <p className="error-message" role="alert">
-          {state.message}
-        </p>
+        <div className="load-retry" role="alert">
+          <p className="error-message">{state.message}</p>
+          <button type="button" className="retry-button" onClick={onRetry}>
+            تلاش دوباره
+          </button>
+        </div>
       );
 
     case "success":

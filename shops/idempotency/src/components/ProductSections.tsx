@@ -1,20 +1,28 @@
 import type { StoreData } from "../features/products/api/store-data";
-import { getHomeSections } from "../features/products/logic/home-sections";
+import { getSearchedSections } from "../features/products/logic/search-sections";
 import ProductGrid from "./ProductGrid";
 
 type Props = {
   data: StoreData;
   categoryId: number | null;
+  query: string;
   onAdd: (id: number) => void;
 };
 
-export default function ProductSections({ data, categoryId, onAdd }: Props) {
-  const sections = getHomeSections(data, categoryId);
+export default function ProductSections({
+  data,
+  categoryId,
+  query,
+  onAdd,
+}: Props) {
+  const sections = getSearchedSections(data, categoryId, query);
 
   return (
     <div id="products">
       {sections.length === 0 ? (
-        <p className="empty-message">محصولی در این دسته‌بندی وجود ندارد.</p>
+        <p className="empty-message">
+          محصولی مطابق جستجو یا دسته‌بندی پیدا نشد.
+        </p>
       ) : (
         sections.map((section) => (
           <ProductGrid

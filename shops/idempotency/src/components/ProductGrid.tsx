@@ -1,6 +1,7 @@
 import type { Product, Offer, Stock } from "../shared/types/products";
 import ProductCard from "./ProductCard";
 import CarouselControls from "./CarouselControls";
+import SaleCountdown from "./SaleCountdown";
 
 type ProductGridProps = {
   sectionId: string;
@@ -26,6 +27,7 @@ export default function ProductGrid({
       aria-labelledby={`carousel-title-${sectionId}`}
     >
       <h2 id={`carousel-title-${sectionId}`}>{title}</h2>
+      {sectionId === "offers" && <SaleCountdown />}
       <div
         className="product-track"
         tabIndex={0}

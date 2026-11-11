@@ -1,34 +1,27 @@
 import Header from "./Header";
 import StoreBody from "./StoreBody";
 
-import type { StoreData } from "../features/products/api/store-data";
-import type { CartAction, CartItem, LoadState } from "../shared/types/products";
 import { useEffect } from "react";
 import { setupOffersConfetti } from "../shared/ui/effects";
 
 import { getStoreCartSummary } from "../store-cart";
+import { createProductSearch } from "../features/products/logic/search";
 
-type Props = {
-  data: StoreData | null;
-  loadState: LoadState;
-  cart: CartItem[];
-  categoryId: number | null;
-  onPickCategory: (id: number | null) => void;
-  onAdd: (id: number) => void;
-  onCartAction: (action: CartAction, id: number) => void;
-  onClearCart: () => void;
-};
+import type { StorePageProps } from "./StorePageProps";
 
 export default function StorePage({
   data,
   loadState,
+  onRetry,
   cart,
   categoryId,
+  query,
+  onQuery,
   onPickCategory,
   onAdd,
   onCartAction,
   onClearCart,
-}: Props) {
+}: StorePageProps) {
   useEffect(() => {
     return setupOffersConfetti();
   }, []);
@@ -36,6 +29,17 @@ export default function StorePage({
     ? getStoreCartSummary(cart, data.products, data.offers, data.stock)
     : { rows: [], count: 0, total: 0 };
 
+  const categorySlug =
+    data?.categories.find((item) => item.id === categoryId)?.slug ?? null;
+
+  const matches =
+    data && query.trim()
+      ? (createProductSearch(
+          data.products,
+          data.categories,
+          () => categorySlug,
+        )(query.trim()) ?? [])
+      : [];
   return (
     <>
       <Header
@@ -44,13 +48,18 @@ export default function StorePage({
         cartCount={count}
         cartRows={rows}
         cartTotal={total}
+        query={query}
+        matches={matches}
+        onQuery={onQuery}
         onCartAction={onCartAction}
         onClearCart={onClearCart}
       />
       <StoreBody
         data={data}
         loadState={loadState}
+        onRetry={onRetry}
         categoryId={categoryId}
+        query={query}
         onPickCategory={onPickCategory}
         onAdd={onAdd}
       />

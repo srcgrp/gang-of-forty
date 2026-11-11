@@ -371,6 +371,20 @@ html[data-theme="dark"] .search-result-item {
   font-weight: 600;
   white-space: nowrap;
 }
+.search-result-item:is(button) {
+  display: block;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  text-align: right;
+  cursor: pointer;
+}
+
+.search-result-item:is(button):hover,
+.search-result-item:is(button):focus-visible {
+  background: var(--color-bg);
+}
 
 .search-result-item + .search-result-item {
   border-top: 1px solid #f0e5d5;

@@ -7,8 +7,8 @@ export function useStoreData() {
   const [loadState, setLoadState] = useState<LoadState>({
     status: "loading",
   });
-
   const [storeData, setStoreData] = useState<StoreData | null>(null);
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     let ignore = false;
@@ -37,7 +37,13 @@ export function useStoreData() {
     return () => {
       ignore = true;
     };
-  }, []);
+  }, [attempt]);
 
-  return { loadState, storeData };
+  function retry(): void {
+    setStoreData(null);
+    setLoadState({ status: "loading" });
+    setAttempt((current) => current + 1);
+  }
+
+  return { loadState, storeData, retry };
 }
