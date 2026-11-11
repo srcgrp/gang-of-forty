@@ -6,9 +6,11 @@ export function readSearchUrl(): SearchState {
 }
 export function writeSearchUrl(state: SearchState, fragment = ""): void {
   const url = new URL(window.location.href);
-  for (const [key, value] of [["q", state.query], ["category", state.category],
-    ["sort", state.sort === "default" ? "" : state.sort]]) {
-    if (key === undefined || value === undefined) continue;
+  const entries: [string, string][] = [
+    ["q", state.query], ["category", state.category],
+    ["sort", state.sort === "default" ? "" : state.sort],
+  ];
+  for (const [key, value] of entries) {
     if (value) url.searchParams.set(key, value);
     else url.searchParams.delete(key);
   }
@@ -19,6 +21,7 @@ export function writeSearchUrl(state: SearchState, fragment = ""): void {
 export function readFragment(): string {
   return window.location.hash.slice(1);
 }
-export function watchSearchUrl(onChange: () => void): void {
+export function watchSearchUrl(onChange: () => void): () => void {
   window.addEventListener("popstate", onChange);
+  return () => window.removeEventListener("popstate", onChange);
 }

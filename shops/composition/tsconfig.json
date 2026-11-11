@@ -2,11 +2,15 @@
   "compilerOptions": {
     "target": "ES2023",
     "jsx": "react-jsx",
-    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2023",
+      "DOM"
+    ],
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "types": ["vite/client"],
-    "strict": true,
+    "types": [
+      "vite/client"
+    ],
     "allowImportingTsExtensions": true,
     "noEmit": true,
     "skipLibCheck": true,
@@ -19,5 +23,7 @@
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ]
 }
