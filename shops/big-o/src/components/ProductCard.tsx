@@ -5,16 +5,16 @@ import Price from './Price'
 type ProductCardProps = {
   product: Product
   info?: CardInfo | undefined
-  id?: string | undefined
+  anchorId?: string | undefined
   onAdd: (id: number) => void
 }
 
-export default function ProductCard({ product, info = {}, id, onAdd }: ProductCardProps) {
+export default function ProductCard({ product, info = {}, anchorId, onAdd }: ProductCardProps) {
   const { percent, label, finalPrice, inStock = true } = info
   const titleId = `product-${product.id}`
 
   return (
-    <li id={id}>
+    <li id={anchorId}>
       <article className={inStock ? 'product-card' : 'product-card out-of-stock'}>
         <span className="product-img" aria-hidden="true">{product.emoji}</span>
         {!inStock && <Badge text="ناموجود" readerText="ناموجود" className="stock-badge" />}
