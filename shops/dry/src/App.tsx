@@ -15,6 +15,7 @@ import Hero from './components/Hero.tsx'
 import LogoSprite from './components/LogoSprite.tsx'
 import PromoBanners from './components/PromoBanners.tsx'
 import type { CartLine, LoadState } from './shared/types.ts'
+import SaleSection from './components/SaleSection.tsx'
 
 const SHOP_NAME = 'MARTO'
 
@@ -57,6 +58,7 @@ export default function App() {
         <Hero />
         <CategoryGrid onPick={setCategoryId} />
         <Catalog state={state} categoryId={categoryId} query={query} onAdd={handleAdd} onRetry={handleRetry} />
+        <SaleSection />
         <PromoBanners />
         <Blog />
         <CartPanel lines={cart} cards={cards} onRemove={handleRemove} />
