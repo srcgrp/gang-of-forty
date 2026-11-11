@@ -1,13 +1,20 @@
 import { Notyf } from 'notyf'; import 'notyf/notyf.min.css'; import confetti from 'canvas-confetti'
-import type { Home, Offer, Product, Shop, Stock } from './types'
-import { getJSON, loadCategories, loadOffers, loadStock } from './api/client'
+ import type { Product } from './types'
+import { loadCategories, loadOffers, loadStock, loadProducts, loadShop, loadHome } from './api/client'
 import { loadCart, saveCart } from './storage/storage'
 import { addToCart } from './cart/cart'
 import { createCard } from './ui/cards'
-import { renderCategories, renderFooter, renderMenu, renderPosters, renderStatus, renderProducts } from './ui/layout'
+import { renderCategories, renderFooter, renderMenu, renderPosters } from './ui/layout'
+import { renderStatus, renderProducts } from './ui/render'
 
 const notyf = new Notyf(); let cart = loadCart()
-const $ = <T extends HTMLElement>(s: string) => document.querySelector<T>(s)!
+
+const $ = <T extends HTMLElement>(s: string): T => {
+    const el = document.querySelector<T>(s)
+    if (el === null) throw new Error(`index.html is missing ${s}`)
+    return el
+}
+
 const nav = $('#categories'), sub = $<HTMLUListElement>('#submenu'), mainM = $<HTMLUListElement>('#main-menu')
 const notice = $<HTMLParagraphElement>('#notice'), about = $<HTMLParagraphElement>('#about'), addr = $<HTMLParagraphElement>('#address')
 const phone = $<HTMLParagraphElement>('#phone'), fCats = $<HTMLUListElement>('#footer-categories'), fHelp = $<HTMLUListElement>('#footer-help')
@@ -17,12 +24,9 @@ const searchForm = document.querySelector<HTMLFormElement>('.search'), searchInp
 async function start(): Promise<void> {
     try {
         renderStatus({ status: 'loading' }, container)
-        const API = import.meta.env.VITE_API_URL ?? '/api'
-        const [cats, shop, home, prods, stock, offers] = await Promise.all([
-            loadCategories(API), getJSON(`${API}/shop.json`) as Promise<Shop>,
-            getJSON(`${API}/home.json`) as Promise<Home>, getJSON(`${API}/products.json`) as Promise<Product[]>,
-            loadStock(API), loadOffers(API)
-        ])
+        // const API = import.meta.env.VITE_API_URL ?? '/api'
+       const [cats, shop, home, prods, stock, offers] = await Promise.all([
+    loadCategories(), loadShop(), loadHome(), loadProducts(), loadStock(), loadOffers()])
         renderCategories(nav, cats); renderMenu(sub, mainM, shop, cats); renderPosters(p1, p2, home)
         renderFooter({ notice, about, address: addr, phone, cats: fCats, help: fHelp, schedule: sched }, shop, cats)
         const offerMap = new Map(offers.map(o => [o.productId, o])), items = prods.filter(p => offerMap.has(p.id))
