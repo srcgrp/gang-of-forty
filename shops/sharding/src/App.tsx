@@ -15,7 +15,10 @@ import CategoryNav from './components/CategoryNav'
 import Footer from './components/Footer'
 import CartPanel from './components/CartPanel'
 import ProductsSection from './components/ProductsSection'
+import MobileMenu from './components/MobileMenu'
+
 import { BANNER_IMAGES } from './shared/content'
+
 
 const EMPTY_STATE: AppState = {
   shop: null,
@@ -34,6 +37,7 @@ export default function App() {
   const [data, setData] = useState<AppState>(EMPTY_STATE)
   const [cart, setCart] = useState<Cart>(() => loadCart())
   const [cartOpen, setCartOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   const activeCategory = filters.category
     ? data.categories.find((c) => c.slug === filters.category)
@@ -147,6 +151,8 @@ export default function App() {
         query={query}
         onQuery={handleQuery}
         onAddToCart={handleAdd}
+        onOpenMenu={() => setMenuOpen(true)}
+        categories={data.categories}
       />
 
       <main id="main-content" tabIndex={-1}>
@@ -176,6 +182,12 @@ export default function App() {
         onClose={() => setCartOpen(false)}
         onRemoveLine={handleRemoveLine}
       />
+      <MobileMenu
+        open={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        menu={data.shop?.menu ?? []}
+      />
+
     </>
   )
 }

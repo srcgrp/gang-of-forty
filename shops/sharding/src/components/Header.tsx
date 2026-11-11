@@ -1,7 +1,8 @@
 import Topbar from './Topbar'
 import SearchBox from './SearchBox'
 import ThemeSwitch from './ThemeSwitch'
-import type { Theme, Product } from '../shared/types'
+import MegaMenu from './MegaMenu'
+import type { Theme, Product, Category } from '../shared/types'
 
 type HeaderProps = {
   shopName: string
@@ -9,7 +10,9 @@ type HeaderProps = {
   theme: Theme
   onTheme: (next: Theme) => void
   onOpenCart: () => void
+  onOpenMenu: () => void
   products: Product[]
+  categories: Category[]
   query: string
   onQuery: (next: string) => void
   onAddToCart: (id: number) => void
@@ -21,7 +24,9 @@ export default function Header({
   theme,
   onTheme,
   onOpenCart,
+  onOpenMenu,
   products,
+  categories,
   query,
   onQuery,
   onAddToCart,
@@ -37,6 +42,7 @@ export default function Header({
             aria-expanded="false"
             aria-controls="mobile-menu"
             aria-label="باز کردن منو"
+            onClick={onOpenMenu}
           >
             <svg className="icon-btn__icon" aria-hidden="true">
               <use href="./icons.svg#menu" />
@@ -96,21 +102,7 @@ export default function Header({
 
         <nav className="header-nav" aria-label="ناوبری اصلی">
           <div className="container header-nav__inner">
-            <div className="mega-menu">
-              <button
-                type="button"
-                className="mega-menu__trigger"
-                aria-expanded="false"
-                aria-haspopup="true"
-                aria-controls="mega-menu-panel"
-              >
-                <svg className="mega-menu__trigger-icon" aria-hidden="true">
-                  <use href="./icons.svg#grid" />
-                </svg>
-                <span>همه دسته‌بندی‌ها</span>
-              </button>
-            </div>
-
+            <MegaMenu categories={categories} products={products} />
             <ul className="nav" id="nav-list">
               <li><a href="#">خانه</a></li>
               <li><a href="#">پیشنهاد ویژه</a></li>
