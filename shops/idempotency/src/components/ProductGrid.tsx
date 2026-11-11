@@ -1,12 +1,10 @@
-import type {
-  Product,
-  Offer,
-  Stock,
-} from "../shared/types/products";
-
+import type { Product, Offer, Stock } from "../shared/types/products";
 import ProductCard from "./ProductCard";
+import CarouselControls from "./CarouselControls";
 
 type ProductGridProps = {
+  sectionId: string;
+  title: string;
   products: Product[];
   offers: Offer[];
   stock: Stock;
@@ -14,6 +12,8 @@ type ProductGridProps = {
 };
 
 export default function ProductGrid({
+  sectionId,
+  title,
   products,
   offers,
   stock,
@@ -21,19 +21,19 @@ export default function ProductGrid({
 }: ProductGridProps) {
   return (
     <section
-      className="product-section"
-      id="products"
-      aria-labelledby="products-title"
+      id={sectionId}
+      className="product-section home-carousel-section"
+      aria-labelledby={`carousel-title-${sectionId}`}
     >
-      <h2 id="products-title">محصولات فروشگاه</h2>
-
-      <div className="product-track">
+      <h2 id={`carousel-title-${sectionId}`}>{title}</h2>
+      <div
+        className="product-track"
+        tabIndex={0}
+        aria-label={`محصولات ${title}`}
+      >
         {products.map((product) => {
           const availableStock = stock.items[product.id] ?? 0;
-
-          const offer = offers.find(
-            (item) => item.productId === product.id,
-          );
+          const offer = offers.find((item) => item.productId === product.id);
 
           return (
             <ProductCard
@@ -46,6 +46,7 @@ export default function ProductGrid({
           );
         })}
       </div>
+      <CarouselControls title="{title}" />
     </section>
   );
 }

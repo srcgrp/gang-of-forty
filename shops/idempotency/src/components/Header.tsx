@@ -4,24 +4,24 @@ import CategoryNav from "./CategoryNav";
 import CartPanel from "./CartPanel";
 import HeaderSearch from "./HeaderSearch";
 
-import type { Category, CartAction } from "../shared/types/products";
+import type { CartAction } from "../shared/types/products";
 import type { CartRowView } from "../features/cart/logic/view";
+import ThemeToggle from "./ThemeToggle";
+import type { Shop } from "../shared/types/shop";
 
 type HeaderProps = {
-  categories: Category[];
   onPickCategory: (id: number | null) => void;
-  activeCategoryId: number | null;
   cartCount: number;
   cartRows: CartRowView[];
   cartTotal: number;
   onCartAction: (action: CartAction, id: number) => void;
   onClearCart: () => void;
+  shop: Shop | null;
 };
 
 export default function Header({
-  categories,
+  shop,
   onPickCategory,
-  activeCategoryId,
   cartCount,
   cartRows,
   cartTotal,
@@ -31,13 +31,15 @@ export default function Header({
   return (
     <header className="site-header">
       <div className="top-bar">
-        <p>🚚 ارسال رایگان برای خریدهای بالای ۵۰۰ هزار تومان</p>
+        <p>
+          {shop?.notice ?? "🚚 ارسال رایگان برای خریدهای بالای ۵۰۰ هزار تومان"}
+        </p>{" "}
       </div>
 
       <div className="header-main">
         <div className="brand-menu">
           <Brand />
-          <MobileNav />
+          <MobileNav onShowAll={() => onPickCategory(null)} />
         </div>
 
         <CartPanel
@@ -47,24 +49,12 @@ export default function Header({
           onAction={onCartAction}
           onClear={onClearCart}
         />
-
-        <div className="theme-toggle" role="group" aria-label="انتخاب تم">
-          <button className="theme-button" type="button">
-            ☀
-          </button>
-          <button className="theme-button" type="button">
-            ☾
-          </button>
-        </div>
+        <ThemeToggle />
 
         <HeaderSearch />
       </div>
 
-      <CategoryNav
-        categories={categories}
-        onPick={onPickCategory}
-        activeCategoryId={activeCategoryId}
-      />
+      <CategoryNav onShowAll={() => onPickCategory(null)} />
     </header>
   );
 }

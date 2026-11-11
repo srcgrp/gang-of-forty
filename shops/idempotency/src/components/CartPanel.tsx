@@ -1,6 +1,8 @@
+
+import { useState } from "react";
 import type { CartRowView } from "../features/cart/logic/view";
 import type { CartAction } from "../shared/types/products";
-import CartPanelItems from "./CartPanelItems";
+import CartPopover from "./CartPopover";
 
 type Props = {
   count: number;
@@ -10,20 +12,39 @@ type Props = {
   onClear: () => void;
 };
 
+function isDesktopHover(): boolean {
+  return window.matchMedia(
+    "(min-width: 769px) and (hover: hover) and (pointer: fine)",
+  ).matches;
+}
+
 export default function CartPanel({
-  count,
-  rows,
-  total,
-  onAction,
-  onClear,
+  count, rows, total, onAction, onClear,
 }: Props) {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <div className="cart-summary" id="cart-widget">
+    <div
+      className={`cart-summary${isOpen ? " is-open" : ""}`}
+      id="cart-widget"
+      onMouseEnter={() => {
+        if (isDesktopHover()) setIsOpen(true);
+      }}
+      onMouseLeave={() => {
+        if (isDesktopHover()) setIsOpen(false);
+      }}
+    >
       <button
         type="button"
         className="cart-trigger"
         id="cart-trigger"
         aria-controls="cart-popover"
+        aria-expanded={isOpen}
+        onClick={(event) => {
+          if (!isDesktopHover() || event.detail === 0) {
+            setIsOpen((open) => !open);
+          }
+        }}
       >
         <img className="cart-icon" src="./asset/icons/cart.svg" alt="" />
         <span>سبد خرید</span>
@@ -32,30 +53,12 @@ export default function CartPanel({
         </span>
       </button>
 
-      <section
-        className="cart-popover"
-        id="cart-popover"
-        aria-label="جزئیات سبد خرید"
-      >
-        <div className="cart-popover-header">
-          <h2>سبد خرید شما</h2>
-          <button
-            type="button"
-            className="cart-clear"
-            onClick={onClear}
-            disabled={rows.length === 0}
-          >
-            خالی کردن
-          </button>
-        </div>
-
-        <CartPanelItems rows={rows} onAction={onAction} />
-
-        <div className="cart-popover-footer">
-          <span>جمع کل:</span>
-          <strong>{total.toLocaleString("fa-IR")} تومان</strong>
-        </div>
-      </section>
+      <CartPopover
+        rows={rows}
+        total={total}
+        onAction={onAction}
+        onClear={onClear}
+      />
     </div>
   );
 }

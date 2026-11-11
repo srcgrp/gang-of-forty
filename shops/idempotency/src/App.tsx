@@ -1,67 +1,63 @@
 import { useState } from "react";
-import Header from "./components/Header";
-import Hero from "./components/Hero";
-import CategoryGrid from "./components/CategoryGrid";
-import ProductGrid from "./components/ProductGrid";
-import Footer from "./components/Footer";
-
-import {
-  SAMPLE,
-  SAMPLE_CATEGORIES,
-  SAMPLE_OFFERS,
-  SAMPLE_STOCK,
-} from "./sample-data";
-
-import {
-  addSampleProduct,
-  changeSampleCart,
-  getSampleCartSummary,
-} from "./sample-cart";
-
 import type { CartAction, CartItem } from "./shared/types/products";
+import { useStoreData } from "./features/products/hooks/useStoreData";
+import { addStoreProduct, changeStoreCart } from "./store-cart";
+import StorePage from "./components/StorePage";
+import {
+  showCartToast,
+  showCartStockLimitToast,
+} from "./features/cart/ui/toast";
 
 export default function App() {
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const [cart, setCart] = useState<CartItem[]>([]);
-
-  const visibleProducts =
-    categoryId === null
-      ? SAMPLE
-      : SAMPLE.filter((product) => product.categoryId === categoryId);
-
-  const { rows, count, total } = getSampleCartSummary(cart);
+  const { loadState, storeData } = useStoreData();
 
   function handleAdd(id: number): void {
-    setCart((current) => addSampleProduct(current, id));
+    if (!storeData) return;
+
+    const product = storeData.products.find((item) => item.id === id);
+    if (!product) return;
+
+    const nextCart = addStoreProduct(
+      cart,
+      id,
+      storeData.products,
+      storeData.stock,
+    );
+
+    if (nextCart === cart) {
+      showCartStockLimitToast();
+      return;
+    }
+
+    setCart(nextCart);
+    showCartToast();
   }
 
   function handleCartAction(action: CartAction, id: number): void {
-    setCart((current) => changeSampleCart(current, action, id));
+    if (!storeData) return;
+
+    const nextCart = changeStoreCart(cart, action, id, storeData.stock);
+
+    if (action === "increase" && nextCart === cart) {
+      showCartStockLimitToast();
+      return;
+    }
+
+    setCart(nextCart);
   }
 
   return (
-    <>
-      <Header
-        categories={SAMPLE_CATEGORIES}
-        activeCategoryId={categoryId}
-        onPickCategory={setCategoryId}
-        cartCount={count}
-        cartRows={rows}
-        cartTotal={total}
-        onCartAction={handleCartAction}
-        onClearCart={() => setCart([])}
-      />
-      <main id="main-content">
-        <Hero />
-        <CategoryGrid categories={SAMPLE_CATEGORIES} onPick={setCategoryId} />
-        <ProductGrid
-          products={visibleProducts}
-          offers={SAMPLE_OFFERS}
-          stock={SAMPLE_STOCK}
-          onAdd={handleAdd}
-        />
-      </main>
-      <Footer />
-    </>
+    <StorePage
+      data={storeData}
+      loadState={loadState}
+      cart={cart}
+      categoryId={categoryId}
+      onPickCategory={setCategoryId}
+      onAdd={handleAdd}
+      onCartAction={handleCartAction}
+      onClearCart={() => setCart([])}
+    />
   );
 }

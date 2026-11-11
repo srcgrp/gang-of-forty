@@ -23,7 +23,7 @@ export default function CategoryGrid({
           <a
             key={category.id}
             className="category-card"
-            href="#products"
+            href={`#${category.slug}`}
             onClick={() => onPick(category.id)}
           >
             <img

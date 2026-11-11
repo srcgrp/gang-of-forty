@@ -1,4 +1,10 @@
-export default function FooterContact() {
+import type { Shop } from "../shared/types/shop";
+
+type Props = {
+  shop: Shop | null;
+};
+
+export default function FooterContact({ shop }: Props) {
   return (
     <section id="contact" className="footer-section">
       <h2 className="footer-title">
@@ -21,16 +27,23 @@ export default function FooterContact() {
 
         <div>
           <p>ساعات پاسخگویی:</p>
-          <p>شنبه تا پنجشنبه، ۹ تا ۲۰</p>
+
+          {shop ? (
+            shop.schedule.map((item) => (
+              <p key={`${item.days}-${item.time}`}>
+                {item.days}: {item.time}
+              </p>
+            ))
+          ) : (
+            <p>در حال دریافت ساعات پاسخگویی...</p>
+          )}
         </div>
       </div>
 
-      <p className="footer-phone">
-        ۰۲۱-۱۲۳۴۵۶۷۸
-      </p>
+      <p className="footer-phone">{shop?.phone ?? "۰۲۱-۱۲۳۴۵۶۷۸"}</p>
 
       <address className="footer-address">
-        تهران، خیابان ولیعصر، پلاک ۱۲۳
+        {shop?.address ?? "تهران، خیابان ولیعصر، پلاک ۱۲۳"}
       </address>
     </section>
   );

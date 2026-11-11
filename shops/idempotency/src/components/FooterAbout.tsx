@@ -1,4 +1,10 @@
-export default function FooterAbout() {
+import type { Shop } from "../shared/types/shop";
+
+type Props = {
+  shop: Shop | null;
+};
+
+export default function FooterAbout({ shop }: Props) {
   return (
     <section id="about" className="footer-section">
       <h2 className="footer-title">
@@ -10,10 +16,9 @@ export default function FooterAbout() {
         />
         درباره تازه‌خانه
       </h2>
-
       <p>
-        فروشگاهی برای خرید ساده، تازه و روزمره
-        با حال‌وهوای ایرانی.
+        {shop?.about ??
+          "فروشگاهی برای خرید ساده، تازه و روزمره با حال‌وهوای ایرانی."}
       </p>
 
       <div className="footer-socials">
@@ -28,11 +33,7 @@ export default function FooterAbout() {
             className="footer-social-link"
             aria-label={label}
           >
-            <img
-              src={`./asset/icons/${icon}`}
-              alt=""
-              aria-hidden="true"
-            />
+            <img src={`./asset/icons/${icon}`} alt="" aria-hidden="true" />
           </a>
         ))}
       </div>
