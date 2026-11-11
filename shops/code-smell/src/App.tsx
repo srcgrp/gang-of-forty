@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react"
 import type { Cart, LoadState } from "./types"
 import { loadShopData } from "./api/loadShopData"
-import { addToCart, removeFromCart, cartCount, cartRows, cartTotal } from "./cart/cartRules"
-import { getVisibleCarousels } from "./catalog/catalogSelection"
+import { addToCart, removeFromCart, cartCount } from "./cart/cartRules"
+import { getPageData } from "./catalog/shopPageData"
 import ShopPage from "./components/ShopPage"
 import Status from "./components/Status"
+import { loadCart, saveCart } from "./storage/cartStorage"
 
 export default function App() {
     const [state, setState] = useState<LoadState>({ status: "loading" })
     const [categoryId, setCategoryId] = useState<number | null>(null)
-    const [cart, setCart] = useState<Cart>({})
+    const [cart, setCart] = useState<Cart>(() => loadCart())
     const [cartOpen, setCartOpen] = useState(false)
     useEffect(function () {
         let ignore = false
@@ -42,22 +43,22 @@ export default function App() {
         }
     }, [])
 
+    useEffect(function () {
+        saveCart(cart)
+    }, [cart])
+
+    useEffect(function () {
+        const countText = cartCount(cart).toLocaleString("fa-IR")
+        document.title = "بوی کد | سبد خرید:" + " " + countText + " " + "کالا"
+    }, [cart])
+
     if (state.status === "success") {
         const data = state.data
-        const rows = cartRows(cart, data.products, data.offers)
-        const cartControls = {
-            count: cartCount(cart),
-            cartOpen: cartOpen,
-            onToggle: () => setCartOpen(!cartOpen)
-        }
+        const onToggle = () => setCartOpen(!cartOpen)
+        const pageData = getPageData(data, cart, categoryId, cartOpen, onToggle)
         return (
             <ShopPage
-                data={data}
-                carousels={getVisibleCarousels(data, categoryId)}
-                categoryId={categoryId}
-                cartControls={cartControls}
-                rows={rows}
-                total={cartTotal(rows)}
+                {...pageData}
                 onAdd={(id: number) => setCart(addToCart(cart, { id, quantity: 1 }))}
                 onPick={setCategoryId}
                 onRemove={(id: number) => setCart(removeFromCart(cart, id))}

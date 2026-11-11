@@ -3,6 +3,7 @@ import type { CartButtonProps } from "./CartButton"
 import BrandLogo from "./BrandLogo"
 import CategoryNav from "./CategoryNav"
 import CartButton from "./CartButton"
+import Announcement from "./Announcement"
 
 type HeaderProps = {
     categories: Category[]
@@ -23,9 +24,7 @@ export default function Header({
 
     return (
         <header className="site-header">
-            <p className="announcement" id="announcement">
-                {shop.notice}
-            </p>
+            <Announcement notice={shop.notice} />
             <div className="site-header__bar container" id="header-bar">
                 <a className="brand" href="#top">
                     <BrandLogo />
