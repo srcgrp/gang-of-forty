@@ -1,93 +1,57 @@
-import type { CardProduct, Category, CartLine } from "./types.ts";
-import Footer from "./components/Footer.tsx";
-import ProductGrid from "./components/ProductGrid.tsx";
-import Header from "./components/Header.tsx";
-import Hero from "./components/Hero.tsx";
-import CategoryNav from "./components/CategoryNav.tsx";
-import CartPanel from "./components/CartPanel.tsx";
-import { useState } from "react";
-import {
-  addToCart,
-  cartCount,
-  cartTotal,
-  removeFromCart,
-} from "./cart/cart-lines.ts";
-
-type SampleProduct = CardProduct & { categoryId: number };
-
-const SAMPLE: SampleProduct[] = [
-  {
-    id: 1,
-    categoryId: 1,
-    name: "سیب",
-    emoji: "🍎",
-    unit: "هر کیلو",
-    price: 120000,
-    stock: 5,
-  },
-  {
-    id: 2,
-    categoryId: 2,
-    name: "کره",
-    emoji: "🧈",
-    unit: "هر کیلو",
-    price: 120000,
-    stock: 0,
-  },
-  {
-    id: 3,
-    categoryId: 3,
-    name: "کروسان",
-    emoji: "🥐",
-    unit: "هر کیلو",
-    price: 120000,
-    percent: 18,
-    newPrice: 99000,
-    stock: 5,
-  },
-];
-const SAMPLE_CATEGORIES: Category[] = [
-  { id: 1, slug: "fruit", name: "میوه", emoji: "🍎", color: "pink" },
-  { id: 2, slug: "dairy", name: "لبنیات", emoji: "🧀", color: "blue" },
-  { id: 3, slug: "bread", name: "نان", emoji: "🥨", color: "yellow" },
-];
+import type { CardProduct, CartLine, LoadState } from "./types.ts";
+import { useState, useEffect } from "react";
+import { addToCart, removeFromCart } from "./cart/cart-lines.ts";
+import { loadData } from "./api/load-data.ts";
+import { getDataLoadState } from "./catalog/data-load-state.ts";
+import Status from "./components/Status.tsx";
+import ShopPage from "./components/ShopPage.tsx";
 
 export default function App() {
   const [selectedId, setSelectedId] = useState<number | null>(null);
-  const shown =
-    selectedId === null
-      ? SAMPLE
-      : SAMPLE.filter((x) => x.categoryId === selectedId);
+  const [state, setState] = useState<LoadState>({ status: "loading" });
   const [cart, setCart] = useState<CartLine[]>([]);
 
-  function handleAdd(id: number) {
-    const product = SAMPLE.find((p) => p.id === id);
-    if (product) setCart((current) => addToCart(current, product));
+  useEffect(() => {
+    let ignore = false;
+
+    loadData()
+      .then((data) => {
+        if (ignore) return;
+        setState(getDataLoadState(data));
+      })
+      .catch(() => {
+        if (ignore) return;
+        setState({
+          status: "error",
+          message: "خطا: لطفا دوباره تلاش کنید",
+        });
+      });
+
+    return () => {
+      ignore = true;
+    };
+  }, []);
+
+  if (state.status !== "success") {
+    return <Status state={state} />;
+  }
+
+  function handleAdd(product: CardProduct) {
+    setCart((current) => addToCart(current, product));
   }
 
   function handleRemove(id: number) {
     setCart((current) => removeFromCart(current, id));
   }
 
-  const count = cartCount(cart);
-  const total = cartTotal(cart);
   return (
-    <>
-      <a href="#main" className="skip-link">
-        پرش به محتوای اصلی
-      </a>
-      <Header count={count} />
-      <main id="main">
-        <Hero />
-        <CategoryNav
-          categories={SAMPLE_CATEGORIES}
-          selectedId={selectedId}
-          onPick={setSelectedId}
-        />
-        <ProductGrid products={shown} onAdd={handleAdd} />
-        <CartPanel lines={cart} total={total} onRemove={handleRemove} />
-      </main>
-      <Footer />
-    </>
+    <ShopPage
+      data={state.data}
+      selectedId={selectedId}
+      onPick={setSelectedId}
+      cart={cart}
+      onAdd={handleAdd}
+      onRemove={handleRemove}
+    />
   );
 }
