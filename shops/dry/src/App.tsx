@@ -52,7 +52,7 @@ export default function App() {
     <>
       <div id="top" />
       <LogoSprite />
-            <Header count={cartCount(cart)} query={query} onQuery={setQuery} onCartClick={() => setCartOpen(true)} />
+      <Header count={cartCount(cart)} query={query} onQuery={setQuery} onCartClick={() => setCartOpen(true)} state={state} onAdd={handleAdd} />
         <CategoryNav state={state} selected={categoryId} onPick={setCategoryId} />
       <main id="main">
         <Hero />

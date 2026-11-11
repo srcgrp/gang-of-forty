@@ -1136,3 +1136,28 @@ main > .status {
   outline: 3px solid var(--accent-color);
   outline-offset: 3px;
 }
+
+.favorite.active {
+  color: #e0445a;
+}
+
+.cart-panel li button.fav-add {
+  border-color: transparent;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  font-weight: 700;
+}
+
+.cart-panel li button.fav-add:hover,
+.cart-panel li button.fav-add:focus-visible {
+  border-color: transparent;
+  color: var(--btn-text);
+  opacity: .85;
+}
+
+.cart-panel li button.fav-add:disabled {
+  background: var(--muted-bg);
+  color: var(--secondary-color);
+  cursor: not-allowed;
+  opacity: .7;
+}

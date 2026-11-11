@@ -2,14 +2,18 @@ import { formatNumber } from '../features/products/catalog/format.ts'
 import SearchBox from './SearchBox.tsx'
 import ThemeToggle from './ThemeToggle.tsx'
 import Toaster from './Toaster.tsx'
+import FavoritesMenu from './FavoritesMenu.tsx'
+import type { LoadState } from '../shared/types.ts'
 
 type HeaderProps = {
   count: number
   query: string
   onQuery: (value: string) => void
   onCartClick: () => void
+  state: LoadState
+  onAdd: (id: number) => void
 }
-export default function Header({ count, query, onQuery, onCartClick }: HeaderProps) {
+export default function Header({ count, query, onQuery, onCartClick, state, onAdd }: HeaderProps) {
    return(
     <>
       <a className="skip-link" href="#main">پرش به محتوای اصلی</a>
@@ -30,8 +34,9 @@ export default function Header({ count, query, onQuery, onCartClick }: HeaderPro
         </a>
 
         <div className="header-actions">
-        <SearchBox query={query} onQuery={onQuery} />
+            <SearchBox query={query} onQuery={onQuery} />
             <ThemeToggle />
+            <FavoritesMenu state={state} onAdd={onAdd} />
             <button type="button" onClick={onCartClick}>
             <span aria-hidden="true">🛒</span> سبد خرید{' '}
             <span className="cart-count" id="cart-count" aria-live="polite">{formatNumber(count)}</span>

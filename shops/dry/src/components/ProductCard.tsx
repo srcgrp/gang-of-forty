@@ -1,5 +1,6 @@
 import type { Card } from '../shared/types.ts'
 import { showToast } from '../features/toast/toastStore.ts'
+import { useFavorites } from '../hooks/useFavorites.ts'
 
 type ProductCardProps = {
   card: Card
@@ -8,12 +9,26 @@ type ProductCardProps = {
 }
 
 export default function ProductCard({ card, onAdd, anchorId }: ProductCardProps) {
+  const { favorites, toggle } = useFavorites()
+  const liked = favorites.includes(card.id) 
+
   return (
     <div id={anchorId} className={card.inStock ? 'product-card' : 'product-card out'}>
             {card.discount && <span className="discount">{card.discount}</span>}
 
-            <button type="button" className="favorite" aria-label="علاقه مندی">
-                 ♡
+            <button
+                type="button"
+                className={liked ? 'favorite active' : 'favorite'}
+                aria-label={liked ? `حذف ${card.title} از علاقه‌مندی‌ها` : `افزودن ${card.title} به علاقه‌مندی‌ها`}
+                aria-pressed={liked}
+                onClick={() => {
+                    toggle(card.id)
+                    showToast(liked
+                        ? `${card.title} از علاقه‌مندی‌ها حذف شد`
+                        : `${card.title} به علاقه‌مندی‌ها اضافه شد`)
+                }}
+            >
+                {liked ? '♥' : '♡'}
             </button>
             
             <div className="product-emoji">
