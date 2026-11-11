@@ -8,9 +8,12 @@ import {
   showCartStockLimitToast,
 } from "./features/cart/ui/toast";
 
+import { loadCart } from "./features/cart/storage/items";
+import { useCartEffects } from "./features/cart/hooks/useCartEffects";
 export default function App() {
   const [categoryId, setCategoryId] = useState<number | null>(null);
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const [cart, setCart] = useState<CartItem[]>(loadCart);
+  useCartEffects(cart);
   const { loadState, storeData } = useStoreData();
 
   function handleAdd(id: number): void {
