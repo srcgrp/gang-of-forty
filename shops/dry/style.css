@@ -935,3 +935,8 @@ main > .status {
   font-size: 2rem;
   font-weight: 700;
 }
+
+.cart-total {
+  margin-top: 0.75rem;
+  font-weight: 700;
+}

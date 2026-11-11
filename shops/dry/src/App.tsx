@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { addToCart, cartCount, removeFromCart } from './features/cart/rules/lines.ts'
 import { loadState } from './features/products/api/load.ts'
-import { cardsOf } from './features/products/catalog/view.ts'
+import { cartSummary } from './features/products/catalog/cartView.ts'
 import { loadCart, saveCart } from './features/cart/storage/cartStorage.ts'
 import { formatNumber } from './features/products/catalog/format.ts'
 import Blog from './components/Blog.tsx'
@@ -40,7 +40,7 @@ export default function App() {
     document.title = `${SHOP_NAME} · 🛒 ${formatNumber(cartCount(cart))}`
   }, [cart])
     
-  const cards = state.status === 'success' ? cardsOf(state) : []
+  const summary = cartSummary(state, cart)
   const handleAdd = (id: number) => setCart(addToCart(cart, id))
   const handleRemove = (id: number) => setCart(removeFromCart(cart, id))
   const handleRetry = () => {
@@ -61,7 +61,7 @@ export default function App() {
         <SaleSection />
         <PromoBanners />
         <Blog />
-        <CartPanel lines={cart} cards={cards} onRemove={handleRemove} />
+        <CartPanel rows={summary.rows} total={summary.total} onRemove={handleRemove} />
       </main>
       <Footer />
     </>
