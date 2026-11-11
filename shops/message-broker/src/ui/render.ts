@@ -1,26 +1,37 @@
-import type { CartLine, LoadState } from '../types'
+
+import type { LoadState } from '../types'
 import { assertNever } from '../types'
 
 export function renderStatus(state: LoadState, el: HTMLElement): void {
-    if (state.status === 'loading') el.textContent = 'در حال بارگذاری...'
-    else if (state.status === 'empty') el.innerHTML = '<li>محصولی یافت نشد.</li>'
-    else if (state.status === 'error') el.innerHTML = `<li>خطا: ${state.message}</li>`
-    else if (state.status !== 'success') assertNever(state)
+    switch (state.status) {
+        case 'loading': {
+            el.textContent = 'در حال بارگذاری...'
+            break
+        }
+        case 'empty': {
+            const li = document.createElement('li')
+            li.textContent = 'محصولی یافت نشد.'
+            el.replaceChildren(li)
+            break
+        }
+        case 'error': {
+            const li = document.createElement('li')
+            li.textContent = `خطا: ${state.message}`
+            el.replaceChildren(li)
+            break
+        }
+        case 'success': {
+            el.replaceChildren()
+            break
+        }
+        default:
+            assertNever(state)
+    }
 }
 
-export function renderProducts(container: HTMLElement, items: HTMLElement[]): void {
-    container.textContent = ''
-    items.forEach(el => container.appendChild(el))
-}
-
-export function renderCart(container: HTMLElement, lines: CartLine[]): void {
-    container.textContent = `تعداد: ${lines.length}`
-}
-
-export function renderTotal(container: HTMLElement, total: number): void {
-    container.textContent = `${total.toLocaleString('fa-IR')} تومان`
-}
-
-export function render(container: HTMLElement, html: string): void {
-    container.innerHTML = html
+export function renderProducts(
+    container: HTMLElement,
+    items: HTMLElement[]
+): void {
+    container.replaceChildren(...items)
 }
