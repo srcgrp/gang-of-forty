@@ -5,11 +5,11 @@ export function formatNumber(n: number): string {
 }
 
 export function formatPrice(n: number): string {
-    return faNumber.format(n) +  'تومان '
+      return faNumber.format(n) + ' تومان'
 }
 
 export function formatPercent(n:number): string {
-    return faNumber.format(n) + 'Z'
+      return faNumber.format(n) + '٪'
 }
 
 export function searchSummary(count: number, query: string): string {

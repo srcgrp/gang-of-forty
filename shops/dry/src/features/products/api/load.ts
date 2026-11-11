@@ -1,6 +1,6 @@
-import type { LoadState, Offer, Product, Stock } from '../../../shared/types.ts'
+import type { Category, LoadState, Offer, Product, Stock } from '../../../shared/types.ts'
+import { isCategory, isOffer, isProduct, isStock } from './guards.ts'
 import { getJSON, type ApiFile } from './http.ts'
-import { isOffer, isProduct, isStock } from './guards.ts'
 
 async function loadList<T>(file: ApiFile, guard: (x: unknown) => x is T): Promise<T[]> {
   const data: unknown = await getJSON(file)
@@ -20,13 +20,15 @@ async function loadStock(): Promise<Stock> {
 
 export async function loadState(): Promise<LoadState> {
   try {
-    const [products, offers, stock]: [Product[], Offer[], Stock] = await Promise.all([
-      loadList('products.json', isProduct),
-      loadList('offers.json', isOffer),
-      loadStock(),
-    ])
+      const [products, offers, categories, stock]: [Product[], Offer[], Category[], Stock] =
+      await Promise.all([
+        loadList('products.json', isProduct),
+        loadList('offers.json', isOffer),
+        loadList('categories.json', isCategory),
+        loadStock(),
+      ])
     if (products.length === 0) return { status: 'empty' }
-    return { status: 'success', products, stock, offers }
+       return { status: 'success', products, stock, offers, categories }
   } catch (err) {
     console.error(err)
     return {

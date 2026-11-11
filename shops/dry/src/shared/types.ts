@@ -63,7 +63,7 @@ export type Sort = (typeof SORTS)[number]
 
 export type LoadState = 
 | { status: 'loading' }
-| { status: 'success'; products: Product[]; stock: Stock; offers: Offer[] }
+| { status: 'success'; products: Product[]; stock: Stock; offers: Offer[]; categories: Category[] }
 | {status: 'empty' }
 | { status: 'error'; message: string }
 

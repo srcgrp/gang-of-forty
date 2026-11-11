@@ -25,6 +25,7 @@ export default function App() {
   const [state, setState] = useState<LoadState>({ status: 'loading' })
   const [query, setQuery] = useState('')
   const [attempt, setAttempt] = useState(0)
+  const [cartOpen, setCartOpen] = useState(false)
 
     useEffect(() => {
     let ignore = false
@@ -39,7 +40,6 @@ export default function App() {
   useEffect(() => {
     document.title = `${SHOP_NAME} · 🛒 ${formatNumber(cartCount(cart))}`
   }, [cart])
-    
   const summary = cartSummary(state, cart)
   const handleAdd = (id: number) => setCart(addToCart(cart, id))
   const handleRemove = (id: number) => setCart(removeFromCart(cart, id))
@@ -52,16 +52,16 @@ export default function App() {
     <>
       <div id="top" />
       <LogoSprite />
-      <Header count={cartCount(cart)} query={query} onQuery={setQuery} />
-      <CategoryNav selected={categoryId} onPick={setCategoryId} />
+            <Header count={cartCount(cart)} query={query} onQuery={setQuery} onCartClick={() => setCartOpen(true)} />
+        <CategoryNav state={state} selected={categoryId} onPick={setCategoryId} />
       <main id="main">
         <Hero />
-        <CategoryGrid onPick={setCategoryId} />
-        <Catalog state={state} categoryId={categoryId} query={query} onAdd={handleAdd} onRetry={handleRetry} />
         <SaleSection />
+        <CategoryGrid state={state} />
+        <Catalog state={state} categoryId={categoryId} query={query} onAdd={handleAdd} onRetry={handleRetry} />
         <PromoBanners />
         <Blog />
-        <CartPanel rows={summary.rows} total={summary.total} onRemove={handleRemove} />
+        <CartPanel rows={summary.rows} total={summary.total} open={cartOpen} onClose={() => setCartOpen(false)} onRemove={handleRemove} />
       </main>
       <Footer />
     </>

@@ -1,13 +1,16 @@
 import { formatNumber } from '../features/products/catalog/format.ts'
 import SearchBox from './SearchBox.tsx'
+import ThemeToggle from './ThemeToggle.tsx'
+import Toaster from './Toaster.tsx'
 
 type HeaderProps = {
   count: number
   query: string
   onQuery: (value: string) => void
+  onCartClick: () => void
 }
-export default function Header({ count, query, onQuery }: HeaderProps) {
-  return (
+export default function Header({ count, query, onQuery, onCartClick }: HeaderProps) {
+   return(
     <>
       <a className="skip-link" href="#main">پرش به محتوای اصلی</a>
       <input
@@ -28,12 +31,14 @@ export default function Header({ count, query, onQuery }: HeaderProps) {
 
         <div className="header-actions">
         <SearchBox query={query} onQuery={onQuery} />
-          <button type="button">
+            <ThemeToggle />
+            <button type="button" onClick={onCartClick}>
             <span aria-hidden="true">🛒</span> سبد خرید{' '}
             <span className="cart-count" id="cart-count" aria-live="polite">{formatNumber(count)}</span>
           </button>
         </div>
       </header>
+      <Toaster />
     </>
   )
 }

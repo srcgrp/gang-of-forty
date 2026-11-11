@@ -1,21 +1,15 @@
-import type { Category } from '../shared/types.ts'
+import { categoriesOf } from '../features/products/catalog/sections.ts'
+import type { LoadState } from '../shared/types.ts'
 
-type NavCategory = Pick<Category, 'id' | 'name'>
-
-const CATEGORIES: NavCategory[] = [
-  { id: 1, name: 'میوه و سبزی' },
-  { id: 2, name: 'لبنیات' },
-  { id: 3, name: 'نان و شیرینی' },
-  { id: 4, name: 'مواد غذایی' },
-  { id: 5, name: 'نوشیدنی' },
-]
 
 type CategoryNavProps = {
+  state: LoadState
   selected: number | null
   onPick: (id: number | null) => void
 }
 
-export default function CategoryNav({ selected, onPick }: CategoryNavProps) {
+
+export default function CategoryNav({ state, selected, onPick }: CategoryNavProps) {
   return (
     <nav className="category-nav" aria-label="دسته‌بندی محصولات">
       <a
@@ -25,7 +19,7 @@ export default function CategoryNav({ selected, onPick }: CategoryNavProps) {
       >
         همه
       </a>
-      {CATEGORIES.map((c) => (
+      {categoriesOf(state).map((c) => (
         <a
           key={c.id}
           href="#products"

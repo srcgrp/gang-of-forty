@@ -1,4 +1,5 @@
 import type { Card } from '../shared/types.ts'
+import { showToast } from '../features/toast/toastStore.ts'
 
 type ProductCardProps = {
   card: Card
@@ -21,7 +22,7 @@ export default function ProductCard({ card, onAdd, anchorId }: ProductCardProps)
                 ) : (
                     <span aria-hidden="true">{card.emoji}</span>
                 )}
-                {!card.inStock && <span className="solid-out">ناموجود</span>}
+                               {!card.inStock && <span className="sold-out">ناموجود</span>}
             </div>
 
             <h3>{card.title}</h3>
@@ -37,7 +38,10 @@ export default function ProductCard({ card, onAdd, anchorId }: ProductCardProps)
             className="add-btn"
             aria-label={`افزودن ${card.title} به سبد`}
             disabled={!card.inStock}
-            onClick={() => onAdd(card.id)}
+            onClick={() => {
+                onAdd(card.id)
+                showToast(`${card.title} به سبد اضافه شد`)
+            }}
             >
                 +
             </button>
