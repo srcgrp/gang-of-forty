@@ -1,4 +1,4 @@
-import type { CardProduct } from "./types.ts"
+import type { CardProduct, Category } from "./types.ts"
 import Footer from "./components/Footer.tsx"
 import ProductGrid from "./components/ProductGrid.tsx"
 import Header from "./components/Header.tsx"
@@ -34,6 +34,11 @@ const SAMPLE: CardProduct[] = [
     stock: 5,
     },
 ]
+const SAMPLE_CATEGORIES: Category[] = [
+  { id: 1, slug: "fruit ", name: "میوه", emoji: "🍎", color: "pink" },
+  { id: 2, slug: "dairy", name: "لبنیات", emoji: "🧀", color: "blue" },
+  { id: 3, slug: "bread", name: "نان", emoji: "🥨", color: "yellow" },
+]
 
 export default function App() {
     return (
@@ -42,7 +47,7 @@ export default function App() {
             <Header />
             <main id="main">
                 <Hero />
-                <CategoryNav />
+                <CategoryNav categories={SAMPLE_CATEGORIES} />
                 <ProductGrid products={SAMPLE} onAdd={() => {}} />
                 <CartPanel />
             </main>
