@@ -1,14 +1,17 @@
-export default function Promos() {
+import type { Promo } from '../types';
+import { bannerArt, safeHref, stripEmoji } from './shop-content';
+
+export default function Promos({ promos }: { promos: readonly Promo[] }) {
+  if (!promos.length) return null;
   return (
     <section className="banners" aria-label="پیشنهادهای تبلیغاتی">
-      <a className="banner" href="#dairy">
-        سبد صبحانه خانواده
-        <img src="./assets/images/hero/breakfast-basket.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async" />
-      </a>
-      <a className="banner" href="#bakery">
-        نان داغ، هر روز ساعت ۷
-        <img src="./assets/images/hero/hot-bread.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async" />
-      </a>
+      {promos.map(promo => {
+        const [art, width, height] = bannerArt(promo.text);
+        return <a className="banner" key={promo.href + promo.text} href={safeHref(promo.href)}>
+          {stripEmoji(promo.text)}
+          <img src={`./assets/images/hero/${art}.webp`} alt="" width={width} height={height} loading="lazy" decoding="async" />
+        </a>;
+      })}
     </section>
   );
 }

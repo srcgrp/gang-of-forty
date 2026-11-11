@@ -1,18 +1,9 @@
+import Amount from './Amount';
 import type { CartView } from '../types';
 import type { CartControls } from '../cart-controls';
 import QuantityControl from './QuantityControl';
 
 type Props = { view: CartView; controls: CartControls };
-
-function Amount({ total, old, discount }: { total: number; old: number; discount: number }) {
-  return <>
-    {old > total && <div className="mini-old">
-      <span className="badge badge--sm">{discount.toLocaleString('fa-IR')}٪</span>
-      <del>{old.toLocaleString('fa-IR')}</del>
-    </div>}
-    <span className="mini-price"><strong>{total.toLocaleString('fa-IR')}</strong><small>تومان</small></span>
-  </>;
-}
 
 export default function CartPanel({ view, controls }: Props) {
   const count = view.count.toLocaleString('fa-IR');

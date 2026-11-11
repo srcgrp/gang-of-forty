@@ -1,17 +1,17 @@
+import useShelfScroll from './useShelfScroll';
 import type { CartControls } from '../cart-controls';
 import type { ProductItem } from '../types';
 import ProductGrid from './ProductGrid';
 
-export default function OffersShelf({ items, controls }: { items: ProductItem[]; controls: CartControls }) {
+export default function OffersShelf({ id, title, items, controls }: { id: string; title: string; items: ProductItem[]; controls: CartControls }) {
+  const { ref, edges, move } = useShelfScroll<HTMLDivElement>();
   return (
-    <section className="shelf offers" id="offers" aria-labelledby="offers-t">
+    <section className="shelf offers" id={id} aria-labelledby={`${id}-t`}>
       <div className="offers__box">
-        <div className="offers__scroller">
+        <div className="offers__scroller" ref={ref}>
           <div className="offers__intro">
-            <h2 className="offers__title" id="offers-t">
-              <span>پیشنهاد</span>
-              <span>ویژه</span>
-              <span>امروز</span>
+            <h2 className="offers__title" id={`${id}-t`}>
+              {title.split(' ').map((word, offset, words) => <span key={words.slice(0, offset + 1).join(' ')}>{word}{' '}</span>)}
             </h2>
             <img className="offers__art" src="./assets/images/hero/offer.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async" />
             <a className="offers__all" href="./?category=offers" data-route="">
@@ -26,14 +26,14 @@ export default function OffersShelf({ items, controls }: { items: ProductItem[];
                 <span className="offer-all__circle"><svg className="icon icon--mirror" aria-hidden="true" focusable="false"><use href="#i-arrow-right" /></svg></span>
                 <span className="offer-all__text">
                   مشاهده همه
-                  <span className="sr-only">{" پیشنهاد ویژه امروز"}</span>
+                  <span className="sr-only">{` ${title}`}</span>
                 </span>
               </a>
             </li>
           </ul>
         </div>
-        <button className="offers__nav offers__nav--prev arr--start" type="button" data-dir="-1" aria-label="محصولات قبلی «پیشنهاد ویژه امروز»" disabled><svg className="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right" /></svg></button>
-        <button className="offers__nav offers__nav--next arr--end" type="button" data-dir="1" aria-label="محصولات بعدی «پیشنهاد ویژه امروز»"><svg className="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right" /></svg></button>
+        <button className="offers__nav offers__nav--prev arr--start" type="button" data-dir="-1" aria-label={`محصولات قبلی «${title}»`} disabled={edges.start} onClick={() => move(-1)}><svg className="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right" /></svg></button>
+        <button className="offers__nav offers__nav--next arr--end" type="button" data-dir="1" aria-label={`محصولات بعدی «${title}»`} disabled={edges.end} onClick={() => move(1)}><svg className="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right" /></svg></button>
       </div>
     </section>
   );

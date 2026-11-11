@@ -1,4 +1,5 @@
-import type { ApiErrorKind } from '../types';
+import { asApiFailure } from '../api/http';
+import type { ApiErrorKind, LoadState } from '../types';
 
 export const ERROR_TEXT = {
   network: 'ارتباط با سرور برقرار نشد. اتصال اینترنت خود را بررسی کنید و دوباره تلاش کنید.',
@@ -7,3 +8,8 @@ export const ERROR_TEXT = {
   timeout: 'پاسخ سرور بیش از اندازه طول کشید. دوباره تلاش کنید.',
   shape: 'ساختار اطلاعات دریافتی با انتظار ما نمی‌خواند.',
 } satisfies Record<ApiErrorKind, string>;
+
+export function errorState(error: unknown): LoadState {
+  const failure = asApiFailure(error);
+  return { status: 'error', message: ERROR_TEXT[failure.kind], failure };
+}
