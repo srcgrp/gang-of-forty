@@ -44,9 +44,9 @@ export type Carousel = { id: string; title: string; emoji: string } & (
   | { source?: undefined; categoryId: number }
 );
 export type Home = { hero: Banner; side: Banner; promos: Promo[]; carousels: Carousel[] };
-export type LoadState =
+export type LoadState<Data = Product[]> =
   | { status: "loading" }
-  | { status: "success"; products: Product[] }
+  | { status: "success"; data: Data }
   | { status: "empty" }
   | { status: "error"; message: string };
 export type CardView = {

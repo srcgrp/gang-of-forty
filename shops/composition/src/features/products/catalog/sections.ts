@@ -14,7 +14,7 @@ export function buildPage(data: ShopData): PageView {
     if (sections.some(section => section.id === category.slug)) continue;
     const products = data.products.filter(product => product.categoryId === category.id);
     sections.push({ id: category.slug, title: category.name,
-      carousel: category.slug === "fruits", cards: toCards(products, data.stock, offers) });
+      carousel: true, cards: toCards(products, data.stock, offers) });
   }
   return { sections };
 }

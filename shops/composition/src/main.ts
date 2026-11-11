@@ -52,7 +52,7 @@ async function start(): Promise<void> {
       goToFragment(readFragment());
     });
     renderSearch();
-    renderLoadStatus(data.products.length ? { status: "success", products: data.products } : { status: "empty" });
+    renderLoadStatus(data.products.length ? { status: "success", data: data.products } : { status: "empty" });
     goToFragment(readFragment());
   } catch (error: unknown) {
     console.error("خطا در دریافت اطلاعات فروشگاه:", error);
