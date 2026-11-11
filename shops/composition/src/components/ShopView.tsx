@@ -10,18 +10,19 @@ import CartPanel from "./CartPanel";
 import Footer from "./Footer";
 
 type Props = {
+  dark: boolean; onToggleTheme: () => void;
   data: ShopData; cart: CartItem[]; categoryId: number | null; cartOpen: boolean;
   onPick: (id: number | null) => void; onCartOpen: (open: boolean) => void;
   onAdd: (id: number) => void; onRemove: (id: number) => void;
 };
-export default function ShopView({ data, cart, categoryId, cartOpen, onPick, onCartOpen, onAdd, onRemove }: Props) {
+export default function ShopView({ data, cart, categoryId, cartOpen, dark, onToggleTheme, onPick, onCartOpen, onAdd, onRemove }: Props) {
   const page = buildPage(data);
   const category = data.categories.find(item => item.id === categoryId);
   return (
     <div id="top">
       <a className="skip-link" href="#main">پرش به محتوای اصلی</a>
       <Header shop={data.shop} categories={data.categories} count={cartCount(cart)} onPick={onPick}
-        cartOpen={cartOpen} onCartOpen={onCartOpen}>
+        cartOpen={cartOpen} onCartOpen={onCartOpen} dark={dark} onToggleTheme={onToggleTheme}>
         <CartPanel cart={cart} total={cartTotal(cart)} onRemove={onRemove}
           open={cartOpen} onClose={() => onCartOpen(false)} />
       </Header>

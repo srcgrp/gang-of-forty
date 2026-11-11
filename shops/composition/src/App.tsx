@@ -5,12 +5,14 @@ import { getShop, getHome } from "./shared/api/site";
 import { addItem, removeItem, cartCount } from "./features/cart/logic/items";
 import { toCard, offersById } from "./features/products/catalog/cards";
 import { loadCart, saveCart } from "./features/cart/storage/cart";
+import { loadTheme, saveTheme } from "./shared/storage/theme";
 import LoadStatus from "./components/LoadStatus";
 import ShopView from "./components/ShopView";
 
 export default function App() {
   const [state, setState] = useState<LoadState<ShopData>>({ status: "loading" });
   const [categoryId, setCategoryId] = useState<number | null>(null);
+  const [dark, setDark] = useState(() => loadTheme());
   const [cartOpen, setCartOpen] = useState(false);
   const [cart, setCart] = useState<CartItem[]>(() => loadCart());
   useEffect(() => {
@@ -32,6 +34,10 @@ export default function App() {
   useEffect(() => {
     document.title = "بت‌شاپ · " + cartCount(cart).toLocaleString("fa-IR") + " 🛒";
   }, [cart]);
+  useEffect(() => {
+    document.documentElement.dataset.theme = dark ? "dark" : "light";
+    saveTheme(dark);
+  }, [dark]);
   function handleAdd(productId: number): void {
     if (state.status !== "success") return;
     const { products, stock, offers } = state.data;
@@ -48,5 +54,6 @@ export default function App() {
     return <main className="wrap"><h1>بت‌شاپ</h1><LoadStatus state={state} /></main>;
   }
   return <ShopView data={state.data} cart={cart} categoryId={categoryId} cartOpen={cartOpen}
+    dark={dark} onToggleTheme={() => setDark(previous => !previous)}
     onPick={setCategoryId} onCartOpen={setCartOpen} onAdd={handleAdd} onRemove={handleRemove} />;
 }
