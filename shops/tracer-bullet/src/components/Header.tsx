@@ -1,6 +1,11 @@
 import Logo from "./Logo.tsx";
+import { formatNumber } from "../ui/formatting.ts";
 
-export default function Header() {
+type HeaderProps = {
+  count: number;
+};
+
+export default function Header({ count }: HeaderProps) {
   return (
     <header id="top">
       <p className="notice"></p>
@@ -37,9 +42,11 @@ export default function Header() {
         />
         سبد خرید
         <span className="cartCount" aria-hidden="true">
-          ۰
+          {formatNumber(count)}
         </span>
-        <span className="visually-hidden cartCountText">۰ کالا در سبد</span>
+        <span className="visually-hidden cartCountText">
+          {formatNumber(count)} کالا در سبد
+        </span>
       </button>
       <input type="checkbox" id="menu-toggle" className="visually-hidden" />
       <label htmlFor="menu-toggle" className="menu-button">
