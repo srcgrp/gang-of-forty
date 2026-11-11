@@ -1,15 +1,17 @@
-import type { Category } from '../types';
+import type { Category, ShopLink } from '../types';
 
 type CategoryNavProps = {
   categories: Category[];
   activeCategoryId: number | null;
   onPick: (categoryId: number | null) => void;
+  menu: ShopLink[];
 };
 
 export default function CategoryNav({
   categories,
   activeCategoryId,
   onPick,
+  menu,
 }: CategoryNavProps) {
   const activeCategory = categories.find(
     (category) => category.id === activeCategoryId,
@@ -56,6 +58,11 @@ export default function CategoryNav({
             </ul>
           </details>
         </li>
+        {menu.map((link) => (
+          <li key={`${link.href}-${link.label}`}>
+            <a href={link.href}>{link.label}</a>
+          </li>
+        ))}
       </ul>
     </section>
   );

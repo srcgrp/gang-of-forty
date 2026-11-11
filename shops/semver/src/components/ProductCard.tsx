@@ -1,36 +1,54 @@
-import type { Product } from '../types';
+import type { ProductView } from "../types";
+import { formatPrice } from "../ui/format";
 
 type ProductCardProps = {
-  product: Product;
+  item: ProductView;
   onAdd: (id: number) => void;
 };
 
-export default function ProductCard({ product, onAdd }: ProductCardProps) {
+const discountedPrice = (price: number, percent: number): number =>
+  Math.round((price * (100 - percent)) / 100);
+
+export default function ProductCard({ item, onAdd }: ProductCardProps) {
+  const { product, offer, stock } = item;
+  const isOutOfStock = stock === 0;
+  const finalPrice = offer
+    ? discountedPrice(product.price, offer.percent)
+    : product.price;
+
   return (
-    <article className="product-cart">
+    <article className={`product-cart${isOutOfStock ? " out-of-stock" : ""}`}>
+      {offer && !isOutOfStock && (
+        <span className="offer-badge">{offer.percent}٪ تخفیف</span>
+      )}
+      {isOutOfStock && <span className="stock-badge">ناموجود</span>}
       <div className="img">
         <span
           className="img-product"
-          style={{ fontSize: '4rem', display: 'grid', placeItems: 'center' }}
+          style={{ fontSize: "4rem", display: "grid", placeItems: "center" }}
         >
-          {product.emoji || '📦'}
+          {product.emoji || "📦"}
         </span>
       </div>
       <div className="product-details">
         <p className="product-description">{product.name}</p>
-        <span className="product-unit">{product.unit || ''}</span>
+        <span className="product-unit">{product.unit || ""}</span>
       </div>
       <div className="card-btn">
         <div className="prices">
-          <p className="price-label">
-            {product.price.toLocaleString('fa-IR')} تومان
-          </p>
+          {offer && <span className="price-old">{formatPrice(product.price)}</span>}
+          <p className="price-label">{formatPrice(finalPrice)}</p>
         </div>
         <button
           className="buynow-btn"
           type="button"
           data-product-id={product.id}
-          aria-label={`افزودن ${product.name} به سبد خرید`}
+          aria-label={
+            isOutOfStock
+              ? `${product.name} ناموجود است`
+              : `افزودن ${product.name} به سبد خرید`
+          }
+          disabled={isOutOfStock}
           onClick={() => onAdd(product.id)}
         >
           +

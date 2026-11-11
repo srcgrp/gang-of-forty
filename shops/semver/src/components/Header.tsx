@@ -1,6 +1,6 @@
 import CategoryNav from './CategoryNav';
 import CartPanel from './CartPanel';
-import type { CartLine, Category, Product } from '../types';
+import type { CartLine, Category, Home, Product, Shop } from '../types';
 import { formatCount } from '../ui/format';
 
 type HeaderProps = {
@@ -14,6 +14,8 @@ type HeaderProps = {
   categories: Category[];
   activeCategoryId: number | null;
   onCategoryPick: (categoryId: number | null) => void;
+  shop: Shop | null;
+  home: Home | null;
 };
 
 export default function Header({
@@ -27,13 +29,20 @@ export default function Header({
   categories,
   activeCategoryId,
   onCategoryPick,
+  shop,
+  home,
 }: HeaderProps) {
   return (
     <header>
       <article>
         <section id="news-section">
           <p id="news">
-            <span id="highlight">ارسال رایگان </span>با خرید بالای 500 هزارتومان
+            {shop?.notice ?? (
+              <>
+                <span id="highlight">ارسال رایگان </span>
+                با خرید بالای 500 هزارتومان
+              </>
+            )}
           </p>
           <i className="ph ph-package"></i>
         </section>
@@ -47,8 +56,8 @@ export default function Header({
               alt="لوگوی فروشگاه مترون"
             />
             <section id="site-name">
-              <p id="title">سوپرمارکت ناردونه</p>
-              <p id="tagline">دقیـق مثـل مترونـوم</p>
+              <p id="title">{shop?.name ?? "سوپرمارکت ناردونه"}</p>
+              <p id="tagline">{shop?.slogan ?? "دقیـق مثـل مترونـوم"}</p>
             </section>
           </div>
           <input
@@ -97,18 +106,20 @@ export default function Header({
         categories={categories}
         activeCategoryId={activeCategoryId}
         onPick={onCategoryPick}
+        menu={shop?.menu ?? []}
       />
       <section className="hero-container">
         <div id="hero-right">
           <div id="hero-title1">
-            <h1 id="hero-h1"></h1>
-            <p id="hero-p"></p>
-            <a href="#" id="cta">
-              <span id="cta-label"></span>
+            <h1 id="hero-h1">{home?.hero.title}</h1>
+            <p id="hero-p">{home?.hero.text}</p>
+            <a href={home?.hero.cta.href ?? "#"} id="cta">
+              <span id="cta-label">{home?.hero.cta.label}</span>
               <i className="ph ph-arrow-left ph-lg"></i>
             </a>
           </div>
         </div>
+        
       </section>
     </header>
   );
