@@ -2,9 +2,10 @@ import type { Product } from '../types';
 
 type ProductCardProps = {
   product: Product;
+  onAdd: (id: number) => void;
 };
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ product, onAdd }: ProductCardProps) {
   return (
     <article className="product-cart">
       <div className="img">
@@ -30,6 +31,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           type="button"
           data-product-id={product.id}
           aria-label={`افزودن ${product.name} به سبد خرید`}
+          onClick={() => onAdd(product.id)}
         >
           +
         </button>

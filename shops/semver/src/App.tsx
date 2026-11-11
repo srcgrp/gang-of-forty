@@ -32,6 +32,8 @@ const SAMPLE: Product[] = [
 ];
 
 export default function App() {
+  const handleAdd = (_productId: number): void => {};
+
   return (
     <>
       <Header />
@@ -52,7 +54,7 @@ export default function App() {
         <h2 id="latest-products" className="section-title">
           جدیدترین‌ها
         </h2>
-        <ProductGrid products={SAMPLE} />
+        <ProductGrid products={SAMPLE} onAdd={handleAdd} />
       </main>
       <Footer />
       <CartPanel />
