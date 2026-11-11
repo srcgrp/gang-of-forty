@@ -1,19 +1,22 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "ESnext",
-    "moduleResolution": "bundler",
-    "lib": ["ES2023", "DOM"],
+    "target": "ES2023",
+    "useDefineForClassFields": true,
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
     "types": ["vite/client"],
-    "allowImportingTsExtensions": true,
-    "noEmit": true,
     "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
-    "erasableSyntaxOnly": true,
     "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "src/guards/index-guards.ts"]
+  "include": ["src"]
 }
