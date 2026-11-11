@@ -1,0 +1,5 @@
+Isolated demonstration of the unknown boundary, not a broken production file.
+BEFORE:
+example.ts(2,13): error TS18046: 'data' is of type 'unknown'.
+
+AFTER: exit code 0, no errors.

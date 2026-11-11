@@ -1,14 +1,21 @@
 {
     "compilerOptions": {
-        "target": "ES2022",
-        "module": "ESNext",
+        "target": "es2023",
+        "module": "esnext",
         "moduleResolution": "bundler",
-        "lib": ["ES2022","DOM","DOM.Iterable"],
+        "lib": ["ES2023","DOM"],
         "types": ["vite/client"],
-        "strict": true,
-        "noImplicitAny": false,
         "noEmit": true,
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "allowImportingTsExtensions": true,
+        "verbatimModuleSyntax": true,
+        "erasableSyntaxOnly": true,
+        "moduleDetection": "force",
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noFallthroughCasesInSwitch": true,
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true, 
     },
-    "include": ["*.ts"]
+    "include": ["src"]
 }

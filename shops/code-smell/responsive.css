@@ -11,6 +11,9 @@
 .category-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
 }
+.promo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
 }
 
 @media (max-width: 760px) {
@@ -285,4 +288,24 @@
 
 @media (prefers-reduced-motion: reduce) {
     .category-card:is(:hover, :focus-within) { transform: none; }
+}
+
+@media (min-width: 981px) {
+    .promo-card {
+        padding-inline-end: 8rem;
+    }
+
+    .promo-card__art {
+        inline-size: 96px;
+    }
+
+    .promo-card--api .promo-card__title {
+        font-size: 1.25rem;
+        white-space: nowrap;
+    }
+
+    .promo-card__emoji {
+        inset-inline-end: 32px;
+        font-size: 4.5rem;
+    }
 }
