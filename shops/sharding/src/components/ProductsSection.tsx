@@ -1,12 +1,13 @@
-import type { LoadState, Product, Cart, Stock } from '../shared/types'
+import type { AppState, LoadState, Cart } from '../shared/types'
+import { buildShelves } from '../features/products/logic/shelves'
+import { cardOf } from '../features/products/logic/to-card'
 import ProductGrid from './ProductGrid'
 import ProductStatus from './ProductStatus'
 
 type ProductsSectionProps = {
-  res: LoadState
-  products: Product[]
+  data: AppState
   cart: Cart
-  stock: Stock | null
+  activeCategoryId: number | null
   onAdd: (id: number) => void
   onRemove: (id: number) => void
 }
@@ -15,8 +16,8 @@ function assertNever(x: never): never {
   throw new Error(`Unhandled state: ${JSON.stringify(x)}`)
 }
 
-export default function ProductsSection(props: ProductsSectionProps) {
-  switch (props.res.status) {
+export default function ProductsSection({ data, cart, activeCategoryId, onAdd, onRemove }: ProductsSectionProps) {
+  switch (data.res.status) {
     case 'loading':
       return <ProductStatus variant="loading" title="در حال بارگذاری…" text="کمی صبر کنید." />
     case 'empty':
@@ -32,22 +33,44 @@ export default function ProductsSection(props: ProductsSectionProps) {
         <ProductStatus
           variant="error"
           title="بارگذاری محصولات ناموفق بود"
-          text={props.res.message}
+          text={data.res.message}
           onRetry={() => window.location.reload()}
         />
       )
-    case 'success':
+    case 'success': {
+      const currentState = { ...data, cart }
+
+      if (activeCategoryId !== null) {
+        const filtered = data.products.filter((p) => p.categoryId === activeCategoryId)
+        return (
+          <ProductGrid
+            id="shelf-filtered"
+            title="محصولات دسته‌بندی"
+            cards={filtered.map((p) => cardOf(p, currentState))}
+            onAdd={onAdd}
+            onRemove={onRemove}
+          />
+        )
+      }
+
+      const shelves = buildShelves(currentState)
+
       return (
-        <ProductGrid
-          title="همه محصولات"
-          products={props.products}
-          cart={props.cart}
-          stock={props.stock}
-          onAdd={props.onAdd}
-          onRemove={props.onRemove}
-        />
+        <>
+          {shelves.map((shelfView) => (
+            <ProductGrid
+              key={shelfView.shelf.id}
+              id={`shelf-${shelfView.shelf.id}`}
+              title={shelfView.shelf.title}
+              cards={shelfView.cards}
+              onAdd={onAdd}
+              onRemove={onRemove}
+            />
+          ))}
+        </>
       )
+    }
     default:
-      return assertNever(props.res)
+      return assertNever(data.res)
   }
 }

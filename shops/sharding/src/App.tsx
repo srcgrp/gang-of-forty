@@ -39,7 +39,6 @@ export default function App() {
     ? data.categories.find((c) => c.slug === filters.category)
     : undefined
   const categoryId = activeCategory?.id ?? null
-
   const query = filters.query
 
   useEffect(() => {
@@ -86,10 +85,6 @@ export default function App() {
     const countPart = count > 0 ? ` · ${count} 🛒` : ''
     document.title = `${shopName}${countPart}`
   }, [data.shop?.name, count])
-
-  const visibleProducts = categoryId === null
-    ? data.products
-    : data.products.filter((p) => p.categoryId === categoryId)
 
   function handlePickCategory(id: number | null): void {
     const slug = id === null
@@ -162,10 +157,9 @@ export default function App() {
           onPick={handlePickCategory}
         />
         <ProductsSection
-          res={data.res}
-          products={visibleProducts}
+          data={data}
           cart={cart}
-          stock={data.stock}
+          activeCategoryId={categoryId}
           onAdd={handleAdd}
           onRemove={handleRemove}
         />

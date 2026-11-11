@@ -32,7 +32,6 @@ export default function BannerCarousel({ banners }: BannerCarouselProps) {
           </li>
         ))}
       </ul>
-      
       <CarouselNav
         variant="hero"
         isAtStart={isAtStart}

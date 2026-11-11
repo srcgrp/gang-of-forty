@@ -6,12 +6,12 @@ type CarouselNavProps = {
   variant?: 'default' | 'hero'
 }
 
-export default function CarouselNav({ 
-  isAtStart, 
-  isAtEnd, 
-  onPrev, 
-  onNext, 
-  variant = 'default' 
+export default function CarouselNav({
+  isAtStart,
+  isAtEnd,
+  onPrev,
+  onNext,
+  variant = 'default',
 }: CarouselNavProps) {
   const navClass = variant === 'hero' ? 'hero-carousel__nav' : 'carousel-nav'
   const btnClass = variant === 'hero' ? 'hero-carousel__nav-btn' : 'carousel-nav__btn'
@@ -28,7 +28,6 @@ export default function CarouselNav({
       >
         <svg aria-hidden="true"><use href="./icons.svg#arrowRight" /></svg>
       </button>
-      
       <button
         type="button"
         className={btnClass}

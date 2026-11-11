@@ -1,49 +1,56 @@
-import type { Product } from '../shared/types'
+import type { Card } from '../shared/types'
 import Price from './Price'
 import OfferBadge from './OfferBadge'
 
 type ProductCardProps = {
-  product: Product
-  quantity: number
-  stockQty: number
+  card: Card
   onAdd: (id: number) => void
   onRemove: (id: number) => void
 }
 
-export default function ProductCard({ product, quantity, stockQty, onAdd, onRemove }: ProductCardProps) {
-  const inStock = stockQty > 0
-  const discountPercent = 10
-
+export default function ProductCard({ card, onAdd, onRemove }: ProductCardProps) {
   return (
     <li className="product-item">
-      <article className="product" data-stock={inStock ? 'in' : 'out'}>
+      <article className="product" data-stock={card.inStock ? 'in' : 'out'}>
         <div className="product__link">
           <span className="product__img">
-            <span className="product__emoji">{product.emoji}</span>
-            {inStock && <OfferBadge percent={discountPercent} />}
-            {!inStock && <span className="product__badge-stock">ناموجود</span>}
+            <span className="product__emoji">{card.emoji}</span>
+
+            {!card.inStock && (
+              <span className="product__badge-stock">
+                {card.stockKnown ? 'ناموجود' : 'موجودی نامشخص'}
+              </span>
+            )}
+
+            {card.inStock && card.discountPercent !== undefined && (
+              <OfferBadge percent={card.discountPercent} />
+            )}
           </span>
-          <h3 className="product__name">{product.name} — {product.unit}</h3>
+          <h3 className="product__name">{card.name} — {card.unit}</h3>
         </div>
 
         <div className="product__footer">
-          <Price value={product.price} />
+          <Price 
+            value={card.price} 
+            {...(card.oldPrice !== undefined ? { oldValue: card.oldPrice } : {})} 
+          />
+
           <div className="product__actions">
-            {!inStock ? (
+            {!card.inStock ? (
               <button
                 type="button"
                 className="product__add"
                 disabled
-                aria-label={`${product.name} ناموجود است`}
+                aria-label={`${card.name} ناموجود است`}
               >
                 <svg aria-hidden="true"><use href="./icons.svg#plus" /></svg>
               </button>
-            ) : quantity === 0 ? (
+            ) : card.qty === 0 ? (
               <button
                 type="button"
                 className="product__add"
-                onClick={() => onAdd(product.id)}
-                aria-label={`افزودن ${product.name} به سبد`}
+                onClick={() => onAdd(card.id)}
+                aria-label={`افزودن ${card.name} به سبد`}
               >
                 <svg aria-hidden="true"><use href="./icons.svg#plus" /></svg>
               </button>
@@ -52,18 +59,18 @@ export default function ProductCard({ product, quantity, stockQty, onAdd, onRemo
                 <button
                   type="button"
                   className="product__qty-btn"
-                  onClick={() => onRemove(product.id)}
-                  aria-label={`کم کردن ${product.name}`}
+                  onClick={() => onRemove(card.id)}
+                  aria-label={`کم کردن ${card.name}`}
                 >
                   −
                 </button>
-                <span className="product__qty-val" aria-live="polite">{quantity}</span>
+                <span className="product__qty-val" aria-live="polite">{card.qty}</span>
                 <button
                   type="button"
                   className="product__qty-btn"
-                  onClick={() => onAdd(product.id)}
-                  aria-label={`افزودن ${product.name}`}
-                  disabled={quantity >= stockQty}
+                  onClick={() => onAdd(card.id)}
+                  aria-label={`افزودن ${card.name}`}
+                  disabled={card.qty >= card.stockQty}
                 >
                   +
                 </button>
