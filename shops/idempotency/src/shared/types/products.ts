@@ -32,3 +32,5 @@ export type LoadState =
   | { status: "success"; products: Product[] }
   | { status: "empty" }
   | { status: "error"; message: string };
+
+  export type CartAction = "increase" | "decrease" | "remove";

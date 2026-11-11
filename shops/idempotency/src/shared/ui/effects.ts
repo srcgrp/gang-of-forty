@@ -1,10 +1,7 @@
-
 import confetti from "canvas-confetti";
 
 function showOffersConfetti() {
-  const title = document.querySelector<HTMLElement>(
-    "#carousel-title-offers"
-  );
+  const title = document.querySelector<HTMLElement>("#carousel-title-offers");
 
   if (!title) {
     return;
@@ -34,20 +31,27 @@ function showOffersConfetti() {
   });
 }
 
-export function setupOffersConfetti() {
-  document.addEventListener("click", (event) => {
-    const target = event.target;
+export function setupOffersConfetti(): () => void {
+  let timer: number | undefined;
 
-    if (target instanceof Element) {
-      const offersLink = target.closest<HTMLAnchorElement>(
-        'a[href="#offers"]'
-      );
+  function handleClick(event: MouseEvent): void {
+    if (!(event.target instanceof Element)) return;
 
-      if (offersLink) {
-        setTimeout(() => {
-          showOffersConfetti();
-        }, 300);
-      }
-    }
-  });
+    const offersLink = event.target.closest('a[href="#offers"]');
+
+    if (!offersLink) return;
+
+    window.clearTimeout(timer);
+
+    timer = window.setTimeout(() => {
+      showOffersConfetti();
+    }, 300);
+  }
+
+  document.addEventListener("click", handleClick);
+
+  return () => {
+    document.removeEventListener("click", handleClick);
+    window.clearTimeout(timer);
+  };
 }

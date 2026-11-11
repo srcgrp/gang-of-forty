@@ -4,11 +4,16 @@ import { showCartToast } from "./toast";
 
 export function setupCartView(
   initialCount: number,
-  onAdd: () => number,
+  onAdd: (productId: number) => number | null,
 ): void {
   updateCartCount(initialCount);
-  setupAddToCartClick(() => {
-    updateCartCount(onAdd());
-    showCartToast();
+
+  setupAddToCartClick((productId) => {
+    const nextCount = onAdd(productId);
+
+    if (nextCount !== null) {
+      updateCartCount(nextCount);
+      showCartToast();
+    }
   });
 }

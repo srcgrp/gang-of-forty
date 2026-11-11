@@ -23,3 +23,7 @@ const notyf = new Notyf({
 export function showCartToast(): void {
   notyf.success("محصول به سبد خرید اضافه شد");
 }
+
+export function showCartStockLimitToast(): void {
+  notyf.error("امکان افزودن بیشتر این محصول وجود ندارد.");
+}
