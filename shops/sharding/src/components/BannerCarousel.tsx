@@ -3,42 +3,38 @@ import CarouselNav from './CarouselNav'
 
 type BannerCarouselProps = {
   banners: string[]
+  loading?: boolean
 }
 
-export default function BannerCarousel({ banners }: BannerCarouselProps) {
-  const { trackRef, isAtStart, isAtEnd, scrollPrev, scrollNext } = useCarousel()
+export default function BannerCarousel({ banners, loading }: BannerCarouselProps) {
+  const { trackRef } = useCarousel()
+
+  if (loading) {
+    return (
+      <div className="hero-carousel">
+        <ul className="hero-carousel__track">
+          {[1, 2, 3, 4].map((i) => (
+            <li key={i} className="hero-carousel__slide" data-skeleton>
+              <span className="hero-banner"></span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
 
   return (
     <div className="hero-carousel">
-      <ul
-        ref={trackRef}
-        className="hero-carousel__track"
-        id="banner-track"
-        tabIndex={0}
-        aria-label="کاروسل پیشنهادهای ویژه"
-      >
+      <ul ref={trackRef} className="hero-carousel__track" id="banner-track" tabIndex={0} aria-label="کاروسل پیشنهادهای ویژه">
         {banners.map((src, i) => (
-          <li className="hero-carousel__slide" key={src}>
+          <li key={src} className="hero-carousel__slide" id={i === 0 ? 'banner-start' : i === banners.length - 1 ? 'banner-end' : undefined}>
             <a className="hero-banner" href="#offers">
-              <img
-                src={src}
-                alt={`بنر ${i + 1}`}
-                width={800}
-                height={500}
-                decoding="async"
-                loading="lazy"
-              />
+              <img src={src} alt={`بنر ${i + 1}`} width={800} height={500} decoding="async" loading="lazy" />
             </a>
           </li>
         ))}
       </ul>
-      <CarouselNav
-        variant="hero"
-        isAtStart={isAtStart}
-        isAtEnd={isAtEnd}
-        onPrev={scrollPrev}
-        onNext={scrollNext}
-      />
+      <CarouselNav variant="hero" startHref="#banner-start" endHref="#banner-end" label="پیشنهادها" />
     </div>
   )
 }

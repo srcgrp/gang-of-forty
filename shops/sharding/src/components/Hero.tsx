@@ -23,7 +23,6 @@ export default function Hero({
 
   useEffect(() => {
     if (loading) return
-
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     if (window.matchMedia('(prefers-reduced-data: reduce)').matches) return
     if (!window.matchMedia('(min-width: 768px)').matches) return
@@ -32,8 +31,7 @@ export default function Hero({
     if (!video) return
 
     video.src = `${import.meta.env.BASE_URL}assets/video/hero.mp4`
-    void video.play()
-      .then(() => setVideoReady(true))
+    void video.play().then(() => setVideoReady(true)).catch(() => {})
   }, [loading])
 
   return (
@@ -69,7 +67,7 @@ export default function Hero({
           </div>
         </div>
 
-        <BannerCarousel banners={banners} />
+        <BannerCarousel banners={banners} loading={loading} />
       </div>
     </section>
   )

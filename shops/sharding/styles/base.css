@@ -76,9 +76,12 @@ input:focus-visible, textarea:focus-visible { outline: none; }
   background: var(--surface); border: 1px solid var(--border-strong);
   border-radius: var(--radius);
   opacity: 0; visibility: hidden;
-  animation: slow-notice-in 200ms 3000ms forwards;
+  animation: slow-notice-in 200ms forwards;
 }
-.slow-connection[hidden] { display: none !important; }
+
+@keyframes slow-notice-in {
+  to { opacity: 1; visibility: visible; }
+}
 
 @keyframes slow-notice-in {
   to { opacity: 1; visibility: visible; }

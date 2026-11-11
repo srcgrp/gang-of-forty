@@ -2,51 +2,36 @@ import Topbar from './Topbar'
 import SearchBox from './SearchBox'
 import ThemeSwitch from './ThemeSwitch'
 import MegaMenu from './MegaMenu'
-import type { Theme, Product, Category } from '../shared/types'
+import type { Theme, Product, Category, Cart } from '../shared/types'
 
 type HeaderProps = {
   shopName: string
   cartCount: number
   theme: Theme
+  loading: boolean
   onTheme: (next: Theme) => void
   onOpenCart: () => void
   onOpenMenu: () => void
   products: Product[]
   categories: Category[]
+  cart: Cart
   query: string
   onQuery: (next: string) => void
   onAddToCart: (id: number) => void
+  onRemoveFromCart: (id: number) => void
 }
 
 export default function Header({
-  shopName,
-  cartCount,
-  theme,
-  onTheme,
-  onOpenCart,
-  onOpenMenu,
-  products,
-  categories,
-  query,
-  onQuery,
-  onAddToCart,
+  shopName, cartCount, theme, loading, onTheme, onOpenCart, onOpenMenu,
+  products, categories, cart, query, onQuery, onAddToCart, onRemoveFromCart
 }: HeaderProps) {
   return (
     <>
       <Topbar />
       <header className="header">
         <div className="container header__inner">
-          <button
-            type="button"
-            className="icon-btn header__menu-btn"
-            aria-expanded="false"
-            aria-controls="mobile-menu"
-            aria-label="باز کردن منو"
-            onClick={onOpenMenu}
-          >
-            <svg className="icon-btn__icon" aria-hidden="true">
-              <use href="./icons.svg#menu" />
-            </svg>
+          <button type="button" className="icon-btn header__menu-btn" onClick={onOpenMenu} aria-label="باز کردن منو">
+            <svg className="icon-btn__icon" aria-hidden="true"><use href="./icons.svg#menu" /></svg>
           </button>
 
           <a href="#" className="identity" aria-label="بازگشت به بالای صفحه">
@@ -54,46 +39,29 @@ export default function Header({
               <img className="logo-img" src="./assets/images/logo/kiwi-fruit.svg" alt="" width="48" height="48" />
             </span>
             <span className="identity__text">
-              <span className="identity__name">{shopName}</span>
-              <span className="identity__tagline">تازه، سریع، ارزان</span>
+              <span className={`identity__name ${loading ? 'skeleton skeleton--brand' : ''}`}>
+                {loading ? ' ' : shopName}
+              </span>
+              <span className={`identity__tagline ${loading ? 'skeleton skeleton--tagline' : ''}`}>
+                {loading ? ' ' : 'تازه، سریع، ارزان'}
+              </span>
             </span>
           </a>
 
           <SearchBox
             products={products}
+            cart={cart}
             query={query}
             onQuery={onQuery}
             onAdd={onAddToCart}
+            onRemove={onRemoveFromCart}
           />
 
           <div className="header__actions">
-            <a href="#" className="action action--location" aria-label="موقعیت مکانی">
-              <svg className="action__icon" aria-hidden="true">
-                <use href="./icons.svg#location" />
-              </svg>
-              <span className="action__label">موقعیت</span>
-            </a>
-            <a href="#" className="action action--account" aria-label="حساب کاربری">
-              <svg className="action__icon" aria-hidden="true">
-                <use href="./icons.svg#account" />
-              </svg>
-              <span className="action__label">حساب من</span>
-            </a>
-            <button
-              type="button"
-              className="action action--cart"
-              onClick={onOpenCart}
-              aria-label="سبد خرید"
-            >
-              <svg className="action__icon" aria-hidden="true">
-                <use href="./icons.svg#cart" />
-              </svg>
+            <button type="button" className="action action--cart" onClick={onOpenCart} aria-label="سبد خرید">
+              <svg className="action__icon" aria-hidden="true"><use href="./icons.svg#cart" /></svg>
               <span className="action__label">سبد خرید</span>
-              {cartCount > 0 && (
-                <span className="badge" aria-label={`${cartCount} کالا در سبد`}>
-                  {cartCount}
-                </span>
-              )}
+              {cartCount > 0 && <span className="badge">{cartCount}</span>}
             </button>
           </div>
 

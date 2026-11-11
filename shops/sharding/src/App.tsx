@@ -16,19 +16,11 @@ import Footer from './components/Footer'
 import CartPanel from './components/CartPanel'
 import ProductsSection from './components/ProductsSection'
 import MobileMenu from './components/MobileMenu'
-
 import { BANNER_IMAGES } from './shared/content'
 
-
 const EMPTY_STATE: AppState = {
-  shop: null,
-  home: null,
-  categories: [],
-  products: [],
-  stock: null,
-  offerMap: new Map<number, Offer>(),
-  cart: {},
-  res: { status: 'loading' },
+  shop: null, home: null, categories: [], products: [], stock: null,
+  offerMap: new Map<number, Offer>(), cart: {}, res: { status: 'loading' },
 }
 
 export default function App() {
@@ -39,61 +31,47 @@ export default function App() {
   const [cartOpen, setCartOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
 
-  const activeCategory = filters.category
-    ? data.categories.find((c) => c.slug === filters.category)
-    : undefined
+  const [isSlow, setIsSlow] = useState(false)
+
+  const activeCategory = filters.category ? data.categories.find((c) => c.slug === filters.category) : undefined
   const categoryId = activeCategory?.id ?? null
   const query = filters.query
+  const loading = data.res.status === 'loading'
+
+  useEffect(() => {
+    if (!loading) {
+      setIsSlow(false)
+      return
+    }
+    const timer = setTimeout(() => setIsSlow(true), 3000)
+    return () => clearTimeout(timer)
+  }, [loading])
 
   useEffect(() => {
     let ignore = false
-
-    loadAllData()
-      .then((result) => {
-        if (ignore) return
-        setData({
-          shop: result.shop,
-          home: result.home,
-          categories: withCategoryImages(result.categories),
-          products: result.products,
-          stock: result.stock,
-          offerMap: result.offerMap,
-          cart: {},
-          res: result.res,
-        })
+    loadAllData().then((result) => {
+      if (ignore) return
+      setData({
+        shop: result.shop, home: result.home, categories: withCategoryImages(result.categories),
+        products: result.products, stock: result.stock, offerMap: result.offerMap, cart: {}, res: result.res,
       })
-      .catch(() => {
-        if (ignore) return
-        setData((prev) => ({
-          ...prev,
-          res: {
-            status: 'error',
-            message: 'داده‌های دریافتی معتبر نبودند. لطفاً دوباره تلاش کنید.',
-          },
-        }))
-      })
-
-    return () => {
-      ignore = true
-    }
+    }).catch(() => {
+      if (ignore) return
+      setData((prev) => ({ ...prev, res: { status: 'error', message: 'داده‌های دریافتی معتبر نبودند.' } }))
+    })
+    return () => { ignore = true }
   }, [])
 
-  useEffect(() => {
-    saveCart(cart)
-  }, [cart])
-
+  useEffect(() => { saveCart(cart) }, [cart])
   const count = cartCount(cart)
 
   useEffect(() => {
     const shopName = data.shop?.name ?? 'فروشگاه'
-    const countPart = count > 0 ? ` · ${count} 🛒` : ''
-    document.title = `${shopName}${countPart}`
+    document.title = count > 0 ? `${shopName} · ${count} 🛒` : shopName
   }, [data.shop?.name, count])
 
   function handlePickCategory(id: number | null): void {
-    const slug = id === null
-      ? ''
-      : data.categories.find((c) => c.id === id)?.slug ?? ''
+    const slug = id === null ? '' : data.categories.find((c) => c.id === id)?.slug ?? ''
     setFilters({ category: slug, query: filters.query }, 'push')
   }
 
@@ -122,11 +100,8 @@ export default function App() {
     const { cart: nextCart, result } = applyCartChange(cart, id, 'remove', 0)
 
     if (result.status === 'noop') return
-
     setCart(nextCart)
-    if (result.after === 0) {
-      notyf.error(`${name} از سبد حذف شد`)
-    }
+    if (result.after === 0) notyf.error(`${name} از سبد حذف شد`)
   }
 
   function handleRemoveLine(id: number): void {
@@ -134,7 +109,6 @@ export default function App() {
     const { cart: nextCart, result } = applyCartChange(cart, id, 'remove-line', 0)
 
     if (result.status === 'noop') return
-
     setCart(nextCart)
     notyf.error(`${name} از سبد حذف شد`)
   }
@@ -145,26 +119,22 @@ export default function App() {
         shopName={data.shop?.name ?? 'فروشگاه'}
         cartCount={count}
         theme={theme}
+        loading={loading}
         onTheme={setTheme}
         onOpenCart={() => setCartOpen(true)}
+        onOpenMenu={() => setMenuOpen(true)}
         products={data.products}
+        categories={data.categories}
+        cart={cart}
         query={query}
         onQuery={handleQuery}
         onAddToCart={handleAdd}
-        onOpenMenu={() => setMenuOpen(true)}
-        categories={data.categories}
+        onRemoveFromCart={handleRemove}
       />
 
       <main id="main-content" tabIndex={-1}>
-        <Hero 
-          banners={BANNER_IMAGES} 
-          loading={data.res.status === 'loading'} 
-        />
-        <CategoryNav
-          categories={data.categories}
-          activeId={categoryId}
-          onPick={handlePickCategory}
-        />
+        <Hero banners={BANNER_IMAGES} loading={loading} />
+        <CategoryNav categories={data.categories} activeId={categoryId} onPick={handlePickCategory} loading={loading} />
         <ProductsSection
           data={data}
           cart={cart}
@@ -175,19 +145,14 @@ export default function App() {
       </main>
 
       <Footer />
-      <CartPanel
-        open={cartOpen}
-        cart={cart}
-        products={data.products}
-        onClose={() => setCartOpen(false)}
-        onRemoveLine={handleRemoveLine}
-      />
-      <MobileMenu
-        open={menuOpen}
-        onClose={() => setMenuOpen(false)}
-        menu={data.shop?.menu ?? []}
-      />
+      <CartPanel open={cartOpen} cart={cart} products={data.products} onClose={() => setCartOpen(false)} onRemoveLine={handleRemoveLine} />
+      <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} menu={data.shop?.menu ?? []} />
 
+      {isSlow && (
+        <div id="slow-connection" className="slow-connection" role="status">
+          اتصال کند است؛ لطفاً کمی صبر کنید…
+        </div>
+      )}
     </>
   )
 }
