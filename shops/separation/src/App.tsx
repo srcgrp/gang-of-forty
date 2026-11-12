@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { loadCategories, loadOffers, loadProducts, loadStock } from './api/loadShop.ts'
 import { addLine, cartCount, cartTotal, joinCart, removeLine } from './cart/cart.ts'
+import { filterProducts } from './catalog/filter.ts'
 import { priceOf } from './catalog/offers.ts'
 import { loadCart, saveCart } from './storage/cartStorage.ts'
 import type { CartLine, Category, LoadState, Offer, StockMap } from './types.ts'
@@ -10,15 +11,19 @@ import Footer from './components/Footer.tsx'
 import Header from './components/Header.tsx'
 import Hero from './components/Hero.tsx'
 import ProductGrid from './components/ProductGrid.tsx'
+import SaleCountdown from './components/SaleCountdown.tsx'
 import Status from './components/Status.tsx'
 
 export default function App() {
   const [categoryId, setCategoryId] = useState<number | null>(null)
+  const [query, setQuery] = useState('')
   const [cart, setCart] = useState<CartLine[]>(() => loadCart())
   const [load, setLoad] = useState<LoadState>({ status: 'loading' })
   const [cats, setCats] = useState<Category[]>([])
   const [offers, setOffers] = useState<Offer[]>([])
   const [stock, setStock] = useState<StockMap>({})
+  const [attempt, setAttempt] = useState(0)
+  const [showSale, setShowSale] = useState(true)
   useEffect(() => {
     let ignore = false
     Promise.all([loadProducts(), loadCategories(), loadOffers(), loadStock()])
@@ -34,31 +39,28 @@ export default function App() {
         setLoad({ status: 'error', message: err instanceof Error ? err.message : 'خطا' })
       })
     return () => { ignore = true }
-  }, [])
+  }, [attempt])
   useEffect(() => { saveCart(cart) }, [cart])
   useEffect(() => { document.title = `yaldastore · ${cartCount(cart).toLocaleString('fa-IR')} 🛒` }, [cart])
   const products = load.status === 'success' ? load.products : []
-  const filtered = categoryId === null ? products : products.filter((p) => p.categoryId === categoryId)
-  const items = filtered.map((p) => priceOf(p, offers, stock))
-  const lines = joinCart(cart, products)
-  const total = cartTotal(cart, products)
-  const count = cartCount(cart)
-  const add = (id: number): void => setCart(addLine(cart, id))
-  const remove = (id: number): void => setCart(removeLine(cart, id))
-  const clear = (): void => setCart([])
+  const items = filterProducts(products, categoryId ?? undefined, query).map((p) => priceOf(p, offers, stock))
   return (
     <>
-      <Header cartCount={count} />
+      <Header cartCount={cartCount(cart)} query={query} onQuery={setQuery} />
       <main id="main">
         <Hero />
-        <Status state={load} />
+        <button type="button" onClick={() => setShowSale((v) => !v)}>
+          {showSale ? 'بستن شمارش معکوس' : 'نمایش شمارش معکوس'}
+        </button>
+        {showSale ? <SaleCountdown start={300} /> : null}
+        <Status state={load} onRetry={() => { setLoad({ status: 'loading' }); setAttempt((a) => a + 1) }} />
         {load.status === 'success' ? (
           <>
             <CategoryNav categories={cats} activeId={categoryId} onPick={setCategoryId} />
-            <ProductGrid title="🔥 پیشنهاد ویژه امروز" items={items} onAdd={add} />
+            <ProductGrid title="🔥 پیشنهاد ویژه امروز" items={items} onAdd={(id) => setCart(addLine(cart, id))} />
           </>
         ) : null}
-        <CartPanel lines={lines} total={total} count={count} onRemove={remove} onClear={clear} />
+        <CartPanel lines={joinCart(cart, products)} total={cartTotal(cart, products)} count={cartCount(cart)} onRemove={(id) => setCart(removeLine(cart, id))} onClear={() => setCart([])} />
       </main>
       <Footer />
     </>

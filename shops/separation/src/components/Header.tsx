@@ -1,4 +1,12 @@
-export default function Header({ cartCount }: { cartCount: number }) {
+import SearchBox from './SearchBox.tsx'
+
+type HeaderProps = {
+  cartCount: number
+  query: string
+  onQuery: (q: string) => void
+}
+
+export default function Header({ cartCount, query, onQuery }: HeaderProps) {
   return (
     <header>
       <div className="top-bar">🚚 ارسال رایگان برای خریدهای بالای ۵۰۰ هزار تومان</div>
@@ -8,11 +16,16 @@ export default function Header({ cartCount }: { cartCount: number }) {
             yaldastore<small>سوپرمارکت محله</small>
           </span>
         </a>
-        <form className="search" role="search" action="#">
+        <form
+          className="search"
+          role="search"
+          action="#"
+          onSubmit={(e) => e.preventDefault()}
+        >
           <label htmlFor="q" className="visually-hidden">
             جستجو
           </label>
-          <input id="q" name="q" type="search" placeholder="جستجو در میان کالاها..." />
+          <SearchBox query={query} onQuery={onQuery} />
           <button type="submit" aria-label="جستجو">
             🔍
           </button>
