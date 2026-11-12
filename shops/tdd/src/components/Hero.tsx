@@ -1,20 +1,33 @@
+import type { Category, HomeBanner } from '../shared/types'
 import heroImage from '../../1.jpg'
 
-export default function Hero() {
+type HeroProps = {
+    data: HomeBanner
+    categories: Category[]
+    onPick: (id: number) => void
+}
+
+export default function Hero({ data, categories, onPick }: HeroProps) {
+    const category = categories.find(item => data.cta.href === `#${item.slug}`)
+
     return (
         <section className="hero" aria-labelledby="hero-title">
             <div className="hero-copy">
                 <p className="eyebrow"><span></span> تازگی، از ارزیابی تا انتخاب</p>
-                <h1 id="hero-title">اول بررسی، بعد راهی سبد تو.</h1>
-                <p>برای انتخاب محصولات روزمره، تازگی و کیفیت را با دقت بیشتری بررسی کن و بعد خریدت را به سبد بسپار.</p>
+                <h1 id="hero-title">{data.title}</h1>
+                <p>{data.text}</p>
                 <div className="hero-actions">
-                    <a className="hero-primary-action" href="#categories">مشاهده دسته‌بندی‌ها</a>
+                    <a
+                        className="hero-primary-action"
+                        href={category ? '#category-products' : data.cta.href}
+                        onClick={category ? () => onPick(category.id) : undefined}
+                    >
+                        {data.cta.label}
+                    </a>
                     <a className="hero-secondary-action" href="#about">داستان سام مارکت</a>
                 </div>
                 <ul className="hero-benefits">
-                    <li>قیمت‌های روشن</li>
-                    <li>انتخاب روز</li>
-                    <li>سبد به‌صرفه</li>
+                    <li>قیمت‌های روشن</li><li>انتخاب روز</li><li>سبد به‌صرفه</li>
                 </ul>
             </div>
             <div className="hero-visual">
@@ -26,9 +39,7 @@ export default function Hero() {
                     <span>تازه، خوش‌رنگ و آماده برای سبد تو</span>
                 </p>
                 <div className="tdd-orbit" aria-hidden="true">
-                    <span className="orbit-red">معیار</span>
-                    <span className="orbit-green">انتخاب</span>
-                    <span className="orbit-blue">بهبود</span>
+                    <span className="orbit-red">معیار</span><span className="orbit-green">انتخاب</span><span className="orbit-blue">بهبود</span>
                 </div>
             </div>
         </section>

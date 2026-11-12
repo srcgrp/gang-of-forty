@@ -7,26 +7,24 @@ type ProductCardProps = {
     onAdd: (id: number) => void
     offerPercent?: number
     stock?: number
+    cardId?: string
 }
 
-export default function ProductCard({ product, onAdd, offerPercent, stock }: ProductCardProps) {
+export default function ProductCard({ product, onAdd, offerPercent, stock, cardId }: ProductCardProps) {
+    const unavailable = stock === 0
+
     return (
-        <article className="product-card" id={`product-${product.id}`}>
+        <article className={`product-card${unavailable ? ' is-unavailable' : ''}`} id={cardId ?? `product-${product.id}`}>
             <div className="product-image">
                 <span className="product-icon" aria-hidden="true">{product.emoji}</span>
                 {offerPercent !== undefined && <OfferBadge percent={offerPercent} />}
             </div>
             <h3>{product.name}</h3>
             <p className="product-amount">{product.unit}</p>
-            {stock !== undefined && <p className="product-stock">موجودی: {stock}</p>}
+            {unavailable && <p className="stock-status">ناموجود</p>}
             <Price value={product.price} {...(offerPercent !== undefined && { offerPercent })} />
-            <button
-                className="add-button"
-                type="button"
-                aria-label={`افزودن ${product.name} به سبد خرید`}
-                onClick={() => onAdd(product.id)}
-            >
-                افزودن به سبد <span aria-hidden="true">+</span>
+            <button className="add-button" type="button" aria-label={`افزودن ${product.name} به سبد خرید`} disabled={unavailable} onClick={() => onAdd(product.id)}>
+                افزودن به سبد <span aria-hidden="true">{unavailable ? '×' : '+'}</span>
             </button>
         </article>
     )
