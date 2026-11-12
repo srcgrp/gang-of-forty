@@ -1,44 +1,60 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { loadCategories, loadOffers, loadProducts, loadStock } from './api/loadShop.ts'
 import { addLine, cartCount, cartTotal, joinCart, removeLine } from './cart/cart.ts'
 import { priceOf } from './catalog/offers.ts'
-import type { CartLine, Category, Offer, Product, StockMap } from './types.ts'
+import type { CartLine, Category, LoadState, Offer, StockMap } from './types.ts'
 import CartPanel from './components/CartPanel.tsx'
 import CategoryNav from './components/CategoryNav.tsx'
 import Footer from './components/Footer.tsx'
 import Header from './components/Header.tsx'
 import Hero from './components/Hero.tsx'
 import ProductGrid from './components/ProductGrid.tsx'
-
-const SAMPLE: Product[] = [
-  { id: 1, categoryId: 1, name: 'سیب', emoji: '🍎', unit: 'کیلوگرم', price: 45000, tags: [] },
-  { id: 2, categoryId: 2, name: 'شیر', emoji: '🥛', unit: 'لیتر', price: 30000, tags: [] },
-  { id: 3, categoryId: 1, name: 'موز', emoji: '🍌', unit: 'کیلوگرم', price: 60000, tags: [] },
-  { id: 4, categoryId: 2, name: 'پنیر', emoji: '🧀', unit: 'بسته', price: 55000, tags: [] },
-]
-
-const SAMPLE_CATS: Category[] = [
-  { id: 1, slug: 'fruit', name: 'میوه', emoji: '🍎' },
-  { id: 2, slug: 'dairy', name: 'لبنیات', emoji: '🥛' },
-]
-
-const SAMPLE_OFFERS: Offer[] = [{ productId: 2, percent: 20, label: 'تخفیف' }]
-const SAMPLE_STOCK: StockMap = { '3': 0 }
+import Status from './components/Status.tsx'
 
 export default function App() {
   const [categoryId, setCategoryId] = useState<number | null>(null)
   const [cart, setCart] = useState<CartLine[]>([])
-  const filtered = categoryId === null ? SAMPLE : SAMPLE.filter((p) => p.categoryId === categoryId)
-  const items = filtered.map((p) => priceOf(p, SAMPLE_OFFERS, SAMPLE_STOCK))
-  const lines = joinCart(cart, SAMPLE)
-  const total = cartTotal(cart, SAMPLE)
+  const [load, setLoad] = useState<LoadState>({ status: 'loading' })
+  const [cats, setCats] = useState<Category[]>([])
+  const [offers, setOffers] = useState<Offer[]>([])
+  const [stock, setStock] = useState<StockMap>({})
+  useEffect(() => {
+    let ignore = false
+    Promise.all([loadProducts(), loadCategories(), loadOffers(), loadStock()])
+      .then(([products, categories, offerList, s]) => {
+        if (ignore) return
+        setCats(categories)
+        setOffers(offerList)
+        if (s !== null) setStock(s.items)
+        if (products.length === 0) setLoad({ status: 'empty' })
+        else setLoad({ status: 'success', products })
+      })
+      .catch((err: unknown) => {
+        if (ignore) return
+        setLoad({ status: 'error', message: err instanceof Error ? err.message : 'خطا' })
+      })
+    return () => {
+      ignore = true
+    }
+  }, [])
+  const products = load.status === 'success' ? load.products : []
+  const filtered = categoryId === null ? products : products.filter((p) => p.categoryId === categoryId)
+  const items = filtered.map((p) => priceOf(p, offers, stock))
+  const lines = joinCart(cart, products)
+  const total = cartTotal(cart, products)
   const count = cartCount(cart)
   return (
     <>
       <Header cartCount={count} />
       <main id="main">
         <Hero />
-        <CategoryNav categories={SAMPLE_CATS} activeId={categoryId} onPick={setCategoryId} />
-        <ProductGrid title="🔥 پیشنهاد ویژه امروز" items={items} onAdd={(id) => setCart(addLine(cart, id))} />
+        <Status state={load} />
+        {load.status === 'success' ? (
+          <>
+            <CategoryNav categories={cats} activeId={categoryId} onPick={setCategoryId} />
+            <ProductGrid title="🔥 پیشنهاد ویژه امروز" items={items} onAdd={(id) => setCart(addLine(cart, id))} />
+          </>
+        ) : null}
         <CartPanel
           lines={lines}
           total={total}
