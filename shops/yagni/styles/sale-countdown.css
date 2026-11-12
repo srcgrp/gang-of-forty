@@ -1,0 +1,48 @@
+.sale-countdown-area {
+  width: min(1240px, calc(100% - 40px));
+  margin: 24px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.sale-countdown-toggle {
+  padding: 10px 18px;
+  border: 1px solid var(--primary);
+  border-radius: 12px;
+  background: var(--primary);
+  color: #fff;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.sale-countdown-toggle:hover {
+  background: var(--primary-hover);
+}
+
+.sale-countdown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  width: min(100%, 420px);
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.sale-countdown__label {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.sale-countdown__time {
+  color: var(--error);
+  font-size: 1.5rem;
+  font-variant-numeric: tabular-nums;
+}
