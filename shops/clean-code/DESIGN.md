@@ -62,6 +62,8 @@ App
 ├── Status                         (load !== success; Retry on error)
 └── ShopView                       (load === success)
     ├── Banner
+    ├── SalePanel
+    │   └── SaleCountdown          (mounted while open; interval + cleanup)
     ├── Header
     │   ├── Logo / SearchBox / CartIcon / MenuToggle
     ├── HomeIntro                  (hidden while searching)
@@ -85,6 +87,8 @@ App
 | `query` | `App` | `SearchBox` (`onQuery`) | React state |
 | `categoryId` | `App` | `CategoryNav` (`onPick`) | React state |
 | `cart` | `App` | add / clear cart handlers | `localStorage` via `storage/cart-storage.ts` |
+| `open` | `SalePanel` | toggle button (mount/unmount countdown) | React state |
+| `left` | `SaleCountdown` | `setInterval` every second | React state |
 
 Derived (not state):
 
