@@ -1,0 +1,137 @@
+[
+  {
+    "test": "preview live API",
+    "result": "passed",
+    "detail": {
+      "products": 43,
+      "requests": [
+        {
+          "url": "http://127.0.0.1:4173/api/categories.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/products.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/offers.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/stock.json",
+          "status": 200
+        }
+      ],
+      "console": []
+    }
+  },
+  {
+    "test": "responsive widths",
+    "result": "passed",
+    "detail": [
+      320,
+      390,
+      768,
+      1440
+    ]
+  },
+  {
+    "test": "cart",
+    "result": "passed",
+    "detail": "Add by click and Enter, discounted total, id/quantity-only storage, refresh, title, remove"
+  },
+  {
+    "test": "category and sorting",
+    "result": "passed",
+    "detail": "Category callback, active state, all, ascending discounted price"
+  },
+  {
+    "test": "RTL carousel",
+    "result": "passed",
+    "detail": "First/end anchors in all three carousels"
+  },
+  {
+    "test": "missing",
+    "result": "passed",
+    "detail": "Graceful state and no uncaught page errors"
+  },
+  {
+    "test": "broken",
+    "result": "passed",
+    "detail": "Graceful state and no uncaught page errors"
+  },
+  {
+    "test": "empty",
+    "result": "passed",
+    "detail": "Graceful state and no uncaught page errors"
+  },
+  {
+    "test": "unsafe",
+    "result": "passed",
+    "detail": "Graceful state and no uncaught page errors"
+  },
+  {
+    "test": "network unavailable",
+    "result": "passed",
+    "detail": "Readable error instead of a blank page"
+  },
+  {
+    "test": "corrupt cart",
+    "result": "passed",
+    "detail": "Invalid saved JSON safely becomes empty cart"
+  },
+  {
+    "test": "StrictMode dev",
+    "result": "passed",
+    "detail": "Two effect requests, guarded cleanup; page still renders correctly"
+  },
+  {
+    "test": "loading",
+    "result": "passed",
+    "detail": "Readable loading message before any API response"
+  },
+  {
+    "test": "portable static production build",
+    "result": "passed",
+    "detail": {
+      "path": "/shops/yasaman/",
+      "products": 16,
+      "responses": [
+        {
+          "url": "http://127.0.0.1:57216/shops/yasaman/",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:57216/shops/yasaman/assets/index-CZSsr-Jn.css",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:57216/shops/yasaman/assets/index-DAxJ1X2L.js",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:57216/api/offers.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:57216/api/categories.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:57216/api/products.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:57216/api/stock.json",
+          "status": 200
+        }
+      ],
+      "console": []
+    }
+  },
+  {
+    "test": "development console",
+    "result": "passed",
+    "detail": "No React key, hooks, runtime or browser console warnings/errors with real API"
+  }
+]
