@@ -1,7 +1,13 @@
+import type { Category } from '../shared/types'
 import CartPanel from './CartPanel'
 import CategoryNav from './CategoryNav'
 
-export default function Header() {
+type HeaderProps = {
+    categories: Category[]
+    onPick: (categoryId: number) => void
+}
+
+export default function Header({ categories, onPick }: HeaderProps) {
     return (
         <>
             <a className="skip-link" href="#main-content">پرش به محتوای اصلی</a>
@@ -44,7 +50,7 @@ export default function Header() {
                 </div>
 
                 <p id="cart-status" className="page-status" role="status"></p>
-                <CategoryNav />
+                <CategoryNav categories={categories} onPick={onPick} />
             </header>
         </>
     )
