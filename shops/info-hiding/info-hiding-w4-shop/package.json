@@ -1,0 +1,22 @@
+{
+  "name": "yasaman",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "check": "tsc --noEmit",
+    "build": "tsc --noEmit && node check-arch.mjs src --shop && vite build",
+    "preview": "vite preview",
+    "check:arch": "node check-arch.mjs src --shop"
+  },
+  "dependencies": {
+    "canvas-confetti": "^1.9.4",
+    "notyf": "^3.10.0"
+  },
+  "devDependencies": {
+    "@types/canvas-confetti": "^1.9.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4"
+  }
+}
