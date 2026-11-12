@@ -1,4 +1,3 @@
-
 import {
     isProduct, isCategory, isOffer, isStock
 } from './guards'
