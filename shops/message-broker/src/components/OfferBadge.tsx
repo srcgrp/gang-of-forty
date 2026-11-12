@@ -4,8 +4,8 @@ type OfferBadgeProps = {
 
 export default function OfferBadge({ discount }: OfferBadgeProps) {
   return (
-    <span className="off">
-      {discount.toLocaleString('fa-IR')}٪ تخفیف
+    <span className="badge">
+      {discount}% تخفیف
     </span>
   )
 }
