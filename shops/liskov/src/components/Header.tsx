@@ -1,10 +1,12 @@
-import CartPanel from './CartPanel';
-
 type HeaderProps = {
     itemCount: number;
 };
 
+const faNumber = new Intl.NumberFormat('fa-IR');
+
 export default function Header({itemCount}: HeaderProps) {
+    const count = faNumber.format(itemCount);
+
     return (
         <header className='header' id='top'>
             <div id='top-bar'>
@@ -28,7 +30,16 @@ export default function Header({itemCount}: HeaderProps) {
                     placeholder='جستجو'
                 />
 
-                <CartPanel itemCount={itemCount} />
+                <button
+                    type='button'
+                    id='cart'
+                    aria-label={`سبد خرید، ${count} کالا`}
+                >
+                    سبد خرید
+                    <span className='cart-count' id='cart-count'>
+                        {count}
+                    </span>
+                </button>
             </div>
 
             <nav className='main-nav' aria-label='منوی اصلی'>

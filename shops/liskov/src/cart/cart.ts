@@ -1,12 +1,40 @@
-import type {Cart} from '../types';
+import type {Cart, CartLine, Product} from '../types';
 
-export function addToCart(cart: Cart, productId: string): void {
+export function addToCart(cart: CartLine[], productId: number): CartLine[] {
+    const existingItem = cart.find((item) => item.productId === productId);
+
+    if (existingItem) {
+        return cart.map((item) =>
+            item.productId === productId
+                ? {...item, quantity: item.quantity + 1}
+                : item,
+        );
+    }
+
+    return [...cart, {productId, quantity: 1}];
+}
+
+export function addToLegacyCart(cart: Cart, productId: string): void {
     cart[productId] = (cart[productId] ?? 0) + 1;
 }
 
+export function removeFromCart(
+    cart: CartLine[],
+    productId: number,
+): CartLine[] {
+    return cart.filter((item) => item.productId !== productId);
+}
+
+export function cartTotal(cart: CartLine[], products: Product[]): number {
+    return cart.reduce((total, item) => {
+        const product = products.find(
+            (product) => product.id === item.productId,
+        );
+
+        return total + (product ? product.price * item.quantity : 0);
+    }, 0);
+}
+
 export function countCartItems(cart: Cart): number {
-    return Object.values(cart).reduce(
-        (sum: number, quantity: number): number => sum + quantity,
-        0,
-    );
+    return Object.values(cart).reduce((sum, quantity) => sum + quantity, 0);
 }

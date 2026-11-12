@@ -2,10 +2,15 @@ import type {Category} from '../types';
 
 type CategoryNavProps = {
     categories: Category[];
-    onSelect: (id: number) => void;
+    selectedCategoryId: number | null;
+    onPick: (id: number) => void;
 };
 
-export default function CategoryNav({categories, onSelect}: CategoryNavProps) {
+export default function CategoryNav({
+    categories,
+    selectedCategoryId,
+    onPick,
+}: CategoryNavProps) {
     return (
         <section
             id='all-categories'
@@ -15,14 +20,14 @@ export default function CategoryNav({categories, onSelect}: CategoryNavProps) {
             <h2 className='titles' id='categories-title'>
                 دسته‌بندی‌ها
             </h2>
-
             <div className='categories'>
                 {categories.map((category) => (
                     <button
                         key={category.id}
                         type='button'
                         className='categories-items'
-                        onClick={() => onSelect(category.id)}
+                        aria-pressed={selectedCategoryId === category.id}
+                        onClick={() => onPick(category.id)}
                     >
                         <span
                             className='category-icon'

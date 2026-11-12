@@ -1,10 +1,12 @@
 import {useState} from 'react';
 
+import {addToCart, cartTotal, removeFromCart} from './cart/cart';
+import CartPanel from './components/CartPanel';
 import CategoryNav from './components/CategoryNav';
 import Header from './components/Header';
 import ProductGrid from './components/ProductGrid';
 
-import type {Product, Category} from './types';
+import type {Product, Category, CartLine} from './types';
 
 const SAMPLE: Product[] = [
     {
@@ -54,33 +56,29 @@ const SAMPLE_CATEGORIES: Category[] = [
 ];
 
 export default function App() {
-    const [cart, setCart] = useState<Record<number, number>>({});
-    const [selectedCategory, setSelectedCategory] = useState<number | null>(
+    const [cart, setCart] = useState<CartLine[]>([]);
+    const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
         null,
     );
 
     const handleAdd = (id: number): void => {
-        setCart((previousCart) => ({
-            ...previousCart,
-            [id]: (previousCart[id] ?? 0) + 1,
-        }));
+        setCart((previousCart) => addToCart(previousCart, id));
     };
 
-    const handleCategorySelect = (id: number): void => {
-        setSelectedCategory(id);
+    const handleRemove = (id: number): void => {
+        setCart((previousCart) => removeFromCart(previousCart, id));
     };
-
-    const itemCount = Object.values(cart).reduce(
-        (total, quantity) => total + quantity,
-        0,
-    );
 
     const visibleProducts =
-        selectedCategory === null
+        selectedCategoryId === null
             ? SAMPLE
             : SAMPLE.filter(
-                  (product) => product.categoryId === selectedCategory,
+                  (product) => product.categoryId === selectedCategoryId,
               );
+
+    const total = cartTotal(cart, SAMPLE);
+
+    const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
     return (
         <>
@@ -93,13 +91,21 @@ export default function App() {
             <main id='main' tabIndex={-1}>
                 <CategoryNav
                     categories={SAMPLE_CATEGORIES}
-                    onSelect={handleCategorySelect}
+                    selectedCategoryId={selectedCategoryId}
+                    onPick={setSelectedCategoryId}
                 />
 
                 <section className='page-section'>
                     <h2 className='titles'>محصولات</h2>
                     <ProductGrid products={visibleProducts} onAdd={handleAdd} />
                 </section>
+
+                <CartPanel
+                    cart={cart}
+                    products={SAMPLE}
+                    total={total}
+                    onRemove={handleRemove}
+                />
             </main>
         </>
     );

@@ -1,7 +1,7 @@
 import 'notyf/notyf.min.css';
 
 import {loadData} from '../api';
-import {addToCart} from './cart/cart';
+import {addToLegacyCart} from './cart/cart';
 import {buildContext} from './catalog/context';
 import {loadCart, saveCart} from './storage/cart';
 import {createPromos, renderBanners} from './ui/banners';
@@ -30,7 +30,7 @@ function handleCartClick(event: MouseEvent): void {
 
     if (productId === undefined || productName === undefined) return;
 
-    addToCart(cart, productId);
+    addToLegacyCart(cart, productId);
     saveCart(cart);
     renderCartCount(cart);
     showAddedFeedback(button, productName);
