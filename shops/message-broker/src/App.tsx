@@ -115,10 +115,6 @@ export default function App() {
   // مقادیر محاسبه‌شده از State
   const itemCount = cartCount(cart)
   const total = cartTotal(cart, products, offers)
-  useEffect(() => {
-  document.title = `میوه فروشی من · ${itemCount} کالا`
-}, [cart])
-
   // نمایش وضعیت دریافت اطلاعات
   function renderContent() {
     switch (loadState.status) {
