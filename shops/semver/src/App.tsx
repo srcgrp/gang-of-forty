@@ -53,12 +53,12 @@ export default function App() {
     setLoadState({ status: "loading" });
     setAttempt((current) => current + 1);
   };
-  const visibleState = filterProductsByQuery(loadState, query, categories);
+  const searchState = filterProductsByQuery(loadState, query, categories);
   return (
     <Storefront
       cart={cart} cartCount={cartCount} cartOpen={cartOpen} cartTotal={cartTotal}
       categories={categories} categoryId={categoryId} home={store?.home ?? null}
-      loadState={visibleState} onRetry={handleRetry} products={products}
+      loadState={loadState} searchState={searchState} onRetry={handleRetry} products={products}
       query={query} onQueryChange={setQuery} shop={store?.shop ?? null}
       onAdd={handleAdd} onCartClick={handleCartClick}
       onCategoryPick={handleCategoryPick} onRemove={handleRemove}

@@ -13,6 +13,7 @@ type StorefrontProps = {
   categoryId: number | null;
   home: Home | null;
   loadState: LoadState;
+  searchState: LoadState;
   products: Product[];
   query: string;
   shop: Shop | null;
@@ -42,6 +43,9 @@ export default function Storefront(props: StorefrontProps) {
         home={props.home}
         query={props.query}
         onQueryChange={props.onQueryChange}
+        searchState={props.searchState}
+        onAdd={props.onAdd}
+        onRetry={props.onRetry}
       />
       <main>
         <CategoryList categories={props.categories} />
@@ -52,7 +56,6 @@ export default function Storefront(props: StorefrontProps) {
           categoryId={props.categoryId}
           onAdd={props.onAdd}
           onRetry={props.onRetry}
-          query={props.query}
         />
       </main>
       <Footer shop={props.shop} categories={props.categories} />

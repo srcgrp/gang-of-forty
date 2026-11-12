@@ -1,77 +1,89 @@
-﻿# سوپرمارکت ناردونه — طراحی فعلی React
+# Nardone Grocery Storefront — Design Notes
 
-## ساختار کامپوننت‌ها
+## Component tree
 
 ```text
-App
-└── Storefront
-    ├── Header
-    │   ├── SearchBox
-    │   ├── CategoryNav
-    │   └── CartPanel
-    ├── main
-    │   ├── CategoryList
-    │   └── ProductCollections
-    │       ├── SearchResults (وقتی query پر باشد)
-    │       │   └── ProductGrid
-    │       │       └── ProductCard × n
-    │       ├── HomeCarousels (پیشنهادهای ویژه)
-    │       │   ├── SaleCountdown
-    │       │   └── ProductGrid → ProductCard × n
-    │       ├── LatestProducts
-    │       │   └── ProductGrid → ProductCard × n
-    │       ├── CategoryShelves
-    │       │   └── ProductGrid → ProductCard × n
-    │       ├── HomeCarousels (بقیه اسکرول‌ها)
-    │       └── PromoBanners
-    └── Footer
+index.html
+└── src/main.tsx
+    └── React.StrictMode
+        └── App
+            └── Storefront
+                ├── Header
+                │   ├── SearchBox
+                │   │   └── Search suggestions popup (portal under the input)
+                │   ├── CartPanel
+                │   ├── CategoryNav
+                │   └── Hero section (markup inside Header)
+                ├── main
+                │   ├── CategoryList
+                │   └── ProductCollections
+                │       ├── Error message + Retry button (error state)
+                │       └── Home collections
+                │           ├── HomeCarousels (offers)
+                │           │   └── Offer section(s)
+                │           │       ├── SaleCountdown
+                │           │       └── ProductGrid → ProductCard × N
+                │           ├── LatestProducts
+                │           │   └── ProductGrid → ProductCard × N
+                │           ├── CategoryShelves
+                │           │   └── ProductGrid → ProductCard × N
+                │           ├── HomeCarousels (other sources)
+                │           │   └── ProductGrid → ProductCard × N
+                │           └── PromoBanners
+                └── Footer
 ```
 
-در حالت خطای دریافت داده، `ProductCollections` پیام خطا و دکمهٔ تلاش دوباره را نشان می‌دهد. در حالت جست‌وجو، بخش‌های عادی محصولات با فهرست نتایج جایگزین می‌شوند؛ وقتی کادر جست‌وجو خالی شود، چیدمان عادی برمی‌گردد.
+`main.tsx` mounts `App` into the `#root` element inside `React.StrictMode`. `Storefront` composes the page. `ProductCollections` selects the error or home view; the error view takes precedence. Search results are rendered by `SearchBox` in its popup, while the home collections remain visible. Each product grid renders loading, empty, error, or product-card content from its `LoadState`.
 
-## مالکیت state
+## State ownership
 
-| داده | مالک | رفتار |
-|---|---|---|
-| `cart` | `App` | بارگذاری اولیه از `localStorage` و ذخیره با effect روی `[cart]` |
-| `cartOpen` | `App` | باز و بسته شدن پنل سبد |
-| `categoryId` | `App` | وضعیت انتخاب دسته برای ناوبری و جدیدترین‌ها |
-| `query` | `App` | مقدار کنترل‌شدهٔ `SearchBox`; نتایج از روی کاتالوگ محاسبه می‌شوند |
-| `attempt` | `App` | با Retry زیاد می‌شود و effect دریافت داده را دوباره اجرا می‌کند |
-| `loadState` | `App` | یکی از حالت‌های `loading`, `success`, `empty`, `error` |
-| `store` | `App` | اطلاعات فروشگاه، دسته‌ها و محتوای صفحه از API |
-| `cartCount`, `cartTotal`, `visibleState` | مشتق‌شده در `App` | مقدار جداگانه‌ای در state نگهداری نمی‌شود |
-| `secondsLeft` | `SaleCountdown` | شمارندهٔ محلی پیشنهاد ویژه؛ effect هر ثانیه کم می‌کند و در cleanup متوقف می‌شود |
+| State or value | Owner | Updated by | Storage or reason it is derived |
+|---|---|---|---|
+| `cart` | `App` | Add and remove handlers | React state in memory; initialized from and persisted to `localStorage` through `storage/cart-storage.ts`. |
+| `cartOpen` | `App` | Cart button click handler | React state in memory; controls the visibility of `CartPanel`. |
+| `categoryId` | `App` | Category navigation callback | React state in memory; drives active-category selection and the `LatestProducts` filter. |
+| `query` | `App` | `SearchBox` change callback | React state in memory; the controlled input value used to derive search results. |
+| `attempt` | `App` | Retry handler | React state in memory; changing the counter reruns the loading effect. |
+| `loadState` | `App` | API loading effect and Retry handler | React state in memory; represents `loading`, `success`, `empty`, or `error`; successful state carries product views. |
+| `store` | `App` | Successful API loading effect; cleared by Retry | React state in memory; contains categories, home-page configuration, and shop information. |
+| `secondsLeft` | `SaleCountdown` | Its one-second interval callback | React state in the mounted component; initialized to 3,600 seconds and reset when that instance mounts again. |
+| `products` | `App` | Extracted from successful `loadState` | Derived during render; storing another copy would duplicate API state. |
+| `categories` | `App` | Read from `store` or defaults to an empty list | Derived during render; it mirrors the loaded store data. |
+| `cartCount` | `App` | Calculated from `cart` | Derived during render; it is the sum of cart quantities. |
+| `cartTotal` | `App` | Calculated from `cart` and `products` | Derived during render; it is the current price total, so it should not be stored separately. |
+| `searchState` | `App` | Filtered from `loadState`, `query`, and `categories` | Derived during render; this keeps search results synchronized with the current query and catalog. |
 
-## جریان جست‌وجو و دریافت داده
+## Data flow and effects
 
-- `SearchBox` مقدار `query` را از `App` می‌گیرد و با `onQueryChange` به‌روزرسانی می‌کند.
-- `filterProductsByQuery` در `src/catalog/` نام، واحد، برچسب‌ها و نام دسته را برای جست‌وجو بررسی می‌کند؛ دادهٔ اصلی و محصولات سبد خرید دست‌نخورده می‌مانند.
-- effect دریافت داده در `App` محصولات، پیشنهادها، موجودی، دسته‌ها، اطلاعات فروشگاه و صفحهٔ خانه را هم‌زمان می‌گیرد.
-- `ignore` در cleanup جلوی به‌روزرسانی state پس از unmount یا اجرای قبلی effect را می‌گیرد.
-- Retry state را به `loading` برمی‌گرداند، اطلاعات قبلی فروشگاه را پاک می‌کند و `attempt` را زیاد می‌کند تا effect دوباره اجرا شود.
-- خطای HTTP یا JSON نامعتبر به حالت `error` می‌رسد؛ خطای هر محصول نامعتبر با guard حذف می‌شود و محصولات سالم باقی می‌مانند.
+- `App` requests products, offers, stock, categories, shop information, and home-page configuration together with `Promise.all` through `src/api/shop-api.ts`.
+- Network access is kept in `src/api/client.ts`. API guards validate responses; malformed list entries are discarded with a warning, while an invalid response or failed request produces the error state.
+- The loading effect depends on `[attempt]`. Its cleanup sets an `ignore` flag so a completed request from a cleaned-up effect cannot update the page.
+- The Retry button clears the loaded shop data, switches `loadState` to `loading`, and increments `attempt`, which starts the requests again.
+- `SearchBox` receives `query` and `onQueryChange` from `App`, so the input is controlled. On each render, `filterProductsByQuery` derives search results from the loaded catalog. It searches product names, units, category names, and tags, and normalizes Persian character variants, diacritics, and half-spaces. It does not mutate the source catalog.
+- Matching results and loading, empty, or error feedback appear in a popup aligned below the search input. The popup is rendered through a portal so the input keeps its original position in the header layout; its position follows the input on scroll and resize. Clicking outside or pressing Escape closes it. The regular home collections remain visible while searching.
+- Cart changes go through the pure functions in `src/cart/cart.ts`; persistence is handled by `src/storage/cart-storage.ts`.
+- Each mounted `SaleCountdown` starts one one-second interval in an effect with an empty dependency array and clears that interval in cleanup. The current API does not provide an offer end time, so the display starts from one hour locally.
 
-## پوشه‌ها و مرز مسئولیت‌ها
+## Source layout
 
 ```text
 src/
-  main.tsx                 اتصال React و stylesheet موجود
-  App.tsx                  stateهای سراسری، effectهای API و handlerها
-  types.ts                 نوع‌های داده و LoadState
-  api/                     دریافت و اعتبارسنجی JSON
-  catalog/                 ترکیب و فیلتر داده‌های محصول
-  cart/                    قواعد خالص سبد خرید
-  storage/                 خواندن و نوشتن سبد در localStorage
-  components/              اجزای React و رابط صفحه
-  utils/                   قالب‌بندی و اعلان موفقیت
+  main.tsx                  React entry point and existing stylesheet import
+  App.tsx                   Page state, API loading, derived values, and handlers
+  types.ts                  Shared data types and LoadState
+  api/                      HTTP client, endpoints, response guards, product views
+  catalog/                  Product-state helpers and search filtering
+  cart/                     Cart operations
+  storage/                  Cart localStorage read/write
+  components/               Storefront, navigation, cart, product, and page sections
+  utils/                    Formatting and notifications
 ```
 
-فقط `api/` از `fetch` استفاده می‌کند و فقط `storage/` به `localStorage` دسترسی دارد. `App` مالک state است و اجزا از طریق props داده و callback می‌گیرند. رندر فهرست‌ها از شناسهٔ پایدار محصول، دسته، پیوند یا برنامهٔ کاری برای `key` استفاده می‌کند.
+`src/api/client.ts` is the only source module that calls `fetch`; `src/storage/cart-storage.ts` owns `localStorage` access. Components receive data and event handlers through props. Product lists use stable product or category identifiers for React keys.
 
-## محدوده و یادداشت‌ها
+## Scope and current limitations
 
-- جست‌وجو در دادهٔ دریافت‌شده از API و در مرورگر انجام می‌شود.
-- شمارش‌گر از ۶۰ دقیقه شروع می‌شود؛ API فعلی زمان پایان واقعی پیشنهاد را ارائه نمی‌کند.
-- سبد خرید برای نمایش و ماندگاری محلی است و پرداخت یا ثبت سفارش در این تسک وجود ندارد.
-- فایل `style.css` موجود حفظ شده است؛ اجزای جدید از کلاس‌های فعلی صفحه استفاده می‌کنند.
+- Search runs in the browser over the catalog returned by the API.
+- The countdown is a one-hour client-side timer because the API has no sale deadline.
+- The cart is stored locally; checkout and order submission are outside this implementation.
+- The existing stylesheet at `../style.css` continues to define the storefront appearance. `SearchBox.css` contains only the requested search-popup styles.
