@@ -1,17 +1,15 @@
-import type { Product, Stock } from '../types';
-import { discountPercent } from '../format/price';
+import type { CatalogItem } from '../types';
 import ProductCard from './Productcard';
 
 type ProductGridProps = {
   id?: string;
   title: string;
   subtitle?: string;
-  products: Product[];
-  stock?: Stock['items'];
+  products: CatalogItem[];
   onAdd: (id: number) => void;
 };
 
-export default function ProductGrid({ id, title, subtitle, products, stock, onAdd }: ProductGridProps) {
+export default function ProductGrid({ id, title, subtitle, products, onAdd }: ProductGridProps) {
   const titleId = id ? `${id}-title` : undefined;
 
   return (
@@ -26,13 +24,7 @@ export default function ProductGrid({ id, title, subtitle, products, stock, onAd
       ) : (
         <div className="product-grid">
           {products.map((p) => (
-            <ProductCard
-              key={p.id}
-              product={p}
-              percent={p.oldPrice !== undefined ? discountPercent(p.oldPrice, p.price) : undefined}
-              stock={stock?.[p.id]}
-              onAdd={onAdd}
-            />
+            <ProductCard key={p.id} product={p} percent={p.percent} stock={p.stock} onAdd={onAdd} />
           ))}
         </div>
       )}

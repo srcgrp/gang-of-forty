@@ -1,28 +1,25 @@
 import { useEffect, useState } from 'react';
-import type { CartLine, Product, Stock } from './types';
-import { CATEGORIES } from './data/categories';
+import type { CartLine, CatalogItem, Category, LoadState } from './types';
+import { fetchRawCatalog } from './api/catalog';
+import { describeError } from './api/errors';
+import { buildCatalog } from './catalog/build';
 import { addToCart, cartCount, cartTotal, removeFromCart } from './cart/cartLines';
 import AnnouncementBar from './components/Announcementbar';
 import Header from './components/Header';
 import CategoryNav from './components/Categorynav';
 import Hero from './components/Hero';
 import CategoryCards from './components/Categorycards';
+import Status from './components/Status';
 import ProductGrid from './components/Productgrid';
 import AdBanner from './components/Adbanner';
 import LearnSection from './components/Learnsection';
 import CartPanel from './components/Cartpanel';
 import Footer from './components/Footer';
 
-const SAMPLE: Product[] = [
-  { id: 1, name: 'سیب قرمز', price: 85000, oldPrice: 110000, unit: 'هر کیلو', emoji: '🍎', categoryId: 1, tags: [] },
-  { id: 2, name: 'شیر کم‌چرب', price: 42000, unit: 'یک لیتر', emoji: '🥛', categoryId: 2, tags: [] },
-  { id: 3, name: 'نان بربری', price: 18000, oldPrice: 20000, unit: 'یک عدد', emoji: '🍞', categoryId: 3, tags: [] },
-  { id: 4, name: 'آووکادو', price: 160000, unit: 'هر کیلو', emoji: '🥑', categoryId: 1, tags: [] },
-];
-
-const SAMPLE_STOCK: Stock['items'] = { 1: 12, 2: 3, 3: 0, 4: 20 };
-
 export default function App() {
+  const [state, setState] = useState<LoadState<CatalogItem>>({ status: 'loading' });
+  const [categories, setCategories] = useState<Category[]>([]);
+
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const [cart, setCart] = useState<CartLine[]>([]);
   const [cartOpen, setCartOpen] = useState(false);
@@ -30,16 +27,42 @@ export default function App() {
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
+    let ignore = false;
+
+    fetchRawCatalog()
+      .then(({ products, offers, stock, categories }) => {
+        if (ignore) return;
+        const catalog = buildCatalog(products, offers, stock, categories);
+        setCategories(catalog.categories);
+        setState(
+          catalog.items.length === 0
+            ? { status: 'empty' }
+            : { status: 'success', products: catalog.items },
+        );
+      })
+      .catch((err: unknown) => {
+        if (ignore) return;
+        setState({ status: 'error', message: describeError(err) });
+      });
+
+    return () => {
+      ignore = true;
+    };
+  }, []);
+
+  useEffect(() => {
     document.documentElement.dataset.theme = darkMode ? 'dark' : 'light';
   }, [darkMode]);
 
+  const products = state.status === 'success' ? state.products : [];
+  const specials = products.filter((p) => p.percent !== undefined);
   const visibleProducts =
-    categoryId === null ? SAMPLE : SAMPLE.filter((p) => p.categoryId === categoryId);
+    categoryId === null ? products : products.filter((p) => p.categoryId === categoryId);
   const count = cartCount(cart);
   const total = cartTotal(cart);
 
   function handleAdd(id: number) {
-    const product = SAMPLE.find((p) => p.id === id);
+    const product = products.find((p) => p.id === id);
     if (product) setCart(addToCart(cart, product));
   }
 
@@ -65,7 +88,7 @@ export default function App() {
           onCartClick={() => setCartOpen(true)}
         />
         <CategoryNav
-          categories={CATEGORIES}
+          categories={categories}
           activeId={categoryId}
           open={menuOpen}
           onToggle={setMenuOpen}
@@ -76,20 +99,22 @@ export default function App() {
       <Hero />
 
       <main id="main-content">
-        <CategoryCards categories={CATEGORIES} activeId={categoryId} onPick={handlePick} />
-        <ProductGrid
-          id="special-offers"
-          title="پیشنهاد ویژه امروز 🔥"
-          subtitle="تا پایان موجودی"
-          products={visibleProducts}
-          stock={SAMPLE_STOCK}
-          onAdd={handleAdd}
-        />
+        <CategoryCards categories={categories} activeId={categoryId} onPick={handlePick} />
+        <Status state={state}>
+          <ProductGrid
+            id="special-offers"
+            title="پیشنهاد ویژه امروز 🔥"
+            subtitle="تا پایان موجودی"
+            products={specials}
+            onAdd={handleAdd}
+          />
+          <ProductGrid id="products" title="همه محصولات" products={visibleProducts} onAdd={handleAdd} />
+        </Status>
         <AdBanner />
         <LearnSection />
       </main>
 
-      <Footer categories={CATEGORIES} />
+      <Footer categories={categories} />
 
       <CartPanel
         lines={cart}
