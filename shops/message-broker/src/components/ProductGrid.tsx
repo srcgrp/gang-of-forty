@@ -1,34 +1,34 @@
+
+import type { Product, Offer } from '../types'
 import ProductCard from './ProductCard'
-import type { Product, Offer, Stock } from '../types'
+import { finalPrice } from '../cart/cart'
 
 type ProductGridProps = {
   products: Product[]
   offers: Offer[]
-  stock: Stock
   onAdd: (id: number) => void
 }
 
 export default function ProductGrid({
   products,
   offers,
-  stock,
   onAdd
 }: ProductGridProps) {
+  const offerMap = new Map(
+    offers.map(offer => [offer.productId, offer])
+  )
+
   return (
     <ul className="carousel" aria-label="کاروسل محصولات">
-      {products.map((product) => {
-        const productStock = stock.items[product.id] ?? 0
-
-        const offer = offers.find(
-          (item) => item.productId === product.id
-        )
+      {products.map(product => {
+        const offer = offerMap.get(product.id)
 
         return (
           <ProductCard
             key={product.id}
             product={product}
-            stock={productStock}
-            discount={offer?.percent}
+            finalPrice={finalPrice(product.price, offer)}
+            discount={offer?.percent ?? 0}
             onAdd={onAdd}
           />
         )

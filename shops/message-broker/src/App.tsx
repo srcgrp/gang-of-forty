@@ -1,88 +1,75 @@
+import { useEffect, useState } from 'react'
+
+import type { Category, Product, Offer, CartLine } from './types'
+import { loadCategories, loadProducts, loadOffers } from './api/client'
+
+import { addToCart, removeFromCart, cartCount, cartTotal } from './cart/cart'
+
 import Header from './components/Header'
 import Hero from './components/Hero'
-import CategorySection from './components/CategorySection'
+import CategoryNav from './components/CategoryNav'
 import ProductGrid from './components/ProductGrid'
 import CartPanel from './components/CartPanel'
 import Footer from './components/Footer'
 
-import type { Product, Offer, Stock, Category } from './types'
-
-const CATEGORIES: Category[] = [
-  { id: 1, slug: 'fruits', name: 'میوه و سبزی', emoji: '🍎', color: '#fde3dc' },
-  { id: 2, slug: 'dairy', name: 'لبنیات', emoji: '🥛', color: '#e2eefc' },
-  { id: 3, slug: 'bakery', name: 'نان و شیرینی', emoji: '🥖', color: '#fff0cc' },
-  { id: 4, slug: 'pantry', name: 'خواربار', emoji: '🍚', color: '#e3f1e7' },
-  { id: 5, slug: 'drinks', name: 'نوشیدنی', emoji: '🧃', color: '#e0f5ef' },
-  { id: 6, slug: 'protein', name: 'پروتئین', emoji: '🍗', color: '#fbe0e6' },
-  { id: 7, slug: 'snacks', name: 'تنقلات', emoji: '🍪', color: '#f1e6fb' }
-]
-
-const SAMPLE: Product[] = [
-  {
-    id: 1,
-    categoryId: 1,
-    name: 'توت فرنگی',
-    emoji: '🍓',
-    unit: 'کیلوگرم',
-    price: 200000
-  },
-  {
-    id: 2,
-    categoryId: 1,
-    name: 'کیوی',
-    emoji: '🥝',
-    unit: 'کیلوگرم',
-    price: 150000
-  },
-  {
-    id: 3,
-    categoryId: 3,
-    name: 'سیب',
-    emoji: '🍎',
-    unit: 'کیلوگرم',
-    price: 300000
-  }
-]
-
-const OFFERS: Offer[] = [
-  { productId: 1, percent: 20, label: '20% تخفیف' },
-  { productId: 2, percent: 50, label: '50% تخفیف' },
-  { productId: 3, percent: 14, label: '14% تخفیف' }
-]
-
-const STOCK: Stock = {
-  updatedAt: '',
-  items: {
-    1: 10,
-    2: 5,
-    3: 0
-  }
-}
-
 export default function App() {
-  const handleAdd = (id: number) => {
-    console.log('افزودن محصول', id)
+  const [categories, setCategories] = useState<Category[]>([])
+  const [products, setProducts] = useState<Product[]>([])
+  const [offers, setOffers] = useState<Offer[]>([])
+
+  const [categoryId, setCategoryId] = useState<number | null>(null)
+  const [cart, setCart] = useState<CartLine[]>([])
+
+  useEffect(() => {
+    Promise.all([
+      loadCategories(),
+      loadProducts(),
+      loadOffers()
+    ])
+      .then(([loadedCategories, loadedProducts, loadedOffers]) => {
+        setCategories(loadedCategories)
+        setProducts(loadedProducts)
+        setOffers(loadedOffers)
+      })
+      .catch(error => {
+        console.error('خطا در دریافت اطلاعات:', error)
+      })
+  }, [])
+
+  // محصولات دسته‌بندی انتخاب‌شده
+  const visibleProducts = categoryId === null
+    ? products
+    : products.filter(product => product.categoryId === categoryId)
+  // محصولات دارای تخفیف برای بخش پیشنهاد ویژه
+  const specialProducts = products.filter(product =>
+    offers.some(offer => offer.productId === product.id)
+  )
+
+  // افزودن محصول به سبد خرید
+  function handleAdd(productId: number) {
+    setCart(currentCart => addToCart(currentCart, productId))
   }
 
-  const handlePick = (id: number | null) => {
-    console.log('دسته انتخاب‌شده:', id)
+  // حذف محصول از سبد خرید
+  function handleRemove(productId: number) {
+    setCart(currentCart => removeFromCart(currentCart, productId))
   }
+
+  // مقادیر محاسبه‌شده از State
+  const itemCount = cartCount(cart)
+  const total = cartTotal(cart, products, offers)
 
   return (
     <>
-      <Header
-        categories={CATEGORIES}
-        activeCategoryId={null}
-        onPick={handlePick}
-      />
+      <Header itemCount={itemCount} />
 
       <main id="main">
         <Hero />
 
-        <CategorySection
-          categories={CATEGORIES}
-          activeCategoryId={null}
-          onPick={handlePick}
+        <CategoryNav
+          categories={categories}
+          activeCategoryId={categoryId}
+          onPick={setCategoryId}
         />
 
         <section className="wrap" id="best-selling">
@@ -95,11 +82,10 @@ export default function App() {
             </div>
           </div>
 
-          <ul
-            className="carousel"
-            id="best-carousel"
-            tabIndex={0}
-            aria-label="کاروسل محصولات پرفروش"
+          <ProductGrid
+            products={specialProducts}
+            offers={offers}
+            onAdd={handleAdd}
           />
         </section>
 
@@ -107,23 +93,27 @@ export default function App() {
 
         <section className="wrap" id="new-products">
           <div className="head">
-            <h2 id="new-title">محصولات جدید</h2>
+            <h2 id="new-title">محصولات</h2>
             <div>
-              <a href="#b1">ابتدا</a>
+              <a href="#new-title">ابتدا</a>
               {' '}
-              <a href="#b6">انتها</a>
+              <a href="#new-title">انتها</a>
             </div>
           </div>
 
           <ProductGrid
-            products={SAMPLE}
-            offers={OFFERS}
-            stock={STOCK}
+            products={visibleProducts}
+            offers={offers}
             onAdd={handleAdd}
           />
         </section>
 
-        <CartPanel />
+        <CartPanel
+          cart={cart}
+          products={products}
+          total={total}
+          onRemove={handleRemove}
+        />
       </main>
 
       <Footer />

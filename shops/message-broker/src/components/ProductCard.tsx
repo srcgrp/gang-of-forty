@@ -1,22 +1,22 @@
+ import type { Product } from '../types'
 import Price from './Price'
 import OfferBadge from './OfferBadge'
-import type {Product} from '../types'
 
 type ProductCardProps = {
   product: Product
+  finalPrice: number
+  discount: number
   onAdd: (id: number) => void
-  stock?: number
-  discount?: number
 }
 
 export default function ProductCard({
   product,
-  onAdd,
-  stock,
-  discount
+  finalPrice,
+  discount,
+  onAdd
 }: ProductCardProps) {
   return (
-    <li className="card" id={String(product.id)}>
+    <li className="card" id={`product-${product.id}`}>
       <article>
         <div className="img fruit-icon">
           <span aria-hidden="true">{product.emoji}</span>
@@ -24,18 +24,19 @@ export default function ProductCard({
 
         <h3>{product.name}</h3>
 
-       <p>
-        <b>
-           <Price value={product.price} />
-        </b>
-       </p>
-         {discount !== undefined && (
-        <OfferBadge discount={discount} />
-         )}
+        <p>
+          {discount > 0 && (
+            <s>{product.price.toLocaleString('fa-IR')}</s>
+          )}
+          {' '}
+          <b>
+            <Price value={finalPrice} />
+          </b>
+        </p>
 
-        <button type="button"
-        disabled={stock === 0}
-        onClick={() => onAdd(product.id)}>
+        <OfferBadge discount={discount} />
+
+        <button type="button" onClick={() => onAdd(product.id)}>
           افزودن
         </button>
       </article>

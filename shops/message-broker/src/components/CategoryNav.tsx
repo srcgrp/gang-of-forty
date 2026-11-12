@@ -12,30 +12,32 @@ export default function CategoryNav({
   onPick
 }: CategoryNavProps) {
   return (
-    <nav className="nav" aria-label="منوی اصلی">
-      <ul className="menu" id="main-menu">
-        <li>
-          <button
-            type="button"
-            onClick={() => onPick(null)}
-            aria-pressed={activeCategoryId === null}
-          >
-            همه دسته‌ها
-          </button>
-        </li>
+    <nav
+      className="categories"
+      id="categories"
+      aria-label="دسته‌بندی محصولات"
+    >
+      <button
+        type="button"
+        className={`category ${activeCategoryId === null ? 'active' : ''}`}
+        onClick={() => onPick(null)}
+      >
+        همه محصولات
+      </button>
 
-        {categories.map((category) => (
-          <li key={category.id}>
-            <button
-              type="button"
-              onClick={() => onPick(category.id)}
-              aria-pressed={activeCategoryId === category.id}
-            >
-              {category.emoji} {category.name}
-            </button>
-          </li>
-        ))}
-      </ul>
+      {categories.map(category => (
+        <button
+          key={category.id}
+          type="button"
+          className={`category ${activeCategoryId === category.id ? 'active' : ''}`}
+          onClick={() => {
+          console.log('دسته انتخاب‌شده:', category.id, category.name)
+          onPick(category.id)
+          }}
+        >
+          {category.emoji} {category.name}
+        </button>
+      ))}
     </nav>
   )
 }
