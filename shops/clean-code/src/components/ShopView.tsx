@@ -9,7 +9,7 @@ import Footer from "./Footer.tsx";
 import Header from "./Header.tsx";
 import HomeIntro from "./HomeIntro.tsx";
 import HomeRows from "./HomeRows.tsx";
-
+import SalePanel from "./SalePanel.tsx";
 type Success = Extract<LoadState, { status: "success" }>;
 type ShopViewProps = {
   load: Success;
@@ -33,6 +33,7 @@ export default function ShopView(p: ShopViewProps) {
   return (
     <>
       <Banner />
+      <SalePanel />
       <Header
         cartCount={cartCount(p.cart)}
         menu={p.load.shop.menu}
