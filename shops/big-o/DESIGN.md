@@ -10,10 +10,11 @@
 - A customer can open the cart panel, change the number of each item, remove an item and see the total.
 - The cart stays after a reload.
 - A customer can see the shop's information in the footer.
+- A customer can see how much time is left for the special offers sale, and hide or show the countdown.
 - Not now: payments, login, signup.
 
 ## 2. Screens and parts
-Announcement · Header (logo, search (static), cart count) · Navbar (mega-menu, navbar) · Banner (static) · Category list · Product card · Offered carousel · Advertise (static) · Product carousel · Cart panel (drawer) · Cart item row · Footer · Loading / empty / error messages.
+Announcement · Header (logo, search (static), cart count) · Navbar (mega-menu, navbar) · Banner (static) · Category list · Product card · Offered carousel (with sale countdown) · Advertise (static) · Product carousel · Cart panel (drawer) · Cart item row · Footer · Loading / empty / error messages.
 
 ## 3. Component tree
 ```
@@ -26,6 +27,8 @@ App
 │       ├─ Hero
 │       ├─ CategoryList
 │       ├─ ProductGrid (special products)
+│       │   ├─ SaleBox (in the header, next to the title)
+│       │   │   └─ SaleCountdown
 │       │   └─ ProductCard (Badge, Price)
 │       ├─ Ads
 │       └─ ProductGrid (selected category)
@@ -42,6 +45,11 @@ Data goes down with props. Events go up with callback props (`onAdd`, `onRemove`
 | `state` (LoadState) | `App` | the fetch effect | memory |
 | `categoryId` | `App` | `CategoryNav`, `CategoryList`, `Footer` | memory |
 | `cartOpen` | `App` | `Header` opens it, `CartPanel` closes it | memory |
+| `open` (countdown shown) | `SaleBox` | the show/hide button in `SaleBox` | memory |
+| `left` (seconds left) | `SaleCountdown` | the interval in its effect, one less every second | memory (starts again from 10 minutes on every mount) |
+
+`open` and `left` are local State: only `SaleBox` and `SaleCountdown` use them, so they do not go up to `App`.
+The countdown effect has `[]` deps: it starts a `setInterval` on mount and stops it with `clearInterval` in the cleanup, so after the countdown is hidden (unmount) the interval does not run anymore.
 
 These values are **not** State, we calculate them in every render:
 - `count` (number of items in the cart) and the cart total: calculated from `cart`.
