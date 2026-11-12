@@ -12,14 +12,16 @@
 
 ## ۳. داده‌ها و صاحبشان
 
-| داده | کجا زندگی می‌کند | چه کسی می‌نویسد |
-|---|---|---|
-| محصول، قیمت، موجودی، تخفیف، دسته‌بندی، بنر، اطلاعات فروشگاه | سرور (API)، و بعد از دریافت State در `main.ts` | فقط سرور |
-| سبد خرید (فقط شناسه و تعداد) | `localStorage` | `storage/cart.ts` |
-| دسته‌بندی و عبارت جستجو | URL (`category` و `q`) | `storage/url.ts` |
-| آدرس API | `VITE_API_URL` در فایل‌های `.env` | زمان Build |
+| داده | کجا زندگی می‌کند | کامپوننت صاحب / مسئول | چه کسی عوضش می‌کند | کجا ذخیره می‌شود |
+|---|---|---|---|---|
+| وضعیت دریافت اطلاعات (`LoadState`) | `App.tsx` | `App` | Effect دریافت API | فقط حافظه React |
+| دسته‌بندی انتخاب‌شده (`categoryId`) | `App.tsx` | `App` | `CategoryNav` از طریق `onPick` | فقط حافظه React |
+| سبد خرید (`cart`) | `App.tsx` | `App` | `ProductGrid` از طریق `onAdd` و `CartPanel` از طریق `onRemove` | `localStorage` با `storage/cart.ts` |
+| محصولات، دسته‌بندی‌ها، بنرها و اطلاعات فروشگاه | API و سپس `LoadState` | `App` دریافت می‌کند و به فرزندان می‌دهد | سرور | پاسخ API؛ در این برنامه فقط در حافظه React |
 
-قیمت هرگز از `localStorage` خوانده نمی‌شود و همیشه از API می‌آید.
+مقادیر محاسبه‌شده مثل `lines`، `total` و تعداد کالاهای سبد، از روی `cart` و محصولات هنگام Render محاسبه می‌شوند؛ بنابراین State جداگانه نیستند. نگهداری هم‌زمان مقدار اصلی و نتیجه محاسبه‌شده می‌تواند باعث ناسازگاری آن‌ها شود.
+
+قیمت هرگز از `localStorage` خوانده نمی‌شود و همیشه از API می‌آید. در `localStorage` فقط شناسه و تعداد هر محصول ذخیره می‌شود.
 
 ## ۴. قرارداد API
 
@@ -36,23 +38,47 @@
 
 نمایش حالت‌ها با `switch` است و `default` آن بررسی `never` دارد.
 
-## ۶. پوشه‌ها و لایه‌ها
+## ۶. درخت کامپوننت‌ها و پوشه‌ها
 
+درخت کامپوننت‌های صفحه:
+
+```text
+App
+├─ Header
+├─ main
+│  ├─ Hero
+│  ├─ CategoryNav
+│  └─ shop-layout
+│     ├─ ProductGrid
+│     └─ CartPanel
+└─ Footer
+
+ProductGrid
+└─ ProductCard × n
+
+CartPanel
+└─ ردیف‌های سبد خرید
 ```
+
+ساختار پوشه‌ها و مسئولیت آن‌ها:
+
+```text
 src/
-  types.ts        ← همهٔ نوع‌ها (types)
-  api/            ← fetch، getJSON و Guardها (data)
-  data/           ← اعتبارسنجی مشترک (data)
-  storage/        ← localStorage و URL (data)
+  types.ts              ← نوع‌های مشترک
+  api/                  ← دریافت داده و Guardهای API
+  data/                 ← اعتبارسنجی مشترک
+  storage/              ← خواندن و نوشتن سبد در localStorage و URL
   features/
-    cart/         ← قوانین سبد (logic)
-    products/     ← انتخاب و فیلتر محصول (logic)
-  shared/         ← منطق مشترک بین Featureها (logic)
-  ui/             ← ساختن و تغییر DOM (ui)
-  main.ts         ← State، رویدادها و شروع (main)
+    cart/               ← توابع خالص قوانین و محاسبات سبد
+    products/           ← انتخاب و فیلتر محصولات
+  components/           ← کامپوننت‌های قابل استفاده در رابط React
+  App.tsx               ← State، Effectها و اتصال کامپوننت‌ها
+  main.tsx              ← نقطه ورود React و رندر App در root
 ```
 
-`import`ها فقط به پایین اشاره می‌کنند (`main` ← `ui` / `logic` / `data` ← `types`). فقط `api` و `storage` به شبکه و `localStorage` دسترسی دارند، فقط `ui` به `document` دست می‌زند. هیچ فایلی بیشتر از ۷۰ خط نیست و `utils.ts` یا `helpers.ts` وجود ندارد. دو Feature یکدیگر را import نمی‌کنند و فقط در `main.ts` به هم می‌رسند. افزودن به سبد دو تابع است: `addOne` سبد جدید را حساب می‌کند و `persistCart` آن را ذخیره می‌کند. هر دو بررسی `npm run check` و `node check-arch.mjs src --shop` باید بدون خطا باشند.
+`App` مالک Stateهای اصلی است و داده‌ها یا callbackها را با `props` به کامپوننت‌های فرزند می‌دهد. کامپوننت‌های فرزند مستقیماً State والد را تغییر نمی‌دهند؛ رویدادها را از طریق callback prop گزارش می‌کنند.
+
+`api/` مسئول دریافت داده از شبکه و `storage/` مسئول دسترسی به `localStorage` است. قوانین سبد و انتخاب محصولات در توابع مستقل `features/` قرار دارند. `main.tsx` فقط برنامه React را به عنصر `root` متصل می‌کند.
 
 ## ۷. امنیت
 
