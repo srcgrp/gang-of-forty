@@ -23,7 +23,7 @@
 - موجودی صفر یعنی «ناموجود»: کارت کم‌رنگ می‌شود و دکمه‌اش غیرفعال است.
 - سبد خرید (`CartLine[]`): `localStorage` با کلید `separation-cart`.
 - فیلتر دسته و متن جست‌وجو: `URL` (`?category=dairy&q=شیر`)؛ با Refresh و لینک مستقیم برمی‌گردد.
-- State برنامه (محصول‌ها، دسته‌ها، تخفیف‌ها، فیلتر، کوئری، مرتب‌سازی): حافظه `main.ts`.
+- State برنامه (محصول‌ها، دسته‌ها، تخفیف‌ها، فیلتر دسته، سبد): حافظه `App.tsx` با `useState`.
 - آدرس API: `env` (`VITE_API_URL`)؛ در dev برابر `/api` و در production برابر `../../api`.
 
 ## ۴. قرارداد API
@@ -49,15 +49,16 @@
 src/
   types.ts            ← types: هیچ import ندارد
   api/                ← data: تنها جای fetch (getJSON، Guardها، loadShop)
-  storage/            ← data: تنها جای localStorage (cartStorage) و تنها جای خواندن/نوشتن URL (urlState)
+  storage/            ← data: تنها جای localStorage (cartStorage)
   cart/               ← logic: تابع خالص سبد (add/remove/count/total/join)
-  catalog/            ← logic: فیلتر، مرتب‌سازی و قیمت تخفیف (filter/offers)؛ نگاشت slug به id هم اینجاست
-  ui/                 ← ui: ساخت DOM با داده پارامتری، بدون حساب‌وکتاب
-  main.ts             ← main: نگه‌داشتن State، وصل رویدادها، شروع برنامه
+  catalog/            ← logic: قیمت تخفیف (offers)؛ فیلتر هفته چهارم هم اینجاست
+  components/         ← view: کامپوننت‌های React (Header، CategoryNav، ProductGrid، ...)
+  App.tsx             ← state: همه Stateها و Effectها، بدون fetch/localStorage مستقیم
+  main.tsx            ← entry: سوار کردن App روی #root با StrictMode
 ```
 
-- جهت import فقط به پایین است: `main → ui / logic / data → types` و هیچ دایره‌ای نیست.
-- `script.ts` هفته سوم حذف شده؛ `index.html` حالا `/src/main.ts` را لود می‌کند.
+- جهت import فقط به پایین است: `App → components / logic / data → types` و هیچ دایره‌ای نیست.
+- `ui/` و `main.ts` هفته چهارم در گام ۵ حذف شدند؛ `index.html` حالا `/src/main.tsx` را لود می‌کند و فقط `<div id="root">` دارد.
 - حساب قیمت نهایی و جدا کردن دو ردیف در `catalog/offers.ts` است، نه در UI.
 - انتخاب دسته با `slug` (نه `id`) در URL ذخیره می‌شود تا لینک خوانا بماند؛ `popstate` هم از همان یک فایل `storage/urlState.ts` گوش داده می‌شود و `main.ts` فقط `subscribeFilters` را صدا می‌زند.
 - هیچ فایل `helpers.ts` یا `utils.ts` وجود ندارد و هیچ فایلی بیشتر از ۷۰ خط نیست.
@@ -67,4 +68,33 @@ src/
 
 - در مرورگر همه‌چیز عمومی است: کلید محرمانه و رمز در `env` نمی‌گذاریم.
 - جمع نهایی سبد فقط برای نمایش است؛ عدد نهایی را باید سرور حساب کند.
-- متن کاربر و داده بیرونی فقط با `textContent` در DOM گذاشته می‌شود، نه `innerHTML`.
+- متن کاربر و داده بیرونی در JSX گذاشته می‌شود، نه `innerHTML`.
+
+## ۸. درخت کامپوننت‌ها (هفته پنجم)
+
+```text
+App
+├─ Header
+├─ Hero
+├─ Status
+├─ CategoryNav
+├─ ProductGrid
+│  └─ ProductCard × n
+├─ CartPanel
+└─ Footer
+```
+
+## ۹. State کجا زندگی می‌کند (هفته پنجم)
+
+| State | صاحب (کامپوننت) | چه کسی عوضش می‌کند | کجا ذخیره می‌شود |
+|---|---|---|---|
+| `categoryId` | `App` | کاربر با کلیک روی `CategoryNav` (`onPick`) | حافظه React |
+| `cart` | `App` | کاربر با `+` (`onAdd`)، حذف و خالی کردن سبد | حافظه React + `localStorage` (کلید `separation-cart`) |
+| `load` (`LoadState`) | `App` | یک `useEffect` با `Promise.all` روی `/api` | حافظه React |
+| `cats` / `offers` / `stock` | `App` | همان `useEffect` بارگذاری | حافظه React |
+| `document.title` | — (اثر جانبی) | یک `useEffect` روی `[cart]` | تب مرورگر |
+
+- مقدارهای حساب‌شده State نیستند و هنگام render حساب می‌شوند:
+  - `filtered` (محصول‌های دسته انتخاب‌شده) — چون از `products` و `categoryId` ساخته می‌شود.
+  - `items` (قیمت نهایی با `priceOf`) — چون از `filtered` و `offers`/`stock` ساخته می‌شود.
+  - `count` و `total` سبد (`cartCount`/`cartTotal`) — چون از `cart` ساخته می‌شوند؛ `useState` جدا برایشان لازم نیست.
