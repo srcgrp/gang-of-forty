@@ -75,7 +75,7 @@ async function init(): Promise<void> {
 
         state =
             data.products.length > 0
-                ? {status: 'success', products: data.products}
+                ? {status: 'success', data}
                 : {status: 'empty'};
 
         renderLoadState(state);

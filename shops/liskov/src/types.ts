@@ -100,7 +100,7 @@ export type AppData = {
 
 export type LoadState =
     | {status: 'loading'}
-    | {status: 'success'; products: Product[]}
+    | {status: 'success'; data: AppData}
     | {status: 'empty'}
     | {status: 'error'; message: string};
 

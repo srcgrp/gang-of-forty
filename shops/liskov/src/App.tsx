@@ -1,65 +1,53 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 
+import {loadData} from '../api';
 import {addToCart, cartTotal, removeFromCart} from './cart/cart';
 import CartPanel from './components/CartPanel';
 import CategoryNav from './components/CategoryNav';
 import Header from './components/Header';
 import ProductGrid from './components/ProductGrid';
 
-import type {Product, Category, CartLine} from './types';
-
-const SAMPLE: Product[] = [
-    {
-        id: 1,
-        categoryId: 1,
-        name: 'شیر کم‌چرب',
-        emoji: '🥛',
-        unit: '۱ لیتر',
-        price: 35000,
-        tags: [],
-    },
-    {
-        id: 2,
-        categoryId: 1,
-        name: 'پنیر سفید',
-        emoji: '🧀',
-        unit: '۴۰۰ گرم',
-        price: 65000,
-        tags: [],
-    },
-    {
-        id: 3,
-        categoryId: 2,
-        name: 'سیب قرمز',
-        emoji: '🍎',
-        unit: '۱ کیلوگرم',
-        price: 80000,
-        tags: [],
-    },
-];
-
-const SAMPLE_CATEGORIES: Category[] = [
-    {
-        id: 1,
-        slug: 'dairy',
-        name: 'لبنیات',
-        emoji: '🥛',
-        color: '#e8f3ff',
-    },
-    {
-        id: 2,
-        slug: 'fruits',
-        name: 'میوه',
-        emoji: '🍎',
-        color: '#fce8e8',
-    },
-];
+import type {CartLine, LoadState} from './types';
 
 export default function App() {
     const [cart, setCart] = useState<CartLine[]>([]);
     const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
         null,
     );
+    const [loadState, setLoadState] = useState<LoadState>({
+        status: 'loading',
+    });
+
+    useEffect(() => {
+        let ignore = false;
+
+        loadData()
+            .then((data) => {
+                if (ignore) return;
+
+                if (data.products.length === 0) {
+                    setLoadState({status: 'empty'});
+                    return;
+                }
+
+                setLoadState({status: 'success', data});
+            })
+            .catch((error: unknown) => {
+                if (ignore) return;
+
+                setLoadState({
+                    status: 'error',
+                    message:
+                        error instanceof Error
+                            ? error.message
+                            : 'دریافت اطلاعات با خطا مواجه شد.',
+                });
+            });
+
+        return () => {
+            ignore = true;
+        };
+    }, []);
 
     const handleAdd = (id: number): void => {
         setCart((previousCart) => addToCart(previousCart, id));
@@ -69,44 +57,66 @@ export default function App() {
         setCart((previousCart) => removeFromCart(previousCart, id));
     };
 
-    const visibleProducts =
-        selectedCategoryId === null
-            ? SAMPLE
-            : SAMPLE.filter(
-                  (product) => product.categoryId === selectedCategoryId,
-              );
+    switch (loadState.status) {
+        case 'loading':
+            return <p role='status'>در حال دریافت اطلاعات فروشگاه...</p>;
 
-    const total = cartTotal(cart, SAMPLE);
+        case 'empty':
+            return <p>در حال حاضر محصولی برای نمایش وجود ندارد.</p>;
 
-    const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+        case 'error':
+            return <p role='alert'>{loadState.message}</p>;
 
-    return (
-        <>
-            <a className='skip-link' href='#main'>
-                پرش به محتوای اصلی
-            </a>
+        case 'success': {
+            const {products, categories} = loadState.data;
 
-            <Header itemCount={itemCount} />
+            const visibleProducts =
+                selectedCategoryId === null
+                    ? products
+                    : products.filter(
+                          (product) =>
+                              product.categoryId === selectedCategoryId,
+                      );
 
-            <main id='main' tabIndex={-1}>
-                <CategoryNav
-                    categories={SAMPLE_CATEGORIES}
-                    selectedCategoryId={selectedCategoryId}
-                    onPick={setSelectedCategoryId}
-                />
+            const total = cartTotal(cart, products);
 
-                <section className='page-section'>
-                    <h2 className='titles'>محصولات</h2>
-                    <ProductGrid products={visibleProducts} onAdd={handleAdd} />
-                </section>
+            const itemCount = cart.reduce(
+                (sum, item) => sum + item.quantity,
+                0,
+            );
 
-                <CartPanel
-                    cart={cart}
-                    products={SAMPLE}
-                    total={total}
-                    onRemove={handleRemove}
-                />
-            </main>
-        </>
-    );
+            return (
+                <>
+                    <a className='skip-link' href='#main'>
+                        پرش به محتوای اصلی
+                    </a>
+
+                    <Header itemCount={itemCount} />
+
+                    <main id='main' tabIndex={-1}>
+                        <CategoryNav
+                            categories={categories}
+                            selectedCategoryId={selectedCategoryId}
+                            onPick={setSelectedCategoryId}
+                        />
+
+                        <section className='page-section'>
+                            <h2 className='titles'>محصولات</h2>
+                            <ProductGrid
+                                products={visibleProducts}
+                                onAdd={handleAdd}
+                            />
+                        </section>
+
+                        <CartPanel
+                            cart={cart}
+                            products={products}
+                            total={total}
+                            onRemove={handleRemove}
+                        />
+                    </main>
+                </>
+            );
+        }
+    }
 }
