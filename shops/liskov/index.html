@@ -2,7 +2,7 @@
 <html lang="fa" dir="rtl">
 
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>سوپرمارکت شایان</title>
     <link rel="stylesheet" href="./style.css">
@@ -14,103 +14,8 @@
 </head>
 
 <body>
-    <a class="skip-link" href="#main">پرش به محتوای اصلی</a>
-
-    <!-- Header: Logo, SearchBox, Cart, Main menu -->
-    <header class="header" id="top">
-
-        <!-- Announcement Bar -->
-        <div id="top-bar">
-            <p id="top-bar-text"></p>
-        </div>
-
-        <!-- Main Header -->
-        <div class="header-main">
-            <a id="main-logo" href="#top" aria-label="سوپرمارکت شایان، بازگشت به بالای صفحه">
-                <svg viewBox="0 0 48 48" width="44" height="44" aria-hidden="true" focusable="false">
-                    <rect width="48" height="48" rx="12" fill="#035efc" />
-
-                    <!-- S -->
-                    <path d="M29 15H20.5C18 15 16 17 16 19.5S18 24 20.5 24H27.5C30 24 32 26 32 28.5S30 33 27.5 33H19"
-                        fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
-
-                    <!-- H -->
-                    <path d="M21 15V33M27 15V33M21 24H27" fill="none" stroke="#f8c566" stroke-width="3"
-                        stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-                <span>سوپرمارکت شایان</span>
-            </a>
-
-            <input type="search" id="search" name="search" aria-label="جستجو">
-
-            <button type="button" id="cart" aria-label="سبد خرید">
-                <img class="icon" src="https://api.iconify.design/mdi/cart.svg?color=%23005532" alt="">
-                سبد خرید
-                <span class="cart-count" id="cart-count"></span>
-            </button>
-        </div>
-
-        <!-- Navigation Bar -->
-        <nav class="main-nav" aria-label="منوی اصلی">
-            <input type="checkbox" id="menu-checkbox" class="visually-hidden" aria-label="باز و بسته کردن منو">
-
-            <label id="menu-toggle" for="menu-checkbox" aria-hidden="true">
-                <img class="icon" src="https://api.iconify.design/mdi/menu.svg?color=%231f2a1c" alt="">
-            </label>
-
-            <ul class="main-nav-items" id="main-menu">
-                <li class="all-categories-menu">
-                    <a class="categories-links" href="#all-categories">
-                        <img class="icon" src="https://api.iconify.design/mdi/menu.svg?color=%23005532" alt="">
-                        همه دسته‌ها
-                    </a>
-                    <ul class="categories-dropdown" id="nav-categories"></ul>
-                </li>
-            </ul>
-        </nav>
-    </header>
-
-    <!-- MAIN -->
-    <main id="main" tabindex="-1" aria-busy="true">
-        <div class="banners-container" id="banners"></div>
-
-        <section id="all-categories" class="page-section" aria-labelledby="categories-title">
-            <h2 class="titles" id="categories-title">دسته‌بندی‌ها</h2>
-            <div class="categories" id="categories"></div>
-        </section>
-
-        <div id="carousels"></div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer" id="contact">
-        <div class="footer-main">
-            <div class="footer-column footer-about" id="footer-about"></div>
-
-            <nav class="footer-column" id="footer-categories" aria-labelledby="footer-categories-title">
-                <h2 id="footer-categories-title">دسته‌ها</h2>
-            </nav>
-
-            <nav class="footer-column" id="footer-help" aria-labelledby="footer-help-title">
-                <h2 id="footer-help-title">راهنما</h2>
-            </nav>
-
-            <div class="footer-column" id="footer-schedule">
-                <h2>ساعت کاری</h2>
-            </div>
-        </div>
-
-        <!-- Bottom footer -->
-        <div class="footer-bottom">
-            <p id="copyright"></p>
-            <a href="#top">
-                <img class="icon" src="https://api.iconify.design/mdi/arrow-up.svg" alt="">
-                بازگشت به بالا
-            </a>
-        </div>
-    </footer>
-
-    <script type="module" src="./script.ts"></script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
 </body>
 
 </html>
