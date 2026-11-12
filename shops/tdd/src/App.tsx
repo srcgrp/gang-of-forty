@@ -1,16 +1,21 @@
+import { Notyf } from 'notyf'
+import 'notyf/notyf.min.css'
 import { useEffect, useState } from 'react'
 import type { CartLine, LoadState } from './shared/types'
 import { loadShopData } from './shared/data/api/shop-data'
+import { loadCart, saveCart } from './features/cart/data/storage'
 import { addToCart, cartCount, cartTotal, removeFromCart } from './features/cart/cart'
-import { confirmClearCart, notifyAdded } from './features/cart/ui/cart'
 import LoadStatus from './components/LoadStatus'
 import Storefront from './components/Storefront'
+
+const pageTitle = document.title
+const notyf = new Notyf({ duration: 2000, position: { x: "left", y: "top" } })
 
 export default function App() {
     const [loadState, setLoadState] = useState<LoadState>({ status: 'loading' })
     const [shopData, setShopData] = useState<Awaited<ReturnType<typeof loadShopData>> | null>(null)
     const [categoryId, setCategoryId] = useState<number | null>(null)
-    const [cart, setCart] = useState<CartLine[]>([])
+    const [cart, setCart] = useState<CartLine[]>(() => loadCart())
 
     useEffect(() => {
         let ignore = false
@@ -28,14 +33,21 @@ export default function App() {
         return () => { ignore = true }
     }, [])
 
+    useEffect(() => {
+        saveCart(cart)
+    }, [cart])
+
+    useEffect(() => {
+        const count = cartCount(cart)
+        document.title = count ? `(${count}) ${pageTitle}` : pageTitle
+    }, [cart])
+
     const handleAdd = (id: number) => {
         setCart(current => addToCart(current, id))
-        notifyAdded()
+        notyf.success("به سبد خرید اضافه شد")
     }
     const handleRemove = (id: number) => setCart(current => removeFromCart(current, id))
-    const handleClear = async () => {
-        if (cart.length && await confirmClearCart()) setCart([])
-    }
+    const handleClear = () => setCart([])
 
     if (loadState.status !== 'success') return <LoadStatus state={loadState} />
     if (shopData === null) return null

@@ -1,3 +1,5 @@
+import Swal from 'sweetalert2'
+import 'sweetalert2/dist/sweetalert2.min.css'
 import type { CartLine, Product } from '../shared/types'
 
 type CartPanelProps = {
@@ -11,6 +13,19 @@ type CartPanelProps = {
 
 export default function CartPanel({ cart, products, count, total, onRemove, onClear }: CartPanelProps) {
     const formatPrice = (value: number) => value.toLocaleString('fa-IR')
+
+    const handleClear = async () => {
+        if (!count) return
+        const result = await Swal.fire({
+            title: "سبد خرید خالی شود؟",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "بله، خالی شود",
+            cancelButtonText: "انصراف",
+            focusCancel: true
+        })
+        if (result.isConfirmed) onClear()
+    }
 
     return (
         <div className="cart-actions">
@@ -33,7 +48,7 @@ export default function CartPanel({ cart, products, count, total, onRemove, onCl
                     <p className="cart-total">جمع: {formatPrice(total)} تومان</p>
                 </div>
             </details>
-            <button className="clear-cart" type="button" onClick={onClear} disabled={count === 0}>
+            <button className="clear-cart" type="button" onClick={handleClear} disabled={count === 0}>
                 خالی‌کردن
             </button>
         </div>

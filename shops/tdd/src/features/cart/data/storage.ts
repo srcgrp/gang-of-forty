@@ -1,38 +1,30 @@
-const CART_KEY = "tdd:w2:cart-count"
+import type { CartLine } from '../../../shared/types'
 
-export function readCartCount(): number {
+const CART_KEY = "tdd:w5:cart"
+
+export function loadCart(): CartLine[] {
     try {
-        const saved = Number(localStorage.getItem(CART_KEY))
-        return Number.isSafeInteger(saved) && saved >= 0 ? saved : 0
+        const saved = localStorage.getItem(CART_KEY)
+        if (!saved) return []
+        const cart: unknown = JSON.parse(saved)
+        if (!Array.isArray(cart)) return []
+        return cart.filter((item): item is CartLine =>
+            typeof item.productId === 'number' &&
+            Number.isInteger(item.productId) &&
+            item.productId > 0 &&
+            typeof item.quantity === 'number' &&
+            Number.isInteger(item.quantity) &&
+            item.quantity > 0
+        )
     } catch {
-        return 0
+        return []
     }
 }
 
-export function saveCartCount(count: number): boolean {
+export function saveCart(cart: CartLine[]): void {
     try {
-        localStorage.setItem(CART_KEY, String(count))
-        return true
+        localStorage.setItem(CART_KEY, JSON.stringify(cart))
     } catch {
-        return false
+        return
     }
-}
-
-export function clearSavedCart(): boolean {
-    try {
-        localStorage.removeItem(CART_KEY)
-        return true
-    } catch {
-        return false
-    }
-}
-
-export function isCartStorageEvent(event: StorageEvent): boolean {
-    return event.key === CART_KEY || event.key === null
-}
-
-export function watchCartCount(onChange: (count: number) => void): void {
-    window.addEventListener("storage", event => {
-        if (isCartStorageEvent(event)) onChange(readCartCount())
-    })
 }
