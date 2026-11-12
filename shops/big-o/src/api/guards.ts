@@ -1,8 +1,8 @@
-import type { Category, Product, Offer, Stock, Shop, CartItem} from '../types';
+import type { Category, Product, Offer, Stock} from '../types';
 
 // Check if the input is an object or not
 // x: an unknown input, output: true if the input is an object and false if it's not
-function isRecord(x: unknown): x is Record<string, unknown> {
+export function isRecord(x: unknown): x is Record<string, unknown> {
     return typeof x === 'object' && x !== null && !Array.isArray(x);
 }
 
@@ -41,22 +41,6 @@ export function isOffer(x: unknown): x is Offer {
     )
 }
 
-// Check if the input is a correct form of a shop or not
-export function isShop(x: unknown): x is Shop {
-    return (
-        isRecord(x) &&
-        typeof x.name === 'string' &&
-        typeof x.slogan === 'string' && 
-        typeof x.owner === 'string' && 
-        typeof x.city === 'string' && 
-        typeof x.phone === 'string' &&
-        (isRecord(x.hours) && typeof x.hours.open === 'string' && typeof x.hours.close === 'string') &&
-        typeof x.deliveryFee === 'number' && 
-        typeof x.freeDeliveryOver === 'number' &&
-        typeof x.currency === 'string'
-    )
-}
-
 // Check if the input is a correct form of a stock or not
 export function isStock(x: unknown): x is Stock {
     return (
@@ -64,16 +48,4 @@ export function isStock(x: unknown): x is Stock {
         typeof x.updatedAt === 'string' &&
         (isRecord(x.items) && Object.values(x.items).every(t => typeof t === 'number'))
     )
-}
-
-export function isCartItem(x: unknown): x is CartItem {
-  return (
-    isRecord(x) &&
-    typeof x.id === 'number' &&
-    typeof x.name === 'string' && 
-    typeof x.price === 'number' && 
-    typeof x.qty === 'number' &&
-    Number.isInteger(x.qty) &&
-    x.qty > 0
-  )
 }

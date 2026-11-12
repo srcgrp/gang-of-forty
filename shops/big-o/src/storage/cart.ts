@@ -1,4 +1,5 @@
-import { isCartItem } from "../api/guards";
+
+import { isCartItem } from "../api/shopGuards";
 import type { CartItem } from "../types";
 
 const CART_KEY = 'big-o-cart';
