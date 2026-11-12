@@ -3,12 +3,11 @@ import Header from "./components/Header";
 import CategoryNav from "./components/CategoryNav";
 import ProductGrid from "./components/ProductGrid";
 import CartPanel from "./components/CartPanel";
-import { getJSON } from "./api/api";
-import { isOffer, isProduct, isStock } from "./api/api";
+import { getJSON, isOffer, isProduct, isStock } from "./api/api";
 import { keepValid } from "./api/validation";
 import { addToCart, cartTotal, removeFromCart } from "./features/cart/cartState";
+import { loadCart, saveCart } from "./storage/cartStorage";
 import type { CartLine, LoadState } from "./types";
-
 function loadCatalog(): Promise<LoadState> {
   return Promise.all([getJSON("products"), getJSON("stock"), getJSON("offers")])
     .then(([rawProducts, rawStock, rawOffers]) => {
@@ -19,12 +18,10 @@ function loadCatalog(): Promise<LoadState> {
       return { status: "success", products, stock: rawStock, offers };
     });
 }
-
 export default function App() {
   const [categoryId, setCategoryId] = useState<number | null>(null);
-  const [cart, setCart] = useState<CartLine[]>([]);
+  const [cart, setCart] = useState<CartLine[]>(loadCart);
   const [loadState, setLoadState] = useState<LoadState>({ status: "loading" });
-
   useEffect(() => {
     let ignore = false;
     loadCatalog()
@@ -39,6 +36,11 @@ export default function App() {
       });
     return () => { ignore = true; };
   }, []);
+  useEffect(() => { saveCart(cart); }, [cart]);
+  useEffect(() => {
+    const count = cart.reduce((total, line) => total + line.quantity, 0);
+    document.title = `Herman Shop · 🛒 ${count.toLocaleString("fa-IR")}`;
+  }, [cart]);
 
   const products = loadState.status === "success" ? loadState.products : [];
   const offers = loadState.status === "success" ? loadState.offers : [];
