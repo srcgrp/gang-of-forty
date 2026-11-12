@@ -2925,3 +2925,64 @@ footer #shop-schedule h3 {
 }
 
 
+
+
+.cart-widget {
+  position: relative;
+}
+
+.cart-widget > summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+.cart-widget > summary::-webkit-details-marker {
+  display: none;
+}
+
+.cart-panel {
+  position: absolute;
+  z-index: 50;
+  inset-block-start: calc(100% + .6rem);
+  inset-inline-end: 0;
+  width: min(22rem, calc(100vw - 2rem));
+  padding: 1rem;
+  color: var(--ink);
+  background: var(--surface, white);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  box-shadow: 0 12px 32px rgb(20 50 38 / 16%);
+}
+
+.cart-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  padding-block: .55rem;
+  border-bottom: 1px solid var(--line);
+  font-size: .78rem;
+}
+
+.cart-row button {
+  flex: 0 0 auto;
+  padding: .3rem .55rem;
+  color: var(--red);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: .5rem;
+  cursor: pointer;
+}
+
+.cart-total {
+  margin-block: .8rem 0;
+  font-size: .85rem;
+  font-weight: 700;
+}
+
+.category-dropdown a.is-active,
+.mobile-category-links a.is-active {
+  color: var(--green-deep);
+  background: var(--green-soft);
+  font-weight: 700;
+}

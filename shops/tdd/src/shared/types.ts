@@ -3,6 +3,11 @@ export type Product = {
     emoji: string, unit: string, price: number, tags: string[]
 }
 
+export type CartLine = {
+    productId: number
+    quantity: number
+}
+
 export type Stock = {
     updatedAt: string, items: Record<number, number>
 }

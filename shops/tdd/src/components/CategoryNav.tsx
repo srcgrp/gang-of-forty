@@ -2,10 +2,11 @@ import type { Category } from '../shared/types'
 
 type CategoryNavProps = {
     categories: Category[]
+    activeCategoryId: number | null
     onPick: (categoryId: number) => void
 }
 
-export default function CategoryNav({ categories, onPick }: CategoryNavProps) {
+export default function CategoryNav({ categories, activeCategoryId, onPick }: CategoryNavProps) {
     return (
         <>
             <nav className="primary-navigation desktop-navigation" aria-label="منوی اصلی">
@@ -15,7 +16,13 @@ export default function CategoryNav({ categories, onPick }: CategoryNavProps) {
                     </a>
                     <div className="category-dropdown" id="desktop-categories">
                         {categories.map(category => (
-                            <a key={category.id} href={`#${category.slug}`} onClick={() => onPick(category.id)}>
+                            <a
+                                key={category.id}
+                                href={`#${category.slug}`}
+                                className={activeCategoryId === category.id ? 'is-active' : undefined}
+                                aria-current={activeCategoryId === category.id ? 'true' : undefined}
+                                onClick={() => onPick(category.id)}
+                            >
                                 <span aria-hidden="true">{category.emoji}</span>
                                 {category.name}
                             </a>
@@ -31,7 +38,13 @@ export default function CategoryNav({ categories, onPick }: CategoryNavProps) {
                         <summary>دسته‌بندی محصولات</summary>
                         <div className="mobile-category-links" id="mobile-categories">
                             {categories.map(category => (
-                                <a key={category.id} href={`#${category.slug}`} onClick={() => onPick(category.id)}>
+                                <a
+                                    key={category.id}
+                                    href={`#${category.slug}`}
+                                    className={activeCategoryId === category.id ? 'is-active' : undefined}
+                                    aria-current={activeCategoryId === category.id ? 'true' : undefined}
+                                    onClick={() => onPick(category.id)}
+                                >
                                     <span aria-hidden="true">{category.emoji}</span>
                                     {category.name}
                                 </a>

@@ -1,4 +1,7 @@
-import type { Category, Offer, Product, Stock } from './shared/types'
+import { useState } from 'react'
+import type { CartLine, Category, Offer, Product, Stock } from './shared/types'
+import { addToCart, cartCount, cartTotal, removeFromCart } from './features/cart/cart'
+import { confirmClearCart, notifyAdded } from './features/cart/ui/cart'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import SearchResults from './components/SearchResults'
@@ -28,9 +31,17 @@ const SAMPLE_CATEGORIES: Category[] = [
 ]
 
 export default function App() {
+    const [categoryId, setCategoryId] = useState<number | null>(null)
+    const [cart, setCart] = useState<CartLine[]>([])
+    const visibleProducts = categoryId === null ? SAMPLE : SAMPLE.filter(product => product.categoryId === categoryId)
+    const count = cartCount(cart)
+    const total = cartTotal(cart, SAMPLE)
+    const handleAdd = (id: number) => { setCart(current => addToCart(current, id)); notifyAdded() }
+    const handleClear = async () => { if (cart.length && await confirmClearCart()) setCart([]) }
+
     return (
         <div id="top">
-            <Header categories={SAMPLE_CATEGORIES} onPick={() => undefined} />
+            <Header categories={SAMPLE_CATEGORIES} categoryId={categoryId} cart={cart} products={SAMPLE} cartCount={count} cartTotal={total} onPick={setCategoryId} onRemove={id => setCart(current => removeFromCart(current, id))} onClear={handleClear} />
             <main id="main-content" tabIndex={-1}>
                 <p id="page-status" className="page-status" role="status" aria-live="polite"></p>
                 <SearchResults />
@@ -41,7 +52,7 @@ export default function App() {
                 </section>
                 <div id="home-promos" className="promo-grid" aria-label="پیشنهادهای منتخب"></div>
                 <div id="home-carousels">
-                    <ProductGrid products={SAMPLE} stock={SAMPLE_STOCK} offers={SAMPLE_OFFERS} onAdd={() => undefined} />
+                    <ProductGrid products={visibleProducts} stock={SAMPLE_STOCK} offers={SAMPLE_OFFERS} onAdd={handleAdd} />
                 </div>
                 <SideBanner />
                 <StoreStory />

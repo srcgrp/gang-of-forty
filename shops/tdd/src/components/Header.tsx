@@ -1,13 +1,20 @@
-import type { Category } from '../shared/types'
+import type { CartLine, Category, Product } from '../shared/types'
 import CartPanel from './CartPanel'
 import CategoryNav from './CategoryNav'
 
 type HeaderProps = {
     categories: Category[]
+    categoryId: number | null
+    cart: CartLine[]
+    products: Product[]
+    cartCount: number
+    cartTotal: number
     onPick: (categoryId: number) => void
+    onRemove: (productId: number) => void
+    onClear: () => void
 }
 
-export default function Header({ categories, onPick }: HeaderProps) {
+export default function Header({ categories, categoryId, cart, products, cartCount, cartTotal, onPick, onRemove, onClear }: HeaderProps) {
     return (
         <>
             <a className="skip-link" href="#main-content">پرش به محتوای اصلی</a>
@@ -46,11 +53,11 @@ export default function Header({ categories, onPick }: HeaderProps) {
                         <button type="submit">جست‌وجو</button>
                     </form>
 
-                    <CartPanel />
+                    <CartPanel cart={cart} products={products} count={cartCount} total={cartTotal} onRemove={onRemove} onClear={onClear} />
                 </div>
 
                 <p id="cart-status" className="page-status" role="status"></p>
-                <CategoryNav categories={categories} onPick={onPick} />
+                <CategoryNav categories={categories} activeCategoryId={categoryId} onPick={onPick} />
             </header>
         </>
     )
