@@ -2986,3 +2986,116 @@ footer #shop-schedule h3 {
   background: var(--green-soft);
   font-weight: 700;
 }
+
+.sale-countdown {
+  margin: 0 auto;
+  padding: .75rem 1rem;
+  color: var(--green-deep);
+  text-align: center;
+  font-weight: 700;
+}
+
+
+/* Daily offer countdown */
+.sale-countdown {
+  margin-block: 2rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  color: #fff;
+  background: linear-gradient(115deg, #0d3f30, #17634a 62%, #287a59);
+  border: 1px solid rgb(255 255 255 / 12%);
+  border-radius: 1.5rem;
+  box-shadow: 0 1rem 2.5rem rgb(13 63 48 / 16%);
+}
+
+.sale-countdown-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  max-width: 62rem;
+  margin-inline: auto;
+}
+
+.sale-countdown-copy {
+  min-width: 0;
+}
+
+.sale-countdown-eyebrow {
+  display: inline-block;
+  margin-block-end: .4rem;
+  padding: .2rem .7rem;
+  color: #164b37;
+  background: #d9f2df;
+  border-radius: 999px;
+  font-size: .75rem;
+  font-weight: 700;
+}
+
+.sale-countdown-copy h2 {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(1.15rem, 2.5vw, 1.65rem);
+}
+
+.sale-countdown-copy p {
+  margin: .35rem 0 0;
+  color: rgb(255 255 255 / 78%);
+  font-size: .88rem;
+}
+
+.sale-countdown-timer {
+  display: flex;
+  flex-shrink: 0;
+  gap: .65rem;
+  direction: ltr;
+}
+
+.sale-countdown-unit {
+  display: grid;
+  justify-items: center;
+  gap: .25rem;
+  min-width: 4.5rem;
+  padding: .7rem .85rem;
+  background: rgb(255 255 255 / 11%);
+  border: 1px solid rgb(255 255 255 / 17%);
+  border-radius: 1rem;
+}
+
+.sale-countdown-unit strong {
+  color: #fff;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+
+.sale-countdown-unit span {
+  color: rgb(255 255 255 / 78%);
+  font-size: .72rem;
+}
+
+@media (max-width: 42rem) {
+  .sale-countdown-content {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.25rem;
+    text-align: center;
+  }
+
+  .sale-countdown-timer {
+    justify-content: center;
+    gap: .45rem;
+  }
+
+  .sale-countdown-unit {
+    flex: 1;
+    min-width: 0;
+    padding: .65rem .4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sale-countdown,
+  .sale-countdown-unit {
+    transition: none;
+  }
+}

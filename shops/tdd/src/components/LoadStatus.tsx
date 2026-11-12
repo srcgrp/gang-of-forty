@@ -2,9 +2,10 @@ import type { LoadState } from '../shared/types'
 
 type LoadStatusProps = {
     state: Exclude<LoadState, { status: 'success' }>
+    onRetry: () => void
 }
 
-export default function LoadStatus({ state }: LoadStatusProps) {
+export default function LoadStatus({ state, onRetry }: LoadStatusProps) {
     let message = ''
     switch (state.status) {
         case 'loading':
@@ -27,6 +28,7 @@ export default function LoadStatus({ state }: LoadStatusProps) {
             <p className={state.status === 'error' ? 'page-status is-error' : 'page-status'} role={state.status === 'error' ? 'alert' : 'status'} aria-live="polite">
                 {message}
             </p>
+            {state.status === 'error' && <button type="button" onClick={onRetry}>تلاش دوباره</button>}
         </main>
     )
 }
