@@ -6,6 +6,10 @@ export function addItem(cart: readonly CartItem[], item: CartItem, stock: number
   if (!existing) return [...cart, { ...item, quantity: 1 }];
   return cart.map(line => line.id === item.id ? { ...line, quantity: line.quantity + 1 } : line);
 }
+export function decreaseItem(cart: readonly CartItem[], id: number): CartItem[] {
+  return cart.flatMap(line => line.id !== id ? [line] :
+    line.quantity > 1 ? [{ ...line, quantity: line.quantity - 1 }] : []);
+}
 export function removeItem(cart: readonly CartItem[], id: number): CartItem[] {
   return cart.filter(line => line.id !== id);
 }

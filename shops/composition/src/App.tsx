@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import type { CartItem, LoadState, ShopData } from "./shared/types";
 import { loadCatalog } from "./features/products/api/catalog-data";
 import { getShop, getHome } from "./shared/api/site";
-import { addItem, removeItem, cartCount } from "./features/cart/logic/items";
+import { addItem, removeItem, decreaseItem, cartCount } from "./features/cart/logic/items";
 import { toCard, offersById } from "./features/products/catalog/cards";
 import { loadCart, saveCart } from "./features/cart/storage/cart";
 import { loadTheme, saveTheme } from "./shared/storage/theme";
@@ -50,6 +50,9 @@ export default function App() {
     if (!card.available) return;
     setCart(previous => addItem(previous, card.item, stock.items[productId] ?? 0));
   }
+  function handleDecrease(productId: number): void {
+    setCart(previous => decreaseItem(previous, productId));
+  }
   function handleRemove(productId: number): void {
     setCart(previous => removeItem(previous, productId));
   }
@@ -63,5 +66,5 @@ export default function App() {
   return <ShopView data={state.data} cart={cart} categoryId={categoryId} cartOpen={cartOpen}
     query={query} onQuery={setQuery} saleOpen={saleOpen} onToggleSale={() => setSaleOpen(open => !open)}
     dark={dark} onToggleTheme={() => setDark(previous => !previous)}
-    onPick={setCategoryId} onCartOpen={setCartOpen} onAdd={handleAdd} onRemove={handleRemove} />;
+    onPick={setCategoryId} onCartOpen={setCartOpen} onAdd={handleAdd} onRemove={handleRemove} onDecrease={handleDecrease} />;
 }

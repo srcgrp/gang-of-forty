@@ -1,11 +1,12 @@
 import closeIcon from "../../icons/x.svg";
-import type { CartItem } from "../shared/types";
+import type { CartItem, Stock } from "../shared/types";
 import { formatNumber, formatPrice } from "../shared/format";
 
 type Props = { cart: CartItem[]; total: number; onRemove: (id: number) => void;
+  stock: Stock; onAdd: (id: number) => void; onDecrease: (id: number) => void;
   open: boolean; onClose: () => void;
 };
-export default function CartPanel({ cart, total, onRemove, open, onClose }: Props) {
+export default function CartPanel({ stock, onAdd, onDecrease, cart, total, onRemove, open, onClose }: Props) {
   return (
     <section id="cart" className="cart-panel" hidden={!open} aria-labelledby="cart-title">
       <div className="cart-heading">
@@ -22,8 +23,16 @@ export default function CartPanel({ cart, total, onRemove, open, onClose }: Prop
                 <p>{formatNumber(item.quantity)} عدد × {formatPrice(item.price)}</p>
               </div>
               <strong className="cart-line-price">{formatPrice(item.price * item.quantity)}</strong>
+              <div className="cart-quantity" role="group" aria-label={"تعداد " + item.name}>
+                <button type="button" onClick={() => onDecrease(item.id)}
+                  aria-label={"کم کردن یک عدد " + item.name}>−</button>
+                <output aria-live="polite" aria-label={"تعداد " + item.name}>{formatNumber(item.quantity)}</output>
+                <button type="button" onClick={() => onAdd(item.id)}
+                  disabled={item.quantity >= (stock.items[item.id] ?? 0)}
+                  aria-label={"زیاد کردن یک عدد " + item.name}>+</button>
+              </div>
               <button type="button" className="cart-remove" onClick={() => onRemove(item.id)}
-                aria-label={"حذف " + item.name + " از سبد"}>حذف</button>
+                aria-label={"حذف " + item.name + " از سبد"}>حذف کامل</button>
             </li>
           ))}
         </ul>

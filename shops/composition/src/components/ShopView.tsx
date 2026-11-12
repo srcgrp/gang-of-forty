@@ -9,7 +9,8 @@ import ProductSections from "./ProductSections";
 import CartPanel from "./CartPanel";
 import Footer from "./Footer";
 import SearchResults from "./SearchResults";
-import SaleCountdown from "./SaleCountdown";
+import SaleBanner from "./SaleBanner";
+import { createResults } from "../features/products/catalog/results";
 import { normalizeSearch } from "../features/products/catalog/search";
 
 type Props = {
@@ -17,30 +18,25 @@ type Props = {
   dark: boolean; onToggleTheme: () => void;
   data: ShopData; cart: CartItem[]; categoryId: number | null; cartOpen: boolean;
   onPick: (id: number | null) => void; onCartOpen: (open: boolean) => void;
-  onAdd: (id: number) => void; onRemove: (id: number) => void;
+  onDecrease: (id: number) => void; onAdd: (id: number) => void; onRemove: (id: number) => void;
 };
-export default function ShopView({ query, onQuery, saleOpen, onToggleSale, data, cart, categoryId, cartOpen, dark, onToggleTheme, onPick, onCartOpen, onAdd, onRemove }: Props) {
+export default function ShopView({ query, onQuery, saleOpen, onToggleSale, data, cart, categoryId, cartOpen, dark, onToggleTheme, onPick, onCartOpen, onAdd, onRemove, onDecrease }: Props) {
   const page = buildPage(data);
   const category = data.categories.find(item => item.id === categoryId);
+  const results = createResults(data)({ query, category: category?.slug ?? "", sort: "default" });
   return (
     <div id="top">
       <a className="skip-link" href="#main">پرش به محتوای اصلی</a>
-      <Header query={query} onQuery={onQuery} shop={data.shop} categories={data.categories} count={cartCount(cart)} onPick={onPick}
+      <Header suggestions={results.cards} query={query} onQuery={onQuery} shop={data.shop} categories={data.categories} count={cartCount(cart)} onPick={onPick}
         cartOpen={cartOpen} onCartOpen={onCartOpen} dark={dark} onToggleTheme={onToggleTheme}>
-        <CartPanel cart={cart} total={cartTotal(cart)} onRemove={onRemove}
+        <CartPanel stock={data.stock} onAdd={onAdd} onDecrease={onDecrease} cart={cart} total={cartTotal(cart)} onRemove={onRemove}
           open={cartOpen} onClose={() => onCartOpen(false)} />
       </Header>
       <main id="main" className="wrap" tabIndex={-1}>
+        <SaleBanner open={saleOpen} onToggle={onToggleSale} />
         <Hero home={data.home} onNavigate={() => onPick(null)} />
         <CategoryNav categories={data.categories} categoryId={categoryId} onPick={onPick} />
         <Promos promos={data.home.promos} onNavigate={() => onPick(null)} />
-        <div className="sale-controls">
-          <button type="button" className="clear-search" onClick={onToggleSale}
-            aria-expanded={saleOpen} aria-controls="sale-countdown">
-            {saleOpen ? "بستن شمارش معکوس" : "نمایش شمارش معکوس حراج"}
-          </button>
-          {saleOpen && <SaleCountdown />}
-        </div>
         {normalizeSearch(query) ? <SearchResults data={data} query={query}
           category={category?.slug ?? ""} onAdd={onAdd} /> :
           <ProductSections page={page} category={category} onAdd={onAdd} />}

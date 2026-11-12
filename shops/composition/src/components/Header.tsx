@@ -1,22 +1,26 @@
+import { useState } from "react";
 import type { ReactNode } from "react";
 import { formatNumber } from "../shared/format";
-import type { Category, Shop } from "../shared/types";
+import type { Category, Shop, CardView } from "../shared/types";
 import Brand from "./Brand";
 import SearchBox from "./SearchBox";
 import cartIcon from "../../icons/shopping-cart.svg";
 import ThemeToggle from "./ThemeToggle";
 import menuIcon from "../../icons/menu-2.svg";
 
-type Props = { query: string; onQuery: (query: string) => void; dark: boolean; onToggleTheme: () => void; shop: Shop; categories: Category[]; count: number; cartOpen: boolean; onCartOpen: (open: boolean) => void; children: ReactNode; onPick: (id: number | null) => void };
-export default function Header({ query, onQuery, shop, categories, count, onPick, cartOpen, onCartOpen, dark, onToggleTheme, children }: Props) {
+type Props = { suggestions: CardView[]; query: string; onQuery: (query: string) => void; dark: boolean; onToggleTheme: () => void; shop: Shop; categories: Category[]; count: number; cartOpen: boolean; onCartOpen: (open: boolean) => void; children: ReactNode; onPick: (id: number | null) => void };
+export default function Header({ suggestions, query, onQuery, shop, categories, count, onPick, cartOpen, onCartOpen, dark, onToggleTheme, children }: Props) {
+  const [searchOpen, setSearchOpen] = useState(false);
+  const changeCart = (open: boolean): void => { if (open) setSearchOpen(false); onCartOpen(open); };
+  const changeSearch = (open: boolean): void => { if (open) onCartOpen(false); setSearchOpen(open); };
   return (
     <>
       <div id="notice" className="announcement">{shop.notice}</div>
       <header className="site-header">
         <div className="header-top wrap">
           <Brand />
-          <SearchBox query={query} onQuery={onQuery} />
-          <div className="cart-menu" onMouseEnter={() => onCartOpen(true)}
+          <SearchBox open={searchOpen} onOpenChange={changeSearch} cards={suggestions} query={query} onQuery={onQuery} />
+          <div className="cart-menu" onMouseEnter={() => changeCart(true)}
             onMouseLeave={() => onCartOpen(false)}
             onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget)) onCartOpen(false); }}
             onKeyDown={event => {
@@ -25,7 +29,7 @@ export default function Header({ query, onQuery, shop, categories, count, onPick
                 event.currentTarget.querySelector("button")?.focus();
               }
             }}>
-          <button className="cart-button" type="button" onClick={() => onCartOpen(!cartOpen)}
+          <button className="cart-button" type="button" onClick={() => changeCart(!cartOpen)}
             aria-controls="cart" aria-expanded={cartOpen} aria-label={"سبد خرید، " + formatNumber(count) + " کالا"}>
             <img src={cartIcon} alt="" width="48" height="48" />
             <span>سبد خرید</span><b id="cart-count" aria-live="polite">{formatNumber(count)}</b>
