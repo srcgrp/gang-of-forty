@@ -51,7 +51,7 @@ export default function CartPanel({ open, cart, products, offerMap, onClose, onR
           rows.map((r) => (
             <li key={r.id} className="cart-row">
               <span className="cart-row__name">{r.name}</span>
-              <span className="cart-row__qty">{r.qty} ×</span>
+              <span className="cart-row__qty">{r.qty.toLocaleString('fa-IR')} ×</span>
               <span className="cart-row__total"><Price value={r.lineTotal} /></span>
               <button type="button" className="cart-row__remove" onClick={() => onRemoveLine(r.id)} aria-label={`حذف ${r.name}`}>×</button>
             </li>

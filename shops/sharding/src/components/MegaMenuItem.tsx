@@ -32,7 +32,7 @@ export default function MegaMenuItem({ category, products, active, onFocus, onCl
         </span>
         <span className="mega-menu__promo-body">
           <span className="mega-menu__promo-title">{category.name}</span>
-          <span className="mega-menu__promo-desc">{products.length} کالا</span>
+          <span className="mega-menu__promo-desc">{products.length.toLocaleString('fa-IR')} کالا</span>
         </span>
       </a>
     </li>

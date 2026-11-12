@@ -20,7 +20,7 @@ export default function SaleCountdown() {
   const format = new Intl.NumberFormat('fa-IR', { minimumIntegerDigits: 2 })
 
   return (
-    <div className="sale-countdown__time" dir="ltr" aria-label={`${minutes} دقیقه و ${remaining} ثانیه`}>
+    <div className="sale-countdown__time" dir="ltr" aria-label={`${format.format(minutes)} دقیقه و ${format.format(remaining)} ثانیه`}>
       <span className="sale-countdown__unit"><strong>{format.format(minutes)}</strong><small>دقیقه</small></span>
       <span className="sale-countdown__separator" aria-hidden="true">:</span>
       <span className="sale-countdown__unit"><strong>{format.format(remaining)}</strong><small>ثانیه</small></span>

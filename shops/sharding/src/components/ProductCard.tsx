@@ -50,7 +50,7 @@ export default function ProductCard({ card, onAdd, onRemove }: ProductCardProps)
             ) : (
               <div className="product__qty">
                 <button type="button" className="product__qty-btn" onClick={() => { setPulse(true); onRemove(card.id) }} aria-label={`کم کردن ${card.name}`}>−</button>
-                <span className="product__qty-val" aria-live="polite">{card.qty}</span>
+                <span className="product__qty-val" aria-live="polite">{card.qty.toLocaleString('fa-IR')}</span>
                 <button type="button" className="product__qty-btn" onClick={() => { setPulse(true); onAdd(card.id) }} aria-label={`افزودن ${card.name}`} disabled={card.qty >= card.stockQty}>+</button>
               </div>
             )}

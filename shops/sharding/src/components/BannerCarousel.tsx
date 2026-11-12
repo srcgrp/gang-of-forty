@@ -31,7 +31,7 @@ export default function BannerCarousel({ banners, loading }: BannerCarouselProps
         {banners.map((src, i) => (
           <li key={src} className="hero-carousel__slide">
             <a className="hero-banner" href="#offers">
-              <img src={src} alt={`بنر ${i + 1}`} width={800} height={500} decoding="async" loading="lazy" />
+              <img src={src} alt={`بنر ${(i + 1).toLocaleString('fa-IR')}`} width={800} height={500} decoding="async" loading="lazy" />
             </a>
           </li>
         ))}

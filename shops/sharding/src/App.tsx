@@ -40,7 +40,7 @@ export default function App() {
   useEffect(() => { saveCart(cart) }, [cart])
   useEffect(() => {
     const name = data.shop?.name ?? 'فروشگاه'
-    document.title = count > 0 ? `${name} · ${count} 🛒` : name
+    document.title = count > 0 ? `${name} · ${count.toLocaleString('fa-IR')} 🛒` : name
   }, [data.shop?.name, count])
 
   function changeCart(id: number, change: CartChange): void {
