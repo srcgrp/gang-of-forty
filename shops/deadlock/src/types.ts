@@ -60,8 +60,7 @@ export type LoadState =
   | { status: "loading" }
   | {
       status: "success";
-      pantryProducts: Product[];
-      offerProducts: Product[];
+      products: Product[];
       stock: Stock;
       offers: Offer[];
     }

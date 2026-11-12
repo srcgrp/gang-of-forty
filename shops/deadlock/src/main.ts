@@ -40,19 +40,9 @@ async function loadProducts(): Promise<void> {
     if (validProducts.length === 0) {
       render(container, offersContainer, { status: "empty" });
     } else {
-        const query = searchInput?.value.trim().toLocaleLowerCase() ?? "";
-        const pantryProducts = validProducts.filter(
-        (product) =>
-            product.categoryId === 4 &&
-            product.name.toLocaleLowerCase().includes(query),
-        );
-      const offerProducts = validProducts.filter((product) =>
-        validOffers.some((offer) => offer.productId === product.id),
-      );
       render(container, offersContainer, {
         status: "success",
-        pantryProducts,
-        offerProducts,
+        products: validProducts,
         stock,
         offers: validOffers,
       });
