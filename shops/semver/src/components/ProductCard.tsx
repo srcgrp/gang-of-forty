@@ -1,5 +1,7 @@
 import type { ProductView } from "../types";
-import { formatPrice } from "../ui/format";
+import { formatPrice } from "../utils/format";
+import confetti from "canvas-confetti";
+import { notyf } from "../utils/notify";
 
 type ProductCardProps = {
   item: ProductView;
@@ -49,7 +51,11 @@ export default function ProductCard({ item, onAdd }: ProductCardProps) {
               : `افزودن ${product.name} به سبد خرید`
           }
           disabled={isOutOfStock}
-          onClick={() => onAdd(product.id)}
+          onClick={() => {
+            onAdd(product.id);
+            notyf.success(`${product.name} با موفقیت به سبد خرید اضافه شد!`);
+            confetti({ particleCount: 50, spread: 60, origin: { y: 0.8 } });
+          }}
         >
           +
         </button>

@@ -30,3 +30,7 @@ export function totalPrice(
     return p ? sum + p.price * l.qty : sum;
   }, 0);
 }
+
+export function countCartItems(lines: readonly CartLine[]): number {
+  return lines.reduce((sum, line) => sum + line.qty, 0);
+}

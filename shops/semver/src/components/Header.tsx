@@ -1,7 +1,7 @@
 import CategoryNav from './CategoryNav';
 import CartPanel from './CartPanel';
 import type { CartLine, Category, Home, Product, Shop } from '../types';
-import { formatCount } from '../ui/format';
+import { formatCount } from '../utils/format';
 
 type HeaderProps = {
   cartCount: number;
@@ -56,7 +56,7 @@ export default function Header({
               alt="لوگوی فروشگاه مترون"
             />
             <section id="site-name">
-              <p id="title">{shop?.name ?? "سوپرمارکت ناردونه"}</p>
+              <p id="title">سوپرمارکت ناردونه</p>
               <p id="tagline">{shop?.slogan ?? "دقیـق مثـل مترونـوم"}</p>
             </section>
           </div>

@@ -1,5 +1,5 @@
 import type { CartLine, Product } from '../types';
-import { formatCount, formatPrice } from '../ui/format';
+import { formatCount, formatPrice } from '../utils/format';
 
 type CartPanelProps = {
   open: boolean;

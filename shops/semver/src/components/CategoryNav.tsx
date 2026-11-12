@@ -13,10 +13,6 @@ export default function CategoryNav({
   onPick,
   menu,
 }: CategoryNavProps) {
-  const activeCategory = categories.find(
-    (category) => category.id === activeCategoryId,
-  );
-
   return (
     <section id="header-categories">
       <ul id="btn-categories">
@@ -24,17 +20,14 @@ export default function CategoryNav({
           <details>
             <summary className="dropdown-toggle">
               <i className="ph ph-list"></i>{' '}
-              {activeCategory?.name ?? 'همه دسته ها'}
+              همه دسته ها
             </summary>
             <ul className="dropdown-menu" id="dropdown-menu">
               <li>
                 <a
                   href="#categories"
                   aria-current={activeCategoryId === null ? 'true' : undefined}
-                  onClick={(event) => {
-                    event.preventDefault();
-                    onPick(null);
-                  }}
+                  onClick={() => onPick(null)}
                 >
                   همه کالاها
                 </a>
@@ -46,10 +39,7 @@ export default function CategoryNav({
                     aria-current={
                       activeCategoryId === category.id ? 'true' : undefined
                     }
-                    onClick={(event) => {
-                      event.preventDefault();
-                      onPick(category.id);
-                    }}
+                    onClick={() => onPick(category.id)}
                   >
                     {category.emoji} {category.name}
                   </a>
