@@ -1,5 +1,7 @@
+import { useState } from 'react'
+import { addLine, cartCount, cartTotal, joinCart, removeLine } from './cart/cart.ts'
 import { priceOf } from './catalog/offers.ts'
-import type { Category, Offer, Product, StockMap } from './types.ts'
+import type { CartLine, Category, Offer, Product, StockMap } from './types.ts'
 import CartPanel from './components/CartPanel.tsx'
 import CategoryNav from './components/CategoryNav.tsx'
 import Footer from './components/Footer.tsx'
@@ -22,18 +24,28 @@ const SAMPLE_CATS: Category[] = [
 const SAMPLE_OFFERS: Offer[] = [{ productId: 2, percent: 20, label: 'تخفیف' }]
 const SAMPLE_STOCK: StockMap = { '3': 0 }
 
-function noop(): void {}
-
 export default function App() {
-  const items = SAMPLE.map((p) => priceOf(p, SAMPLE_OFFERS, SAMPLE_STOCK))
+  const [categoryId, setCategoryId] = useState<number | null>(null)
+  const [cart, setCart] = useState<CartLine[]>([])
+  const filtered = categoryId === null ? SAMPLE : SAMPLE.filter((p) => p.categoryId === categoryId)
+  const items = filtered.map((p) => priceOf(p, SAMPLE_OFFERS, SAMPLE_STOCK))
+  const lines = joinCart(cart, SAMPLE)
+  const total = cartTotal(cart, SAMPLE)
+  const count = cartCount(cart)
   return (
     <>
-      <Header cartCount={0} />
+      <Header cartCount={count} />
       <main id="main">
         <Hero />
-        <CategoryNav categories={SAMPLE_CATS} activeSlug={undefined} onPick={noop} />
-        <ProductGrid title="🔥 پیشنهاد ویژه امروز" items={items} onAdd={noop} />
-        <CartPanel lines={[]} total={0} count={0} onRemove={noop} onClear={noop} />
+        <CategoryNav categories={SAMPLE_CATS} activeId={categoryId} onPick={setCategoryId} />
+        <ProductGrid title="🔥 پیشنهاد ویژه امروز" items={items} onAdd={(id) => setCart(addLine(cart, id))} />
+        <CartPanel
+          lines={lines}
+          total={total}
+          count={count}
+          onRemove={(id) => setCart(removeLine(cart, id))}
+          onClear={() => setCart([])}
+        />
       </main>
       <Footer />
     </>

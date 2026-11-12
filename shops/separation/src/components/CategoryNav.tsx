@@ -2,16 +2,16 @@ import type { Category } from '../types.ts'
 
 export type CategoryNavProps = {
   categories: Category[]
-  activeSlug: string | undefined
-  onPick: (slug: string | undefined) => void
+  activeId: number | null
+  onPick: (id: number | null) => void
 }
 
-export default function CategoryNav({ categories, activeSlug, onPick }: CategoryNavProps) {
+export default function CategoryNav({ categories, activeId, onPick }: CategoryNavProps) {
   return (
     <section id="categories" className="section">
       <h2>دسته‌بندی‌ها</h2>
       <div className="cat-list">
-        <a href="#offers" className={activeSlug === undefined ? 'cat active' : 'cat'} onClick={() => onPick(undefined)}>
+        <a href="#offers" className={activeId === null ? 'cat active' : 'cat'} onClick={() => onPick(null)}>
           <span className="emoji">🧺</span>
           <span>همه</span>
         </a>
@@ -19,8 +19,8 @@ export default function CategoryNav({ categories, activeSlug, onPick }: Category
           <a
             key={c.id}
             href="#offers"
-            className={c.slug === activeSlug ? 'cat active' : 'cat'}
-            onClick={() => onPick(c.slug)}
+            className={c.id === activeId ? 'cat active' : 'cat'}
+            onClick={() => onPick(c.id)}
           >
             <span className="emoji">{c.emoji}</span>
             <span>{c.name}</span>
