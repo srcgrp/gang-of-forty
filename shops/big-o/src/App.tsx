@@ -70,7 +70,7 @@ export default function App() {
         onAdd={handleAdd}
         onRemove={handleRemove}
       />
-      <Footer />
+      <Footer categories={categories} onSelect={setCategoryId} />
     </>
     
   )

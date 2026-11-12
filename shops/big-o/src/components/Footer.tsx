@@ -1,4 +1,11 @@
-export default function Footer() {
+import type { Category } from "../types"
+
+type FooterProps = {
+  categories: Category[]
+  onSelect: (id: number) => void
+}
+
+export default function Footer({ categories, onSelect }: FooterProps) {
     return (
         <footer>
             <section className="address-section">
@@ -11,9 +18,14 @@ export default function Footer() {
             </section>
 
             <nav aria-labelledby="quick-links">
-            <h2 id="quick-links">دسته ها</h2>
-            <ul>
-            </ul>
+                <h2 id="quick-links">دسته ها</h2>
+                <ul>
+                    {categories.map((category) => 
+                        <li key={category.id} >
+                            <a href={`#${category.slug}`}  onClick={() => onSelect(category.id)}>{category.name}</a>
+                        </li>
+                    )}
+                </ul>
             </nav>
             <section className="guide">
             <h2>راهنما</h2>
