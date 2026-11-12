@@ -1,6 +1,10 @@
 import CartPanel from './CartPanel';
 
-export default function Header() {
+type HeaderProps = {
+    itemCount: number;
+};
+
+export default function Header({itemCount}: HeaderProps) {
     return (
         <header className='header' id='top'>
             <div id='top-bar'>
@@ -24,7 +28,7 @@ export default function Header() {
                     placeholder='جستجو'
                 />
 
-                <CartPanel itemCount={0} />
+                <CartPanel itemCount={itemCount} />
             </div>
 
             <nav className='main-nav' aria-label='منوی اصلی'>

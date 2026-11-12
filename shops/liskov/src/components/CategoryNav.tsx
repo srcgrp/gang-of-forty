@@ -2,9 +2,10 @@ import type {Category} from '../types';
 
 type CategoryNavProps = {
     categories: Category[];
+    onSelect: (id: number) => void;
 };
 
-export default function CategoryNav({categories}: CategoryNavProps) {
+export default function CategoryNav({categories, onSelect}: CategoryNavProps) {
     return (
         <section
             id='all-categories'
@@ -17,10 +18,11 @@ export default function CategoryNav({categories}: CategoryNavProps) {
 
             <div className='categories'>
                 {categories.map((category) => (
-                    <a
+                    <button
                         key={category.id}
-                        href={`#${category.slug}`}
+                        type='button'
                         className='categories-items'
+                        onClick={() => onSelect(category.id)}
                     >
                         <span
                             className='category-icon'
@@ -30,7 +32,7 @@ export default function CategoryNav({categories}: CategoryNavProps) {
                             {category.emoji}
                         </span>
                         {category.name}
-                    </a>
+                    </button>
                 ))}
             </div>
         </section>

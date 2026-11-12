@@ -1,3 +1,5 @@
+import {useState} from 'react';
+
 import CategoryNav from './components/CategoryNav';
 import Header from './components/Header';
 import ProductGrid from './components/ProductGrid';
@@ -52,20 +54,51 @@ const SAMPLE_CATEGORIES: Category[] = [
 ];
 
 export default function App() {
+    const [cart, setCart] = useState<Record<number, number>>({});
+    const [selectedCategory, setSelectedCategory] = useState<number | null>(
+        null,
+    );
+
+    const handleAdd = (id: number): void => {
+        setCart((previousCart) => ({
+            ...previousCart,
+            [id]: (previousCart[id] ?? 0) + 1,
+        }));
+    };
+
+    const handleCategorySelect = (id: number): void => {
+        setSelectedCategory(id);
+    };
+
+    const itemCount = Object.values(cart).reduce(
+        (total, quantity) => total + quantity,
+        0,
+    );
+
+    const visibleProducts =
+        selectedCategory === null
+            ? SAMPLE
+            : SAMPLE.filter(
+                  (product) => product.categoryId === selectedCategory,
+              );
+
     return (
         <>
             <a className='skip-link' href='#main'>
                 پرش به محتوای اصلی
             </a>
 
-            <Header />
+            <Header itemCount={itemCount} />
 
             <main id='main' tabIndex={-1}>
-                <CategoryNav categories={SAMPLE_CATEGORIES} />
+                <CategoryNav
+                    categories={SAMPLE_CATEGORIES}
+                    onSelect={handleCategorySelect}
+                />
 
                 <section className='page-section'>
                     <h2 className='titles'>محصولات</h2>
-                    <ProductGrid products={SAMPLE} />
+                    <ProductGrid products={visibleProducts} onAdd={handleAdd} />
                 </section>
             </main>
         </>
