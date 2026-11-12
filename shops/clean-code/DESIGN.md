@@ -55,7 +55,33 @@ Joins: `product.id` matches `stock.items` and `offer.productId`. `product.catego
 - empty: a search with no match hides those cards, and hides a row whose cards are all hidden. The cart section still shows its lines and total. If the server returns no products, `#status` says nothing was found.
 - error: `#status` stays visible and asks the customer to refresh. Rows stay empty. `broken.json` and `missing.json` use this same message. The page does not crash.
 
-## 6. Folders
+## 6. Component tree
+
+```
+App
+├── Header
+├── CategoryNav
+├── ProductGrid
+│   └── ProductCard × n
+└── CartPanel
+```
+
+## 7. Where state lives
+
+| State | Owner | Who changes it | Where stored |
+| --- | --- | --- | --- |
+| `load` | `App` | `useEffect` (`loadShop`) | React state |
+| `categoryId` | `App` | `CategoryNav` (`onPick`) | React state |
+| `cart` | `App` | add / clear cart handlers | `localStorage` via `storage/cart-storage.ts` |
+
+Derived (not state):
+
+- cart count — from `cart`; no need to store again
+- cart rows — from `cart` + products
+- cart total — from rows + offers
+- filtered products — from products + `categoryId`
+
+## 8. Folders
 
 ```
 src/
@@ -65,11 +91,12 @@ src/
   features/cart      cart rules: add, remove, count, rows, total
   features/products  product rules: offers on the card, card prices
   shared/            findOffer and finalPrice; both features may use this
-  ui/                ui layer       the page; boot.ts paints the shop after load
-  main.ts            main layer     wires the two features together
+  components/        React UI
+  App.tsx            state, effects, event handlers
+  main.tsx           createRoot → <App />
 ```
 
-## 7. Security
+## 9. Security
 
 Everything on the page and in the JavaScript bundle is public: prices, discounts, and the value of `VITE_API_URL`. `.env` holds no password or private key, because every `VITE_` variable is copied into the file the browser downloads. The cart in `localStorage` can also be edited on that device.
 

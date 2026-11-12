@@ -178,9 +178,8 @@ img {
   gap: 8px;
   min-width: 180px;
 
-  input {
-    flex: 1;
-    min-width: 0;
+  input,
+  select {
     min-height: 44px;
     border: 1px solid var(--border);
     border-radius: 8px;
@@ -188,6 +187,11 @@ img {
     font: inherit;
     background: #fff;
     color: inherit;
+  }
+
+  input {
+    flex: 1;
+    min-width: 0;
   }
 }
 
@@ -1069,6 +1073,7 @@ hr {
   .header,
   .product,
   .search input,
+  .search select,
   .cart,
   .menu-btn,
   .row-nav a,
