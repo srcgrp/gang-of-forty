@@ -28,10 +28,10 @@ export default function ProductGrid({
     <section className="tents" id={id}>
       <h2 className="titles">{title}</h2>
       {status !== "success" ? (
-        <>
+        <div className={status === "error" ? "load-error" : undefined} role={status === "error" ? "alert" : undefined}>
           <p className="carousel-message">{status === "loading" ? "در حال بارگذاری..." : message}</p>
-          {status === "error" && onRetry && <button type="button" onClick={onRetry}>تلاش دوباره</button>}
-        </>
+          {status === "error" && onRetry && <button className="retry-button" type="button" onClick={onRetry}>تلاش دوباره</button>}
+        </div>
       ) : products.length === 0 ? (
         <p className="carousel-message">محصولی برای نمایش نیست.</p>
       ) : (

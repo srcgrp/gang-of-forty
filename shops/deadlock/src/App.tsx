@@ -50,7 +50,7 @@ export default function App() {
     offers.some((offer) => offer.productId === product.id),
   );
   const message = loadState.status === "error"
-    ? `بارگذاری محصولات انجام نشد. ${loadState.message}`
+    ? "بارگذاری محصولات انجام نشد. لطفاً دوباره تلاش کنید."
     : "در حال حاضر محصولی برای نمایش نیست.";
   const cartCount = cart.reduce((count, line) => count + line.quantity, 0);
   const retry = () => { setLoadState({ status: "loading" }); setAttempt((value) => value + 1); };

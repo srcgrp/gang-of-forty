@@ -403,6 +403,44 @@ header {
     text-align: center;
     padding: 40px;
 }
+.load-error {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px 16px;
+    max-width: 720px;
+    margin: 12px auto 24px;
+    padding: 12px 20px;
+    border: 1px solid #b33a2b;
+    border-radius: 14px;
+    background-color: #fff8f5;
+    color: #8f2d22;
+    box-shadow: 0 4px 12px rgba(47, 58, 38, 0.08);
+}
+.load-error .carousel-message {
+    width: auto;
+    margin: 0;
+    padding: 8px 0;
+    color: inherit;
+    font-weight: 600;
+}
+.retry-button {
+    min-height: 42px;
+    padding: 8px 20px;
+    border: 0;
+    border-radius: 10px;
+    background-color: #4a5536;
+    color: #fff;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+}
+.retry-button:hover {
+    background-color: #2f3a26;
+    transform: translateY(-2px);
+}
 .product,
 .tent-article {
     scroll-snap-align: start;        /* ← هر کارت از اولش چفت بشه */
