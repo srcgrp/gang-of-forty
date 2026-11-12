@@ -4,10 +4,9 @@ import type { CartItem, LoadState} from "./types"
 import CartPanel from "./components/CartPanel"
 import { useEffect, useState } from "react";
 import { addToCart, decreaseItem } from "./cart/cartItems";
-import { getData } from "./api/getData";
 import ShopMain from "./components/ShopMain";
 import { loadCart, saveCart } from "./storage/cart";
-
+import { loadShopState } from "./api/loadState";
 
 export default function App() {
   const [cart,setCart] = useState <CartItem[]> (() => loadCart())
@@ -17,17 +16,7 @@ export default function App() {
 
   useEffect(() => {
     let ignore = false
-    getData().then((data) => { 
-      if (ignore) return
-      if (data.products.length === 0) {
-        setState({status: "empty"})
-      } else {
-        setState({status: "success" , ...data})
-      }
-    }).catch((error: unknown) => {
-      if (ignore) return
-      setState({status: "error", message : error instanceof Error ? error.message : "خطای ناشناخته"})
-    })
+    loadShopState().then((next) => { if (!ignore) setState(next) })
     return () => { ignore = true }
   }, [])
 
@@ -41,7 +30,7 @@ export default function App() {
 
   useEffect(() => {
     document.title = `${shopName} · ${count.toLocaleString("fa-IR")} 🛒`
-  }, [count])
+  }, [shopName, count])
 
   function handleAdd(id: number) {
     if (state.status !== "success") return 
@@ -74,7 +63,6 @@ export default function App() {
         onClose={() => setCartOpen(false)} 
       />
       <Footer categories={categories} onSelect={setCategoryId} />
-    </>
-    
+    </> 
   )
 }
