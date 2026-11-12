@@ -9,18 +9,23 @@ const CATEGORIES = [
 ];
 
 type CategoryNavProps = {
+  selectedId: number | null;
   onPick: (id: number | null) => void;
 };
 
-export default function CategoryNav({ onPick }: CategoryNavProps) {
+export default function CategoryNav({
+  selectedId,
+  onPick,
+}: CategoryNavProps) {
   return (
     <section className="category" id="categories">
       <h2 className="titels">دسته‌بندی‌ها</h2>
       <div className="carousel">
         <button
           type="button"
-          className="Categories"
+          className={`Categories ${selectedId === null ? "is-selected" : ""}`}
           onClick={() => onPick(null)}
+          aria-pressed={selectedId === null}
         >
           <span className="category-emoji" aria-hidden="true">🛒</span>
           <h3>همه محصولات</h3>
@@ -30,8 +35,9 @@ export default function CategoryNav({ onPick }: CategoryNavProps) {
           <button
             key={category.id}
             type="button"
-            className="Categories"
+            className={`Categories ${selectedId === category.id ? "is-selected" : ""}`}
             onClick={() => onPick(category.id)}
+            aria-pressed={selectedId === category.id}
           >
             <span className="category-emoji" aria-hidden="true">
               {category.emoji}

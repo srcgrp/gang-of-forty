@@ -7,6 +7,8 @@ export type Product = {
   price: number;
   tags: string[];
 };
+export type CartLine = { productId: number; quantity: number };
+
 export type Category = {
   id: number;
   slug: string;

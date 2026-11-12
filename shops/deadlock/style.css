@@ -202,6 +202,21 @@ header {
     background-color: rgba(211, 167, 74, 0.935);
     font-size: 15px;
 }
+.cart-panel {
+    max-width: 1000px;
+    margin: 24px auto;
+    padding: 20px;
+    border: 1px solid #c9c3af;
+    border-radius: 16px;
+    background: #fffdf7;
+}
+.cart-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+}
 .main-nav {
     display: flex;
     justify-content:space-evenly;
@@ -539,6 +554,10 @@ header {
     background: #4a553670;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
     transform: translateY(3px);
+}
+.Categories.is-selected {
+    outline: 3px solid #D6B44C;
+    outline-offset: 2px;
 }
 .category-emoji {
     font-size: 5rem;

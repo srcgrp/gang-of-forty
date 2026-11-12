@@ -2,7 +2,10 @@ import Header from "./components/Header";
 import CategoryNav from "./components/CategoryNav";
 import ProductGrid from "./components/ProductGrid";
 import CartPanel from "./components/CartPanel";
-import type { Product } from "./types";
+import type { CartLine, Product } from "./types";
+import { addToCart, cartTotal, removeFromCart } from "./features/cart/cartState";
+import { useState } from "react";
+
 
 const SAMPLE: Product[] = [
   {
@@ -34,21 +37,31 @@ const SAMPLE: Product[] = [
   },
 ];
 
-function handleAdd(id: number): void {
-  console.log("Selected product id:", id);
-}
-
-function handleCategoryPick(id: number | null): void {
-  console.log("Selected category id:", id);
-}
-
 export default function App() {
+  const [categoryId, setCategoryId] = useState<number | null>(null);
+  const [cart, setCart] = useState<CartLine[]>([]);
+  const visibleProducts =
+    categoryId === null
+      ? SAMPLE
+      : SAMPLE.filter((product) => product.categoryId === categoryId);
+  const cartCount = cart.reduce((count, line) => count + line.quantity, 0);
+
   return (
     <>
-      <Header />
-      <CategoryNav onPick={handleCategoryPick} />
-      <ProductGrid products={SAMPLE} onAdd={handleAdd} />
-      <CartPanel />
+      <Header cartCount={cartCount} />
+      <main id="main-content">
+        <CategoryNav selectedId={categoryId} onPick={setCategoryId} />
+        <ProductGrid
+          products={visibleProducts}
+          onAdd={(id) => setCart((current) => addToCart(current, id))}
+        />
+        <CartPanel
+          cart={cart}
+          products={SAMPLE}
+          total={cartTotal(cart, SAMPLE)}
+          onRemove={(id) => setCart((current) => removeFromCart(current, id))}
+        />
+      </main>
     </>
   );
 }
