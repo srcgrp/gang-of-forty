@@ -1,3 +1,4 @@
+import react from '@vitejs/plugin-react';
 import { defineConfig } from "vite";
 
 const api = {
@@ -8,6 +9,7 @@ const api = {
 };
 
 export default defineConfig({
+    plugins: [react()],
     base: "./",
     server: { proxy: api },
     preview: { proxy: api }

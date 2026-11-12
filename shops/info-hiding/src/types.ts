@@ -21,7 +21,7 @@ export type CartRow = Pick<Product, 'id' | 'name'> & {
     quantity: number; price: string; subtotal: string;
 };
 
-export type ProductCard = Product & {
+export type ProductCardData = Product & {
     priceText: string; oldPriceText: string; discountText: string;
     available: boolean;
 };
@@ -38,13 +38,4 @@ export type LoadState =
 
 export type Catalog = {
     products: Product[]; categories: Category[]; offers: Offer[]; stock: Stock;
-};
-
-export type Handlers = {
-    add: (id: number) => void;
-    remove: (id: number) => void;
-    search: (query: string) => void;
-    category: (value: string) => void;
-    sort: (value: string) => void;
-    retry: () => void;
 };

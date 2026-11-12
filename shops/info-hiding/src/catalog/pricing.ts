@@ -1,4 +1,4 @@
-import type { Product, Offer, Stock, ProductCard } from '../types';
+import type { Product, Offer, Stock, ProductCardData } from '../types';
 
 export const formatNumber = (value: number): string =>
     new Intl.NumberFormat('fa-IR').format(value);
@@ -10,7 +10,7 @@ export const finalPrice = (product: Pick<Product, 'price'>, offer?: Offer): numb
 
 export const inStock = (id: number, stock: Stock): boolean => (stock.items[id] ?? 0) > 0;
 
-export const toCard = (product: Product, offers: Offer[], stock: Stock): ProductCard => {
+export const toCard = (product: Product, offers: Offer[], stock: Stock): ProductCardData => {
     const offer = offers.find(item => item.productId === product.id);
     return {
         ...product,
