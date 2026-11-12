@@ -1,6 +1,10 @@
 import { formatNumber } from "../format";
-type Props = { cartCount: number };
-export default function Header({ cartCount }: Props) {  
+import SearchBox from "./SearchBox";
+type Props = { cartCount: number
+     query: string;
+  onQuery: (value: string) => void;
+ };
+export default function Header({ cartCount, query, onQuery }: Props) {  
      return (
 <>
   <input type="checkbox" id="menu-toggle" className="menu-toggle" aria-label="باز و بسته کردن منو"/>
@@ -27,11 +31,7 @@ export default function Header({ cartCount }: Props) {
                 <p className="brand-text">انتخاب های سارا برای شما</p>
             </div>
         </a>
-        <form className="search-form" action="#" method="get">
-            <input aria-label="جستجو" className="search-input" type="search" id="search" name="q"
-                placeholder="دنبال چی می‌گردی؟"/>
-            <button type="submit" className="visually-hidden">جستجو</button>
-        </form>
+      <SearchBox query={query} onQuery={onQuery} />
         <a className="user-account" href="#" aria-label="ورود به حساب کاربری">
             <svg aria-hidden="true" className="user-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

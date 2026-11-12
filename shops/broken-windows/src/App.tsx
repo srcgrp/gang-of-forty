@@ -10,13 +10,12 @@ import Storefront from "./components/StoreFront.tsx";
 import { loadCart, saveCart } from "./storage/cartStorage.ts";
 import { unitPrice } from "./cart/unitPrice.ts";
 import { formatNumber } from "./format.ts";
-
 const SHOP_NAME = "سارا مارکت";
 export default function App() {
   const [state, setState] = useState<LoadState>({ status: "loading" }); // starts as loading, so the effect never has to set "loading" itself
    const [categoryId, setCategoryId] = useState<number | null>(null); // selected category, null = no filter
    const [cart, setCart] = useState<CartLine[]>(()=>loadCart()); // cart lines, starts empty
-
+const [query, setQuery] = useState("");
 useEffect(() => { // runs once after the first render
   let ignore = false; // flag: becomes true when this run is cancelled
   loadShopData().then((result) => { // result is already a LoadState: success, empty or error
@@ -57,6 +56,8 @@ useEffect(() => {
       data={state}
       categoryId={categoryId}
       cart={cart}
+      query={query}
+  onQuery={setQuery}
       onPick={handlePick}
       onAdd={handleAdd}
       onRemove={handleRemove}
