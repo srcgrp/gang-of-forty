@@ -1,0 +1,272 @@
+[hidden] {
+    display: none !important;
+}
+
+main {
+    min-height: 55vh;
+}
+
+.shop-slogan {
+    color: #d1fae5;
+    font-size: .75rem;
+    display: block;
+}
+
+.brand {
+    gap: 10px;
+}
+
+.brand .logo {
+    max-width: 170px;
+}
+
+.site-header .brand {
+    flex-wrap: wrap;
+}
+
+.nav-toggle-btn {
+    color: var(--green-night);
+}
+
+.site-header .promo:has(p:empty),
+.nav-bar:has(.nav-links:empty) {
+    display: none;
+}
+
+.load-state {
+    padding: 32px 16px;
+    text-align: center;
+}
+
+.runtime-notice {
+    padding: 12px 16px;
+    margin-block: 12px;
+    border-radius: 12px;
+    background: #fff1d5;
+    color: #513400;
+}
+
+.loading-cards {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 24px;
+    overflow: hidden;
+}
+
+.loading-card {
+    min-height: 230px;
+    border-radius: 18px;
+    background: #e6ede8;
+    animation: pulse 1.2s ease-in-out infinite alternate;
+}
+
+.product-section,
+.cats {
+    padding-block: 22px;
+    scroll-margin-top: 0;
+}
+
+.product-section .section-head {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.product-section .wrapper-car-btn {
+    margin-inline-start: auto;
+}
+
+.product-section:target,
+.product-section.is-fragment-target {
+    background: var(--mint);
+    border-radius: 20px;
+}
+
+.target-marker {
+    display: none;
+    color: var(--green-deep);
+    font-size: .8rem;
+}
+
+.product-section:target .target-marker,
+.product-section.is-fragment-target .target-marker {
+    display: inline;
+}
+
+.catalog-section {
+    margin-block: 24px;
+}
+
+.catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.result-count {
+    padding-block: 12px;
+}
+
+.empty-message {
+    padding: 24px;
+    grid-column: 1 / -1;
+    color: var(--muted);
+    white-space: normal;
+}
+
+.btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 44px;
+    padding: 8px 16px;
+    border: 0;
+    border-radius: 10px;
+    background: var(--green);
+    color: #fff;
+    font: inherit;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: var(--green-deep);
+}
+
+.act-cart {
+    min-width: 44px;
+    min-height: 44px;
+}
+
+.car-btn {
+    width: 44px;
+    height: 44px;
+}
+
+.hero-promos {
+    width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding-block: 14px;
+}
+
+.hero-side {
+    min-height: 220px;
+    background-image: none;
+}
+
+.hero-side-content {
+    justify-content: center;
+}
+
+.swiper-pagination {
+    display: flex;
+    justify-content: center;
+    padding: 6px;
+}
+
+.swiper-pagination-bullet {
+    min-width: 12px;
+    min-height: 12px;
+    background: white;
+    opacity: .6;
+    border: 2px solid var(--green);
+}
+
+.swiper-pagination-bullet-active {
+    background: var(--orange);
+    opacity: 1;
+}
+
+.card-title {
+    font-size: .9rem;
+}
+
+.card-weight {
+    font-size: .8rem;
+}
+
+.card-foot {
+    padding: 10px;
+}
+
+.price strong {
+    font-size: .95rem;
+}
+
+.price del {
+    font-size: .8rem;
+}
+
+.card--out {
+    background: var(--field);
+}
+
+.card--out .chip-off {
+    display: inline-flex;
+}
+
+.card-media {
+    position: relative;
+}
+
+.chip-out {
+    inset-block-start: 65%;
+}
+
+.site-header .contact {
+    color: #d1fae5;
+}
+
+.sub-menu a {
+    color: white;
+}
+
+.nav-links>li>a {
+    color: white;
+}
+
+.nav-toggle {
+    top: 48px;
+    inset-inline-end: 16px;
+}
+
+@media (prefers-color-scheme: dark) {
+    .hero-side {
+        background: #e8f2e8;
+    }
+    .car-btn {
+        background: var(--field);
+        color: var(--ink);
+    }
+    .car-btn .icon {
+        color: var(--ink);
+    }
+    .runtime-notice {
+        color: #ffe5a8;
+        background: #493715;
+    }
+    .target-marker {
+        color: #b9f3cb;
+    }
+    .footer-contact,
+    .footer-about {
+        background: var(--surface);
+        color: var(--ink);
+    }
+    .footer-about-desc {
+        color: var(--muted);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .loading-card {
+        animation: none;
+    }
+}
+
+@keyframes pulse {
+    to {
+        opacity: .4;
+    }
+}
