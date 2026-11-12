@@ -5,7 +5,16 @@ import type { Category, Offer, CartLine, LoadState } from './types'
 import { assertNever } from './types'
 import { loadCategories, loadProducts, loadOffers } from './api/client'
 
-import { addToCart, removeFromCart, cartCount, cartTotal } from './cart/cart'
+import {
+  addToCart,
+  removeFromCart,
+  cartCount,
+  cartTotal,
+  cartRows,
+  type StoredCart
+} from './cart/cart'
+
+import { loadCart, saveCart } from './storage/storage'
 
 import Header from './components/Header'
 import Hero from './components/Hero'
@@ -26,8 +35,24 @@ export default function App() {
     loadState.status === 'success' ? loadState.products : []
 
   const [categoryId, setCategoryId] = useState<number | null>(null)
-  const [cart, setCart] = useState<CartLine[]>([])
 
+  // خواندن سبد خرید ذخیره‌شده هنگام شروع برنامه
+  const [cart, setCart] = useState<CartLine[]>(() =>
+    cartRows(loadCart())
+  )
+
+  // ذخیره سبد خرید هر بار که تغییر می‌کند
+  useEffect(() => {
+    const storedCart: StoredCart = {}
+
+    cart.forEach(({ productId, quantity }) => {
+      storedCart[productId] = quantity
+    })
+
+    saveCart(storedCart)
+  }, [cart])
+
+  // دریافت اطلاعات از API
   useEffect(() => {
     let ignore = false
 
@@ -90,6 +115,9 @@ export default function App() {
   // مقادیر محاسبه‌شده از State
   const itemCount = cartCount(cart)
   const total = cartTotal(cart, products, offers)
+  useEffect(() => {
+  document.title = `میوه فروشی من · ${itemCount} کالا`
+}, [cart])
 
   // نمایش وضعیت دریافت اطلاعات
   function renderContent() {
