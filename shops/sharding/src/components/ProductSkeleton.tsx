@@ -8,8 +8,8 @@ export default function ProductSkeleton() {
               <h2 className="product-shelf__title" id="skeleton-title">در حال بارگذاری…</h2>
             </div>
             <ul className="product-shelf__grid" id="skeleton-grid" aria-busy="true">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <li key={i} className="product-item">
+              {[1, 2, 3, 4, 5].map((slot) => (
+                <li key={slot} className="product-item">
                   <article className="product" data-skeleton>
                     <div className="product__link">
                       <span className="product__img"></span>

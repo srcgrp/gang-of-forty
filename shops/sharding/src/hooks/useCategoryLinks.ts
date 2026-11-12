@@ -17,10 +17,11 @@ export function useCategoryLinks(
       if (!category && hash !== 'offers') return
 
       event.preventDefault()
-      setFilters({ ...filters, category: category?.slug ?? '', query: '' }, 'push')
+      setFilters({ ...filters, category: category?.slug ?? '' }, 'push')
       if (hash === 'offers') writeUrlHash(hash, 'replace')
       requestAnimationFrame(() => {
-        if (hash) document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        const target = (hash && document.getElementById(hash)) || document.querySelector('.product-shelf')
+        target?.scrollIntoView({ behavior: 'smooth', block: 'start' })
       })
     }
 

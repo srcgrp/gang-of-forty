@@ -11,8 +11,8 @@ export default function CategoryItems({ categories, activeId, onPick, loading }:
   return (
     <>
     {loading ? (
-      [1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-        <li key={i}>
+      [1, 2, 3, 4, 5, 6, 7, 8].map((slot) => (
+        <li key={slot}>
           <span className="category" data-skeleton aria-hidden="true">
             <span className="category__img"></span>
             <span className="category__name"></span>

@@ -14,8 +14,8 @@ export default function BannerCarousel({ banners, loading }: BannerCarouselProps
     return (
       <div className="hero-carousel">
         <ul className="hero-carousel__track">
-          {[1, 2, 3, 4].map((i) => (
-            <li key={i} className="hero-carousel__slide" data-skeleton>
+          {[1, 2, 3, 4].map((slot) => (
+            <li key={slot} className="hero-carousel__slide" data-skeleton>
               <span className="hero-banner"></span>
             </li>
           ))}

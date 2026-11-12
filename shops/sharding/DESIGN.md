@@ -109,7 +109,7 @@ The cart and products features do not import each other. `App` and the component
 | Video ready, slow notice and card pulse | `Hero`, `SlowNotice` and each `ProductCard` | Video, timer and interaction events | React state only |
 | Countdown visibility and seconds | `SalePromotion` and `SaleCountdown` | Open/close button and interval | React state only |
 
-Cart count, cart rows and total, active category, visible shelves, search results and card prices are calculated from existing state and data during rendering. Category and search are applied together to the shelves and search dropdown. Following a category or offers link clears the search so the destination is visible. These calculated values are not separate persistent state. The sample countdown stops at zero or when closed and starts again from ten minutes when reopened; it does not represent a server-side sale deadline.
+Cart count, cart rows and total, active category, visible shelves, search results and card prices are calculated from existing state and data during rendering. Category and search are applied together to the shelves and search dropdown. Choosing a category or following an offers link keeps the current search; if there are no matches, the page shows the empty-results message. These calculated values are not separate persistent state. The sample countdown stops at zero or when closed and starts again from ten minutes when reopened; it does not represent a server-side sale deadline.
 
 ## 8. Security and deployment
 
