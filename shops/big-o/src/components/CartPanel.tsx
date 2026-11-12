@@ -1,43 +1,52 @@
 import type { CartItem } from "../types"
+import CartItemRow from "./CartItemRow"
 
 type CartPanelProps = {
-    items : CartItem[]
-    onAdd: (id: number) => void
-    onRemove: (id: number) => void
+  open: boolean
+  items: CartItem[]
+  onClose: () => void
+  onAdd: (id: number) => void
+  onRemove: (id: number) => void
 }
 
-export default function CartPanel({items, onAdd, onRemove} : CartPanelProps) {
-    return (
-        <section className="cart-panel" id="cart">
-            <h2>سبد خرید</h2>
-            
-            {items.length === 0 ? 
-                <p>سبد خرید شما خالی می باشد</p>
-                
-            :   <>
-                    <ul className="cart-list">
-                        {items.map((item) => 
-                            <li key={item.id} className="cart-item">
-                                <p className="cart-item-name">{item.name}</p>
-                                <p>تعداد‌ : {item.qty.toLocaleString("fa-IR")} عدد</p>
-                                <p>قیمت واحد : {item.price.toLocaleString("fa-IR")} تومان</p>
-                                <button type="button" onClick={() => onAdd(item.id)}>
-                                    <span aria-hidden="true">+</span>
-                                    <span className="visually-hidden">افزودن به تعداد محصول</span>
-                                </button>
-                                <button type="button" onClick={() => onRemove(item.id)}>
-                                    <span aria-hidden="true">-</span>
-                                    <span className="visually-hidden">کم کردن تعداد محصول</span>
-                                </button>
-                                <p className="cart-item-total">مجموع :‌ {(item.qty * item.price).toLocaleString("fa-IR")} تومان</p>
-                            </li>
-                        )}
-                    </ul>
-                    <p className="cart-total">جمع کل‌ :‌ {items.reduce((sum, item) => sum + (item.qty * item.price) , 0).toLocaleString("fa-IR")} تومان</p>
-                
-                </>  
-            }   
-            
-        </section>
-    )
+export default function CartPanel({ open, items, onClose, onAdd, onRemove }: CartPanelProps) {
+  if (!open) return null
+
+  const total = items.reduce((sum, item) => sum + item.qty * item.price, 0)
+
+  return (
+    <>
+      <div className="cart-backdrop" onClick={onClose} />
+      <aside
+        className="cart-panel"
+        role="dialog"
+        aria-labelledby="cart-title"
+        onKeyDown={(event) => {
+          if (event.key === "Escape") onClose()
+        }}
+      >
+        <div className="cart-panel-body">
+          <div className="cart-panel-header">
+            <h2 id="cart-title">سبد خرید</h2>
+            <button type="button" autoFocus onClick={onClose}>
+              <span aria-hidden="true">×</span>
+              <span className="visually-hidden">بستن سبد خرید</span>
+            </button>
+          </div>
+          {items.length === 0 ? (
+            <p>سبد خرید شما خالی می باشد</p>
+          ) : (
+            <>
+              <ul className="cart-list">
+                {items.map((item) => (
+                  <CartItemRow key={item.id} item={item} onAdd={onAdd} onRemove={onRemove} />
+                ))}
+              </ul>
+              <p className="cart-total">جمع کل : {total.toLocaleString("fa-IR")} تومان</p>
+            </>
+          )}
+        </div>
+      </aside>
+    </>
+  )
 }

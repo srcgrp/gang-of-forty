@@ -13,6 +13,7 @@ export default function App() {
   const [cart,setCart] = useState <CartItem[]> (() => loadCart())
   const [state, setState] = useState <LoadState> ({status: 'loading'})
   const [categoryId, setCategoryId] = useState<number | null>(null)
+  const [cartOpen, setCartOpen] = useState(false)
 
   useEffect(() => {
     let ignore = false
@@ -56,7 +57,7 @@ export default function App() {
   return (
     <>
       <a href="#main-content" className="skip-link">پرش به محتوای اصلی</a>
-      <Header count={count} categories={categories} onSelect={setCategoryId} />
+      <Header count={count} categories={categories} onSelect={setCategoryId} onCartClick={() => setCartOpen(true)}/>
       <main id="main-content">
         <ShopMain
           state={state}
@@ -69,6 +70,8 @@ export default function App() {
         items={cart}
         onAdd={handleAdd}
         onRemove={handleRemove}
+        open={cartOpen}
+        onClose={() => setCartOpen(false)} 
       />
       <Footer categories={categories} onSelect={setCategoryId} />
     </>

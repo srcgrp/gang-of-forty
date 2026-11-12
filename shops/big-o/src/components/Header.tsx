@@ -7,8 +7,9 @@ type HeaderProps = {
     count: number
     categories: Category[]
     onSelect: (id: number) => void
+    onCartClick: () => void
 }
-export default function Header({ count, categories, onSelect }: HeaderProps) {
+export default function Header({ count, categories, onSelect, onCartClick }: HeaderProps) {
     return (
         <header>
             <Announcement />
@@ -41,7 +42,7 @@ export default function Header({ count, categories, onSelect }: HeaderProps) {
                 <button type="submit" className="visually-hidden">جستجو</button>
             </form>
 
-            <a className="cart" href="#cart">
+            <a className="cart" href="#cart" onClick={(event) => { event.preventDefault(); onCartClick() }}>
                 <span className="visually-hidden">سبد خرید</span>
                 <img src={cartIcon} alt=""/>
                 <span className="product-counter">{count.toLocaleString("fa-IR")}</span>
