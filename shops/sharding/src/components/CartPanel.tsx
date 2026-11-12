@@ -23,6 +23,7 @@ export default function CartPanel({ open, cart, products, offerMap, onClose, onR
       if (e.key === 'Escape') onClose()
     }
     function onClick(e: MouseEvent) {
+      if (e.target instanceof Element && e.target.closest('[aria-controls="cart-panel"]')) return
       if (e.target instanceof Node && panelRef.current && !panelRef.current.contains(e.target)) onClose()
     }
     document.addEventListener('keydown', onKey)

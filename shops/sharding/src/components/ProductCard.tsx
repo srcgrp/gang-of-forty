@@ -5,17 +5,16 @@ import OfferBadge from './OfferBadge'
 
 type ProductCardProps = {
   card: Card
-  id?: string
   onAdd: (id: number) => void
   onRemove: (id: number) => void
 }
 
-export default function ProductCard({ card, id, onAdd, onRemove }: ProductCardProps) {
+export default function ProductCard({ card, onAdd, onRemove }: ProductCardProps) {
   const [pulse, setPulse] = useState(false)
 
 
   return (
-    <li className="product-item" id={id} data-product-id={card.id}>
+    <li className="product-item" data-product-id={card.id}>
       <article className={`product ${pulse ? 'product--cart-pulse' : ''}`} data-stock={card.inStock ? 'in' : 'out'} onAnimationEnd={() => setPulse(false)}>
         <div className="product__link">
           <span className={`product__img ${!card.image ? 'product__img--emoji' : ''}`}>

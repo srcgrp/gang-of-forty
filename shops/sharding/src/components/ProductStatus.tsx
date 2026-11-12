@@ -1,5 +1,5 @@
 type ProductStatusProps = {
-  variant: 'loading' | 'empty' | 'error'
+  variant: 'empty' | 'error'
   title: string
   text: string
   onRetry?: () => void

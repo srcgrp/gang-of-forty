@@ -29,15 +29,15 @@ export default function App() {
       const next = { ...result, categories: withCategoryImages(result.categories) }
       setData(next)
       setCart((current) => pruneCart({ ...next, cart: current }))
-    }).catch(() => {
+    }).catch((error: unknown) => {
       if (ignore) return
-      setData((current) => ({ ...current, res: shopLoadError }))
+      const res = shopLoadError(error)
+      setData((current) => ({ ...current, res }))
     })
     return () => { ignore = true }
   }, [attempt])
 
   useEffect(() => { saveCart(cart) }, [cart])
-
   useEffect(() => {
     const name = data.shop?.name ?? 'فروشگاه'
     document.title = count > 0 ? `${name} · ${count} 🛒` : name

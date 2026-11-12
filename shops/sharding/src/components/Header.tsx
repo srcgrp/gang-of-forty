@@ -47,7 +47,7 @@ export default function Header({
           />
 
           <div className="header__actions">
-            <button type="button" className="action action--cart" onClick={() => setCartOpen(true)} aria-label="سبد خرید" aria-expanded={cartOpen} aria-controls="cart-panel">
+            <button type="button" className="action action--cart" onClick={() => setCartOpen(!cartOpen)} aria-label="سبد خرید" aria-expanded={cartOpen} aria-controls="cart-panel">
               <svg className="action__icon" aria-hidden="true"><use href="./icons.svg#cart" /></svg>
               <span className="action__label">سبد خرید</span>
               {cartCount > 0 && <span className="badge">{cartCount}</span>}

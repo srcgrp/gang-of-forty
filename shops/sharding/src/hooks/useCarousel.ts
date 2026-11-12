@@ -5,18 +5,17 @@ export function useCarousel(itemCount = 0) {
   const [isAtStart, setIsAtStart] = useState(true)
   const [isAtEnd, setIsAtEnd] = useState(false)
 
-  function updateState(): void {
-    const el = trackRef.current
-    if (!el) return
-    const maxScroll = el.scrollWidth - el.clientWidth
-    const pos = Math.abs(el.scrollLeft)
-    setIsAtStart(pos <= 2)
-    setIsAtEnd(pos >= maxScroll - 2)
-  }
-
   useEffect(() => {
     const el = trackRef.current
     if (!el) return
+
+    function updateState(): void {
+      if (!el) return
+      const maxScroll = el.scrollWidth - el.clientWidth
+      const pos = Math.abs(el.scrollLeft)
+      setIsAtStart(pos <= 2)
+      setIsAtEnd(pos >= maxScroll - 2)
+    }
 
     updateState()
 

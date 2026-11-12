@@ -53,7 +53,6 @@ export type CartRow = {
   lineTotal: number; image?: string; emoji: string;
 };
 
-export type CartView = { count: number; rows: CartRow[]; total: number };
 export type ShelfView = { shelf: Shelf; cards: Card[] };
 
 export const FILTER_FIELDS = ['category', 'query'] as const;

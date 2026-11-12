@@ -83,10 +83,6 @@ input:focus-visible, textarea:focus-visible { outline: none; }
   to { opacity: 1; visibility: visible; }
 }
 
-@keyframes slow-notice-in {
-  to { opacity: 1; visibility: visible; }
-}
-
 .product-shelf, .footer, .categories {
   content-visibility: auto;
   contain-intrinsic-size: auto 400px;
@@ -110,6 +106,3 @@ input:focus-visible, textarea:focus-visible { outline: none; }
   background: var(--scrollbar-thumb); border-radius: 3px;
 }
 
-/* Stop shimmer on error */
-body[data-state="error"] .skeleton { animation: none; }
-body[data-state="error"] .category[data-skeleton] .category__img { animation: none; }

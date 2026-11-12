@@ -8,10 +8,6 @@ export function readUrlFilters(): UrlFilters {
   };
 }
 
-export function readUrlHash(): string {
-  return location.hash;
-}
-
 export function writeUrlHash(id: string, mode: 'push' | 'replace' = 'push'): void {
   const url = new URL(location.href);
   url.hash = id;
@@ -42,7 +38,7 @@ export function writeUrlFilters(
     url.searchParams.delete('q');
   }
 
-  url.hash = category;
+  if (mode === 'push' || category !== readUrlFilters().category) url.hash = category;
 
   const href = `${url.pathname}${url.search}${url.hash}`;
   const state = { category, query };

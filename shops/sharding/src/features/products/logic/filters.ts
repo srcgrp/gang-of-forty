@@ -1,4 +1,4 @@
-import type { Product, Offer, Shelf, Category } from '../../../shared/types';
+import type { Product, Offer, Shelf } from '../../../shared/types';
 import Fuse from 'fuse.js';
 
 export function searchProducts(products: Product[], query: string): Product[] {
@@ -6,16 +6,6 @@ export function searchProducts(products: Product[], query: string): Product[] {
   if (!text) return products;
   const search = new Fuse(products, { keys: ['name', 'tags'], threshold: 0.4, ignoreLocation: true });
   return search.search(text).map((result) => result.item);
-}
-
-export function visibleProducts(
-  products: Product[],
-  catSlug: string,
-  categories: Category[],
-): Product[] {
-  if (!catSlug) return products;
-  const cat = categories.find((c) => c.slug === catSlug);
-  return cat ? products.filter((p) => p.categoryId === cat.id) : products;
 }
 
 export function shelfProducts(cfg: Shelf, products: Product[], offers: Map<number, Offer>): Product[] {

@@ -1,4 +1,4 @@
-const priceFmt = new Intl.NumberFormat('fa-IR')
+import { formatPrice } from '../shared/logic/pricing'
 
 type PriceProps = {
   value: number
@@ -8,10 +8,10 @@ type PriceProps = {
 export default function Price({ value, oldValue }: PriceProps) {
   return (
     <span className="product__price">
-      <span className="product__current">{priceFmt.format(value)}</span>
+      <span className="product__current">{formatPrice(value)}</span>
       <span className="product__unit">تومان</span>
       {oldValue !== undefined && (
-        <span className="product__old">{priceFmt.format(oldValue)}</span>
+        <span className="product__old">{formatPrice(oldValue)}</span>
       )}
     </span>
   )

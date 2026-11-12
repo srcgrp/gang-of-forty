@@ -1,6 +1,5 @@
-import type { AppState, Cart, Product, Offer, CartRow, CartView } from '../../shared/types';
+import type { AppState, Cart, Product, Offer, CartRow } from '../../shared/types';
 import { finalPrice } from '../../shared/logic/pricing';
-import { cartCount } from './logic/cart';
 import { stockOf } from '../../shared/logic/stock';
 
 export function cartRows(cart: Cart, products: Product[], offers: Map<number, Offer>): CartRow[] {
@@ -23,12 +22,6 @@ export function cartRows(cart: Cart, products: Product[], offers: Map<number, Of
 
 export function cartTotal(rows: CartRow[]): number {
   return rows.reduce((sum, row) => sum + row.lineTotal, 0);
-}
-
-export function buildCartView(state: AppState): CartView {
-  const rows = cartRows(state.cart, state.products, state.offerMap);
-  const total = cartTotal(rows);
-  return { count: cartCount(state.cart), rows, total };
 }
 
 export function pruneCart(state: AppState): Cart {
