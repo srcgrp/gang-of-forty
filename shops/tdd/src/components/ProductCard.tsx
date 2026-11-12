@@ -19,7 +19,7 @@ export default function ProductCard({ product, onAdd, offerPercent, stock }: Pro
             <h3>{product.name}</h3>
             <p className="product-amount">{product.unit}</p>
             {stock !== undefined && <p className="product-stock">موجودی: {stock}</p>}
-            <Price value={product.price} />
+            <Price value={product.price} {...(offerPercent !== undefined && { offerPercent })} />
             <button
                 className="add-button"
                 type="button"
