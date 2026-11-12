@@ -1,4 +1,4 @@
-import type { CartLine } from "../../types"; // import only the type
+import type { CartLine } from "../types"; // import only the type
 
 // Total price of the cart (price * qty for every line)
 export function cartTotal(cart: CartLine[]): number {

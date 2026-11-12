@@ -1,4 +1,4 @@
-import type { CartLine, Product } from "../../types"; // import only the types (verbatimModuleSyntax needs "import type")
+import type { CartLine, Product } from "../types"; // import only the types (verbatimModuleSyntax needs "import type")
 
 // Adds one unit of a product to the cart and returns a NEW array
 export function addToCart(

@@ -1,4 +1,4 @@
-import type { CartLine } from "../../types"; // import only the type
+import type { CartLine } from "../types"; // import only the type
 
 // Removes the whole line of a product from the cart
 export function removeFromCart(cart: CartLine[], id: number): CartLine[] {
