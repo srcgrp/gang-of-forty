@@ -1,25 +1,16 @@
-import type { ProductView } from "../types";
-import ProductCard from "./ProductCard";
-import { formatNumber } from "./format";
+import type { ProductView } from '../types'
+import ProductCard from './ProductCard'
+import { formatNumber } from './format'
 
-type ProductGridProps = {
-  products: ProductView[];
-  onAdd: (id: number) => void;
-};
+type ProductGridProps = { products: ProductView[]; onAdd: (id: number) => void }
 
 export default function ProductGrid({ products, onAdd }: ProductGridProps) {
   return (
-    <section className="catalog-section container" id="catalog">
+    <section className="catalog-section" id="catalog" aria-labelledby="catalog-title">
       <div className="section-head">
-        <h2 className="section-title" id="catalog-title">
-          کالاهای فروشگاه
-        </h2>
+        <h2 className="section-title" id="catalog-title">کالاهای فروشگاه</h2>
       </div>
-
-      <p className="result-count" role="status">
-        {`${formatNumber(products.length)} کالا`}
-      </p>
-
+      <p className="result-count" role="status">{`${formatNumber(products.length)} کالا`}</p>
       <ul className="catalog-grid">
         {products.length === 0 ? (
           <li className="empty-message">کالایی با این مشخصات پیدا نشد.</li>
@@ -36,5 +27,5 @@ export default function ProductGrid({ products, onAdd }: ProductGridProps) {
         )}
       </ul>
     </section>
-  );
+  )
 }

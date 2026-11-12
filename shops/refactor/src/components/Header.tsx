@@ -24,9 +24,9 @@ export default function Header({ shop, categories, cartCount, productCount }: He
           <span id="shop-slogan" className="shop-slogan">{shop.slogan}</span>
         </a>
         <div className="header-actions">
-          <span className="icon-btn" id="cart-count" role="img" aria-label={`سبد خرید، ${count} کالا`}>
+          <a className="icon-btn" id="cart-count" href="#cart" aria-label={`سبد خرید، ${count} کالا`}>
             <Icon name="cart" /><span className="badge cart-badge" aria-hidden="true">{count}</span>
-          </span>
+          </a>
           <label htmlFor="nav-toggle" className="nav-toggle-btn">
             <span className="sr-only">منو</span>
             <Icon name="menu" className="icon-open" /><Icon name="close" className="icon-close" />

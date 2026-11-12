@@ -277,6 +277,14 @@
         transform: translateY(-50%) rotate(22deg);
         pointer-events: none;
     }
+    .shop-layout {
+        grid-template-columns: minmax(0, 1fr) 320px;
+    }
+    .cart-panel {
+        position: sticky;
+        top: 180px;
+        scroll-margin-top: 180px;
+    }
 }
 
 @media (min-width: 1200px) {
@@ -546,6 +554,10 @@
         width: 14px;
         height: 14px;
     }
+    .catalog-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
 }
 
 @media (max-width: 360px) {
@@ -711,4 +723,8 @@
     .footer-about-desc {
         color: var(--muted);
     }
+}
+
+.footer-about-desc {
+    color: var(--muted);
 }

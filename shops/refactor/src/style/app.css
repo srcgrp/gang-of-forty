@@ -294,6 +294,37 @@ main {
     font-size: 1.05rem;
 }
 
+.icon-btn {
+    text-decoration: none;
+}
+
+.shop-layout {
+    display: grid;
+    gap: 24px;
+    align-items: start;
+    margin-block: 24px;
+}
+
+.shop-layout .catalog-section,
+.shop-layout .cart-panel {
+    margin-block: 0;
+}
+
+.cart-panel {
+    background: var(--surface);
+    scroll-margin-top: 145px;
+}
+
+.cart-row {
+    flex-wrap: wrap;
+    gap: 6px 10px;
+    background: var(--bg);
+}
+
+.cart-row-name {
+    flex: 1 1 140px;
+}
+
 @media (prefers-reduced-motion: reduce) {
     .loading-card {
         animation: none;

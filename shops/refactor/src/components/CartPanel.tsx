@@ -9,7 +9,7 @@ type CartPanelProps = {
 
 export default function CartPanel({ lines, total, onRemove }: CartPanelProps) {
   return (
-    <section className="cart-panel container" id="cart" aria-labelledby="cart-title">
+    <section className="cart-panel" id="cart" aria-labelledby="cart-title">
       <h2 className="section-title" id="cart-title">سبد خرید</h2>
       {lines.length === 0 ? (
         <p className="empty-message">سبد خرید خالی است.</p>
