@@ -1,17 +1,19 @@
-export default function Hero() {
-  return (
-    <>
-      <section
-        className="posters"
-        id="posters"
-        aria-label="پیشنهادهای ویژه"
-      />
+type HeroProps = {
+  id?: string
+}
 
-      <section
-        className="posters"
-        id="posters-2"
-        aria-label="پیشنهادهای ویژه بیشتر"
-      />
-    </>
+export default function Hero({ id = 'posters' }: HeroProps) {
+  const isSecondPoster = id === 'posters-2'
+
+  return (
+    <section
+      className="posters"
+      id={id}
+      aria-label={
+        isSecondPoster
+          ? 'پیشنهادهای ویژه بیشتر'
+          : 'پیشنهادهای ویژه'
+      }
+    />
   )
 }
