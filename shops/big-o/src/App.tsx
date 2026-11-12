@@ -35,8 +35,12 @@ export default function App() {
   }, [cart])
 
   const categories = state.status === "success" ? state.categories : []
-
+  const shopName = state.status === "success" ? state.shop.name : "سوپر مارکت نمونه"
   const count = cart.reduce((sum, item) => sum + item.qty, 0)
+
+  useEffect(() => {
+    document.title = `${shopName} · ${count.toLocaleString("fa-IR")} 🛒`
+  }, [count])
 
   function handleAdd(id: number) {
     if (state.status !== "success") return 
