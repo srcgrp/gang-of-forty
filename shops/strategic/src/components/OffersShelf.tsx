@@ -1,13 +1,27 @@
+import { useState } from 'react';
 import useShelfScroll from './useShelfScroll';
+import SaleCountdown from './SaleCountdown';
 import type { CartControls } from '../cart-controls';
 import type { ProductItem } from '../types';
 import ProductGrid from './ProductGrid';
 
 export default function OffersShelf({ id, title, items, controls }: { id: string; title: string; items: ProductItem[]; controls: CartControls }) {
   const { ref, edges, move } = useShelfScroll<HTMLDivElement>();
+  const [countdownVisible, setCountdownVisible] = useState(false);
   return (
     <section className="shelf offers" id={id} aria-labelledby={`${id}-t`}>
       <div className="offers__box">
+        <div className="offers__toolbar">
+          {countdownVisible && <SaleCountdown />}
+          <button
+            className="offers__timer-toggle"
+            type="button"
+            aria-expanded={countdownVisible}
+            onClick={() => setCountdownVisible(visible => !visible)}
+          >
+            {countdownVisible ? 'بستن شمارشگر' : 'نمایش شمارشگر حراج'}
+          </button>
+        </div>
         <div className="offers__scroller" ref={ref}>
           <div className="offers__intro">
             <h2 className="offers__title" id={`${id}-t`}>

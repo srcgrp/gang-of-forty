@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 import type { CategoryListProps } from './CategoryLink';
 import Brand from './Brand';
 import MainNav from './MainNav';
-import SearchForm from './SearchForm';
+import SearchBox from './SearchBox';
 
 type HeaderProps = CategoryListProps & {
   productCount: number;
@@ -30,7 +30,7 @@ export default function Header({ categories, categoryId, onPick, productCount, q
       <header className="site-header">
         <div className="bar">
           <Brand />
-          <SearchForm productCount={productCount} query={query} onSearch={onSearch} />
+          <SearchBox productCount={productCount} query={query} onSearch={onSearch} />
           <CartMenu count={cartCount} mode={cartOpen} onMode={onCartMode}>{cartPanel}</CartMenu>
           <MainNav menu={shop.menu} onHome={onHome} categories={categories} categoryId={categoryId} onPick={onPick} />
         </div>

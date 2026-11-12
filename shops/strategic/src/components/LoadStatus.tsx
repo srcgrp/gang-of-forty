@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import type { LoadState } from '../types';
 import LoadingSkeleton from './LoadingSkeleton';
 
-export default function LoadStatus({ state, children }: { state: LoadState; children: ReactNode }) {
+export default function LoadStatus({ state, children, onRetry }: { state: LoadState; children: ReactNode; onRetry: () => void }) {
   switch (state.status) {
     case 'loading':
       return <LoadingSkeleton />;
@@ -27,6 +27,9 @@ export default function LoadStatus({ state, children }: { state: LoadState; chil
               {state.failure.status ? ` · ${state.failure.status.toLocaleString('fa-IR')}` : null}
             </p>
           )}
+          <button className="btn" type="button" onClick={onRetry}>
+            تلاش دوباره
+          </button>
         </section>
       );
     default: {

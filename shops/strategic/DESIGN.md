@@ -18,7 +18,7 @@ App
     ├── IconSprite → SpriteShop, SpriteUi, SpriteContact
     ├── Header
     │   ├── Brand → Logo → LogoFrame, LogoBody
-    │   ├── SearchForm
+    │   ├── SearchBox
     │   ├── CartMenu → CartPanel → QuantityControl, Amount
     │   └── MainNav → CategoryNav → CategoryLink
     ├── LoadStatus
@@ -29,7 +29,7 @@ App
     │   └── Home (success, home route)
     │       ├── Hero
     │       ├── CategoryNav → CategoryLink
-    │       ├── OffersShelf → ProductGrid → ProductCard × n → QuantityControl
+    │       ├── OffersShelf → (optional SaleCountdown), ProductGrid → ProductCard × n → QuantityControl
     │       ├── Promos
     │       └── CategoryShelf × n → ProductGrid → ProductCard × n → QuantityControl
     └── Footer → FooterAbout, CategoryLink
@@ -41,14 +41,17 @@ App
 
 | State | Owner | Who changes it | Where it is stored |
 |---|---|---|---|
-| `load` | App | The loading effect sets success, empty or error after the request settles. Cleanup ignores an obsolete response. | React memory, initially loading |
+| `load` | App | The loading effect sets success, empty or error after the request settles. Retry sets it to loading before incrementing `attempt`. Cleanup ignores an obsolete response. | React memory, initially loading |
+| `attempt` | App | The Retry button increments it; the API-loading effect depends on it and runs again. | React memory, initially `0` |
 | `model` | App | The same effect calls `buildModel` on the validated API data. | React memory, initially `emptyModel` |
 | `categoryId` | App | `applyRoute` resolves the selected category after loading, navigation or browser Back/Forward. | React memory. The URL stores the slug. |
-| `query` | App | Submitting SearchForm updates the URL. App reads the submitted query on navigation and history changes. | React memory and the URL. Unsubmitted text stays in the input. |
+| `query` | App | SearchBox updates it on every input change; App also writes the query to the URL. Browser Back/Forward restores it through `applyRoute`. | React memory and the URL |
 | `missing` | App | `applyRoute` checks whether the catalog slug exists in the loaded model. | React memory, reconstructed from the URL and model |
 | `cart` | App | Add/remove callbacks call `changeCart`. After loading, `reconcileCart` applies current stock limits. | React memory and localStorage under `armin-market:cart`. The initializer reads it and a cart effect saves changes. |
 | `open` | App | CartMenu requests closed, hover or pinned mode. Navigation closes the panel. | React memory |
 | `edges` | Each OffersShelf or CategoryShelf via `useShelfScroll` | The hook measures the scroll position and available width on resize and scroll. | Local React memory for that shelf |
+| `countdownVisible` | OffersShelf | The toggle button mounts or unmounts SaleCountdown. | Local React memory for the offers shelf |
+| `secondsLeft` | SaleCountdown | Its interval decreases the remaining seconds; cleanup clears the interval on unmount. | Local React memory; a newly mounted countdown starts at five minutes |
 
 
 ### Values calculated from state
@@ -84,7 +87,9 @@ Prices round once to the nearest whole toman after applying the discount. They a
 
 ## States and recovery
 
-LoadStatus switches on the load state. It renders a skeleton while loading, the selected view on success, a no-products message for an empty catalog, and a readable message on failure. An unknown category and a valid category with no matches each have their own view. Refreshing starts a new request.
+LoadStatus switches on the load state. It renders a skeleton while loading, the selected view on success, a no-products message for an empty catalog, and a readable message with a Retry button on failure. Retry increments `attempt`, which reruns the API-loading effect. An unknown category and a valid category with no matches each have their own view. Refreshing also starts a new request. In development, StrictMode can start two requests; the effect cleanup ignores the obsolete response.
+
+Search results are derived during rendering from the model, category and query; no second products State is maintained. The optional sale countdown is a local demonstration timer rather than an API-provided sale deadline. Hiding it unmounts the component and clears its interval; showing it again starts a fresh five-minute countdown. Development-only `console.debug` ticks make it possible to verify that logging stops after the component is hidden; production builds do not emit these timer logs.
 
 ## Folders and boundaries
 

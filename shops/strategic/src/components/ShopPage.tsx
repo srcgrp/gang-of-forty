@@ -15,11 +15,11 @@ import LoadStatus from './LoadStatus';
 
 type ShopPageProps = {
   load: LoadState; model: ShopModel; categoryId: number | null; query: string; open: CartMode; missing: boolean; controls: CartControls;
-  onPick: (id: number) => void; onSearch: (text: string) => void; onCartMode: (mode: CartMode) => void;
+  onPick: (id: number) => void; onSearch: (text: string) => void; onRetry: () => void; onCartMode: (mode: CartMode) => void;
   onMainClick: (event: MouseEvent<HTMLElement>) => void;
 };
 
-export default function ShopPage({ load, model, categoryId, query, open, missing, controls, onPick, onSearch, onCartMode, onMainClick }: ShopPageProps) {
+export default function ShopPage({ load, model, categoryId, query, open, missing, controls, onPick, onSearch, onRetry, onCartMode, onMainClick }: ShopPageProps) {
   useEffect(() => {
     if (load.status === 'success' && location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView();
   }, [load.status]);
@@ -34,7 +34,7 @@ export default function ShopPage({ load, model, categoryId, query, open, missing
         cartCount={view.count} cartOpen={open} onCartMode={onCartMode}
         cartPanel={<CartPanel view={view} controls={controls} />} />
       <main onClick={onMainClick} id="main" className="wrap" tabIndex={-1} aria-busy={load.status === 'loading' || undefined}>
-        <LoadStatus state={load}>
+        <LoadStatus state={load} onRetry={onRetry}>
           {missing ? <NotFound /> : categoryId !== null || query ? <Catalog controls={controls} title={shown.title} category={shown.category} items={shown.items} /> :
             <Home model={model} categories={categories} categoryId={categoryId} controls={controls} onPick={onPick} />}
         </LoadStatus>
