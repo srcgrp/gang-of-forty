@@ -21,7 +21,7 @@ export default function FooterLinks({
             <ul className="footer-links">
                 {entries.map(function (entry) {
                     return (
-                        <li key={entry.categoryId ?? entry.href}>
+                        <li key={entry.categoryId ?? (entry.href + "-" + entry.label)}>
                             <a
                                 className="footer-link"
                                 href={entry.href}

@@ -1717,3 +1717,7 @@ button {
     background-color: var(--color-surface-hover);
     border-color: var(--color-border-strong);
 }
+
+.retry-button {
+    border-radius: 12px;
+}

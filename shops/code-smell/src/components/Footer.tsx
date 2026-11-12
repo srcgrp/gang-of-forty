@@ -1,13 +1,20 @@
-import type { Category, Shop } from "../types"
+import type { Category, Link, Shop } from "../types"
 import FooterAbout from "./FooterAbout"
 import FooterLinks from "./FooterLinks"
 import FooterHours from "./FooterHours"
+
 
 type FooterProps = {
     categories: Category[]
     shop: Shop
     onPick: (id: number) => void
 }
+
+const helpLinks: Link[] = [
+    { label: "شیوه ارسال", href: "#shipping" },
+    { label: "بازگشت کالا", href: "#returns" },
+    { label: "پرسش‌های پرتکرار", href: "#faq" }
+]
 
 export default function Footer({
     categories,
@@ -36,7 +43,7 @@ export default function Footer({
                 <FooterLinks
                     title="راهنمای خرید"
                     headingId="footer-guide-title"
-                    entries={shop.help}
+                    entries={helpLinks}
                 />
                 <FooterHours schedule={shop.schedule} />
             </div>

@@ -2,9 +2,10 @@ import type { LoadState } from "../types"
 
 type StatusProps = {
     state: LoadState
+    onRetry: () => void
 }
 
-export default function Status({ state }: StatusProps) {
+export default function Status({ state, onRetry }: StatusProps) {
     let message = ""
 
     switch (state.status) {
@@ -34,6 +35,11 @@ export default function Status({ state }: StatusProps) {
             aria-busy={state.status === "loading"}
         >
             <p>{message}</p>
+            {state.status === "error" && (
+                <button className="button button--primary retry-button" type="button" onClick={onRetry}>
+                    تلاش مجدد
+                </button>
+            )}
         </div>
     )
 }

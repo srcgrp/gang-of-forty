@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import type { Cart, LoadState } from "./types"
-import { loadShopData } from "./api/loadShopData"
+import { loadShopData, getLoadErrorMessage } from "./api/loadShopData"
 import { addToCart, removeFromCart, cartCount } from "./cart/cartRules"
 import { getPageData } from "./catalog/shopPageData"
 import ShopPage from "./components/ShopPage"
@@ -9,18 +9,16 @@ import { loadCart, saveCart } from "./storage/cartStorage"
 
 export default function App() {
     const [state, setState] = useState<LoadState>({ status: "loading" })
+    const [attempt, setAttempt] = useState(0)
     const [categoryId, setCategoryId] = useState<number | null>(null)
     const [query, setQuery] = useState("")
     const [cart, setCart] = useState<Cart>(() => loadCart())
     const [cartOpen, setCartOpen] = useState(false)
     useEffect(function () {
         let ignore = false
-        function showSlowConnection(): void {
+        function showSlowConnection(message: string): void {
             if (!ignore) {
-                setState({
-                    status: "loading",
-                    message: "اتصال کند است؛ هنوز در حال دریافت اطلاعات فروشگاه هستیم..."
-                })
+                setState({ status: "loading", message: message })
             }
         }
         loadShopData(showSlowConnection)
@@ -33,16 +31,13 @@ export default function App() {
             })
             .catch(function (error: unknown) {
                 if (!ignore) {
-                    const message = error instanceof Error
-                        ? error.message
-                        : "دریافت اطلاعات فروشگاه انجام نشد."
-                    setState({ status: "error", message: message })
+                    setState({ status: "error", message: getLoadErrorMessage(error) })
                 }
             })
         return function () {
             ignore = true
         }
-    }, [])
+    }, [attempt])
 
     useEffect(function () {
         saveCart(cart)
@@ -53,8 +48,13 @@ export default function App() {
         document.title = "بوی کد | سبد خرید:" + " " + countText + " " + "کالا"
     }, [cart])
 
+    function retry(): void {
+        setState({ status: "loading" })
+        setAttempt(attempt + 1)
+    }
+
     if (state.status !== "success") {
-        return <Status state={state} />
+        return <Status state={state} onRetry={retry} />
     }
     const onToggle = () => setCartOpen(!cartOpen)
     const catalogControls = { categoryId, query, onPick: setCategoryId, onQuery: setQuery }

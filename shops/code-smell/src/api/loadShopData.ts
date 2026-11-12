@@ -7,7 +7,7 @@ import { loadHome } from "./loadHome"
 import type { ShopData } from "../types"
 
 export async function loadShopData(
-    onSlow: () => void
+    onSlow: (message: string) => void
 ): Promise<ShopData> {
     let slowTimer: number | undefined
 
@@ -30,7 +30,9 @@ export async function loadShopData(
         let data = await Promise.race([requests, slowConnection])
 
         if (data === "slow") {
-            onSlow()
+            onSlow(
+                "اتصال کند است؛ هنوز در حال دریافت اطلاعات فروشگاه هستیم..."
+            )
             data = await requests
         }
 
@@ -44,5 +46,13 @@ export async function loadShopData(
         }
     } finally {
         window.clearTimeout(slowTimer)
+    }
+}
+
+export function getLoadErrorMessage(error: unknown): string {
+    if (error instanceof Error) {
+        return error.message
+    } else {
+        return "دریافت اطلاعات فروشگاه انجام نشد."
     }
 }
