@@ -7,6 +7,7 @@ import CategoryNav from "../components/CategoryNav.tsx";
 import CartPanel from "../components/CartPanel.tsx";
 import { cartCount, cartTotal } from "../cart/cart-lines.ts";
 import { withOfferAndStock } from "../catalog/product-catalog.ts";
+import Promos from "./Promos.tsx";
 
 type ShopPageProps = {
   data: Data;
@@ -47,13 +48,14 @@ export default function ShopPage({
       </a>
       <Header count={count} />
       <main id="main">
-        <Hero />
+        <Hero hero={data.home.hero} side={data.home.side} />
         <CategoryNav
           categories={data.categories}
           selectedId={selectedId}
           onPick={onPick}
         />
         <ProductGrid products={cards} onAdd={handleAdd} />
+        <Promos promos={data.home.promos} />
         <CartPanel lines={cart} total={total} onRemove={onRemove} />
       </main>
       <Footer />

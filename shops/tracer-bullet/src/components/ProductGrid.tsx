@@ -8,7 +8,7 @@ type ProductGridProps = {
 
 export default function ProductGrid({ products, onAdd }: ProductGridProps) {
   return (
-    <ul>
+    <ul className="carousel">
       {products.map((p) => (
         <ProductCard key={p.id} product={p} onAdd={onAdd} />
       ))}
