@@ -16,7 +16,7 @@
 | داده | کجا زندگی می‌کند | کامپوننت صاحب / مسئول | چه کسی عوضش می‌کند | کجا ذخیره می‌شود |
 |---|---|---|---|---|
 | وضعیت دریافت اطلاعات (`LoadState`) | `App.tsx` | `App` | Effect دریافت API | فقط حافظه React |
-| دسته‌بندی انتخاب‌شده (`categoryId`) | `App.tsx` | `App` | `CategoryNav` از طریق `onPick` | فقط حافظه React |
+| دسته‌بندی انتخاب‌شده (`categoryId`) | `App.tsx` | `App` | `CategoryNav` و `MainNav` از طریق `onPick` | فقط حافظه React |
 | عبارت جستجو (`query`) | `App.tsx` | `App` | `SearchBox` از طریق `onQuery` | فقط حافظه React |
 | سبد خرید (`cart`) | `App.tsx` | `App` | `ProductGrid` از طریق `onAdd` و `CartPanel` از طریق `onRemove` و `onQuantity` | `localStorage` با `storage/cart.ts` |
 | باز بودن کشوی سبد و نمایش شمارش معکوس | `App.tsx` | `App` | `Header` و `CartPanel` و دکمهٔ «نمایش شگفت‌انگیز» | فقط حافظه React |
@@ -66,6 +66,7 @@ src/
     cart/               ← توابع خالص قوانین و محاسبات سبد
     products/           ← انتخاب و فیلتر محصولات
   components/           ← کامپوننت‌های قابل استفاده در رابط React
+    shop-page.types.ts   ← نوع Props صفحه فروشگاه
   App.tsx               ← Stateها، Effectهای واکشی و ذخیره‌سازی و توابع رویداد
   main.tsx              ← نقطه ورود React و رندر App در root
 ```
