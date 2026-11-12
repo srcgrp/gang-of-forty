@@ -22,6 +22,7 @@ export default function App() {
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const [cart, setCart] = useState<CartLine[]>(loadCart);
   const [loadState, setLoadState] = useState<LoadState>({ status: "loading" });
+  const [attempt, setAttempt] = useState(0);
   useEffect(() => {
     let ignore = false;
     loadCatalog()
@@ -29,13 +30,10 @@ export default function App() {
       .catch((error: unknown) => {
         if (ignore) return;
         console.error("بارگذاری اطلاعات فروشگاه ناموفق بود:", error);
-        setLoadState({
-          status: "error",
-          message: error instanceof Error ? error.message : "خطای ناشناخته",
-        });
+        setLoadState({ status: "error", message: error instanceof Error ? error.message : "خطای ناشناخته" });
       });
     return () => { ignore = true; };
-  }, []);
+  }, [attempt]);
   useEffect(() => { saveCart(cart); }, [cart]);
   useEffect(() => {
     const count = cart.reduce((total, line) => total + line.quantity, 0);
@@ -55,13 +53,14 @@ export default function App() {
     ? `بارگذاری محصولات انجام نشد. ${loadState.message}`
     : "در حال حاضر محصولی برای نمایش نیست.";
   const cartCount = cart.reduce((count, line) => count + line.quantity, 0);
+  const retry = () => { setLoadState({ status: "loading" }); setAttempt((value) => value + 1); };
 
   return (
     <>
       <Header cartCount={cartCount} />
       <main id="main-content">
         <CategoryNav selectedId={categoryId} onPick={setCategoryId} />
-        <ProductGrid id="tents" title="محصولات" products={visibleProducts} status={loadState.status} message={message} stock={stock} offers={offers} onAdd={(id) => setCart((current) => addToCart(current, id))} />
+        <ProductGrid id="tents" title="محصولات" products={visibleProducts} status={loadState.status} message={message} stock={stock} offers={offers} onAdd={(id) => setCart((current) => addToCart(current, id))} onRetry={retry} />
         <ProductGrid id="special-offers" title="پیشنهاد ویژه" products={offerProducts} status={loadState.status} message={message} stock={stock} offers={offers} onAdd={(id) => setCart((current) => addToCart(current, id))} />
         <CartPanel cart={cart} products={products} total={cartTotal(cart, products)} onRemove={(id) => setCart((current) => removeFromCart(current, id))} />
       </main>

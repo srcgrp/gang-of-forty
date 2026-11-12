@@ -10,6 +10,7 @@ type ProductGridProps = {
   stock: Stock | undefined;
   offers: Offer[];
   onAdd: (id: number) => void;
+  onRetry?: () => void;
 };
 
 export default function ProductGrid({
@@ -21,14 +22,16 @@ export default function ProductGrid({
   stock,
   offers,
   onAdd,
+  onRetry,
 }: ProductGridProps) {
   return (
     <section className="tents" id={id}>
       <h2 className="titles">{title}</h2>
       {status !== "success" ? (
-        <p className="carousel-message">
-          {status === "loading" ? "در حال بارگذاری..." : message}
-        </p>
+        <>
+          <p className="carousel-message">{status === "loading" ? "در حال بارگذاری..." : message}</p>
+          {status === "error" && onRetry && <button type="button" onClick={onRetry}>تلاش دوباره</button>}
+        </>
       ) : products.length === 0 ? (
         <p className="carousel-message">محصولی برای نمایش نیست.</p>
       ) : (
