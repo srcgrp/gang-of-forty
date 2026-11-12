@@ -6,7 +6,7 @@ import { cartCount } from "./cart/totals"; // pure functions: total and count
 import { useState, useEffect } from "react";
 import Status from "./components/Status"; 
 import { loadShopData } from "./api/loadShop.ts";
-import Storefront from "./components/Storefront";
+import Storefront from "./components/StoreFront.tsx";
 import { loadCart, saveCart } from "./storage/cartStorage.ts";
 import { unitPrice } from "./cart/unitPrice.ts";
 import { formatNumber } from "./ui/format.ts";

@@ -1,14 +1,14 @@
-import Header from "./Header";
-import Navigation from "./Navigation";
-import Hero from "./Hero";
-import Benefits from "./Benefits";
-import CategoryNav from "./CategoryNave";
-import ProductGrid from "./ProductGrid";
-import Middle from "./Middle";
-import CartPanel from "./CartPanel";
-import Notification from "./Notification";
-import Footer from "./Footer";
-import type { CartLine, LoadedState } from "../types";
+import Header from "./Header.tsx";
+import Navigation from "./Navigation.tsx";
+import Hero from "./Hero.tsx";
+import Benefits from "./Benefits.tsx";
+import CategoryNav from "./CategoryNave.tsx";
+import ProductGrid from "./ProductGrid.tsx";
+import Middle from "./Middle.tsx";
+import CartPanel from "./CartPanel.tsx";
+import Notification from "./Notification.tsx";
+import Footer from "./Footer.tsx";
+import type { CartLine, LoadedState } from "../types.ts";
 import { cartCount, cartTotal } from "../cart/totals.ts";
 const DAIRY_ID = 2;
 type Props = {
@@ -42,8 +42,8 @@ export default function Storefront({ data, categoryId, cart, onPick, onAdd, onRe
         />
         <Middle />
         <ProductGrid
-          title="پیشنهاد ویژه"
-          id="special-offer-nuts"
+          title="لبنیات و بستنی"
+          id="dairy"
           nuts
           products={dairy}
           offers={offers}

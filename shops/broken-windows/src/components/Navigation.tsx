@@ -1,22 +1,32 @@
 export default function Navigation(){
-    return(
-        <nav className="navigation" id="navigation">
-        <ul className="nav">
-            <li id="allcategory"><a href="#categories">همه دسته ها</a>
-                <ul className="dropdown" id="menu-categories">
-                    <li><a href="#categories" aria-label="دسته بندی ها"><span className="dropdown-emoji"></span>نان و خواربار</a></li>
-                    <li><a href="#categories" aria-label="دسته بندی ها"><span className="dropdown-emoji">لبنیات</span></a></li>
-                    <li><a href="#categories" aria-label="دسته بندی ها"><span className="dropdown-emoji">تنقلات</span></a></li>
-                    <li><a href="#categories" aria-label="دسته بندی ها"><span className="dropdown-emoji">صبحانه</span></a></li>
-                    <li><a href="#categories" aria-label="دسته بندی ها"><span className="dropdown-emoji">میوه و سبزی</span></a></li>
-                    <li><a href="#categories" aria-label="دسته بندی ها"><span className="dropdown-emoji"></span>خشکبار و دسر </a></li>
-                    <li><a href="#special-offer-nuts" aria-label="دسته بندی ها"><span className="dropdown-emoji">غذای اماده</span></a></li>
-                    <li><a href="#categories" aria-label="دسته بندی ها"><span className="dropdown-emoji"></span>پک به صرفه</a></li>
-                    <li><a href="#categories" aria-label="دسته بندی ها"><span className="dropdown-emoji"></span></a></li>
-                </ul>
-            </li>
+      const categories = [
+    ["نان و خواربار", "#categories"],
+    ["لبنیات", "#dairy"],
+    ["تنقلات", "#categories"],
+    ["صبحانه", "#categories"],
+    ["میوه و سبزی", "#categories"],
+    ["خشکبار و دسر", "#categories"],
+    ["غذای آماده", "#special-offer-nuts"],
+    ["پک به صرفه", "#categories"],
+  ];
+    return (
+    <nav className="navigation" id="navigation">
+      <ul className="nav">
+        <li id="allcategory">
+          <a href="#categories">همه دسته ها</a>
+          <ul className="dropdown" id="menu-categories">
+            {categories.map(([name, link]) => (
+              <li key={name}>
+                <a href={link}>
+                  <span className="dropdown-label">{name}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </li>
+
             <li><a href="#categories">تنقلات</a></li>
-            <li><a href="#categories">لبنیات  </a></li>
+            <li><a href="#dairy">لبنیات  </a></li>
             <li><a href="#categories">میوه</a></li>
             <li><a href="#categories">خوارباو </a></li>
             <li><a href="#categories">نوشیدنی</a></li>
