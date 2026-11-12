@@ -178,9 +178,8 @@ img {
   gap: 8px;
   min-width: 180px;
 
-  input {
-    flex: 1;
-    min-width: 0;
+  input,
+  select {
     min-height: 44px;
     border: 1px solid var(--border);
     border-radius: 8px;
@@ -188,6 +187,11 @@ img {
     font: inherit;
     background: #fff;
     color: inherit;
+  }
+
+  input {
+    flex: 1;
+    min-width: 0;
   }
 }
 
@@ -378,6 +382,7 @@ section:target h2::after {
   gap: 14px;
   padding: 0;
   background: transparent;
+  margin-bottom: 16px;
 }
 
 .promo {
@@ -473,7 +478,8 @@ section:target h2::after {
 
 .cat-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  justify-content: center;
   gap: 10px;
 
   a {
@@ -539,6 +545,13 @@ section:target h2::after {
     scroll-snap-stop: always;
     scroll-margin-top: 150px;
   }
+}
+
+.product[hidden],
+.hero[hidden],
+.adv[hidden],
+.row-nav[hidden] {
+  display: none;
 }
 
 .product {
@@ -1061,6 +1074,7 @@ hr {
   .header,
   .product,
   .search input,
+  .search select,
   .cart,
   .menu-btn,
   .row-nav a,
@@ -1227,6 +1241,14 @@ a[data-cat].active {
   margin-top: 12px;
 }
 
+@media (prefers-color-scheme: dark) {
+  #cart {
+    background: #2c2320;
+    color: #f3f3f3;
+    border-color: #4a3b38;
+  }
+}
+
 .offer-header {
   display: flex;
   gap: 4px;
@@ -1248,4 +1270,38 @@ a[data-cat].active {
     transition: none !important;
     animation: none !important;
   }
+}
+
+.sale-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding-block: 12px 16px;
+}
+
+.sale-panel__btn {
+  margin: 0;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 10px 10px 0 0;
+  background: var(--coral);
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+
+.sale-panel__btn:hover,
+.sale-panel__btn:focus-visible {
+  background: var(--coral-dark);
+}
+
+.sale-countdown {
+  width: 100%;
+  margin: 0;
+  padding: 14px 18px;
+  border-radius: 12px;
+  background: var(--mint-soft);
+  color: var(--ink);
+  text-align: start;
 }
