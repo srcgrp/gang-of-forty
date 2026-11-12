@@ -1,6 +1,6 @@
 import type { CartRowData, CarouselWithProducts, ShopData } from "../types"
 import type { CartButtonProps } from "./CartButton"
-import Header from "./Header"
+import Header, { type CatalogControls } from "./Header"
 import Hero from "./Hero"
 import Categories from "./Categories"
 import Promos from "./Promos"
@@ -12,7 +12,7 @@ import Footer from "./Footer"
 type ShopPageProps = {
     data: ShopData
     carousels: CarouselWithProducts[]
-    categoryId: number | null
+    catalogControls: CatalogControls
     cartControls: CartButtonProps
     rows: CartRowData[]
     total: number
@@ -24,7 +24,7 @@ type ShopPageProps = {
 export default function ShopPage({
     data,
     carousels,
-    categoryId,
+    catalogControls,
     cartControls,
     rows,
     total,
@@ -32,6 +32,7 @@ export default function ShopPage({
     onPick,
     onRemove
 }: ShopPageProps) {
+    const isSearching = catalogControls.query.trim() !== ""
     return (
         <>
             <a className="skip-link" href="#main-content">
@@ -40,11 +41,11 @@ export default function ShopPage({
             <Header
                 categories={data.categories}
                 shop={data.shop}
-                categoryId={categoryId}
+                catalogControls={catalogControls}
                 cartControls={cartControls}
-                onPick={onPick}
             />
             <main id="main-content" tabIndex={-1}>
+                {isSearching && <ProductGrid carousels={carousels} onAdd={onAdd} />}
                 <Hero
                     hero={data.home.hero}
                     shop={data.shop}
@@ -53,7 +54,7 @@ export default function ShopPage({
                 />
                 <Categories categories={data.categories} onPick={onPick} />
                 <Promos home={data.home} categories={data.categories} onPick={onPick} />
-                <ProductGrid carousels={carousels} onAdd={onAdd} />
+                {!isSearching && <ProductGrid carousels={carousels} onAdd={onAdd} />}
                 <Guide shop={data.shop} />
                 <CartPanel
                     rows={rows}

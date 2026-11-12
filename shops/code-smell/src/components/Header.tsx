@@ -1,25 +1,31 @@
 import type { Category, Shop } from "../types"
 import type { CartButtonProps } from "./CartButton"
+import type { SearchBoxProps } from "./SearchBox"
 import BrandLogo from "./BrandLogo"
 import CategoryNav from "./CategoryNav"
 import CartButton from "./CartButton"
 import Announcement from "./Announcement"
+import SearchBox from "./SearchBox"
+
+export type CatalogControls = SearchBoxProps & {
+    categoryId: number | null
+    onPick: (id: number | null) => void
+}
 
 type HeaderProps = {
     categories: Category[]
     shop: Shop
-    categoryId: number | null
+    catalogControls: CatalogControls
     cartControls: CartButtonProps
-    onPick: (id: number | null) => void
 }
 
 export default function Header({
     categories,
     shop,
-    categoryId,
-    cartControls,
-    onPick
+    catalogControls,
+    cartControls
 }: HeaderProps) {
+    const { categoryId, onPick } = catalogControls
     const navigationProps = { categories, menu: shop.menu, categoryId, onPick }
 
     return (
@@ -35,26 +41,10 @@ export default function Header({
                         <span className="brand__tagline">{shop.slogan}</span>
                     </span>
                 </a>
-                <div className="search" id="search-root" role="search">
-                    <label className="sr-only" htmlFor="product-search">
-                        جستجوی کالا
-                    </label>
-                    <img
-                        className="search__icon"
-                        src="svg/magnifying-glass.svg"
-                        alt=""
-                        width={18}
-                        height={18}
-                        aria-hidden="true"
-                    />
-                    <input
-                        className="search__input"
-                        id="product-search"
-                        type="search"
-                        placeholder="جستجوی کالا..."
-                        disabled
-                    />
-                </div>
+                <SearchBox
+                    query={catalogControls.query}
+                    onQuery={catalogControls.onQuery}
+                />
                 <CartButton {...cartControls} />
                 <details className="mobile-menu" id="mobile-menu">
                     <summary className="menu-toggle" aria-label="منوی اصلی">

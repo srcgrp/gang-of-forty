@@ -26,7 +26,11 @@ export default function ProductGrid({ carousels, onAdd }: ProductGridProps) {
                             <header className="section__header section__header--carousel">
                                 <h2 className="section__title" id={titleId}>
                                     <span className="carousel-title__emoji" aria-hidden="true">
-                                        {carousel.emoji}
+                                        {carousel.id === "search-results" ? (
+                                            <img src="svg/magnifying-glass.svg" alt="" width={20} height={20} />
+                                        ) : (
+                                            carousel.emoji
+                                        )}
                                     </span>
                                     {carousel.title}
                                 </h2>

@@ -10,6 +10,7 @@ import { loadCart, saveCart } from "./storage/cartStorage"
 export default function App() {
     const [state, setState] = useState<LoadState>({ status: "loading" })
     const [categoryId, setCategoryId] = useState<number | null>(null)
+    const [query, setQuery] = useState("")
     const [cart, setCart] = useState<Cart>(() => loadCart())
     const [cartOpen, setCartOpen] = useState(false)
     useEffect(function () {
@@ -52,19 +53,18 @@ export default function App() {
         document.title = "بوی کد | سبد خرید:" + " " + countText + " " + "کالا"
     }, [cart])
 
-    if (state.status === "success") {
-        const data = state.data
-        const onToggle = () => setCartOpen(!cartOpen)
-        const pageData = getPageData(data, cart, categoryId, cartOpen, onToggle)
-        return (
-            <ShopPage
-                {...pageData}
-                onAdd={(id: number) => setCart(addToCart(cart, { id, quantity: 1 }))}
-                onPick={setCategoryId}
-                onRemove={(id: number) => setCart(removeFromCart(cart, id))}
-            />
-        )
-    } else {
+    if (state.status !== "success") {
         return <Status state={state} />
     }
+    const onToggle = () => setCartOpen(!cartOpen)
+    const catalogControls = { categoryId, query, onPick: setCategoryId, onQuery: setQuery }
+    const pageData = getPageData(state.data, cart, catalogControls, cartOpen, onToggle)
+    return (
+        <ShopPage
+            {...pageData}
+            onAdd={(id: number) => setCart(addToCart(cart, { id, quantity: 1 }))}
+            onPick={setCategoryId}
+            onRemove={(id: number) => setCart(removeFromCart(cart, id))}
+        />
+    )
 }
