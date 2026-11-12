@@ -40,12 +40,6 @@ export default function App() {
   useEffect(
     function () {
       saveCart(cart);
-    },
-    [cart],
-  );
-  useEffect(
-    function () {
-      saveCart(cart);
       document.title =
         "تمیز مارکت · " + cartCount(cart).toLocaleString("fa-IR") + " 🛒";
     },

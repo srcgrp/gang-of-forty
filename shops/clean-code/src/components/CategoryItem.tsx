@@ -16,9 +16,8 @@ export default function CategoryItem({
       <a
         className={selected ? "active" : ""}
         data-cat={category.slug}
-        href={"#category-" + category.id}
-        onClick={function (e) {
-          e.preventDefault();
+        href={"#" + category.slug}
+        onClick={function () {
           onPick(category.id);
         }}
       >

@@ -7,7 +7,9 @@ import CartPanel from "./CartPanel.tsx";
 import CategoryNav from "./CategoryNav.tsx";
 import Footer from "./Footer.tsx";
 import Header from "./Header.tsx";
-import ProductGrid from "./ProductGrid.tsx";
+import Hero from "./Hero.tsx";
+import HomeRows from "./HomeRows.tsx";
+import PromoStrips from "./PromoStrips.tsx";
 
 type Success = Extract<LoadState, { status: "success" }>;
 type ShopViewProps = {
@@ -30,12 +32,6 @@ export default function ShopView({
   const stock = load.stock.items;
   const offers = load.offers;
   const categories = load.categories;
-  const visible =
-    categoryId === null
-      ? products
-      : products.filter(function (p) {
-          return p.categoryId === categoryId;
-        });
   const rows = cartRows(cart, products);
   const total = cartTotal(rows, offers);
 
@@ -54,10 +50,14 @@ export default function ShopView({
             selectedId={categoryId}
             onPick={onPick}
           />
-          <ProductGrid
-            products={visible}
-            stock={stock}
+          <Hero home={load.home} />
+          <PromoStrips home={load.home} />
+          <HomeRows
+            home={load.home}
+            categories={categories}
+            products={products}
             offers={offers}
+            stock={stock}
             onAdd={handleAdd}
           />
           <CartPanel rows={rows} total={total} onClear={onClear} />

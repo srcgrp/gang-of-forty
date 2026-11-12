@@ -382,6 +382,7 @@ section:target h2::after {
   gap: 14px;
   padding: 0;
   background: transparent;
+  margin-bottom: 16px;
 }
 
 .promo {
