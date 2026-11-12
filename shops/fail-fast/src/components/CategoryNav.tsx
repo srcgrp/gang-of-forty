@@ -3,10 +3,15 @@ import type { Category } from '../types'
 
 interface CategoryNavProps {
   categories: Category[]
+  selectedCategoryId: number | null
   onPick: (categoryId: number) => void
 }
 
-export default function CategoryNav({ categories, onPick }: CategoryNavProps): ReactNode {
+export default function CategoryNav({
+  categories,
+  selectedCategoryId,
+  onPick,
+}: CategoryNavProps): ReactNode {
   return (
     <nav aria-label="منوی اصلی">
       <div className="nav-inner">
@@ -25,6 +30,9 @@ export default function CategoryNav({ categories, onPick }: CategoryNavProps): R
                 href={`#${category.slug}`}
                 role="menuitem"
                 onClick={() => onPick(category.id)}
+                style={{
+                  fontWeight: selectedCategoryId === category.id ? 'bold' : 'normal',
+                }}
               >
                 <span aria-hidden="true">{category.emoji}</span> {category.name}
               </a>

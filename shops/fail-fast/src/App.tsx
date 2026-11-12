@@ -1,11 +1,13 @@
+import { useState } from 'react'
 import type { ReactNode } from 'react'
-import type { Product, Category } from './types'
+import type { Product, Category, CartLine } from './types'
+import { addToCart, removeFromCart, getCartItemCount } from './cart'
 import Header from './components/Header'
 import CategoryNav from './components/CategoryNav'
 import ProductGrid from './components/ProductGrid'
 import CartPanel from './components/CartPanel'
 
-// Sample products for Step 2 (temporary data)
+// Sample products for Step 3 (temporary data)
 const sampleProducts: Product[] = [
   {
     id: 101,
@@ -41,7 +43,7 @@ const sampleProducts: Product[] = [
   },
 ]
 
-// Sample categories for Step 2 (temporary data)
+// Sample categories for Step 3 (temporary data)
 const sampleCategories: Category[] = [
   { id: 1, slug: 'fruits', name: 'میوه و سبزیجات', emoji: '🥬', color: '#4CAF50' },
   { id: 2, slug: 'dairy', name: 'لبنیات و تخم‌مرغ', emoji: '🥛', color: '#2196F3' },
@@ -51,21 +53,39 @@ const sampleCategories: Category[] = [
   { id: 6, slug: 'cosmetics', name: 'آرایشی و بهداشتی', emoji: '🧴', color: '#E91E63' },
 ]
 
-// No-op callback for Step 2 (no real cart functionality yet)
-function handleAddToCart(productId: number): void {
-  console.log('Add to cart:', productId)
-}
-
-// No-op callback for Step 2 (no category filtering yet)
-function handleCategoryPick(categoryId: number): void {
-  console.log('Category picked:', categoryId)
-}
-
 export default function App(): ReactNode {
+  // Category selection state
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null)
+
+  // Cart state
+  const [cart, setCart] = useState<CartLine[]>([])
+
+  // Derived values (calculated during render, not stored in state)
+  const cartItemCount = getCartItemCount(cart)
+
+  // Handle category selection
+  function handleCategoryPick(categoryId: number): void {
+    setSelectedCategoryId(categoryId)
+  }
+
+  // Handle adding product to cart
+  function handleAddToCart(productId: number): void {
+    setCart((prevCart) => addToCart(prevCart, productId))
+  }
+
+  // Handle removing product from cart
+  function handleRemoveFromCart(productId: number): void {
+    setCart((prevCart) => removeFromCart(prevCart, productId))
+  }
+
   return (
     <>
-      <Header />
-      <CategoryNav categories={sampleCategories} onPick={handleCategoryPick} />
+      <Header cartCount={cartItemCount} />
+      <CategoryNav
+        categories={sampleCategories}
+        selectedCategoryId={selectedCategoryId}
+        onPick={handleCategoryPick}
+      />
       <main id="main">
         <div className="layout">
           <div className="section-title">
@@ -73,7 +93,11 @@ export default function App(): ReactNode {
           </div>
           <ProductGrid products={sampleProducts} onAddToCart={handleAddToCart} />
         </div>
-        <CartPanel />
+        <CartPanel
+          cart={cart}
+          products={sampleProducts}
+          onRemove={handleRemoveFromCart}
+        />
       </main>
     </>
   )

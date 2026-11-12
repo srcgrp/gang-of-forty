@@ -1,6 +1,10 @@
 import type { ReactNode } from 'react'
 
-export default function Header(): ReactNode {
+interface HeaderProps {
+  cartCount: number
+}
+
+export default function Header({ cartCount }: HeaderProps): ReactNode {
   return (
     <header>
       <div className="top-bar">
@@ -33,7 +37,7 @@ export default function Header(): ReactNode {
         </div>
         <a href="#cart" className="cart" aria-label="سبد خرید">
           <span>سبد خرید</span>
-          <b id="cart-count" aria-live="polite">0</b>
+          <b aria-live="polite">{cartCount}</b>
         </a>
       </div>
     </header>
