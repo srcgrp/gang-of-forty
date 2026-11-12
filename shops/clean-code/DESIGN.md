@@ -30,9 +30,9 @@ A product card shows the emoji, the name, the unit, the stock, the price, a disc
 - Stock left: server (`stock.json`)
 - Banner, slogan, address, phone, menu, and footer: server (`shop.json`)
 - Hero, promo strips, and the list of rows: server (`home.json`)
-- Search text and selected category: URL (`?category=` and `?q=`), read and written only in `storage/url-filters.ts`
-- Cart: `localStorage`, key `cart` (list of `{ productId, qty }`)
-- Jumps such as `#dairy` and `#cart`: URL.
+- Search text (`query`) and selected category (`categoryId`): React state in `App` (not a separate list state; products are filtered while rendering)
+- Cart: `localStorage`, key `cart` (list of `{ productId, qty }`), only through `storage/cart-storage.ts`
+- Jumps such as `#dairy` and `#cart`: URL hash
 - API address prefix: `.env`, variable `VITE_API_URL`
 
 ## 4. API contract
@@ -53,24 +53,36 @@ Joins: `product.id` matches `stock.items` and `offer.productId`. `product.catego
 - loading: `#status` says the page is loading. Header and footer stay as an empty shell. Product rows, categories, hero, and promos are not filled yet. The cart can already show the saved lines.
 - success: `#status` is cleared and hidden. Banner, hero, categories, rows, and footer show the server data. Cards show price, stock, and the add button.
 - empty: a search with no match hides those cards, and hides a row whose cards are all hidden. The cart section still shows its lines and total. If the server returns no products, `#status` says nothing was found.
-- error: `#status` stays visible and asks the customer to refresh. Rows stay empty. `broken.json` and `missing.json` use this same message. The page does not crash.
+- error: `Status` shows the message and a Retry button. Retry sets loading and bumps `attempt` so the load Effect runs again. `broken.json` / `missing.json` use this same path. The page does not crash.
 
 ## 6. Component tree
 
 ```
 App
-├── Header
-├── CategoryNav
-├── ProductGrid
-│   └── ProductCard × n
-└── CartPanel
+├── Status                         (load !== success; Retry on error)
+└── ShopView                       (load === success)
+    ├── Banner
+    ├── Header
+    │   ├── Logo / SearchBox / CartIcon / MenuToggle
+    ├── HomeIntro                  (hidden while searching)
+    │   ├── CategoryNav
+    │   ├── Hero
+    │   └── PromoStrips
+    ├── HomeRows
+    │   └── CarouselSection × n
+    │       └── ProductGrid
+    │           └── ProductCard × n
+    ├── CartPanel
+    └── Footer
 ```
 
 ## 7. Where state lives
 
 | State | Owner | Who changes it | Where stored |
 | --- | --- | --- | --- |
-| `load` | `App` | `useEffect` (`loadShop`) | React state |
+| `load` | `useLoadShop` (used by `App`) | load Effect (`loadShop`); Retry | React state |
+| `attempt` | `useLoadShop` | Retry button | React state (Effect deps) |
+| `query` | `App` | `SearchBox` (`onQuery`) | React state |
 | `categoryId` | `App` | `CategoryNav` (`onPick`) | React state |
 | `cart` | `App` | add / clear cart handlers | `localStorage` via `storage/cart-storage.ts` |
 
@@ -79,20 +91,24 @@ Derived (not state):
 - cart count — from `cart`; no need to store again
 - cart rows — from `cart` + products
 - cart total — from rows + offers
-- filtered products — from products + `categoryId`
+- filtered products — from products + `categoryId` + `query` via `filterProducts` while rendering
+- `document.title` — from shop name + cart count in an Effect
+
+`App.tsx` does not call `fetch` or `localStorage` directly. Load goes through `api/` inside `useLoadShop`; cart through `storage/`.
 
 ## 8. Folders
 
 ```
 src/
-  types/        types layer    Product, Shop, Home, LoadState
-  api/          data layer     reading JSON with fetch
-  storage/      data layer     cart in localStorage; URL filters in url-filters.ts
-  features/cart      cart rules: add, remove, count, rows, total
-  features/products  product rules: offers on the card, card prices
-  shared/            findOffer and finalPrice; both features may use this
+  types/             types layer     Product, Shop, Home, LoadState
+  api/               data layer      reading JSON with fetch
+  storage/           data layer      cart in localStorage; URL helpers
+  features/cart      cart rules      add, remove, count, rows, total
+  features/products  product rules   offers, prices, filterProducts
+  shared/            shared rules    findOffer and finalPrice
+  hooks/             React hooks     useLoadShop (load + attempt + retry)
   components/        React UI
-  App.tsx            state, effects, event handlers
+  App.tsx            UI state, cart Effect, wires Status / ShopView
   main.tsx           createRoot → <App />
 ```
 

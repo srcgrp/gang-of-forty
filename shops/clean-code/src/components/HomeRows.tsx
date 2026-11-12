@@ -11,7 +11,6 @@ type HomeRowsProps = {
   stock: Record<string, number>;
   onAdd: (id: number) => void;
 };
-
 export default function HomeRows({
   home,
   categories,
