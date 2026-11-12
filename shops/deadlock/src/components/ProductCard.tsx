@@ -1,19 +1,26 @@
-export default function ProductCard() {
-  const price = 2450000;
+import type { Product } from "../types";
 
+type ProductCardProps = {
+  product: Product;
+  onAdd: (id: number) => void;
+};
+
+export default function ProductCard({ product, onAdd }: ProductCardProps) {
   return (
     <article className="tent-article">
       <span className="product-emoji" aria-hidden="true">
-        ⛺
+        {product.emoji}
       </span>
-      <h3>چادر </h3>
-      <p>یک نفره</p>
+      <h3>{product.name}</h3>
+      <p>{product.unit}</p>
       <div>
-        <p>{price.toLocaleString("fa-IR")} تومان</p>
+        <p>{product.price.toLocaleString("fa-IR")} تومان</p>
         <button
           type="button"
           className="add-to-cart"
-          aria-label="افزودن چادر نمونه به سبد خرید">
+          aria-label={`افزودن ${product.name} به سبد خرید`}
+          onClick={() => onAdd(product.id)}
+        >
           +
         </button>
       </div>

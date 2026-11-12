@@ -513,6 +513,7 @@ header {
 }
 
 .Categories{
+    font: inherit;
     flex-shrink: 0;
     text-align: center;
     width: 200px;
@@ -538,6 +539,10 @@ header {
     background: #4a553670;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
     transform: translateY(3px);
+}
+.category-emoji {
+    font-size: 5rem;
+    line-height: 1.5;
 }
 #koole{
     filter: brightness(0);

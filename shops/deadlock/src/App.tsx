@@ -4,10 +4,10 @@ import ProductGrid from "./components/ProductGrid";
 import CartPanel from "./components/CartPanel";
 import type { Product } from "./types";
 
-export const SAMPLE: Product[] = [
+const SAMPLE: Product[] = [
   {
     id: 1,
-    categoryId: 4,
+    categoryId: 1,
     name: "سیب",
     emoji: "🍎",
     unit: "یک کیلو",
@@ -16,7 +16,7 @@ export const SAMPLE: Product[] = [
   },
   {
     id: 2,
-    categoryId: 4,
+    categoryId: 2,
     name: "شیر",
     emoji: "🥛",
     unit: "یک بطری",
@@ -25,7 +25,7 @@ export const SAMPLE: Product[] = [
   },
   {
     id: 3,
-    categoryId: 4,
+    categoryId: 3,
     name: "نان",
     emoji: "🍞",
     unit: "یک عدد",
@@ -33,13 +33,22 @@ export const SAMPLE: Product[] = [
     tags: ["نان"],
   },
 ];
+
+function handleAdd(id: number): void {
+  console.log("Selected product id:", id);
+}
+
+function handleCategoryPick(id: number | null): void {
+  console.log("Selected category id:", id);
+}
+
 export default function App() {
   return (
     <>
-        <Header />
-        <CategoryNav />
-        <ProductGrid />
-        <CartPanel />
+      <Header />
+      <CategoryNav onPick={handleCategoryPick} />
+      <ProductGrid products={SAMPLE} onAdd={handleAdd} />
+      <CartPanel />
     </>
-  )
+  );
 }
