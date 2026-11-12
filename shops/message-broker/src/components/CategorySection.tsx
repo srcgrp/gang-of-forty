@@ -1,5 +1,4 @@
-
-import type { Category } from '../types'
+ import type { Category } from '../types'
 
 type CategorySectionProps = {
   categories: Category[]
@@ -18,21 +17,24 @@ export default function CategorySection({
       id="categories"
       aria-label="دسته‌بندی محصولات"
     >
-      <ul>
-        {categories.map((category) => (
-          <li key={category.id}>
-            <button
-              type="button"
-              onClick={() => onPick(category.id)}
-              aria-pressed={activeCategoryId === category.id}
-              style={{ backgroundColor: category.color }}
-            >
-              <span aria-hidden="true">{category.emoji}</span>
-              <span>{category.name}</span>
-            </button>
-          </li>
-        ))}
-      </ul>
+      <button
+        type="button"
+        className={activeCategoryId === null ? 'active' : ''}
+        onClick={() => onPick(null)}
+      >
+        همه محصولات
+      </button>
+
+      {categories.map(category => (
+        <button
+          key={category.id}
+          type="button"
+          className={activeCategoryId === category.id ? 'active' : ''}
+          onClick={() => onPick(category.id)}
+        >
+          {category.emoji} {category.name}
+        </button>
+      ))}
     </nav>
   )
 }
