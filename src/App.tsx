@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useShopData } from "./hooks/useShopData";
 import { ShopView } from "./components/ShopView";
+import { SliderEnhancer } from "./components/SliderEnhancer";
 
 export default function App() {
   const [attempt, setAttempt] = useState(0);
@@ -18,5 +19,10 @@ export default function App() {
     );
   }
 
-  return <ShopView data={state.data} />;
+  return (
+    <>
+      <SliderEnhancer />
+      <ShopView data={state.data} />
+    </>
+  );
 }
