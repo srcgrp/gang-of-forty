@@ -1,6 +1,9 @@
+import SearchBox from "./SearchBox";
+
 interface HeaderProps {
   cartCount: number;
   totalPrice: number;
+  searchQuery: string;
   onOpenCart: () => void;
   onSearch: (query: string) => void;
 }
@@ -8,15 +11,10 @@ interface HeaderProps {
 export default function Header({
   cartCount,
   totalPrice,
+  searchQuery,
   onOpenCart,
   onSearch,
 }: HeaderProps) {
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    onSearch(String(formData.get("search") ?? ""));
-  }
-
   return (
     <header className="header" id="top">
       <div className="header__container">
@@ -29,20 +27,7 @@ export default function Header({
             <small>فروشگاه همیشه سبز</small>
           </div>
         </a>
-
-        <form className="header__search" onSubmit={handleSubmit}>
-          <span className="header__search-label">جستجو</span>
-          <input
-            type="search"
-            name="search"
-            placeholder="می‌تونی بین محصولات جستجو کنی"
-            aria-label="جستجوی محصولات"
-          />
-          <button type="submit" className="header__search-button" aria-label="جستجو">
-            <svg className="header__search-icon" aria-hidden="true"><use href="/sprite.svg#search" /></svg>
-          </button>
-        </form>
-
+        <SearchBox query={searchQuery} onQuery={onSearch} />
         <button type="button" className="header__cart" onClick={onOpenCart} aria-label="باز کردن سبد خرید">
           <span className="header__cart-icon">
             <svg aria-hidden="true"><use href="/sprite.svg#basket" /></svg>

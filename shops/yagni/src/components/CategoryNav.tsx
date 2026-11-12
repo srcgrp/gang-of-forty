@@ -2,9 +2,11 @@ import type { Categories } from "../types";
 
 interface CategoryNavProps {
   categories: Categories;
+  selectedCategoryId: number | null;
+  onPick: (categoryId: number | null) => void;
 }
 
-export default function CategoryNav({ categories }: CategoryNavProps) {
+export default function CategoryNav({ categories, selectedCategoryId, onPick }: CategoryNavProps) {
   return (
     <nav className="navbar" aria-label="دسته‌بندی محصولات">
       <input type="checkbox" id="nav-toggle" className="nav-toggle" />
@@ -16,16 +18,15 @@ export default function CategoryNav({ categories }: CategoryNavProps) {
         <div className="navbar-content">
           <ul className="nav-list">
             <li className="has-dropdown">
-              <a href="#categories" className="nav-link is-active" aria-haspopup="true">
+              <a href="#categories" className={`nav-link${selectedCategoryId === null ? " is-active" : ""}`} onClick={() => onPick(null)}>
                 <svg className="icon" aria-hidden="true"><use href="/sprite.svg#dropDown" /></svg>
                 همه دسته‌ها
               </a>
               <ul className="dropdown">
                 {categories.map((category) => (
                   <li key={category.id}>
-                    <a className="dropdown-item" href={`#${category.slug}`}>
-                      <span className="emoji">{category.emoji}</span>
-                      {category.name}
+                    <a className="dropdown-item" href={`#${category.slug}`} onClick={() => onPick(category.id)}>
+                      <span className="emoji">{category.emoji}</span>{category.name}
                     </a>
                   </li>
                 ))}
@@ -33,7 +34,13 @@ export default function CategoryNav({ categories }: CategoryNavProps) {
             </li>
             {categories.map((category) => (
               <li key={category.id}>
-                <a className="nav-link" href={`#${category.slug}`}>{category.name}</a>
+                <a
+                  className={`nav-link${selectedCategoryId === category.id ? " is-active" : ""}`}
+                  href={`#${category.slug}`}
+                  onClick={() => onPick(category.id)}
+                >
+                  {category.name}
+                </a>
               </li>
             ))}
           </ul>

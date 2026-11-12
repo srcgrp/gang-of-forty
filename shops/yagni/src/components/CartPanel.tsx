@@ -5,9 +5,10 @@ interface CartPanelProps {
   onClose: () => void;
   items: CartItem[];
   onUpdateQuantity: (productId: number, delta: number) => void;
+  onRemove: (productId: number) => void;
 }
 
-export default function CartPanel({ isOpen, onClose, items, onUpdateQuantity }: CartPanelProps) {
+export default function CartPanel({ isOpen, onClose, items, onUpdateQuantity, onRemove }: CartPanelProps) {
   if (!isOpen) return null;
 
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -29,6 +30,7 @@ export default function CartPanel({ isOpen, onClose, items, onUpdateQuantity }: 
                 <button type="button" onClick={() => onUpdateQuantity(item.productId, -1)} aria-label={`کم کردن ${item.name}`}>-</button>
                 <span>{item.quantity.toLocaleString("fa-IR")}</span>
                 <button type="button" onClick={() => onUpdateQuantity(item.productId, 1)} aria-label={`زیاد کردن ${item.name}`}>+</button>
+                <button className="cart-item-remove" type="button" onClick={() => onRemove(item.productId)} aria-label={`حذف ${item.name}`}>حذف</button>
               </div>
             </div>
           ))}
