@@ -401,6 +401,7 @@ html[dir="ltr"] .carousel-arrows img {
 }
 
 .product-carousel:target h2::after {
+  display: inline-block;
   content: "اینجا هستید";
   margin-inline-start: 0.5rem;
   font-size: 0.75rem;
