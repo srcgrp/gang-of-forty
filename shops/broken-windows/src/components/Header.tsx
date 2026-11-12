@@ -1,4 +1,4 @@
-import { formatNumber } from "../ui/format";
+import { formatNumber } from "../format";
 type Props = { cartCount: number };
 export default function Header({ cartCount }: Props) {  
      return (

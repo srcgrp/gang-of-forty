@@ -1,5 +1,5 @@
 import type { Product } from "../types";
-import { formatNumber, formatPrice } from "../ui/format";
+import { formatNumber, formatPrice } from "../format";
 type ProductCardProps = {
   product: Product;
   percent?: number;

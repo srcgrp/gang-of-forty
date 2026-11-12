@@ -1,4 +1,4 @@
-import { formatNumber } from "../ui/format"
+import { formatNumber } from "../format"
 
 export default function Hero(){
   return (

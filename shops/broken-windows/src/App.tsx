@@ -9,7 +9,7 @@ import { loadShopData } from "./api/loadShop.ts";
 import Storefront from "./components/StoreFront.tsx";
 import { loadCart, saveCart } from "./storage/cartStorage.ts";
 import { unitPrice } from "./cart/unitPrice.ts";
-import { formatNumber } from "./ui/format.ts";
+import { formatNumber } from "./format.ts";
 
 const SHOP_NAME = "سارا مارکت";
 export default function App() {

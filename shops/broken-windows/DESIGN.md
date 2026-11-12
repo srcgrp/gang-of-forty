@@ -107,7 +107,7 @@ src/
   App.tsx
   main.tsx
   types.ts  
-  
+  format.ts
 ## 7. امنیت
 
 ### چه چیزی در مرورگر عمومیه؟ 

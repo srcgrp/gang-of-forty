@@ -1,5 +1,5 @@
 import type { CartLine } from "../types"; // import only the type
-import { formatNumber, formatPrice } from "../ui/format"; // existing formatters
+import { formatNumber, formatPrice } from "../format"; // existing formatters
 
 type Props = { // the props this component receives
   cart: CartLine[]; // lines to show
