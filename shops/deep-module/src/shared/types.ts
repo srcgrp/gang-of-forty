@@ -1,25 +1,22 @@
 export interface Product {
   id: number;
   name: string;
-  emoji?: string;
-  unit?: string;
   price: number;
-  categoryId?: number;
+  categoryId?: number | undefined;
+  emoji?: string | undefined;
+  unit?: string | undefined;
+  desc?: string | undefined;
+  rating?: number | undefined;
+  reviews?: number | undefined;
+  brand?: string | undefined;
+  oldPrice?: number | undefined;
 }
 
 export interface Category {
   id: number;
   name: string;
-  slug?: string;
-  emoji?: string;
-  color?: string;
-}
-
-export type ProductId = Pick<Product, "id">;
-export type StockMap = Record<number, number>;
-
-export interface CartItem extends Product {
-  quantity: number;
+  emoji?: string | undefined;
+  slug?: string | undefined;
 }
 
 export interface Offer {
@@ -28,67 +25,38 @@ export interface Offer {
 }
 
 export interface StockData {
-  items: StockMap;
-}
-
-export interface ShopMenu {
-  href: string;
-  label: string;
-}
-
-export interface ShopHelp {
-  href: string;
-  label: string;
-}
-
-export interface ShopSchedule {
-  days: string;
-  time: string;
+  items: Record<number, number>;
 }
 
 export interface Shop {
-  name?: string;
-  slogan?: string;
-  notice?: string;
-  about?: string;
-  phone?: string;
-  copyright?: string;
-  menu?: ShopMenu[];
-  help?: ShopHelp[];
-  schedule?: ShopSchedule[];
-}
-
-export interface HeroCTA {
-  href: string;
-  label: string;
-}
-
-export interface HeroSection {
-  title?: string;
-  text?: string;
-  cta?: HeroCTA;
-}
-
-export interface HomePromo {
-  href: string;
-  emoji?: string;
-  text?: string;
+  name?: string | undefined;
+  slogan?: string | undefined;
+  notice?: string | undefined;
+  about?: string | undefined;
+  phone?: string | undefined;
+  copyright?: string | undefined;
+  menu?: { label: string; href: string }[] | undefined;
+  help?: { label: string; href: string }[] | undefined;
+  schedule?: { days: string; time: string }[] | undefined;
 }
 
 export interface Home {
-  hero?: HeroSection;
-  side?: HeroSection;
-  promos?: HomePromo[];
+  hero?:
+    | { title: string; text: string; cta: { label: string; href: string } }
+    | undefined;
+  side?:
+    | { title: string; text: string; cta: { label: string; href: string } }
+    | undefined;
+  promos?: { emoji: string; text: string; href: string }[] | undefined;
 }
 
-export const SORTS = ["default", "price-asc", "price-desc", "name"] as const;
-export type Sort = (typeof SORTS)[number];
-
-export interface FilterState {
-  categoryId: string;
-  stock: "all" | "in" | "out";
-  discount: "all" | "yes";
-  sort: Sort;
+export interface AppData {
+  products: Product[];
+  categories: Category[];
+  shop: Shop;
+  home: Home;
+  offers: Offer[];
+  stock: StockData;
 }
 
 export type ApiErrorType =
@@ -101,24 +69,24 @@ export type ApiErrorType =
   | "unknown";
 
 export type LoadState<T> =
-  | { status: "idle" }
   | { status: "loading" }
-  | { status: "success"; data: T }
-  | { status: "error"; message: string; kind: ApiErrorType };
+  | { status: "error"; message: string; kind: ApiErrorType }
+  | { status: "success"; data: T };
 
-export interface AppData {
-  products: Product[];
-  categories: Category[];
-  shop: Shop;
-  home: Home;
-  offers: Offer[];
-  stock: StockData;
+export interface CartLine {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+  emoji?: string | undefined;
 }
 
-export interface AppState {
-  data: AppData | null;
-  cart: CartItem[];
-  filters: FilterState;
-  searchIds: Set<number> | null;
-  searchQuery: string;
-}
+export type ProductCardProps = {
+  product: Product;
+  stock?: number | undefined;
+  discountPercent?: number | undefined;
+  cartQuantity?: number | undefined;
+  onAdd: (id: number) => void;
+  isLiked?: boolean | undefined;
+  onToggleWishlist?: ((p: Product) => void) | undefined;
+};
