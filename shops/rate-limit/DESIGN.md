@@ -88,6 +88,10 @@ loading · success · empty · error
 src/
 ├── api/
 ├── cart/
+├── catalog/
+├── data/
+├── format/
+├── storage/
 ├── components/
 │   ├── AdBanner.tsx
 │   ├── AnnouncementBar.tsx
