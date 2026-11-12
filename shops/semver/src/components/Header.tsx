@@ -1,5 +1,6 @@
 import CategoryNav from './CategoryNav';
 import CartPanel from './CartPanel';
+import SearchBox from './SearchBox';
 import type { CartLine, Category, Home, Product, Shop } from '../types';
 import { formatCount } from '../utils/format';
 
@@ -16,6 +17,8 @@ type HeaderProps = {
   onCategoryPick: (categoryId: number | null) => void;
   shop: Shop | null;
   home: Home | null;
+  query: string;
+  onQueryChange: (query: string) => void;
 };
 
 export default function Header({
@@ -31,6 +34,8 @@ export default function Header({
   onCategoryPick,
   shop,
   home,
+  query,
+  onQueryChange,
 }: HeaderProps) {
   return (
     <header>
@@ -60,12 +65,7 @@ export default function Header({
               <p id="tagline">{shop?.slogan ?? "دقیـق مثـل مترونـوم"}</p>
             </section>
           </div>
-          <input
-            id="search-input"
-            type="search"
-            aria-label="جستجوی محصولات"
-            placeholder="جستجـو کنیـد ..."
-          />
+          <SearchBox query={query} onQueryChange={onQueryChange} />
           <div id="user-actions">
             <i className="ph ph-bell"></i>
             <div id="cart-action">

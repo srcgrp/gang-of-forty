@@ -2,6 +2,7 @@ import type { Category, Home, LoadState } from "../types";
 import CategoryShelves from "./CategoryShelves";
 import HomeCarousels from "./HomeCarousels";
 import LatestProducts from "./LatestProducts";
+import ProductGrid from "./ProductGrid";
 import PromoBanners from "./PromoBanners";
 
 type ProductCollectionsProps = {
@@ -10,9 +11,31 @@ type ProductCollectionsProps = {
   state: LoadState;
   categoryId: number | null;
   onAdd: (id: number) => void;
+  query: string;
+  onRetry: () => void;
 };
 
 export default function ProductCollections(props: ProductCollectionsProps) {
+  if (props.state.status === "error") {
+    return (
+      <div className="error-state" role="alert">
+        <p>خطا در بارگذاری اطلاعات: {props.state.message}</p>
+        <button className="buynow-btn" type="button" onClick={props.onRetry}>
+          تلاش دوباره
+        </button>
+      </div>
+    );
+  }
+
+  if (props.query.trim()) {
+    return (
+      <>
+        <h2 id="search-results" className="section-title">نتایج جستجو</h2>
+        <ProductGrid state={props.state} onAdd={props.onAdd} />
+      </>
+    );
+  }
+
   return (
     <>
       <HomeCarousels

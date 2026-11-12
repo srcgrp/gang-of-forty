@@ -49,8 +49,8 @@ export default function Footer({ shop, categories }: FooterProps) {
             <div className="footer-col">
               <h4>ساعت کاری</h4>
               <div className="working-hours" id="footer-hours">
-                {shop?.schedule.map((slot, index) => (
-                  <p key={`${slot.days}-${index}`}>
+                {shop?.schedule.map((slot) => (
+                  <p key={`${slot.days}-${slot.time}`}>
                     {slot.days}: {slot.time}
                   </p>
                 ))}

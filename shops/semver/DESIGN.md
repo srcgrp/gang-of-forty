@@ -1,219 +1,77 @@
-# سوپرمارکت ناردونه (Nardooneh) — Design on one page
+﻿# سوپرمارکت ناردونه — طراحی فعلی React
 
-Owner: Amirhossein Nasr · Shop folder: `shops/semver/` · Branch: `feat/semver-w4-arch`
+## ساختار کامپوننت‌ها
 
-> This page was written after the first working version of the code, while
-> splitting `script.ts` into layers. Sections 5 to 7 describe the target
-> design. Section 8 tells honestly what is already done and what is not.
+```text
+App
+└── Storefront
+    ├── Header
+    │   ├── SearchBox
+    │   ├── CategoryNav
+    │   └── CartPanel
+    ├── main
+    │   ├── CategoryList
+    │   └── ProductCollections
+    │       ├── SearchResults (وقتی query پر باشد)
+    │       │   └── ProductGrid
+    │       │       └── ProductCard × n
+    │       ├── HomeCarousels (پیشنهادهای ویژه)
+    │       │   ├── SaleCountdown
+    │       │   └── ProductGrid → ProductCard × n
+    │       ├── LatestProducts
+    │       │   └── ProductGrid → ProductCard × n
+    │       ├── CategoryShelves
+    │       │   └── ProductGrid → ProductCard × n
+    │       ├── HomeCarousels (بقیه اسکرول‌ها)
+    │       └── PromoBanners
+    └── Footer
+```
 
-## 1. What must it do? (requirements)
+در حالت خطای دریافت داده، `ProductCollections` پیام خطا و دکمهٔ تلاش دوباره را نشان می‌دهد. در حالت جست‌وجو، بخش‌های عادی محصولات با فهرست نتایج جایگزین می‌شوند؛ وقتی کادر جست‌وجو خالی شود، چیدمان عادی برمی‌گردد.
 
-- A visitor sees the shop name, slogan and the free-delivery notice
-  (free delivery over 500,000 Toman).
-- A visitor sees the 7 categories: fruits and vegetables, dairy, bakery,
-  pantry, drinks, protein and snacks.
-- A visitor sees product carousels with emoji, name, unit and price.
-- A visitor sees the special offers with their discount percentage and label
-  (for example "تخفیف روز", 30%).
-- A visitor sees whether a product is in stock. Some products have stock `0`
-  and must show "out of stock".
-- If one product's data is broken, the page still works.
-- If the network or a JSON file fails, the page shows a readable message, not
-  a white page.
-- `npm run build` creates `dist/`, and that folder works on any server without
-  changes.
+## مالکیت state
 
-**Not in this version:** working search, a real cart page, removing items,
-changing quantities, checkout, login, payment.
-
-## 2. Screens and parts (from `index.html`)
-
-| Part | Element | Content |
+| داده | مالک | رفتار |
 |---|---|---|
-| Notice bar | `#news-section` | Free-delivery text |
-| Brand and nav | `#site-brand`, `nav` | Logo `pomegranate-logo-02.svg`, name, tagline, search box, cart button |
-| Category menu | `#header-categories` | "All categories" dropdown and quick links |
-| Hero | `.hero-container` | Big title, text and the call-to-action button |
-| Categories | `#categories` | One card per category (emoji, name, color) |
-| Offers carousel | `#offers-carousel` | Products that have an offer |
-| Second carousel | `#discounted-carousel` | Products of one category (currently snacks, id 7) |
-| Feature banners | `.feature-container` | Two text banners |
-| Footer | `footer` | About, address, phone, category links, help links, working hours |
+| `cart` | `App` | بارگذاری اولیه از `localStorage` و ذخیره با effect روی `[cart]` |
+| `cartOpen` | `App` | باز و بسته شدن پنل سبد |
+| `categoryId` | `App` | وضعیت انتخاب دسته برای ناوبری و جدیدترین‌ها |
+| `query` | `App` | مقدار کنترل‌شدهٔ `SearchBox`; نتایج از روی کاتالوگ محاسبه می‌شوند |
+| `attempt` | `App` | با Retry زیاد می‌شود و effect دریافت داده را دوباره اجرا می‌کند |
+| `loadState` | `App` | یکی از حالت‌های `loading`, `success`, `empty`, `error` |
+| `store` | `App` | اطلاعات فروشگاه، دسته‌ها و محتوای صفحه از API |
+| `cartCount`, `cartTotal`, `visibleState` | مشتق‌شده در `App` | مقدار جداگانه‌ای در state نگهداری نمی‌شود |
+| `secondsLeft` | `SaleCountdown` | شمارندهٔ محلی پیشنهاد ویژه؛ effect هر ثانیه کم می‌کند و در cleanup متوقف می‌شود |
 
-Each carousel has its own loading text and error text inside it.
+## جریان جست‌وجو و دریافت داده
 
-## 3. Data (`src/types.ts`)
+- `SearchBox` مقدار `query` را از `App` می‌گیرد و با `onQueryChange` به‌روزرسانی می‌کند.
+- `filterProductsByQuery` در `src/catalog/` نام، واحد، برچسب‌ها و نام دسته را برای جست‌وجو بررسی می‌کند؛ دادهٔ اصلی و محصولات سبد خرید دست‌نخورده می‌مانند.
+- effect دریافت داده در `App` محصولات، پیشنهادها، موجودی، دسته‌ها، اطلاعات فروشگاه و صفحهٔ خانه را هم‌زمان می‌گیرد.
+- `ignore` در cleanup جلوی به‌روزرسانی state پس از unmount یا اجرای قبلی effect را می‌گیرد.
+- Retry state را به `loading` برمی‌گرداند، اطلاعات قبلی فروشگاه را پاک می‌کند و `attempt` را زیاد می‌کند تا effect دوباره اجرا شود.
+- خطای HTTP یا JSON نامعتبر به حالت `error` می‌رسد؛ خطای هر محصول نامعتبر با guard حذف می‌شود و محصولات سالم باقی می‌مانند.
 
-These types follow the real JSON files:
+## پوشه‌ها و مرز مسئولیت‌ها
 
-- `Category`: `id`, `slug`, `name`, `emoji`, `color`.
-  The slug is the section fragment, for example `#dairy`.
-- `Product`: `id`, `categoryId`, `name`, `emoji`, `unit`, `price` (Toman), `tags: string[]`.
-- `Offer`: `productId`, `percent`, `label`.
-- `Stock`: `updatedAt` and `items`, a map from the product id to the quantity.
-  It is `Record<string, number>`, because JSON keys are always strings.
-- `Shop`: name, slogan, city, phone, hours, delivery fee, free-delivery limit,
-  notice, about, address, schedule, menu, help and copyright.
-- `CartLine`: a `Product` plus `quantity`.
-- `LoadState`: `loading`, `success` (with `products`), `empty`, `error` (with `message`).
-
-Utility types we use in real code:
-
-- `Pick<Product, 'id' | 'price'>` for a cart line.
-- `Record<string, number>` for stock.
-- `Readonly<Shop>` for shop data that must not change.
-
-Sort and filter options are defined with `as const`, and their type is derived
-from the array. `enum` is not used.
-
-## 4. Who owns each piece of data?
-
-| Data | Lives in | Why |
-|---|---|---|
-| Product name, emoji, unit | Server (`products.json`) | Source of truth |
-| Product price | Server | The client must never decide a price |
-| Stock | Server (`stock.json`, `items[id]`) | Changes often |
-| Discount percent and label | Server (`offers.json`) | A business decision |
-| Category list | Server (`categories.json`) | Same for every visitor |
-| Shop info, notice, hours | Server (`shop.json`) | Changing it should not need a new build |
-| Hero, banners, promos | Server (`home.json`) | Same reason |
-| What the carousel shows now | State (`LoadState` in `main.ts`) | Only lives while the page is open |
-| Cart quantities | `localStorage`, key `cart` | Must survive a reload |
-| Section the user opened | URL hash, e.g. `#dairy` | Can be shared |
-| API address | `.env` (`VITE_API_URL`) | Different in dev and production |
-
-Joining rules from the API README:
-`product.id` ↔ `stock.items[product.id]` ↔ `offer.productId`, and
-`product.categoryId` ↔ `category.id`.
-The final price is `price × (1 − percent / 100)`. This is only for display.
-
-## 5. API contract (what we fetch, when, and what shape)
-
-Base address: `import.meta.env.VITE_API_URL`.
-
-- Development (`.env.development`): `/api`. Vite sends it to `https://gof.zzb.cx`.
-- Production (`.env.production`): `../../api`, so `dist/` works under `/shops/semver/`.
-- `.env.*.local` files are never committed.
-
-| File | Read by | When | Result | Guard |
-|---|---|---|---|---|
-| `categories.json` | `fetchCategories` | At start | `Category[]` | `isCategory` |
-| `products.json` | `fetchProducts` | At start | `Product[]` | `isProduct` |
-| `offers.json` | `fetchOffers` | At start | `Offer[]` | `isOffer` |
-| `stock.json` | `fetchStock` | At start | `Stock` | `isStock` |
-| `shop.json` | `fetchShop` | At start | `Shop` | `isShop` |
-| `home.json` | `fetchHome` | At start | `Home` | `isHome` |
-
-How one fetch works:
-
-1. `getJSON(path)` returns `Promise<unknown>`. If `res.ok` is false it throws an error.
-2. `fetchChecked<T>` and `fetchList<T>` check the data with a Type Guard.
-3. Items that fail the guard are dropped, and `N items dropped` is written to the Console.
-4. Only valid data goes to the screen.
-
-I test it by changing the file name to `broken.json` (invalid JSON) and then to
-`missing.json` (404). In both cases the page must show an understandable message.
-
-## 6. States of each part
-
-| Part | loading | success | empty | error |
-|---|---|---|---|---|
-| Offers carousel | "در حال بارگذاری محصولات..." | Product cards with discount | "No offers today" | Error message |
-| Second carousel | Same loading text | Product cards | "No products in this category" | Error message |
-| Categories | Nothing yet | Category cards | Nothing | Message in the console (to improve) |
-| Cart count | 0 | Saved count | 0 | Empty cart if stored data is invalid |
-
-- Text comes from `ui/state-text.ts`, from one `switch` on `status`.
-- The `default` branch assigns the state to a `never` variable. If a new state
-  is added later and not handled, `tsc` shows an error.
-- A product with stock `0` still appears, with "out of stock" and a disabled button.
-
-## 7. Folders and layers
-
-shops/semver/
-
-    index.html              loads /src/main.ts
-    style.css
-    DESIGN.md               step 1
-    package.json
-    package-lock.json
-    tsconfig.json           step 0, strict, include ["src"]
-    vite.config.ts          step 5, base "./", dev proxy /api -> https://gof.zzb.cx
-    .env.development        step 5, VITE_API_URL=/api
-    .env.production         step 5, VITE_API_URL=../../api
-    font/                   Yorghan and Vazirmatn fonts (assets)
-    image/                  logos and photos (assets)
-
+```text
 src/
+  main.tsx                 اتصال React و stylesheet موجود
+  App.tsx                  stateهای سراسری، effectهای API و handlerها
+  types.ts                 نوع‌های داده و LoadState
+  api/                     دریافت و اعتبارسنجی JSON
+  catalog/                 ترکیب و فیلتر داده‌های محصول
+  cart/                    قواعد خالص سبد خرید
+  storage/                 خواندن و نوشتن سبد در localStorage
+  components/              اجزای React و رابط صفحه
+  utils/                   قالب‌بندی و اعلان موفقیت
+```
 
-    types.ts                types; imports nothing
-    main.ts                 main; holds State, wires events, starts the app
+فقط `api/` از `fetch` استفاده می‌کند و فقط `storage/` به `localStorage` دسترسی دارد. `App` مالک state است و اجزا از طریق props داده و callback می‌گیرند. رندر فهرست‌ها از شناسهٔ پایدار محصول، دسته، پیوند یا برنامهٔ کاری برای `key` استفاده می‌کند.
 
-    api/                    data layer; the only place with fetch
-      client.ts             getJSON, fetchChecked, fetchList
-      guards.ts             isProduct, isOffer, isCategory, isStock, isShop, isHome
-      shop-api.ts           fetchCategories, fetchProducts, fetchOffers, fetchStock, fetchShop, fetchHome
+## محدوده و یادداشت‌ها
 
-    storage/                data layer; the only place with localStorage
-      cart-storage.ts       loadCart, saveCart (key "cart")
-
-    cart/                   logic layer; pure cart rules, no DOM
-      cart.ts               addItem, setQty, removeItem, totalPrice
-
-    ui/                     ui layer; builds DOM from parameters
-      format.ts             price and number formatting
-      notify.ts             notifications
-      product-card.ts       one product card
-      state-text.ts         text for each LoadState
-      carousel.ts           draws a carousel from a LoadState
-      categories.ts         draws category cards
-      shelves.ts            one shelf (section) per category
-      layout.ts             header, notice, menu, footer from Shop
-      home.ts               hero, banners and promos from Home
-      cart-badge.ts         cart count badge
-
-Rules:
-
-- Imports only go down: `main → ui / cart → storage / api → types`. No cycles.
-- Only `src/api/` has `fetch`. Only `src/storage/` has `localStorage`.
-- `src/ui/` only draws. It does no fetch and no calculation.
-- No file longer than 70 lines.
-- No `utils.ts` or `helpers.ts`.
-- A function that does two things becomes two functions.
-- Forbidden in all code: `any`, `as` to silence errors, `!`, `@ts-ignore`, `enum`.
-
-## 8. Security
-
-- Everything in the browser is public: JS code, `localStorage` and API data.
-  Anyone can change a price or quantity in the DevTools.
-- Never put a secret in a `VITE_` variable. It ends up in the public bundle.
-- The cart total in the browser is only to show the user.
-- At checkout, the server must read prices, stock and offers from its own data.
-  It must ignore any price sent by the browser, and calculate the delivery fee
-  and the final total itself.
-- JSON from outside is trusted only after a Type Guard check.
-
-## 9. Current status and known gaps
-
-Done:
-
-- `strict` mode, `types.ts`, guards, `getJSON`, layered folders
-  (`api/`, `storage/`, `cart/`, `ui/`).
-- `index.html` loads `src/main.ts`. `script.ts` is removed.
-- Categories, offers carousel and the per-category shelves render from the API.
-- Offers and stock are joined to products in `main.ts`; price with discount and
-  "out of stock" are shown.
-- `shop.json` fills the header, menu, notice and footer; `home.json` builds the
-  hero, banners and the carousels.
-- Cart logic in `src/cart/` and `src/storage/`; the cart badge survives a
-  reload and the search box shows the real product count.
-- `VITE_API_URL` and the env files.
-- Favicon, and the logo renamed without a space.
-
-Not done yet:
-
-- Working search: the box shows the real count but typing does not filter yet.
-- A real cart page: no removing items, changing quantities, checkout, login or
-  payment. `localStorage` is only a display helper.
-- The hero redesign is on the branch `style/hero-redesign`. It is design work
-  and is not part of this task.
+- جست‌وجو در دادهٔ دریافت‌شده از API و در مرورگر انجام می‌شود.
+- شمارش‌گر از ۶۰ دقیقه شروع می‌شود؛ API فعلی زمان پایان واقعی پیشنهاد را ارائه نمی‌کند.
+- سبد خرید برای نمایش و ماندگاری محلی است و پرداخت یا ثبت سفارش در این تسک وجود ندارد.
+- فایل `style.css` موجود حفظ شده است؛ اجزای جدید از کلاس‌های فعلی صفحه استفاده می‌کنند.

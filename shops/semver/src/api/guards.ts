@@ -62,7 +62,12 @@ export const isShop = (x: unknown): x is Shop =>
   isObject(x) &&
   typeof x.name === 'string' &&
   typeof x.slogan === 'string' &&
+  typeof x.owner === 'string' &&
+  typeof x.city === 'string' &&
   typeof x.phone === 'string' &&
+  typeof x.deliveryFee === 'number' &&
+  typeof x.freeDeliveryOver === 'number' &&
+  typeof x.currency === 'string' &&
   typeof x.notice === 'string' &&
   typeof x.about === 'string' &&
   typeof x.address === 'string' &&

@@ -14,11 +14,14 @@ type StorefrontProps = {
   home: Home | null;
   loadState: LoadState;
   products: Product[];
+  query: string;
   shop: Shop | null;
   onAdd: (id: number) => void;
   onCartClick: () => void;
   onCategoryPick: (id: number | null) => void;
   onRemove: (id: number) => void;
+  onQueryChange: (query: string) => void;
+  onRetry: () => void;
 };
 
 export default function Storefront(props: StorefrontProps) {
@@ -37,6 +40,8 @@ export default function Storefront(props: StorefrontProps) {
         onCategoryPick={props.onCategoryPick}
         shop={props.shop}
         home={props.home}
+        query={props.query}
+        onQueryChange={props.onQueryChange}
       />
       <main>
         <CategoryList categories={props.categories} />
@@ -46,6 +51,8 @@ export default function Storefront(props: StorefrontProps) {
           state={props.loadState}
           categoryId={props.categoryId}
           onAdd={props.onAdd}
+          onRetry={props.onRetry}
+          query={props.query}
         />
       </main>
       <Footer shop={props.shop} categories={props.categories} />
