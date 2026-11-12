@@ -13,24 +13,21 @@ export default function App() {
   const [state, setState] = useState <LoadState> ({status: 'loading'})
   const [categoryId, setCategoryId] = useState<number | null>(null)
   const [cartOpen, setCartOpen] = useState(false)
+  const [attempt, setAttempt] = useState(0)
 
   useEffect(() => {
     let ignore = false
     loadShopState().then((next) => { if (!ignore) setState(next) })
     return () => { ignore = true }
-  }, [])
+  }, [attempt])
 
-  useEffect(() => {
-    saveCart(cart)
-  }, [cart])
+  useEffect(() => { saveCart(cart) }, [cart])
 
   const categories = state.status === "success" ? state.categories : []
   const shopName = state.status === "success" ? state.shop.name : "سوپر مارکت نمونه"
   const count = cart.reduce((sum, item) => sum + item.qty, 0)
 
-  useEffect(() => {
-    document.title = `${shopName} · ${count.toLocaleString("fa-IR")} 🛒`
-  }, [shopName, count])
+  useEffect(() => { document.title = `${shopName} · ${count.toLocaleString("fa-IR")} 🛒` }, [shopName, count])
 
   function handleAdd(id: number) {
     if (state.status !== "success") return 
@@ -39,8 +36,11 @@ export default function App() {
     setCart(addToCart(cart, product)) 
   }
 
-  function handleRemove (id: number) {
-      setCart(decreaseItem(cart, id))
+  const handleRemove = (id: number) => setCart(decreaseItem(cart, id))
+
+  function handleRetry() {
+    setState({ status: "loading" })
+    setAttempt((n) => n + 1)
   }
 
   return (
@@ -53,6 +53,7 @@ export default function App() {
           categoryId={categoryId}
           onAdd={handleAdd}
           onSelectCategory={setCategoryId}
+          onRetry={handleRetry}
         />
       </main>
       <CartPanel

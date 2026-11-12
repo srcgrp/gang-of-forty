@@ -36,13 +36,14 @@ App
 │   └─ CartItemRow
 └─ Footer
 ```
-Data goes down with props. Events go up with callback props (`onAdd`, `onRemove`, `onSelect`, `onPick`, `onCartClick`, `onClose`).
+Data goes down with props. Events go up with callback props (`onAdd`, `onRemove`, `onSelect`, `onPick`, `onCartClick`, `onClose`, `onRetry`).
 
 ## 4. State
 | State | Owner | Who changes it | Where it is stored |
 |---|---|---|---|
 | `cart` | `App` | `handleAdd` (from `ProductCard`), `handleRemove` (from `CartPanel`) | localStorage (`storage/`) |
-| `state` (LoadState) | `App` | the fetch effect | memory |
+| `state` (LoadState) | `App` | the fetch effect, and `handleRetry` (sets `loading`) | memory |
+| `attempt` (load tries) | `App` | `handleRetry`, from the Retry button in `ShopMain` | memory |
 | `categoryId` | `App` | `CategoryNav`, `CategoryList`, `Footer` | memory |
 | `cartOpen` | `App` | `Header` opens it, `CartPanel` closes it | memory |
 | `open` (countdown shown) | `SaleBox` | the show/hide button in `SaleBox` | memory |
@@ -79,13 +80,14 @@ The base address comes from `VITE_API_URL` (`/api` in dev, `../../api` in produc
 
 Every file is checked by a guard (`isProduct`, `isShop`, ...) before we use it. Bad items in a list are removed, and a bad `shop.json` or `stock.json` is an error.
 The effect has a cleanup (`ignore` flag), so an old response never changes the State after the effect is stopped.
+The effect's deps are `[attempt]`. The Retry button calls `handleRetry`, which sets `loading` (in the event, not inside the effect) and adds one to `attempt`, so the effect runs again.
 
 ## 8. States of each screen
 `ShopMain` decides what to show from `state.status`:
 - loading: a "در حال بارگذاری…" message
 - success: hero, categories, carousels, product cards
 - empty: a message "محصولی پیدا نشد"
-- error: a "بارگذاری اطلاعات ممکن نشد." message with the reason
+- error: a "بارگذاری اطلاعات ممکن نشد." message with the reason, and a "تلاش دوباره" (Retry) button
 
 The cart panel shows a message when the cart is empty. Every product card has a `key`.
 If a carousel has only one product, that card gets only `first-<id>`, not `last-<id>` (the first one wins).

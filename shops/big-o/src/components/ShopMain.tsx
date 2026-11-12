@@ -12,13 +12,19 @@ type ShopMainProps = {
   onAdd: (id: number) => void
   categoryId : number | null
   onSelectCategory: (id: number) => void
+  onRetry: () => void
 }
-export default function ShopMain({state, onAdd, categoryId, onSelectCategory} : ShopMainProps) {
+export default function ShopMain({state, onAdd, categoryId, onSelectCategory, onRetry} : ShopMainProps) {
     switch (state.status) {
         case "loading" : 
             return <p className="msg load-msg">در حال بارگذاری...</p>
         case "error" : 
-            return <p className="msg error-msg">{state.message}</p>
+            return (
+                <div className="msg error-msg" role="alert">
+                    <p>بارگذاری اطلاعات ممکن نشد. {state.message}</p>
+                    <button type="button" className="retry-button" onClick={onRetry}>تلاش دوباره</button>
+                </div>
+            )
         case "empty" :
             return <p className="msg load-msg" >محصولی یافت نشد.</p>
         case "success" : {

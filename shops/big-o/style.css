@@ -503,6 +503,26 @@ html[dir="ltr"] .carousel-arrows img {
   border-color: var(--color-sale);
 }
 
+.error-msg p {
+  margin: 0 0 0.75rem;
+}
+
+.retry-button {
+  padding: 5px 1rem;
+  border: none;
+  border-radius: 50px;
+  background-color: var(--color-primary);
+  color: aliceblue;
+  font: inherit;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.retry-button:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
 .product-card {
   background-color: var(--color-surface);
   border: 1px solid rgb(236, 230, 230);
