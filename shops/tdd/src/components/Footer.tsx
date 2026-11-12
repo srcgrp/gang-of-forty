@@ -10,11 +10,11 @@ export default function Footer({ shop, categories, onPick }: FooterProps) {
     return (
         <footer id="contact">
             <section aria-labelledby="footer-about">
-                <h2 id="footer-about">{shop.name}</h2>
+                <h2 id="footer-about">سام مارکت</h2>
                 <p id="footer-about-text">{shop.about}</p>
                 <address id="shop-address">
                     {shop.address}<br />
-                    <a href={'tel:' + shop.phone.replace(/[^+0-9]/g, '')} dir="ltr">{shop.phone}</a>
+                    <a href={'tel:' + shop.phone.replace(/[^+0-9]/g, '')} dir="ltr">تماس با سام مارکت</a>
                 </address>
                 <div id="shop-schedule" role="group" aria-label="ساعت کاری">
                     <h3>ساعت کاری</h3>
