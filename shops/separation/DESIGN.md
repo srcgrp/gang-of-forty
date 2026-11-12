@@ -22,7 +22,7 @@
 - قیمت، نام، دسته، تخفیف، موجودی: سرور (`/api/*.json`)؛ فقط خواندنی در مرورگر.
 - موجودی صفر یعنی «ناموجود»: کارت کم‌رنگ می‌شود و دکمه‌اش غیرفعال است.
 - سبد خرید (`CartLine[]`): `localStorage` با کلید `separation-cart`.
-- فیلتر دسته و متن جست‌وجو: `URL` (`?category=dairy&q=شیر`)؛ با Refresh و لینک مستقیم برمی‌گردد.
+- فیلتر دسته و متن جست‌وجو: حافظه React (`useState` در `App.tsx`)؛ با هر render از روی `products` فیلتر می‌شوند و با Refresh برنمی‌گردند.
 - State برنامه (محصول‌ها، دسته‌ها، تخفیف‌ها، فیلتر دسته، سبد): حافظه `App.tsx` با `useState`.
 - آدرس API: `env` (`VITE_API_URL`)؛ در dev برابر `/api` و در production برابر `../../api`.
 
@@ -75,7 +75,9 @@ src/
 ```text
 App
 ├─ Header
+│  └─ SearchBox
 ├─ Hero
+├─ SaleCountdown
 ├─ Status
 ├─ CategoryNav
 ├─ ProductGrid
@@ -89,12 +91,15 @@ App
 | State | صاحب (کامپوننت) | چه کسی عوضش می‌کند | کجا ذخیره می‌شود |
 |---|---|---|---|
 | `categoryId` | `App` | کاربر با کلیک روی `CategoryNav` (`onPick`) | حافظه React |
+| `query` | `App` | کاربر با تایپ در `SearchBox` (`onQuery`) | حافظه React |
+| `attempt` | `App` | کلیک «تلاش دوباره» در حالت `error` (اجرای مجدد `useEffect` بارگذاری) | حافظه React |
+| `showSale` | `App` | کلیک روی دکمه نمایش/بستن شمارش معکوس | حافظه React |
 | `cart` | `App` | کاربر با `+` (`onAdd`)، حذف و خالی کردن سبد | حافظه React + `localStorage` (کلید `separation-cart`) |
 | `load` (`LoadState`) | `App` | یک `useEffect` با `Promise.all` روی `/api` | حافظه React |
 | `cats` / `offers` / `stock` | `App` | همان `useEffect` بارگذاری | حافظه React |
 | `document.title` | — (اثر جانبی) | یک `useEffect` روی `[cart]` | تب مرورگر |
 
 - مقدارهای حساب‌شده State نیستند و هنگام render حساب می‌شوند:
-  - `filtered` (محصول‌های دسته انتخاب‌شده) — چون از `products` و `categoryId` ساخته می‌شود.
+  - `filtered` (محصول‌های دسته انتخاب‌شده + جست‌وجو، با `filterProducts`) — چون از `products` و `categoryId`/`query` ساخته می‌شود.
   - `items` (قیمت نهایی با `priceOf`) — چون از `filtered` و `offers`/`stock` ساخته می‌شود.
   - `count` و `total` سبد (`cartCount`/`cartTotal`) — چون از `cart` ساخته می‌شوند؛ `useState` جدا برایشان لازم نیست.
