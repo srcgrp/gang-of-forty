@@ -3,46 +3,51 @@
 ## 1. Needs
 
 **A visitor can:**
+- read the shop notice and slogan, the hero and promo banners, and the menu, all taken from the API
 - filter the products by category, and click the selected category again to clear it
 - see which products are sold out and which have a discount
 - add products to the cart, see the lines, quantity and total in the cart panel, and remove a line
 - keep the cart after a refresh, and see the item count in the header and the tab title
+- read the shop's about text, address and working hours in the footer, and call the phone number
 - click the logo, or "back to top", to go back to the top
 - use the skip link to jump to the main content
 
 **A visitor cannot (yet):**
-- search for products (the search box is only markup now)
+- search for products (the search box is only markup)
 - see a confirmation message after adding to the cart
-- slide carousels, or use the banner, promo, menu and footer links (the sections are static, not filled from the data)
+- slide carousels: `home.json` still describes them, but the page does not build them
+- jump to a category or banner section: the menu, dropdown, category, banner and footer links point to sections that the page does not build, so they do not scroll anywhere
 
 ## 2. Page sections
 
-This describes the React page. Of the six API files, only `products.json`, `offers.json`, `stock.json` and `categories.json` are shown. `shop.json` and `home.json` are still loaded and checked, so an invalid one still causes the `error` state, but nothing on the page displays them yet.
+This describes the React page. It uses all six API files. What is loaded and checked but not shown: the `carousels` list in `home.json`, and the `shop.json` fields that `types.ts` does not describe (see section 4). The shop name "پرتقال" is fixed text in the components.
 
 | Section | What it shows | Data comes from |
 |---|---|---|
 | Skip link | A link at the top that jumps to the main content | Static markup |
-| Header notice | An empty notice bar | Static markup (`shop.json` is not used yet) |
-| Logo and shop name | The decorative logo and the name "پرتقال"; the slogan is empty | Static markup |
+| Header notice | The shop notice | `shop.json` |
+| Logo and shop name | The decorative logo and the fixed name "پرتقال", with the slogan under it | Name: static markup. Slogan: `shop.json` |
 | Search box | An input and a button; typing does nothing yet | Static markup |
 | Cart button | The number of items in the cart, in Persian digits | The cart (`localStorage`, key `tracer-bullet:cart`) |
-| Main menu | The "همه دسته‌ها" button with an empty dropdown | Static markup |
-| Hero and side promo | Two banners with fixed placeholder text; their links go to `#dairy` and `#offers`, which have no target | Static markup (`home.json` is not used yet) |
+| Main menu | The menu links, and a "همه دسته‌ها" dropdown with one link per category | Links: `shop.json`. Dropdown: `categories.json` |
+| Hero and side promo | Two banners, each with a title, an emoji, a text and a button | `home.json` |
 | Category navigation | One button per category; the selected one is highlighted, and clicking it again clears the filter | `categories.json` |
 | Product grid | One card per product: emoji, name, unit, price, a discount or sold-out badge, and an add button | `products.json`, `offers.json`, `stock.json` |
+| Promo links | Two links, each with a text and an emoji | `home.json` |
 | Cart panel | The cart lines with quantity, line price and a remove button, the total, and a message when the cart is empty | The cart (`localStorage`) |
-| Footer | The brand, empty address and category and help lists, the phone shown as a dash, the working hours heading, the copyright and "back to top" | Static markup (`shop.json` and `categories.json` are not used here yet) |
+| Footer texts | The about text, the address, the phone as a `tel:` link, and the working hours rows | `shop.json` |
+| Footer lists | The category links and the help links | Categories: `categories.json`. Help: `shop.json` |
 | Status message | One message instead of the whole page while loading, when empty, or on error | Built by `App` |
 
 ## 3. Data and owners
 
 | Information | Where it lives | Owner |
 |---|---|---|
-| Products, categories, offers, shop texts, home banners (5 JSON files) | Files in `/api` on the server. A temporary copy sits in `App`'s `state` and is refetched on every load | The server |
+| Products, categories, offers, shop texts, home banners (5 JSON files) | Files in `/api` on the server. A temporary copy sits in `App`'s `state` and is refetched on every load. Shown: `hero`, `side` and `promos` from `home.json`, and all the described `shop.json` fields. Loaded and checked but not shown: `carousels` | The server |
 | Stock numbers (`stock.json`) | A file on the server. Copied into `state` with the other data, once, when the page loads | The server |
 | The cart lines | `localStorage`, key `tracer-bullet:cart`, a JSON list of lines. Survives a refresh | The visitor's browser |
 | The selected category | `selectedId` in `App`. Lost on refresh | The visitor |
-| Section the visitor jumped to | The `#hash` in the URL (only some sections have a target). Survives a refresh and can be shared as a link | The URL, i.e. the visitor's navigation |
+| Section the visitor jumped to | The `#hash` in the URL. Only `#top` and `#main` lead anywhere, because the page builds no category or banner sections. Survives a refresh and can be shared as a link | The URL, i.e. the visitor's navigation |
 | API address | `VITE_API_URL` in `.env.development` and `.env.production`, read by `getJSON`. It is public, so it is not a secret | The developer (set at build time) |
 
 The server never learns what is in the cart: the page stores only the lines in the browser.
@@ -147,24 +152,25 @@ src/
   main.tsx       mounts <App /> in #root
 ```
 
-| Folder / file | Layer | What goes in it | Functions from `app.ts` |
+| Folder / file | Layer | What goes in it | Where the old `app.ts` code went |
 |---|---|---|---|
 | `types.ts` | types | The shape of all data: API data, cart and page types | `Product`, `Category`, `Offer`, `Stock`, `Link`, `ScheduleRow`, `Promo`, `Banner`, `Shop`, the carousel types, `Home`, `Data`, `CardProduct`, plus `CartLine` and `Sort` / `SORTS` |
 | `api/` | data (network) | Fetching the JSON files and checking their shape | `loadData`; `getJSON` and the Type Guards (created in Step 3) |
-| `storage/` | data (browser) | Reading and writing `localStorage` | `cart-storage.ts`: `loadCart` (with a guard for every line) and `saveCart`. `cart-count-storage.ts` is the old counter |
-| `cart/` | rules | How the cart changes | `cart-lines.ts`: `addToCart`, `removeFromCart`, `cartCount`, `cartTotal`, all pure. `cart-count.ts` is the old counter |
+| `storage/` | data (browser) | Reading and writing `localStorage` | `cart-storage.ts`: `loadCart` (with a guard for every line) and `saveCart`. `cart-count-storage.ts` is the old counter and is no longer used by the page |
+| `cart/` | rules | How the cart changes | `cart-lines.ts`: `addToCart`, `removeFromCart`, `cartCount`, `cartTotal`, all pure. `cart-count.ts` is the old counter and is no longer used by the page |
 | `catalog/` | rules | Prices, offers, stock and search | `withOfferAndStock`; the special-offers price calculation (from `renderSpecialOffers`); filtering products by category (from `renderCategoryCarousel`); the Fuse setup and search |
-| `components/` | page (React) | One component per file. They draw data from props and report events through callback props | `ui/` is gone and its job moved here: `createCard` and `createProductBadge` → `ProductCard`, `OfferBadge`; `renderBanner` → `Hero`; `renderCategories` → `CategoryNav`; the footer and header renderers → `Footer`, `Header`; `load-state-view` → `Status`; the cart panel is new |
-| `format/` | display | `formatNumber`, `formatPrice` | moved from `ui/formatting.ts` |
+| `components/` | page (React) | One component per file. They draw data from props and report events through callback props: `ShopPage` (the layout, and the calculation of the visible cards, the count and the total), `Status`, `Header` with `Logo` and `MainNav`, `Hero`, `CategoryNav`, `ProductGrid` with `ProductCard` and `OfferBadge`, `Promos`, `CartPanel`, and `Footer` with `FooterLists` | `ui/` is gone and its job moved here: `createCard` and `createProductBadge` → `ProductCard`, `OfferBadge`; `renderBanner` → `Hero`; `renderPromos` → `Promos`; `renderCategories` → `CategoryNav`; `renderLinks` and `createCategoryLink` for the menu and the dropdown → `MainNav`; for the footer lists → `FooterLists`; `renderShopTexts` → `Header` (notice, slogan) and `Footer` (about, address, phone); `renderSchedule` → `Footer`; `load-state-view` → `Status`; the cart panel is new |
+| `format/` | display | `formatNumber`, `formatPrice` | Moved from `ui/formatting.ts` |
 | `App.tsx` | wiring | The state, the load effect, the save-cart effect, the page-title effect, the add and remove handlers | `init` and the click handler from `main.ts` |
-| `main.tsx` | start | Mounts `<App />` in `#root` | the start of `main.ts` |
+| `main.tsx` | start | Mounts `<App />` in `#root` | The start of `main.ts` |
 
 **Consequences of these rules:**
 1. Components never fetch or read storage. `App` loads the data and the saved cart, and passes them down as props.
-2. `ShopPage` calculates the visible cards with `catalog/`, and the count and total with `cart/`. `ProductCard`, `OfferBadge`, `Header` and `CartPanel` only draw what they receive.
+2. `ShopPage` calculates the visible cards with `catalog/`, and the count and total with `cart/`. Every other component only draws what it receives.
 3. Adding to the cart is one handler in `App`: the pure `addToCart` returns a new cart, `setCart` stores it, and an effect saves it. Nothing is changed in place.
 4. Buttons report clicks through callback props (`onAdd`, `onRemove`, `onPick`), so no `data-` attributes or container click listeners are needed.
 5. Formatting is in `format/`, because several components use it and it must not depend on a deleted folder.
+6. Long components are split into small ones to stay under 70 lines per file: `Logo` and `MainNav` come out of `Header`, and `FooterLists` comes out of `Footer`.
 
 ## 7. Component tree
 
@@ -174,19 +180,23 @@ main.tsx
    ├─ Status           loading, empty or error message
    └─ ShopPage         the page, once the data has loaded
       ├─ Header
-      │  └─ Logo
+      │  ├─ Logo
+      │  └─ MainNav
       ├─ Hero
       ├─ CategoryNav
       ├─ ProductGrid
       │  └─ ProductCard × n
       │     └─ OfferBadge   only for sold-out or discounted products
+      ├─ Promos
       ├─ CartPanel
       └─ Footer
+         └─ FooterLists
 ```
 
 **Data goes down, events go up:**
 - `App` → `ShopPage`: `data`, `selectedId`, `cart`, and the callbacks `onPick`, `onAdd`, `onRemove`.
-- `ShopPage` → `CategoryNav`: `categories`, `selectedId`, `onPick`. → `ProductGrid`: `products`, `onAdd`. → `CartPanel`: `lines`, `total`, `onRemove`. → `Header`: `count`.
+- `ShopPage` → `Header`: `count`, `shop`, `categories`. → `Hero`: `hero`, `side`. → `CategoryNav`: `categories`, `selectedId`, `onPick`. → `ProductGrid`: `products`, `onAdd`. → `Promos`: `promos`. → `CartPanel`: `lines`, `total`, `onRemove`. → `Footer`: `shop`, `categories`.
+- `Header` → `MainNav`: `menu`, `categories`. `Footer` → `FooterLists`: `categories`, `help`.
 - Components never change their props. A click calls a callback prop, and the owner of the state changes it.
 
 ## 8. Where state lives

@@ -46,7 +46,7 @@ export default function ShopPage({
       <a href="#main" className="skip-link">
         پرش به محتوای اصلی
       </a>
-      <Header count={count} />
+      <Header count={count} shop={data.shop} categories={data.categories} />
       <main id="main">
         <Hero hero={data.home.hero} side={data.home.side} />
         <CategoryNav
@@ -58,7 +58,7 @@ export default function ShopPage({
         <Promos promos={data.home.promos} />
         <CartPanel lines={cart} total={total} onRemove={onRemove} />
       </main>
-      <Footer />
+      <Footer shop={data.shop} categories={data.categories} />
     </>
   );
 }

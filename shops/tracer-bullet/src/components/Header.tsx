@@ -2,21 +2,25 @@ import Logo from "./Logo.tsx";
 import { formatNumber } from "../format/formatting.ts";
 import searchIcon from "../../png/magnifying-glass-fill.png";
 import cartIcon from "../../png/shopping-bag-open-fill.png";
+import type { Category, Shop } from "../types.ts";
+import MainNav from "./MainNav.tsx";
 
 type HeaderProps = {
   count: number;
+  shop: Shop;
+  categories: Category[];
 };
 
-export default function Header({ count }: HeaderProps) {
+export default function Header({ count, shop, categories }: HeaderProps) {
   return (
     <header id="top">
-      <p className="notice"></p>
+      <p className="notice">{shop.notice}</p>
       <h1 className="logo">
         <a href="#top">
           <Logo />
           <span className="logo-text">
             <span>پرتقال</span>
-            <small className="slogan"></small>
+            <small className="slogan">{shop.slogan}</small>
           </span>
         </a>
       </h1>
@@ -50,14 +54,7 @@ export default function Header({ count }: HeaderProps) {
         <span aria-hidden="true">☰</span>
         <span className="visually-hidden">منو</span>
       </label>
-      <nav className="main-nav" aria-label="منوی اصلی">
-        <ul>
-          <li className="dropdown">
-            <button type="button">همه دسته‌ها</button>
-            <ul className="dropdown-menu"></ul>
-          </li>
-        </ul>
-      </nav>
+      <MainNav menu={shop.menu} categories={categories} />
     </header>
   );
 }
