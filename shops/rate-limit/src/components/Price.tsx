@@ -8,9 +8,9 @@ type PriceProps = {
 
 export default function Price({ amount, oldAmount, currency = DEFAULT_CURRENCY }: PriceProps) {
   return (
-    <div className="price">
-      {oldAmount !== undefined && <del className="price-old">{formatMoney(oldAmount, currency)}</del>}
-      <span className="price-current">{formatMoney(amount, currency)}</span>
+    <div className="offer-prices">
+      {oldAmount !== undefined && <del className="offer-old-price">{formatMoney(oldAmount, currency)}</del>}
+      <span className="offer-price">{formatMoney(amount, currency)}</span>
     </div>
   );
 }

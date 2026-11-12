@@ -1,5 +1,6 @@
 import type { CatalogItem } from '../types';
-import ProductCard from './Productcard';
+import Carousel from './Carousel';
+import ProductCard from './ProductCard';
 
 type ProductGridProps = {
   id?: string;
@@ -22,11 +23,11 @@ export default function ProductGrid({ id, title, subtitle, products, onAdd }: Pr
       {products.length === 0 ? (
         <p className="product-grid-empty">محصولی پیدا نشد.</p>
       ) : (
-        <div className="product-grid">
+        <Carousel>
           {products.map((p) => (
             <ProductCard key={p.id} product={p} percent={p.percent} stock={p.stock} onAdd={onAdd} />
           ))}
-        </div>
+        </Carousel>
       )}
     </section>
   );
