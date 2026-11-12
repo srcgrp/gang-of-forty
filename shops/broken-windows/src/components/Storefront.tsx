@@ -10,9 +10,7 @@ import Notification from "./Notification";
 import Footer from "./Footer";
 import type { CartLine, LoadedState } from "../types";
 import { cartCount, cartTotal } from "../cart/totals.ts";
-
 const DAIRY_ID = 2;
-
 type Props = {
   data: LoadedState;
   categoryId: number | null;
@@ -21,13 +19,11 @@ type Props = {
   onAdd: (id: number) => void;
   onRemove: (id: number) => void;
 };
-
 export default function Storefront({ data, categoryId, cart, onPick, onAdd, onRemove }: Props) {
   const { products, offers, stock, categories } = data;
   const visible =
     categoryId === null ? products : products.filter((p) => p.categoryId === categoryId);
   const dairy = products.filter((p) => p.categoryId === DAIRY_ID);
-
   return (
     <>
       <Header cartCount={cartCount(cart)} />
