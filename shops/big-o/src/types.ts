@@ -53,11 +53,11 @@ export type LinkItem = {
     href: string
 };
 
-// This type has n't used yet, the cart is a plain count for now.
+// An item in the cart: a product’s name/price/id and how many of it
 export interface CartItem extends Pick<Product, 'name'|'price'|'id'> {qty: number}
 
 export type LoadState =
   | { status: 'loading' }
-  | { status: 'success'; products: Product[] }
+  | { status: 'success';  categories: Category[], products: Product[], offeredProducts: Offer[], stock: Stock, shop: Shop }
   | { status: 'empty' }
   | { status: 'error'; message: string }
