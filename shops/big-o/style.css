@@ -165,6 +165,11 @@ header {
   display: none;
 }
 
+.mega-menu a[aria-current="true"] {
+  font-weight: bold;
+  color: var(--color-primary);
+}
+
 #hamburger-menu:checked ~ .navbar { display: block; }
 #hamburger-menu:focus-visible ~ .header-row .menu-button {
   outline: 2px solid var(--color-primary);
@@ -308,8 +313,8 @@ main {
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(3,1fr); 
   gap: 0.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
 }
 
 .category-item a{
@@ -345,12 +350,12 @@ main {
   
 }
 
-.category-item:nth-child(1) { --badge: var(--tint-red); }
-.category-item:nth-child(2) { --badge: var(--tint-blue); }
-.category-item:nth-child(3) { --badge: var(--tint-yellow) }
-.category-item:nth-child(4) { --badge: var(--tint-pink) }
-.category-item:nth-child(5) { --badge: var(--tint-green) }
-.category-item:nth-child(6) { --badge: var(--tint-purple) }
+.category-item:nth-child(6n + 1) { --badge: var(--tint-red); }
+.category-item:nth-child(6n + 2) { --badge: var(--tint-blue); }
+.category-item:nth-child(6n + 3) { --badge: var(--tint-yellow) }
+.category-item:nth-child(6n + 4) { --badge: var(--tint-pink) }
+.category-item:nth-child(6n + 5) { --badge: var(--tint-green) }
+.category-item:nth-child(6n + 6) { --badge: var(--tint-purple) }
 
 .carousel-header {
   display: flex;
@@ -516,12 +521,12 @@ html[dir="ltr"] .carousel-arrows img {
 }
 
 
-.product-carousel li:nth-child(1) { --cardBadge: var(--tint-red); }
-.product-carousel li:nth-child(2) { --cardBadge: var(--tint-blue); }
-.product-carousel li:nth-child(3) { --cardBadge: var(--tint-yellow) }
-.product-carousel li:nth-child(4) { --cardBadge: var(--tint-pink) }
-.product-carousel li:nth-child(5) { --cardBadge: var(--tint-green) }
-.product-carousel li:nth-child(6) { --cardBadge: var(--tint-purple) }
+.product-carousel li:nth-child(6n + 1) { --cardBadge: var(--tint-red); }
+.product-carousel li:nth-child(6n + 2) { --cardBadge: var(--tint-blue); }
+.product-carousel li:nth-child(6n + 3) { --cardBadge: var(--tint-yellow) }
+.product-carousel li:nth-child(6n + 4) { --cardBadge: var(--tint-pink) }
+.product-carousel li:nth-child(6n + 5) { --cardBadge: var(--tint-green) }
+.product-carousel li:nth-child(6n + 6) { --cardBadge: var(--tint-purple) }
 
 .product-card h3 {
   font-size: 0.875rem;
@@ -767,7 +772,6 @@ footer ul {
   }
 
   .categories ul {
-    grid-template-columns: repeat(6, 1fr);
     gap: 1rem;
   }
 
