@@ -1,14 +1,24 @@
 import type { ReactNode } from 'react'
+import type { Category } from '../types'
+import logoImg from '../images/space-market-logo.svg'
 
 interface HeaderProps {
   cartCount: number
+  categories: Category[]
+  selectedCategoryId: number | null
+  onCategoryPick: (categoryId: number) => void
 }
 
-export default function Header({ cartCount }: HeaderProps): ReactNode {
+export default function Header({
+  cartCount,
+  categories,
+  selectedCategoryId,
+  onCategoryPick,
+}: HeaderProps): ReactNode {
   return (
     <header>
       <div className="top-bar">
-        <p>ارسال رایگان برای سفارش‌های بالای ۷۰۰ هزار تومان</p>
+        <p>ارسال رایگان برای سفارش\u200cهای بالای ۷۰۰ هزار تومان</p>
         <span>•</span>
         <p>تنها سوپرمارکت ۷/۲۴ در ایران</p>
       </div>
@@ -21,7 +31,7 @@ export default function Header({ cartCount }: HeaderProps): ReactNode {
         </label>
         <a href="#top" className="logo">
           <img
-            src="./src/images/space-market-logo.svg"
+            src={logoImg}
             width="120"
             height="50"
             alt="اسپیس مارکت"
@@ -48,6 +58,42 @@ export default function Header({ cartCount }: HeaderProps): ReactNode {
           <b aria-live="polite">{cartCount}</b>
         </a>
       </div>
+      <nav aria-label="منوی اصلی">
+        <div className="nav-inner">
+          <div className="categories-menu">
+            <button
+              type="button"
+              className="active"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              دسته\u200cبندی\u200cها
+            </button>
+            <div className="categories-dropdown" role="menu">
+              {categories.map((category) => (
+                <a
+                  key={category.id}
+                  href="#categories"
+                  role="menuitem"
+                  onClick={() => onCategoryPick(category.id)}
+                  style={{
+                    fontWeight: selectedCategoryId === category.id ? 'bold' : 'normal',
+                  }}
+                >
+                  <span aria-hidden="true">{category.emoji}</span> {category.name}
+                </a>
+              ))}
+            </div>
+          </div>
+          <a href="#categories">پیشنهادهای امروز</a>
+          <a href="#categories">تخفیفدار ها</a>
+          <a href="#categories">لبنیات</a>
+          <a href="#categories">تنقلات</a>
+          <a href="#categories">نوشیدنی</a>
+          <a href="#categories">آرایشی و بهداشتی</a>
+          <a href="#footer">دربارهی ما</a>
+        </div>
+      </nav>
     </header>
   )
 }

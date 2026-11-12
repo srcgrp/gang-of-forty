@@ -5,9 +5,13 @@ import { addToCart, removeFromCart, getCartItemCount } from './cart'
 import { getJSON } from './api/client'
 import { filterValidProducts, isCategory } from './api/guards'
 import Header from './components/Header'
-import CategoryNav from './components/CategoryNav'
 import ProductGrid from './components/ProductGrid'
 import CartPanel from './components/CartPanel'
+import HeroBanner from './components/HeroBanner'
+import PopularCategories from './components/PopularCategories'
+import Banner02 from './components/Banner02'
+import Advertisement from './components/Advertisement'
+import Footer from './components/Footer'
 
 // API URLs
 const API_BASE = import.meta.env.VITE_API_URL
@@ -49,7 +53,7 @@ export default function App(): ReactNode {
           if (!ignore) {
             setDataState({
               status: 'error',
-              message: 'داده دسته‌بندی نامعتبر است',
+              message: 'داده دسته\u200cبندی نامعتبر است',
             })
           }
           return
@@ -107,70 +111,83 @@ export default function App(): ReactNode {
     setCart((prevCart) => removeFromCart(prevCart, productId))
   }
 
-  // Render based on loading state
-  switch (dataState.status) {
-    case 'loading':
-      return (
-        <>
-          <div id="top"></div>
-          <a href="#main" className="skip">پرش به محتوای اصلی</a>
-          <Header cartCount={0} />
-          <main id="main">
-            <p role="status">در حال بارگذاری...</p>
-          </main>
-        </>
-      )
-
-    case 'empty':
-      return (
-        <>
-          <Header cartCount={0} />
-          <main id="main">
-            <p>داده‌ای برای نمایش وجود ندارد.</p>
-          </main>
-        </>
-      )
-
-    case 'error':
-      return (
-        <>
-          <Header cartCount={0} />
-          <main id="main">
-            <p role="alert">{dataState.message}</p>
-          </main>
-        </>
-      )
-
-    case 'success':
-      const { products, categories } = dataState.data
-
-      return (
-        <>
-          <Header cartCount={cartItemCount} />
-          <CategoryNav
-            categories={categories}
-            selectedCategoryId={selectedCategoryId}
-            onPick={handleCategoryPick}
+  // Render header based on loading state
+  function renderHeader(): ReactNode {
+    switch (dataState.status) {
+      case 'loading':
+      case 'empty':
+      case 'error':
+        return (
+          <Header
+            cartCount={0}
+            categories={[]}
+            selectedCategoryId={null}
+            onCategoryPick={() => {}}
           />
-          <main id="main">
+        )
+      case 'success':
+        return (
+          <Header
+            cartCount={cartItemCount}
+            categories={dataState.data.categories}
+            selectedCategoryId={selectedCategoryId}
+            onCategoryPick={handleCategoryPick}
+          />
+        )
+      default:
+        return null
+    }
+  }
+
+  // Render main content based on loading state
+  function renderMainContent(): ReactNode {
+    switch (dataState.status) {
+      case 'loading':
+        return <p role="status">در حال بارگذاری...</p>
+
+      case 'empty':
+        return <p>داده\u200cای برای نمایش وجود ندارد.</p>
+
+      case 'error':
+        return <p role="alert">{dataState.message}</p>
+
+      case 'success':
+        const { products } = dataState.data
+        return (
+          <>
+            <HeroBanner />
+            <PopularCategories />
+            <Banner02 />
             <div className="layout">
               <div className="section-title">
                 <h2>محصولات</h2>
               </div>
               <ProductGrid products={products} onAddToCart={handleAddToCart} />
             </div>
+            <Advertisement />
             <CartPanel
               cart={cart}
               products={products}
               onRemove={handleRemoveFromCart}
             />
-          </main>
-        </>
-      )
+          </>
+        )
 
-    default:
-      // Exhaustive check
-      const _exhaustive: never = dataState
-      throw new Error(`Unknown state: ${JSON.stringify(_exhaustive)}`)
+      default:
+        const _exhaustive: never = dataState
+        throw new Error(`Unknown state: ${JSON.stringify(_exhaustive)}`)
+    }
   }
+
+  return (
+    <>
+      <div id="top"></div>
+      <a href="#main" className="skip">پرش به محتوای اصلی</a>
+      {renderHeader()}
+      <main id="main">
+        {renderMainContent()}
+      </main>
+      {dataState.status === 'success' && <Footer />}
+    </>
+  )
 }
