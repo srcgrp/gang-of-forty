@@ -459,8 +459,22 @@ header {
     display: block;
 }
 .discount-price{
-    text-decoration:line-through ;
-    
+    color: #777;
+    text-decoration: line-through;
+}
+.discounted-price {
+    color: #9f291c;
+    font-weight: bold;
+}
+.product-prices {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 0;
+}
+.product-prices p {
+    margin: 0;
 }
 .add-to-cart{
     display: inline;
@@ -630,7 +644,7 @@ html {
     cursor: pointer;
     transition:box-shadow, 0.2s transform 0.2s;
 }
-.tent-article div{
+.tent-article > div{
    
     display: flex;
     justify-content: space-around; 
@@ -1015,7 +1029,7 @@ div[id]:target h2::after {
     }
 
     .product div,
-    .tent-article div {
+    .tent-article > div {
         justify-content: space-between;
         gap: 8px;
         padding: 0 4px;

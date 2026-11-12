@@ -28,8 +28,10 @@ export default function ProductCard({
       {offer && <span className="discount-badge">{offer.percent.toLocaleString("fa-IR")}٪</span>}
       {stockCount === 0 && <p className="stock-label">ناموجود</p>}
       <div>
-        {offer && <del>{product.price.toLocaleString("fa-IR")} تومان</del>}
-        <p className={offer ? "discount-price" : ""}>{price.toLocaleString("fa-IR")} تومان</p>
+        <div className="product-prices">
+          {offer && <p className="discount-price">{product.price.toLocaleString("fa-IR")} تومان</p>}
+          <p className={offer ? "discounted-price" : ""}>{price.toLocaleString("fa-IR")} تومان</p>
+        </div>
         <button
           type="button"
           className="add-to-cart"
