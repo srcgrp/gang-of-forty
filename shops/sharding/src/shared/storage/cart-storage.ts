@@ -5,10 +5,9 @@ import { STORAGE_KEYS } from './keys';
 export function isCartLine(v: unknown): v is CartLine {
   return (
     isRecord(v) &&
-    typeof v.id === 'number' &&
+    typeof v.id === 'number' && Number.isSafeInteger(v.id) && v.id > 0 &&
     typeof v.quantity === 'number' &&
-    v.quantity > 0 &&
-    Number.isFinite(v.quantity)
+    Number.isSafeInteger(v.quantity) && v.quantity > 0
   );
 }
 
@@ -20,7 +19,7 @@ export function loadCart(): Cart {
 
     if (Array.isArray(data)) {
       const lines = data.filter(isCartLine);
-      return Object.fromEntries(lines.map((l) => [String(l.id), Math.floor(l.quantity)]));
+      return Object.fromEntries(lines.map((l) => [String(l.id), l.quantity]));
     }
     return {};
   } catch {

@@ -1,21 +1,20 @@
-import type { Shelf, ShelfView } from '../../../shared/types';
-import type { AppState } from '../../../shared/state/app-state';
+import type { AppState, Shelf, ShelfView } from '../../../shared/types';
 import { shelfProducts } from './filters';
 import { cardOf } from './to-card';
 
-export function buildShelves(s: AppState): ShelfView[] {
+export function buildShelves(state: AppState): ShelfView[] {
   const shelves: Shelf[] = [];
-  if (s.offerMap.size > 0) {
+  if (state.offerMap.size > 0) {
     shelves.push({ id: 'offers', title: 'پیشنهادهای ویژه امروز', source: 'offers' });
   }
-  for (const c of s.categories) {
-    shelves.push({ id: c.slug, title: c.name, categoryId: c.id });
+  for (const category of state.categories) {
+    shelves.push({ id: category.slug, title: category.name, categoryId: category.id });
   }
-  if (s.categories.length === 0) {
+  if (state.categories.length === 0) {
     shelves.push({ id: 'all', title: 'همه محصولات' });
   }
   return shelves.map((shelf) => ({
     shelf,
-    cards: shelfProducts(shelf, s.products, s.offerMap).map((p) => cardOf(p, s)),
+    cards: shelfProducts(shelf, state.products, state.offerMap).map((product) => cardOf(product, state)),
   }));
 }

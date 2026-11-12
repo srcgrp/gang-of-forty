@@ -1,4 +1,6 @@
 dist/
+.DS_Store
+node_modules/
 .env
-.env.development
-.env.production
+.env.local
+.env.*.local

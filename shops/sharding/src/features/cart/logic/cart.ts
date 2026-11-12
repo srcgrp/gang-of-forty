@@ -31,7 +31,7 @@ export function cartCount(cart: Cart): number {
   return Object.values(cart).reduce((sum, n) => sum + n, 0);
 }
 
-export type CartChangeResult =
+type CartChangeResult =
   | { status: 'max' | 'noop'; before: number; after: number }
   | { status: 'changed'; before: number; after: number };
 
