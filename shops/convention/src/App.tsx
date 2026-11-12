@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { CartItem, Product, LoadState } from './types'
+import { loadCart, saveCart } from './storage/cart-storage'
 
 import { getProducts } from './api/products'
 import {
@@ -14,7 +15,7 @@ import ProductGrid from './components/ProductGrid'
 import CartPanel from './components/CartPanel'
 
 export default function App() {
-  const [cart, setCart] = useState<CartItem[]>([])
+  const [cart, setCart] = useState<CartItem[]>(() => loadCart())
 
   const [productsState, setProductsState] = useState<LoadState<Product[]>>({
     status: 'loading',
@@ -52,6 +53,17 @@ export default function App() {
       controller.abort()
     }
   }, [])
+
+
+  // Save cart to localStorage whenever cart changes
+useEffect(() => {
+  saveCart(cart)
+}, [cart])
+
+  // Update document title when cart changes
+useEffect(() => {
+  document.title = '🛒 ' + cart.length
+}, [cart])
 
   function handleAdd(id: number) {
     setCart((previousCart) => addToCart(previousCart, id))

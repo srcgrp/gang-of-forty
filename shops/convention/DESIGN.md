@@ -1,49 +1,67 @@
-# Convention Store — Architecture Design
+# Convention Store - Design Documentation
 
-## 1. Project Overview
+## 1. Component Tree
 
-This project is a supermarket storefront built with HTML, CSS, TypeScript, and Vite, without React or another UI framework.
+The application uses a component-based architecture with React.
 
-The application displays products, supports adding products to the cart, and persists cart data using localStorage.
+```text
+App
+├── Header
+├── CategoryNav
+├── ProductGrid
+│   └── ProductCard
+└── CartPanel
+```
 
-## 2. Page Sections
+### Component Responsibilities
 
-- Header and cart counter
-- Product carousel
-- Product cards
-- Add-to-cart interaction
-- Loading, empty, and error messages
+- **App:** Main component that manages application state, side effects, and connects other components.
+- **Header:** Displays the website header and cart item count.
+- **CategoryNav:** Displays product categories.
+- **ProductGrid:** Displays products and handles loading, success, empty, and error states.
+- **ProductCard:** Displays an individual product and provides an add-to-cart action.
+- **CartPanel:** Displays cart items, quantities, prices, and the total amount. It also provides the remove action.
 
-## 3. Data Ownership
+## 2. State Table
 
-- `src/api/`: Fetches external JSON data and validates its structure.
-- `src/storage/`: Reads and writes persistent browser storage.
-- `src/cart/`: Manages cart items and quantities.
-- `src/catalog/`: Loads, filters, and prepares product data for display.
-- `src/ui/`: Creates and updates DOM elements.
-- `src/types.ts`: Defines shared TypeScript types.
-- `src/main.ts`: Initializes the application and connects its main components.
+| State | Type | Location | Purpose |
+|---|---|---|---|
+| cart | CartItem[] | App | Stores cart items and quantities |
+| productsState | LoadState<Product[]> | App | Manages product loading and API results |
 
-## 4. API Contract
+### State Details
 
-API responses are treated as `unknown` until validated.
+- The `cart` state is initialized using `loadCart()` from localStorage.
+- Cart changes are saved using `saveCart()`.
+- The `productsState` state manages four possible statuses:
+  - loading
+  - success
+  - empty
+  - error
 
-The API layer checks HTTP responses and validates product, category, offer, and stock data before returning typed values.
+## 3. Derived Values
 
-Invalid product entries are ignored and reported. Invalid category, offer, or stock responses cause an error.
+The following values are calculated from the application state:
 
-## 5. Loading States
+| Value | Calculation | Purpose |
+|---|---|---|
+| products | Products from successful productsState | Provides available products |
+| cartLines | Matches cart items with product data | Provides complete cart item information |
+| total | Sum of price × quantity | Calculates the cart total |
+| cartCount | getCartCount(cart) | Calculates the total number of items in the cart |
 
-Product loading uses a discriminated union:
+Derived values are calculated during rendering and are not stored as separate state.
 
-- `loading`: Data is being requested.
-- `success`: Products are available.
-- `empty`: No products match the selected category.
-- `error`: The request failed or the response was invalid.
+## 4. Side Effects
 
-The UI displays an appropriate message for each state.
+The application uses React `useEffect` for the following operations:
 
-## 6. Source Structure
+- Fetch products from the API.
+- Cancel pending API requests using `AbortController` during cleanup.
+- Save cart changes to localStorage using `saveCart`.
+- Update `document.title` whenever the cart changes.
+
+## 5. Folder Structure
 
 ```text
 src/
@@ -54,37 +72,40 @@ src/
 ├── cart/
 │   └── cart.ts
 ├── catalog/
-│   ├── products.ts
-│   └── render-products.ts
+│   └── products.ts
+├── components/
+│   ├── CartPanel.tsx
+│   ├── CategoryNav.tsx
+│   ├── Header.tsx
+│   ├── ProductCard.tsx
+│   └── ProductGrid.tsx
+├── data/
+│   └── sample-products.ts
 ├── storage/
 │   └── cart-storage.ts
-├── ui/
-│   ├── cart-counter.ts
-│   ├── messages.ts
-│   └── product-card.ts
-├── main.ts
+├── App.tsx
+├── main.tsx
 └── types.ts
 ```
 
-## 7. Dependency Rules
+### Folder Responsibilities
 
-- `main.ts` initializes the application.
-- UI modules render DOM elements and handle user interactions.
-- Catalog modules coordinate product display.
-- API modules handle external requests and data validation.
-- Storage modules handle localStorage.
-- Shared types are defined in `types.ts`.
-- Dependencies should flow toward lower-level data and type modules, avoiding circular imports.
+- **api:** Handles API requests, product retrieval, and additional catalog data.
+- **cart:** Contains pure functions for cart operations.
+- **catalog:** Contains catalog-related utility functions.
+- **components:** Contains reusable React UI components.
+- **data:** Contains sample product data.
+- **storage:** Handles cart persistence in localStorage.
+- **App.tsx:** Manages application state and connects components.
+- **main.tsx:** React application entry point.
+- **types.ts:** Contains shared TypeScript types and interfaces.
 
-## 8. Error Handling
+### Additional Notes
 
-- Failed HTTP responses produce errors.
-- Invalid external data is rejected or filtered according to the API function's contract.
-- Product loading failures are displayed to the user.
-- Cart storage handles invalid or malformed saved JSON.
+Some modules are not currently connected to the main React application flow:
 
-## 9. Security
+- `data/sample-products.ts` contains sample product data.
+- `catalog/products.ts` contains the `formatPrice` utility.
+- `api/catalog-data.ts` provides functions for fetching categories, offers, and stock information.
 
-- External data must be validated before use.
-- User-facing text is inserted with `textContent` rather than interpreted as HTML.
-- Environment variables prefixed with `VITE_` are public client-side configuration and must not contain secrets.
+These modules are retained in the project but are not currently used by the active React components.
