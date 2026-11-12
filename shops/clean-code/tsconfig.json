@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2023",
+    "strict": true,
     "lib": ["ES2023", "DOM"],
     "module": "esnext",
     "moduleResolution": "bundler",
@@ -15,7 +16,8 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true
+    "exactOptionalPropertyTypes": true,
+    "jsx": "react-jsx"
   },
   "include": ["src"]
 }
