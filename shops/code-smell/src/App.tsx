@@ -14,6 +14,7 @@ export default function App() {
     const [query, setQuery] = useState("")
     const [cart, setCart] = useState<Cart>(() => loadCart())
     const [cartOpen, setCartOpen] = useState(false)
+    const [countdownOpen, setCountdownOpen] = useState(false)
     useEffect(function () {
         let ignore = false
         function showSlowConnection(message: string): void {
@@ -34,9 +35,7 @@ export default function App() {
                     setState({ status: "error", message: getLoadErrorMessage(error) })
                 }
             })
-        return function () {
-            ignore = true
-        }
+        return function () { ignore = true }
     }, [attempt])
 
     useEffect(function () {
@@ -62,6 +61,7 @@ export default function App() {
     return (
         <ShopPage
             {...pageData}
+            countdownControls={{ open: countdownOpen, onToggle: () => setCountdownOpen(!countdownOpen) }}
             onAdd={(id: number) => setCart(addToCart(cart, { id, quantity: 1 }))}
             onPick={setCategoryId}
             onRemove={(id: number) => setCart(removeFromCart(cart, id))}

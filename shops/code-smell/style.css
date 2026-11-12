@@ -1721,3 +1721,13 @@ button {
 .retry-button {
     border-radius: 12px;
 }
+
+.sale-countdown .button {
+    border-radius: 12px;
+}
+
+.sale-countdown .section__subtitle {
+    text-align: center;
+    margin-inline: auto;
+    font-size: 1.25rem;
+}

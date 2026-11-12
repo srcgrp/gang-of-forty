@@ -8,12 +8,14 @@ import ProductGrid from "./ProductGrid"
 import CartPanel from "./CartPanel"
 import Guide from "./Guide"
 import Footer from "./Footer"
+import { SaleCountdownPanel, type CountdownControls } from "./SaleCountdown"
 
 type ShopPageProps = {
     data: ShopData
     carousels: CarouselWithProducts[]
     catalogControls: CatalogControls
     cartControls: CartButtonProps
+    countdownControls: CountdownControls
     rows: CartRowData[]
     total: number
     onAdd: (id: number) => void
@@ -22,15 +24,10 @@ type ShopPageProps = {
 }
 
 export default function ShopPage({
-    data,
-    carousels,
-    catalogControls,
-    cartControls,
-    rows,
-    total,
-    onAdd,
-    onPick,
-    onRemove
+    data, carousels, catalogControls,
+    cartControls, rows, total,
+    onAdd, onPick, onRemove,
+    countdownControls
 }: ShopPageProps) {
     const isSearching = catalogControls.query.trim() !== ""
     return (
@@ -54,6 +51,7 @@ export default function ShopPage({
                 />
                 <Categories categories={data.categories} onPick={onPick} />
                 <Promos home={data.home} categories={data.categories} onPick={onPick} />
+                <SaleCountdownPanel {...countdownControls} />
                 {!isSearching && <ProductGrid carousels={carousels} onAdd={onAdd} />}
                 <Guide shop={data.shop} />
                 <CartPanel
