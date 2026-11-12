@@ -3,30 +3,35 @@
     "id": 1,
     "title": "شیر کم‌چرب یک لیتری",
     "price": 34000,
-    "image": "milk.png"
+    "image": "glossy_milk_glass_app_icon.png",
+    "category": "dairy"
   },
   {
     "id": 2,
-    "title": "ماست همزده دبه‌ای ۹۰۰ گرمی",
+    "title": "آبمیوه سیب نیم لیتری",
     "price": 69000,
-    "image": "yogurt.png"
+    "image": "glossy_green_juice_carton_icon.png",
+    "category": "dairy"
   },
   {
     "id": 3,
-    "title": "پنیر سفید صبحانه ۴۰۰ گرمی",
-    "price": 85000,
-    "image": "cheese.png"
+    "title": "کره پاستوریزه",
+    "price": 42000,
+    "image": "emoji:🧈",
+    "category": "dairy"
   },
   {
     "id": 4,
-    "title": "کره پاستوریزه ۱۰۰ گرمی",
-    "price": 42000,
-    "image": "butter.png"
+    "title": "ماست همزده دبه‌ای",
+    "price": 69000,
+    "image": "emoji:🥣",
+    "category": "dairy"
   },
   {
     "id": 5,
     "title": "نان تست هفت غله ۲۰ پیش‌رس",
     "price": 54000,
-    "image": "bread.png"
+    "image": "bread.png",
+    "category": "bread"
   }
 ]
