@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import type { CartItem, Product, Stock } from './types';
+import type { CartLine, Product, Stock } from './types';
 import { CATEGORIES } from './data/categories';
+import { addToCart, cartCount, cartTotal, removeFromCart } from './cart/cartLines';
 import AnnouncementBar from './components/Announcementbar';
 import Header from './components/Header';
 import CategoryNav from './components/Categorynav';
@@ -13,52 +14,43 @@ import CartPanel from './components/Cartpanel';
 import Footer from './components/Footer';
 
 const SAMPLE: Product[] = [
-  { id: 1, name: 'سیب قرمز', price: 85000, oldPrice: 110000, unit: 'هر کیلو', emoji: '🍎', categoryId: 'fruits', tags: [] },
-  { id: 2, name: 'شیر کم‌چرب', price: 42000, unit: 'یک لیتر', emoji: '🥛', categoryId: 'dairy', tags: [] },
-  { id: 3, name: 'نان بربری', price: 18000, oldPrice: 20000, unit: 'یک عدد', emoji: '🍞', categoryId: 'bakery', tags: [] },
-  { id: 4, name: 'آووکادو', price: 160000, unit: 'هر کیلو', emoji: '🥑', categoryId: 'fruits', tags: [] },
+  { id: 1, name: 'سیب قرمز', price: 85000, oldPrice: 110000, unit: 'هر کیلو', emoji: '🍎', categoryId: 1, tags: [] },
+  { id: 2, name: 'شیر کم‌چرب', price: 42000, unit: 'یک لیتر', emoji: '🥛', categoryId: 2, tags: [] },
+  { id: 3, name: 'نان بربری', price: 18000, oldPrice: 20000, unit: 'یک عدد', emoji: '🍞', categoryId: 3, tags: [] },
+  { id: 4, name: 'آووکادو', price: 160000, unit: 'هر کیلو', emoji: '🥑', categoryId: 1, tags: [] },
 ];
 
 const SAMPLE_STOCK: Stock['items'] = { 1: 12, 2: 3, 3: 0, 4: 20 };
 
 export default function App() {
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const [categoryId, setCategoryId] = useState<number | null>(null);
+  const [cart, setCart] = useState<CartLine[]>([]);
   const [cartOpen, setCartOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
-  const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   useEffect(() => {
     document.documentElement.dataset.theme = darkMode ? 'dark' : 'light';
   }, [darkMode]);
 
-  function addToCart(id: number) {
+  const visibleProducts =
+    categoryId === null ? SAMPLE : SAMPLE.filter((p) => p.categoryId === categoryId);
+  const count = cartCount(cart);
+  const total = cartTotal(cart);
+
+  function handleAdd(id: number) {
     const product = SAMPLE.find((p) => p.id === id);
-    if (!product) return;
-    setCart((prev) => {
-      const existing = prev.find((i) => i.product.id === id);
-      if (existing) {
-        return prev.map((i) => (i.product.id === id ? { ...i, quantity: i.quantity + 1 } : i));
-      }
-      return [...prev, { product, quantity: 1 }];
-    });
+    if (product) setCart(addToCart(cart, product));
   }
 
-  function changeQuantity(productId: number, delta: number) {
-    setCart((prev) =>
-      prev
-        .map((i) => (i.product.id === productId ? { ...i, quantity: i.quantity + delta } : i))
-        .filter((i) => i.quantity > 0),
-    );
+  function handleRemove(id: number) {
+    setCart(removeFromCart(cart, id));
   }
 
-  function selectCategory(categoryId: string) {
-    setActiveCategory(categoryId);
+  function handlePick(id: number | null) {
+    setCategoryId(id);
     setMenuOpen(false);
   }
-
-  const cartCount = cart.reduce((sum, i) => sum + i.quantity, 0);
-  const visibleProducts = activeCategory ? SAMPLE.filter((p) => p.categoryId === activeCategory) : SAMPLE;
 
   return (
     <div id="top">
@@ -67,30 +59,31 @@ export default function App() {
 
       <div className="sticky-header">
         <Header
-          cartCount={cartCount}
+          cartCount={count}
           darkMode={darkMode}
           onToggleTheme={setDarkMode}
           onCartClick={() => setCartOpen(true)}
         />
         <CategoryNav
           categories={CATEGORIES}
+          activeId={categoryId}
           open={menuOpen}
           onToggle={setMenuOpen}
-          onSelect={selectCategory}
+          onPick={handlePick}
         />
       </div>
 
       <Hero />
 
       <main id="main-content">
-        <CategoryCards categories={CATEGORIES} onSelect={selectCategory} />
+        <CategoryCards categories={CATEGORIES} activeId={categoryId} onPick={handlePick} />
         <ProductGrid
           id="special-offers"
           title="پیشنهاد ویژه امروز 🔥"
           subtitle="تا پایان موجودی"
           products={visibleProducts}
           stock={SAMPLE_STOCK}
-          onAdd={addToCart}
+          onAdd={handleAdd}
         />
         <AdBanner />
         <LearnSection />
@@ -99,10 +92,11 @@ export default function App() {
       <Footer categories={CATEGORIES} />
 
       <CartPanel
-        items={cart}
+        lines={cart}
+        total={total}
         open={cartOpen}
         onClose={() => setCartOpen(false)}
-        onChangeQuantity={changeQuantity}
+        onRemove={handleRemove}
       />
     </div>
   );

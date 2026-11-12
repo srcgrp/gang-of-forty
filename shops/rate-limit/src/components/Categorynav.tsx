@@ -2,12 +2,13 @@ import type { Category } from '../types';
 
 type CategoryNavProps = {
   categories: Category[];
+  activeId: number | null;
   open: boolean;
   onToggle: (open: boolean) => void;
-  onSelect: (categoryId: string) => void;
+  onPick: (id: number | null) => void; 
 };
 
-export default function CategoryNav({ categories, open, onToggle, onSelect }: CategoryNavProps) {
+export default function CategoryNav({ categories, activeId, open, onToggle, onPick }: CategoryNavProps) {
   return (
     <div className="nav-area">
       <input
@@ -40,8 +41,22 @@ export default function CategoryNav({ categories, open, onToggle, onSelect }: Ca
       </nav>
       <label className="menu-close-overlay" htmlFor="category-toggle" aria-hidden="true" />
       <div className="category-dropdown">
+        <a
+          href="#special-offers"
+          className={activeId === null ? 'is-active' : undefined}
+          aria-current={activeId === null ? 'true' : undefined}
+          onClick={() => onPick(null)}
+        >
+          همه محصولات
+        </a>
         {categories.map((c) => (
-          <a key={c.id} href={`#${c.slug}`} onClick={() => onSelect(c.id)}>
+          <a
+            key={c.id}
+            href={`#${c.slug}`}
+            className={c.id === activeId ? 'is-active' : undefined}
+            aria-current={c.id === activeId ? 'true' : undefined}
+            onClick={() => onPick(c.id)}
+          >
             {c.name}
           </a>
         ))}

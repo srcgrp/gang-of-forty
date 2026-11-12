@@ -5,11 +5,11 @@ export interface Product {
   oldPrice?: number;
   unit: string;
   emoji: string;
-  categoryId: string;
+  categoryId: number;
   tags: string[];
 }
 export interface Category {
-  id: string;
+  id: number;
   slug: string;
   name: string;
   emoji: string;
@@ -124,9 +124,4 @@ export interface CardView {
   soldOut: boolean;
   disabled: boolean;
   addLabel: string;
-}
-
-export interface CartItem {
-  product: Product;
-  quantity: number;
 }

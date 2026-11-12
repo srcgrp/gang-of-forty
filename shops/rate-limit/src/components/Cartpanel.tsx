@@ -1,17 +1,17 @@
-import type { CartItem } from '../types';
+import type { CartLine } from '../types';
 import { formatMoney, toPersianDigits } from '../format/price';
 
 const FREE_SHIPPING_THRESHOLD = 1_000_000;
 
 type CartPanelProps = {
-  items: CartItem[];
+  lines: CartLine[];
+  total: number;
   open: boolean;
   onClose: () => void;
-  onChangeQuantity: (productId: number, delta: number) => void;
+  onRemove: (id: number) => void;
 };
 
-export default function CartPanel({ items, open, onClose, onChangeQuantity }: CartPanelProps) {
-  const total = items.reduce((sum, i) => sum + i.product.price * i.quantity, 0);
+export default function CartPanel({ lines, total, open, onClose, onRemove }: CartPanelProps) {
   const remaining = FREE_SHIPPING_THRESHOLD - total;
 
   return (
@@ -23,22 +23,27 @@ export default function CartPanel({ items, open, onClose, onChangeQuantity }: Ca
         </button>
       </div>
 
-      {items.length === 0 ? (
+      {lines.length === 0 ? (
         <p className="cart-empty">سبد خرید شما خالی است.</p>
       ) : (
         <ul className="cart-list">
-          {items.map(({ product, quantity }) => (
-            <li className="cart-item" key={product.id}>
-              <span className="cart-item-emoji" aria-hidden="true">{product.emoji}</span>
+          {lines.map((line) => (
+            <li className="cart-item" key={line.id}>
               <div className="cart-item-info">
-                <h3>{product.name}</h3>
-                <p>{formatMoney(product.price * quantity)}</p>
+                <h3>{line.name}</h3>
+                <p>
+                  {toPersianDigits(line.quantity)} × {formatMoney(line.price)}
+                </p>
               </div>
-              <div className="cart-item-qty">
-                <button type="button" aria-label="کم کردن" onClick={() => onChangeQuantity(product.id, -1)}>−</button>
-                <span>{toPersianDigits(quantity)}</span>
-                <button type="button" aria-label="زیاد کردن" onClick={() => onChangeQuantity(product.id, 1)}>+</button>
-              </div>
+              <strong className="cart-item-total">{formatMoney(line.price * line.quantity)}</strong>
+              <button
+                type="button"
+                className="cart-item-remove"
+                aria-label={`حذف ${line.name}`}
+                onClick={() => onRemove(line.id)}
+              >
+                حذف
+              </button>
             </li>
           ))}
         </ul>
