@@ -1,4 +1,4 @@
-import { formatNumber } from "../ui/formatting.ts"
+import { formatNumber } from "../format/formatting.ts";
 
 type OfferBadgeProps = {
   text: string

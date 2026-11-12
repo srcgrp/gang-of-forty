@@ -1,5 +1,5 @@
 import type { CartLine } from "../types.ts";
-import { formatNumber, formatPrice } from "../ui/formatting.ts";
+import { formatNumber, formatPrice } from "../format/formatting.ts";
 
 type CartPanelProps = {
   lines: CartLine[];

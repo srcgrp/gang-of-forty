@@ -1,5 +1,7 @@
 import Logo from "./Logo.tsx";
-import { formatNumber } from "../ui/formatting.ts";
+import { formatNumber } from "../format/formatting.ts";
+import searchIcon from "../../png/magnifying-glass-fill.png";
+import cartIcon from "../../png/shopping-bag-open-fill.png";
 
 type HeaderProps = {
   count: number;
@@ -24,18 +26,13 @@ export default function Header({ count }: HeaderProps) {
         </label>
         <input type="search" id="search" name="q" placeholder="جستجو" />
         <button type="submit" aria-label="جستجو">
-          <img
-            src="png/magnifying-glass-fill.png"
-            alt=""
-            width="20"
-            height="20"
-          />
+          <img src={searchIcon} alt="" width="20" height="20" />
         </button>
       </form>
       <button type="button" className="cart">
         <img
           className="icon-inline"
-          src="png/shopping-bag-open-fill.png"
+          src={cartIcon}
           alt=""
           width="20"
           height="20"

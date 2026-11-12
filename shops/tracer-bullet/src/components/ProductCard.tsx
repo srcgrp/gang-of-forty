@@ -1,5 +1,5 @@
 import type { CardProduct } from "../types.ts";
-import { formatNumber, formatPrice } from "../ui/formatting.ts";
+import { formatNumber, formatPrice } from "../format/formatting.ts";
 import OfferBadge from "./OfferBadge.tsx";
 
 type ProductCardProps = {

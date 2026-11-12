@@ -1,15 +1,17 @@
 import type { CardProduct, CartLine, LoadState } from "./types.ts";
 import { useState, useEffect } from "react";
-import { addToCart, removeFromCart } from "./cart/cart-lines.ts";
+import { addToCart, removeFromCart, cartCount } from "./cart/cart-lines.ts";
 import { loadData } from "./api/load-data.ts";
 import { getDataLoadState } from "./catalog/data-load-state.ts";
 import Status from "./components/Status.tsx";
 import ShopPage from "./components/ShopPage.tsx";
+import { loadCart, saveCart } from "./storage/cart-storage.ts";
+  import { formatNumber } from "./format/formatting.ts";
 
 export default function App() {
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [state, setState] = useState<LoadState>({ status: "loading" });
-  const [cart, setCart] = useState<CartLine[]>([]);
+  const [cart, setCart] = useState<CartLine[]>(() => loadCart());
 
   useEffect(() => {
     let ignore = false;
@@ -31,6 +33,14 @@ export default function App() {
       ignore = true;
     };
   }, []);
+
+  useEffect(() => {
+    saveCart(cart);
+  }, [cart]);
+
+  useEffect(() => {
+    document.title = `پرتقال - ${formatNumber(cartCount(cart))} 🛒`;
+  }, [cart]);
 
   if (state.status !== "success") {
     return <Status state={state} />;
