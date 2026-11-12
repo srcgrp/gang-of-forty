@@ -12,6 +12,8 @@ export default function App() {
     const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
         null,
     );
+    const [query, setQuery] = useState('');
+    const [attempt, setAttempt] = useState(0);
     const [loadState, setLoadState] = useState<LoadState>({status: 'loading'});
 
     useEffect(() => {
@@ -38,7 +40,7 @@ export default function App() {
         return () => {
             ignore = true;
         };
-    }, []);
+    }, [attempt]);
 
     useEffect(() => {
         saveCart(cart);
@@ -57,14 +59,23 @@ export default function App() {
     const handleRemove = (id: number): void => {
         setCart((previousCart) => removeFromCart(previousCart, id));
     };
+
+    const handleRetry = (): void => {
+        setLoadState({status: 'loading'});
+        setAttempt((previous) => previous + 1);
+    };
+
     return (
         <AppContent
             cart={cart}
             loadState={loadState}
             selectedCategoryId={selectedCategoryId}
             onPickCategory={setSelectedCategoryId}
+            query={query}
+            onQuery={setQuery}
             onAdd={handleAdd}
             onRemove={handleRemove}
+            onRetry={handleRetry}
         />
     );
 }
