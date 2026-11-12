@@ -1,6 +1,16 @@
 import CategoryNav from './CategoryNav'
+import type { Category } from '../types'
 
-export default function Header() {
+type HeaderProps = {
+  categories: Category[]
+  activeCategoryId: number | null
+  onPick: (id: number | null) => void
+}
+export default function Header({
+  categories,
+  activeCategoryId,
+  onPick
+}: HeaderProps) {
   return (
     <header className="header" id="top">
       <a className="skip" href="#main">
@@ -84,15 +94,11 @@ export default function Header() {
           ☰
         </label>
       </div>
-
-      <nav className="nav" aria-label="منوی اصلی">
-        <ul className="menu" id="main-menu">
-          <li className="has-sub">
-            <a href="#categories">همه دسته‌ها</a>
-            <ul className="submenu" id="submenu"></ul>
-          </li>
-        </ul>
-      </nav>
+     <CategoryNav
+  categories={categories}
+  activeCategoryId={activeCategoryId}
+  onPick={onPick}
+/>
     </header>
   )
 }
