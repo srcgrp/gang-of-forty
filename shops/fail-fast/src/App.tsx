@@ -112,6 +112,8 @@ export default function App(): ReactNode {
     case 'loading':
       return (
         <>
+          <div id="top"></div>
+          <a href="#main" className="skip">پرش به محتوای اصلی</a>
           <Header cartCount={0} />
           <main id="main">
             <p role="status">در حال بارگذاری...</p>
