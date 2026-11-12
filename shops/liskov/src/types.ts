@@ -66,6 +66,7 @@ export type Product = {
     price: number;
     tags: string[];
 };
+
 export type ProductPreview = Pick<Product, 'id' | 'name' | 'price'>;
 export type ReadonlyShop = Readonly<Shop>;
 
@@ -83,12 +84,11 @@ export type Offer = {
     label: string;
 };
 
-export type Cart = Record<string, number>;
 export type CartLine = {
     productId: number;
-} & {
     quantity: number;
 };
+
 export type AppData = {
     shop: Shop;
     categories: Category[];
