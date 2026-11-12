@@ -1,9 +1,9 @@
 import type { Category } from '../types';
 import { toPersianDigits } from '../format/price';
 
-interface FooterProps {
+type FooterProps = {
   categories: Category[];
-}
+};
 
 export default function Footer({ categories }: FooterProps) {
   return (

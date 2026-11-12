@@ -3,12 +3,12 @@ import { formatMoney, toPersianDigits } from '../format/price';
 
 const FREE_SHIPPING_THRESHOLD = 1_000_000;
 
-interface CartPanelProps {
+type CartPanelProps = {
   items: CartItem[];
   open: boolean;
   onClose: () => void;
   onChangeQuantity: (productId: number, delta: number) => void;
-}
+};
 
 export default function CartPanel({ items, open, onClose, onChangeQuantity }: CartPanelProps) {
   const total = items.reduce((sum, i) => sum + i.product.price * i.quantity, 0);

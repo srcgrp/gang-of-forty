@@ -1,10 +1,10 @@
 import { DEFAULT_CURRENCY, formatMoney } from '../format/price';
 
-interface PriceProps {
+type PriceProps = {
   amount: number;
   oldAmount?: number;
   currency?: string;
-}
+};
 
 export default function Price({ amount, oldAmount, currency = DEFAULT_CURRENCY }: PriceProps) {
   return (

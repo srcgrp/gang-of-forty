@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { CartItem, Product } from './types';
+import type { CartItem, Product, Stock } from './types';
 import { CATEGORIES } from './data/categories';
 import AnnouncementBar from './components/Announcementbar';
 import Header from './components/Header';
@@ -19,21 +19,26 @@ const SAMPLE: Product[] = [
   { id: 4, name: 'آووکادو', price: 160000, unit: 'هر کیلو', emoji: '🥑', categoryId: 'fruits', tags: [] },
 ];
 
+const SAMPLE_STOCK: Stock['items'] = { 1: 12, 2: 3, 3: 0, 4: 20 };
+
 export default function App() {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [cartOpen, setCartOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   useEffect(() => {
     document.documentElement.dataset.theme = darkMode ? 'dark' : 'light';
   }, [darkMode]);
 
-  function addToCart(product: Product) {
+  function addToCart(id: number) {
+    const product = SAMPLE.find((p) => p.id === id);
+    if (!product) return;
     setCart((prev) => {
-      const existing = prev.find((i) => i.product.id === product.id);
+      const existing = prev.find((i) => i.product.id === id);
       if (existing) {
-        return prev.map((i) => (i.product.id === product.id ? { ...i, quantity: i.quantity + 1 } : i));
+        return prev.map((i) => (i.product.id === id ? { ...i, quantity: i.quantity + 1 } : i));
       }
       return [...prev, { product, quantity: 1 }];
     });
@@ -47,7 +52,13 @@ export default function App() {
     );
   }
 
+  function selectCategory(categoryId: string) {
+    setActiveCategory(categoryId);
+    setMenuOpen(false);
+  }
+
   const cartCount = cart.reduce((sum, i) => sum + i.quantity, 0);
+  const visibleProducts = activeCategory ? SAMPLE.filter((p) => p.categoryId === activeCategory) : SAMPLE;
 
   return (
     <div id="top">
@@ -61,18 +72,24 @@ export default function App() {
           onToggleTheme={setDarkMode}
           onCartClick={() => setCartOpen(true)}
         />
-        <CategoryNav categories={CATEGORIES} open={menuOpen} onToggle={setMenuOpen} />
+        <CategoryNav
+          categories={CATEGORIES}
+          open={menuOpen}
+          onToggle={setMenuOpen}
+          onSelect={selectCategory}
+        />
       </div>
 
       <Hero />
 
       <main id="main-content">
-        <CategoryCards categories={CATEGORIES} />
+        <CategoryCards categories={CATEGORIES} onSelect={selectCategory} />
         <ProductGrid
           id="special-offers"
           title="پیشنهاد ویژه امروز 🔥"
           subtitle="تا پایان موجودی"
-          products={SAMPLE}
+          products={visibleProducts}
+          stock={SAMPLE_STOCK}
           onAdd={addToCart}
         />
         <AdBanner />

@@ -1,12 +1,13 @@
 import type { Category } from '../types';
 
-interface CategoryNavProps {
+type CategoryNavProps = {
   categories: Category[];
   open: boolean;
   onToggle: (open: boolean) => void;
-}
+  onSelect: (categoryId: string) => void;
+};
 
-export default function CategoryNav({ categories, open, onToggle }: CategoryNavProps) {
+export default function CategoryNav({ categories, open, onToggle, onSelect }: CategoryNavProps) {
   return (
     <div className="nav-area">
       <input
@@ -40,7 +41,7 @@ export default function CategoryNav({ categories, open, onToggle }: CategoryNavP
       <label className="menu-close-overlay" htmlFor="category-toggle" aria-hidden="true" />
       <div className="category-dropdown">
         {categories.map((c) => (
-          <a key={c.id} href={`#${c.slug}`}>
+          <a key={c.id} href={`#${c.slug}`} onClick={() => onSelect(c.id)}>
             {c.name}
           </a>
         ))}

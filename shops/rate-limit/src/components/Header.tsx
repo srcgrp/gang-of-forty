@@ -1,11 +1,11 @@
 import { toPersianDigits } from '../format/price';
 
-interface HeaderProps {
+type HeaderProps = {
   cartCount: number;
   darkMode: boolean;
   onToggleTheme: (checked: boolean) => void;
   onCartClick: () => void;
-}
+};
 
 export default function Header({ cartCount, darkMode, onToggleTheme, onCartClick }: HeaderProps) {
   return (

@@ -12,7 +12,7 @@ const METHODS = [
 ];
 
 const MAX_REQUESTS = 5;
-const TOTAL_REQUESTS = 7;
+const REQUESTS = [1, 2, 3, 4, 5, 6, 7].map((n) => ({ n, blocked: n > MAX_REQUESTS }));
 
 export default function LearnSection() {
   return (
@@ -56,9 +56,9 @@ export default function LearnSection() {
           <p className="learn-demo-sub">حداکثر ۵ درخواست در هر دقیقه</p>
 
           <ol className="learn-requests" aria-hidden="true">
-            {Array.from({ length: TOTAL_REQUESTS }, (_, i) => (
-              <li key={i} className={i < MAX_REQUESTS ? 'is-ok' : 'is-blocked'}>
-                {(i + 1).toLocaleString('fa-IR')}
+            {REQUESTS.map(({ n, blocked }) => (
+              <li key={n} className={blocked ? 'is-blocked' : 'is-ok'}>
+                {n.toLocaleString('fa-IR')}
               </li>
             ))}
           </ol>
