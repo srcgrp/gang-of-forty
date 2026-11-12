@@ -1,6 +1,12 @@
 import type { ReactNode } from 'react'
+import type { Category } from '../types'
 
-export default function CategoryNav(): ReactNode {
+interface CategoryNavProps {
+  categories: Category[]
+  onPick: (categoryId: number) => void
+}
+
+export default function CategoryNav({ categories, onPick }: CategoryNavProps): ReactNode {
   return (
     <nav aria-label="منوی اصلی">
       <div className="nav-inner">
@@ -13,24 +19,16 @@ export default function CategoryNav(): ReactNode {
             دسته‌بندی‌ها
           </button>
           <div className="categories-dropdown" role="menu">
-            <a href="#dairy-products" role="menuitem">
-              <span aria-hidden="true">🥛</span> لبنیات و تخم‌مرغ
-            </a>
-            <a href="#vegetables" role="menuitem">
-              <span aria-hidden="true">🥬</span> میوه و سبزیجات
-            </a>
-            <a href="#bread" role="menuitem">
-              <span aria-hidden="true">🍞</span> نان و غلات
-            </a>
-            <a href="#snacks" role="menuitem">
-              <span aria-hidden="true">🍪</span> تنقلات و شیرینی
-            </a>
-            <a href="#drinks" role="menuitem">
-              <span aria-hidden="true">🥤</span> نوشیدنی‌ها
-            </a>
-            <a href="#cosmetics" role="menuitem">
-              <span aria-hidden="true">🧴</span> آرایشی و بهداشتی
-            </a>
+            {categories.map((category) => (
+              <a
+                key={category.id}
+                href={`#${category.slug}`}
+                role="menuitem"
+                onClick={() => onPick(category.id)}
+              >
+                <span aria-hidden="true">{category.emoji}</span> {category.name}
+              </a>
+            ))}
           </div>
         </div>
         <a href="#dailyOffers">پیشنهادهای امروز</a>
