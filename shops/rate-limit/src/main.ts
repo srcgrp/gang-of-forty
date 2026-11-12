@@ -8,7 +8,7 @@ import { groupByCategory } from "./catalog/group";
 import { errorState, toLoadState } from "./catalog/state";
 import { cardView, maxedLabel } from "./format/card";
 import { withCountText } from "./format/categories";
-import { toPersianDigits } from "./format/digits";
+import { toPersianDigits } from "./format/price";
 import { DEFAULT_CURRENCY } from "./format/price";
 import { setupSpecialArrows } from "./ui/arrows";
 import { createCard } from "./ui/card";

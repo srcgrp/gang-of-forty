@@ -1,5 +1,5 @@
 import type { CardView, CatalogItem } from "../types";
-import { toPersianDigits } from "./digits";
+import { toPersianDigits } from "./price";
 import { formatPrice } from "./price";
 
 const LOW_STOCK = 5;
