@@ -4,48 +4,43 @@ import CategoryNav from "./components/CategoryNav.tsx";
 import Footer from "./components/Footer.tsx";
 import Header from "./components/Header.tsx";
 import ProductGrid from "./components/ProductGrid.tsx";
-import type { Product } from "./types/product.ts";
+import {
+  SAMPLE,
+  SAMPLE_CATEGORIES,
+  SAMPLE_HELP,
+  SAMPLE_MENU,
+  SAMPLE_OFFERS,
+  SAMPLE_STOCK,
+} from "./sample.ts";
 
-const SAMPLE: Product[] = [
-  {
-    id: 1,
-    categoryId: 1,
-    name: "شیر",
-    emoji: "🥛",
-    unit: "لیتر",
-    price: 50000,
-    tags: [],
-  },
-  {
-    id: 2,
-    categoryId: 1,
-    name: "ماست",
-    emoji: "🥣",
-    unit: "کیلو",
-    price: 80000,
-    tags: [],
-  },
-  {
-    id: 3,
-    categoryId: 2,
-    name: "نان",
-    emoji: "🍞",
-    unit: "عدد",
-    price: 20000,
-    tags: [],
-  },
-];
+function handlePick(id: number): void {
+  console.log("pick", id);
+}
+
+function handleClear(): void {
+  console.log("clear");
+}
+
+function handleAdd(id: number): void {
+  console.log("add", id);
+}
+
 export default function App() {
   return (
     <>
       <Banner />
-      <Header />
+      <Header cartCount={0} menu={SAMPLE_MENU} />
       <main>
-        <CategoryNav />
-        <ProductGrid products={SAMPLE} />
-        <CartPanel />
+        <CategoryNav categories={SAMPLE_CATEGORIES} onPick={handlePick} />
+        <ProductGrid
+          products={SAMPLE}
+          stock={SAMPLE_STOCK}
+          offers={SAMPLE_OFFERS}
+          onAdd={handleAdd}
+        />
+        <CartPanel onClear={handleClear} />
       </main>
-      <Footer />
+      <Footer categories={SAMPLE_CATEGORIES} help={SAMPLE_HELP} />
     </>
   );
 }

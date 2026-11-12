@@ -1,4 +1,13 @@
-export default function Footer() {
+import type { Category } from "../types/product.ts";
+
+type FooterLink = { label: string; href: string };
+
+type FooterProps = {
+  categories: Category[];
+  help: FooterLink[];
+};
+
+export default function Footer({ categories, help }: FooterProps) {
   return (
     <footer className="footer" id="contact">
       <div className="box">
@@ -12,33 +21,45 @@ export default function Footer() {
               تهران، خیابان نمونه، پلاک ۴۰
             </p>
             <p className="foot-line">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  fill="#d5dfd2"
-                  d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .57 3.6 1 1 0 0 1-.25 1z"
-                ></path>
-              </svg>
-              <a id="phone" href="tel:">
+              <a id="phone" href="tel:02112345678">
                 ۰۲۱-۱۲۳۴۵۶۷۸
               </a>
             </p>
           </div>
           <nav aria-label="دسته‌ها در پابرگ">
             <h2>دسته‌ها</h2>
-            <ul id="footer-cats"></ul>
+            <ul id="footer-cats">
+              {categories.map(function (cat) {
+                return (
+                  <li key={cat.id}>
+                    <a href={"#category-" + cat.id}>{cat.name}</a>
+                  </li>
+                );
+              })}
+            </ul>
           </nav>
           <nav aria-label="راهنما">
             <h2>راهنما</h2>
-            <ul id="footer-help"></ul>
+            <ul id="footer-help">
+              {help.map(function (item) {
+                return (
+                  <li key={item.label}>
+                    <a href={item.href}>{item.label}</a>
+                  </li>
+                );
+              })}
+            </ul>
           </nav>
           <div>
             <h2>ساعت کاری</h2>
-            <p id="hours-week"></p>
-            <p id="hours-fri"></p>
+            <p id="hours-week">شنبه تا پنجشنبه: ۹ تا ۲۱</p>
+            <p id="hours-fri">جمعه: ۱۰ تا ۱۶</p>
           </div>
         </div>
         <div className="footer-bottom">
-          <p className="copy-right" id="copyright"></p>
+          <p className="copy-right" id="copyright">
+            © سوپرمارکت تمیز
+          </p>
           <a className="go-up" href="#top">
             بازگشت به بالا ↑
           </a>
