@@ -1,3 +1,6 @@
+import { isCartItem } from "../api/guards";
+import type { CartItem } from "../types";
+
 const CART_KEY = 'big-o-cart';
 
 // Reads the saved cart count; returns 0 if nothing (or something invalid) is saved,
@@ -16,6 +19,26 @@ export function loadCartCount(): number {
 export function saveCartCount(count: number): void {
   try {
     localStorage.setItem(CART_KEY, String(count));
+  } catch {
+    console.warn('Cart count could not be saved.');
+  }
+}
+
+export function loadCart(): CartItem[] {
+  try {
+    const raw = localStorage.getItem(CART_KEY)
+    if (raw === null) return []
+    const parsed: unknown = JSON.parse(raw)
+    if (!Array.isArray(parsed)) return []
+    return parsed.filter(isCartItem)
+  } catch {
+    return []
+  }
+}
+
+export function saveCart(cart: CartItem[]): void {
+  try {
+    localStorage.setItem(CART_KEY, JSON.stringify(cart));
   } catch {
     console.warn('Cart count could not be saved.');
   }

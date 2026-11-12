@@ -1,4 +1,4 @@
-import type { Category, Product, Offer, Stock, Shop} from '../types';
+import type { Category, Product, Offer, Stock, Shop, CartItem} from '../types';
 
 // Check if the input is an object or not
 // x: an unknown input, output: true if the input is an object and false if it's not
@@ -64,4 +64,16 @@ export function isStock(x: unknown): x is Stock {
         typeof x.updatedAt === 'string' &&
         (isRecord(x.items) && Object.values(x.items).every(t => typeof t === 'number'))
     )
+}
+
+export function isCartItem(x: unknown): x is CartItem {
+  return (
+    isRecord(x) &&
+    typeof x.id === 'number' &&
+    typeof x.name === 'string' && 
+    typeof x.price === 'number' && 
+    typeof x.qty === 'number' &&
+    Number.isInteger(x.qty) &&
+    x.qty > 0
+  )
 }

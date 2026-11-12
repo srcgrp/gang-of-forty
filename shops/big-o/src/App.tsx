@@ -6,10 +6,11 @@ import { useEffect, useState } from "react";
 import { addToCart, decreaseItem } from "./cart/cartItems";
 import { getData } from "./api/getData";
 import ShopMain from "./components/ShopMain";
+import { loadCart, saveCart } from "./storage/cart";
 
 
 export default function App() {
-  const [cart,setCart] = useState <CartItem[]> ([])
+  const [cart,setCart] = useState <CartItem[]> (() => loadCart())
   const [state, setState] = useState <LoadState> ({status: 'loading'})
   const [categoryId, setCategoryId] = useState<number | null>(null)
 
@@ -28,6 +29,10 @@ export default function App() {
     })
     return () => { ignore = true }
   }, [])
+
+  useEffect(() => {
+    saveCart(cart)
+  }, [cart])
 
   const categories = state.status === "success" ? state.categories : []
 
