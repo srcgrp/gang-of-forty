@@ -18,5 +18,5 @@
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true
   },
-  "include": ["src/**/*.ts", "*.ts"]
+  "include": ["src/**/*.ts", "*.ts", "src/components/ProductCard.tsx"]
 }
