@@ -7,22 +7,18 @@ import ProductsSection from './ProductsSection'
 type ShopMainProps = {
   data: AppState
   filters: UrlFilters
-  onFilters: (filters: UrlFilters, mode?: 'push' | 'replace') => void
+  onCategoryPick: (category: string) => void
   onCartChange: (id: number, change: CartChange) => void
   onRetry: () => void
 }
 
-export default function ShopMain({ data, filters, onFilters, onCartChange, onRetry }: ShopMainProps) {
+export default function ShopMain({ data, filters, onCategoryPick, onCartChange, onRetry }: ShopMainProps) {
   const loading = data.res.status === 'loading'
   const activeCategory = data.categories.find((category) => category.slug === filters.category)
 
   function pickCategory(id: number | null): void {
     const category = data.categories.find((item) => item.id === id)?.slug ?? ''
-    onFilters({ ...filters, category }, 'push')
-    requestAnimationFrame(() => {
-      const target = (category && document.getElementById(category)) || document.querySelector('.product-shelf')
-      target?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    })
+    onCategoryPick(category)
   }
 
   return (

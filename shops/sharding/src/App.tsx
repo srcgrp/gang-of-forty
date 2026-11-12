@@ -28,7 +28,7 @@ export default function App() {
       if (ignore) return
       const next = { ...result, categories: withCategoryImages(result.categories) }
       setData(next)
-      setCart((current) => pruneCart({ ...next, cart: current }))
+      if (result.skippedProducts === 0) setCart((current) => pruneCart({ ...next, cart: current }))
     }).catch((error: unknown) => {
       if (ignore) return
       const res = shopLoadError(error)
@@ -45,10 +45,10 @@ export default function App() {
 
   function changeCart(id: number, change: CartChange): void {
     const max = stockOf(id, data.stock)
-    const { result } = applyCartChange(cart, id, change, max)
+    const { cart: nextCart, result } = applyCartChange(cart, id, change, max)
     const name = data.products.find((product) => product.id === id)?.name ?? 'کالا'
     if (!showCartChange(change, name, result)) return
-    setCart((current) => applyCartChange(current, id, change, max).cart)
+    setCart(nextCart)
   }
 
   function retry(): void {

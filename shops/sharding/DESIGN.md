@@ -25,7 +25,7 @@ App
     │           └── SalePromotion → SaleCountdown (offers shelf, while open)
     ├── Footer
     ├── SlowNotice
-    ├── CartPanel → Price
+    ├── CartPanel → CartItem → Price
     └── MobileMenu → ThemeSwitch
 ```
 
@@ -53,7 +53,7 @@ The separate `shop.json` at the project root records the exercise week; it is no
 
 `App` calls `loadAllData` in an Effect. It loads `shop.json`, `home.json`, `categories.json`, `products.json`, `offers.json` and `stock.json` concurrently with `Promise.all`. If any request or validation fails, the Effect sets an error state. The retry button sets loading and increments `attempt`, triggering the same Effect again. `StrictMode` can start the Effect twice in development; its cleanup marks the first result as ignored so it cannot update state after cleanup.
 
-`getJSON` returns `Promise<unknown>`, requires the configured API URL, checks the HTTP response and times out with an abort. Each loader validates its data. Invalid products, categories and offers are filtered and counted in the console; invalid shop links and the invalid home CTA are removed before validation. A malformed response or other invalid data can reject its loader.
+`getJSON` returns `Promise<unknown>`, requires the configured API URL, checks the HTTP response and times out with an abort. Each loader validates its data. Invalid products, categories and offers are filtered and counted in the console; when products are skipped, the saved cart is not pruned against incomplete data. Invalid shop links and the invalid home CTA are removed before validation. A malformed response or other invalid data can reject its loader.
 
 `Product.categoryId` refers to `Category.id`, `Offer.productId` refers to `Product.id`, and `Stock.items` is keyed by product ID. The offer map is built from the loaded offers. Category shelves are built from the loaded categories and products; the offers shelf uses the offer map.
 

@@ -18,16 +18,14 @@ function isProduct(v: unknown): v is Product {
   );
 }
 
-export async function loadProducts(): Promise<Product[]> {
+export async function loadProducts(): Promise<{ products: Product[]; skipped: number }> {
   const data = await getJSON('products.json');
   if (!Array.isArray(data)) {
     console.error('[api] products.json is not an array', data);
     throw new Error('Invalid products.json');
   }
   const products = data.filter(isProduct);
-  const dropped = data.length - products.length;
-  if (dropped > 0) {
-    console.warn(`[api] ${dropped} invalid product(s) removed`);
-  }
-  return products;
+  const skipped = data.length - products.length;
+  if (skipped > 0) console.warn(`[api] ${skipped} invalid product(s) removed`);
+  return { products, skipped };
 }

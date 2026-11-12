@@ -1,19 +1,18 @@
 import { useEffect, useRef } from 'react'
-import type { Product, Cart, Offer } from '../shared/types'
+import type { AppState, CartChange } from '../shared/types'
 import Price from './Price'
+import CartItem from './CartItem'
 import { cartRows, cartTotal } from '../features/cart/cart-rows'
 import { usePanelFocus } from '../hooks/usePanelFocus'
 
 type CartPanelProps = {
   open: boolean
-  cart: Cart
-  products: Product[]
-  offerMap: Map<number, Offer>
+  data: AppState
   onClose: () => void
-  onRemoveLine: (id: number) => void
+  onCartChange: (id: number, change: CartChange) => void
 }
 
-export default function CartPanel({ open, cart, products, offerMap, onClose, onRemoveLine }: CartPanelProps) {
+export default function CartPanel({ open, data, onClose, onCartChange }: CartPanelProps) {
   const panelRef = useRef<HTMLElement>(null)
   usePanelFocus(open, panelRef)
 
@@ -34,7 +33,7 @@ export default function CartPanel({ open, cart, products, offerMap, onClose, onR
     }
   }, [open, onClose])
 
-  const rows = cartRows(cart, products, offerMap)
+  const rows = cartRows(data.cart, data.products, data.offerMap)
   const total = cartTotal(rows)
 
   return (
@@ -48,14 +47,7 @@ export default function CartPanel({ open, cart, products, offerMap, onClose, onR
         {rows.length === 0 ? (
           <li className="cart-row cart-row--empty">سبد خرید خالی است</li>
         ) : (
-          rows.map((r) => (
-            <li key={r.id} className="cart-row">
-              <span className="cart-row__name">{r.name}</span>
-              <span className="cart-row__qty">{r.qty.toLocaleString('fa-IR')} ×</span>
-              <span className="cart-row__total"><Price value={r.lineTotal} /></span>
-              <button type="button" className="cart-row__remove" onClick={() => onRemoveLine(r.id)} aria-label={`حذف ${r.name}`}>×</button>
-            </li>
-          ))
+          rows.map((row) => <CartItem key={row.id} row={row} stock={data.stock} onChange={onCartChange} />)
         )}
       </ul>
 

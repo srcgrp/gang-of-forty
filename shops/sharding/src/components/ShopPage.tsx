@@ -28,7 +28,7 @@ export default function ShopPage({ data, filters: filterState, theme: themeState
   const loading = data.res.status === 'loading'
   const activeCategory = data.categories.find((category) => category.slug === filters.category)
   useScrollToHash(!loading)
-  useCategoryLinks(data.categories, filters, onFilters)
+  const navigateCategory = useCategoryLinks(data.categories, filters, onFilters)
 
   return (
     <>
@@ -47,16 +47,14 @@ export default function ShopPage({ data, filters: filterState, theme: themeState
         onAddToCart={(id) => onCartChange(id, 'add')}
         onRemoveFromCart={(id) => onCartChange(id, 'remove')}
       />
-      <ShopMain data={data} filters={filters} onFilters={onFilters} onCartChange={onCartChange} onRetry={onRetry} />
+      <ShopMain data={data} filters={filters} onCategoryPick={navigateCategory} onCartChange={onCartChange} onRetry={onRetry} />
       <Footer shop={data.shop} />
       <SlowNotice loading={loading} />
       <CartPanel
         open={cartOpen}
-        cart={data.cart}
-        products={data.products}
-        offerMap={data.offerMap}
+        data={data}
         onClose={() => onCartOpen(false)}
-        onRemoveLine={(id) => onCartChange(id, 'remove-line')}
+        onCartChange={onCartChange}
       />
       <MobileMenu
         open={menuOpen}
