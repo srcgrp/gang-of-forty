@@ -1,9 +1,6 @@
-/* Amirhossein (Armin) Panahi */
-/* Week 4 - Strategic Supermarket - Arch */
-
 import { isRecord } from '../api/basic-guards';
-import { CATEGORY_PARAM, QUERY_PARAM } from '../types';
-import type { Route } from '../types';
+import { CATEGORY_PARAM, OFFERS_ID, OFFERS_VIEW, QUERY_PARAM } from '../types';
+import type { Route, ShopModel } from '../types';
 
 export function readRoute(): Route {
   const params = new URLSearchParams(location.search);
@@ -42,6 +39,26 @@ export function writeQuery(text: string): void {
   const alreadySearching = route.type !== 'home' && route.query !== '';
   const url = routeUrl(next);
   if (url !== location.pathname + location.search + location.hash) goToUrl(url, alreadySearching);
+}
+export const readQuery = (): string => {
+  const route = readRoute();
+  return route.type === 'home' ? '' : route.query;
+};
+export function readSelection(model: ShopModel) {
+  const route = readRoute();
+  const slug = route.type === 'catalog' ? route.slug : null;
+  const category = slug === null ? undefined : model.categoryBySlug.get(slug);
+  return { categoryId: slug === OFFERS_VIEW ? OFFERS_ID : category?.id ?? null, query: route.type === 'home' ? '' : route.query, missing: slug !== null && slug !== OFFERS_VIEW && !category };
+}
+export function watchRoute(changed: () => void): () => void {
+  window.addEventListener('popstate', changed);
+  return () => window.removeEventListener('popstate', changed);
+}
+type Click = { defaultPrevented: boolean; ctrlKey: boolean; metaKey: boolean; shiftKey: boolean; altKey: boolean; target: EventTarget };
+export function routeHref(event: Click): string | null {
+  if (event.defaultPrevented || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return null;
+  const link = event.target instanceof Element ? event.target.closest('a') : null;
+  return link && link.origin === location.origin && link.pathname === location.pathname && !link.hash ? link.href : null;
 }
 export const pushHash = (href: string): void => {
   if (href.startsWith('#') && location.hash !== href) history.pushState(history.state, '', href);

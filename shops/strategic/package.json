@@ -8,14 +8,18 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "check": "tsc --noEmit",
-    "check:arch": "node check-arch.mjs src --shop"
+    "lint": "oxlint src",
+    "check:arch": "node scripts/check-arch.mjs shops/strategic/src"
   },
   "dependencies": {
-    "canvas-confetti": "^1.9.4",
-    "notyf": "^3.10.0"
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
   },
   "devDependencies": {
-    "@types/canvas-confetti": "^1.9.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.2.1",
+    "oxlint": "^1.92.0",
     "typescript": "^7.0.2",
     "vite": "^8.3.4"
   },

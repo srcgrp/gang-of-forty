@@ -1,30 +1,78 @@
 # Strategic Supermarket — design on one page
 
-## 1. Needs
+## Needs
 - Browse products, select a category or offers, search, add/remove packaged sale units and inspect the cart.
-- Preserve category and search together in a shareable URL; preserve the cart across refreshes and browser tabs.
+- Preserve category and search together in a shareable URL; preserve the cart across refreshes.
 - Limit quantities to the current stock. Checkout is a display-only placeholder; accounts, payment and orders are out of scope.
 
-## 2. Parts of the page
+## Parts of the page
 Header, category filters, home hero, product shelves, promotional banners, category/search grids, quantity controls, cart summary and footer.
 The home-return button always navigates home; browser Back/Forward retains its history behavior. Category tiles, category menu entries, footer categories and “see all” links select a filter. API hero/menu fragment links deliberately scroll to home shelves.
 The existing Armin brand/contact details stay in the presentation layer; the API's sample shop identity is still fully typed and validated.
 
-## 3. Data and owners
-| Data | Owner | Lifetime |
-|---|---|---|
-| Products, prices, offers, stock, home and shop content | API | Read and validate at startup/retry |
-| Model, LoadState, cart and pending input | `main.ts` | One running page |
-| Product/category maps, search matches, hero selection | Products feature | Pure derived values |
-| Cart rows, subtotals, count, total, discount | Cart feature | Pure derived values |
-| Selected category and search | URL, only `storage/url-state.ts` | Shareable and restored on refresh |
-| Cart `{ productId, quantity }[]` | localStorage `armin-market:cart` | Validated on read; reconciled against stock |
-| API base | `VITE_API_URL` | `/api` in development; `../../api` in production |
-| Open cart, hover timers, search debounce, last cart display | UI | Presentation state only |
-All URL reads/writes and filter-link construction live in the same data file. UI receives a link callback and action callbacks, never mutable application State or data/logic ports.
+## Component tree
 
-## 4. API contract
-All six JSON files load in parallel, with a 30-second timeout and a retry action.
+```text
+App
+└── ShopPage
+    ├── IconSprite → SpriteShop, SpriteUi, SpriteContact
+    ├── Header
+    │   ├── Brand → Logo → LogoFrame, LogoBody
+    │   ├── SearchBox
+    │   ├── CartMenu → CartPanel → QuantityControl, Amount
+    │   └── MainNav → CategoryNav → CategoryLink
+    ├── LoadStatus
+    │   ├── LoadingSkeleton (loading)
+    │   ├── NotFound (success, unknown category)
+    │   ├── Catalog (success, category, offers or search)
+    │   │   └── ProductGrid → ProductCard × n → QuantityControl
+    │   └── Home (success, home route)
+    │       ├── Hero
+    │       ├── CategoryNav → CategoryLink
+    │       ├── OffersShelf → (optional SaleCountdown), ProductGrid → ProductCard × n → QuantityControl
+    │       ├── Promos
+    │       └── CategoryShelf × n → ProductGrid → ProductCard × n → QuantityControl
+    └── Footer → FooterAbout, CategoryLink
+```
+
+`main.tsx` mounts `App` inside `StrictMode`. The tree shows where components render. For example, `ShopPage` passes the cart panel to `Header`, and `CartMenu` renders it as a child. Shelf order follows the API configuration. A product card shows its quantity control once that product is in the cart.
+
+## Where state lives
+
+| State | Owner | Who changes it | Where it is stored |
+|---|---|---|---|
+| `load` | App | The loading effect sets success, empty or error after the request settles. Retry sets it to loading before incrementing `attempt`. Cleanup ignores an obsolete response. | React memory, initially loading |
+| `attempt` | App | The Retry button increments it; the API-loading effect depends on it and runs again. | React memory, initially `0` |
+| `model` | App | The same effect calls `buildModel` on the validated API data. | React memory, initially `emptyModel` |
+| `categoryId` | App | `applyRoute` resolves the selected category after loading, navigation or browser Back/Forward. | React memory. The URL stores the slug. |
+| `query` | App | SearchBox updates it on every input change; App also writes the query to the URL. Browser Back/Forward restores it through `applyRoute`. | React memory and the URL |
+| `missing` | App | `applyRoute` checks whether the catalog slug exists in the loaded model. | React memory, reconstructed from the URL and model |
+| `cart` | App | Add/remove callbacks call `changeCart`. After loading, `reconcileCart` applies current stock limits. | React memory and localStorage under `armin-market:cart`. The initializer reads it and a cart effect saves changes. |
+| `open` | App | CartMenu requests closed, hover or pinned mode. Navigation closes the panel. | React memory |
+| `edges` | Each OffersShelf or CategoryShelf via `useShelfScroll` | The hook measures the scroll position and available width on resize and scroll. | Local React memory for that shelf |
+| `countdownVisible` | OffersShelf | The toggle button mounts or unmounts SaleCountdown. | Local React memory for the offers shelf |
+| `secondsLeft` | SaleCountdown | Its interval decreases the remaining seconds; cleanup clears the interval on unmount. | Local React memory; a newly mounted countdown starts at five minutes |
+
+
+### Values calculated from state
+
+- **Visible products and catalog heading** are derived from the model, selected category and query using `selectionView`. They are calculated during rendering, so a separate State would duplicate existing data.
+
+- **Product count and sorted categories** are derived from the loaded model. They do not need independent State because they change whenever the model changes.
+
+- **Product quantity on each card** is derived by looking up the product ID in the cart lines. It should not be stored separately because the cart already contains the source data.
+
+- **Cart count** is calculated by summing the quantities of all cart lines. A separate State would duplicate the cart data and could become inconsistent.
+
+- **Cart rows and line subtotals** are calculated from the stored quantities and current product prices. They are derived values, not independent State.
+
+- **Cart total, original total and discount** are calculated through `cartView`. Storing them separately would require keeping multiple values synchronized after every quantity or price change.
+
+- **Shelf contents and the hero offer** are derived from the loaded model, carousel definitions, categories, offers and stock. They do not require separate State because they are determined by the existing API data.
+
+
+## API contract
+All six JSON files load in parallel, with a 30-second timeout.
 | File | Contract | Invalid data |
 |---|---|---|
 | `products.json` | `Product[]` | Skip invalid records and log their count; reject a non-array |
@@ -37,40 +85,29 @@ All six JSON files load in parallel, with a 30-second timeout and a retry action
 IDs are positive safe integers; prices are finite and nonnegative; discounts include 0–100%. Stock and cart quantities are nonnegative safe integers: one quantity is one API sale unit, e.g. one 1-kg package, not a fraction of that package.
 Prices round once to the nearest whole toman after applying the discount. They are never rounded to thousands. Totals and discount percentages are computed in the cart feature.
 
-## 5. States and recovery
-| State | Page | Cart |
-|---|---|---|
-| loading | Skeleton, then slow-connection notice after 3 seconds | Saved count; details unavailable |
-| success | Home, selected category, offers or matching search results | Valid rows and computed totals |
-| empty | No-products message; a search/category with no matches has its own empty view | Empty after reconciliation |
-| error | Readable error, failing file/status and retry button | Saved cart retained; details unavailable |
-Error State retains its API failure details through re-renders; a new request clears them. Body-download aborts are timeouts, while malformed JSON is a parse error.
-`LoadState` is a discriminated union; the status renderer switches on it and checks `never` in default.
-Input is captured immediately, including an empty string, and rendered after a 150-ms debounce. Pending input is applied after loading for every route, retaining its category. Back/Forward restores filters and cancels obsolete UI debounce timers.
-On an external storage event, `main.ts` loads and reconciles the cart before rendering; it does not write back to other tabs. Local saves skip identical serialized values, avoiding storage feedback loops.
+## States and recovery
 
-## 6. Folders and boundaries
+LoadStatus switches on the load state. It renders a skeleton while loading, the selected view on success, a no-products message for an empty catalog, and a readable message with a Retry button on failure. Retry increments `attempt`, which reruns the API-loading effect. An unknown category and a valid category with no matches each have their own view. Refreshing also starts a new request. In development, StrictMode can start two requests; the effect cleanup ignores the obsolete response.
+
+Search results are derived during rendering from the model, category and query; no second products State is maintained. The optional sale countdown is a local demonstration timer rather than an API-provided sale deadline. Hiding it unmounts the component and clears its interval; showing it again starts a fresh five-minute countdown. Development-only `console.debug` ticks make it possible to verify that logging stops after the component is hidden; production builds do not emit these timer logs.
+
+## Folders and boundaries
+
 ```text
 src/
-  main.ts, types.ts, vite-env.d.ts
-  api/, storage/, shared/, ui/
-  features/
-    cart/       cart.ts, cart-rules.ts, cart-totals.ts
-    products/   products.ts, build-model.ts, empty-model.ts, view-model.ts,
-                price.ts, search.ts, search-key.ts, hero-tag.ts,
-                art-category.ts, art-product.ts, to-card.ts
+  main.tsx             React entry point and stylesheet import
+  App.tsx              Application state, effects and event handlers
+  types.ts             Shared domain and API types
+  cart-controls.ts     Cart lines and callbacks passed to components
+  vite-env.d.ts        Vite environment types
+  components/          JSX views, presentation helpers and useShelfScroll
+  api/                 Fetching, response validation and parallel loading
+  storage/             Cart persistence and URL/history access
+  features/cart/       Quantity rules, stock reconciliation and totals
+  features/products/   Product model, pricing, search and selection
+  shared/              Numeric range helper
 ```
-- `types.ts`: central API, application and presentation contracts; imports nothing.
-- `api/`: HTTP, guards and loading. The only place containing fetch.
-- `storage/`: cart persistence and one URL adapter. The only place containing localStorage.
-- `features/products/`: pure model, search, pricing and product view-model preparation.
-- `features/cart/`: pure quantity rules, cart rows, subtotals and summary view-model preparation.
-- `shared/`: pure numeric behavior used by feature logic.
-- `ui/`: DOM, visual effects, event adapters and display snapshots. Receives data and action callbacks; never mutates business State or invokes persistence/loading.
-- `main.ts`: owns State, connects both features, performs effects, wires browser events and starts the app.
-Feature presentation models live with their feature; DOM adapters stay in `ui/` because the unchanged class checker classifies every `features/` file as pure logic. Neither feature imports the other; both meet only in main. No cycles, generic utils/helpers or TypeScript files over 70 lines.
 
-## 7. Security
-Everything in the browser is public, including bundled `VITE_` variables; env files contain no secret. API responses, URL parameters and stored cart data are untrusted.
-API text renders with `textContent`; the Notyf HTML sink receives text escaped through a DOM text node. Links pass an allowed-protocol check. Invalid fragments do not throw during link handling.
-Client prices, quantities and totals can be edited in DevTools. A real ordering server must look up product IDs, recheck stock and recompute prices, discounts and totals; it must not trust the browser's result.
+## Security
+
+Everything bundled for the browser is public, including Vite environment variables. API responses and stored cart entries are validated. React renders API labels as text, and links from shop content pass through a protocol check. An ordering server would need to check stock and calculate prices and totals again before accepting an order.

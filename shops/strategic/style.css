@@ -1,5 +1,5 @@
 /* Amirhossein (Armin) Panahi */
-/* Week 4 - Strategic Supermarket - Arch */
+
 
 
 /* ========== Font (Vazirmatn) ========== */
@@ -916,6 +916,50 @@ main > * + * { margin-top: 2rem; }
 .banners a:nth-child(1) { --t: var(--t4); }
 .banners a:nth-child(2) { --t: var(--t6); }
 
+
+/* ========== Sale Countdown ========== */
+.offers__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: .65rem 1rem;
+  padding: 1rem 1rem 0;
+  color: #fff;
+}
+
+.offers__timer-toggle {
+  min-height: 2.5rem;
+  padding: .35rem 1rem;
+  border: 1px solid rgb(255 255 255 / .7);
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font-size: .875rem;
+  font-weight: 700;
+}
+
+.offers__timer-toggle:hover { background: rgb(255 255 255 / .12); }
+
+.sale-countdown {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .5rem;
+  min-height: 2.5rem;
+}
+
+.sale-countdown__label { font-size: .875rem; font-weight: 700; }
+
+.sale-countdown__time {
+  min-width: 4.25rem;
+  padding: .15rem .65rem;
+  border-radius: .6rem;
+  background: #fff;
+  color: var(--brand-ink);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
 
 /* ========== Offers Carousel ========== */
 .offers {
