@@ -9,7 +9,6 @@ import { renderPage } from "./ui/renderPage.ts";
 import { scrollToHash } from "./ui/scroll.ts";
 import { showStatus } from "./ui/status.ts";
 import { setupViewAll } from "./ui/viewAll.ts";
-
 const els: PageElements = findPageElements();
 let state: LoadState = { status: "loading" };
 
