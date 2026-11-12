@@ -67,6 +67,15 @@ a {
   text-decoration-thickness: .08em;
 }
 
+div.about-wrapper {
+  display: flex;
+  font-size: 1rem;
+}
+
+article.about-detail {
+  padding-right: 100px;
+}
+
 button,
 input,
 summary {
@@ -2889,13 +2898,9 @@ footer #shop-schedule h3 {
   color: #dff4e9;
 }
 
-/* Readable story columns use the full panel width. */
 #about .about-columns {
   position: relative;
   z-index: 1;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(1.5rem, 4vw, 3rem);
   margin-block: 1rem 1.5rem;
 }
 
@@ -2918,3 +2923,5 @@ footer #shop-schedule h3 {
     gap: 0;
   }
 }
+
+
