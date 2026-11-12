@@ -1,11 +1,23 @@
+import 'notyf/notyf.min.css';
+
+import confetti from 'canvas-confetti';
+import {Notyf} from 'notyf';
 import {useEffect, useState} from 'react';
 
 import {loadData} from '../api';
-import {addToCart, removeFromCart} from './cart/cart';
+import {addToCart, decreaseCartQuantity} from './cart/cart';
 import AppContent from './components/AppContent';
 import {loadCart, saveCart} from './storage/cart';
 
 import type {CartLine, LoadState} from './types';
+
+const notyf = new Notyf({
+    duration: 2000,
+    position: {
+        x: 'left',
+        y: 'top',
+    },
+});
 
 export default function App() {
     const [cart, setCart] = useState<CartLine[]>(() => loadCart());
@@ -18,9 +30,11 @@ export default function App() {
 
     useEffect(() => {
         let ignore = false;
+
         loadData()
             .then((data) => {
                 if (ignore) return;
+
                 setLoadState(
                     data.products.length === 0
                         ? {status: 'empty'}
@@ -29,6 +43,7 @@ export default function App() {
             })
             .catch((error: unknown) => {
                 if (ignore) return;
+
                 setLoadState({
                     status: 'error',
                     message:
@@ -37,6 +52,7 @@ export default function App() {
                             : 'دریافت اطلاعات با خطا مواجه شد.',
                 });
             });
+
         return () => {
             ignore = true;
         };
@@ -48,16 +64,26 @@ export default function App() {
 
     useEffect(() => {
         if (loadState.status !== 'success') return;
+
         const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-        document.title = `${loadState.data.shop.name} (${itemCount})`;
+
+        document.title = `سوپرمارکت شایان (${itemCount})`;
     }, [cart, loadState]);
 
     const handleAdd = (id: number): void => {
         setCart((previousCart) => addToCart(previousCart, id));
+
+        notyf.success('محصول به سبد خرید اضافه شد.');
+
+        confetti({
+            particleCount: 70,
+            spread: 65,
+            origin: {y: 0.7},
+        });
     };
 
     const handleRemove = (id: number): void => {
-        setCart((previousCart) => removeFromCart(previousCart, id));
+        setCart((previousCart) => decreaseCartQuantity(previousCart, id));
     };
 
     const handleRetry = (): void => {

@@ -21,6 +21,19 @@ export function removeFromCart(
     return cart.filter((item) => item.productId !== productId);
 }
 
+export function decreaseCartQuantity(
+    cart: CartLine[],
+    productId: number,
+): CartLine[] {
+    return cart
+        .map((item) =>
+            item.productId === productId
+                ? {...item, quantity: item.quantity - 1}
+                : item,
+        )
+        .filter((item) => item.quantity > 0);
+}
+
 export function cartTotal(cart: CartLine[], products: Product[]): number {
     return cart.reduce((total, item) => {
         const product = products.find(
