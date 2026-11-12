@@ -46,7 +46,7 @@ export default function App() {
   return (
     <>
       <a href="#main-content" className="skip-link">پرش به محتوای اصلی</a>
-      <Header count={count} categories={categories} onSelect={setCategoryId} onCartClick={() => setCartOpen(true)}/>
+      <Header count={count} categories={categories} activeId={categoryId} onPick={setCategoryId} onCartClick={() => setCartOpen(true)}/>
       <main id="main-content">
         <ShopMain
           state={state}

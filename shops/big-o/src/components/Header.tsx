@@ -6,10 +6,11 @@ import type { Category } from "../types";
 type HeaderProps = { 
     count: number
     categories: Category[]
-    onSelect: (id: number) => void
+    onPick: (id: number) => void
     onCartClick: () => void
+    activeId: number | null
 }
-export default function Header({ count, categories, onSelect, onCartClick }: HeaderProps) {
+export default function Header({ count, categories, onPick, onCartClick, activeId}: HeaderProps) {
     return (
         <header>
             <Announcement />
@@ -57,7 +58,7 @@ export default function Header({ count, categories, onSelect, onCartClick }: Hea
                 <span className="visually-hidden">منو</span>
             </label>
             </div>
-            <CategoryNav categories={categories} onSelect={onSelect} />
+            <CategoryNav categories={categories} onPick={onPick} activeId={activeId}/>
         </header>
     )
 }

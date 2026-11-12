@@ -2,10 +2,11 @@ import type { Category } from "../types"
 
 type CategoryNavProps = {
   categories: Category[]
-  onSelect: (id: number) => void
+  onPick: (id: number) => void
+  activeId: number | null
 }
 
-export default function CategoryNav({categories, onSelect}: CategoryNavProps) {
+export default function CategoryNav({categories, onPick, activeId}: CategoryNavProps) {
     return (
         <nav className="navbar" aria-label="منوی اصلی">
             <ul>
@@ -14,7 +15,7 @@ export default function CategoryNav({categories, onSelect}: CategoryNavProps) {
                 <ul className="mega-menu">
                     {categories.map((category) => 
                         <li key={category.id} >
-                            <a href={`#${category.slug}`}  onClick={() => onSelect(category.id)}>{category.name}</a>
+                            <a href={`#${category.slug}`}  onClick={() => onPick(category.id)} aria-current={category.id === activeId ? "true" : undefined}>{category.name}</a>
                         </li>
                     )}
                 </ul>
