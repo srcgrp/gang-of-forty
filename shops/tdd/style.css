@@ -67,6 +67,15 @@ a {
   text-decoration-thickness: .08em;
 }
 
+div.about-wrapper {
+  display: flex;
+  font-size: 1rem;
+}
+
+article.about-detail {
+  padding-right: 100px;
+}
+
 button,
 input,
 summary {
@@ -2889,13 +2898,9 @@ footer #shop-schedule h3 {
   color: #dff4e9;
 }
 
-/* Readable story columns use the full panel width. */
 #about .about-columns {
   position: relative;
   z-index: 1;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(1.5rem, 4vw, 3rem);
   margin-block: 1rem 1.5rem;
 }
 
@@ -2916,5 +2921,181 @@ footer #shop-schedule h3 {
   #about .about-columns {
     grid-template-columns: minmax(0, 1fr);
     gap: 0;
+  }
+}
+
+
+
+
+.cart-widget {
+  position: relative;
+}
+
+.cart-widget > summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+.cart-widget > summary::-webkit-details-marker {
+  display: none;
+}
+
+.cart-panel {
+  position: absolute;
+  z-index: 50;
+  inset-block-start: calc(100% + .6rem);
+  inset-inline-end: 0;
+  width: min(22rem, calc(100vw - 2rem));
+  padding: 1rem;
+  color: var(--ink);
+  background: var(--surface, white);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  box-shadow: 0 12px 32px rgb(20 50 38 / 16%);
+}
+
+.cart-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  padding-block: .55rem;
+  border-bottom: 1px solid var(--line);
+  font-size: .78rem;
+}
+
+.cart-row button {
+  flex: 0 0 auto;
+  padding: .3rem .55rem;
+  color: var(--red);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: .5rem;
+  cursor: pointer;
+}
+
+.cart-total {
+  margin-block: .8rem 0;
+  font-size: .85rem;
+  font-weight: 700;
+}
+
+.category-dropdown a.is-active,
+.mobile-category-links a.is-active {
+  color: var(--green-deep);
+  background: var(--green-soft);
+  font-weight: 700;
+}
+
+.sale-countdown {
+  margin: 0 auto;
+  padding: .75rem 1rem;
+  color: var(--green-deep);
+  text-align: center;
+  font-weight: 700;
+}
+
+
+/* Daily offer countdown */
+.sale-countdown {
+  margin-block: 2rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  color: #fff;
+  background: linear-gradient(115deg, #0d3f30, #17634a 62%, #287a59);
+  border: 1px solid rgb(255 255 255 / 12%);
+  border-radius: 1.5rem;
+  box-shadow: 0 1rem 2.5rem rgb(13 63 48 / 16%);
+}
+
+.sale-countdown-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  max-width: 62rem;
+  margin-inline: auto;
+}
+
+.sale-countdown-copy {
+  min-width: 0;
+}
+
+.sale-countdown-eyebrow {
+  display: inline-block;
+  margin-block-end: .4rem;
+  padding: .2rem .7rem;
+  color: #164b37;
+  background: #d9f2df;
+  border-radius: 999px;
+  font-size: .75rem;
+  font-weight: 700;
+}
+
+.sale-countdown-copy h2 {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(1.15rem, 2.5vw, 1.65rem);
+}
+
+.sale-countdown-copy p {
+  margin: .35rem 0 0;
+  color: rgb(255 255 255 / 78%);
+  font-size: .88rem;
+}
+
+.sale-countdown-timer {
+  display: flex;
+  flex-shrink: 0;
+  gap: .65rem;
+  direction: ltr;
+}
+
+.sale-countdown-unit {
+  display: grid;
+  justify-items: center;
+  gap: .25rem;
+  min-width: 4.5rem;
+  padding: .7rem .85rem;
+  background: rgb(255 255 255 / 11%);
+  border: 1px solid rgb(255 255 255 / 17%);
+  border-radius: 1rem;
+}
+
+.sale-countdown-unit strong {
+  color: #fff;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+
+.sale-countdown-unit span {
+  color: rgb(255 255 255 / 78%);
+  font-size: .72rem;
+}
+
+@media (max-width: 42rem) {
+  .sale-countdown-content {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.25rem;
+    text-align: center;
+  }
+
+  .sale-countdown-timer {
+    justify-content: center;
+    gap: .45rem;
+  }
+
+  .sale-countdown-unit {
+    flex: 1;
+    min-width: 0;
+    padding: .65rem .4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sale-countdown,
+  .sale-countdown-unit {
+    transition: none;
   }
 }
