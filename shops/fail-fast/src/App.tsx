@@ -53,7 +53,7 @@ export default function App(): ReactNode {
           if (!ignore) {
             setDataState({
               status: 'error',
-              message: 'داده دسته\u200cبندی نامعتبر است',
+              message: 'داده دسته‌بندی نامعتبر است',
             })
           }
           return
@@ -146,7 +146,7 @@ export default function App(): ReactNode {
         return <p role="status">در حال بارگذاری...</p>
 
       case 'empty':
-        return <p>داده\u200cای برای نمایش وجود ندارد.</p>
+        return <p>داده‌ای برای نمایش وجود ندارد.</p>
 
       case 'error':
         return <p role="alert">{dataState.message}</p>

@@ -18,7 +18,7 @@ export default function Footer(): ReactNode {
         </div>
         <div>
           <h3>دسترسی سریع</h3>
-          <a href="#categories">دسته\u200cبندی\u200cها</a>
+          <a href="#categories">دسته‌بندی‌ها</a>
           <a href="#sales">پیشنهادهای امروز</a>
           <a href="#categories">لبنیات</a>
           <a href="#categories">میوه و سبزی</a>

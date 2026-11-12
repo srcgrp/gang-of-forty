@@ -18,7 +18,7 @@ export default function Header({
   return (
     <header>
       <div className="top-bar">
-        <p>ارسال رایگان برای سفارش\u200cهای بالای ۷۰۰ هزار تومان</p>
+        <p>ارسال رایگان برای سفارش‌های بالای ۷۰۰ هزار تومان</p>
         <span>•</span>
         <p>تنها سوپرمارکت ۷/۲۴ در ایران</p>
       </div>
@@ -67,7 +67,7 @@ export default function Header({
               aria-haspopup="true"
               aria-expanded="false"
             >
-              دسته\u200cبندی\u200cها
+              دسته‌بندی‌ها
             </button>
             <div className="categories-dropdown" role="menu">
               {categories.map((category) => (

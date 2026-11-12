@@ -9,7 +9,7 @@ import cosmeticsImg from '../images/cosmetics.webp'
 export default function PopularCategories(): ReactNode {
   return (
     <section className="section" id="categories">
-      <h2 className="section-title">دسته\u200cبندی\u200cهای پرطرفدار</h2>
+      <h2 className="section-title">دسته‌بندی‌های پرطرفدار</h2>
       <div className="popular-products" tabIndex={0}>
         <article className="popular-products-items">
           <a href="#categories">
@@ -21,7 +21,7 @@ export default function PopularCategories(): ReactNode {
                 alt="لبنیات و تخم مرغ"
                 loading="lazy"
               />
-              <p className="popular-products-tags">لبنیات و تخم\u200cمرغ</p>
+              <p className="popular-products-tags">لبنیات و تخم‌مرغ</p>
             </div>
           </a>
         </article>
