@@ -370,6 +370,57 @@ main {
   margin: 0;
 }
 
+.carousel-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+}
+
+.sale-box {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sale-countdown {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 50px;
+  background-color: var(--tint-red);
+  color: var(--color-sale);
+  font-size: 0.8rem;
+}
+
+.sale-time {
+  font-weight: bold;
+  font-variant-numeric: tabular-nums;
+  direction: ltr;
+}
+
+.sale-toggle {
+  padding: 0.25rem 0.75rem;
+  border: 1px solid rgb(236, 230, 230);
+  border-radius: 50px;
+  background-color: var(--color-surface);
+  color: var(--color-text-muted);
+  font: inherit;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.sale-toggle:hover {
+  background-color: var(--color-primary-soft);
+}
+
+.sale-toggle:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
 .carousel-arrows {
   display: flex;
   justify-content: center;
@@ -800,6 +851,7 @@ footer ul {
 @media (prefers-reduced-motion: reduce) {
   .product-card,
   .carousel-arrows a,
+  .sale-toggle,
   .mega-menu {
     transition: none;
   }

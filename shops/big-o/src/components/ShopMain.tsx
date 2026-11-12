@@ -5,6 +5,7 @@ import Ads from "./Ads"
 import CategoryList from "./CategoryList"
 import Hero from "./Hero"
 import ProductGrid from "./ProductGrid"
+import SaleBox from "./SaleBox"
 
 type ShopMainProps = {
   state: LoadState
@@ -32,6 +33,7 @@ export default function ShopMain({state, onAdd, categoryId, onSelectCategory} : 
                     products={filterSpecialProducts(state.offeredProducts, state.products, state.stock)}
                     getInfo={(p) => getCardInfo(p, state.offeredProducts, state.stock)}
                     onAdd={onAdd}
+                    headerExtra={<SaleBox />}
                     />
                     <Ads />
                     {selected !== undefined && (
