@@ -2,6 +2,7 @@ import type { Category, ShopInfo } from '../types'
 import Icon from './Icon'
 import Logo from './Logo'
 import MainNav from './MainNav'
+import SearchBox from './SearchBox'
 import { formatNumber } from './format'
 
 type HeaderProps = {
@@ -9,9 +10,12 @@ type HeaderProps = {
   categories: Category[]
   cartCount: number
   productCount: number
+  query: string
+  onQuery: (value: string) => void
+  onOpenCart: () => void
 }
 
-export default function Header({ shop, categories, cartCount, productCount }: HeaderProps) {
+export default function Header({ shop, categories, cartCount, query, onQuery, onOpenCart }: HeaderProps) {
   const count = formatNumber(cartCount)
   return (
     <header className="site-header">
@@ -24,24 +28,23 @@ export default function Header({ shop, categories, cartCount, productCount }: He
           <span id="shop-slogan" className="shop-slogan">{shop.slogan}</span>
         </a>
         <div className="header-actions">
-          <a className="icon-btn" id="cart-count" href="#cart" aria-label={`سبد خرید، ${count} کالا`}>
-            <Icon name="cart" /><span className="badge cart-badge" aria-hidden="true">{count}</span>
-          </a>
+             <button
+            type="button"
+            className="icon-btn cart-toggle-btn"
+            id="cart-count"
+            onClick={onOpenCart}
+            aria-label={`باز کردن سبد خرید، ${count} کالا`}
+          >
+            <Icon name="cart" />
+            <span className="badge cart-badge" aria-hidden="true">{count}</span>
+          </button>
+          
           <label htmlFor="nav-toggle" className="nav-toggle-btn">
             <span className="sr-only">منو</span>
             <Icon name="menu" className="icon-open" /><Icon name="close" className="icon-close" />
           </label>
         </div>
-        <div className="search" role="search">
-          <form id="search-form" action="." method="get">
-            <div className="search-box">
-              <label className="sr-only" htmlFor="q">جستجو در محصولات</label>
-              <input id="q" type="search" name="q" autoComplete="off"
-                placeholder={`جستجو در میان ${formatNumber(productCount)} کالا…`} />
-              <button className="search-btn" type="submit" aria-label="جستجو"><Icon name="search" /></button>
-            </div>
-          </form>
-        </div>
+         <SearchBox query={query} onQuery={onQuery} />
       </div>
       <MainNav menu={shop.menu} categories={categories} phone={shop.phone} />
     </header>

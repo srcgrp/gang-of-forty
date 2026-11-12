@@ -3,16 +3,18 @@ import Icon from './Icon'
 import OfferBadge from './OfferBadge'
 import Price from './Price'
 
-type ProductCardProps = { product: ProductView
+type ProductCardProps = {
+  product: ProductView
   inStock: boolean
   discount?: number | undefined
   onAdd: (id: number) => void
- }
+}
 
 export default function ProductCard({ product, inStock, discount, onAdd }: ProductCardProps) {
-   const discounted = discount !== undefined
+  const discounted = discount !== undefined
+
   return (
-    <li className={inStock  ? 'card card--out' : 'card'}>
+    <li className={!inStock ? 'card card--out' : 'card'}>
       <div className="card-media">
         <span className="card-emoji" aria-hidden="true">{product.emoji}</span>
         {discounted && <OfferBadge percent={discount} />}
@@ -24,10 +26,15 @@ export default function ProductCard({ product, inStock, discount, onAdd }: Produ
       </div>
       <div className="card-foot">
         <Price price={product.price} originalPrice={product.originalPrice} discounted={discounted} />
-        <button type="button" className="act-btn act-cart" disabled={!inStock}
+        <button
+          type="button"
+          className="act-btn act-cart"
+          disabled={!inStock}
           aria-label={`افزودن ${product.name} به سبد خرید`}
-           onClick={() => onAdd(product.id)}
-          ><Icon name="cart" /></button>
+          onClick={() => onAdd(product.id)}
+        >
+          <Icon name="cart" />
+        </button>
       </div>
     </li>
   )

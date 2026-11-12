@@ -33,8 +33,8 @@ export type AppData = {
     products: ProductView[]; categories: Category[]; home: Home; shop: ShopInfo;
 };
 
-export const API_FILES = ['products.json', 'stock.json', 'offers.json', 'categories.json', 'home.json', 'shop.json'] as const satisfies readonly string[];
-export type ApiFile = (typeof API_FILES)[number];
+export type ApiFile = 'products.json' | 'stock.json' | 'offers.json' | 'categories.json' | 'home.json' | 'shop.json';
+export const API_FILES: readonly ApiFile[] = ['products.json', 'stock.json', 'offers.json', 'categories.json', 'home.json', 'shop.json'];
 
 export type LoadState =
     | { status: 'loading' }

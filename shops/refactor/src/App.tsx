@@ -1,66 +1,68 @@
 import { useEffect, useState } from 'react'
 import type { CartItem, LoadState } from './types'
 import { loadShop } from './api/load-shop'
-import { addToCart, cartCount, cartLines, cartTotal, removeFromCart } from './features/cart/calculate'
-import { selectProducts } from './features/products/select'
-import { readCart, writeCart } from './storage/cart'
-import CartPanel from './components/CartPanel'
-import CategoryNav from './components/CategoryNav'
-import Footer from './components/Footer'
-import Header from './components/Header'
-import Hero from './components/Hero'
-import ProductGrid from './components/ProductGrid'
+import confetti from 'canvas-confetti'
+import { addToCart, cartCount, cartLines, cartTotal, changeQuantity, removeFromCart } from './features/cart/calculate'
+import ShopPage from './components/ShopPage'
 import Status from './components/Status'
+import { readCart, writeCart } from './storage/cart'
+
 export default function App() {
   const [state, setState] = useState<LoadState>({ status: 'loading' })
   const [categoryId, setCategoryId] = useState<number | null>(null)
   const [cart, setCart] = useState<CartItem[]>(() => readCart())
+  const [query, setQuery] = useState('')
+  const [attempt, setAttempt] = useState(0)
+  const [showCountdown, setShowCountdown] = useState(true)
+  const [isCartOpen, setIsCartOpen] = useState(false)
+  const [showAll, setShowAll] = useState(false)
+
+  useEffect(() => { writeCart(cart) }, [cart])
+
   useEffect(() => {
-    writeCart(cart)
-  }, [cart])
+    if (state.status !== 'success') return
+    document.title = `${state.data.shop.name} · 🛒 ${cartCount(cartLines(cart, state.data.products))}`
+  }, [cart, state])
+
   useEffect(() => {
     let ignore = false
     loadShop()
-      .then((data) => {
-        if (!ignore) {
-          setState({ status: data.products.length > 0 ? 'success' : 'empty', data })
-        }
-      })
-      .catch((error: unknown) => {
-        const message = error instanceof Error ? error.message : 'خطای ناشناخته'
-        if (!ignore) {
-          setState({ status: 'error', message })
-        }
-      })
-    return () => {
-      ignore = true
-    }
-  }, [])
-  useEffect(() => {
-    if (state.status !== 'success') return
-    const count = cartCount(cartLines(cart, state.data.products))
-    document.title = `${state.data.shop.name} · 🛒 ${count}`
-  }, [cart, state])
+      .then((data) => { if (!ignore) setState({ status: data.products.length > 0 ? 'success' : 'empty', data }) })
+      .catch((error: unknown) => { if (!ignore) setState({ status: 'error', message: error instanceof Error ? error.message : 'خطای ناشناخته' }) })
+    return () => { ignore = true }
+  }, [attempt])
+
   if (state.status !== 'success') {
-    return <Status state={state} />
+    return <Status state={state} onRetry={() => { setState({ status: 'loading' }); setAttempt((count) => count + 1) }} />
   }
+
   const { products, categories, home, shop } = state.data
   const lines = cartLines(cart, products)
-  const total = cartTotal(lines)
+
   return (
-    <>
-      <a className="skip-link" href="#content">پرش به محتوای اصلی</a>
-      <Header shop={shop} categories={categories} cartCount={cartCount(lines)} productCount={products.length} />
-      <main id="content" tabIndex={-1}>
-        <h1 className="sr-only">ریفکتور؛ سوپرمارکت آنلاین</h1>
-        <Hero main={home.hero} side={home.side} />
-        <CategoryNav categories={categories} activeId={categoryId} onPick={setCategoryId} />
-        <div className="shop-layout container">
-          <ProductGrid products={selectProducts(products, categoryId)} onAdd={(id) => setCart(addToCart(cart, id))} />
-          <CartPanel lines={lines} total={total} onRemove={(id) => setCart(removeFromCart(cart, id))} />
-        </div>
-      </main>
-      <Footer shop={shop} categories={categories} />
-    </>
+    <ShopPage
+      products={products}
+      categories={categories}
+      home={home}
+      shop={shop}
+      lines={lines}
+      total={cartTotal(lines)}
+      count={cartCount(lines)}
+      categoryId={categoryId}
+      onPick={setCategoryId}
+      query={query}
+      onQuery={setQuery}
+      showAll={showAll}
+      onToggleAll={() => setShowAll((open) => !open)}
+      onAdd={(id) => { setCart(addToCart(cart, id)); confetti({ particleCount: 70, spread: 70, origin: { y: 0.75 }, zIndex: 2000 }) }}
+      onRemove={(id) => setCart(removeFromCart(cart, id))}
+      onQuantity={(id, delta) => setCart(changeQuantity(cart, id, delta))}
+      isCartOpen={isCartOpen}
+      onOpenCart={() => setIsCartOpen(true)}
+      onCloseCart={() => setIsCartOpen(false)}
+      showCountdown={showCountdown}
+      onCloseCountdown={() => setShowCountdown(false)}
+      onShowCountdown={() => setShowCountdown(true)}
+    />
   )
 }

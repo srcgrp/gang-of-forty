@@ -11,6 +11,15 @@ export const addToCart = (cart: CartItem[], id: number): CartItem[] => {
 export const removeFromCart = (cart: CartItem[], id: number): CartItem[] =>
   cart.filter((item) => item.id !== id)
 
+export const changeQuantity = (cart: CartItem[], id: number, delta: number): CartItem[] =>
+  cart.flatMap((item) => {
+    if (item.id !== id) {
+      return [item]
+    }
+    const quantity = item.quantity + delta
+    return quantity <= 0 ? [] : [{ ...item, quantity }]
+  })
+
 export const cartLines = (cart: CartItem[], products: ProductView[]): CartLine[] =>
   cart.flatMap((item): CartLine[] => {
     const product = products.find((entry) => entry.id === item.id)

@@ -8,7 +8,7 @@ type CategoryNavProps = {
 
 export default function CategoryNav({ categories, activeId, onPick }: CategoryNavProps) {
   return (
-    <section className="cats container" id="categories" aria-labelledby="cats-title">
+     <section className="cats container" id="categories" aria-labelledby="cats-title">
       <div className="section-head">
         <h2 className="section-title" id="cats-title">دسته‌بندی محصولات</h2>
       </div>
