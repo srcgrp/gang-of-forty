@@ -14,6 +14,7 @@ export default function App() {
   const [cart, setCart] = useState<CartLine[]>(function () {
     return loadCart();
   });
+  const [query, setQuery] = useState("");
   useEffect(function () {
     let ignore = false;
     loadShop(API)
@@ -50,6 +51,8 @@ export default function App() {
   }
   return (
     <ShopView
+      query={query}
+      onQuery={setQuery}
       load={load}
       categoryId={categoryId}
       cart={cart}

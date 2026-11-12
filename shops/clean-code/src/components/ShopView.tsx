@@ -1,15 +1,14 @@
 import { addToCart, cartCount } from "../features/cart/count.ts";
 import { cartRows, cartTotal } from "../features/cart/rows.ts";
+import { filterProducts } from "../features/products/filter.ts";
 import type { LoadState } from "../types/load.ts";
 import type { CartLine } from "../types/product.ts";
 import Banner from "./Banner.tsx";
 import CartPanel from "./CartPanel.tsx";
-import CategoryNav from "./CategoryNav.tsx";
 import Footer from "./Footer.tsx";
 import Header from "./Header.tsx";
-import Hero from "./Hero.tsx";
+import HomeIntro from "./HomeIntro.tsx";
 import HomeRows from "./HomeRows.tsx";
-import PromoStrips from "./PromoStrips.tsx";
 
 type Success = Extract<LoadState, { status: "success" }>;
 type ShopViewProps = {
@@ -19,51 +18,51 @@ type ShopViewProps = {
   onPick: (id: number | null) => void;
   onClear: () => void;
   setCart: (next: CartLine[]) => void;
+  query: string;
+  onQuery: (value: string) => void;
 };
-export default function ShopView({
-  load,
-  categoryId,
-  cart,
-  onPick,
-  onClear,
-  setCart,
-}: ShopViewProps) {
-  const products = load.products;
-  const stock = load.stock.items;
-  const offers = load.offers;
-  const categories = load.categories;
-  const rows = cartRows(cart, products);
+export default function ShopView(p: ShopViewProps) {
+  const products = p.load.products;
+  const stock = p.load.stock.items;
+  const offers = p.load.offers;
+  const cats = p.load.categories;
+  const home = p.load.home;
+  const visible = filterProducts(products, p.categoryId, p.query);
+  const rows = cartRows(p.cart, products);
   const total = cartTotal(rows, offers);
-
-  function handleAdd(id: number): void {
-    setCart(addToCart(cart, id, stock[id] ?? 0));
-  }
-
   return (
     <>
       <Banner />
-      <Header cartCount={cartCount(cart)} menu={load.shop.menu} />
+      <Header
+        cartCount={cartCount(p.cart)}
+        menu={p.load.shop.menu}
+        query={p.query}
+        onQuery={p.onQuery}
+      />
       <main id="content">
         <div className="box">
-          <CategoryNav
-            categories={categories}
-            selectedId={categoryId}
-            onPick={onPick}
-          />
-          <Hero home={load.home} />
-          <PromoStrips home={load.home} />
+          {p.query === "" ? (
+            <HomeIntro
+              home={home}
+              categories={cats}
+              categoryId={p.categoryId}
+              onPick={p.onPick}
+            />
+          ) : null}
           <HomeRows
-            home={load.home}
-            categories={categories}
-            products={products}
+            home={home}
+            categories={cats}
+            products={visible}
             offers={offers}
             stock={stock}
-            onAdd={handleAdd}
+            onAdd={function (id) {
+              p.setCart(addToCart(p.cart, id, stock[id] ?? 0));
+            }}
           />
-          <CartPanel rows={rows} total={total} onClear={onClear} />
+          <CartPanel rows={rows} total={total} onClear={p.onClear} />
         </div>
       </main>
-      <Footer categories={categories} help={load.shop.help} />
+      <Footer categories={cats} help={p.load.shop.help} />
     </>
   );
 }

@@ -1,13 +1,21 @@
 import CartIcon from "./CartIcon";
 import Logo from "./Logo";
+import MenuToggle from "./MenuToggle";
 import SearchBox from "./SearchBox";
 
 type HeaderProps = {
   cartCount: number;
+  query: string;
   menu: { label: string; href: string }[];
+  onQuery: (value: string) => void;
 };
 
-export default function Header({ cartCount, menu }: HeaderProps) {
+export default function Header({
+  cartCount,
+  menu,
+  query,
+  onQuery,
+}: HeaderProps) {
   return (
     <header className="header">
       <div className="box header-top">
@@ -20,7 +28,7 @@ export default function Header({ cartCount, menu }: HeaderProps) {
             <p className="slogan">تازه، نزدیک، به‌صرفه</p>
           </div>
         </div>
-        <SearchBox />
+        <SearchBox query={query} onQuery={onQuery} />
         <a className="cart" href="#cart">
           <span className="cart-label">سبد خرید</span>
           <CartIcon />
@@ -28,28 +36,7 @@ export default function Header({ cartCount, menu }: HeaderProps) {
             {cartCount.toLocaleString("fa-IR")}
           </span>
         </a>
-        <input className="nav-toggle" id="nav-toggle" type="checkbox" />
-        <label className="menu-btn" htmlFor="nav-toggle">
-          <span className="sr-only">منو</span>
-          <svg className="icon-open" viewBox="0 0 24 24" aria-hidden="true">
-            <path
-              d="M4 7h16M4 12h16M4 17h16"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-            ></path>
-          </svg>
-          <svg className="icon-close" viewBox="0 0 24 24" aria-hidden="true">
-            <path
-              d="M6 6 18 18M18 6 6 18"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-            ></path>
-          </svg>
-        </label>
+        <MenuToggle />
       </div>
       <nav className="main-nav" id="menu" aria-label="منوی اصلی">
         <ul className="box" id="menu-list">
