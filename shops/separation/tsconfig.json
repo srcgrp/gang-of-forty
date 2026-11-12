@@ -11,6 +11,7 @@
     "verbatimModuleSyntax": true,
     "erasableSyntaxOnly": true,
     "moduleDetection": "force",
+    "jsx": "react-jsx",
     "strictNullChecks": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
