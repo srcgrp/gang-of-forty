@@ -1,14 +1,15 @@
 import type { LoadState, ShopData } from "../shared/types";
 
-type Props = { state: LoadState<ShopData> };
-export default function LoadStatus({ state }: Props) {
+type Props = { state: LoadState<ShopData>; onRetry: () => void };
+export default function LoadStatus({ state, onRetry }: Props) {
   switch (state.status) {
     case "loading":
       return <p className="products-status" role="status">در حال دریافت اطلاعات فروشگاه...</p>;
     case "empty":
       return <p className="products-status" role="status">هنوز محصولی برای نمایش وجود ندارد.</p>;
     case "error":
-      return <p className="products-status" role="alert">{state.message}</p>;
+      return <div className="products-status"><p role="alert">{state.message}</p>
+        <button className="clear-search" type="button" onClick={onRetry}>تلاش دوباره</button></div>;
     case "success":
       return null;
     default: {

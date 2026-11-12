@@ -2,22 +2,20 @@ import type { ReactNode } from "react";
 import { formatNumber } from "../shared/format";
 import type { Category, Shop } from "../shared/types";
 import Brand from "./Brand";
+import SearchBox from "./SearchBox";
 import cartIcon from "../../icons/shopping-cart.svg";
 import ThemeToggle from "./ThemeToggle";
 import menuIcon from "../../icons/menu-2.svg";
 
-type Props = { dark: boolean; onToggleTheme: () => void; shop: Shop; categories: Category[]; count: number; cartOpen: boolean; onCartOpen: (open: boolean) => void; children: ReactNode; onPick: (id: number | null) => void };
-export default function Header({ shop, categories, count, onPick, cartOpen, onCartOpen, dark, onToggleTheme, children }: Props) {
+type Props = { query: string; onQuery: (query: string) => void; dark: boolean; onToggleTheme: () => void; shop: Shop; categories: Category[]; count: number; cartOpen: boolean; onCartOpen: (open: boolean) => void; children: ReactNode; onPick: (id: number | null) => void };
+export default function Header({ query, onQuery, shop, categories, count, onPick, cartOpen, onCartOpen, dark, onToggleTheme, children }: Props) {
   return (
     <>
       <div id="notice" className="announcement">{shop.notice}</div>
       <header className="site-header">
         <div className="header-top wrap">
           <Brand />
-          <div className="search-box">
-            <label htmlFor="product-search">جست‌وجوی محصولات</label>
-            <input id="product-search" type="search" placeholder="دنبال چی می‌گردی؟" disabled />
-          </div>
+          <SearchBox query={query} onQuery={onQuery} />
           <div className="cart-menu" onMouseEnter={() => onCartOpen(true)}
             onMouseLeave={() => onCartOpen(false)}
             onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget)) onCartOpen(false); }}

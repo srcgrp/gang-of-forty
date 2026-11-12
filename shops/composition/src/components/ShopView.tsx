@@ -8,20 +8,24 @@ import Promos from "./Promos";
 import ProductSections from "./ProductSections";
 import CartPanel from "./CartPanel";
 import Footer from "./Footer";
+import SearchResults from "./SearchResults";
+import SaleCountdown from "./SaleCountdown";
+import { normalizeSearch } from "../features/products/catalog/search";
 
 type Props = {
+  query: string; onQuery: (query: string) => void; saleOpen: boolean; onToggleSale: () => void;
   dark: boolean; onToggleTheme: () => void;
   data: ShopData; cart: CartItem[]; categoryId: number | null; cartOpen: boolean;
   onPick: (id: number | null) => void; onCartOpen: (open: boolean) => void;
   onAdd: (id: number) => void; onRemove: (id: number) => void;
 };
-export default function ShopView({ data, cart, categoryId, cartOpen, dark, onToggleTheme, onPick, onCartOpen, onAdd, onRemove }: Props) {
+export default function ShopView({ query, onQuery, saleOpen, onToggleSale, data, cart, categoryId, cartOpen, dark, onToggleTheme, onPick, onCartOpen, onAdd, onRemove }: Props) {
   const page = buildPage(data);
   const category = data.categories.find(item => item.id === categoryId);
   return (
     <div id="top">
       <a className="skip-link" href="#main">پرش به محتوای اصلی</a>
-      <Header shop={data.shop} categories={data.categories} count={cartCount(cart)} onPick={onPick}
+      <Header query={query} onQuery={onQuery} shop={data.shop} categories={data.categories} count={cartCount(cart)} onPick={onPick}
         cartOpen={cartOpen} onCartOpen={onCartOpen} dark={dark} onToggleTheme={onToggleTheme}>
         <CartPanel cart={cart} total={cartTotal(cart)} onRemove={onRemove}
           open={cartOpen} onClose={() => onCartOpen(false)} />
@@ -30,7 +34,16 @@ export default function ShopView({ data, cart, categoryId, cartOpen, dark, onTog
         <Hero home={data.home} onNavigate={() => onPick(null)} />
         <CategoryNav categories={data.categories} categoryId={categoryId} onPick={onPick} />
         <Promos promos={data.home.promos} onNavigate={() => onPick(null)} />
-        <ProductSections page={page} category={category} onAdd={onAdd} />
+        <div className="sale-controls">
+          <button type="button" className="clear-search" onClick={onToggleSale}
+            aria-expanded={saleOpen} aria-controls="sale-countdown">
+            {saleOpen ? "بستن شمارش معکوس" : "نمایش شمارش معکوس حراج"}
+          </button>
+          {saleOpen && <SaleCountdown />}
+        </div>
+        {normalizeSearch(query) ? <SearchResults data={data} query={query}
+          category={category?.slug ?? ""} onAdd={onAdd} /> :
+          <ProductSections page={page} category={category} onAdd={onAdd} />}
       </main>
       <Footer shop={data.shop} categories={data.categories} onNavigate={() => onPick(null)} />
     </div>

@@ -13,6 +13,9 @@ export default function App() {
   const [state, setState] = useState<LoadState<ShopData>>({ status: "loading" });
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const [dark, setDark] = useState(() => loadTheme());
+  const [query, setQuery] = useState("");
+  const [attempt, setAttempt] = useState(0);
+  const [saleOpen, setSaleOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const [cart, setCart] = useState<CartItem[]>(() => loadCart());
   useEffect(() => {
@@ -26,10 +29,10 @@ export default function App() {
       .catch(() => {
         if (ignore) return;
         setState({ status: "error", message:
-          "دریافت اطلاعات فروشگاه ممکن نشد. اتصال اینترنت را بررسی و صفحه را تازه‌سازی کنید." });
+          "دریافت اطلاعات فروشگاه ممکن نشد. اتصال اینترنت را بررسی و دوباره تلاش کنید." });
       });
     return () => { ignore = true; };
-  }, []);
+  }, [attempt]);
   useEffect(() => { saveCart(cart); }, [cart]);
   useEffect(() => {
     document.title = "بت‌شاپ · " + cartCount(cart).toLocaleString("fa-IR") + " 🛒";
@@ -50,10 +53,15 @@ export default function App() {
   function handleRemove(productId: number): void {
     setCart(previous => removeItem(previous, productId));
   }
+  function handleRetry(): void {
+    setState({ status: "loading" });
+    setAttempt(previous => previous + 1);
+  }
   if (state.status !== "success") {
-    return <main className="wrap"><h1>بت‌شاپ</h1><LoadStatus state={state} /></main>;
+    return <main className="wrap"><h1>بت‌شاپ</h1><LoadStatus state={state} onRetry={handleRetry} /></main>;
   }
   return <ShopView data={state.data} cart={cart} categoryId={categoryId} cartOpen={cartOpen}
+    query={query} onQuery={setQuery} saleOpen={saleOpen} onToggleSale={() => setSaleOpen(open => !open)}
     dark={dark} onToggleTheme={() => setDark(previous => !previous)}
     onPick={setCategoryId} onCartOpen={setCartOpen} onAdd={handleAdd} onRemove={handleRemove} />;
 }

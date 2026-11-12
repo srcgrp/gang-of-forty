@@ -853,3 +853,17 @@ footer nav {
 
 .cart-close img { display: block; opacity: 0.7; }
 [data-theme="dark"] .cart-close img { filter: invert(1); }
+
+.sale-controls { margin-block: 24px; }
+.sale-countdown {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  margin-top: 12px;
+  padding: 16px 20px;
+  border: 1px solid #facc15;
+  border-radius: 12px;
+}
+.sale-countdown strong { font-size: 1.6rem; font-variant-numeric: tabular-nums; }
+.sale-countdown small { flex-basis: 100%; }
