@@ -1114,3 +1114,99 @@ input:focus-visible {
     }
 }
 
+
+
+
+.add-to-cart-btn {
+    width: 100%;
+    padding: 10px 14px;
+    margin-top: 12px;
+
+    border: none;
+    border-radius: 8px;
+
+    background-color: #030164;
+    color: #fff;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #2f80ed;
+}
+
+.add-to-cart-btn:focus-visible {
+    outline: 3px solid #ff9800;
+    outline-offset: 2px;
+}
+
+/* Cart Panel */
+.cart-panel {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 24px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.cart-panel h2 {
+    font-size: 22px;
+    color: #030164;
+    margin-bottom: 20px;
+}
+
+.cart-panel > p {
+    color: #777;
+    padding: 20px 0;
+}
+
+.cart-panel > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.cart-panel > div span {
+    font-size: 14px;
+    color: #333;
+}
+
+.cart-panel button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    background: #ffe8e8;
+    color: #d32f2f;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.cart-panel button:hover {
+    background: #ffd2d2;
+}
+
+.cart-panel h3 {
+    margin-top: 24px;
+    color: #030164;
+    font-size: 18px;
+    text-align: left;
+}
+
+@media (max-width: 600px) {
+    .cart-panel {
+        margin: 24px 12px;
+        padding: 16px;
+    }
+
+    .cart-panel > div {
+        flex-wrap: wrap;
+    }
+}

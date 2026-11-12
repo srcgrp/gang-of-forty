@@ -1,34 +1,37 @@
+
 import type { CartItem } from "../types";
-import { loadCart, saveCart } from "../storage/cart-storage";
 
-let items: CartItem[] = loadCart();
-
-export function getCart(): CartItem[] {
-    return items.map((item) => ({ ...item }));
-}
-
-export function addToCart(productId: number): void {
-    const existing = items.find((item) => item.productId === productId);
+export function addToCart(
+    cart: CartItem[],
+    productId: number
+): CartItem[] {
+    const existing = cart.find(
+        (item) => item.productId === productId
+    );
 
     if (existing) {
-        items = items.map((item) =>
+        return cart.map((item) =>
             item.productId === productId
                 ? { ...item, quantity: item.quantity + 1 }
                 : item
         );
-    } else {
-        items = [...items, { productId, quantity: 1 }];
     }
 
-    saveCart(items);
+    return [...cart, { productId, quantity: 1 }];
 }
 
-export function removeFromCart(productId: number): void {
-    items = items.filter((item) => item.productId !== productId);
-    saveCart(items);
+export function removeFromCart(
+    cart: CartItem[],
+    productId: number
+): CartItem[] {
+    return cart.filter(
+        (item) => item.productId !== productId
+    );
 }
 
-
-export function getCartCount(): number {
-    return items.reduce((total, item) => total + item.quantity, 0);
+export function getCartCount(cart: CartItem[]): number {
+    return cart.reduce(
+        (total, item) => total + item.quantity,
+        0
+    );
 }

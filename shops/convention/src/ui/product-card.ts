@@ -49,7 +49,7 @@ export function createProductCard(product: Product): HTMLElement {
     button.textContent = "افزودن به سبد";
 
    button.addEventListener("click", () => {
-    addToCart(product.id);
+    addToCart([], product.id);
     updateCartCounter();
 
     notyf.success(`${product.name} به سبد خرید اضافه شد`);

@@ -1,8 +1,10 @@
 import type { Product } from "../types";
 import { getJSON } from "./get-json";
 
-export async function getProducts(): Promise<Product[]> {
-    const data = await getJSON("products.json");
+export async function getProducts(
+    signal?: AbortSignal
+): Promise<Product[]> {
+    const data = await getJSON("products.json", signal);
 
     if (!Array.isArray(data)) {
         throw new Error("Invalid products data");
