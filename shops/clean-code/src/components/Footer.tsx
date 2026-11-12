@@ -1,7 +1,6 @@
 import type { Category } from "../types/product.ts";
 
 type FooterLink = { label: string; href: string };
-
 type FooterProps = {
   categories: Category[];
   help: FooterLink[];

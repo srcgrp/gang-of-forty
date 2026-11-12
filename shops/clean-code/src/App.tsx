@@ -2,17 +2,18 @@ import { useEffect, useState } from "react";
 import { loadShop } from "./api/load-shop.ts";
 import ShopView from "./components/ShopView.tsx";
 import Status from "./components/Status.tsx";
-import { removeFromCart } from "./features/cart/count.ts";
+import { cartCount, removeFromCart } from "./features/cart/count.ts";
+import { loadCart, saveCart } from "./storage/cart-storage.ts";
 import type { LoadState } from "./types/load.ts";
 import type { CartLine } from "./types/product.ts";
 
 const API = import.meta.env.VITE_API_URL ?? "";
-
 export default function App() {
   const [load, setLoad] = useState<LoadState>({ status: "loading" });
   const [categoryId, setCategoryId] = useState<number | null>(null);
-  const [cart, setCart] = useState<CartLine[]>([]);
-
+  const [cart, setCart] = useState<CartLine[]>(function () {
+    return loadCart();
+  });
   useEffect(function () {
     let ignore = false;
     loadShop(API)
@@ -36,10 +37,23 @@ export default function App() {
     };
   }, []);
 
+  useEffect(
+    function () {
+      saveCart(cart);
+    },
+    [cart],
+  );
+  useEffect(
+    function () {
+      saveCart(cart);
+      document.title =
+        "تمیز مارکت · " + cartCount(cart).toLocaleString("fa-IR") + " 🛒";
+    },
+    [cart],
+  );
   if (load.status !== "success") {
     return <Status state={load} />;
   }
-
   return (
     <ShopView
       load={load}
