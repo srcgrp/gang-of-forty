@@ -15,7 +15,7 @@ export default function ProductGrid({
 }: ProductGridProps) {
   return (
     <section className="product-grid">
-      <ul>
+      <ul className="row">
         {products.map(function (product) {
           const offer = offers.find(function (item) {
             return item.productId === product.id;

@@ -18,20 +18,30 @@ export default function ProductCard({
       ? Math.round((product.price * (100 - percent)) / 100)
       : product.price;
   return (
-    <article className="product-card">
-      <p>{product.emoji}</p>
+    <article className={qty < 1 ? "product out-of-stock" : "product"}>
+      <div className="pic">
+        <span>{product.emoji}</span>
+        {qty < 1 ? (
+          <span className="off sold">ناموجود</span>
+        ) : percent > 0 ? (
+          <span className="off">{percent.toLocaleString("fa-IR")}٪</span>
+        ) : null}
+      </div>
       <h3>{product.name}</h3>
-      <p>{product.unit}</p>
-      {percent > 0 ? (
-        <p>
-          {percent.toLocaleString("fa-IR")}٪ {product.price.toLocaleString("fa-IR")}
-          {" → "}
-          {now.toLocaleString("fa-IR")}
-        </p>
-      ) : (
-        <p>{product.price.toLocaleString("fa-IR")}</p>
-      )}
-      <p>مانده: {qty.toLocaleString("fa-IR")}</p>
+      <p className="amount">
+        {product.unit}
+        {qty > 0 ? " · مانده " + qty.toLocaleString("fa-IR") : ""}
+      </p>
+      <p className="price">
+        {percent > 0 ? (
+          <>
+            <s>{product.price.toLocaleString("fa-IR")}</s>
+            <span>{now.toLocaleString("fa-IR")}</span>
+          </>
+        ) : (
+          product.price.toLocaleString("fa-IR")
+        )}
+      </p>
       <button
         type="button"
         disabled={qty < 1}
@@ -39,7 +49,7 @@ export default function ProductCard({
           onAdd(product.id);
         }}
       >
-        افزودن
+        {qty < 1 ? "ناموجود" : "افزودن به سبد"}
       </button>
     </article>
   );
