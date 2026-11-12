@@ -1,9 +1,14 @@
 import Announcement from "./Announcement";
 import cartIcon from "../../assets/icons/cart.svg";
 import CategoryNav from "./CategoryNav";
+import type { Category } from "../types";
 
-type HeaderProps = { count: number }
-export default function Header({ count }: HeaderProps) {
+type HeaderProps = { 
+    count: number
+    categories: Category[]
+    onSelect: (id: number) => void
+}
+export default function Header({ count, categories, onSelect }: HeaderProps) {
     return (
         <header>
             <Announcement />
@@ -51,7 +56,7 @@ export default function Header({ count }: HeaderProps) {
                 <span className="visually-hidden">منو</span>
             </label>
             </div>
-            <CategoryNav/>
+            <CategoryNav categories={categories} onSelect={onSelect} />
         </header>
     )
 }

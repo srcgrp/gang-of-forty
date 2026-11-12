@@ -11,6 +11,7 @@ import ShopMain from "./components/ShopMain";
 export default function App() {
   const [cart,setCart] = useState <CartItem[]> ([])
   const [state, setState] = useState <LoadState> ({status: 'loading'})
+  const [categoryId, setCategoryId] = useState<number | null>(null)
 
   useEffect(() => {
     let ignore = false
@@ -28,6 +29,8 @@ export default function App() {
     return () => { ignore = true }
   }, [])
 
+  const categories = state.status === "success" ? state.categories : []
+
   const count = cart.reduce((sum, item) => sum + item.qty, 0)
 
   function handleAdd(id: number) {
@@ -44,9 +47,14 @@ export default function App() {
   return (
     <>
       <a href="#main-content" className="skip-link">پرش به محتوای اصلی</a>
-      <Header count={count}/>
+      <Header count={count} categories={categories} onSelect={setCategoryId} />
       <main id="main-content">
-        <ShopMain state={state} onAdd={handleAdd} />
+        <ShopMain
+          state={state}
+          categoryId={categoryId}
+          onAdd={handleAdd}
+          onSelectCategory={setCategoryId}
+        />
       </main>
       <CartPanel
         items={cart}
