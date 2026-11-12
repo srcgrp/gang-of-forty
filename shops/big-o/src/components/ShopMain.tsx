@@ -33,6 +33,7 @@ export default function ShopMain({state, onAdd, categoryId, onSelectCategory} : 
                     getInfo={(p) => getCardInfo(p, state.offeredProducts, state.stock)}
                     onAdd={onAdd}
                     />
+                    <Ads />
                     {selected !== undefined && (
                         <ProductGrid
                             sectionId={selected.slug}
@@ -42,7 +43,6 @@ export default function ShopMain({state, onAdd, categoryId, onSelectCategory} : 
                             onAdd={onAdd}
                         />
                     )}
-                    <Ads />
                 </>
             )
         }
