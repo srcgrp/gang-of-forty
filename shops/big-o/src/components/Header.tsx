@@ -2,7 +2,8 @@ import Announcement from "./Announcement";
 import cartIcon from "../../assets/icons/cart.svg";
 import CategoryNav from "./CategoryNav";
 
-export default function Header() {
+type HeaderProps = { count: number }
+export default function Header({ count }: HeaderProps) {
     return (
         <header>
             <Announcement />
@@ -35,10 +36,10 @@ export default function Header() {
                 <button type="submit" className="visually-hidden">جستجو</button>
             </form>
 
-            <a className="cart" href="#">
+            <a className="cart" href="#cart">
                 <span className="visually-hidden">سبد خرید</span>
                 <img src={cartIcon} alt=""/>
-                <span className="product-counter"></span>
+                <span className="product-counter">{count.toLocaleString("fa-IR")}</span>
             </a>
             <label htmlFor="hamburger-menu" className="menu-button">
                 <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24"
