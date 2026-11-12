@@ -743,7 +743,16 @@ h1 {
      font-size: 13px;
    }
  }
+.categories button {
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+  color: inherit;
+}
 
+.categories button.active {
+  outline: 2px solid #245c35;
+}
  /* دسته بندی: تبلت */
  @media (min-width: 601px) and (max-width: 900px) {
    .categories {

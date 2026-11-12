@@ -1,16 +1,9 @@
-import CategoryNav from './CategoryNav'
-import type { Category } from '../types'
 
 type HeaderProps = {
-  categories: Category[]
-  activeCategoryId: number | null
-  onPick: (id: number | null) => void
+  itemCount: number
 }
-export default function Header({
-  categories,
-  activeCategoryId,
-  onPick
-}: HeaderProps) {
+
+export default function Header({ itemCount }: HeaderProps) {
   return (
     <header className="header" id="top">
       <a className="skip" href="#main">
@@ -47,10 +40,7 @@ export default function Header({
               strokeWidth="2.8"
               strokeLinecap="round"
             />
-            <path
-              d="M14 29 H46 L42 45 H18 Z"
-              fill="#2f7d4a"
-            />
+            <path d="M14 29 H46 L42 45 H18 Z" fill="#2f7d4a" />
             <path
               d="M23 33 V41 M30 33 V41 M37 33 V41"
               fill="none"
@@ -83,7 +73,9 @@ export default function Header({
 
         <button className="cart" type="button" aria-label="سبد خرید">
           <span aria-hidden="true">🛍️</span> سبد خرید{' '}
-          <b id="cart-count" aria-hidden="true">۰</b>
+          <b id="cart-count" aria-hidden="true">
+            {itemCount.toLocaleString('fa-IR')}
+          </b>
         </button>
 
         <label
@@ -94,11 +86,15 @@ export default function Header({
           ☰
         </label>
       </div>
-     <CategoryNav
-  categories={categories}
-  activeCategoryId={activeCategoryId}
-  onPick={onPick}
-/>
+
+      <nav className="nav" aria-label="منوی اصلی">
+        <ul className="menu" id="main-menu">
+          <li className="has-sub">
+            <a href="#categories">همه دسته‌ها</a>
+            <ul className="submenu" id="submenu"></ul>
+          </li>
+        </ul>
+      </nav>
     </header>
   )
 }
