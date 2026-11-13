@@ -12,6 +12,13 @@ export function ShopView({ data }: { data: AppData }) {
   const shop = useShop(data);
   const { shop: shopInfo, categories, products } = data;
 
+  const handlePickSuggestion = (p: { name: string }) => {
+    shop.setQuery(p.name);
+    document
+      .getElementById("all-products")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
     <>
       <SiteHeader
@@ -24,7 +31,7 @@ export function ShopView({ data }: { data: AppData }) {
         query={shop.query}
         onQuery={shop.setQuery}
         suggestions={shop.suggestions}
-        onPickProduct={shop.handleAddToCart}
+        onPickProduct={handlePickSuggestion}
         onOpenCart={() => shop.setCartOpen(true)}
       />
       <ShopMain data={data} shop={shop} />
@@ -39,17 +46,16 @@ export function ShopView({ data }: { data: AppData }) {
         onRemove={shop.cart.removeItem}
         onCheckout={shop.handleCheckout}
       />
-      {shop.wishlistOpen && (
-        <WishlistPanel
-          products={products}
-          wishlistIds={shop.wishlist.ids}
-          cart={shop.cart.cart}
-          onRemove={shop.wishlist.remove}
-          onAdd={shop.handleAddToCart}
-          onClose={() => shop.setWishlistOpen(false)}
-          onClear={shop.wishlist.clear}
-        />
-      )}
+      <WishlistPanel
+        isOpen={shop.wishlistOpen}
+        products={products}
+        wishlistIds={shop.wishlist.ids}
+        cart={shop.cart.cart}
+        onRemove={shop.wishlist.remove}
+        onAdd={shop.handleAddToCart}
+        onClose={() => shop.setWishlistOpen(false)}
+        onClear={shop.wishlist.clear}
+      />
       <FilterModal
         isOpen={shop.filterOpen}
         onClose={() => shop.setFilterOpen(false)}

@@ -32,13 +32,17 @@ export function SearchBox({
 
   const showList = open && query.trim().length > 0;
 
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!query.trim()) return;
+    setOpen(false);
+    document
+      .getElementById("all-products")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
-    <form
-      ref={boxRef}
-      className="search"
-      role="search"
-      onSubmit={(e) => e.preventDefault()}
-    >
+    <form ref={boxRef} className="search" role="search" onSubmit={onSubmit}>
       <label htmlFor="site-search" className="visually-hidden">
         جستجو در محصولات
       </label>
@@ -62,7 +66,7 @@ export function SearchBox({
           setOpen(true);
         }}
         onFocus={() => setOpen(true)}
-        placeholder="جستجو در میان ۳۰۰۰ کالا..."
+        placeholder="جستجو در میان محصولات..."
         autoComplete="off"
         aria-expanded={showList}
         aria-controls="search-suggestions"
