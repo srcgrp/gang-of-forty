@@ -4,17 +4,17 @@ import { loadAll } from "../shared/api/load";
 
 export function useShopData(attempt: number) {
   const [state, setState] = useState<LoadState<AppData>>({ status: "loading" });
+
   useEffect(() => {
-    let ignore = false;
+    const controller = new AbortController();
     async function fetchData() {
       setState({ status: "loading" });
-      const res = await loadAll();
-      if (!ignore) setState(res as LoadState<AppData>);
+      const res = await loadAll(controller.signal);
+      if (!controller.signal.aborted) setState(res);
     }
     fetchData();
-    return () => {
-      ignore = true;
-    };
+    return () => controller.abort();
   }, [attempt]);
+
   return state;
 }
