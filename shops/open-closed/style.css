@@ -824,3 +824,22 @@ background: #E67188}
     from { background-position: 200% 0; }
     to   { background-position: -200% 0; }
 }
+
+
+
+
+.cat.is-active { background: var(--pink-soft); border-color: var(--brand); }
+
+.cart-list { display: grid; gap: 8px; margin-block-start: 12px; }
+.cart-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    background: var(--surface);
+}
+.cart-name { flex: 1; font-weight: 700; }
+.cart-total { margin-block-start: 12px; font-weight: 700; }

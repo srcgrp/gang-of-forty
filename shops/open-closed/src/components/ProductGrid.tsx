@@ -14,7 +14,7 @@ export default function ProductGrid({ products, onAdd }: ProductGridProps) {
     <section className="section" id="dairy" aria-labelledby="dairy-title">
       <div className="section-head">
         <h2 className="section-title" id="dairy-title">
-          <span aria-hidden="true">🥛</span> لبنیات
+          <span aria-hidden="true">🛍️</span> محصولات
         </h2>
         <div className="carousel-nav">
           <a
@@ -33,8 +33,10 @@ export default function ProductGrid({ products, onAdd }: ProductGridProps) {
           </a>
         </div>
       </div>
-      <div className="carousel-status" role="status" aria-live="polite"></div>
-      <section className="carousel" aria-label="محصولات لبنیات" tabIndex={0} aria-busy="false">
+      <div className="carousel-status" role="status" aria-live="polite">
+        {products.length === 0 && 'فعلاً محصولی در این دسته نیست.'}
+      </div>
+      <section className="carousel" aria-label="محصولات" tabIndex={0} aria-busy="false">
         <ul>
           {products.map((p, i) => {
             const isNew = p.tags.includes('جدید')
