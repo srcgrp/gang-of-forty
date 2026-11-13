@@ -16,6 +16,7 @@ export default function App() {
    const [categoryId, setCategoryId] = useState<number | null>(null); // selected category, null = no filter
    const [cart, setCart] = useState<CartLine[]>(()=>loadCart()); // cart lines, starts empty
 const [query, setQuery] = useState("");
+const [attempt, setAttempt] = useState(0);
 useEffect(() => { // runs once after the first render
   let ignore = false; // flag: becomes true when this run is cancelled
   loadShopData().then((result) => { // result is already a LoadState: success, empty or error
@@ -25,7 +26,7 @@ useEffect(() => { // runs once after the first render
   return () => { // cleanup: runs before the next run and on unmount
     ignore = true; // from now on the old run's answer is ignored
   };
-}, []); // empty deps: only once
+}, [attempt]); // empty deps: only once
 useEffect(() => {
     saveCart(cart);
   }, [cart]);
@@ -34,8 +35,16 @@ useEffect(() => {
     const count = cartCount(cart);
     document.title = count > 0 ? `${SHOP_NAME} (${formatNumber(count)})` : SHOP_NAME;
   }, [cart]);
-  if (state.status !== "success") return <Status state={state} />;
-
+if (state.status !== "success")
+  return (
+    <Status
+      state={state}
+      onRetry={() => {
+        setState({ status: "loading" });
+        setAttempt((prev) => prev + 1);
+      }}
+    />
+  );
   const { products, offers } = state;
 
   function handleAdd(id: number) {

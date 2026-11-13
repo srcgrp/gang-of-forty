@@ -9,7 +9,7 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "check": "tsc --noEmit",
-    "lint": "oxlint src",
+    "lint": "oxlint src --deny-warnings",
     "check:arch": "node shops/broken-windows/check-arch.mjs shops/broken-windows/src"
   },
   "keywords": [],
@@ -26,9 +26,11 @@
     "vite": "^8.3.4"
   },
   "dependencies": {
+    "@tanstack/react-router": "^1.170.46",
     "canvas-confetti": "^1.9.4",
     "notyf": "^3.10.0",
     "react": "^19.3.1",
-    "react-dom": "^19.3.1"
+    "react-dom": "^19.3.1",
+    "zustand": "^5.1.0"
   }
 }
