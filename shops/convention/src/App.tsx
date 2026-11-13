@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react'
 import type { CartItem, Product, LoadState } from './types'
 import { loadCart, saveCart } from './storage/cart-storage'
@@ -14,15 +15,23 @@ import CategoryNav from './components/CategoryNav'
 import ProductGrid from './components/ProductGrid'
 import CartPanel from './components/CartPanel'
 
+import SaleCountdown from './components/SaleCountdown'
+
 export default function App() {
   const [cart, setCart] = useState<CartItem[]>(() => loadCart())
+
+  const [searchTerm, setSearchTerm] = useState('')
 
   const [productsState, setProductsState] = useState<LoadState<Product[]>>({
     status: 'loading',
   })
 
+  const [retryCount, setRetryCount] = useState(0)
+  
+
   useEffect(() => {
     const controller = new AbortController()
+    
 
     getProducts(controller.signal)
       .then((products) => {
@@ -52,18 +61,17 @@ export default function App() {
     return () => {
       controller.abort()
     }
-  }, [])
-
+  }, [retryCount])
 
   // Save cart to localStorage whenever cart changes
-useEffect(() => {
-  saveCart(cart)
-}, [cart])
+  useEffect(() => {
+    saveCart(cart)
+  }, [cart])
 
   // Update document title when cart changes
-useEffect(() => {
-  document.title = '🛒 ' + cart.length
-}, [cart])
+  useEffect(() => {
+    document.title = '🛒 ' + cart.length
+  }, [cart])
 
   function handleAdd(id: number) {
     setCart((previousCart) => addToCart(previousCart, id))
@@ -73,11 +81,23 @@ useEffect(() => {
     setCart((previousCart) => removeFromCart(previousCart, id))
   }
 
+  function handleRetry() {
+  setProductsState({ status: 'loading' })
+  setRetryCount((previous) => previous + 1)
+}
+
+  // Get products from API
   const products =
     productsState.status === 'success'
       ? productsState.data
       : []
 
+  // Filter products based on search term
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+
+  // Build cart lines
   const cartLines = cart.flatMap((item) => {
     const product = products.find(
       (product) => product.id === item.productId
@@ -88,6 +108,7 @@ useEffect(() => {
       : []
   })
 
+  // Calculate cart total
   const total = cartLines.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
@@ -95,14 +116,22 @@ useEffect(() => {
 
   return (
     <>
-      <Header cartCount={getCartCount(cart)} />
+      <Header
+  cartCount={getCartCount(cart)}
+  searchTerm={searchTerm}
+  onSearchChange={setSearchTerm}
+/>
 
       <CategoryNav />
 
+      <SaleCountdown />
+
       <ProductGrid
         state={productsState}
+        products={filteredProducts}
         onAdd={handleAdd}
-      />
+        onRetry={handleRetry}
+       />
 
       <CartPanel
         items={cartLines}

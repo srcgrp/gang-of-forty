@@ -1210,3 +1210,53 @@ input:focus-visible {
         flex-wrap: wrap;
     }
 }
+
+
+.retry-button {
+    padding: 10px 24px;
+    margin-top: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: #e53935;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.retry-button:hover {
+    background-color: #c62828;
+}
+
+.retry-button:focus-visible {
+    outline: 2px solid #e53935;
+    outline-offset: 3px;
+}
+
+
+.sale-countdown {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 20px;
+    margin: 24px auto;
+    max-width: 320px;
+    background: #fff3e0;
+    border-radius: 12px;
+    color: #333;
+}
+
+.sale-countdown h3 {
+    font-size: 16px;
+    color: #e65100;
+}
+
+.sale-countdown p {
+    font-size: 28px;
+    font-weight: bold;
+    direction: ltr;
+    letter-spacing: 3px;
+    color: #d84315;
+}
