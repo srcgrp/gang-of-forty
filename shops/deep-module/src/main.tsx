@@ -6,12 +6,8 @@ import "../style.css";
 const PALETTES = ["fresh", "lime", "ocean", "violet", "rose", "amber"] as const;
 
 const html = document.documentElement;
-let pi = Math.floor(Math.random() * PALETTES.length);
-const first = PALETTES[pi];
-if (first) html.dataset.palette = first;
-pi = (pi + 1) % PALETTES.length;
-const second = PALETTES[pi];
-if (second) html.dataset.palette = second;
+const chosen = PALETTES[Math.floor(Math.random() * PALETTES.length)];
+if (chosen) html.dataset.palette = chosen;
 
 const root = document.getElementById("root");
 if (root) {

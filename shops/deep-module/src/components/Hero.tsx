@@ -3,6 +3,10 @@ import type { Home } from "../types";
 import { HeroVisual } from "./HeroVisual";
 
 export function Hero({ home }: { home: Home }) {
+  const hero = home.hero;
+  const ctaHref = hero?.cta?.href || "#products";
+  const ctaLabel = hero?.cta?.label || "شروع خرید";
+
   return (
     <section className="hero section-wrap">
       <div className="hero__copy">
@@ -14,14 +18,10 @@ export function Hero({ home }: { home: Home }) {
           <br />
           <span>با یک انتخاب سبز.</span>
         </h1>
-        <p>{home.hero?.text || "میوه‌های خوش‌رنگ، سبزی‌های تازه..."}</p>
+        <p>{hero?.text || "میوه‌های خوش‌رنگ، سبزی‌های تازه..."}</p>
         <div className="hero__actions">
-          <a
-            className="button button--lime"
-            href={home.hero?.cta.href || "#products"}
-          >
-            {home.hero?.cta.label || "شروع خرید"}{" "}
-            <span aria-hidden="true">←</span>
+          <a className="button button--lime" href={ctaHref}>
+            {ctaLabel} <span aria-hidden="true">←</span>
           </a>
           <a className="text-link" href="#categories">
             کاوش دسته‌بندی‌ها <span aria-hidden="true">↙</span>
