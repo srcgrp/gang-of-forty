@@ -31,13 +31,14 @@ export interface TimeLeft {
 }
 
 function calc(endTime: number): TimeLeft {
-  const diff = Math.max(0, endTime - Date.now());
+  const diffMs = endTime - Date.now();
+  const diff = Math.max(0, diffMs);
   return {
     days: Math.floor(diff / (1000 * 60 * 60 * 24)),
     hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
     minutes: Math.floor((diff / (1000 * 60)) % 60),
     seconds: Math.floor((diff / 1000) % 60),
-    isExpired: diff === 0,
+    isExpired: diffMs <= 0,
   };
 }
 
