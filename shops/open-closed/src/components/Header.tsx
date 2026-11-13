@@ -1,4 +1,6 @@
 import { formatCount } from '../lib/format.ts'
+import MainNav from './MainNav.tsx'
+import SearchBox from './SearchBox.tsx'
 
 type HeaderProps = { cartCount: number }
 
@@ -37,50 +39,14 @@ export default function Header({ cartCount }: HeaderProps) {
           <span className="count">{formatCount(cartCount)}</span>
         </a>
 
-        <input
-          className="menu-toggle"
-          type="checkbox"
-          id="menu-toggle"
-          aria-label="باز و بسته کردن منو"
-        />
+        <input className="menu-toggle" type="checkbox" id="menu-toggle" aria-label="باز و بسته کردن منو" />
         <div className="menu-btn" aria-hidden="true">
           <span></span>
         </div>
 
         <div className="header-menu">
-          <form className="search" role="search" action="#" onSubmit={(e) => e.preventDefault()}>
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              aria-hidden="true"
-              focusable="false"
-            >
-              <circle cx="11" cy="11" r="7" />
-              <path d="m20 20-3.5-3.5" />
-            </svg>
-            <label className="sr-only" htmlFor="search">جستجو در محصولات</label>
-            <input id="search" type="search" placeholder="جستجوی محصول…" />
-            <button className="sr-only" type="submit">جستجو</button>
-          </form>
-
-          <nav className="main-nav" aria-label="منوی اصلی">
-            <ul>
-              <li className="all-cats">
-                <a className="all-link" href="#categories">☰ همه دسته‌ها</a>
-                <ul className="cat-menu">
-                  <li><a href="#categories">🍎 میوه و سبزی</a></li>
-                  <li><a href="#dairy">🥛 لبنیات</a></li>
-                  <li><a href="#categories">🥖 نان و شیرینی</a></li>
-                  <li><a href="#categories">🍚 خواربار</a></li>
-                </ul>
-              </li>
-              <li><a href="#dairy">لبنیات</a></li>
-              <li><a href="#contact">تماس با ما</a></li>
-            </ul>
-          </nav>
+          <SearchBox />
+          <MainNav />
         </div>
       </div>
     </header>
