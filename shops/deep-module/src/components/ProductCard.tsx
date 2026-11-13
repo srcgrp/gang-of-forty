@@ -10,8 +10,7 @@ export function ProductCard({
   onToggleWishlist,
 }: ProductCardProps) {
   const available = stock ?? Infinity;
-  const isOutOfStock = available === 0;
-  const unavailable = isOutOfStock;
+  const unavailable = available === 0;
 
   const originalPrice =
     product.oldPrice ||
@@ -29,7 +28,8 @@ export function ProductCard({
     "linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)",
     "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
   ];
-  const bgGradient = gradients[product.id % gradients.length];
+  const bgGradient =
+    gradients[product.id % gradients.length] ?? gradients[0] ?? "";
 
   return (
     <article
@@ -52,26 +52,20 @@ export function ProductCard({
         type="button"
         className={`product-card__wishlist ${isLiked ? "is-liked" : ""}`}
         aria-label={
-          isLiked ? "به علاقه‌مندی‌ها اضافه شد" : "افزودن به علاقه‌مندی"
+          isLiked ? "حذف از علاقه‌مندی‌ها" : "افزودن به علاقه‌مندی‌ها"
         }
         aria-pressed={isLiked}
-        disabled={isLiked}
-        onClick={() => {
-          if (!isLiked) onToggleWishlist?.(product);
-        }}
+        onClick={() => onToggleWishlist?.(product)}
       >
         {isLiked ? (
           <svg
             viewBox="0 0 24 24"
             width="16"
             height="16"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="3"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+            fill="currentColor"
+            aria-hidden="true"
           >
-            <path d="M5 13l4 4L19 7" />
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
           </svg>
         ) : (
           <svg
@@ -83,6 +77,7 @@ export function ProductCard({
             strokeWidth="2.2"
             strokeLinecap="round"
             strokeLinejoin="round"
+            aria-hidden="true"
           >
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
           </svg>
@@ -146,6 +141,7 @@ export function ProductCard({
 
           {unavailable ? (
             <button
+              type="button"
               className="product-card__add product-card__add--disabled"
               disabled
             >
@@ -155,7 +151,7 @@ export function ProductCard({
             <button
               type="button"
               className="product-card__add"
-              onClick={() => onAdd(product.id)}
+              onClick={onAdd}
               aria-label="افزودن به سبد"
             >
               <svg
@@ -166,6 +162,7 @@ export function ProductCard({
                 stroke="currentColor"
                 strokeWidth="2.5"
                 strokeLinecap="round"
+                aria-hidden="true"
               >
                 <path d="M12 5v14M5 12h14" />
               </svg>

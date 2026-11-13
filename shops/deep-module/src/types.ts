@@ -11,12 +11,14 @@ export interface Product {
   brand?: string;
   oldPrice?: number;
 }
+
 export interface Category {
   id: number;
   name: string;
   emoji?: string;
   slug?: string;
 }
+
 export interface Offer {
   productId: number;
   percent: number;
@@ -27,6 +29,7 @@ export interface StockData {
 }
 
 export interface Shop {
+  week?: number;
   name?: string;
   slogan?: string;
   notice?: string;
@@ -74,12 +77,13 @@ export interface CartLine {
   quantity: number;
   emoji?: string | undefined;
 }
+
 export type ProductCardProps = {
   product: Product;
   stock?: number | undefined;
   discountPercent?: number | undefined;
   cartQuantity?: number | undefined;
-  onAdd: (id: number) => void;
+  onAdd: () => void;
   isLiked?: boolean | undefined;
   onToggleWishlist?: ((p: Product) => void) | undefined;
 };
