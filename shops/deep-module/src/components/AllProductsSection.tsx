@@ -53,13 +53,17 @@ export function AllProductsSection(p: Props) {
             {p.filtered.length.toLocaleString("fa-IR")} محصول
           </span>
         </div>
-        <div className="all-products__sort" role="tablist">
+        <div
+          className="all-products__sort"
+          role="radiogroup"
+          aria-label="مرتب‌سازی محصولات"
+        >
           {SORTS.map((s) => (
             <button
               key={s.v}
               type="button"
-              role="tab"
-              aria-selected={p.filters.sort === s.v}
+              role="radio"
+              aria-checked={p.filters.sort === s.v}
               className={`all-products__sort-btn ${p.filters.sort === s.v ? "is-active" : ""}`}
               onClick={() => p.onUpdate({ sort: s.v })}
             >
@@ -118,6 +122,7 @@ export function AllProductsSection(p: Props) {
               strokeWidth="2.5"
               strokeLinecap="round"
               strokeLinejoin="round"
+              aria-hidden="true"
             >
               <path d="M6 9l6 6 6-6" />
             </svg>
