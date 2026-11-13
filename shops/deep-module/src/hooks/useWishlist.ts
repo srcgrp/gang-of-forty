@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { toast } from "../shared/ui/toast";
 
 const KEY = "wishlist";
@@ -18,6 +18,12 @@ function read(): number[] {
 export function useWishlist() {
   const [ids, setIds] = useState<number[]>(read);
 
+  // ✅ idsRef برای تصمیم‌گیری در callbackهای stable
+  const idsRef = useRef(ids);
+  useEffect(() => {
+    idsRef.current = ids;
+  }, [ids]);
+
   useEffect(() => {
     try {
       localStorage.setItem(KEY, JSON.stringify(ids));
@@ -26,23 +32,27 @@ export function useWishlist() {
     }
   }, [ids]);
 
-  const add = (id: number, name: string): void => {
-    let wasAdded = false;
-    setIds((prev) => {
-      if (prev.includes(id)) return prev;
-      wasAdded = true;
-      return [...prev, id];
-    });
-    if (wasAdded) {
-      toast.success(`${name} به علاقه‌مندی‌ها اضافه شد ❤️`);
-    }
-  };
+  const add = useCallback((id: number, name: string): void => {
+    if (idsRef.current.includes(id)) return;
+    setIds((prev) => (prev.includes(id) ? prev : [...prev, id]));
+    toast.success(`${name} به علاقه‌مندی‌ها اضافه شد ❤️`);
+  }, []);
 
-  const remove = (id: number): void => {
+  const remove = useCallback((id: number): void => {
     setIds((prev) => prev.filter((x) => x !== id));
-  };
+  }, []);
 
-  const clear = (): void => setIds([]);
+  const toggle = useCallback((id: number, name: string): void => {
+    const has = idsRef.current.includes(id);
+    setIds((prev) => (has ? prev.filter((x) => x !== id) : [...prev, id]));
+    toast.success(
+      has
+        ? `${name} از علاقه‌مندی‌ها حذف شد`
+        : `${name} به علاقه‌مندی‌ها اضافه شد ❤️`,
+    );
+  }, []);
 
-  return { ids, add, remove, clear };
+  const clear = useCallback((): void => setIds([]), []);
+
+  return { ids, add, remove, toggle, clear };
 }
