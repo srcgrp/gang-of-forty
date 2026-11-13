@@ -18,6 +18,7 @@ export function ShopMain({ data, shop }: { data: AppData; shop: ShopState }) {
       <HeroCards home={home} />
       <SaleCountdown />
       <CategoriesSection categories={categories} />
+
       <SpecialOffers
         products={products}
         cart={shop.cart.cart}
@@ -27,19 +28,21 @@ export function ShopMain({ data, shop }: { data: AppData; shop: ShopState }) {
         wishlistIds={shop.wishlist.ids}
         onToggleWishlist={shop.handleToggleWishlist}
       />
+
       <BannersSection home={home} />
-      {!shop.hasRealFilters && (
-        <CategorySections
-          products={products}
-          categories={categories}
-          cart={shop.cart.cart}
-          offers={offers}
-          stock={shop.effectiveStock}
-          onAdd={shop.handleAddToCart}
-          wishlistIds={shop.wishlist.ids}
-          onToggleWishlist={shop.handleToggleWishlist}
-        />
-      )}
+
+    
+      <CategorySections
+        products={products}
+        categories={categories}
+        cart={shop.cart.cart}
+        offers={offers}
+        stock={shop.effectiveStock}
+        onAdd={shop.handleAddToCart}
+        wishlistIds={shop.wishlist.ids}
+        onToggleWishlist={shop.handleToggleWishlist}
+      />
+
       <AllProductsSection
         filtered={shop.filtered}
         cart={shop.cart.cart}
