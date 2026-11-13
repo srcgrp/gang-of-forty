@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import type { AppData } from "../types";
 import { useCart } from "./useCart";
 import { useSearch } from "./useSearch";
@@ -36,11 +36,16 @@ export function useShop(data: AppData) {
     increase: cart.increase,
     consume: consumed.consume,
     checkout: cart.checkout,
-    wishlistAdd: wishlist.add,
+    wishlistToggle: wishlist.toggle,
     onCloseCart: () => setCartOpen(false),
   });
 
-  const filtered = applyFilters(products, filters, offers, effectiveStock, "");
+  // ✅ memoize + query در فیلتر اعمال می‌شه
+  const filtered = useMemo(
+    () => applyFilters(products, filters, offers, effectiveStock, query),
+    [products, filters, offers, effectiveStock, query],
+  );
+
   const hasRealFilters =
     filters.categoryId !== null ||
     filters.stock !== "all" ||
@@ -53,7 +58,12 @@ export function useShop(data: AppData) {
   return {
     query,
     setQuery,
-    cart,
+    // ✅ فقط متدهای امن — addToCart فقط از طریق handleAddToCart
+    cart: {
+      cart: cart.cart,
+      decrease: cart.decrease,
+      removeItem: cart.removeItem,
+    },
     filters,
     update,
     reset,
