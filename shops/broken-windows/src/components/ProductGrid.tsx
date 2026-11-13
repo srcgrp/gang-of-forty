@@ -8,7 +8,6 @@ type ProductGridProps = {
   products: Product[];
   offers: Offer[];
   stock: StockData;
-  onAdd: (id: number) => void;
 };
 export default function ProductGrid({
   title,
@@ -17,7 +16,6 @@ export default function ProductGrid({
   products,
   offers,
   stock,
-  onAdd,
 }: ProductGridProps) {
   return (
     <article className="special-offer" id={id}>
@@ -48,7 +46,7 @@ export default function ProductGrid({
               percent={percent}
               unavailable={unavailable}
               finalPrice={finalPrice}
-              onAdd={onAdd}
+            
             />
           );
         })}

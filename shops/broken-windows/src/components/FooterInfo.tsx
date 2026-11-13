@@ -8,16 +8,16 @@ export default function FooterInfo(){
                     <div className="footer-top-info-icon">
                         <a title="تلگرام" href="#" aria-label="ایدی تلگرام سارا مارکت"> <svg aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" className="footer-icon-social">
+                                fill="none" stroke="#ffffff" strokeWidth="2" strokeLinecap="round"
+                                strokeLinejoin="round" className="footer-icon-social">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <path d="M10 14l11 -11" />
                                 <path d="M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5" />
                             </svg></a>
                         <a title="اینستاگرام" href="#" aria-label="ایدی اینستا سارا مارکت"><svg aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" className="footer-icon-social">
+                                fill="none" stroke="#ffffff" strokeWidth="2" strokeLinecap="round"
+                                strokeLinejoin="round" className="footer-icon-social">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <path
                                     d="M4 8a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4l0 -8" />
@@ -26,8 +26,8 @@ export default function FooterInfo(){
                             </svg></a>
                         <a title="واتساپ" href="#" aria-label="ایدی واتسپ سارا مارکت"><svg aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" className="footer-icon-social">
+                                fill="none" stroke="#ffffff" strokeWidth="2" strokeLinecap="round"
+                                strokeLinejoin="round" className="footer-icon-social">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9" />
                                 <path

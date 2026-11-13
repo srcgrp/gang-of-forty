@@ -8,24 +8,19 @@ import Middle from "./Middle.tsx";
 import CartPanel from "./CartPanel.tsx";
 import Notification from "./Notification.tsx";
 import Footer from "./Footer.tsx";
-import type { CartLine, LoadedState } from "../types.ts";
-import { cartCount, cartTotal } from "../cart/totals.ts";
+import type { LoadedState } from "../types.ts";
 import { searchProducts } from "../catalog/lookup.ts";
 
 const DAIRY_ID = 2;
 type Props = {
   data: LoadedState;
   categoryId: number | null;
-  cart: CartLine[];
   query: string;
 onQuery: (value: string) => void;
   onPick: (id: number) => void;
-  onAdd: (id: number) => void;
-  onRemove: (id: number) => void;
-
 };
-export default function Storefront({ data, categoryId, cart,query,
-onQuery, onPick, onAdd, onRemove }: Props) {
+export default function Storefront({ data, categoryId,query,
+onQuery, onPick }: Props) {
   const { products, offers, stock, categories } = data;
  const categoryProducts =
   categoryId === null
@@ -36,7 +31,7 @@ const visible = searchProducts(categoryProducts, query);
 const dairy = products.filter((p) => p.categoryId === DAIRY_ID);
   return (
     <>
-      <Header cartCount={cartCount(cart)} query={query} onQuery={onQuery} />
+      <Header query={query} onQuery={onQuery} />
       <Navigation />
       <main className="site-main">
         <Hero />
@@ -48,7 +43,6 @@ const dairy = products.filter((p) => p.categoryId === DAIRY_ID);
           products={visible}
           offers={offers}
           stock={stock}
-          onAdd={onAdd}
         />
         <Middle />
         <ProductGrid
@@ -58,9 +52,8 @@ const dairy = products.filter((p) => p.categoryId === DAIRY_ID);
           products={dairy}
           offers={offers}
           stock={stock}
-          onAdd={onAdd}
         />
-        <CartPanel cart={cart} total={cartTotal(cart)} onRemove={onRemove} />
+        <CartPanel />
         <Notification />
       </main>
       <Footer />

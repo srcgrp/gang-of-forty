@@ -1,19 +1,19 @@
 import type { Product } from "../types";
 import { formatNumber, formatPrice } from "../format";
+import { useCartStore } from "../hooks/useCartStore";
 type ProductCardProps = {
   product: Product;
   percent?: number;
   unavailable?: boolean;
   finalPrice: number;
-  onAdd: (id: number) => void;
 };
 export default function ProductCard({
   product,
   percent,
   unavailable = false,
-  finalPrice,
-  onAdd,
+  finalPrice
 }: ProductCardProps) {
+  const add = useCartStore((s) => s.add);
   return (
     <div className={`special-offer-item${unavailable ? " unavailable" : ""}`}>
       <div className="special-offer-image">
@@ -35,7 +35,7 @@ export default function ProductCard({
           disabled={unavailable}
           className="add-button"
           aria-label={`افزودن ${product.name} به سبد خرید`}
-          onClick={() => onAdd(product.id)}
+          onClick={() => add(product, finalPrice)}
         >
           +
         </button>

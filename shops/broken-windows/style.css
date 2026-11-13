@@ -1486,17 +1486,30 @@ background: #fff;
 
 }
 .theme-toggle {
-  width: 32px;
-  height: 32px;
-  padding: 0;
-  border: none;
-  border-radius: 50%;
-  background: transparent;
-  font-size: 16px;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  width: auto;
+  height: auto;
+  padding: 10px 16px;
+
+  border: none;
+  border-radius: 12px;
+  background: #173F32;
+
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.theme-toggle svg {
+  width: 28px;
+  height: 28px;
+}
+
+.theme-toggle:hover {
+  background: #25B24B;
+  transform: scale(1.05);
 }
 .app {
   --bg: #ffffff;

@@ -2,8 +2,8 @@ export default function Benefits(){
     return(
         <div className="benefit" id="benefit">
             <div className="benefit-box"><span className="benefit-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24"
-                        height="24" viewBox="0 0 24 24" fill="none" stroke="#D4537E" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round"
+                        height="24" viewBox="0 0 24 24" fill="none" stroke="#D4537E" strokeWidth="2"
+                        strokeLinecap="round" strokeLinejoin="round"
                         className="icon icon-tabler icons-tabler-outline icon-tabler-car">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                         <path d="M5 17a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
@@ -13,8 +13,8 @@ export default function Benefits(){
                 <p className="benefit-text">ارسال سریع</p>
             </div>
             <div className="benefit-box"><span className="benefit-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24"
-                        height="24" viewBox="0 0 24 24" fill="none" stroke="#D4537E" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round"
+                        height="24" viewBox="0 0 24 24" fill="none" stroke="#D4537E" strokeWidth="2"
+                        strokeLinecap="round" strokeLinejoin="round"
                         className="icon icon-tabler icons-tabler-outline icon-tabler-basket-check">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                         <path d="M17 10l-2 -6" />
@@ -27,8 +27,8 @@ export default function Benefits(){
                 <p className="benefit-text">تضمین کیفیت</p>
             </div>
             <div className="benefit-box"><span className="benefit-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24"
-                        height="24" viewBox="0 0 24 24" fill="none" stroke="#D4537E" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round"
+                        height="24" viewBox="0 0 24 24" fill="none" stroke="#D4537E" strokeWidth="2"
+                        strokeLinecap="round" strokeLinejoin="round"
                         className="icon icon-tabler icons-tabler-outline icon-tabler-truck-return">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                         <path d="M5 17a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />

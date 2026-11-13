@@ -1,13 +1,11 @@
-import type { CartLine } from "../types"; // import only the type
 import { formatNumber, formatPrice } from "../format"; // existing formatters
+import { cartTotal } from "../cart/totals";
+import { useCartStore } from "../hooks/useCartStore";
 
-type Props = { // the props this component receives
-  cart: CartLine[]; // lines to show
-  total: number; // total computed in App
-  onRemove: (id: number) => void; // tells App which line to remove
-};
-
-export default function CartPanel({ cart, total, onRemove }: Props) { // destructure props
+export default function CartPanel() { 
+  const cart = useCartStore((s) => s.lines);
+const remove = useCartStore((s) => s.remove);
+const total = cartTotal(cart);
   return (
     <aside className="cart-panel" id="cart-panel">
       {/* Panel title */}
@@ -34,7 +32,7 @@ export default function CartPanel({ cart, total, onRemove }: Props) { // destruc
               <button
                 type="button" // never submits a form
                 aria-label={`حذف ${line.name} از سبد خرید`} // accessible name
-                onClick={() => onRemove(line.id)} // report the click to App
+                onClick={() => remove(line.id)} // report the click to App
               >
                 ✕
               </button>
