@@ -1,12 +1,21 @@
-import type { Product } from '../types.ts'
+import type { LoadState } from '../types.ts'
+import { statusText } from '../lib/statusText.ts'
 import ProductCard from './ProductCard.tsx'
+import Skeleton from './Skeleton.tsx'
+
+const SKELETON_IDS = ['a', 'b', 'c', 'd', 'e', 'f']
 
 type ProductGridProps = {
-  products: Product[]
+  state: LoadState
+  categoryId: number | null
   onAdd: (id: number) => void
 }
 
-export default function ProductGrid({ products, onAdd }: ProductGridProps) {
+export default function ProductGrid({ state, categoryId, onAdd }: ProductGridProps) {
+  const products =
+    state.status === 'success'
+      ? state.products.filter((p) => categoryId === null || p.categoryId === categoryId)
+      : []
   const first = products[0]
   const last = products[products.length - 1]
 
@@ -34,22 +43,25 @@ export default function ProductGrid({ products, onAdd }: ProductGridProps) {
         </div>
       </div>
       <div className="carousel-status" role="status" aria-live="polite">
-        {products.length === 0 && 'فعلاً محصولی در این دسته نیست.'}
+        {statusText(state, products.length)}
       </div>
-      <section className="carousel" aria-label="محصولات" tabIndex={0} aria-busy="false">
+      <section
+        className="carousel"
+        aria-label="محصولات"
+        tabIndex={0}
+        aria-busy={state.status === 'loading'}
+      >
         <ul>
-          {products.map((p, i) => {
-            const isNew = p.tags.includes('جدید')
-            return (
-              <ProductCard
-                key={p.id}
-                product={p}
-                index={i}
-                onAdd={onAdd}
-                badge={isNew ? 'جدید' : undefined}
-              />
-            )
-          })}
+          {state.status === 'loading' && SKELETON_IDS.map((id) => <Skeleton key={id} />)}
+          {products.map((p, i) => (
+            <ProductCard
+              key={p.id}
+              product={p}
+              index={i}
+              onAdd={onAdd}
+              badge={p.tags.includes('جدید') ? 'جدید' : undefined}
+            />
+          ))}
         </ul>
       </section>
     </section>
