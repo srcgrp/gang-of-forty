@@ -1,6 +1,5 @@
 import type { CartLine, StockData } from "../types";
 import { formatPrice } from "../shared/ui/format";
-import { useAutoAnimate } from "../hooks/useAutoAnimate";
 import { CartItemRow } from "./CartItemRow";
 
 interface CartPanelProps {
@@ -20,7 +19,6 @@ export function CartPanel({
   onRemove,
   onCheckout,
 }: CartPanelProps) {
-  const ulRef = useAutoAnimate<HTMLUListElement>();
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   if (cart.length === 0) {
@@ -37,7 +35,7 @@ export function CartPanel({
 
   return (
     <>
-      <ul ref={ulRef} className="cart-list">
+      <ul className="cart-list">
         {cart.map((item) => (
           <CartItemRow
             key={item.id}
