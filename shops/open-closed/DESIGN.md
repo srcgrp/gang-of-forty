@@ -20,16 +20,16 @@ Not now:
 - Server-side inventory updates.
 - Product management for administrators.
 - Advanced sorting and filtering.
+- Search filtering (the search box is rendered, but it does not filter yet).
 
 ## 2. Screens and Parts
 
-- **Header:** Shop name, search input, and cart count.
+- **Header:** Shop name, search input, main menu, and cart count.
 - **Category list:** Available categories with their names and emojis.
-- **Product grid:** Products matching the selected category and search query.
-- **Product card:** Product name, emoji, unit, price, tags, offer, stock status, and add-to-cart button.
-- **Cart:** Cart items, quantities, remove buttons, subtotal, and total quantity.
-- **Delivery information:** Delivery fee and free-delivery threshold.
-- **Status messages:** Loading indicators, empty-state messages, and readable error messages.
+- **Product grid:** Products matching the selected category.
+- **Product card:** Product name, emoji, unit, price, badge, stock status, and add-to-cart button.
+- **Cart:** Cart items, remove buttons, subtotal, and total quantity.
+- **Status messages:** Loading skeletons, empty-state messages, and readable error messages.
 
 ## 3. Data (`types.ts`)
 
@@ -38,53 +38,84 @@ Not now:
 - **Stock:** `updatedAt` and `items`, mapping product IDs to stock quantities.
 - **Offer:** `productId`, `percent`, and `label`.
 - **Shop:** Shop name, slogan, delivery fee, free-delivery threshold, currency, and other shop information.
-- **CartItem:** A product ID and the quantity selected by the customer.
-- **Cart:** The collection of cart items and the information needed to calculate its totals.
+- **CartItem / Cart:** A product ID with a quantity, and the list of those items.
+- **LoadState:** A union of `loading`, `success`, `empty`, and `error`.
 
-The TypeScript types will describe the expected JSON structures. API responses must also be checked at runtime because TypeScript types alone cannot validate incoming JSON.
+The TypeScript types describe the expected JSON structures. API responses are also checked at runtime (`api/guards.ts`) because TypeScript types alone cannot validate incoming JSON.
 
 ## 4. Where Does Each Piece Live?
 
-- **Server/API data:** Products, categories, offers, stock information, and shop settings are provided by the existing JSON files.
-- **Client state:** Loaded data, loading and error status, selected category, search query, and current cart.
-- **`localStorage`:** Cart items and quantities, so the cart can be restored after a page refresh.
-- **URL:** No persistent search or category-filter state in the basic version.
-- **Environment variables:** An optional API base URL can be configured for development and production later. No secrets should be stored in frontend environment variables.
+- **Server/API data:** Products come from `products.json`. The other JSON files exist but are not used yet.
+- **Client state:** Load status and products, selected category, and the current cart. All of it lives in `App`.
+- **`localStorage`:** Cart items and quantities, read once at startup and written whenever the cart changes.
+- **URL:** No persistent search or category-filter state.
+- **Environment variables:** `VITE_API_URL` selects the API base URL. No secrets belong in frontend environment variables.
 
 ## 5. API (What We Fetch, and When)
 
-Fetch the required JSON files when the application starts:
+When the application starts, one Effect in `App` fetches:
 
 - `GET /api/products.json` → Product data.
-- `GET /api/categories.json` → Category data.
-- `GET /api/offers.json` → Product offers and discount percentages.
-- `GET /api/stock.json` → Stock quantities and last-update timestamp.
-- `GET /api/shop.json` → Shop information and delivery settings.
 
-The application combines related data using product IDs and category IDs. For example, an offer's `productId` identifies the product to which the offer applies, and a product's `categoryId` identifies its category.
-
-API responses must be checked for valid structure and reasonable values before they are used.
+The response is validated item by item. Invalid items are skipped with a warning. If the file is missing, invalid, or unreachable, the screen shows a readable error.
 
 ## 6. States of Each Screen
 
-- **Loading:** Show a loading message while the required API data is being fetched.
-- **Success:** Display the available products and their information.
-- **Empty:** Explain when no products are available or no products match the selected category or search query.
-- **Error:** Display a readable error message when required data cannot be fetched or validated.
-- **Empty cart:** Explain that the cart has no items and invite the customer to add products.
+- **Loading:** Skeleton cards and a loading message.
+- **Success:** The products of the selected category.
+- **Empty:** A message when there are no products at all, or none in the selected category.
+- **Error:** A readable message when the data cannot be fetched or validated.
+- **Empty cart:** A message that invites the customer to add products.
 
 ## 7. Folders
 
 - `src/types.ts` → Shared data types.
 - `src/api/` → Fetching API data and validating external responses.
 - `src/storage/` → Reading and writing `localStorage`.
-- `src/cart/` → Cart rules, quantity updates, and calculations.
-- `src/ui/` → Creating and updating DOM elements.
-- `src/main.ts` → Application startup, state coordination, and event wiring.
+- `src/cart/` → Pure cart rules and calculations.
+- `src/lib/` → Formatting, error messages, and status text.
+- `src/components/` → React components (one per file).
+- `src/App.tsx` → State, Effects, and event handlers.
+- `src/main.tsx` → Mounts `App` into the page.
 
-`main.ts` coordinates the application. API access, storage, cart logic, and UI rendering should be separated into their own modules. Shared types should not depend on those modules.
+`App` coordinates the application. API access, storage, and cart logic stay in their own modules and know nothing about React. Shared types do not depend on those modules.
 
-## 8. Security
+## 8. Component Tree
+
+```
+App
+├─ Header
+│  ├─ SearchBox
+│  └─ MainNav
+├─ Hero
+├─ CategoryNav
+├─ ProductGrid
+│  ├─ Skeleton × 6        (only while loading)
+│  └─ ProductCard × n
+│     └─ Price
+├─ CartPanel
+├─ Banners
+└─ Footer
+```
+
+Data flows down through props. Events flow up through callback props (`onPick`, `onAdd`, `onRemove`).
+
+## 9. Where Does State Live?
+
+| State | Owner component | Who changes it | Where it is saved |
+|---|---|---|---|
+| `state` (`LoadState`) | `App` | An Effect after `fetchProducts()` finishes | Not saved (comes from the server) |
+| `categoryId` | `App` | `CategoryNav` through `onPick` | Not saved |
+| `cart` | `App` | `ProductGrid`/`ProductCard` through `onAdd`, `CartPanel` through `onRemove` | `localStorage`, through `storage/cart.ts` |
+
+Values that are computed during render and are **not** State:
+
+- **Total quantity and subtotal:** They can always be calculated from `cart` and the products. A separate State could disagree with the cart.
+- **Visible products:** They are calculated from the loaded products and `categoryId`.
+- **Cart lines:** They combine `cart` with the loaded products.
+- **Page title:** It is a side effect of the cart count, set in an Effect.
+
+## 10. Security
 
 - Everything delivered to the browser is public and can be inspected or modified.
 - TypeScript types do not validate API responses at runtime.
