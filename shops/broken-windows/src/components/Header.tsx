@@ -1,6 +1,7 @@
 import { formatNumber } from "../format";
 import SearchBox from "./SearchBox";
-type Props = { cartCount: number
+import ThemeToggle from "./ThemeToggle";
+type Props = { cartCount: number;
      query: string;
   onQuery: (value: string) => void;
  };
@@ -32,6 +33,7 @@ export default function Header({ cartCount, query, onQuery }: Props) {
             </div>
         </a>
       <SearchBox query={query} onQuery={onQuery} />
+      
         <a className="user-account" href="#" aria-label="ورود به حساب کاربری">
             <svg aria-hidden="true" className="user-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -53,6 +55,7 @@ export default function Header({ cartCount, query, onQuery }: Props) {
             <span className="cart-label">سبد خرید</span>
             <span className="cart-count">{formatNumber(cartCount)}</span> 
             </a>
+            <ThemeToggle />
     </div>
 
    </> 

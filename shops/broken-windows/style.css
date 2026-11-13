@@ -1,7 +1,14 @@
 * {
   box-sizing: border-box;
 }
-
+:root {
+  --color-green-light: #79B589;
+  --color-green-soft: #BEF0C6;
+  --color-primary: #25B24B;
+  --color-green-dark: #179700;
+  --color-text: #131313;
+  --color-black: #000000;
+}
 
 
 html {
@@ -199,7 +206,8 @@ display: grid;
 }
 .nav a {
   text-decoration: none;
-  color: #5F5E5A;
+ color: var(--text);
+
   font-size: 13px;
 }
 
@@ -286,7 +294,6 @@ li {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-
   background-color: #0F6E56;
   padding: 32px 36px;
   margin: 30px;
@@ -337,7 +344,7 @@ li {
 .benefit-box p {}
 
 .benefit-box {
-  background-color: #fff;
+background: #fff;
   border-radius: 999px;
   padding: 10px 14px;
   flex: 1;
@@ -511,12 +518,13 @@ li {
   flex: 0 0 calc((100% - 4 * 12px) / 5);
   scroll-snap-align: start;
   scroll-snap-stop: always;
-
+  
   display: flex;
   flex-direction: column;
   gap: 4px;
   padding: 10px;
-  background: #fff;
+  background: var(--card);
+background: #fff;
   border: 1px solid #0F6E56;
   border-radius: 12px;
   transition: transform 0.2s, box-shadow 0.2s;
@@ -572,7 +580,10 @@ li {
 
 }
 
-.special-offer-name {}
+.special-offer-name {
+  color: var(--text);
+
+}
 
 .special-offer-unit {
   margin: 0;
@@ -594,6 +605,7 @@ li {
 .special-offer-price {
   margin: 0;
   font-weight: 700;
+   color: var(--text);
 }
 
 .add-button {
@@ -1072,14 +1084,16 @@ li {
     top: 0;
     z-index: 100;
     display: grid;
-    grid-template-columns: 44px 1fr auto auto;
-    grid-template-areas:
-      "brand  brand  account cart"
-      "toggle search search  search";
+    grid-template-columns: 44px minmax(0, 1fr) auto auto auto;;
+    grid-template-areas: "brand brand account cart theme"
+  "toggle search search search search";
     gap: 8px;
     padding: 8px 12px;
 
   }
+  .theme-toggle {
+  grid-area: theme;
+}
 
   .cart {
     grid-area: cart;
@@ -1372,7 +1386,7 @@ li {
     overflow: hidden;
     text-overflow: ellipsis;
     margin: 0;
-    color: #04342C;
+     color: var(--text);
   }
 
   .price-old {
@@ -1468,4 +1482,104 @@ li {
   font-size: 14px;
   font-weight: 400;
   line-height: 1.5;
+}
+
+}
+.theme-toggle {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.app {
+  --bg: #ffffff;
+  --text: #1d1d1f;
+  --card: #f2f3f5;
+
+  background: var(--bg);
+  color: var(--text);
+}
+
+.app[data-theme="dark"] {
+  --bg: #16181d;
+  --text: #e8eaf0;
+  --card: #252a33;
+}
+
+.app[data-theme="dark"] .notification {
+  background-color: #252a33;
+}
+
+.app[data-theme="dark"] .header {
+background: var(--bg);
+  color: var(--text);
+}
+
+.app[data-theme="dark"] .header {
+  border-bottom-color: rgba(232, 234, 240, 0.1);
+}
+
+.app[data-theme="dark"] .navigation {
+  border-bottom-color: rgba(232, 234, 240, 0.1);
+}
+
+.app[data-theme="dark"] .benefit-box {
+  border-color: rgba(232, 234, 240, 0.12);
+}
+
+.app[data-theme="dark"] .special-offer-item {
+  border-color: rgba(121, 181, 137, 0.3);
+}
+.app[data-theme="dark"] .header,
+.app[data-theme="dark"] .dropdown,
+.app[data-theme="dark"] .benefit-box,
+.app[data-theme="dark"] .special-offer-item {
+  background-color: var(--card);
+}
+.app[data-theme="dark"] .special-offer-name,
+.app[data-theme="dark"] .special-offer-price,
+.app[data-theme="dark"] .items-header,
+.app[data-theme="dark"] .items-title {
+  color: var(--text);
+}
+
+
+.app[data-theme="dark"] .brand-name {
+  color: #e8eaf0;
+}
+
+.app[data-theme="dark"] .brand-text {
+  color: #9fe1cb;
+}
+.app[data-theme="dark"] .dropdown {
+  background-color: var(--card);
+  border-color: rgba(232, 234, 240, 0.12);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.app[data-theme="dark"] .dropdown a {
+  color: var(--text);
+}
+
+.app[data-theme="dark"] .dropdown a:hover,
+.app[data-theme="dark"] .dropdown a:focus {
+  color: #9fe1cb;
+  background-color: #343b45;
+}
+.user-account {
+  background-color: #E1F5EE;;
+  color:  #085041;
+  padding: 10px 14px;
+  border-radius: 12px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }

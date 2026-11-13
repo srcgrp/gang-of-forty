@@ -10,8 +10,10 @@ import Storefront from "./components/StoreFront.tsx";
 import { loadCart, saveCart } from "./storage/cartStorage.ts";
 import { unitPrice } from "./cart/unitPrice.ts";
 import { formatNumber } from "./format.ts";
+import { useThemeStore } from "./hooks/useThemeStore.ts";
 const SHOP_NAME = "سارا مارکت";
 export default function App() {
+  const theme=useThemeStore((t)=>t.theme)
   const [state, setState] = useState<LoadState>({ status: "loading" }); // starts as loading, so the effect never has to set "loading" itself
    const [categoryId, setCategoryId] = useState<number | null>(null); // selected category, null = no filter
    const [cart, setCart] = useState<CartLine[]>(()=>loadCart()); // cart lines, starts empty
@@ -37,14 +39,17 @@ useEffect(() => {
   }, [cart]);
 if (state.status !== "success")
   return (
+  
+    <div className="app" data-theme="{theme}"> 
     <Status
-      state={state}
+    state={state}
       onRetry={() => {
         setState({ status: "loading" });
         setAttempt((prev) => prev + 1);
       }}
-    />
-  );
+      />
+  </div>
+    );
   const { products, offers } = state;
 
   function handleAdd(id: number) {
@@ -61,7 +66,7 @@ if (state.status !== "success")
     setCategoryId((prev) => (prev === id ? null : id));
   }
   return (
-    <Storefront
+    <div className="app" data-theme={theme}> <Storefront
       data={state}
       categoryId={categoryId}
       cart={cart}
@@ -70,6 +75,7 @@ if (state.status !== "success")
       onPick={handlePick}
       onAdd={handleAdd}
       onRemove={handleRemove}
-    />
+    /></div>
+   
   );
 }
