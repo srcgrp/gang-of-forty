@@ -6612,3 +6612,29 @@ html.light-theme .all-products__more-btn {
   opacity: 0 !important;
   pointer-events: none !important;
 }
+.sale-countdown-wrap {
+  padding: 0 var(--gutter);
+  max-width: var(--container);
+  margin: 0 auto 16px;
+}
+
+.sale-countdown-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 8px 18px;
+  border-radius: var(--r-full);
+  background: var(--grad-brand);
+  color: var(--on-brand);
+  font-size: 0.85rem;
+  font-weight: 700;
+  box-shadow: 0 8px 20px -8px var(--btn-shadow);
+  transition: transform 0.25s var(--spring);
+}
+
+@media (hover: hover) {
+  .sale-countdown-toggle:hover {
+    transform: translateY(-2px);
+  }
+}
