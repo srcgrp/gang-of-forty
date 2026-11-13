@@ -5,6 +5,7 @@ import type {
   SortFilter,
   StockFilter,
 } from "../hooks/useFilters";
+import { Modal } from "./Modal";
 
 interface FilterModalProps {
   isOpen: boolean;
@@ -23,8 +24,6 @@ export function FilterModal({
   onChange,
   onReset,
 }: FilterModalProps) {
-  if (!isOpen) return null;
-
   const stocks: { v: StockFilter; l: string }[] = [
     { v: "all", l: "همه" },
     { v: "in", l: "موجود" },
@@ -42,110 +41,107 @@ export function FilterModal({
   ];
 
   return (
-    <div
-      className="modal modal--open"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="filter-modal-title"
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      labelledBy="filter-modal-title"
+      contentClassName="modal__content--filter"
     >
-      <div className="modal__overlay" onClick={onClose} />
-      <div className="modal__content modal__content--filter">
-        <header className="modal__header">
-          <h2 className="modal__title" id="filter-modal-title">
-            <span aria-hidden="true">🎯</span> فیلتر محصولات
-          </h2>
-          <button
-            type="button"
-            className="modal__close"
-            onClick={onClose}
-            aria-label="بستن"
-          >
-            ✕
-          </button>
-        </header>
+      <header className="modal__header">
+        <h2 className="modal__title" id="filter-modal-title">
+          <span aria-hidden="true">🎯</span> فیلتر محصولات
+        </h2>
+        <button
+          type="button"
+          className="modal__close"
+          onClick={onClose}
+          aria-label="بستن"
+        >
+          ✕
+        </button>
+      </header>
 
-        <div className="modal__body">
-          <div className="filter-group">
-            <h3 className="filter-group__title">دسته‌بندی</h3>
-            <div className="filter-chips">
+      <div className="modal__body">
+        <div className="filter-group">
+          <h3 className="filter-group__title">دسته‌بندی</h3>
+          <div className="filter-chips">
+            <button
+              type="button"
+              className={`filter-chip ${filters.categoryId === null ? "filter-chip--active" : ""}`}
+              onClick={() => onChange({ categoryId: null })}
+            >
+              همه
+            </button>
+            {categories.map((cat) => (
               <button
+                key={cat.id}
                 type="button"
-                className={`filter-chip ${filters.categoryId === null ? "filter-chip--active" : ""}`}
-                onClick={() => onChange({ categoryId: null })}
+                className={`filter-chip ${filters.categoryId === cat.id ? "filter-chip--active" : ""}`}
+                onClick={() => onChange({ categoryId: cat.id })}
               >
-                همه
+                {cat.emoji} {cat.name}
               </button>
-              {categories.map((cat) => (
-                <button
-                  key={cat.id}
-                  type="button"
-                  className={`filter-chip ${filters.categoryId === cat.id ? "filter-chip--active" : ""}`}
-                  onClick={() => onChange({ categoryId: cat.id })}
-                >
-                  {cat.emoji} {cat.name}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="filter-group">
-            <h3 className="filter-group__title">وضعیت موجودی</h3>
-            <div className="filter-chips">
-              {stocks.map((s) => (
-                <button
-                  key={s.v}
-                  type="button"
-                  className={`filter-chip ${filters.stock === s.v ? "filter-chip--active" : ""}`}
-                  onClick={() => onChange({ stock: s.v })}
-                >
-                  {s.l}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="filter-group">
-            <h3 className="filter-group__title">تخفیف</h3>
-            <div className="filter-chips">
-              {discounts.map((d) => (
-                <button
-                  key={d.v}
-                  type="button"
-                  className={`filter-chip ${filters.discount === d.v ? "filter-chip--active" : ""}`}
-                  onClick={() => onChange({ discount: d.v })}
-                >
-                  {d.l}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="filter-group">
-            <h3 className="filter-group__title">مرتب‌سازی</h3>
-            <div className="filter-chips">
-              {sorts.map((s) => (
-                <button
-                  key={s.v}
-                  type="button"
-                  className={`filter-chip ${filters.sort === s.v ? "filter-chip--active" : ""}`}
-                  onClick={() => onChange({ sort: s.v })}
-                >
-                  {s.l}
-                </button>
-              ))}
-            </div>
+            ))}
           </div>
         </div>
 
-        <footer className="modal__footer modal__footer--filter">
-          <button type="button" className="btn btn--ghost" onClick={onReset}>
-            پاک کردن
-          </button>
-          <button type="button" className="btn btn--primary" onClick={onClose}>
-            نمایش نتایج
-          </button>
-        </footer>
+        <div className="filter-group">
+          <h3 className="filter-group__title">وضعیت موجودی</h3>
+          <div className="filter-chips">
+            {stocks.map((s) => (
+              <button
+                key={s.v}
+                type="button"
+                className={`filter-chip ${filters.stock === s.v ? "filter-chip--active" : ""}`}
+                onClick={() => onChange({ stock: s.v })}
+              >
+                {s.l}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="filter-group">
+          <h3 className="filter-group__title">تخفیف</h3>
+          <div className="filter-chips">
+            {discounts.map((d) => (
+              <button
+                key={d.v}
+                type="button"
+                className={`filter-chip ${filters.discount === d.v ? "filter-chip--active" : ""}`}
+                onClick={() => onChange({ discount: d.v })}
+              >
+                {d.l}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="filter-group">
+          <h3 className="filter-group__title">مرتب‌سازی</h3>
+          <div className="filter-chips">
+            {sorts.map((s) => (
+              <button
+                key={s.v}
+                type="button"
+                className={`filter-chip ${filters.sort === s.v ? "filter-chip--active" : ""}`}
+                onClick={() => onChange({ sort: s.v })}
+              >
+                {s.l}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
-    </div>
+
+      <footer className="modal__footer modal__footer--filter">
+        <button type="button" className="btn btn--ghost" onClick={onReset}>
+          پاک کردن
+        </button>
+        <button type="button" className="btn btn--primary" onClick={onClose}>
+          نمایش نتایج
+        </button>
+      </footer>
+    </Modal>
   );
 }
