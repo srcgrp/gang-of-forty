@@ -1,9 +1,12 @@
 import type { Product } from '../types.ts'
 import ProductCard from './ProductCard.tsx'
 
-type ProductGridProps = { products: Product[] }
+type ProductGridProps = {
+  products: Product[]
+  onAdd: (id: number) => void
+}
 
-export default function ProductGrid({ products }: ProductGridProps) {
+export default function ProductGrid({ products, onAdd }: ProductGridProps) {
   const first = products[0]
   const last = products[products.length - 1]
 
@@ -33,9 +36,18 @@ export default function ProductGrid({ products }: ProductGridProps) {
       <div className="carousel-status" role="status" aria-live="polite"></div>
       <section className="carousel" aria-label="محصولات لبنیات" tabIndex={0} aria-busy="false">
         <ul>
-          {products.map((p, i) => (
-            <ProductCard key={p.id} product={p} index={i} />
-          ))}
+          {products.map((p, i) => {
+            const isNew = p.tags.includes('جدید')
+            return (
+              <ProductCard
+                key={p.id}
+                product={p}
+                index={i}
+                onAdd={onAdd}
+                badge={isNew ? 'جدید' : undefined}
+              />
+            )
+          })}
         </ul>
       </section>
     </section>

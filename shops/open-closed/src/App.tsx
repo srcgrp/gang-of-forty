@@ -9,12 +9,17 @@ import ProductGrid from './components/ProductGrid.tsx'
 
 // داده‌ی موقت؛ در گام ۴ حذف می‌شود و از api/ می‌آید.
 const SAMPLE: Product[] = [
-  { id: 1, categoryId: 2, name: 'شیر کم‌چرب', emoji: '🥛', unit: '۱ لیتر', price: 45000, tags: [] },
+  { id: 1, categoryId: 2, name: 'شیر کم‌چرب', emoji: '🥛', unit: '۱ لیتر', price: 45000, tags: ['جدید'] },
   { id: 2, categoryId: 2, name: 'ماست پرچرب', emoji: '🥣', unit: '۹۰۰ گرم', price: 62000, tags: [] },
   { id: 3, categoryId: 2, name: 'پنیر لیقوان', emoji: '🧀', unit: '۴۰۰ گرم', price: 180000, tags: [] },
 ]
 
 export default function App() {
+  // موقت: در گام ۳ جایش را با تغییر State سبد عوض می‌کنیم.
+  function handleAdd(id: number) {
+    console.log('افزودن محصول', id)
+  }
+
   return (
     <>
       <a className="skip-link" href="#main">پرش به محتوای اصلی</a>
@@ -22,7 +27,7 @@ export default function App() {
       <main id="main" tabIndex={-1} className="wrap">
         <Hero />
         <CategoryNav />
-        <ProductGrid products={SAMPLE} />
+        <ProductGrid products={SAMPLE} onAdd={handleAdd} />
         <CartPanel />
         <Banners />
       </main>
