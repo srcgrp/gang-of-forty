@@ -8,13 +8,31 @@ export default function App() {
   const state = useShopData(attempt);
 
   if (state.status === "loading") {
-    return <div className="global-loader">در حال بارگذاری...</div>;
+    return (
+      <div className="global-loader" role="status" aria-live="polite">
+        <div className="global-loader__spinner" aria-hidden="true" />
+        <div className="global-loader__text">در حال بارگذاری...</div>
+      </div>
+    );
   }
+
   if (state.status === "error") {
     return (
-      <div className="state-error">
-        <p>{state.message}</p>
-        <button onClick={() => setAttempt((a) => a + 1)}>تلاش مجدد</button>
+      <div className="state-error" role="alert">
+        <span className="state-error__icon" aria-hidden="true">
+          ⚠️
+        </span>
+        <h2 className="state-error__title">خطا در بارگذاری</h2>
+        <p className="state-error__text">{state.message}</p>
+        <div className="state-error__actions">
+          <button
+            type="button"
+            className="btn-retry"
+            onClick={() => setAttempt((a) => a + 1)}
+          >
+            تلاش مجدد
+          </button>
+        </div>
       </div>
     );
   }
