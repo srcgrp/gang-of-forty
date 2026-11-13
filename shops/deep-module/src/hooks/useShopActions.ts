@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import type { CartLine, Product, StockData } from "../types";
 import { toast } from "../shared/ui/toast";
 
@@ -8,60 +9,80 @@ interface Args {
   increase: (id: number) => void;
   consume: (cart: CartLine[]) => void;
   checkout: () => void;
-  wishlistAdd: (id: number, name: string) => void;
+  wishlistToggle: (id: number, name: string) => void;
   onCloseCart: () => void;
 }
 
 export function useShopActions(args: Args) {
-  const handleAddToCart = (product: Product): boolean => {
-    const available = args.effectiveStock.items[product.id] ?? Infinity;
-    const existing = args.cart.find((i) => i.id === product.id);
-    const currentInCart = existing?.quantity ?? 0;
+  const {
+    effectiveStock,
+    cart,
+    addToCart,
+    increase,
+    consume,
+    checkout,
+    wishlistToggle,
+    onCloseCart,
+  } = args;
 
-    if (available === 0) {
-      toast.error(`${product.name} موجود نیست`);
-      return false;
-    }
-    if (currentInCart >= available) {
-      toast.error(`حداکثر ${available} عدد از ${product.name} موجوده`);
-      return false;
-    }
-    args.addToCart(product);
-    return true;
-  };
+  const handleAddToCart = useCallback(
+    (product: Product): boolean => {
+      const available = effectiveStock.items[product.id] ?? Infinity;
+      const existing = cart.find((i) => i.id === product.id);
+      const currentInCart = existing?.quantity ?? 0;
 
-  const handleIncrease = (id: number): void => {
-    const item = args.cart.find((i) => i.id === id);
-    if (!item) return;
-    const available = args.effectiveStock.items[id] ?? Infinity;
-    if (item.quantity >= available) {
-      toast.error(`حداکثر ${available} عدد از ${item.name} موجوده`);
-      return;
-    }
-    args.increase(id);
-  };
+      if (available === 0) {
+        toast.error(`${product.name} موجود نیست`);
+        return false;
+      }
+      if (currentInCart >= available) {
+        toast.error(`حداکثر ${available} عدد از ${product.name} موجوده`);
+        return false;
+      }
+      addToCart(product);
+      return true;
+    },
+    [effectiveStock, cart, addToCart],
+  );
 
-  const handleCheckout = (): void => {
+  const handleIncrease = useCallback(
+    (id: number): void => {
+      const item = cart.find((i) => i.id === id);
+      if (!item) return;
+      const available = effectiveStock.items[id] ?? Infinity;
+      if (item.quantity >= available) {
+        toast.error(`حداکثر ${available} عدد از ${item.name} موجوده`);
+        return;
+      }
+      increase(id);
+    },
+    [cart, effectiveStock, increase],
+  );
+
+  const handleCheckout = useCallback((): void => {
     const willBeUnavailable: string[] = [];
-    for (const item of args.cart) {
-      const s = args.effectiveStock.items[item.id] ?? Infinity;
+    for (const item of cart) {
+      const s = effectiveStock.items[item.id] ?? Infinity;
       if (s !== Infinity && s - item.quantity <= 0) {
         willBeUnavailable.push(item.name);
       }
     }
-    args.consume(args.cart);
-    args.checkout();
-    args.onCloseCart();
+    consume(cart);
+    checkout();
+    onCloseCart();
     if (willBeUnavailable.length > 0) {
       setTimeout(() => {
         toast.error(`📦 ${willBeUnavailable.join("، ")} به پایان موجودی رسید`);
       }, 1200);
     }
-  };
+  }, [cart, effectiveStock, consume, checkout, onCloseCart]);
 
-  const handleToggleWishlist = (p: Product): void => {
-    args.wishlistAdd(p.id, p.name);
-  };
+  const handleToggleWishlist = useCallback(
+    (p: Product): void => {
+      wishlistToggle(p.id, p.name);
+    },
+    [wishlistToggle],
+  );
 
   return {
     handleAddToCart,

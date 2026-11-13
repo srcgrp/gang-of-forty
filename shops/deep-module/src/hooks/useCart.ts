@@ -1,17 +1,30 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import type { CartLine, Product } from "../types";
+import { loadCart, saveCart } from "../storage/cart";
 import { toast } from "../shared/ui/toast";
 import confetti from "canvas-confetti";
 
-export function useCart() {
-  const [cart, setCart] = useState<CartLine[]>([]);
+const SHOP_NAME = "سبزکاله";
 
+export function useCart() {
+  const [cart, setCart] = useState<CartLine[]>(loadCart);
+
+  // ✅ cartRef همیشه مقدار به‌روز cart رو داره، برای callbackهای stable
+  const cartRef = useRef(cart);
   useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
-    document.title = cart.length > 0 ? `(${cart.length}) سبزکاله` : "سبزکاله";
+    cartRef.current = cart;
   }, [cart]);
 
-  const addToCart = (product: Product) => {
+  useEffect(() => {
+    saveCart(cart);
+  }, [cart]);
+
+  useEffect(() => {
+    const total = cart.reduce((s, i) => s + i.quantity, 0);
+    document.title = total > 0 ? `(${total}) ${SHOP_NAME}` : SHOP_NAME;
+  }, [cart]);
+
+  const addToCart = useCallback((product: Product) => {
     setCart((prev) => {
       const existing = prev.find((i) => i.id === product.id);
       if (existing) {
@@ -31,15 +44,15 @@ export function useCart() {
       ];
     });
     toast.success(`${product.name} به سبد اضافه شد ✅`);
-  };
+  }, []);
 
-  const increase = (id: number) => {
+  const increase = useCallback((id: number) => {
     setCart((prev) =>
       prev.map((i) => (i.id === id ? { ...i, quantity: i.quantity + 1 } : i)),
     );
-  };
+  }, []);
 
-  const decrease = (id: number) => {
+  const decrease = useCallback((id: number) => {
     setCart((prev) => {
       const item = prev.find((i) => i.id === id);
       if (!item) return prev;
@@ -48,15 +61,15 @@ export function useCart() {
         i.id === id ? { ...i, quantity: i.quantity - 1 } : i,
       );
     });
-  };
+  }, []);
 
-  const removeItem = (id: number) => {
+  const removeItem = useCallback((id: number) => {
     setCart((prev) => prev.filter((i) => i.id !== id));
     toast.success("محصول از سبد حذف شد");
-  };
+  }, []);
 
-  const checkout = () => {
-    if (cart.length === 0) return;
+  const checkout = useCallback(() => {
+    if (cartRef.current.length === 0) return;
     confetti({
       particleCount: 150,
       spread: 80,
@@ -65,7 +78,7 @@ export function useCart() {
     });
     toast.success("سفارش شما با موفقیت ثبت شد! 🎉");
     setCart([]);
-  };
+  }, []);
 
   return { cart, addToCart, increase, decrease, removeItem, checkout };
 }
