@@ -1,4 +1,4 @@
-import type { ApiErrorType } from "../types";
+import type { ApiErrorType } from "../../types";
 
 const BASE = import.meta.env.VITE_API_URL || "/api";
 const TIMEOUT = 8000;
@@ -31,7 +31,10 @@ async function request(url: string, signal?: AbortSignal): Promise<Response> {
   const timer = setTimeout(() => controller.abort("timeout"), TIMEOUT);
   if (signal) {
     if (signal.aborted) controller.abort("external");
-    else signal.addEventListener("abort", () => controller.abort("external"), { once: true });
+    else
+      signal.addEventListener("abort", () => controller.abort("external"), {
+        once: true,
+      });
   }
   try {
     return await fetch(url, { signal: controller.signal });
@@ -56,20 +59,30 @@ async function readJson(res: Response, url: string): Promise<unknown> {
 
 export async function getJSON(
   path: string,
-  options: { signal?: AbortSignal } = {},
+  options: { signal?: AbortSignal | undefined } = {},
 ): Promise<unknown> {
   const url = `${BASE}/${path}`;
   let last: ApiError | null = null;
+
   for (let i = 0; i <= RETRIES; i++) {
     try {
       const res = await request(url, options.signal);
-      if (!res.ok) throw new ApiError(`HTTP ${res.status}`, "http", res.status, url);
+      if (!res.ok) {
+        throw new ApiError(`HTTP ${res.status}`, "http", res.status, url);
+      }
       return await readJson(res, url);
     } catch (err: unknown) {
-      if (err instanceof ApiError) last = err;
-      else if (err instanceof DOMException && err.name === "AbortError")
-        last = new ApiError("aborted", "abort", null, url);
-      else last = new ApiError("network", "network", null, url);
+      if (err instanceof ApiError) {
+        last = err;
+        if (err.type === "abort") throw err;
+        if (err.type === "http" && err.status !== null && err.status < 500) {
+          throw err;
+        }
+      } else if (err instanceof DOMException && err.name === "AbortError") {
+        throw new ApiError("aborted", "abort", null, url);
+      } else {
+        last = new ApiError("network", "network", null, url);
+      }
       if (i === RETRIES) break;
       await delay(500 * 2 ** i);
     }
@@ -78,10 +91,10 @@ export async function getJSON(
 }
 
 export const api = {
-  products: () => getJSON("products.json"),
-  categories: () => getJSON("categories.json"),
-  shop: () => getJSON("shop.json"),
-  home: () => getJSON("home.json"),
-  offers: () => getJSON("offers.json"),
-  stock: () => getJSON("stock.json"),
+  products: (signal?: AbortSignal) => getJSON("products.json", { signal }),
+  categories: (signal?: AbortSignal) => getJSON("categories.json", { signal }),
+  shop: (signal?: AbortSignal) => getJSON("shop.json", { signal }),
+  home: (signal?: AbortSignal) => getJSON("home.json", { signal }),
+  offers: (signal?: AbortSignal) => getJSON("offers.json", { signal }),
+  stock: (signal?: AbortSignal) => getJSON("stock.json", { signal }),
 };
