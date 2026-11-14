@@ -239,3 +239,129 @@
     direction: ltr;
     unicode-bidi: isolate;
 }
+
+
+/* Week 5 extra-credit controls */
+
+.sale-countdown {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-block: 18px;
+    padding: 14px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: var(--radius);
+    background: linear-gradient(120deg, #b34a00 0%, #ea580c 55%, #f97316 100%);
+    color: #fff;
+    box-shadow: 0 10px 26px rgba(234, 88, 12, 0.28);
+}
+
+.sale-content {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+.sale-badge {
+    padding: 6px 14px;
+    border-radius: var(--radius-pill);
+    background: #fff;
+    color: #b34a00;
+    font-weight: 800;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.sale-timer {
+    font-family: var(--font-head);
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.sale-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 38px;
+    min-height: 38px;
+    border: 0;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.16);
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.sale-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.sale-show-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 40px;
+    margin-inline-start: auto;
+    padding: 8px 16px;
+    border: 0;
+    border-radius: var(--radius-pill);
+    background: linear-gradient(120deg, #b34a00 0%, #ea580c 100%);
+    color: #fff;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.sale-show-btn:hover {
+    filter: brightness(1.08);
+}
+
+.retry-btn {
+    display: block;
+    min-height: 40px;
+    margin: 12px auto 24px;
+    padding: 8px 18px;
+    border: 0;
+    border-radius: var(--radius-pill);
+    background: var(--green);
+    color: #fff;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.retry-btn:hover {
+    background: var(--green-deep);
+}
+
+.more-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    margin: 18px auto 8px;
+    padding: 8px 20px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-pill);
+    background: var(--surface);
+    color: var(--ink);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+.more-btn:hover {
+    border-color: var(--green);
+    color: var(--green);
+}
+
+.more-btn .icon {
+    width: 18px;
+    height: 18px;
+}

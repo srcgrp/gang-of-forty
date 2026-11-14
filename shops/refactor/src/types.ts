@@ -31,38 +31,13 @@ export type CartLine = Pick<ProductView, 'id' | 'name' | 'emoji' | 'price' | 'st
 
 export type AppData = {
     products: ProductView[]; categories: Category[]; home: Home; shop: ShopInfo;
-    notices: string[];
 };
 
-export const API_FILES = ['products.json', 'stock.json', 'offers.json', 'categories.json', 'home.json', 'shop.json'] as const satisfies readonly string[];
-export type ApiFile = (typeof API_FILES)[number];
-export const FILTER_FIELDS = ['category', 'search'] as const satisfies readonly string[];
-export type FilterField = (typeof FILTER_FIELDS)[number];
-export type CatalogQuery = Record<FilterField, string>;
-export type CarouselView = Carousel & { products: ProductView[] };
-export type CatalogView = {
-    products: ProductView[]; query: CatalogQuery; category: Category | undefined; active: boolean;
-};
-
-export type AppHandlers = {
-    query: () => CatalogQuery; changeQuery: (query: CatalogQuery) => void;
-    add: (id: number) => void; navigateFragment: () => void;
-    reloadCart: () => void; restoreNavigation: () => void;
-};
+export type ApiFile = 'products.json' | 'stock.json' | 'offers.json' | 'categories.json' | 'home.json' | 'shop.json';
+export const API_FILES: readonly ApiFile[] = ['products.json', 'stock.json', 'offers.json', 'categories.json', 'home.json', 'shop.json'];
 
 export type LoadState =
     | { status: 'loading' }
     | { status: 'success'; data: AppData }
     | { status: 'empty'; data: AppData }
     | { status: 'error'; message: string };
-    
-export type AddOutcome =
-  | { status: 'added'; items: CartItem[]; name: string }
-  | { status: 'maxed' }
-  | { status: 'ignored' };
-
-export type LoadDeps = {
-  load: (signal: AbortSignal) => Promise<AppData>;
-  explain: (error: unknown, aborted: boolean) => string;
-  show: (state: LoadState) => void;
-};
