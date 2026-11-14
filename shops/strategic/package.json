@@ -8,12 +8,14 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "check": "tsc --noEmit",
-    "lint": "oxlint src",
-    "check:arch": "node scripts/check-arch.mjs shops/strategic/src"
+    "lint": "oxlint src --deny-warnings",
+    "check:arch": "node scripts/check-arch.mjs strategic"
   },
   "dependencies": {
+    "@tanstack/react-router": "^1.170.46",
     "react": "^19.3.1",
-    "react-dom": "^19.3.1"
+    "react-dom": "^19.3.1",
+    "zustand": "^5.1.0"
   },
   "devDependencies": {
     "@types/react": "^19.3.0",
