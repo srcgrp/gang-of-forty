@@ -21,7 +21,7 @@ export default function App() {
 
   useEffect(() => {
     if (state.status !== 'success') return
-    document.title = `${state.data.shop.name} · 🛒 ${cartCount(cartLines(cart, state.data.products))}`
+    document.title = `${state.data.shop.name} · 🛒 ${cartCount(cartLines(cart, state.data.products)).toLocaleString("fa-IR")}`
   }, [cart, state])
 
   useEffect(() => {
