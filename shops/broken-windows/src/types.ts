@@ -43,7 +43,7 @@ export type LoadState =
       }
     | { status: "empty" }
     | { status: "error"; message: string };
-
+export type Catalog = Omit<LoadedState, "status">;
 export type LoadedState = Extract<LoadState, { status: "success" }>;
 
 export type CardView = Pick<Product, "name" | "emoji" | "unit" | "price"> & {

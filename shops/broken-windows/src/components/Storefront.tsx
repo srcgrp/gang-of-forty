@@ -10,33 +10,29 @@ import Notification from "./Notification.tsx";
 import Footer from "./Footer.tsx";
 import type { LoadedState } from "../types.ts";
 import { searchProducts } from "../catalog/lookup.ts";
-
-const DAIRY_ID = 2;
+import { useState } from "react";
+import { carouselProducts } from "../catalog/carouselProducts.ts"
+import { filterByCategory } from "../catalog/filterByCategory.ts";
 type Props = {
   data: LoadedState;
-  categoryId: number | null;
-  query: string;
-onQuery: (value: string) => void;
-  onPick: (id: number) => void;
 };
-export default function Storefront({ data, categoryId,query,
-onQuery, onPick }: Props) {
+export default function Storefront({ data }: Props) {
   const { products, offers, stock, categories } = data;
- const categoryProducts =
-  categoryId === null
-    ? products
-    : products.filter((p) => p.categoryId === categoryId);
-
-const visible = searchProducts(categoryProducts, query);
-const dairy = products.filter((p) => p.categoryId === DAIRY_ID);
-  return (
+   const [categoryId, setCategoryId] = useState<number | null>(null);
+  const [query, setQuery] = useState("");
+  function handlePick(id: number) {
+    setCategoryId((prev) => (prev === id ? null : id));
+  }
+  const visible = searchProducts(filterByCategory(products, categoryId), query);
+const dairy = carouselProducts(data, "dairy") ?? [];  
+return (
     <>
-      <Header query={query} onQuery={onQuery} />
+      <Header query={query} onQuery={setQuery} />
       <Navigation />
       <main className="site-main">
         <Hero />
         <Benefits />
-        <CategoryNav categories={categories} activeId={categoryId} onPick={onPick} />
+        <CategoryNav categories={categories} activeId={categoryId} onPick={handlePick} />
         <ProductGrid
           title="پرفروش‌های امروز"
           id="special-offer"

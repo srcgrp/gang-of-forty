@@ -7,9 +7,7 @@
   --color-primary: #25B24B;
   --color-green-dark: #179700;
   --color-text: #131313;
-  --color-black: #000000;
-}
-
+  --color-black: #000000;}
 
 html {
   scroll-padding-top: 100px;
