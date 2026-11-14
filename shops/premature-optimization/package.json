@@ -8,7 +8,7 @@
     "dev:mine": "vite --mode mine",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "lint": "oxlint src",
+    "lint": "oxlint src --deny-warnings",
     "check": "tsc --noEmit"
   },
   "devDependencies": {
@@ -21,10 +21,12 @@
     "vite": "^8.3.4"
   },
   "dependencies": {
+    "@tanstack/react-router": "^1.170.46",
     "gsap": "^3.15.0",
     "notyf": "^3.10.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "typecheck": "^0.1.2"
+    "typecheck": "^0.1.2",
+    "zustand": "^5.1.0"
   }
 }
