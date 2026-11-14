@@ -1594,3 +1594,8 @@ background: var(--bg);
   align-items: center;
   gap: 6px;
 }
+.special-offer-items.wrap {
+  flex-wrap: wrap;
+  overflow-x: visible;
+  scroll-snap-type: none;
+}
