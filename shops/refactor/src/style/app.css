@@ -274,6 +274,30 @@ main {
     margin-block: 0;
 }
 
+.app {
+    --bg: #ffffff;
+    --text: #1d1d1f;
+    --card: #f2f3f5;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+.app[data-theme='dark'] {
+    --bg: #06382a;
+    --text: #e8eaf0;
+    --card: #252a33;
+}
+
+.theme-toggle {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.3rem;
+    line-height: 1;
+    padding: 0.25rem;
+}
+
 @media (prefers-reduced-motion: reduce) {
     .loading-card {
         animation: none;

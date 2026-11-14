@@ -4,6 +4,7 @@ import Icon from './Icon'
 import Logo from './Logo'
 import MainNav from './MainNav'
 import SearchBox from './SearchBox'
+import ThemeToggle from './ThemeToggle'
 import { formatNumber } from './format'
 
 type HeaderProps = {
@@ -29,6 +30,7 @@ export default function Header({ shop, categories, cartCount, query, onQuery,
           <Logo /><span id="shop-slogan" className="shop-slogan">{shop.slogan}</span>
         </a>
         <div className="header-actions">
+                    <ThemeToggle />
           <button type="button" className="icon-btn cart-toggle-btn" id="cart-count"
             onClick={onOpenCart} aria-label={`باز کردن سبد خرید، ${count} کالا`}>
             <Icon name="cart" /><span className="badge cart-badge" aria-hidden="true">{count}</span>
