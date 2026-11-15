@@ -1,16 +1,17 @@
 import { useEffect } from 'react'
 import { showToast } from '../features/toast/toastStore.ts'
 import type { Card } from '../shared/types.ts'
+import { useCartStore } from '../hooks/useCartStore.ts'
 
 type FavoritesDrawerProps = {
   open: boolean
   cards: Card[]
   onClose: () => void
-  onAdd: (id: number) => void
   onRemove: (id: number) => void
 }
 
-export default function FavoritesDrawer({ open, cards, onClose, onAdd, onRemove }: FavoritesDrawerProps) {
+export default function FavoritesDrawer({ open, cards, onClose, onRemove }: FavoritesDrawerProps) {
+  const add = useCartStore((s) => s.add)
   useEffect(() => {
     if (!open) return undefined
     const onKey = (e: KeyboardEvent) => {
@@ -41,7 +42,7 @@ export default function FavoritesDrawer({ open, cards, onClose, onAdd, onRemove 
                   disabled={!card.inStock}
                   aria-label={`افزودن ${card.title} به سبد`}
                   onClick={() => {
-                    onAdd(card.id)
+                    add(card.id)
                     showToast(`${card.title} به سبد اضافه شد`)
                   }}
                 >

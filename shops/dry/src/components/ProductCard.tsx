@@ -1,15 +1,16 @@
 import type { Card } from '../shared/types.ts'
 import { showToast } from '../features/toast/toastStore.ts'
 import { useFavorites } from '../hooks/useFavorites.ts'
+import { useCartStore } from '../hooks/useCartStore.ts'
 
 type ProductCardProps = {
   card: Card
-  onAdd: (id: number) => void
   anchorId?: string
 }
 
-export default function ProductCard({ card, onAdd, anchorId }: ProductCardProps) {
+export default function ProductCard({ card, anchorId }: ProductCardProps) {
   const { favorites, toggle } = useFavorites()
+  const add = useCartStore((s) => s.add)
   const liked = favorites.includes(card.id) 
 
   return (
@@ -54,7 +55,7 @@ export default function ProductCard({ card, onAdd, anchorId }: ProductCardProps)
             aria-label={`افزودن ${card.title} به سبد`}
             disabled={!card.inStock}
             onClick={() => {
-                onAdd(card.id)
+                add(card.id)
                 showToast(`${card.title} به سبد اضافه شد`)
             }}
             >

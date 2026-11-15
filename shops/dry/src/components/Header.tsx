@@ -4,17 +4,18 @@ import ThemeToggle from './ThemeToggle.tsx'
 import Toaster from './Toaster.tsx'
 import FavoritesMenu from './FavoritesMenu.tsx'
 import type { LoadState } from '../shared/types.ts'
+import { cartCount } from '../features/cart/rules/lines.ts'
+import { useCartStore } from '../hooks/useCartStore.ts'
 
 type HeaderProps = {
-  count: number
   query: string
   onQuery: (value: string) => void
   onCartClick: () => void
   state: LoadState
-  onAdd: (id: number) => void
 }
-export default function Header({ count, query, onQuery, onCartClick, state, onAdd }: HeaderProps) {
-   return(
+export default function Header({ query, onQuery, onCartClick, state }: HeaderProps) {
+  const count = useCartStore((s) => cartCount(s.lines))
+  return (
     <>
       <a className="skip-link" href="#main">پرش به محتوای اصلی</a>
       <input
@@ -36,7 +37,7 @@ export default function Header({ count, query, onQuery, onCartClick, state, onAd
         <div className="header-actions">
             <SearchBox query={query} onQuery={onQuery} />
             <ThemeToggle />
-            <FavoritesMenu state={state} onAdd={onAdd} />
+            <FavoritesMenu state={state} />
             <button type="button" onClick={onCartClick}>
             <span aria-hidden="true">🛒</span> سبد خرید{' '}
             <span className="cart-count" id="cart-count" aria-live="polite">{formatNumber(count)}</span>

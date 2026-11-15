@@ -6,10 +6,9 @@ type ProductGridProps = {
   title: string
   prefix: string
   cards: Card[]
-  onAdd: (id: number) => void
 }
 
-export default function ProductGrid({ id, title, prefix, cards, onAdd }: ProductGridProps) {
+export default function ProductGrid({ id, title, prefix, cards, }: ProductGridProps) {
   return (
     <section className="products" id={id}>
       <div className="section-title">
@@ -28,7 +27,6 @@ export default function ProductGrid({ id, title, prefix, cards, onAdd }: Product
             <ProductCard
               key={card.id}
               card={card}
-              onAdd={onAdd}
               anchorId={`${prefix}-${i + 1}`}
             />
           ))}

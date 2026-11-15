@@ -8,10 +8,9 @@ import FavoritesDrawer from './FavoritesDrawer.tsx'
 
 type FavoritesMenuProps = {
   state: LoadState
-  onAdd: (id: number) => void
 }
 
-export default function FavoritesMenu({ state, onAdd }: FavoritesMenuProps) {
+export default function FavoritesMenu({ state }: FavoritesMenuProps) {
   const [open, setOpen] = useState(false)
   const { favorites, toggle } = useFavorites()
   const cards = state.status === 'success'
@@ -29,7 +28,6 @@ export default function FavoritesMenu({ state, onAdd }: FavoritesMenuProps) {
           open={open}
           cards={cards}
           onClose={() => setOpen(false)}
-          onAdd={onAdd}
           onRemove={toggle}
         />,
         document.body,

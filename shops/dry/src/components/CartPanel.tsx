@@ -1,17 +1,20 @@
 import { useEffect } from 'react'
 import { formatNumber } from '../features/products/catalog/format.ts'
-
-type CartRow = { id: number; title: string; qty: number }
+import { cartSummary } from '../features/products/catalog/cartView.ts'
+import { useCartStore } from '../hooks/useCartStore.ts'
+import type { LoadState } from '../shared/types.ts'
 
 type CartPanelProps = {
-  rows: CartRow[]
-  total: number
+  state: LoadState
   open: boolean
   onClose: () => void
-  onRemove: (id: number) => void
 }
 
-export default function CartPanel({ rows, total, open, onClose, onRemove }: CartPanelProps) {
+
+export default function CartPanel({ state, open, onClose }: CartPanelProps) {
+  const lines = useCartStore((s) => s.lines)
+  const remove = useCartStore((s) => s.remove)
+  const { rows, total } = cartSummary(state, lines)
   useEffect(() => {
     if (!open) return undefined
     const onKey = (e: KeyboardEvent) => {
@@ -38,7 +41,7 @@ export default function CartPanel({ rows, total, open, onClose, onRemove }: Cart
                 <li key={row.id}>
                   <span>{row.title}</span>
                   <span>{formatNumber(row.qty)}</span>
-                  <button type="button" aria-label={`حذف ${row.title} از سبد`} onClick={() => onRemove(row.id)}>حذف</button>
+                  <button type="button" aria-label={`حذف ${row.title} از سبد`} onClick={() => remove(row.id)}>حذف</button>
                 </li>
               ))}
             </ul>

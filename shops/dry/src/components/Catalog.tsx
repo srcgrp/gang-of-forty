@@ -7,27 +7,26 @@ import Status from './Status.tsx'
 type CatalogProps = {
   state: LoadState
   categoryId: number | null
-  onAdd: (id: number) => void
   query: string
   onRetry: () => void
 }
 
-export default function Catalog({ state, categoryId, query, onAdd, onRetry }: CatalogProps) {
+export default function Catalog({ state, categoryId, query, onRetry }: CatalogProps) {
   if (state.status !== 'success') return <Status state={state} onRetry={onRetry} />
   const filtered = categoryId !== null || query.trim() !== ''
   return (
     <>
       <ProductGrid id="offers" title="پیشنهادهای ویژه" prefix="offer"
-        cards={offeredCards(state)} onAdd={onAdd} />
+        cards={offeredCards(state)} />
        <div id="products">
         {filtered && (
           <ProductGrid id="results" title="نتایج" prefix="product"
-            cards={cardsInCategory(state, categoryId, query)} onAdd={onAdd} />
+            cards={cardsInCategory(state, categoryId, query)} />
         )}
       </div>
       {sectionsOf(state).map((s) => (
         <ProductGrid key={s.slug} id={s.slug} title={s.name} prefix={s.slug}
-          cards={s.cards} onAdd={onAdd} />
+          cards={s.cards} />
       ))}
     </>
   )
