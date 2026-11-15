@@ -1,6 +1,7 @@
 import type { Product } from "../types";
 import { formatNumber, formatPrice } from "../format";
 import { useCartStore } from "../hooks/useCartStore";
+import { Link } from "@tanstack/react-router";
 type ProductCardProps = {
   product: Product;
   percent?: number;
@@ -26,7 +27,14 @@ export default function ProductCard({
           </span>
         ) : null}
       </div>
-      <h3 className="special-offer-name">{product.name}</h3>
+    <h3 className="special-offer-name">
+  <Link
+    to="/product/$productId"
+    params={{ productId: String(product.id) }}
+  >
+    {product.name}
+  </Link>
+</h3>
       <p className="special-offer-unit">{product.unit}</p>
       <div className="special-offer-item-details">
         <p className="special-offer-price">{formatPrice(finalPrice)}</p>

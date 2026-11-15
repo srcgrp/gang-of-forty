@@ -1599,3 +1599,39 @@ background: var(--bg);
   overflow-x: visible;
   scroll-snap-type: none;
 }
+.special-offer-name a {
+  color: inherit;
+  text-decoration: none;
+}
+.product-page {
+  width: fit-content;
+  margin: 40px 30px 40px auto;
+  padding: 0;
+  background: transparent;
+  color: var(--text);
+  box-shadow: none;
+  border-radius: 0;
+  text-align: right;
+}
+
+.product-page h1 {
+  margin-bottom: 16px;
+}
+
+.product-page p {
+  margin-bottom: 12px;
+}
+.product-page button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background: #25B24B;
+  color: white;
+  cursor: pointer;
+}
+@media (max-width: 400px) {
+  .product-page {
+    width: auto;
+    margin: 20px 12px;
+  }
+}
