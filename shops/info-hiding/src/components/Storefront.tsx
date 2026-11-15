@@ -1,3 +1,4 @@
+import { useThemeStore } from '../hooks/useThemeStore';
 import Status from './Status';
 import SortSelect from './SortSelect';
 import { visibleProducts } from '../catalog/filter';
@@ -20,9 +21,10 @@ type StorefrontProps = {
     onRemove: (id: number) => void;
 };
 export default function Storefront({ catalog, cart, selected, onPick, onAdd, onRemove, sort, onSort, state }: StorefrontProps) {
+    const theme = useThemeStore(state => state.theme);
     const { products, categories, offers, stock } = catalog;
     const visible = visibleProducts(products, { categoryId: selected, query: '', sort }, offers);
-    return <>
+    return <div className="app" data-theme={theme}>
         <a className="skip-link" href="#main">پرش به محتوای اصلی</a>
         <div className="announcement">هر روز تازه، هر روز نزدیک شما</div>
         <Header count={formatNumber(cartCount(cart))} />
@@ -46,5 +48,5 @@ export default function Storefront({ catalog, cart, selected, onPick, onAdd, onR
             <ExtraCategories />
         </main>
         <Footer />
-    </>;
+    </div>;
 }
