@@ -15,8 +15,22 @@
 /* ========== Tokens ========== */
 :root {
   color-scheme: light dark;
+  --gutter: 1rem;
+  --radius: 1.125rem;
+  --card-w: 9.75rem;
+  --bar-h: 3.75rem;
+  --search-row: 3.25rem;
+  --header-h: calc(var(--bar-h) + var(--search-row) + 1px);
+  --ease: cubic-bezier(.2, .7, .2, 1);
+}
+
+
+/* ========== Theme ========== */
+.app {
+  color-scheme: light;
   --brand: #1d7448;
-  --brand-ink: #14532f;
+  --brand-deep: #14532f;
+  --brand-ink: var(--brand-deep);
   --green-soft: #dcefe3;
   --gold: #f5b73d;
   --red: #c4381c;
@@ -30,31 +44,49 @@
   --t1: #fadbd5; --t2: #dce6fa; --t3: #fdeec9;
   --t4: #d6f0e3; --t5: #eadff6; --t6: #fbd9d9;
   --foot: #15231b; --foot-title: #ffffff; --foot-mute: #a3aea8; --foot-accent: #ffd166;
-  --gutter: 1rem;
-  --radius: 1.125rem;
-  --card-w: 9.75rem;
-  --bar-h: 3.75rem;
-  --search-row: 3.25rem; /* search bar row on mobile (hidden from 40rem up) */
-  --header-h: calc(var(--bar-h) + var(--search-row) + 1px);
-  --ease: cubic-bezier(.2, .7, .2, 1);
+  --search-ring: var(--brand);
+
+  /* ========== Fixed Colours ========== */
+  --on-brand: #fff;
+  --on-brand-line: rgb(255 255 255 / .7);
+  --on-brand-hover: rgb(255 255 255 / .12);
+  --on-gold: #2b2100;
+  --hero-bg: var(--brand-deep);
+  --hero-disc: var(--brand);
+  --hero-soft: #d3ecdc;
+  --paper: #fff;
+  --paper-ink: #17211b;
+  --paper-mute: #3f4d44;
+  --paper-faint: #5f6b64;
+  --halo: rgb(255 255 255 / .06);
+  --foot-line: rgb(255 255 255 / .14);
+  --scrim: rgb(0 0 0 / .35);
+  --shadow-pop: rgb(0 0 0 / .25);
+  --shadow-soft: rgb(0 0 0 / .28);
+  --shadow-md: rgb(0 0 0 / .45);
+  --shadow-lg: rgb(0 0 0 / .5);
+  --shadow-green: rgb(20 50 30 / .5);
+
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--bg);
+  color: var(--ink);
 }
 
-
-/* ========== Dark Mode ========== */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --brand-ink: #86d9a9;
-    --green-soft: #21402f;
-    --bg: #0f1a14;
-    --surface: #17271e;
-    --ink: #e8efe9;
-    --muted: #a9b9ae;
-    --line: #2b3f33;
-    --cream: #3a3220;
-    --focus: #8fb8ff;
-    --t1: #4a2d29; --t2: #28344f; --t3: #4a3d22;
-    --t4: #204433; --t5: #382d4a; --t6: #4a2a2b;
-  }
+.app[data-theme='dark'] {
+  color-scheme: dark;
+  --brand-ink: #86d9a9;
+  --green-soft: #21402f;
+  --bg: #0f1a14;
+  --surface: #17271e;
+  --ink: #e8efe9;
+  --muted: #a9b9ae;
+  --line: #2b3f33;
+  --cream: #3a3220;
+  --focus: #8fb8ff;
+  --t1: #4a2d29; --t2: #28344f; --t3: #4a3d22;
+  --t4: #204433; --t5: #382d4a; --t6: #4a2a2b;
+  --search-ring: #86d9a9;
 }
 
 
@@ -73,7 +105,6 @@ html { -webkit-text-size-adjust: 100%; }
 
 body {
   margin: 0; overflow-x: clip;
-  background: var(--bg); color: var(--ink);
   font: 400 1rem/1.7 "Vazirmatn", "Vazir", "Segoe UI", Tahoma, "Noto Sans Arabic", system-ui, sans-serif;
 }
 
@@ -122,10 +153,10 @@ button { font: inherit; color: inherit; cursor: pointer; }
   border-radius: 999px;
   font-weight: 700;
   background: var(--gold);
-  color: #2b2100;
+  color: var(--on-gold);
 }
 
-.btn--green { background: var(--brand); color: #fff; }
+.btn--green { background: var(--brand); color: var(--on-brand); }
 
 .btn--outline {
   background: transparent;
@@ -161,7 +192,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
     gap: .4rem;
     padding: .4rem var(--gutter);
     background: var(--brand);
-    color: #fff;
+    color: var(--on-brand);
     font-size: .8125rem;
     text-align: center;
 }
@@ -176,7 +207,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
 .bar {
   display: grid;
-  grid-template-columns: 1fr auto auto;
+  grid-template-columns: 1fr auto auto auto;
   grid-template-rows: var(--bar-h) auto;
   align-items: center;
   column-gap: .5rem;
@@ -212,13 +243,13 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
 .lg-bg { fill: var(--brand); }
 
-.lg-w { fill: #fff; }
+.lg-w { fill: var(--on-brand); }
 
 .lg-fruit { fill: var(--gold); }
 
 .lg-h {
     fill: none;
-    stroke: #fff;
+    stroke: var(--on-brand);
     stroke-width: 3;
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -288,13 +319,46 @@ button { font: inherit; color: inherit; cursor: pointer; }
   padding-inline: .3rem;
   border-radius: 999px;
   background: var(--red);
-  color: #fff;
+  color: var(--on-brand);
   font-size: .75rem;
   line-height: 1;
 }
 
 
-/* ========== Menu Button Toggle (checkbox + label) ========== */
+/* ========== Theme Toggle ========== */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .45rem;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding-inline: .6rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--green-soft);
+  color: var(--brand-ink);
+  font-weight: 700;
+}
+
+.theme-toggle .icon { width: 1.375rem; height: 1.375rem; }
+
+.theme-toggle__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (hover: hover) {
+  .theme-toggle:hover { box-shadow: inset 0 0 0 2px var(--brand-ink); }
+}
+
+
+/* ========== Menu Button Toggle ========== */
 .burger {
   display: grid;
   place-items: center;
@@ -345,9 +409,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .scrim {
   position: absolute;
   inset-inline: 0;
-  top: calc(100% + 1px); /* below the header's 1px bottom border */
+  top: calc(100% + 1px);
   height: 100dvh;
-  background: rgb(0 0 0 / .35);
+  background: var(--scrim);
   opacity: 0;
   visibility: hidden;
   transition: opacity .2s, visibility 0s .2s;
@@ -369,7 +433,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   overflow-y: auto;
   background: var(--surface);
   border-bottom: 1px solid var(--line);
-  box-shadow: 0 18px 30px -20px rgb(0 0 0 / .45);
+  box-shadow: 0 18px 30px -20px var(--shadow-md);
   visibility: hidden;
   opacity: 0;
   transform: translateY(-.5rem);
@@ -397,7 +461,6 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
 .mega-panel { display: none; }
 
-/* the current section is marked by script.js (aria-current), because the sections are built after the page loads */
 .main-nav a[aria-current] {
     background: var(--green-soft);
     color: var(--brand-ink);
@@ -424,9 +487,6 @@ main > * + * { margin-top: 2rem; }
 .hero { display: grid; gap: 1rem; }
 
 .hero__feature {
-  --hero-bg: #14532f;
-  --hero-disc: #1d7448;
-  --hero-soft: #d3ecdc;
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -434,11 +494,11 @@ main > * + * { margin-top: 2rem; }
   gap: .75rem;
   padding: 1rem 1.25rem 0;
   border-radius: calc(var(--radius) * 1.5);
-  color: #fff;
+  color: var(--on-brand);
   background: var(--hero-bg);
 }
 
-.hero__feature :focus-visible { outline-color: #fff; }
+.hero__feature :focus-visible { outline-color: var(--on-brand); }
 
 .hero__title { display: grid; gap: .25rem; }
 
@@ -487,7 +547,7 @@ main > * + * { margin-top: 2rem; }
   aspect-ratio: 1;
   border-radius: 50%;
   background: var(--hero-disc);
-  box-shadow: 0 0 0 clamp(.5rem, 2.4vw, 1.1rem) rgb(255 255 255 / .06);
+  box-shadow: 0 0 0 clamp(.5rem, 2.4vw, 1.1rem) var(--halo);
 }
 
 .hero__item {
@@ -499,7 +559,7 @@ main > * + * { margin-top: 2rem; }
   width: var(--w);
   height: auto;
   rotate: var(--r);
-  filter: drop-shadow(0 .7rem .8rem rgb(0 0 0 / .28));
+  filter: drop-shadow(0 .7rem .8rem var(--shadow-soft));
 }
 
 .hero__item--broccoli   { --x: 8%;  --y: 4%;  --w: 31%; --r: -10deg; --z: 2; --d: .05s; }
@@ -518,11 +578,11 @@ main > * + * { margin-top: 2rem; }
   gap: .125rem;
   padding: 1.1rem .85rem .6rem;
   border-radius: .75rem;
-  background: #fff;
-  color: #17211b;
+  background: var(--paper);
+  color: var(--paper-ink);
   font-size: clamp(.6875rem, 3.5cqw, .875rem);
   line-height: 1.5;
-  box-shadow: 0 .6rem 1.25rem rgb(0 0 0 / .28);
+  box-shadow: 0 .6rem 1.25rem var(--shadow-soft);
   rotate: -5deg;
   transform-origin: 50% 0;
 }
@@ -539,11 +599,11 @@ main > * + * { margin-top: 2rem; }
   background: var(--hero-bg);
 }
 
-.hero__tag-name { font-weight: 500; color: #3f4d44; }
+.hero__tag-name { font-weight: 500; color: var(--paper-mute); }
 
 .hero__tag-row { display: flex; align-items: baseline; gap: .5rem; }
 
-.hero__tag del { color: #5f6b64; font-size: .85em; }
+.hero__tag del { color: var(--paper-faint); font-size: .85em; }
 
 .hero__tag strong { font-size: 1.1em; font-weight: 800; }
 
@@ -554,7 +614,7 @@ main > * + * { margin-top: 2rem; }
   padding: 0 .5rem;
   border-radius: 999px;
   background: var(--red);
-  color: #fff;
+  color: var(--on-brand);
   font-size: .8em;
   font-weight: 700;
   line-height: 1.6;
@@ -587,7 +647,7 @@ main > * + * { margin-top: 2rem; }
   height: auto;
 }
 
-/* ========== Phones: shorter feature panel, one row of buttons ========== */
+/* ========== Phones ========== */
 @media (max-width: 39.99rem) {
   .hero__lead { display: none; }
   .hero__actions { flex-wrap: nowrap; margin-top: 1rem; }
@@ -651,7 +711,7 @@ main > * + * { margin-top: 2rem; }
   background-repeat: no-repeat;
   background-position: right .55rem center;
   background-size: .9rem;
-  color: #2b2100;
+  color: var(--on-gold);
   font-size: .75rem;
   font-weight: 700;
   vertical-align: middle;
@@ -679,14 +739,12 @@ main > * + * { margin-top: 2rem; }
   transform: scaleX(var(--flip, 1));
 }
 
-
-/* ========== The Arrow Mirrors With The Page Direction ========== */
 .arr--end { --flip: -1; }
 .arr:dir(ltr) { --flip: -1; }
 .arr--end:dir(ltr) { --flip: 1; }
 
 
-/* ========== Soft Color Palette (icons and images) ========== */
+/* ========== Soft Color Palette ========== */
 .rail li, .offers__list li, .grid li, .banners a { --t: var(--t1); }
 .rail li:nth-child(6n+2), .offers__list li:nth-child(6n+2), .grid li:nth-child(6n+2) { --t: var(--t2); }
 .rail li:nth-child(6n+3), .offers__list li:nth-child(6n+3), .grid li:nth-child(6n+3) { --t: var(--t3); }
@@ -733,7 +791,6 @@ main > * + * { margin-top: 2rem; }
   object-fit: contain;
 }
 
-/* the colour of each category comes from categories.json (--cat-bg is set by script.js) */
 .cat__icon-wrap {
   display: grid;
   place-items: center;
@@ -796,7 +853,7 @@ main > * + * { margin-top: 2rem; }
   inset: -1px;
   border-radius: inherit;
   pointer-events: none;
-  box-shadow: 0 14px 26px -14px rgb(20 50 30 / .5);
+  box-shadow: 0 14px 26px -14px var(--shadow-green);
   opacity: 0; transition: opacity .25s;
 }
 
@@ -833,7 +890,7 @@ main > * + * { margin-top: 2rem; }
   inset-inline-end: .4rem;
   padding: 0 .5rem;
   border-radius: 999px;
-  background: var(--red); color: #fff;
+  background: var(--red); color: var(--on-brand);
   font-size: .75rem;
   font-weight: 700;
   line-height: 1.6;
@@ -882,7 +939,7 @@ main > * + * { margin-top: 2rem; }
   border: 0;
   border-radius: .8rem;
   background: var(--brand);
-  color: #fff;
+  color: var(--on-brand);
   font-size: 1.5rem;
   line-height: 1;
   transition: transform .15s;
@@ -925,13 +982,13 @@ main > * + * { margin-top: 2rem; }
   justify-content: flex-start;
   gap: .65rem 1rem;
   padding: 1rem 1rem 0;
-  color: #fff;
+  color: var(--on-brand);
 }
 
 .offers__timer-toggle {
   min-height: 2.5rem;
   padding: .35rem 1rem;
-  border: 1px solid rgb(255 255 255 / .7);
+  border: 1px solid var(--on-brand-line);
   border-radius: 999px;
   background: transparent;
   color: inherit;
@@ -939,7 +996,7 @@ main > * + * { margin-top: 2rem; }
   font-weight: 700;
 }
 
-.offers__timer-toggle:hover { background: rgb(255 255 255 / .12); }
+.offers__timer-toggle:hover { background: var(--on-brand-hover); }
 
 .sale-countdown {
   display: inline-flex;
@@ -955,8 +1012,8 @@ main > * + * { margin-top: 2rem; }
   min-width: 4.25rem;
   padding: .15rem .65rem;
   border-radius: .6rem;
-  background: #fff;
-  color: var(--brand-ink);
+  background: var(--paper);
+  color: var(--brand-deep);
   font-variant-numeric: tabular-nums;
   text-align: center;
 }
@@ -973,7 +1030,7 @@ main > * + * { margin-top: 2rem; }
   padding-inline: 1rem;
   border-radius: 1.5rem;
   background: var(--brand);
-  color: #fff;
+  color: var(--on-brand);
 }
 
 .offers__scroller {
@@ -1027,12 +1084,12 @@ main > * + * { margin-top: 2rem; }
   align-items: center;
   gap: .25rem;
   min-height: 2.75rem;
-  color: #fff;
+  color: var(--on-brand);
   font-size: .9375rem;
   font-weight: 800;
 }
 
-.offers__all:focus-visible { outline-color: #fff; }
+.offers__all:focus-visible { outline-color: var(--on-brand); }
 
 .offers__list { display: flex; gap: .75rem; }
 
@@ -1083,7 +1140,7 @@ main > * + * { margin-top: 2rem; }
   border-radius: 50%;
   background: var(--surface);
   color: var(--ink);
-  box-shadow: 0 2px 10px rgb(0 0 0 / .25);
+  box-shadow: 0 2px 10px var(--shadow-pop);
 }
 
 .offers__nav .icon {
@@ -1136,7 +1193,7 @@ main > * + * { margin-top: 2rem; }
   color: var(--foot-mute);
 }
 
-.site-footer :focus-visible { outline-color: #ffd166; }
+.site-footer :focus-visible { outline-color: var(--foot-accent); }
 
 .foot-grid { display: grid; gap: 1.75rem; }
 
@@ -1245,7 +1302,7 @@ main > * + * { margin-top: 2rem; }
   gap: 0 1rem;
   margin-top: 2rem;
   padding-top: .75rem;
-  border-top: 1px solid rgb(255 255 255 / .14);
+  border-top: 1px solid var(--foot-line);
   font-size: .8125rem;
 }
 
@@ -1254,19 +1311,26 @@ main > * + * { margin-top: 2rem; }
   align-items: center;
   gap: .35rem;
   min-height: 2.75rem;
-  color: #ffd166;
+  color: var(--foot-accent);
   font-weight: 700;
 }
 
 
 
 /* ========== Responsive ========== */
-/* ========== Very Small Mobiles ========== */
-@media (max-width: 22.5rem) {
+/* ========== Small Mobiles ========== */
+@media (max-width: 26rem) {
   .bar { column-gap: .375rem; }
   .logo small { display: none; }
   .logo b { font-size: .9375rem; }
   .cart { padding-inline: .6rem; }
+}
+
+/* ========== Very Small Mobiles ========== */
+@media (max-width: 22.5rem) {
+  .logo { gap: .4rem; }
+  .logo svg { width: 2.25rem; height: 2.25rem; }
+  .logo b { font-size: .875rem; }
 }
 
 /* ========== Tablet ========== */
@@ -1275,9 +1339,10 @@ main > * + * { margin-top: 2rem; }
   .bar { display: flex; gap: .5rem; height: var(--bar-h); }
   .search { grid-area: auto; flex: 1; max-width: 32rem; margin-inline: auto; padding-block-end: 0; }
   .cart-txt { display: inline; }
+  .theme-toggle { padding-inline: .9rem; }
+  .theme-toggle__label { position: static; width: auto; height: auto; margin: 0; overflow: visible; clip-path: none; }
   .banners { grid-template-columns: 1fr 1fr; }
 
-  /* Hero: copy beside the stage, promo becomes a wide row */
   .hero__feature {
     grid-template-columns: 1fr 1fr;
     align-items: center;
@@ -1328,7 +1393,7 @@ main > * + * { margin-top: 2rem; }
   
   .bar {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto 1fr auto auto;
     grid-template-rows: var(--bar-h) 3rem;
     column-gap: 1.5rem; height: auto;
   }
@@ -1371,7 +1436,7 @@ main > * + * { margin-top: 2rem; }
     border: 1px solid var(--line);
     border-radius: 0 0 1rem 1rem;
     background: var(--surface);
-    box-shadow: 0 18px 40px -18px rgb(0 0 0 / .45);
+    box-shadow: 0 18px 40px -18px var(--shadow-md);
     visibility: hidden;
     opacity: 0;
     transform: translateY(-.5rem);
@@ -1404,10 +1469,8 @@ main > * + * { margin-top: 2rem; }
 }
 
 
-/* ========== Dark mode: the category colour is softened ========== */
-@media (prefers-color-scheme: dark) {
-  .cat__icon-wrap { background: color-mix(in srgb, var(--cat-bg, var(--green-soft)) 28%, var(--surface)); }
-}
+/* ========== Dark Mode ========== */
+.app[data-theme='dark'] .cat__icon-wrap { background: color-mix(in srgb, var(--cat-bg, var(--green-soft)) 28%, var(--surface)); }
 
 
 /* ========== Product without a picture ========== */
@@ -1422,7 +1485,7 @@ main > * + * { margin-top: 2rem; }
 .pic__empty .icon { width: 2.5rem; height: 2.5rem; opacity: .6; }
 
 
-/* ========== Catalog view (?cat=<slug>) ========== */
+/* ========== Catalog View ========== */
 .back-bar { display: flex; }
 
 .back-btn {
@@ -1535,7 +1598,8 @@ main > .back-bar + * { margin-top: 1rem; }
 
 .state .btn { margin-top: .5rem; border: 0; cursor: pointer; }
 
-/* ========== The capsule: [ trash | 1 | + ] ========== */
+
+/* ========== The Capsule ========== */
 [hidden] { display: none !important; }
 
 [tabindex="-1"]:focus { outline: none; }
@@ -1586,7 +1650,7 @@ main > .back-bar + * { margin-top: 1rem; }
 }
 
 
-/* ========== Cart summary (opens on hover / click of the cart button) ========== */
+/* ========== Cart Summary ========== */
 .cart-wrap { position: relative; }
 
 .cart-panel {
@@ -1599,7 +1663,7 @@ main > .back-bar + * { margin-top: 1rem; }
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--surface);
-  box-shadow: 0 28px 56px -18px rgb(0 0 0 / .5);
+  box-shadow: 0 28px 56px -18px var(--shadow-lg);
   opacity: 0;
   visibility: hidden;
   transform: translateY(-8px) scale(.98);
@@ -1607,7 +1671,6 @@ main > .back-bar + * { margin-top: 1rem; }
   transition: opacity .2s, transform .22s var(--ease), visibility 0s .22s;
 }
 
-/* keeps the hover alive while the pointer crosses the gap under the button */
 .cart-panel::before {
   content: "";
   position: absolute;
@@ -1668,7 +1731,7 @@ main > .back-bar + * { margin-top: 1rem; }
   height: 5.25rem;
   border: 1px solid var(--line);
   border-radius: .75rem;
-  background: #fff;
+  background: var(--paper);
   overflow: hidden;
 }
 
@@ -1720,7 +1783,7 @@ main > .back-bar + * { margin-top: 1rem; }
 
 .mini__foot {
   display: flex;
-  flex-direction: row-reverse; /* total on the left, button on the right */
+  flex-direction: row-reverse;
   align-items: center;
   gap: 1rem;
   padding: .75rem 1.25rem 1.25rem;
@@ -1732,7 +1795,7 @@ main > .back-bar + * { margin-top: 1rem; }
   border: 0;
   border-radius: .875rem;
   background: var(--red);
-  color: #fff;
+  color: var(--on-brand);
   font: inherit;
   font-size: 1rem;
   font-weight: 800;
@@ -1755,7 +1818,6 @@ main > .back-bar + * { margin-top: 1rem; }
   75% { transform: translateX(-3px); }
 }
 
-/* on phones the summary spans the screen under the header */
 @media (max-width: 39.99rem) {
   .cart-panel {
     --mini-max: calc(100dvh - var(--cart-top, 4rem) - 1rem);
@@ -1768,13 +1830,7 @@ main > .back-bar + * { margin-top: 1rem; }
 }
 
 
-/* ========== Search bar: hover and focus ring (brand green instead of the browser outline) ========== */
-:root { --search-ring: var(--brand); }
-
-@media (prefers-color-scheme: dark) {
-  :root { --search-ring: #86d9a9; }
-}
-
+/* ========== Search Bar ========== */
 .search input {
   transition: border-color .18s, box-shadow .22s, background-color .18s;
 }
@@ -1796,7 +1852,7 @@ main > .back-bar + * { margin-top: 1rem; }
 .search:focus-within .search-ico { color: var(--search-ring); }
 
 
-/* ========== Search: nothing found ========== */
+/* ========== Search: Nothing Found ========== */
 .state--empty { justify-items: start; text-align: start; }
 
 /* ========== Reduced motion: animations are disabled ========== */

@@ -6,6 +6,7 @@ import type { CategoryListProps } from './CategoryLink';
 import Brand from './Brand';
 import MainNav from './MainNav';
 import SearchBox from './SearchBox';
+import ThemeToggle from './ThemeToggle';
 
 type HeaderProps = CategoryListProps & {
   productCount: number;
@@ -32,6 +33,7 @@ export default function Header({ categories, categoryId, onPick, productCount, q
           <Brand />
           <SearchBox productCount={productCount} query={query} onSearch={onSearch} />
           <CartMenu count={cartCount} mode={cartOpen} onMode={onCartMode}>{cartPanel}</CartMenu>
+          <ThemeToggle />
           <MainNav menu={shop.menu} onHome={onHome} categories={categories} categoryId={categoryId} onPick={onPick} />
         </div>
       </header>

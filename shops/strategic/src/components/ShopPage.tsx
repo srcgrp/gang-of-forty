@@ -11,6 +11,7 @@ import Footer from './Footer';
 import Header from './Header';
 import Home from './Home';
 import IconSprite from './IconSprite';
+import Layout from './Layout';
 import LoadStatus from './LoadStatus';
 
 type ShopPageProps = {
@@ -27,7 +28,7 @@ export default function ShopPage({ load, model, categoryId, query, open, missing
   const shown = selectionView(model, categoryId, query);
   const view = cartView(controls.lines, model.items, load.status === 'success');
   return (
-    <>
+    <Layout>
       <IconSprite />
       <Header shop={model.shop} onHome={!missing && categoryId === null && !query} categories={categories} categoryId={categoryId} onPick={onPick}
         productCount={model.products.length} query={query} onSearch={onSearch}
@@ -41,6 +42,6 @@ export default function ShopPage({ load, model, categoryId, query, open, missing
       </main>
       <Footer shop={model.shop} categoryId={categoryId} categories={categories} onPick={onPick} />
       <div className="sr-only" id="live" role="status" />
-    </>
+    </Layout>
   );
 }
