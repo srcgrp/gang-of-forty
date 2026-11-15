@@ -19,10 +19,41 @@ export default function CatalogView({
   switch (state.status) {
     case "loading":
       return <CatalogLoading />;
-    case "success":
+    case "success": {
+      // Keep every category section visible, even when home.json only defines
+      // the offers carousel. Configured category carousels are reused.
+      const configuredCarousels = [...state.data.carousels];
+      const hasOffersCarousel = configuredCarousels.some(
+        (carousel) => carousel.id === "offers" || carousel.source === "offers",
+      );
+
+      if (!hasOffersCarousel) {
+        configuredCarousels.unshift({
+          id: "offers",
+          title: "پیشنهاد ویژه امروز",
+          emoji: "🔥",
+          source: "offers",
+        });
+      }
+
+      for (const category of state.data.categories) {
+        const alreadyConfigured = configuredCarousels.some(
+          (carousel) => carousel.categoryId === category.id,
+        );
+
+        if (!alreadyConfigured) {
+          configuredCarousels.push({
+            id: category.slug,
+            title: category.name,
+            emoji: category.emoji,
+            categoryId: category.id,
+          });
+        }
+      }
+
       return (
         <>
-          {state.data.carousels.map((carousel) => {
+          {configuredCarousels.map((carousel) => {
             const products = carouselProducts(state.data, carousel.id);
             if (products === null) return null;
 
@@ -45,6 +76,7 @@ export default function CatalogView({
           })}
         </>
       );
+    }
     case "empty":
       return (
         <p className="product-empty" role="status">

@@ -8,9 +8,7 @@ export function carouselProducts(
 ): ProductCardData[] | null {
   const carousel = catalog.carousels.find((item) => item.id === carouselId);
 
-  if (!carousel) return null;
-
-  if (carousel.source === "offers" || carousel.id === "offers") {
+  if (carousel?.source === "offers" || carouselId === "offers") {
     return suggestionCardData(
       catalog.products,
       catalog.offers,
@@ -18,9 +16,13 @@ export function carouselProducts(
     );
   }
 
-  if (carousel.categoryId !== undefined) {
+  const categoryId =
+    carousel?.categoryId ??
+    catalog.categories.find((category) => category.slug === carouselId)?.id;
+
+  if (categoryId !== undefined) {
     return catalog.products
-      .filter((product) => product.categoryId === carousel.categoryId)
+      .filter((product) => product.categoryId === categoryId)
       .map((product) => toCard(product, catalog.offers, catalog.stock.items));
   }
 
