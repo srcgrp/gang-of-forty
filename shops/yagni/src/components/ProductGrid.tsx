@@ -3,14 +3,13 @@ import ProductCard from "./ProductCard";
 
 interface ProductGridProps {
   products: ProductCardData[];
-  onAdd: (id: number) => void;
   title?: string;
   emoji?: string;
   id?: string;
 }
 
 export default function ProductGrid({
-  products, onAdd, title = "محصولات", emoji, id = "products",
+  products, title = "محصولات", emoji, id = "products",
 }: ProductGridProps) {
   return (
     <section className="carousel-container anchor-section" id={id}>
@@ -22,7 +21,7 @@ export default function ProductGrid({
           {products.map((item) => (
             <ProductCard key={item.product.id} product={item.product} price={item.price}
               originalPrice={item.originalPrice} discountPercent={item.discountPercent}
-              outOfStock={item.outOfStock} onAdd={onAdd} />
+              outOfStock={item.outOfStock} />
           ))}
         </div>
       ) : <p className="product-empty">محصولی برای نمایش وجود ندارد</p>}

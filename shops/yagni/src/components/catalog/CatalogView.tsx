@@ -7,22 +7,21 @@ interface CatalogViewProps {
   state: LoadState;
   categories: Categories;
   cards: ProductCardData[];
-  onAdd: (id: number) => void;
   onRetry: () => void;
 }
 
-export default function CatalogView({ state, categories, cards, onAdd, onRetry }: CatalogViewProps) {
+export default function CatalogView({ state, categories, cards, onRetry }: CatalogViewProps) {
   switch (state.status) {
     case "loading": return <CatalogLoading />;
     case "success": return (
       <>
         <ProductGrid id="offers" title="پیشنهاد ویژه امروز" emoji="🔥"
-          products={cards.filter((card) => card.discountPercent !== undefined)} onAdd={onAdd} />
+          products={cards.filter((card) => card.discountPercent !== undefined)} />
         {categories.map((category) => (
           <ProductGrid key={category.id} id={category.slug} title={category.name}
             emoji={category.emoji}
             products={cards.filter((card) => card.product.categoryId === category.id)}
-            onAdd={onAdd} />
+            />
         ))}
       </>
     );

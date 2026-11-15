@@ -1,23 +1,23 @@
 import SearchBox from "./SearchBox";
 import { useThemeStore } from "../hooks/useThemeStore";
+import { countCartItems, totalCartPrice } from "../cart/cart-logic";
+import { useCartStore } from "../hooks/useCartStore";
 
 interface HeaderProps {
-  cartCount: number;
-  totalPrice: number;
   searchQuery: string;
   onOpenCart: () => void;
   onSearch: (query: string) => void;
 }
 
 export default function Header({
-  cartCount,
-  totalPrice,
   searchQuery,
   onOpenCart,
   onSearch,
 }: HeaderProps) {
   const theme = useThemeStore((s) => s.theme);
   const toggle = useThemeStore((s) => s.toggle);
+  const cartCount = useCartStore((s) => countCartItems(s.lines));
+  const totalPrice = useCartStore((s) => totalCartPrice(s.lines));
 
   return (
     <header className="header" id="top">

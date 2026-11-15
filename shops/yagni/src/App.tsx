@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import type {
-  Cart,
   Categories,
   Home,
   LoadState,
@@ -12,19 +11,13 @@ import type {
 import { fetchSuggestions } from "./api/products";
 import { fetchShop } from "./api/shop";
 import { fetchHome } from "./api/home";
-import {
-  addToCart,
-  countCartItems,
-  removeFromCart,
-  updateQuantity,
-} from "./cart/cart-logic";
+import { countCartItems } from "./cart/cart-logic";
 import { toCard, visibleProducts } from "./catalog/catalog-logic";
-import { loadCart, saveCart } from "./storage/cart-storage";
 import Storefront from "./components/Storefront";
 import { useThemeStore } from "./hooks/useThemeStore";
+import { useCartStore } from "./hooks/useCartStore";
 
 export default function App() {
-  const [cart, setCart] = useState<Cart>(() => loadCart());
   const [categories, setCategories] = useState<Categories>([]);
   const [offers, setOffers] = useState<Offers>([]);
   const [stock, setStock] = useState<Stock>({ updatedAt: "", items: {} });
@@ -38,6 +31,7 @@ export default function App() {
   const [isCountdownVisible, setIsCountdownVisible] = useState(false);
 
   const theme = useThemeStore((s) => s.theme);
+  const cartCount = useCartStore((s) => countCartItems(s.lines));
 
   useEffect(() => {
     let ignore = false;
@@ -69,11 +63,8 @@ export default function App() {
   }, [attempt]);
 
   useEffect(() => {
-    if (!saveCart(cart)) console.warn("سبد خرید در این مرورگر ذخیره نشد.");
-  }, [cart]);
-  useEffect(() => {
-    document.title = `${shop?.name ?? "مینا"} · 🛒 ${countCartItems(cart).toLocaleString("fa-IR")}`;
-  }, [cart, shop]);
+    document.title = `${shop?.name ?? "مینا"} · 🛒 ${cartCount.toLocaleString("fa-IR")}`;
+  }, [cartCount, shop]);
 
   const products = loadState.status === "success" ? loadState.products : [];
   const cards: ProductCardData[] = useMemo(
@@ -83,17 +74,6 @@ export default function App() {
       ),
     [products, searchQuery, offers, stock.items],
   );
-  const handleAdd = (productId: number) => {
-    const selected = cards.find((card) => card.product.id === productId);
-    if (selected)
-      setCart((current) =>
-        addToCart(current, selected.product, selected.price),
-      );
-  };
-  const handleQuantity = (id: number, delta: number) =>
-    setCart((current) => updateQuantity(current, id, delta));
-  const handleRemove = (id: number) =>
-    setCart((current) => removeFromCart(current, id));
   const handleRetry = () => {
     setLoadState({ status: "loading" });
     setAttempt((value) => value + 1);
@@ -102,7 +82,6 @@ export default function App() {
   return (
     <div className="app" data-theme={theme}>
       <Storefront
-        cart={cart}
         categories={categories}
         home={home}
         shop={shop}
@@ -114,9 +93,6 @@ export default function App() {
         isCountdownVisible={isCountdownVisible}
         onSearch={setSearchQuery}
         onPickCategory={setCategoryId}
-        onAdd={handleAdd}
-        onUpdateQuantity={handleQuantity}
-        onRemove={handleRemove}
         onRetry={handleRetry}
         onOpenCart={() => setIsCartOpen(true)}
         onCloseCart={() => setIsCartOpen(false)}

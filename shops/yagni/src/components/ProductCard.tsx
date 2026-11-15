@@ -1,4 +1,5 @@
 import type { Product } from "../types";
+import { useCartStore } from "../hooks/useCartStore";
 
 interface ProductCardProps {
   product: Product;
@@ -6,12 +7,13 @@ interface ProductCardProps {
   originalPrice?: number;
   discountPercent?: number;
   outOfStock?: boolean;
-  onAdd: (id: number) => void;
 }
 
 export default function ProductCard({
-  product, price, originalPrice, discountPercent, outOfStock, onAdd,
+  product, price, originalPrice, discountPercent, outOfStock,
 }: ProductCardProps) {
+  const add = useCartStore((state) => state.add);
+
   return (
     <article className={`product-card${outOfStock ? " product-card--out-of-stock" : ""}`}>
       <div className="product-badges">
@@ -36,7 +38,7 @@ export default function ProductCard({
           <span className="current-price">{price.toLocaleString("fa-IR")} تومان</span>
         </div>
         <button className="add-btn" type="button" aria-label={`افزودن ${product.name} به سبد`}
-          disabled={Boolean(outOfStock)} onClick={() => onAdd(product.id)}>+</button>
+          disabled={Boolean(outOfStock)} onClick={() => add(product, price)}>+</button>
       </div>
     </article>
   );
