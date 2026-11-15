@@ -4,6 +4,7 @@ import type { Product, Category, CartLine, LoadState } from './types'
 import { addToCart, removeFromCart, getCartItemCount } from './cart'
 import { getJSON } from './api/client'
 import { filterValidProducts, isCategory } from './api/guards'
+import { loadCart, saveCart } from './storage/cartStorage'
 import Header from './components/Header'
 import ProductGrid from './components/ProductGrid'
 import CartPanel from './components/CartPanel'
@@ -31,8 +32,13 @@ export default function App(): ReactNode {
   // Category selection state
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null)
 
-  // Cart state
-  const [cart, setCart] = useState<CartLine[]>([])
+  // Cart state - initialize from localStorage
+  const [cart, setCart] = useState<CartLine[]>(() => loadCart())
+
+  // Save cart to localStorage whenever it changes
+  useEffect(() => {
+    saveCart(cart)
+  }, [cart])
 
   // Fetch products and categories on mount
   useEffect(() => {
