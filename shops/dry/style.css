@@ -2,7 +2,7 @@
 
 :root {
 
-  color-scheme: light dark;
+  color-scheme: light;
 
   --bg-color: #EFE6D3;
   --surface-color: #FBF5E8;
@@ -20,29 +20,11 @@
   --btn-text: #FFFFFF;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    color-scheme: dark;
-    --bg-color: #0F1214;
-    --surface-color: #171B1F;
-    --primary-color: #F3EFE6;
-    --secondary-color: #A9A59C;
-    --accent-text: #D8BC80;
-    --heading-color: #D8BC80;
-    --border-color: #272C31;
-    --muted-bg: #20252A;
-    --fav-bg: rgba(23, 27, 31, .85);
-    --promo-fade: 15, 18, 20;
-    --btn-bg: #C8A96A;
-    --btn-text: #171717;
-  }
-}
 
-:root[data-theme="light"] {
-  color-scheme: light;
-}
 
-:root[data-theme="dark"] {
+
+
+:root:has(.app[data-theme="dark"]) {
   color-scheme: dark;
   --bg-color: #0F1214;
   --surface-color: #171B1F;
@@ -56,6 +38,12 @@
   --promo-fade: 15, 18, 20;
   --btn-bg: #C8A96A;
   --btn-text: #171717;
+}
+
+.app {
+  background: var(--bg-color);
+  color: var(--primary-color);
+  min-height: 100vh;
 }
 
 * {

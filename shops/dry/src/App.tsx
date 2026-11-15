@@ -16,10 +16,12 @@ import LogoSprite from './components/LogoSprite.tsx'
 import PromoBanners from './components/PromoBanners.tsx'
 import type { CartLine, LoadState } from './shared/types.ts'
 import SaleSection from './components/SaleSection.tsx'
+import { useThemeStore } from './hooks/useThemeStore.ts'
 
 const SHOP_NAME = 'MARTO'
 
 export default function App() {
+  const theme = useThemeStore((s) => s.theme)
   const [cart, setCart] = useState<CartLine[]>(() => loadCart())
   const [categoryId, setCategoryId] = useState<number | null>(null)
   const [state, setState] = useState<LoadState>({ status: 'loading' })
@@ -48,12 +50,12 @@ export default function App() {
     setAttempt(attempt + 1)
   }
 
-  return (
-    <>
+   return (
+    <div className="app" data-theme={theme}>
       <div id="top" />
       <LogoSprite />
       <Header count={cartCount(cart)} query={query} onQuery={setQuery} onCartClick={() => setCartOpen(true)} state={state} onAdd={handleAdd} />
-        <CategoryNav state={state} selected={categoryId} onPick={setCategoryId} />
+      <CategoryNav state={state} selected={categoryId} onPick={setCategoryId} />
       <main id="main">
         <Hero />
         <SaleSection />
@@ -64,6 +66,6 @@ export default function App() {
         <CartPanel rows={summary.rows} total={summary.total} open={cartOpen} onClose={() => setCartOpen(false)} onRemove={handleRemove} />
       </main>
       <Footer />
-    </>
+    </div>
   )
 }

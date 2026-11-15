@@ -1,30 +1,15 @@
-import { useEffect, useState } from 'react'
-import { toggleTheme, type Theme } from '../features/theme/rules/theme.ts'
-import { loadTheme, saveTheme } from '../features/theme/storage/themeStorage.ts'
-
-function systemTheme(): Theme {
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-}
+import { useThemeStore } from '../hooks/useThemeStore.ts'
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState<Theme>(() => loadTheme() ?? systemTheme())
-
-  useEffect(() => {
-    document.documentElement.dataset.theme = theme
-  }, [theme])
-
-  const handleClick = () => {
-    const next = toggleTheme(theme)
-    saveTheme(next)
-    setTheme(next)
-  }
+  const theme = useThemeStore((s) => s.theme)
+  const toggle = useThemeStore((s) => s.toggle)
 
   return (
     <button
       type="button"
       className="theme-toggle"
       aria-label={theme === 'dark' ? 'تغییر به حالت روشن' : 'تغییر به حالت تاریک'}
-      onClick={handleClick}
+      onClick={toggle}
     >
       {theme === 'dark' ? '☀' : '☾'}
     </button>
