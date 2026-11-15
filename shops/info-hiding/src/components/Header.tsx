@@ -1,3 +1,4 @@
+import ThemeToggle from './ThemeToggle';
 type HeaderProps = { count: string };
 export default function Header({ count }: HeaderProps) {
     return (
@@ -14,7 +15,7 @@ export default function Header({ count }: HeaderProps) {
                 </svg>
                 <span><strong>سوپرمارکت یاسمن</strong><small>تازگی، نزدیک خانهٔ شما</small></span>
             </a>
-
+            <ThemeToggle />
             <a className="cart" href="#cart-panel">سبد خرید <span>{count}</span></a>
         </div>
         <nav aria-label="منوی اصلی">
