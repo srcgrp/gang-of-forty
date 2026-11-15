@@ -37,7 +37,6 @@ const count = getCartCount(lines);
             </div>
         </a>
       <SearchBox query={query} onQuery={onQuery} />
-      
         <a className="user-account" href="#" aria-label="ورود به حساب کاربری">
             <svg aria-hidden="true" className="user-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -54,14 +53,11 @@ const count = getCartCount(lines);
       <circle cx="20" cy="21" r="1" />
       <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
             </svg></span>
-            
-            
             <span className="cart-label">سبد خرید</span>
             <span className="cart-count">{formatNumber(count)}</span> 
             </a>
             <ThemeToggle />
     </div>
-
    </> 
   )
 }
