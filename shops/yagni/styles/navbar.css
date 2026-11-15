@@ -7,7 +7,7 @@
   top: 86px;
   z-index: 900;
   width: 100%;
-  background: var(--surface);
+  background: var(--card);
   border-bottom: 1px solid var(--border);
   box-shadow: 0 4px 16px rgb(0 0 0 / 3%);
 }
@@ -117,7 +117,7 @@
 
   list-style: none;
 
-  background: var(--surface);
+  background: var(--card);
   border: 1px solid var(--border);
   border-radius: 14px;
 
@@ -248,7 +248,7 @@
 
     padding: 10px;
 
-    background: var(--surface);
+    background: var(--card);
     border-bottom: 1px solid var(--border);
     box-shadow: 0 12px 30px rgb(0 0 0 / 8%);
 
