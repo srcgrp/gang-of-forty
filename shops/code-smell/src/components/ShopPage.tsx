@@ -50,8 +50,8 @@ export default function ShopPage({
                     onPick={onPick}
                 />
                 <Categories categories={data.categories} onPick={onPick} />
-                <Promos home={data.home} categories={data.categories} onPick={onPick} />
                 <SaleCountdownPanel {...countdownControls} />
+                <Promos home={data.home} categories={data.categories} onPick={onPick} />
                 {!isSearching && <ProductGrid carousels={carousels} onAdd={onAdd} />}
                 <Guide shop={data.shop} />
                 <CartPanel

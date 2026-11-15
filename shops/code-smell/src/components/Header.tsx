@@ -6,6 +6,7 @@ import CategoryNav from "./CategoryNav"
 import CartButton from "./CartButton"
 import Announcement from "./Announcement"
 import SearchBox from "./SearchBox"
+import ThemeToggle from "./ThemeToggle"
 
 export type CatalogControls = SearchBoxProps & {
     categoryId: number | null
@@ -45,7 +46,10 @@ export default function Header({
                     query={catalogControls.query}
                     onQuery={catalogControls.onQuery}
                 />
-                <CartButton {...cartControls} />
+                <div className="header-actions">
+                    <CartButton {...cartControls} />
+                    <ThemeToggle />
+                </div>
                 <details className="mobile-menu" id="mobile-menu">
                     <summary className="menu-toggle" aria-label="منوی اصلی">
                         ☰
