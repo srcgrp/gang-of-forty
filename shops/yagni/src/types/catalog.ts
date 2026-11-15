@@ -1,3 +1,6 @@
+import type { Home, HomeCarousel } from "./home";
+import type { Shop } from "./shop";
+
 export type Product = {
   id: number;
   categoryId: number;
@@ -30,4 +33,14 @@ export type ProductCardData = {
   originalPrice?: number;
   discountPercent?: number;
   outOfStock?: boolean;
+};
+
+export type Catalog = {
+  products: Product[];
+  offers: Offers;
+  stock: Stock;
+  categories: Categories;
+  shop: Shop;
+  home: Home;
+  carousels: HomeCarousel[];
 };

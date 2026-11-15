@@ -1,15 +1,5 @@
-type Product = {
-  id: number;
-  categoryId: number;
-  name: string;
-  emoji: string;
-  unit: string;
-  price: number;
-  tags: string[];
-};
-
-export type LoadState =
+export type LoadState<T> =
   | { status: "loading" }
-  | { status: "success"; products: Product[] }
-  | { status: "empty" }
+  | { status: "success"; data: T }
+  | { status: "empty"; data: T }
   | { status: "error"; message: string };
