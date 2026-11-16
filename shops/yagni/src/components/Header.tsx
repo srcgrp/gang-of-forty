@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import SearchBox from "./SearchBox";
 import { useThemeStore } from "../hooks/useThemeStore";
 import { countCartItems, totalCartPrice } from "../cart/cart-logic";
@@ -5,13 +6,11 @@ import { useCartStore } from "../hooks/useCartStore";
 
 interface HeaderProps {
   searchQuery: string;
-  onOpenCart: () => void;
   onSearch: (query: string) => void;
 }
 
 export default function Header({
   searchQuery,
-  onOpenCart,
   onSearch,
 }: HeaderProps) {
   const theme = useThemeStore((s) => s.theme);
@@ -22,8 +21,8 @@ export default function Header({
   return (
     <header className="header" id="top">
       <div className="header__container">
-        <a
-          href="#top"
+        <Link
+          to="/"
           className="header__logo"
           aria-label="مینا-فروشگاه همیشه سبز"
         >
@@ -36,7 +35,7 @@ export default function Header({
             <strong>مینا</strong>
             <small>فروشگاه همیشه سبز</small>
           </div>
-        </a>
+        </Link>
 
         <SearchBox query={searchQuery} onQuery={onSearch} />
 
@@ -61,10 +60,9 @@ export default function Header({
           )}
         </button>
 
-        <button
-          type="button"
+        <Link
+          to="/cart"
           className="header__cart"
-          onClick={onOpenCart}
           aria-label="باز کردن سبد خرید"
         >
           <span className="header__cart-icon">
@@ -79,7 +77,7 @@ export default function Header({
             <small>سبد خرید</small>
             <strong>{totalPrice.toLocaleString("fa-IR")} تومان</strong>
           </span>
-        </button>
+        </Link>
       </div>
     </header>
   );

@@ -21,7 +21,7 @@ export default function ProductGrid({
           {products.map((item) => (
             <ProductCard key={item.product.id} product={item.product} price={item.price}
               originalPrice={item.originalPrice} discountPercent={item.discountPercent}
-              outOfStock={item.outOfStock} />
+              outOfStock={item.outOfStock} carouselId={id} />
           ))}
         </div>
       ) : <p className="product-empty">محصولی برای نمایش وجود ندارد</p>}

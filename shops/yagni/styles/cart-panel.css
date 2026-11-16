@@ -87,11 +87,12 @@
   min-height: 46px;
   border: 0;
   border-radius: 11px;
-  background: var(--primary);
   color: white;
   font: inherit;
   font-weight: 700;
   cursor: pointer;
+  border: 1px solid var(--primary);
+  padding: inherit;
 }
 .checkout-btn:disabled {
   opacity: 0.5;

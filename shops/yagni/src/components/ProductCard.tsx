@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import type { Product } from "../types";
 import { useCartStore } from "../hooks/useCartStore";
 
@@ -7,10 +8,11 @@ interface ProductCardProps {
   originalPrice?: number;
   discountPercent?: number;
   outOfStock?: boolean;
+  carouselId: string;
 }
 
 export default function ProductCard({
-  product, price, originalPrice, discountPercent, outOfStock,
+  product, price, originalPrice, discountPercent, outOfStock, carouselId,
 }: ProductCardProps) {
   const add = useCartStore((state) => state.add);
 
@@ -28,7 +30,13 @@ export default function ProductCard({
         <span className="product-emoji" role="img" aria-label={product.name}>{product.emoji}</span>
       </div>
       <div className="product-info">
-        <span className="product-name">{product.name}</span>
+        <Link
+          className="product-name"
+          to="/plp/$carouselId"
+          params={{ carouselId }}
+        >
+          {product.name}
+        </Link>
         <span className="product-unit">{product.unit}</span>
         {outOfStock && <span className="stock-message">ناموجود</span>}
       </div>

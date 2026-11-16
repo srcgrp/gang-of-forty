@@ -8,7 +8,6 @@ import PromoSections from "./PromoSections";
 import SaleCountdownArea from "./SaleCountdownArea";
 import StoreSupport from "./StoreSupport";
 import StoreFooter from "./StoreFooter";
-import CartPanel from "./CartPanel";
 
 interface StorefrontProps {
   categories: Categories;
@@ -17,13 +16,10 @@ interface StorefrontProps {
   loadState: LoadState<Catalog>;
   searchQuery: string;
   selectedCategoryId: number | null;
-  isCartOpen: boolean;
   isCountdownVisible: boolean;
   onSearch: (query: string) => void;
   onPickCategory: (id: number | null) => void;
   onRetry: () => void;
-  onOpenCart: () => void;
-  onCloseCart: () => void;
   onToggleCountdown: () => void;
 }
 
@@ -35,7 +31,6 @@ export default function Storefront(props: StorefrontProps) {
     loadState,
     searchQuery,
     selectedCategoryId,
-    isCartOpen,
     isCountdownVisible,
   } = props;
 
@@ -44,7 +39,6 @@ export default function Storefront(props: StorefrontProps) {
       <Header
         searchQuery={searchQuery}
         onSearch={props.onSearch}
-        onOpenCart={props.onOpenCart}
       />
       <CategoryNav
         categories={categories}
@@ -67,7 +61,6 @@ export default function Storefront(props: StorefrontProps) {
       </main>
       <StoreSupport />
       {shop && <StoreFooter shop={shop} categories={categories} />}
-      <CartPanel isOpen={isCartOpen} onClose={props.onCloseCart} />
     </>
   );
 }

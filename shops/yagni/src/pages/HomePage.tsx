@@ -8,7 +8,6 @@ export default function HomePage() {
   const [attempt, setAttempt] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryId, setCategoryId] = useState<number | null>(null);
-  const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCountdownVisible, setIsCountdownVisible] = useState(false);
 
   const state = useCatalog(attempt);
@@ -28,13 +27,10 @@ export default function HomePage() {
       loadState={state}
       searchQuery={searchQuery}
       selectedCategoryId={categoryId}
-      isCartOpen={isCartOpen}
       isCountdownVisible={isCountdownVisible}
       onSearch={setSearchQuery}
       onPickCategory={setCategoryId}
       onRetry={() => setAttempt((value) => value + 1)}
-      onOpenCart={() => setIsCartOpen(true)}
-      onCloseCart={() => setIsCartOpen(false)}
       onToggleCountdown={() => setIsCountdownVisible((visible) => !visible)}
     />
   );

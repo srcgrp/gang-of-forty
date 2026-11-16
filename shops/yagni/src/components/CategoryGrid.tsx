@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import type { Categories } from "../types";
 
 interface CategoryGridProps { categories: Categories }
@@ -11,10 +12,15 @@ export default function CategoryGrid({ categories }: CategoryGridProps) {
       </div>
       <div className="categories__grid">
         {categories.map((category) => (
-          <a className="category-card" href={`#${category.slug}`} key={category.id}>
+          <Link
+            className="category-card"
+            to="/plp/$carouselId"
+            params={{ carouselId: category.slug }}
+            key={category.id}
+          >
             <span className="category-card__image" style={{ backgroundColor: category.color }}>{category.emoji}</span>
             <span className="category-card__title">{category.name}</span>
-          </a>
+          </Link>
         ))}
       </div>
     </section>

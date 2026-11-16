@@ -1,4 +1,5 @@
 import {
+  createHashHistory,
   createRootRoute,
   createRoute,
   createRouter,
@@ -6,6 +7,10 @@ import {
 } from "@tanstack/react-router";
 import RootLayout from "./components/RootLayout";
 import HomePage from "./pages/HomePage";
+import PLP from "./pages/PLP";
+import CartPage from "./pages/CartPage";
+import CheckoutPage from "./pages/CheckoutPage";
+import NotFound from "./pages/NotFound";
 
 const rootRoute = createRootRoute({
   component: RootLayout,
@@ -17,9 +22,36 @@ const homeRoute = createRoute({
   component: HomePage,
 });
 
-const routeTree = rootRoute.addChildren([homeRoute]);
+const plpRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/plp/$carouselId",
+  component: PLP,
+});
 
-const router = createRouter({ routeTree });
+const cartRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/cart",
+  component: CartPage,
+});
+
+const checkoutRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/checkout",
+  component: CheckoutPage,
+});
+
+const routeTree = rootRoute.addChildren([
+  homeRoute,
+  plpRoute,
+  cartRoute,
+  checkoutRoute,
+]);
+
+const router = createRouter({
+  routeTree,
+  defaultNotFoundComponent: NotFound,
+  history: createHashHistory(),
+});
 
 declare module "@tanstack/react-router" {
   interface Register {
