@@ -2,7 +2,7 @@ import type { Card } from '../shared/types.ts'
 import { showToast } from '../features/toast/toastStore.ts'
 import { useFavorites } from '../hooks/useFavorites.ts'
 import { useCartStore } from '../hooks/useCartStore.ts'
-import { Link } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 
 type ProductCardProps = {
   card: Card
@@ -12,10 +12,13 @@ type ProductCardProps = {
 export default function ProductCard({ card, anchorId }: ProductCardProps) {
   const { favorites, toggle } = useFavorites()
   const add = useCartStore((s) => s.add)
+  const navigate = useNavigate()
+  const openProduct = () =>
+  navigate({ to: '/product/$productId', params: { productId: String(card.id) } })
   const liked = favorites.includes(card.id) 
 
   return (
-    <div id={anchorId} className={card.inStock ? 'product-card' : 'product-card out'}>
+            <div id={anchorId} className={card.inStock ? 'product-card' : 'product-card out'} onClick={openProduct}>
             {card.discount && <span className="discount">{card.discount}</span>}
 
             <button
@@ -23,7 +26,8 @@ export default function ProductCard({ card, anchorId }: ProductCardProps) {
                 className={liked ? 'favorite active' : 'favorite'}
                 aria-label={liked ? `حذف ${card.title} از علاقه‌مندی‌ها` : `افزودن ${card.title} به علاقه‌مندی‌ها`}
                 aria-pressed={liked}
-                onClick={() => {
+                onClick={(e) => {
+                    e.stopPropagation()
                     toggle(card.id)
                     showToast(liked
                         ? `${card.title} از علاقه‌مندی‌ها حذف شد`
@@ -43,7 +47,9 @@ export default function ProductCard({ card, anchorId }: ProductCardProps) {
             </div>
 
             <h3>
-                <Link to="/product/$productId" params={{ productId: String(card.id) }}>{card.title}</Link>
+                <Link to="/product/$productId" params={{ productId: String(card.id) }} onClick={(e) => e.stopPropagation()}>
+                    {card.title}
+                </Link>
             </h3>
             <p className="product-brand">{card.unit}</p>
 
@@ -57,7 +63,8 @@ export default function ProductCard({ card, anchorId }: ProductCardProps) {
             className="add-btn"
             aria-label={`افزودن ${card.title} به سبد`}
             disabled={!card.inStock}
-            onClick={() => {
+            onClick={(e) => {
+                e.stopPropagation()
                 add(card.id)
                 showToast(`${card.title} به سبد اضافه شد`)
             }}
