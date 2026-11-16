@@ -1,10 +1,12 @@
 import type { CartLine } from "../../scripts/types";
+import { useCartStore } from "../../hooks/useCartStore.ts";
+import { removedFeedback } from "../../lib/animations/feedback.ts";
 
 const format = new Intl.NumberFormat("fa-IR");
 
-type CartLineItemProps = { line: CartLine; onRemove: (id: number) => void };
+export default function CartLineItem({ line }: { line: CartLine }) {
+  const remove = useCartStore((s) => s.remove);
 
-export default function CartLineItem({ line, onRemove }: CartLineItemProps) {
   return (
     <div className="cart-dropdown-item">
       <div className="cart-dropdown-details">
@@ -17,7 +19,10 @@ export default function CartLineItem({ line, onRemove }: CartLineItemProps) {
         className="cart-remove-button"
         type="button"
         aria-label={`حذف ${line.name} از سبد خرید`}
-        onClick={() => onRemove(line.id)}
+        onClick={() => {
+          remove(line.id);
+          removedFeedback();
+        }}
       >
         ❌
       </button>

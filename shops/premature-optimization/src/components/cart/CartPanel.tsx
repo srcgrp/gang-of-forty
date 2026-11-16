@@ -1,23 +1,15 @@
 import { useEffect, useRef, useState } from "react";
-import type { CartLine } from "../../scripts/types";
-import CartLineItem from "./CartLineItem.tsx";
-import Price from "../shared/Price.tsx";
+import type { Offer, Product } from "../../scripts/types";
+import { useCartStore } from "../../hooks/useCartStore.ts";
+import { cartCount } from "../../scripts/logic/cart/cart-lines.ts";
+import CartLines from "./CartLines.tsx";
 
 const format = new Intl.NumberFormat("fa-IR");
 
-type CartPanelProps = {
-  lines: CartLine[];
-  count: number;
-  total: number;
-  onRemove: (id: number) => void;
-};
+type CartPanelProps = { products: Product[]; offers: Offer[] };
 
-export default function CartPanel({
-  lines,
-  count,
-  total,
-  onRemove,
-}: CartPanelProps) {
+export default function CartPanel({ products, offers }: CartPanelProps) {
+  const count = useCartStore((s) => cartCount(s.cart));
   const [open, setOpen] = useState(false);
   const wrap = useRef<HTMLDivElement>(null);
 
@@ -50,19 +42,7 @@ export default function CartPanel({
       </button>
       <div className="cart-dropdown" id="cart-dropdown">
         <div className="cart-dropdown-items" id="cart-dropdown-items">
-          {lines.length === 0 ? (
-            <p className="cart-empty">سبد خرید شما خالی است</p>
-          ) : (
-            <>
-              {lines.map((line) => (
-                <CartLineItem key={line.id} line={line} onRemove={onRemove} />
-              ))}
-              <div className="cart-dropdown-total">
-                <span>جمع:</span>
-                <Price value={total} />
-              </div>
-            </>
-          )}
+          <CartLines products={products} offers={offers} />
         </div>
       </div>
     </div>

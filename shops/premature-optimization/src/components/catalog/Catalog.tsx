@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import type { CatalogData, Stock } from "../../scripts/types";
+import type { CatalogData } from "../../scripts/types";
 import { filterProducts } from "../../scripts/logic/catalog/filter-products.ts";
 import {
   categorySections,
@@ -11,28 +11,24 @@ import Hero from "../home/Hero.tsx";
 import ProductGrid from "./ProductGrid.tsx";
 import Promos from "../home/Promo.tsx";
 import { SearchResults } from "../shared/Search.tsx";
-import SaleBanner from '../home/SaleBanner.tsx'
+import SaleBanner from "../home/SaleBanner.tsx";
 
 type CatalogProps = {
   data: CatalogData;
-  stock: Stock;
   categoryId: number | null;
   query: string;
-  onAdd: (id: number, button: HTMLButtonElement) => void;
   onPick: (id: number) => void;
 };
 
 export default function Catalog({
   data,
-  stock,
   categoryId,
   query,
-  onAdd,
   onPick,
 }: CatalogProps) {
-  const { products, offers, categories, home } = data;
+  const { products, offers, categories, home, stock } = data;
   const main = useRef<HTMLElement>(null);
-  const shared = { offers, stock, categories, onAdd };
+  const shared = { offers, stock, categories };
   const special = specialOffers(products, offers);
   const sections = categorySections(products, categories);
 

@@ -1,4 +1,4 @@
-import type { CartLine, Category, Shop } from "../../scripts/types";
+import type { Category, Offer, Product, Shop } from "../../scripts/types";
 import CartPanel from "../cart/CartPanel.tsx";
 import { Search } from "../shared/Search.tsx";
 import ThemeToggle from "./ThemeToggle.tsx";
@@ -6,25 +6,19 @@ import ThemeToggle from "./ThemeToggle.tsx";
 type HeaderProps = {
   shop: Shop;
   categories: Category[];
-  cartLines: CartLine[];
-  count: number;
-  total: number;
-  productCount: number;
+  products: Product[];
+  offers: Offer[];
   query: string;
   onQuery: (query: string) => void;
-  onRemove: (id: number) => void;
 };
 
 export default function Header({
   shop,
   categories,
-  cartLines,
-  count,
-  total,
-  productCount,
+  products,
+  offers,
   query,
   onQuery,
-  onRemove,
 }: HeaderProps) {
   return (
     <header id="page-header">
@@ -46,14 +40,9 @@ export default function Header({
             </span>
           </div>
         </a>
-        <Search total={productCount} query={query} onQuery={onQuery} />
+        <Search total={products.length} query={query} onQuery={onQuery} />
         <div className="left-header-part">
-          <CartPanel
-            lines={cartLines}
-            count={count}
-            total={total}
-            onRemove={onRemove}
-          />
+          <CartPanel products={products} offers={offers} />
           <ThemeToggle />
         </div>
       </div>

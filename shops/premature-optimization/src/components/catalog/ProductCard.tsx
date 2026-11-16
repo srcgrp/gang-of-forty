@@ -2,25 +2,27 @@ import type { Offer, Product } from "../../scripts/types";
 import OfferBadge from "../shared/OfferBadge.tsx";
 import Price from "../shared/Price.tsx";
 import { assetUrl } from "../../lib/assetUrl.ts";
+import { addedFeedback } from "../../lib/animations/feedback.ts";
+import { useCartStore } from "../../hooks/useCartStore.ts";
 
 type ProductCardProps = {
   product: Product;
-  onAdd: (id: number, button: HTMLButtonElement) => void;
   offer?: Offer;
   finalPrice?: number;
-  quantity?: number;
+  stock?: number;
   categoryName?: string;
 };
 
 export default function ProductCard({
   product,
-  onAdd,
   offer,
   finalPrice = product.price,
-  quantity = 1,
+  stock = 1,
   categoryName = "محصول",
 }: ProductCardProps) {
-  const soldOut = quantity <= 0;
+  const add = useCartStore((s) => s.add);
+  const inCart = useCartStore((s) => s.cart[String(product.id)] ?? 0);
+  const soldOut = stock - inCart <= 0;
 
   return (
     <li
@@ -55,7 +57,10 @@ export default function ProductCard({
               ? "موجودی این محصول تمام شده است"
               : `افزودن ${product.name} به سبد خرید`
           }
-          onClick={(e) => onAdd(product.id, e.currentTarget)}
+          onClick={(e) => {
+            add(product.id);
+            addedFeedback(e.currentTarget);
+          }}
         >
           +
         </button>
