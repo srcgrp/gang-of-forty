@@ -15,7 +15,7 @@ export default function CategoryGrid({ state }: CategoryGridProps) {
 
       <div className="category-grid">
         {cards.map((c) => (
-          <Link className="category-card" to="/plp/$carouselId" params={{ carouselId: c.slug }} key={c.slug}>
+          <Link className="category-card" to="/plp/$carouselId" params={{ carouselId: c.slug }} search={{ sort: 'default' }} key={c.slug}>
             {c.image ? (
               <img src={c.image} alt="" />
             ) : (

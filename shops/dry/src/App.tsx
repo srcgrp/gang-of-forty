@@ -10,6 +10,7 @@ import HomePage from './components/pages/HomePage.tsx'
 import NotFound from './components/pages/NotFound.tsx'
 import PlpPage from './components/pages/PlpPage.tsx'
 import ProductPage from './components/pages/ProductPage.tsx'
+import type { PlpSort } from './features/products/catalog/carousels.ts'
 
 const rootRoute = createRootRoute({ component: Layout, notFoundComponent: NotFound })
 const homeRoute = createRoute({ getParentRoute: () => rootRoute, path: '/', component: HomePage })
@@ -17,6 +18,9 @@ const plpRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/plp/$carouselId',
   component: PlpPage,
+  validateSearch: (search: Record<string, unknown>): { sort: PlpSort } => ({
+    sort: search.sort === 'price' ? 'price' : 'default',
+  }),
 })
 const productRoute = createRoute({
   getParentRoute: () => rootRoute,

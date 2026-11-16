@@ -18,7 +18,7 @@ export default function ProductPage() {
     return (
       <section className="plp">
         <p className="status">محصول پیدا نشد.</p>
-        <Link to="/">بازگشت به صفحه اصلی</Link>
+        <Link className="back-link" to="/">بازگشت به صفحه اصلی</Link>
       </section>
     )
   }
@@ -27,7 +27,7 @@ export default function ProductPage() {
 
   return (
     <section className="plp">
-      <Link to="/">← بازگشت به صفحه اصلی</Link>
+      <Link className="back-link" to="/">← بازگشت به صفحه اصلی</Link>
       <article className="product-detail">
         {card.image ? <img src={card.image} alt="" /> : <span aria-hidden="true">{card.emoji}</span>}
         <h1>{card.title}</h1>

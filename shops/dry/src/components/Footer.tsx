@@ -14,10 +14,9 @@ export default function Footer() {
 
   <div className="footer-column">
     <h3>دسته‌ها</h3>
-    <Link to="/plp/$carouselId" params={{ carouselId: 'fruits' }}>میوه و سبزی</Link>
-    <Link to="/plp/$carouselId" params={{ carouselId: 'dairy' }}>لبنیات</Link>
-    <Link to="/plp/$carouselId" params={{ carouselId: 'offers' }}>پیشنهادهای ویژه</Link>
-    <Link to="/">مجله</Link>
+    <Link to="/plp/$carouselId" params={{ carouselId: 'fruits' }} search={{ sort: 'default' }}>میوه و سبزی</Link>
+    <Link to="/plp/$carouselId" params={{ carouselId: 'dairy' }} search={{ sort: 'default' }}>لبنیات</Link>
+    <Link to="/plp/$carouselId" params={{ carouselId: 'offers' }} search={{ sort: 'default' }}>پیشنهادهای ویژه</Link>
   </div>
 
   <div className="footer-column">

@@ -1192,3 +1192,29 @@ main > .status {
   border-radius: 10px;
   cursor: pointer;
 }
+
+.plp-sort { display: flex; gap: .75rem; margin: 1rem 0; }
+.plp-sort a {
+  padding: .4rem .9rem;
+  color: var(--primary-color);
+  text-decoration: none;
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  cursor: pointer;
+}
+.plp-sort a:hover { border-color: var(--accent-color); }
+.plp-sort a[aria-current='true'] {
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  border-color: var(--btn-bg);
+}
+
+.back-link {
+  display: inline-block;
+  padding: .4rem .9rem;
+  color: var(--primary-color);
+  text-decoration: none;
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+}
+.back-link:hover { border-color: var(--accent-color); }

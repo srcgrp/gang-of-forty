@@ -19,7 +19,7 @@ export default function ProductGrid({ id, title, prefix, cards, carouselId }: Pr
       <div className="section-title">
         <h2>{title}</h2>
         {carouselId && (
-  <Link className="view-all" to="/plp/$carouselId" params={{ carouselId }}>
+      <Link className="view-all" to="/plp/$carouselId" params={{ carouselId }} search={{ sort: 'default' }}>
     مشاهده همه ({formatNumber(cards.length)})
   </Link>
 )}
