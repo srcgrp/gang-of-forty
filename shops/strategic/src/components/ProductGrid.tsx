@@ -1,13 +1,11 @@
-import type { CartControls } from '../cart-controls';
 import type { ProductItem } from '../types';
-import { qtyOf } from '../features/cart/cart';
 import ProductCard from './ProductCard';
 
-export default function ProductGrid({ items, controls }: { items: readonly ProductItem[]; controls: CartControls }) {
+export default function ProductGrid({ items }: { items: readonly ProductItem[] }) {
   return (
     <>
       {items.map(item => (
-        <ProductCard key={item.product.id} controls={controls} quantity={qtyOf(controls.lines, item.product.id)} item={item} />
+        <ProductCard key={item.product.id} item={item} />
       ))}
     </>
   );

@@ -1,4 +1,3 @@
-import type { CartControls } from '../cart-controls';
 import type { Category, ShopModel } from '../types';
 import type { ReactNode } from 'react';
 import { stripEmoji } from './shop-content';
@@ -8,14 +7,14 @@ import Hero from './Hero';
 import OffersShelf from './OffersShelf';
 import Promos from './Promos';
 
-type HomeProps = { model: ShopModel; categories: Category[]; categoryId: number | null; controls: CartControls; onPick: (id: number) => void };
+type HomeProps = { model: ShopModel; categories: Category[]; categoryId: number | null; onPick: (id: number) => void };
 
-export default function Home({ model, categories, categoryId, controls, onPick }: HomeProps) {
+export default function Home({ model, categories, categoryId, onPick }: HomeProps) {
   const shelves: ReactNode[] = [];
   const ids = new Set(['categories', 'contact', 'top', 'main']);
   const covered = new Set<number>();
   function addCategory(id: string, category: Category, title: string) {
-    shelves.push(<CategoryShelf key={id} id={id} title={title || category.name} controls={controls}
+    shelves.push(<CategoryShelf key={id} id={id} title={title || category.name}
       category={category} items={model.itemsByCategory.get(category.id) ?? []} />);
     covered.add(category.id);
     ids.add(id);
@@ -24,7 +23,7 @@ export default function Home({ model, categories, categoryId, controls, onPick }
     if (ids.has(section.id)) continue;
     const title = stripEmoji(section.title);
     if (section.source === 'offers') {
-      shelves.push(<OffersShelf key={section.id} id={section.id} title={title} controls={controls} items={model.offerItems} />);
+      shelves.push(<OffersShelf key={section.id} id={section.id} title={title} items={model.offerItems} />);
       ids.add(section.id);
     } else {
       const category = model.categoryById.get(section.categoryId);

@@ -1,9 +1,8 @@
 import useShelfScroll from './useShelfScroll';
-import type { CartControls } from '../cart-controls';
 import type { ProductItem, Category } from '../types';
 import ProductGrid from './ProductGrid';
 
-export default function CategoryShelf({ id, title, items, category, controls }: { id: string; title: string; items: ProductItem[]; category: Category; controls: CartControls }) {
+export default function CategoryShelf({ id, title, items, category }: { id: string; title: string; items: ProductItem[]; category: Category }) {
   const { ref, edges, move } = useShelfScroll<HTMLUListElement>();
   return (
     <section className="shelf" id={id} aria-labelledby={`${id}-t`}>
@@ -18,7 +17,7 @@ export default function CategoryShelf({ id, title, items, category, controls }: 
         </div>
       </div>
       <ul className="rail" ref={ref}>
-        <ProductGrid items={items} controls={controls} />
+        <ProductGrid items={items} />
         <li className="card card--all">
           <a className="offer-all" href={`?category=${category.slug}`} data-route="">
             <span className="offer-all__circle"><svg className="icon icon--mirror" aria-hidden="true" focusable="false"><use href="#i-arrow-right" /></svg></span>

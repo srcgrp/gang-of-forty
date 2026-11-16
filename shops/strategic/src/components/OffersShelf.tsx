@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import useShelfScroll from './useShelfScroll';
 import SaleCountdown from './SaleCountdown';
-import type { CartControls } from '../cart-controls';
 import type { ProductItem } from '../types';
 import ProductGrid from './ProductGrid';
 
-export default function OffersShelf({ id, title, items, controls }: { id: string; title: string; items: ProductItem[]; controls: CartControls }) {
+export default function OffersShelf({ id, title, items }: { id: string; title: string; items: ProductItem[] }) {
   const { ref, edges, move } = useShelfScroll<HTMLDivElement>();
   const [countdownVisible, setCountdownVisible] = useState(false);
   return (
@@ -34,7 +33,7 @@ export default function OffersShelf({ id, title, items, controls }: { id: string
             </a>
           </div>
           <ul className="offers__list">
-            <ProductGrid items={items} controls={controls} />
+            <ProductGrid items={items} />
             <li className="card card--all">
               <a className="offer-all" href="./?category=offers" data-route="">
                 <span className="offer-all__circle"><svg className="icon icon--mirror" aria-hidden="true" focusable="false"><use href="#i-arrow-right" /></svg></span>

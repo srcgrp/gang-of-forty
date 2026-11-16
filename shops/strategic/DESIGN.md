@@ -15,27 +15,29 @@ The existing Armin brand/contact details stay in the presentation layer; the API
 ```text
 App
 └── ShopPage
-    ├── IconSprite → SpriteShop, SpriteUi, SpriteContact
-    ├── Header
-    │   ├── Brand → Logo → LogoFrame, LogoBody
-    │   ├── SearchBox
-    │   ├── CartMenu → CartPanel → QuantityControl, Amount
-    │   └── MainNav → CategoryNav → CategoryLink
-    ├── LoadStatus
-    │   ├── LoadingSkeleton (loading)
-    │   ├── NotFound (success, unknown category)
-    │   ├── Catalog (success, category, offers or search)
-    │   │   └── ProductGrid → ProductCard × n → QuantityControl
-    │   └── Home (success, home route)
-    │       ├── Hero
-    │       ├── CategoryNav → CategoryLink
-    │       ├── OffersShelf → (optional SaleCountdown), ProductGrid → ProductCard × n → QuantityControl
-    │       ├── Promos
-    │       └── CategoryShelf × n → ProductGrid → ProductCard × n → QuantityControl
-    └── Footer → FooterAbout, CategoryLink
+    └── Layout
+        ├── IconSprite → SpriteShop, SpriteUi, SpriteContact
+        ├── Header
+        │   ├── Brand → Logo → LogoFrame, LogoBody
+        │   ├── ThemeToggle
+        │   ├── SearchBox
+        │   ├── CartMenu → CartPanel → QuantityControl, Amount
+        │   └── MainNav → CategoryNav → CategoryLink
+        ├── LoadStatus
+        │   ├── LoadingSkeleton (loading)
+        │   ├── NotFound (success, unknown category)
+        │   ├── Catalog (success, category, offers or search)
+        │   │   └── ProductGrid → ProductCard × n → ProductPurchase → QuantityControl
+        │   └── Home (success, home route)
+        │       ├── Hero
+        │       ├── CategoryNav → CategoryLink
+        │       ├── OffersShelf → (optional SaleCountdown), ProductGrid → ProductCard × n → ProductPurchase → QuantityControl
+        │       ├── Promos
+        │       └── CategoryShelf × n → ProductGrid → ProductCard × n → ProductPurchase → QuantityControl
+        └── Footer → FooterAbout, CategoryLink
 ```
 
-`main.tsx` mounts `App` inside `StrictMode`. The tree shows where components render. For example, `ShopPage` passes the cart panel to `Header`, and `CartMenu` renders it as a child. Shelf order follows the API configuration. A product card shows its quantity control once that product is in the cart.
+`main.tsx` mounts `App` inside `StrictMode`. The tree shows where components render. `Header` owns its cart menu and renders `CartPanel` directly. No cart state or callbacks pass through App, ShopPage, Home, shelves or ProductGrid. Shelf order follows the API configuration. A product card shows its quantity control once that product is in the cart.
 
 ## Where state lives
 
@@ -47,8 +49,10 @@ App
 | `categoryId` | App | `applyRoute` resolves the selected category after loading, navigation or browser Back/Forward. | React memory. The URL stores the slug. |
 | `query` | App | SearchBox updates it on every input change; App also writes the query to the URL. Browser Back/Forward restores it through `applyRoute`. | React memory and the URL |
 | `missing` | App | `applyRoute` checks whether the catalog slug exists in the loaded model. | React memory, reconstructed from the URL and model |
-| `cart` | App | Add/remove callbacks call `changeCart`. After loading, `reconcileCart` applies current stock limits. | React memory and localStorage under `armin-market:cart`. The initializer reads it and a cart effect saves changes. |
-| `open` | App | CartMenu requests closed, hover or pinned mode. Navigation closes the panel. | React memory |
+| `lines` | useCartStore | `add` / `remove` call the existing pure `changeCart`; `setCatalog` reconciles lines against loaded stock. | Zustand memory; `loadCart` / `saveCart` in storage/ use the existing `armin-market:cart` key. A subscription saves line changes. |
+| `catalogStatus` | useCartStore | App reports loading, ready or error for the catalog request. | Memory only; preserves saved lines on errors |
+| `theme` | useThemeStore | ThemeToggle calls `toggle`. Layout selects the current theme. | Zustand persist, `strategic-theme` |
+| `mode` | CartMenu | CartMenu requests closed, hover or pinned mode. A category/search/home key change remounts this menu with closed mode. | React memory |
 | `edges` | Each OffersShelf or CategoryShelf via `useShelfScroll` | The hook measures the scroll position and available width on resize and scroll. | Local React memory for that shelf |
 | `countdownVisible` | OffersShelf | The toggle button mounts or unmounts SaleCountdown. | Local React memory for the offers shelf |
 | `secondsLeft` | SaleCountdown | Its interval decreases the remaining seconds; cleanup clears the interval on unmount. | Local React memory; a newly mounted countdown starts at five minutes |
@@ -98,8 +102,8 @@ src/
   main.tsx             React entry point and stylesheet import
   App.tsx              Application state, effects and event handlers
   types.ts             Shared domain and API types
-  cart-controls.ts     Cart lines and callbacks passed to components
   vite-env.d.ts        Vite environment types
+  hooks/               Zustand theme and shared cart stores
   components/          JSX views, presentation helpers and useShelfScroll
   api/                 Fetching, response validation and parallel loading
   storage/             Cart persistence and URL/history access
@@ -111,3 +115,37 @@ src/
 ## Security
 
 Everything bundled for the browser is public, including Vite environment variables. API responses and stored cart entries are validated. React renders API labels as text, and links from shop content pass through a protocol check. An ordering server would need to check stock and calculate prices and totals again before accepting an order.
+
+## Week 6: completed through step 2
+
+Steps 0 and 1 retain week 6 metadata, both required dependencies, strict lint,
+and the existing persisted theme on the Layout wrapper.
+
+Step 2 uses Zustand rather than Context + reducer: the project already uses it
+for theme, and selectors let each consumer subscribe only to the data it needs.
+Header selects only the derived count; ProductCard selects only the add action.
+ProductPurchase selects whether its product is in the cart and switches between
+the add-button child and QuantityControl; no cart lines or callbacks pass through
+the intermediate page, shelf or grid components.
+QuantityControl selects its quantity and actions; CartPanel derives rows and
+totals from lines and catalog items. Count, total and discount are never stored.
+
+The store reuses the pure cart functions and the existing storage module/key,
+so saved carts remain compatible. The validated catalog is supplied once loading
+succeeds to enforce stock limits, reconcile obsolete products and compute prices.
+Catalog metadata stays in memory; only lines are saved. Unknown IDs cannot be added.
+The subscription is disposed on Vite hot replacement. App keeps the original
+data-loading and URL logic: useCatalog and TanStack routes belong to steps 3/4
+and are outside this delivery.
+### Cart catalog readiness
+
+The cart store tracks `catalogStatus` as loading, ready or error. App reports
+request start, validated success and failure while retaining its step-2 loading
+effect. A failed request or retry never erases saved cart lines. Only a successful
+response reconciles quantities against the current catalog.
+
+CartPanel displays the saved count with a loading/error message until prices
+and stock are ready. It renders neither a monetary total nor checkout controls
+in those states, so unavailable prices cannot appear as zero. Retry remains the
+existing page action. Add/remove actions are ignored while catalog data is not ready.
+The old `cart-controls.ts` prop-drilling type has been removed.

@@ -1,15 +1,14 @@
-import QuantityControl from './QuantityControl';
-import type { CartControls } from '../cart-controls';
+import ProductPurchase from './ProductPurchase';
+import { useCartStore } from '../hooks/useCartStore';
 import type { ProductItem } from '../types';
 
 type ProductCardProps = {
   item: ProductItem;
-  quantity: number;
-  controls: CartControls;
 };
 
-export default function ProductCard({ item, quantity, controls }: ProductCardProps) {
+export default function ProductCard({ item }: ProductCardProps) {
   const { product, price, oldPrice, percent, soldOut, art } = item;
+  const add = useCartStore((state) => state.add);
   return (
     <li className={soldOut ? 'card card--out' : 'card'}>
       <article className="card__body">
@@ -26,8 +25,9 @@ export default function ProductCard({ item, quantity, controls }: ProductCardPro
             <strong>{price.toLocaleString('fa-IR')} تومان</strong>
           </p>
           <div className="buy__control" data-id={product.id}>
-            {quantity > 0 ? <QuantityControl item={item} quantity={quantity} controls={controls} /> :
-            <button className="add" type="button" disabled={soldOut} onClick={() => controls.onAdd(product.id)} aria-label={`افزودن ${product.name} به سبد خرید`}>+</button>}
+            <ProductPurchase item={item}>
+              <button className="add" type="button" disabled={soldOut} onClick={() => add(product.id)} aria-label={`افزودن ${product.name} به سبد خرید`}>+</button>
+            </ProductPurchase>
           </div>
         </div>
       </article>

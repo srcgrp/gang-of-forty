@@ -1,10 +1,9 @@
-import type { CartControls } from '../cart-controls';
 import type { Category, ProductItem } from '../types';
 import ProductGrid from './ProductGrid';
 
-type CatalogProps = { title: string; category?: Category | undefined; items: readonly ProductItem[]; controls: CartControls };
+type CatalogProps = { title: string; category?: Category | undefined; items: readonly ProductItem[] };
 
-export default function Catalog({ title, category, items, controls }: CatalogProps) {
+export default function Catalog({ title, category, items }: CatalogProps) {
   return (
     <>
       <div className="back-bar">
@@ -18,7 +17,7 @@ export default function Catalog({ title, category, items, controls }: CatalogPro
           </h1>
           <p className="catalog__count">{items.length.toLocaleString('fa-IR')} کالا</p>
         </div>
-        {items.length ? <ul className="grid"><ProductGrid items={items} controls={controls} /></ul> :
+        {items.length ? <ul className="grid"><ProductGrid items={items} /></ul> :
           <p className="state">فعلاً کالایی در این بخش نداریم.</p>}
       </section>
     </>

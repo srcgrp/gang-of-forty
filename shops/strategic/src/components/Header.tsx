@@ -1,7 +1,10 @@
 import type { ShopData } from '../types';
-import CartMenu, { type CartMode } from './CartMenu';
+import CartMenu from './CartMenu';
 import { stripEmoji } from './shop-content';
-import type { ReactNode } from 'react';
+import { useEffect } from 'react';
+import { useCartStore } from '../hooks/useCartStore';
+import { cartCount } from '../features/cart/cart';
+import CartPanel from './CartPanel';
 import type { CategoryListProps } from './CategoryLink';
 import Brand from './Brand';
 import MainNav from './MainNav';
@@ -12,15 +15,13 @@ type HeaderProps = CategoryListProps & {
   productCount: number;
   query: string;
   onSearch: (text: string) => void;
-  cartCount: number;
-  cartOpen: CartMode;
   shop: ShopData;
   onHome: boolean;
-  onCartMode: (mode: CartMode) => void;
-  cartPanel: ReactNode;
 };
 
-export default function Header({ categories, categoryId, onPick, productCount, query, onSearch, cartCount, cartOpen, onCartMode, cartPanel, shop, onHome }: HeaderProps) {
+export default function Header({ categories, categoryId, onPick, productCount, query, onSearch, shop, onHome }: HeaderProps) {
+  const count = useCartStore((state) => cartCount(state.lines));
+  useEffect(() => { document.title = `سوپرمارکت آرمین · ${count.toLocaleString('fa-IR')} 🛒`; }, [count]);
   return (
     <>
       <a className="skip" href="#main">پرش به محتوای اصلی</a>
@@ -32,7 +33,7 @@ export default function Header({ categories, categoryId, onPick, productCount, q
         <div className="bar">
           <Brand />
           <SearchBox productCount={productCount} query={query} onSearch={onSearch} />
-          <CartMenu count={cartCount} mode={cartOpen} onMode={onCartMode}>{cartPanel}</CartMenu>
+          <CartMenu key={`${categoryId}:${query}:${onHome}`} count={count}><CartPanel /></CartMenu>
           <ThemeToggle />
           <MainNav menu={shop.menu} onHome={onHome} categories={categories} categoryId={categoryId} onPick={onPick} />
         </div>

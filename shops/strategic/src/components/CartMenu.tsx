@@ -1,9 +1,10 @@
-import { useEffect, useRef, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 
 export type CartMode = 'closed' | 'hover' | 'pinned';
-type Props = { count: number; mode: CartMode; onMode: (mode: CartMode) => void; children: ReactNode };
+type Props = { count: number; children: ReactNode };
 
-export default function CartMenu({ count, mode, onMode, children }: Props) {
+export default function CartMenu({ count, children }: Props) {
+  const [mode, onMode] = useState<CartMode>('closed');
   const wrapper = useRef<HTMLDivElement>(null);
   const button = useRef<HTMLButtonElement>(null);
   const open = mode !== 'closed';
