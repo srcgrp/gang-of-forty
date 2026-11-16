@@ -7,6 +7,7 @@ import { getJSON, isOffer, isProduct, isStock } from "./api/api";
 import { keepValid } from "./api/validation";
 import { addToCart, cartTotal, removeFromCart } from "./features/cart/cartState";
 import { loadCart, saveCart } from "./storage/cartStorage";
+import { useThemeStore } from "./hooks/useThemeStore";
 import type { CartLine, LoadState } from "./types";
 function loadCatalog(): Promise<LoadState> {
   return Promise.all([getJSON("products"), getJSON("stock"), getJSON("offers")])
@@ -19,6 +20,7 @@ function loadCatalog(): Promise<LoadState> {
     });
 }
 export default function App() {
+  const theme = useThemeStore((state) => state.theme);
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const [cart, setCart] = useState<CartLine[]>(loadCart);
   const [loadState, setLoadState] = useState<LoadState>({ status: "loading" });
@@ -56,7 +58,7 @@ export default function App() {
   const retry = () => { setLoadState({ status: "loading" }); setAttempt((value) => value + 1); };
 
   return (
-    <>
+    <div className="app" data-theme={theme}>
       <Header cartCount={cartCount} />
       <main id="main-content">
         <CategoryNav selectedId={categoryId} onPick={setCategoryId} />
@@ -64,6 +66,6 @@ export default function App() {
         <ProductGrid id="special-offers" title="پیشنهاد ویژه" products={offerProducts} status={loadState.status} message={message} stock={stock} offers={offers} onAdd={(id) => setCart((current) => addToCart(current, id))} />
         <CartPanel cart={cart} products={products} total={cartTotal(cart, products)} onRemove={(id) => setCart((current) => removeFromCart(current, id))} />
       </main>
-    </>
+    </div>
   );
 }
