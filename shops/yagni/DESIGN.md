@@ -1,65 +1,152 @@
-# Mina Store --- Technical Design
+# Mina Store — Technical Design
 
 ## 1. Goal and Scope
 
-Describe the goal of the Mina Store application and the scope of the implementation.
+Mina Store is a Persian grocery storefront built with React, TypeScript, and Vite. It loads shop and catalog data from the API layer, displays products and category/carousel listings, and lets users manage a shopping cart, choose a theme, and proceed to checkout.
 
-## 2. Component Tree
+The application uses TanStack Router for page navigation and Zustand for shared cart and theme state. The checkout page currently displays an order summary; customer details and payment submission are outside the current implementation.
+
+## 2. Routes
+
+| Address | Page | Where it's used |
+|---|---|---|
+| `/` | `HomePage` | Main storefront; uses `useCatalog` to load catalog data and `Storefront` to render the shop sections. |
+| `/plp/$carouselId` | `PLP` | Product listing for a carousel or category; reads `carouselId` with `useParams`, then uses `useCatalog` and `carouselProducts` to select products. |
+| `/cart` | `CartPage` | Displays cart lines and supports quantity updates and item removal through `useCartStore`. |
+| `/checkout` | `CheckoutPage` | Displays the current cart summary and total through `useCartStore`; checkout form/payment are not implemented yet. |
+| Unknown address | `NotFound` | Shown by TanStack Router's `defaultNotFoundComponent` for an unmatched route. |
+
+The router is configured in `src/App.tsx` with `createHashHistory`, `createRootRoute`, `createRoute`, `createRouter`, and `RouterProvider`. Navigation links use TanStack Router's `Link`. Product titles and category cards navigate to `/plp/$carouselId`; liking a product does not have a separate route.
+
+## 3. Component Trees
+
+### Home page — `/`
 
 ```text
-App (TanStack Router)
+App (RouterProvider)
 └── RootLayout
-    └── HomePage
-        └── Storefront
-            ├── Header
-            ├── CategoryNav
-            ├── Banner
-            ├── CatalogView
-            │   └── ProductGrid
-            │       └── ProductCard
-            └── CartPanel
+    └── Outlet
+        └── HomePage
+            └── Storefront
+                ├── Header
+                │   └── SearchBox
+                ├── CategoryNav
+                ├── Banner
+                ├── SaleCountdownArea
+                │   └── SaleCountdown
+                ├── main
+                │   ├── CategoryGrid
+                │   └── CatalogView
+                │       ├── CatalogLoading / CatalogError
+                │       └── ProductGrid
+                │           └── ProductCard
+                ├── PromoSections
+                ├── StoreSupport
+                └── StoreFooter
 ```
 
-## 3. State Ownership
+`HomePage` owns the search query, selected category, countdown visibility, and retry attempt. `useCatalog` supplies the catalog load state.
 
-- Cart lines are owned by the Zustand `useCartStore` and persisted through `storage/`.
-- Theme is owned by the Zustand `useThemeStore`.
-- Catalog data and its loading state are owned by the `useCatalog` hook.
-- Search query, selected category, cart-panel visibility, countdown visibility, and retry attempt are owned by `HomePage`.
-- `App.tsx` defines the TanStack Router route tree and renders `RouterProvider`.
+### Product listing page — `/plp/$carouselId`
 
-## 4. Derived Values
+```text
+App (RouterProvider)
+└── RootLayout
+    └── Outlet
+        └── PLP
+            ├── PageNavigation
+            ├── CatalogLoading / CatalogError
+            └── ProductGrid
+                └── ProductCard
+```
 
-Values that can be calculated from existing state are derived rather than stored:
+`PLP` reads the route parameter, loads catalog data with `useCatalog`, and gets the relevant product cards from `carouselProducts`. An unknown carousel/category identifier renders `NotFound`.
 
-- Cart item count and total are calculated from cart lines.
-- Carousel product cards are calculated by the pure `carouselProducts` function.
-- Search results are calculated from each carousel's products and the current search query.
+### Cart page — `/cart`
 
-## 5. API and Validation
+```text
+App (RouterProvider)
+└── RootLayout
+    └── Outlet
+        └── CartPage
+            ├── PageNavigation
+            ├── Empty-cart message (when cart is empty)
+            └── Cart items
+                ├── Item name and price
+                ├── Quantity controls
+                └── Remove action
+            └── Cart total and checkout Link
+```
 
-- API requests and response validation stay in `api/`.
-- `useCatalog` loads products, offers, stock, shop/categories, and home/carousel data with `Promise.all`.
+### Checkout page — `/checkout`
+
+```text
+App (RouterProvider)
+└── RootLayout
+    └── Outlet
+        └── CheckoutPage
+            ├── PageNavigation
+            ├── Empty-cart message (when cart is empty)
+            └── Order summary
+                ├── Order lines
+                ├── Total
+                └── Checkout implementation notice
+```
+
+### Not-found page
+
+```text
+App (RouterProvider)
+└── NotFound
+    ├── 404 message
+    └── Link to HomePage (/)
+```
+
+## 4. State Ownership and Store Tables
+
+| Store / state | What it stores | What it replaces / why it is used | Where it is stored |
+|---|---|---|---|
+| Cart — `useCartStore` (Zustand) | Cart `lines` and actions: `add`, `updateQuantity`, and `remove`. | Replaces cart state that would otherwise need to be passed through multiple components or held in a page-level component. Zustand is the selected approach (not Context + Reducer) because the cart is shared by the header, cart page, and checkout page. | In-memory Zustand store; cart lines are loaded from and saved to browser `localStorage` through `src/storage/cart-storage.ts` using the key `yagni-cart`. |
+| Theme — `useThemeStore` (Zustand + `persist`) | Current `theme` (`light` or `dark`) and `toggle` action. | Replaces local theme state and prop drilling; the theme is needed by the root layout and header. | Zustand store persisted to browser `localStorage` using the configured key `<slug>-theme`. |
+| Catalog — `useCatalog` hook | `LoadState<Catalog>`: loading, success, empty, or error; catalog data includes products, offers, stock, categories, shop, home, and carousels. | Replaces duplicated fetching and loading state in individual pages. This is a hook-local React state, not a Zustand store. | In-memory React state inside `useCatalog`; data is fetched through `src/api/` and is not persisted by this hook. |
+| Home page UI state — `HomePage` | Search query, selected category ID, countdown visibility, and retry attempt. | Replaces global state for values only needed by the home page. | Local React `useState` in `src/pages/HomePage.tsx`. |
+| PLP retry state — `PLP` | Retry attempt counter. | Keeps retry behavior local to the product listing page. | Local React `useState` in `src/pages/PLP.tsx`. |
+
+Derived values are not stored separately: cart item count and total are calculated from cart lines; product cards for a carousel/category are calculated by `carouselProducts`; filtered products are calculated from the current search query.
+
+## 5. Derived Values
+
+- Cart item count and total are calculated from cart lines using functions in `src/cart/cart-logic.ts`.
+- Carousel/category product cards are calculated by `carouselProducts` in `src/catalog/`.
+- Search results are calculated from the current carousel products and search query.
+- The checkout summary is calculated from the same cart lines; it does not maintain a separate copy of the cart.
+
+## 6. API and Validation
+
+- API requests and response validation stay in `src/api/`.
+- `useCatalog` loads suggestions/products, shop/categories, and home/carousel data with `Promise.all`.
 - `LoadState<Catalog>` represents loading, success, empty, and error states.
 - The hook uses an `ignore` flag in its effect cleanup to prevent stale requests from updating state.
 - Catalog components handle each loading state explicitly with a `switch` statement.
+- `carouselProducts` is pure catalog logic and does not perform network requests or access the DOM.
 
-## 6. UI Behavior and Effects
+## 7. UI Behavior and Effects
 
-- Selecting a category and searching update `HomePage` state.
-- Adding or removing products updates the Zustand cart store.
-- Cart persistence remains in the storage layer.
+- Selecting a category and searching update `HomePage` local state.
+- Adding, removing, or changing product quantities updates the Zustand cart store.
+- Cart persistence is handled by `src/storage/cart-storage.ts`.
+- The theme toggle updates `useThemeStore`; `RootLayout` reads the theme and applies it through the app's `data-theme` attribute.
 - `HomePage` updates the browser document title with the shop name and cart item count.
 - Timers and other effects are cleaned up by the components that create them.
 
-## 7. Folder Structure
+## 8. Folder Structure
 
 ```text
 src/
 ├── api/          # API requests and response validation
 ├── cart/         # Pure cart-related logic
 ├── catalog/      # Pure catalog and carousel calculations
-├── components/   # Reusable UI and layout components
+├── components/   # Reusable UI, storefront, and layout components
 ├── hooks/        # useCatalog and Zustand stores
 ├── pages/        # Route-level pages
 ├── storage/      # Persistent browser storage

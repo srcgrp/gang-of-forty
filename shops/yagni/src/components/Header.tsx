@@ -3,21 +3,15 @@ import SearchBox from "./SearchBox";
 import { useThemeStore } from "../hooks/useThemeStore";
 import { countCartItems, totalCartPrice } from "../cart/cart-logic";
 import { useCartStore } from "../hooks/useCartStore";
-
 interface HeaderProps {
   searchQuery: string;
   onSearch: (query: string) => void;
 }
-
-export default function Header({
-  searchQuery,
-  onSearch,
-}: HeaderProps) {
+export default function Header({ searchQuery, onSearch }: HeaderProps) {
   const theme = useThemeStore((s) => s.theme);
   const toggle = useThemeStore((s) => s.toggle);
   const cartCount = useCartStore((s) => countCartItems(s.lines));
   const totalPrice = useCartStore((s) => totalCartPrice(s.lines));
-
   return (
     <header className="header" id="top">
       <div className="header__container">
@@ -36,7 +30,6 @@ export default function Header({
             <small>فروشگاه همیشه سبز</small>
           </div>
         </Link>
-
         <SearchBox query={searchQuery} onQuery={onSearch} />
 
         {/* Theme Toggle */}
@@ -59,7 +52,6 @@ export default function Header({
             </svg>
           )}
         </button>
-
         <Link
           to="/cart"
           className="header__cart"
