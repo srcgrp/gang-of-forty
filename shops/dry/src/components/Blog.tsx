@@ -1,6 +1,7 @@
 import saladImg from '../../assets/banners/ghazaye-salem.png'
 import chickenImg from '../../assets/banners/morgh-gril.png'
 import familyImg from '../../assets/banners/ghazaye-khanevade.png'
+import { Link } from '@tanstack/react-router'
 
 type Post = {
   slug: string
@@ -21,7 +22,7 @@ export default function Blog() {
     <section className="blog" id="blog">
       <div className="section-title">
         <h2>مجله مارتو</h2>
-        <a href="#">مطالب بیشتر</a>
+        <Link to="/">مطالب بیشتر</Link>
       </div>
 
       <div className="blog-grid">

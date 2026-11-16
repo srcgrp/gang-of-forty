@@ -16,7 +16,7 @@ export default function Catalog({ state, categoryId, query, onRetry }: CatalogPr
   const filtered = categoryId !== null || query.trim() !== ''
   return (
     <>
-      <ProductGrid id="offers" title="پیشنهادهای ویژه" prefix="offer"
+      <ProductGrid id="offers" title="پیشنهادهای ویژه" prefix="offer" carouselId="offers"
         cards={offeredCards(state)} />
        <div id="products">
         {filtered && (
@@ -25,7 +25,7 @@ export default function Catalog({ state, categoryId, query, onRetry }: CatalogPr
         )}
       </div>
       {sectionsOf(state).map((s) => (
-        <ProductGrid key={s.slug} id={s.slug} title={s.name} prefix={s.slug}
+        <ProductGrid key={s.slug} id={s.slug} title={s.name} prefix={s.slug} carouselId={s.slug}
           cards={s.cards} />
       ))}
     </>

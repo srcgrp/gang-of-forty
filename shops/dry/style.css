@@ -1149,3 +1149,11 @@ main > .status {
   cursor: not-allowed;
   opacity: .7;
 }
+
+.plp { padding: 1.5rem; }
+.plp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+.view-all { color: var(--accent-text); font-weight: 600; }

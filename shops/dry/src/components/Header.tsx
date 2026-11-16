@@ -6,18 +6,23 @@ import FavoritesMenu from './FavoritesMenu.tsx'
 import type { LoadState } from '../shared/types.ts'
 import { cartCount } from '../features/cart/rules/lines.ts'
 import { useCartStore } from '../hooks/useCartStore.ts'
+import { Link } from '@tanstack/react-router'
+import { useFilterStore } from '../hooks/useFilterStore.ts'
 
 type HeaderProps = {
-  query: string
-  onQuery: (value: string) => void
   onCartClick: () => void
   state: LoadState
 }
-export default function Header({ query, onQuery, onCartClick, state }: HeaderProps) {
+export default function Header({ onCartClick, state }: HeaderProps) {
   const count = useCartStore((s) => cartCount(s.lines))
+  const query = useFilterStore((s) => s.query)
+  const setQuery = useFilterStore((s) => s.setQuery)
   return (
     <>
-      <a className="skip-link" href="#main">پرش به محتوای اصلی</a>
+      <a className="skip-link" href="#/" onClick={(e) => {
+  e.preventDefault()
+  document.getElementById('main')?.focus()
+}}>پرش به محتوای اصلی</a>
       <input
         type="checkbox"
         id="menu-toggle"
@@ -27,15 +32,15 @@ export default function Header({ query, onQuery, onCartClick, state }: HeaderPro
       <header className="header">
         <label htmlFor="menu-toggle" className="menu-btn">☰</label>
 
-        <a href="#top" className="brand" aria-label="مارتو، بازگشت به بالای صفحه">
+        <Link to="/" className="brand" aria-label="مارتو، بازگشت به صفحه اصلی">
           <svg className="logo" viewBox="0 0 270 64" role="img" aria-labelledby="logo-title">
             <title id="logo-title">لوگوی مارتو</title>
             <use href="#logo-shapes" />
           </svg>
-        </a>
+        </Link>
 
         <div className="header-actions">
-            <SearchBox query={query} onQuery={onQuery} />
+            <SearchBox query={query} onQuery={setQuery} />
             <ThemeToggle />
             <FavoritesMenu state={state} />
             <button type="button" onClick={onCartClick}>

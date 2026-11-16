@@ -1,3 +1,5 @@
+import { Link } from '@tanstack/react-router'
+
 export default function Footer() {
     return (
         <footer className="footer" id="contact">
@@ -12,10 +14,10 @@ export default function Footer() {
 
   <div className="footer-column">
     <h3>دسته‌ها</h3>
-    <a href="#fruits">میوه و سبزی</a>
-    <a href="#dairy">لبنیات</a>
-    <a href="#offers">پیشنهادهای ویژه</a>
-    <a href="#blog">مجله</a>
+    <Link to="/plp/$carouselId" params={{ carouselId: 'fruits' }}>میوه و سبزی</Link>
+    <Link to="/plp/$carouselId" params={{ carouselId: 'dairy' }}>لبنیات</Link>
+    <Link to="/plp/$carouselId" params={{ carouselId: 'offers' }}>پیشنهادهای ویژه</Link>
+    <Link to="/">مجله</Link>
   </div>
 
   <div className="footer-column">
@@ -26,7 +28,10 @@ export default function Footer() {
 
   <div className="footer-bottom">
     <span>© ۱۴۰۵ مارتو · عضو دار و دسته چهل‌نفره</span>
-    <a href="#top">↑ بازگشت به بالا</a>
+    <a href="#/" onClick={(e) => {
+      e.preventDefault()
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }}>↑ بازگشت به بالا</a>
   </div>
 
 </footer>

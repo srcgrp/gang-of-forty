@@ -1,5 +1,6 @@
 import { categoriesOf, categoryCards } from '../features/products/catalog/sections.ts'
 import type { LoadState } from '../shared/types.ts'
+import { Link } from '@tanstack/react-router'
 
 type CategoryGridProps = {
   state: LoadState
@@ -14,14 +15,14 @@ export default function CategoryGrid({ state }: CategoryGridProps) {
 
       <div className="category-grid">
         {cards.map((c) => (
-          <a className="category-card" href={`#${c.slug}`} key={c.slug}>
+          <Link className="category-card" to="/plp/$carouselId" params={{ carouselId: c.slug }} key={c.slug}>
             {c.image ? (
               <img src={c.image} alt="" />
             ) : (
               <span className="category-emoji" aria-hidden="true">{c.emoji}</span>
             )}
             <h3>{c.name}</h3>
-          </a>
+          </Link>
         ))}
       </div>
     </section>
