@@ -183,3 +183,70 @@ src/
 چون جمع کلی که مرورگر نشان می‌دهد فقط برای نمایش است و قابل اعتماد نیست.
 متن جستجو هم از بیرون می‌آید؛ React متن را به‌صورت متن نشان می‌دهد و ما از
 `dangerouslySetInnerHTML` استفاده نمی‌کنیم، پس به HTML تبدیل نمی‌شود.
+
+
+## مسیرها (هفته ۶)
+
+| آدرس | صفحه | داده از کجا |
+|---|---|---|
+| `#/` | `HomePage` | `useCatalog` + `useFilterStore` (جستجو و دسته)؛ کاروسل‌ها با `offeredCards` و `sectionsOf` |
+| `#/plp/$carouselId` | `PlpPage` | `useCatalog` + `carouselProducts(state, carouselId)`؛ `carouselId` با `useParams` از آدرس خوانده می‌شود |
+| هر آدرس دیگر (مثل `#/nowhere`) | `NotFound` | ندارد |
+
+- `carouselId` یا `offers` است (پیشنهادهای ویژه) یا slug یک دسته. برای id ناشناخته (مثل `#/plp/nothing`) `carouselProducts` مقدار `null` برمی‌گرداند و `PlpPage` پیام «این فهرست پیدا نشد» و لینک بازگشت نشان می‌دهد.
+- مسیرها فقط در `App.tsx` تعریف می‌شوند و از `createHashHistory` استفاده می‌کنیم، چون فایل‌ها روی سرور ثابت سرو می‌شوند و Refresh روی `#/plp/dairy` باید کار کند.
+
+## Storeها
+
+| Store | فایل | چه چیزی در آن است | چه کسی عوضش می‌کند | کجا ذخیره می‌شود |
+|---|---|---|---|---|
+| `useThemeStore` | `hooks/useThemeStore.ts` | `theme` (`light` یا `dark`)، مقدار اولیه از تم سیستم | `ThemeToggle` با `toggle` | `persist` در localStorage با کلید `dry-theme` |
+| `useCartStore` | `hooks/useCartStore.ts` | `lines` (سبد) | `ProductCard` و `FavoritesDrawer` با `add`؛ `CartPanel` با `remove` | `subscribe` + `saveCart` در localStorage |
+| `useFilterStore` | `hooks/useFilterStore.ts` | `query` و `categoryId` | `Header` (جستجو) و `CategoryNav` | ذخیره نمی‌شود |
+| `useCatalogStore` | داخل `hooks/useCatalog.ts` | وضعیت بارگذاری کاتالوگ (`LoadState`) | `useCatalog` (یک بار بارگذاری، `retry` برای تلاش دوباره) | ذخیره نمی‌شود |
+
+**سبد: راه الف (Zustand)، نه `reducer + context`.** دلیل‌ها:
+
+- هر کامپوننت با `selector` فقط تکه‌ای را می‌خواند که لازم دارد: `ProductCard` فقط `add` و `Header` فقط تعداد. با context، هر تغییر سبد همه‌ی مصرف‌کننده‌ها را render می‌کرد.
+- `Provider` و فایل reducer اضافه لازم نیست و منطق در توابع خالص `addToCart` و `removeFromCart` می‌ماند، بنابراین `App` و کامپوننت‌های وسط هیچ prop سبدی رد نمی‌کنند.
+- ذخیره‌سازی با یک `subscribe` در خود store انجام می‌شود، بدون `useEffect` در کامپوننت.
+
+## درخت کامپوننت‌ها
+
+```
+Layout
+├── LogoSprite
+├── Header
+│   ├── SearchBox
+│   ├── ThemeToggle
+│   ├── FavoritesMenu → FavoritesDrawer
+│   └── Toaster
+├── main → Outlet → (صفحه)
+├── CartPanel
+└── Footer
+```
+
+**HomePage**
+```
+Layout → Outlet → HomePage
+├── CategoryNav
+├── Hero
+├── SaleSection → SaleCountdown
+├── CategoryGrid (لینک هر دسته به PLP)
+├── Catalog → ProductGrid (هر کاروسل، با لینک «مشاهده همه») → ProductCard
+├── PromoBanners
+└── Blog
+```
+
+**PlpPage**
+```
+Layout → Outlet → PlpPage
+├── لینک بازگشت
+├── عنوان و تعداد محصولات
+└── ProductCard (گرید همه‌ی محصولات کاروسل)
+```
+
+**NotFound**
+```
+Layout → Outlet → NotFound → لینک بازگشت
+```
