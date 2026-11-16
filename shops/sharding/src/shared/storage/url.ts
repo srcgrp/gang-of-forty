@@ -1,7 +1,4 @@
-export type UrlFilters = {
-  category: string;
-  query: string;
-};
+import type { UrlFilters } from '../types';
 
 export function readUrlFilters(): UrlFilters {
   const params = new URLSearchParams(location.search);
@@ -11,8 +8,12 @@ export function readUrlFilters(): UrlFilters {
   };
 }
 
-export function readUrlHash(): string {
-  return location.hash;
+export function writeUrlHash(id: string, mode: 'push' | 'replace' = 'push'): void {
+  const url = new URL(location.href);
+  url.hash = id;
+  if (url.href === location.href) return;
+  if (mode === 'replace') history.replaceState(null, '', url);
+  else history.pushState(null, '', url);
 }
 
 export function writeUrlFilters(
@@ -37,7 +38,7 @@ export function writeUrlFilters(
     url.searchParams.delete('q');
   }
 
-  url.hash = category;
+  if (mode === 'push' || category !== readUrlFilters().category) url.hash = category;
 
   const href = `${url.pathname}${url.search}${url.hash}`;
   const state = { category, query };

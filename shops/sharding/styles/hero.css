@@ -197,7 +197,7 @@
   overflow-x: auto;
   overflow-y: hidden;
   touch-action: pan-x;
-  scroll-snap-type: x mandatory;
+  scroll-snap-type: x proximity;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   padding: 4px 4px 12px;
