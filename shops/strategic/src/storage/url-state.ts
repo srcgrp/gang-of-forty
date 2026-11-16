@@ -1,6 +1,6 @@
 import { isRecord } from '../api/basic-guards';
-import { CATEGORY_PARAM, OFFERS_ID, OFFERS_VIEW, QUERY_PARAM } from '../types';
-import type { Route, ShopModel } from '../types';
+import { CATEGORY_PARAM, QUERY_PARAM } from '../types';
+import type { Route } from '../types';
 
 export function readRoute(): Route {
   const params = new URLSearchParams(location.search);
@@ -44,12 +44,6 @@ export const readQuery = (): string => {
   const route = readRoute();
   return route.type === 'home' ? '' : route.query;
 };
-export function readSelection(model: ShopModel) {
-  const route = readRoute();
-  const slug = route.type === 'catalog' ? route.slug : null;
-  const category = slug === null ? undefined : model.categoryBySlug.get(slug);
-  return { categoryId: slug === OFFERS_VIEW ? OFFERS_ID : category?.id ?? null, query: route.type === 'home' ? '' : route.query, missing: slug !== null && slug !== OFFERS_VIEW && !category };
-}
 export function watchRoute(changed: () => void): () => void {
   window.addEventListener('popstate', changed);
   return () => window.removeEventListener('popstate', changed);

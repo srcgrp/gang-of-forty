@@ -1,5 +1,5 @@
-import { asApiFailure } from '../api/http';
-import type { ApiErrorKind, LoadState } from '../types';
+import { asApiFailure } from './http';
+import type { ApiErrorKind, LoadError } from '../types';
 
 export const ERROR_TEXT = {
   network: 'ارتباط با سرور برقرار نشد. اتصال اینترنت خود را بررسی کنید و دوباره تلاش کنید.',
@@ -9,7 +9,7 @@ export const ERROR_TEXT = {
   shape: 'ساختار اطلاعات دریافتی با انتظار ما نمی‌خواند.',
 } satisfies Record<ApiErrorKind, string>;
 
-export function errorState(error: unknown): LoadState {
+export function errorState(error: unknown): LoadError {
   const failure = asApiFailure(error);
   return { status: 'error', message: ERROR_TEXT[failure.kind], failure };
 }

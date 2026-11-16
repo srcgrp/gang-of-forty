@@ -19,11 +19,12 @@ export type ShopData = {
   schedule: ShopScheduleRow[]; menu: ShopMenuItem[]; help: ShopHelpItem[]; copyright: string;
 };
 export type ApiData = { products: Product[]; categories: Category[]; stock: StockData; offers: Offer[]; shop: ShopData; home: HomeData };
-export type LoadState =
+export type LoadError = { status: 'error'; message: string; failure?: ApiFailure };
+export type LoadState<T = ShopModel> =
   | { status: 'loading' }
-  | { status: 'success'; products: Product[] }
-  | { status: 'empty' }
-  | { status: 'error'; message: string; failure?: ApiFailure };
+  | { status: 'success'; data: T }
+  | { status: 'empty'; data: T }
+  | LoadError;
 export type ProductItem = { product: Product; art: string | null; stock: number; soldOut: boolean; percent: number; oldPrice: number; price: number };
 export type CartLine = { productId: number; quantity: number };
 export type CartItem = ProductItem & Pick<CartLine, 'quantity'> & { subtotal: number; oldSubtotal: number };

@@ -1,5 +1,5 @@
 import type { Category, ShopModel } from '../types';
-import type { ReactNode } from 'react';
+import { homeShelves } from '../catalog/home-shelves';
 import { stripEmoji } from './shop-content';
 import CategoryNav from './CategoryNav';
 import CategoryShelf from './CategoryShelf';
@@ -10,29 +10,9 @@ import Promos from './Promos';
 type HomeProps = { model: ShopModel; categories: Category[]; categoryId: number | null; onPick: (id: number) => void };
 
 export default function Home({ model, categories, categoryId, onPick }: HomeProps) {
-  const shelves: ReactNode[] = [];
-  const ids = new Set(['categories', 'contact', 'top', 'main']);
-  const covered = new Set<number>();
-  function addCategory(id: string, category: Category, title: string) {
-    shelves.push(<CategoryShelf key={id} id={id} title={title || category.name}
-      category={category} items={model.itemsByCategory.get(category.id) ?? []} />);
-    covered.add(category.id);
-    ids.add(id);
-  }
-  for (const section of model.carousels) {
-    if (ids.has(section.id)) continue;
-    const title = stripEmoji(section.title);
-    if (section.source === 'offers') {
-      shelves.push(<OffersShelf key={section.id} id={section.id} title={title} items={model.offerItems} />);
-      ids.add(section.id);
-    } else {
-      const category = model.categoryById.get(section.categoryId);
-      if (category) addCategory(section.id, category, title);
-    }
-  }
-  for (const category of categories) {
-    if (!covered.has(category.id) && !ids.has(category.slug)) addCategory(category.slug, category, category.name);
-  }
+  const shelves = homeShelves(model).map((shelf) => shelf.kind === 'offers'
+    ? <OffersShelf key={shelf.id} id={shelf.id} title={stripEmoji(shelf.title)} items={shelf.items} />
+    : <CategoryShelf key={shelf.id} id={shelf.id} title={stripEmoji(shelf.title) || shelf.category.name} category={shelf.category} items={shelf.items} />);
   return (
     <>
       <Hero model={model} />
