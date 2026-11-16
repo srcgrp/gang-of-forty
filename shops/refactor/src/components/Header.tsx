@@ -6,20 +6,21 @@ import MainNav from './MainNav'
 import SearchBox from './SearchBox'
 import ThemeToggle from './ThemeToggle'
 import { formatNumber } from './format'
+import { cartCount } from '../features/cart/calculate'
+import { useCartStore } from '../hooks/useCartStore'
 
 type HeaderProps = {
   shop: Pick<ShopInfo, 'notice' | 'slogan' | 'phone' | 'menu'>
   categories: Category[]
-  cartCount: number
   query: string
   onQuery: (value: string) => void
   onOpenCart: () => void
   onPickCategory: (id: number | null) => void
 }
 
-export default function Header({ shop, categories, cartCount, query, onQuery,
+export default function Header({ shop, categories, query, onQuery,
   onOpenCart, onPickCategory }: HeaderProps) {
-  const count = formatNumber(cartCount)
+  const count = formatNumber(useCartStore((s) => cartCount(s.items)))
   return (
     <header className="site-header">
       <div className="promo"><p id="shop-notice">{shop.notice}</p></div>
@@ -30,7 +31,7 @@ export default function Header({ shop, categories, cartCount, query, onQuery,
           <Logo /><span id="shop-slogan" className="shop-slogan">{shop.slogan}</span>
         </a>
         <div className="header-actions">
-                    <ThemeToggle />
+          <ThemeToggle />
           <button type="button" className="icon-btn cart-toggle-btn" id="cart-count"
             onClick={onOpenCart} aria-label={`باز کردن سبد خرید، ${count} کالا`}>
             <Icon name="cart" /><span className="badge cart-badge" aria-hidden="true">{count}</span>

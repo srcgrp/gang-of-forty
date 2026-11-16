@@ -1,16 +1,19 @@
-import type { CartLine } from '../types'
-import Icon from './Icon'
+import type { ProductView } from '../types'
 import { formatNumber } from './format'
+import { cartLines, cartTotal } from '../features/cart/calculate'
+import { useCartStore } from '../hooks/useCartStore'
+import Icon from './Icon'
 
 type CartPanelProps = {
-  lines: CartLine[]
-  total: number
-  onRemove: (id: number) => void
-  onQuantity: (id: number, delta: number) => void
-  onClose: () => void
+products: ProductView[]; onClose: () => void
 }
 
-export default function CartPanel({ lines, total, onRemove, onQuantity, onClose }: CartPanelProps) {
+export default function CartPanel({ products, onClose }: CartPanelProps) {
+const items = useCartStore((s) => s.items)    
+const lines = cartLines(items, products)
+  const total = cartTotal(lines)
+  const remove = useCartStore((s) => s.remove)
+  const change = useCartStore((s) => s.change)
   return (
     <aside className="cart-panel" aria-labelledby="cart-title">
       <div className="cart-header">
@@ -34,19 +37,19 @@ export default function CartPanel({ lines, total, onRemove, onQuantity, onClose 
                 <span className="cart-item-name">{line.name}</span>
                 <span className="cart-item-unit">{formatNumber(line.price)} تومان</span>
               </div>
-              <div className="cart-qty">
+               <div className="cart-qty">
                 <button type="button" className="qty-btn" aria-label={`کاهش تعداد ${line.name}`}
-                  disabled={line.quantity <= 1} onClick={() => onQuantity(line.id, -1)}>−</button>
+                  disabled={line.quantity <= 1} onClick={() => change(line.id, -1)}>−</button>
                 <span className="cart-item-q">{formatNumber(line.quantity)}</span>
                 <button type="button" className="qty-btn" aria-label={`افزایش تعداد ${line.name}`}
-                  disabled={line.quantity >= line.stock} onClick={() => onQuantity(line.id, 1)}>+</button>
+                  disabled={line.quantity >= line.stock} onClick={() => change(line.id, 1)}>+</button>
               </div>
               <span className="cart-item-price">{formatNumber(line.subtotal)} تومان</span>
               <button
                 type="button"
                 className="cart-item-remove"
                 aria-label={`حذف ${line.name}`}
-                onClick={() => onRemove(line.id)}
+                onClick={() => remove(line.id)}
               >
                 <Icon name="close" />
               </button>

@@ -1,76 +1,46 @@
+import type { LoadState } from "./types";
 import { useEffect, useState } from "react";
-import type { CartItem, LoadState } from "./types";
 import { loadShop } from "./api/load-shop";
-import confetti from "canvas-confetti";
-import {
-  addToCart,
-  cartCount,
-  cartLines,
-  cartTotal,
-  changeQuantity,
-  removeFromCart,
-} from "./features/cart/calculate";
+import { cartCount, cartLines } from "./features/cart/calculate";
+import { useCartStore } from "./hooks/useCartStore";
+import { useThemeStore } from "./hooks/useThemeStore";
 import ShopPage from "./components/ShopPage";
 import Status from "./components/Status";
-import { readCart, writeCart } from "./storage/cart";
-import { useThemeStore } from "./hooks/useThemeStore";
 
 export default function App() {
   const [state, setState] = useState<LoadState>({ status: "loading" });
   const [categoryId, setCategoryId] = useState<number | null>(null);
-  const [cart, setCart] = useState<CartItem[]>(() => readCart());
   const [query, setQuery] = useState("");
   const [attempt, setAttempt] = useState(0);
   const [showCountdown, setShowCountdown] = useState(true);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [showAll, setShowAll] = useState(false);
   const theme = useThemeStore((s) => s.theme);
+  const items = useCartStore((s) => s.items);
 
-  useEffect(() => {
-    writeCart(cart);
-  }, [cart]);
 
   useEffect(() => {
     if (state.status !== "success") return;
-    document.title = `${state.data.shop.name} · 🛒 ${cartCount(cartLines(cart, state.data.products)).toLocaleString("fa-IR")}`;
-  }, [cart, state]);
+    document.title = `${state.data.shop.name} · 🛒 ${cartCount(cartLines(items, state.data.products)).toLocaleString("fa-IR")}`;
+  }, [items, state]);
 
-  useEffect(() => {
+ useEffect(() => {
     let ignore = false;
     loadShop()
-      .then((data) => {
-        if (!ignore)
-          setState({
-            status: data.products.length > 0 ? "success" : "empty",
-            data,
-          });
-      })
-      .catch((error: unknown) => {
-        if (!ignore)
-          setState({
-            status: "error",
-            message: error instanceof Error ? error.message : "خطای ناشناخته",
-          });
-      });
-    return () => {
-      ignore = true;
-    };
+      .then((data) => { if (!ignore) setState({ status: data.products.length > 0 ? "success" : "empty", data }); })
+      .catch((error: unknown) => { if (!ignore) setState({ status: "error", message: error instanceof Error ? error.message : "خطای ناشناخته" }); });
+    return () => { ignore = true; };
   }, [attempt]);
-
+  
   if (state.status !== "success") {
     return (
-      <Status
-        state={state}
-        onRetry={() => {
-          setState({ status: "loading" });
-          setAttempt((count) => count + 1);
-        }}
-      />
+      <div className="app" data-theme={theme}>
+        <Status state={state} onRetry={() => { setState({ status: "loading" }); setAttempt((count) => count + 1); }} />
+      </div>
     );
   }
 
   const { products, categories, home, shop } = state.data;
-  const lines = cartLines(cart, products);
 
   return (
     <div className="app" data-theme={theme}>
@@ -79,26 +49,12 @@ export default function App() {
         categories={categories}
         home={home}
         shop={shop}
-        lines={lines}
-        total={cartTotal(lines)}
-        count={cartCount(lines)}
         categoryId={categoryId}
         onPick={setCategoryId}
         query={query}
         onQuery={setQuery}
         showAll={showAll}
         onToggleAll={() => setShowAll((open) => !open)}
-        onAdd={(id) => {
-          setCart(addToCart(cart, id));
-          confetti({
-            particleCount: 70,
-            spread: 70,
-            origin: { y: 0.75 },
-            zIndex: 2000,
-          });
-        }}
-        onRemove={(id) => setCart(removeFromCart(cart, id))}
-        onQuantity={(id, delta) => setCart(changeQuantity(cart, id, delta))}
         isCartOpen={isCartOpen}
         onOpenCart={() => setIsCartOpen(true)}
         onCloseCart={() => setIsCartOpen(false)}

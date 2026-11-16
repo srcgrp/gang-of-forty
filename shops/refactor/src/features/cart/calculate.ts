@@ -31,7 +31,7 @@ export const cartLines = (cart: CartItem[], products: ProductView[]): CartLine[]
     return [{ id, name, emoji, price, stock, quantity, subtotal: price * quantity }]
   })
 
-export const cartCount = (lines: CartLine[]): number =>
+export const cartCount = (lines: { quantity: number }[]): number =>
   lines.reduce((sum, line) => sum + line.quantity, 0)
 
 export const cartTotal = (lines: CartLine[]): number =>
