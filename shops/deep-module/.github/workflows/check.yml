@@ -1,0 +1,19 @@
+name: Check PR
+
+on: pull_request
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Only your own shop folder
+        run: git diff --name-only "origin/${{ github.base_ref }}...HEAD" | scripts/check-paths.sh
+
+      - name: Validate changed HTML
+        run: |
+          files=$(git diff --name-only --diff-filter=d "origin/${{ github.base_ref }}...HEAD" -- '*.html')
+          if [ -n "$files" ]; then npx --yes html-validate@9 $files; else echo "No HTML changed."; fi

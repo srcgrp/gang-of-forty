@@ -1,0 +1,54 @@
+import { Swiper, SwiperSlide } from "swiper/react";
+import { FreeMode } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/free-mode";
+import type { CartLine, Offer, Product, StockData } from "../types";
+import { ProductCard } from "./ProductCard";
+
+interface Props {
+  products: Product[];
+  cart: CartLine[];
+  offers: Offer[];
+  stock: StockData;
+  onAdd: (p: Product) => void;
+  wishlistIds?: number[] | undefined;
+  onToggleWishlist?: ((p: Product) => void) | undefined;
+}
+
+export function CategorySlider({
+  products,
+  cart,
+  offers,
+  stock,
+  onAdd,
+  wishlistIds = [],
+  onToggleWishlist,
+}: Props) {
+  const cartMap = new Map(cart.map((i) => [i.id, i.quantity]));
+  const offerMap = new Map(offers.map((o) => [o.productId, o.percent]));
+
+  return (
+    <Swiper
+      modules={[FreeMode]}
+      slidesPerView="auto"
+      spaceBetween={16}
+      freeMode={{ enabled: true, sticky: false, momentumBounce: false }}
+      dir="rtl"
+      className="category-slider"
+    >
+      {products.map((p) => (
+        <SwiperSlide key={p.id} className="category-slider__slide">
+          <ProductCard
+            product={p}
+            stock={stock.items[p.id]}
+            discountPercent={offerMap.get(p.id)}
+            cartQuantity={cartMap.get(p.id) ?? 0}
+            onAdd={() => onAdd(p)}
+            isLiked={wishlistIds.includes(p.id)}
+            onToggleWishlist={onToggleWishlist}
+          />
+        </SwiperSlide>
+      ))}
+    </Swiper>
+  );
+}
