@@ -2,6 +2,7 @@ import type { Card } from '../shared/types.ts'
 import { showToast } from '../features/toast/toastStore.ts'
 import { useFavorites } from '../hooks/useFavorites.ts'
 import { useCartStore } from '../hooks/useCartStore.ts'
+import { Link } from '@tanstack/react-router'
 
 type ProductCardProps = {
   card: Card
@@ -41,7 +42,9 @@ export default function ProductCard({ card, anchorId }: ProductCardProps) {
                                {!card.inStock && <span className="sold-out">ناموجود</span>}
             </div>
 
-            <h3>{card.title}</h3>
+            <h3>
+                <Link to="/product/$productId" params={{ productId: String(card.id) }}>{card.title}</Link>
+            </h3>
             <p className="product-brand">{card.unit}</p>
 
             <div className="price">
