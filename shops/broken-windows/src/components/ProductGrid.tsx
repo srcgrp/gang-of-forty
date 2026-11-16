@@ -27,6 +27,7 @@ export default function ProductGrid({
         <h2 className="items-header">{title}</h2>
         {viewAll && (
        <Link
+       search={{ sort: "default" }}
         className="items-header-link"
         to="/plp/$carouselId"
         params={{ carouselId: viewAll.carouselId }}

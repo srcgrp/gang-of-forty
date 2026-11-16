@@ -12,7 +12,7 @@ export default function FooterContact(){
                                 <path
                                     d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0" />
                             </svg></a>
-                        <address className="address"></address>
+                        <address className="address">خیابان نمونه پلاک ۱۲۳</address>
                     </div>
                     <div className="footer-top-contact-phone">
                         <a href="#" aria-label="شماره تلفن سارا مارکت"><svg aria-hidden="true"
@@ -24,7 +24,7 @@ export default function FooterContact(){
                                     d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" />
                             </svg></a>
                         <a className="footer-top-contact-phonenumber" href="tel:+989294493433" dir="ltr"
-                            id="phonenumber" aria-label="شماره تماس فروشگاه"></a>
+                            id="phonenumber" aria-label="شماره تماس فروشگاه" style={{color:"#9FE1CB"}}>۱۲۳۴۵۶۷۸۹۰</a>
                     </div>
                 </div>
     )

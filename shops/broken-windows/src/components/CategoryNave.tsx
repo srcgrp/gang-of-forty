@@ -14,7 +14,7 @@ export default function CategoryNav({ categories }: Props) {
            {categories.map((c) => (
           <div className="items" key={c.id}>
          { /*A button, because this only does an action and does not navigate*/ }
-        <Link to="/plp/$carouselId" params={{ carouselId: c.slug }} className="items-link">
+        <Link to="/plp/$carouselId" params={{ carouselId: c.slug }} className="items-link" search={{ sort: "default" }}>
   <span aria-hidden="true" className="items-icon">{c.emoji}</span>
   <p className="items-title">{c.name}</p>
 </Link>

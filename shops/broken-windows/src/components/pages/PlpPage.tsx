@@ -1,4 +1,4 @@
-import { Link, useParams } from "@tanstack/react-router";
+import { Link, useParams , useSearch } from "@tanstack/react-router";
 import ProductGrid from "../ProductGrid.tsx";
 import Status from "../Status.tsx";
 import { useCatalog } from "../../hooks/useCatalog.ts";
@@ -7,9 +7,11 @@ import { carouselProducts } from "../../catalog/carouselProducts.ts";
 import { carouselTitle } from "../../catalog/carouselTitle.ts";
 import { searchProducts } from "../../catalog/lookup.ts";
 import { formatNumber } from "../../format.ts";
+import { sortProducts } from "../../catalog/sortProducts.ts";
 
 export default function PlpPage() {
   const { carouselId } = useParams({ from: "/plp/$carouselId" });
+  const { sort } = useSearch({ from: "/plp/$carouselId" });
   const { state, retry } = useCatalog();
   const query = useSearchStore((s) => s.query);
 
@@ -27,11 +29,29 @@ export default function PlpPage() {
     );
   }
 
-  const matches = searchProducts(all, query);
+  const matches = sortProducts(searchProducts(all, query), sort);
 
   return (
     <section className="plp">
       <Link to="/" className="plp-back">بازگشت به خانه</Link>
+      <div className="sort-links">
+      
+  <Link
+    to="/plp/$carouselId"
+    params={{ carouselId }}
+    search={{ sort: "default" }}
+  >
+    پیش‌ فرض
+  </Link>
+<br></br>
+  <Link
+    to="/plp/$carouselId"
+    params={{ carouselId }}
+    search={{ sort: "price" }}
+  >
+    ارزان‌ ترین
+  </Link>
+</div>
       <p className="plp-count">{formatNumber(matches.length)} محصول</p>
       <ProductGrid
         title={title}
