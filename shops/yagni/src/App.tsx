@@ -8,9 +8,12 @@ import {
 import RootLayout from "./components/RootLayout";
 import HomePage from "./pages/HomePage";
 import PLP from "./pages/PLP";
+import ProductPage from "./pages/ProductPage";
 import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import NotFound from "./pages/NotFound";
+
+export type PlpSort = "default" | "price";
 
 const rootRoute = createRootRoute({
   component: RootLayout,
@@ -25,7 +28,16 @@ const homeRoute = createRoute({
 const plpRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/plp/$carouselId",
+  validateSearch: (search: Record<string, unknown>): { sort: PlpSort } => ({
+    sort: search.sort === "price" ? "price" : "default",
+  }),
   component: PLP,
+});
+
+const productRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/product/$productId",
+  component: ProductPage,
 });
 
 const cartRoute = createRoute({
@@ -43,6 +55,7 @@ const checkoutRoute = createRoute({
 const routeTree = rootRoute.addChildren([
   homeRoute,
   plpRoute,
+  productRoute,
   cartRoute,
   checkoutRoute,
 ]);

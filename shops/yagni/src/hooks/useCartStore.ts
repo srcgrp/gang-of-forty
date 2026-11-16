@@ -12,6 +12,7 @@ type CartState = {
   add: (product: Product, price: number) => void;
   updateQuantity: (productId: number, delta: number) => void;
   remove: (productId: number) => void;
+  clear: () => void;
 };
 
 export const useCartStore = create<CartState>()((set) => ({
@@ -28,6 +29,7 @@ export const useCartStore = create<CartState>()((set) => ({
     set((state) => ({
       lines: removeFromCart(state.lines, productId),
     })),
+  clear: () => set({ lines: [] }),
 }));
 
 useCartStore.subscribe((state) => {
