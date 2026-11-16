@@ -1,0 +1,122 @@
+:root,
+.app {
+  --bg: #fafcff;
+  --title: #022571;
+  --text: #172033;
+  --subtext: #53575d;
+  --muted: #737d92;
+  --fade: #a5adb7;
+  --border: #c9d8e8;
+
+  --band: #bbe1f8;
+  --band-hover: #a9d6f3;
+  --band-line: rgb(31 112 178 / 60%);
+  --card: #f3fbff;
+  --card-border: rgb(203 213 223);
+  --field: #fff;
+  --brand-bg: #022571;
+
+  --on-brand: #e2f1ff;
+  --on-brand-soft: #bbe1f8;
+  --on-accent: #022571;
+
+  --accent: #ffbf00;
+  --blue: #1f6fb2;
+  --red: #c9363e;
+  --focus: #022571;
+  --focus-ring: #b6570a;
+
+  --off-bg: #d5d9df;
+  --off-text: #727987;
+  --skeleton: #e6edf5;
+  --skeleton-shine: rgb(255 255 255 / 70%);
+  --error-bg: #fef2f2;
+  --error-text: #b91c1c;
+  --error-border: #dc2626;
+
+  --on-solid: #fff;
+  --on-brand-alt: #e4f3ff;
+  --on-brand-line: #c2e1ff66;
+  --on-brand-line-soft: rgb(187 225 248 / 30%);
+  --divider: rgb(31 112 178 / 30%);
+
+  --cta: #b6570a;
+  --on-cta: #fffbea;
+  --accent-tag: rgb(255 191 0 / 70%);
+  --accent-btn: rgb(255 191 0 / 80%);
+
+  --shadow-sm: rgb(0 0 0 / 12%);
+  --shadow-md: rgb(0 0 0 / 15%);
+  --shadow-brand-sm: rgb(2 37 113 / 14%);
+  --shadow-brand-md: rgb(2 37 113 / 20%);
+  --ring: rgb(31 111 178 / 30%);
+
+  --logo-bg: #09448c;
+
+  --card-gap: 20px;
+}
+
+.app[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #0d1b3e;
+  --title: #8fd6ff;
+  --text: #f1f6ff;
+  --subtext: #c3d0ea;
+  --muted: #aebddb;
+  --fade: #93a5cb;
+  --border: #3a5ea3;
+
+  --band: #0b64b2;
+  --band-hover: #16609f;
+  --band-line: rgb(143 214 255 / 35%);
+  --card: #1a2f62;
+  --card-border: #3a5ea3;
+  --field: #142b63;
+  --brand-bg: #1a3175;
+
+  --accent: #ffc824;
+  --blue: #4da3e6;
+  --focus: #ffc824;
+  --focus-ring: #ffb454;
+
+  --on-brand: #e2f1ff;
+  --on-brand-soft: #bbe1f8;
+  --on-brand-alt: #e4f3ff;
+  --on-brand-line: #c2e1ff66;
+  --on-brand-line-soft: rgb(187 225 248 / 30%);
+  --divider: rgb(143 214 255 / 30%);
+
+  --accent-tag: rgb(255 200 36 / 70%);
+  --accent-btn: rgb(255 200 36 / 80%);
+
+  --shadow-sm: rgb(0 0 0 / 35%);
+  --shadow-md: rgb(0 0 0 / 40%);
+  --shadow-brand-sm: rgb(0 0 0 / 35%);
+  --shadow-brand-md: rgb(0 0 0 / 40%);
+  --ring: rgb(255 200 36 / 35%);
+
+  --off-bg: #26407f;
+  --off-text: #a3b1d6;
+  --skeleton: #22397a;
+  --skeleton-shine: rgb(255 255 255 / 10%);
+  --error-bg: #2a1216;
+  --error-text: #ff9aa2;
+  --error-border: #c9363e;
+}
+
+.app {
+  min-height: 100vh;
+  color: var(--title);
+  background: var(--bg);
+}
+
+body,
+header,
+.navigation,
+.product-item,
+.sort-select,
+.search-entry,
+.cart-button {
+  transition: background-color 0.25s, color 0.25s, border-color 0.25s;
+}

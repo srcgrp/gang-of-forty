@@ -1,6 +1,7 @@
 import type { CartLine, Category, Shop } from "../../scripts/types";
 import CartPanel from "../cart/CartPanel.tsx";
 import { Search } from "../shared/Search.tsx";
+import ThemeToggle from "./ThemeToggle.tsx";
 
 type HeaderProps = {
   shop: Shop;
@@ -46,12 +47,15 @@ export default function Header({
           </div>
         </a>
         <Search total={productCount} query={query} onQuery={onQuery} />
-        <CartPanel
-          lines={cartLines}
-          count={count}
-          total={total}
-          onRemove={onRemove}
-        />
+        <div className="left-header-part">
+          <CartPanel
+            lines={cartLines}
+            count={count}
+            total={total}
+            onRemove={onRemove}
+          />
+          <ThemeToggle />
+        </div>
       </div>
       <input
         className="mobile-menu-toggle"

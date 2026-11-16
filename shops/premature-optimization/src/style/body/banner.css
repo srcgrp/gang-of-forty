@@ -21,13 +21,14 @@
 
 .banner-fruit,
 .banner-bread {
-  background: var(--yellow);
+  color: var(--on-accent);
+  background: var(--accent);
 }
 
 .banner-sale,
 .banner-breakfast {
-  color: #e4f3ff;
-  background: var(--navy);
+  color: var(--on-brand-alt);
+  background: var(--brand-bg);
 }
 
 .banner-content {
@@ -54,17 +55,17 @@
   margin: 4px 0 12px 0;
   display: inline-block;
   padding: 10px 16px;
-  background: #b6570a;
+  background: var(--cta);
   border-radius: 24px;
   font-weight: 900;
   text-decoration: none;
-  color: #fffbea;
+  color: var(--on-cta);
 }
 
 .banner-sale .banner-button,
 .banner-breakfast .promo-link {
-  color: var(--navy);
-  background: #e4f3ff;
+  color: var(--on-accent);
+  background: var(--on-brand-alt);
 }
 
 .banner-art {
@@ -118,8 +119,8 @@
   gap: 16px;
   margin: 20px 36px;
   padding: 12px 20px;
-  color: var(--navy);
-  background: var(--light-blue);
+  color: var(--title);
+  background: var(--band);
   border: 2px solid var(--blue);
   border-radius: 16px;
 }
@@ -137,8 +138,8 @@
 
 .sale-countdown-toggle {
   padding: 6px 16px;
-  color: var(--yellow);
-  background: var(--navy);
+  color: var(--accent);
+  background: var(--brand-bg);
   border: 0;
   border-radius: 24px;
   font: inherit;

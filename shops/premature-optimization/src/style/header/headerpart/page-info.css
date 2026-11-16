@@ -11,7 +11,7 @@
   width: 50px;
   height: 50px;
   padding: 5px 4px 5px 6px;
-  background: #09448c;
+  background: var(--logo-bg);
   border-radius: 50%;
 }
 
@@ -21,7 +21,7 @@
 }
 
 .page-title {
-  color: var(--navy);
+  color: var(--title);
   font-weight: 800;
 }
 
@@ -32,30 +32,29 @@
   margin-top: -2px;
 }
 
-
 @media (max-width: 700px) {
   .brand {
-      gap: 8px;
-      min-width: 0;
-    }
+    gap: 8px;
+    min-width: 0;
+  }
   .logo {
-      flex-shrink: 0;
-      width: 42px;
-      height: 42px;
-    }
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+  }
   .page-title {
-      font-size: 1.2rem;
-    }
+    font-size: 1.2rem;
+  }
   .page-description {
-      font-size: 0.7rem;
-    }
+    font-size: 0.7rem;
+  }
 }
 
 @media (max-width: 380px) {
   .page-title {
-      font-size: 1.05rem;
-    }
+    font-size: 1.05rem;
+  }
   .page-description {
-      font-size: 0.65rem;
-    }
+    font-size: 0.65rem;
+  }
 }

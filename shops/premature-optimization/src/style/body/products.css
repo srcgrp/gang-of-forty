@@ -37,8 +37,8 @@
   align-items: flex-start;
   min-width: 0;
   padding: 16px;
-  background: #f3fbff;
-  border: 1px solid rgb(203 213 223);
+  background: var(--card);
+  border: 1px solid var(--card-border);
   border-radius: 12px;
   transition:
     transform 180ms ease,
@@ -49,7 +49,7 @@
 .product-item:hover,
 .product-item:focus-within {
   transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgb(0 0 0 / 15%);
+  box-shadow: 0 8px 20px var(--shadow-md);
 }
 
 .product-item > * {
@@ -70,7 +70,7 @@
   height: 160px;
   padding: 4px;
   margin: 0 auto 8px;
-  background: var(--light-blue);
+  background: var(--band);
   border-radius: 6%;
   aspect-ratio: 8 / 7;
   overflow: hidden;
@@ -89,7 +89,7 @@
   top: 10px;
   right: 10px;
   padding: 6px;
-  color: #fff;
+  color: var(--on-solid);
   background: var(--red);
   border-radius: 24px;
 }
@@ -100,9 +100,10 @@
 }
 
 .item-tag {
+  color: var(--on-accent);
   margin: 5px -6px 6px 0;
   padding: 6px 8px;
-  background: rgb(255 191 0 / 70%);
+  background: var(--accent-tag);
   border-radius: 24px;
   font-size: small;
   font-weight: 700;
@@ -114,7 +115,7 @@
 
 .item-description {
   margin-top: 4px;
-  color: #53575d;
+  color: var(--subtext);
   font-size: smaller;
 }
 
@@ -145,8 +146,8 @@
   min-width: 40px;
   min-height: 40px;
   padding: 4px 10px;
-  color: var(--navy);
-  background: rgb(255 191 0 / 80%);
+  color: var(--on-accent);
+  background: var(--accent-btn);
   border: 0;
   border-radius: 50px;
   font-size: x-large;
@@ -154,8 +155,8 @@
 }
 
 .buy-button:disabled {
-  color: #727987;
-  background: #d5d9df;
+  color: var(--off-text);
+  background: var(--off-bg);
   cursor: not-allowed;
 }
 
@@ -178,11 +179,11 @@
   justify-content: center;
   width: 40px;
   height: 40px;
-  color: var(--yellow);
-  background: var(--navy);
+  color: var(--accent);
+  background: var(--brand-bg);
   border: 0;
   border-radius: 50%;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 12%);
+  box-shadow: 0 2px 8px var(--shadow-sm);
   font-size: 24px;
   cursor: pointer;
   pointer-events: auto;
@@ -199,86 +200,85 @@
   color: var(--muted);
 }
 
-
 @media (min-width: 1500px) {
   .banner,
-    .banner-down,
-    .categories-section,
-    .dairy-carousel {
-      max-width: 1400px;
-      margin-right: auto;
-      margin-left: auto;
-    }
+  .banner-down,
+  .categories-section,
+  .dairy-carousel {
+    max-width: 1400px;
+    margin-right: auto;
+    margin-left: auto;
+  }
 }
 
 @media (max-width: 1100px) {
   .dairy-carousel .product-item {
-      flex-basis: calc((100vw - 100px - 2 * var(--card-gap)) / 3);
-    }
+    flex-basis: calc((100vw - 100px - 2 * var(--card-gap)) / 3);
+  }
 }
 
 @media (max-width: 700px) {
   .dairy-carousel {
-      margin: 14px 14px 0;
-    }
+    margin: 14px 14px 0;
+  }
   .dairy-carousel .product-item {
-      flex-basis: calc((100vw - 56px) / 2);
-      max-width: none;
-      padding: 12px;
-    }
+    flex-basis: calc((100vw - 56px) / 2);
+    max-width: none;
+    padding: 12px;
+  }
   .products {
-      --card-gap: 12px;
-      gap: var(--card-gap);
-    }
+    --card-gap: 12px;
+    gap: var(--card-gap);
+  }
   .product-icon {
-      flex-basis: 112px;
-      height: 112px;
-      padding: 5px;
-    }
+    flex-basis: 112px;
+    height: 112px;
+    padding: 5px;
+  }
   .item-tag {
-      padding: 5px 7px;
-      font-size: 0.7rem;
-    }
+    padding: 5px 7px;
+    font-size: 0.7rem;
+  }
   .item-title {
-      font-size: 0.9rem;
-      line-height: 1.5;
-    }
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
   .item-description {
-      font-size: 0.75rem;
-    }
+    font-size: 0.75rem;
+  }
   .item-price,
-    .item-old-price {
-      font-size: 0.82rem;
-    }
+  .item-old-price {
+    font-size: 0.82rem;
+  }
   .buy-button {
-      min-width: 40px;
-      min-height: 40px;
-    }
+    min-width: 40px;
+    min-height: 40px;
+  }
   .dairy-carousel-controls {
-      right: -7px;
-      left: -7px;
-    }
+    right: -7px;
+    left: -7px;
+  }
 }
 
 @media (max-width: 380px) {
   .dairy-carousel {
-      margin-right: 10px;
-      margin-left: 10px;
-    }
+    margin-right: 10px;
+    margin-left: 10px;
+  }
   .dairy-carousel .product-item {
-      flex-basis: calc(100vw - 100px);
-      max-width: 260px;
-    }
+    flex-basis: calc(100vw - 100px);
+    max-width: 260px;
+  }
   .product-icon {
-      flex-basis: 120px;
-      height: 120px;
-    }
+    flex-basis: 120px;
+    height: 120px;
+  }
   .product-discount {
-      top: 6px;
-      right: 6px;
-      padding: 4px 6px;
-      font-size: 0.75rem;
-    }
+    top: 6px;
+    right: 6px;
+    padding: 4px 6px;
+    font-size: 0.75rem;
+  }
 }
 
 .product-emoji-char {

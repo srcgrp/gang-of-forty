@@ -13,6 +13,7 @@ import {
   saveFailedFeedback,
 } from "./lib/animations/feedback.ts";
 import Page from "./components/Page.tsx";
+import Layout from "./components/Layout.tsx";
 
 export default function App() {
   const [state, setState] = useState<LoadState>({ status: "loading" });
@@ -61,16 +62,18 @@ export default function App() {
   };
 
   return (
-    <Page
-      state={state}
-      cart={cart}
-      categoryId={categoryId}
-      query={query}
-      onAdd={handleAdd}
-      onRemove={handleRemove}
-      onPick={setCategoryId}
-      onQuery={setQuery}
-      onRetry={handleRetry}
-    />
+    <Layout>
+      <Page
+        state={state}
+        cart={cart}
+        categoryId={categoryId}
+        query={query}
+        onAdd={handleAdd}
+        onRemove={handleRemove}
+        onPick={setCategoryId}
+        onQuery={setQuery}
+        onRetry={handleRetry}
+      />
+    </Layout>
   );
 }

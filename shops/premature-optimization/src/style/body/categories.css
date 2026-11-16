@@ -27,7 +27,7 @@
   justify-content: flex-start;
   gap: 8px;
   min-width: 0;
-  color: var(--navy);
+  color: var(--title);
   text-align: center;
   text-decoration: none;
 }
@@ -46,7 +46,7 @@
   padding: 12px;
   overflow: hidden;
   border-radius: 50%;
-  background: var(--light-blue);
+  background: var(--band);
   font-size: 2.5rem;
   line-height: 1;
   user-select: none;
@@ -61,7 +61,7 @@
 }
 
 .categories-box.is-active .categories-icon {
-  outline: 3px solid var(--navy);
+  outline: 3px solid var(--focus);
   outline-offset: 3px;
 }
 
