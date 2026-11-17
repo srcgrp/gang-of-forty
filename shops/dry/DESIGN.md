@@ -190,21 +190,22 @@ src/
 | آدرس | صفحه | داده از کجا |
 |---|---|---|
 | `#/` | `HomePage` | `useCatalog` + `useFilterStore` (جستجو و دسته)؛ کاروسل‌ها با `offeredCards` و `sectionsOf` |
-| `#/plp/$carouselId` | `PlpPage` | `useCatalog` + `carouselProducts(state, carouselId)`؛ `carouselId` با `useParams` از آدرس خوانده می‌شود |
+| `#/plp/$carouselId` | `PlpPage` | `useCatalog` + `carouselProducts(state, carouselId, sort)`؛ `carouselId` با `useParams` و `sort` با `useSearch` از آدرس خوانده می‌شود |
+| `#/plp/$carouselId?sort=price` | `PlpPage` | همان PLP؛ `validateSearch` مقدار `sort` را بررسی می‌کند (`default` یا `price`) و کارت‌ها را با قیمت نهایی مرتب می‌کند |
+| `#/product/$productId` | `ProductPage` | `useCatalog` + `cardById(state, Number(productId))`؛ id ناشناخته پیام «محصول پیدا نشد» می‌دهد |
+| `#/checkout` | `CheckoutPage` | `useCartStore` (`lines` و `clear`) + `validateCheckout` |
 | هر آدرس دیگر (مثل `#/nowhere`) | `NotFound` | ندارد |
 
 - `carouselId` یا `offers` است (پیشنهادهای ویژه) یا slug یک دسته. برای id ناشناخته (مثل `#/plp/nothing`) `carouselProducts` مقدار `null` برمی‌گرداند و `PlpPage` پیام «این فهرست پیدا نشد» و لینک بازگشت نشان می‌دهد.
 - مسیرها فقط در `App.tsx` تعریف می‌شوند و از `createHashHistory` استفاده می‌کنیم، چون فایل‌ها روی سرور ثابت سرو می‌شوند و Refresh روی `#/plp/dairy` باید کار کند.
-| `#/plp/$carouselId?sort=price` | `PlpPage` | همان PLP؛ `validateSearch` مقدار `sort` را بررسی می‌کند (`default` یا `price`) و `carouselProducts(state, carouselId, sort)` مرتب می‌کند |
-| `#/product/$productId` | `ProductPage` | `useCatalog` + `cardById(state, Number(productId))`؛ id ناشناخته پیام «محصول پیدا نشد» می‌دهد |
-| `#/checkout` | `CheckoutPage` | `useCartStore` (`lines` و `clear`) + `validateCheckout` |
 
 ## Storeها
 
 | Store | فایل | چه چیزی در آن است | چه کسی عوضش می‌کند | کجا ذخیره می‌شود |
 |---|---|---|---|---|
 | `useThemeStore` | `hooks/useThemeStore.ts` | `theme` (`light` یا `dark`)، مقدار اولیه از تم سیستم | `ThemeToggle` با `toggle` | `persist` در localStorage با کلید `dry-theme` |
-| `useCartStore` | `hooks/useCartStore.ts` | `lines` (سبد) | `ProductCard`، `FavoritesDrawer` و `ProductPage` با `add`؛ `CartPanel` با `remove`؛ `CheckoutPage` با `clear` | `subscribe` + `saveCart` در localStorage || `useFilterStore` | `hooks/useFilterStore.ts` | `query` و `categoryId` | `Header` (جستجو) و `CategoryNav` | ذخیره نمی‌شود |
+| `useCartStore` | `hooks/useCartStore.ts` | `lines` (سبد) | `ProductCard`، `FavoritesDrawer` و `ProductPage` با `add`؛ `CartPanel` با `remove`؛ `CheckoutPage` با `clear` | `subscribe` + `saveCart` در localStorage |
+| `useFilterStore` | `hooks/useFilterStore.ts` | `query` و `categoryId` | `Header` (جستجو) و `CategoryNav` | ذخیره نمی‌شود |
 | `useCatalogStore` | داخل `hooks/useCatalog.ts` | وضعیت بارگذاری کاتالوگ (`LoadState`) | `useCatalog` (یک بار بارگذاری، `retry` برای تلاش دوباره) | ذخیره نمی‌شود |
 
 **سبد: راه الف (Zustand)، نه `reducer + context`.** دلیل‌ها:
@@ -233,8 +234,8 @@ Layout
 Layout → Outlet → HomePage
 ├── CategoryNav
 ├── Hero
-├── SaleSection → SaleCountdown
 ├── CategoryGrid (لینک هر دسته به PLP)
+├── SaleSection → SaleCountdown
 ├── Catalog → ProductGrid (هر کاروسل، با لینک «مشاهده همه») → ProductCard
 ├── PromoBanners
 └── Blog
@@ -249,11 +250,6 @@ Layout → Outlet → PlpPage
 └── ProductCard (گرید همه‌ی محصولات کاروسل)
 ```
 
-**NotFound**
-```
-Layout → Outlet → NotFound → لینک بازگشت
-```
-
 **ProductPage**
 ```
 Layout → Outlet → ProductPage
@@ -265,4 +261,9 @@ Layout → Outlet → ProductPage
 ```
 Layout → Outlet → CheckoutPage
 └── فرم controlled (نام، موبایل، نشانی) با useRef برای focus
+```
+
+**NotFound**
+```
+Layout → Outlet → NotFound → لینک بازگشت
 ```
