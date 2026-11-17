@@ -1,5 +1,5 @@
 import type { Banner } from "../types";
-import { safeHref } from "./safe-href";
+import { anchorClick, safeHref } from "./safe-href";
 
 type HeroProps = { main: Banner; side: Banner };
 
@@ -30,7 +30,11 @@ export default function Hero({ main, side }: HeroProps) {
                   </span>
                   <h2 className="hero-title">{main.title}</h2>
                   <p className="hero-text">{main.text}</p>
-                  <a className="btn btn-primary" href={safeHref(main.cta.href)}>
+                  <a
+                    className="btn btn-primary"
+                    href={safeHref(main.cta.href)}
+                    onClick={(event) => anchorClick(main.cta.href)(event)}
+                  >
                     {main.cta.label}
                   </a>
                 </div>
@@ -50,7 +54,11 @@ export default function Hero({ main, side }: HeroProps) {
             </span>
             <h2 className="side-title">{side.title}</h2>
             <p className="side-text">{side.text}</p>
-            <a className="btn btn-primary" href={safeHref(side.cta.href)}>
+            <a
+              className="btn btn-primary"
+              href={safeHref(side.cta.href)}
+              onClick={(event) => anchorClick(side.cta.href)(event)}
+            >
               {side.cta.label}
             </a>
           </div>
