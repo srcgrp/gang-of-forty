@@ -1,9 +1,17 @@
-type StatusProps = { message: string; isError?: boolean; onRetry?: () => void };
+import type { ReactNode } from "react";
+
+type StatusProps = {
+  message: string;
+  isError?: boolean;
+  onRetry?: () => void;
+  children?: ReactNode;
+};
 
 export default function Status({
   message,
   isError = false,
   onRetry,
+  children,
 }: StatusProps) {
   return (
     <div
@@ -16,6 +24,7 @@ export default function Status({
           تلاش دوباره
         </button>
       )}
+      {children}
     </div>
   );
 }

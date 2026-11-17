@@ -2,14 +2,15 @@ import type { Category, Offer, Product, Shop } from "../../scripts/types";
 import CartPanel from "../cart/CartPanel.tsx";
 import { Search } from "../shared/Search.tsx";
 import ThemeToggle from "./ThemeToggle.tsx";
+import { Link } from "@tanstack/react-router";
+import DataLink from "../shared/DataLink.tsx";
+import PlpLink from "../shared/PlpLink.tsx";
 
 type HeaderProps = {
   shop: Shop;
   categories: Category[];
   products: Product[];
   offers: Offer[];
-  query: string;
-  onQuery: (query: string) => void;
 };
 
 export default function Header({
@@ -17,8 +18,6 @@ export default function Header({
   categories,
   products,
   offers,
-  query,
-  onQuery,
 }: HeaderProps) {
   return (
     <header id="page-header">
@@ -27,7 +26,7 @@ export default function Header({
         <p id="shop-notice">{shop.notice}</p>
       </div>
       <div className="header-part">
-        <a className="brand brand-link" href="#top">
+        <Link className="brand brand-link" to="/">
           <svg className="logo" focusable="false">
             <use href="./svgs/logo.svg" />
           </svg>
@@ -39,8 +38,8 @@ export default function Header({
               {shop.slogan}
             </span>
           </div>
-        </a>
-        <Search total={products.length} query={query} onQuery={onQuery} />
+        </Link>
+        <Search total={products.length} />
         <div className="left-header-part">
           <CartPanel products={products} offers={offers} />
           <ThemeToggle />
@@ -60,21 +59,21 @@ export default function Header({
           <span className="menu-categories-span">☷ همه دسته‌ها</span>
           <div className="hidden-content" id="category-menu-links">
             {categories.map((c) => (
-              <a
+              <PlpLink
                 key={c.id}
+                carouselId={c.slug}
                 className="hidden-content-links"
-                href={`#${c.slug}`}
               >
                 {c.emoji} {c.name}
-              </a>
+              </PlpLink>
             ))}
           </div>
         </div>
         <div id="shop-menu-links" className="shop-menu-links">
           {shop.menu.map((item) => (
-            <a key={item.href} className="menu-texts" href={item.href}>
+            <DataLink key={item.href} className="menu-texts" href={item.href}>
               {item.label}
-            </a>
+            </DataLink>
           ))}
         </div>
       </nav>

@@ -1,17 +1,21 @@
-import type { Category, Shop } from '../../scripts/types'
-import { toFaDigits } from '../../lib/toFa'
+import type { Category, Shop } from "../../scripts/types";
+import { toFaDigits } from "../../lib/toFa";
+import AnchorLink from "../shared/AnchorLink.tsx";
+import PlpLink from "../shared/PlpLink.tsx";
 
 type FooterProps = {
-  shop: Shop
-  categories: Category[]
-}
+  shop: Shop;
+  categories: Category[];
+};
 
 export default function Footer({ shop, categories }: FooterProps) {
   return (
     <footer id="contact">
       <div className="upper">
         <section className="about-us">
-          <h2 className="upper-titles" id="footer-shop-name">{shop.name}</h2>
+          <h2 className="upper-titles" id="footer-shop-name">
+            {shop.name}
+          </h2>
           <div className="about-details">
             <p id="shop-about">{shop.about}</p>
             <p className="address">
@@ -20,7 +24,9 @@ export default function Footer({ shop, categories }: FooterProps) {
             </p>
             <p className="phone-number">
               <span>&#9743;</span>
-              <span className="number" id="shop-phone">{toFaDigits(shop.phone)}</span>
+              <span className="number" id="shop-phone">
+                {toFaDigits(shop.phone)}
+              </span>
             </p>
           </div>
         </section>
@@ -28,7 +34,9 @@ export default function Footer({ shop, categories }: FooterProps) {
           <h2 className="upper-titles">دسته‌ها</h2>
           <div className="links-link" id="footer-category-links">
             {categories.map((c) => (
-              <a key={c.id} href={`#${c.slug}`}>{c.name}</a>
+              <PlpLink key={c.id} carouselId={c.slug}>
+                {c.name}
+              </PlpLink>
             ))}
           </div>
         </section>
@@ -36,22 +44,26 @@ export default function Footer({ shop, categories }: FooterProps) {
           <h2 className="upper-titles">ساعت کاری</h2>
           <div className="hours-details" id="shop-hours">
             {shop.schedule.map((item) => (
-              <p key={item.days}>{item.days}: {item.time}</p>
+              <p key={item.days}>
+                {item.days}: {item.time}
+              </p>
             ))}
           </div>
         </section>
       </div>
       <div className="down">
         <div className="copyright">
-          <p><span id="shop-copyright">{shop.copyright}</span></p>
+          <p>
+            <span id="shop-copyright">{shop.copyright}</span>
+          </p>
         </div>
         <div className="back-tp-up">
-          <a className="up" href="#top">
+          <AnchorLink className="up" targetId="top">
             <span>↑</span>
             <span>بازگشت به بالا</span>
-          </a>
+          </AnchorLink>
         </div>
       </div>
     </footer>
-  )
+  );
 }

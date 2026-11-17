@@ -1,13 +1,24 @@
-import type { Product } from '../../scripts/types'
-import ProductList from '../catalog/ProductList.tsx'
-import type { SharedCardProps } from '../catalog/ProductList.tsx'
+import type { Product } from "../../scripts/types";
+import ProductList from "../catalog/ProductList.tsx";
+import type { SharedCardProps } from "../catalog/ProductList.tsx";
+import { useNavigate } from "@tanstack/react-router";
+import { useSearchStore } from "../../hooks/useSearchStore.ts";
 
-type SearchResultsProps = SharedCardProps & { query: string; products: Product[] }
+type SearchResultsProps = SharedCardProps & {
+  query: string;
+  products: Product[];
+};
 
-export function SearchResults({ query, products, ...rest }: SearchResultsProps) {
+export function SearchResults({
+  query,
+  products,
+  ...rest
+}: SearchResultsProps) {
   return (
     <section className="recommendation search-results" id="search-results">
-      <h2 className="recommendation-title">🔍 نتایج جستجو برای «{query.trim()}»</h2>
+      <h2 className="recommendation-title">
+        🔍 نتایج جستجو برای «{query.trim()}»
+      </h2>
       {products.length === 0 ? (
         <p className="empty-message">چیزی پیدا نشد.</p>
       ) : (
@@ -16,14 +27,21 @@ export function SearchResults({ query, products, ...rest }: SearchResultsProps) 
         </ul>
       )}
     </section>
-  )
+  );
 }
 
-const format = new Intl.NumberFormat('fa-IR')
+const format = new Intl.NumberFormat("fa-IR");
 
-type SearchProps = { total: number; query: string; onQuery: (query: string) => void }
+export function Search({ total }: { total: number }) {
+  const query = useSearchStore((s) => s.query);
+  const setQuery = useSearchStore((s) => s.setQuery);
+  const navigate = useNavigate();
 
-export function Search({ total, query, onQuery }: SearchProps) {
+  function handleChange(value: string) {
+    setQuery(value);
+    void navigate({ to: "/", replace: true });
+  }
+
   return (
     <label className="search">
       <span className="search-icon">🔍︎</span>
@@ -32,8 +50,8 @@ export function Search({ total, query, onQuery }: SearchProps) {
         type="search"
         value={query}
         placeholder={`جستجو در میان ${format.format(total)} کالا...`}
-        onChange={(e) => onQuery(e.target.value)}
+        onChange={(e) => handleChange(e.target.value)}
       />
     </label>
-  )
+  );
 }

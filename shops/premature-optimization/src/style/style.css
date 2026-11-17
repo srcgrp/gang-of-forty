@@ -25,8 +25,14 @@ header {
   border-bottom: 2px solid var(--band-line);
 }
 
+.app {
+  display: flex;
+  flex-direction: column;
+}
+
 main {
   display: block;
+  flex: 1;
 }
 
 footer {

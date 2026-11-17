@@ -1,5 +1,6 @@
 import type { BannerData, Home } from "../../scripts/types";
 import { Art } from "../shared/Art.tsx";
+import DataLink from "../shared/DataLink.tsx";
 
 type HeroProps = Pick<Home, "hero" | "side">;
 
@@ -16,9 +17,12 @@ function BannerArticle({
         <h2 className={`banner-title ${variant}-title`}>{data.title}</h2>
         <p className={`banner-details ${variant}-details`}>{data.text}</p>
         {data.cta && (
-          <a className={`banner-button ${variant}-button`} href={data.cta.href}>
+          <DataLink
+            className={`banner-button ${variant}-button`}
+            href={data.cta.href}
+          >
             {data.cta.label}
-          </a>
+          </DataLink>
         )}
       </div>
       <span className="banner-art">

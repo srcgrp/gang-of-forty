@@ -24,6 +24,8 @@
 }
 
 .api-retry-button {
+  display: inline-block;
+  text-decoration: none;
   padding: 8px 20px;
   color: var(--accent);
   background: var(--brand-bg);

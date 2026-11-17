@@ -42,7 +42,8 @@
   outline: none;
 }
 
-.search-results .products {
+.search-results .products,
+.plp .products {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 20px;
@@ -52,7 +53,8 @@
   padding: 0 36px;
 }
 
-.search-results .products > * {
+.search-results .products > *,
+.plp .products > * {
   min-width: 0;
   box-sizing: border-box;
 }

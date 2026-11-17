@@ -8,6 +8,10 @@
   --fade: #a5adb7;
   --border: #c9d8e8;
 
+  --link: #022571;
+  --bg-link: #ffbf00;
+  --bd-link-num: rgba(2, 37, 113, 0.6);
+
   --band: #bbe1f8;
   --band-hover: #a9d6f3;
   --band-line: rgb(31 112 178 / 60%);
@@ -66,6 +70,10 @@
   --muted: #aebddb;
   --fade: #93a5cb;
   --border: #3a5ea3;
+
+  --link: #ffc824;
+  --bg-link: #0b64b2;
+  --bd-link-num: rgba(255, 200, 36, 0.6);
 
   --band: #0b64b2;
   --band-hover: #16609f;
