@@ -3,6 +3,10 @@ import SearchBox from "./SearchBox";
 import ThemeToggle from "./ThemeToggle";
 import { useCartStore } from "../hooks/useCartStore";
 import { cartCount as getCartCount } from "../cart/totals";
+import { useEffect } from "react";
+import { createPortal } from "react-dom";
+import CartPanel from "./CartPanel";
+import { useState } from "react";
 type Props = {
      query: string;
   onQuery: (value: string) => void;
@@ -10,6 +14,36 @@ type Props = {
 export default function Header({ query, onQuery }: Props) { 
     const lines = useCartStore((s) => s.lines);
 const count = getCartCount(lines); 
+useEffect(() => {
+  document.title =
+    count > 0
+      ? `سارا مارکت (${formatNumber(count)})`
+      : "سارا مارکت";
+}, [count]);
+const [cartRoot, setCartRoot] = useState<HTMLElement | null>(null);
+
+useEffect(() => {
+  const findCartRoot = () => {
+    const root = document.getElementById("cart-panel-root");
+
+    if (root) {
+      setCartRoot(root);
+    }
+  };
+
+  findCartRoot();
+
+  const observer = new MutationObserver(findCartRoot);
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+  });
+
+  return () => observer.disconnect();
+}, []);
+console.log("cartRoot:", cartRoot);
+console.log("target:", document.getElementById("cart-panel-root"));
      return (
 <>
   <input type="checkbox" id="menu-toggle" className="menu-toggle" aria-label="باز و بسته کردن منو"/>
@@ -58,6 +92,11 @@ const count = getCartCount(lines);
             </a>
             <ThemeToggle />
     </div>
+    {cartRoot &&
+  createPortal(
+    <CartPanel />,
+    cartRoot
+  )}
    </> 
   )
 }

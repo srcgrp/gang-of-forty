@@ -3,7 +3,6 @@ import Benefits from "../Benefits.tsx";
 import CategoryNav from "../CategoryNave.tsx";
 import CarouselRow from "../CarouselRow.tsx";
 import Middle from "../Middle.tsx";
-import CartPanel from "../CartPanel.tsx";
 import Notification from "../Notification.tsx";
 import Status from "../Status.tsx";
 import { useCatalog } from "../../hooks/useCatalog.ts";
@@ -15,7 +14,14 @@ export default function HomePage() {
   const { state, retry } = useCatalog();
   const query = useSearchStore((s) => s.query);
 
-  if (state.status !== "success") return <Status state={state} onRetry={retry} />;
+if (state.status !== "success") {
+  return (
+    <>
+      <Status state={state} onRetry={retry} />
+      <div id="cart-panel-root" />
+    </>
+  );
+}
 
   return (
     <>
@@ -26,7 +32,7 @@ export default function HomePage() {
     {/*  <CarouselRow data={state} carouselId={ALL_CAROUSEL} query={query} />*/}
       <Middle />
       <CarouselRow data={state} carouselId="dairy" query={query} />
-      <CartPanel />
+     <div id="cart-panel-root" />
       <Notification />
     </>
   );

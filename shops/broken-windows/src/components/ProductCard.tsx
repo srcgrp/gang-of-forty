@@ -2,13 +2,14 @@ import type { Product } from "../types";
 import { formatNumber, formatPrice } from "../format";
 import { useCartStore } from "../hooks/useCartStore";
 import { Link } from "@tanstack/react-router";
+import { memo } from "react";
 type ProductCardProps = {
   product: Product;
   percent?: number;
   unavailable?: boolean;
   finalPrice: number;
 };
-export default function ProductCard({
+function ProductCard({
   product,
   percent,
   unavailable = false,
@@ -51,3 +52,4 @@ export default function ProductCard({
     </div>
   );
 }
+export default memo(ProductCard);
