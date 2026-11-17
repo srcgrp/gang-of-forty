@@ -3,6 +3,7 @@ import { cartSummary } from '../features/products/catalog/cartView.ts'
 import { formatNumber } from '../features/products/catalog/format.ts'
 import { useCartStore } from '../hooks/useCartStore.ts'
 import type { LoadState } from '../shared/types.ts'
+import { Link } from '@tanstack/react-router'
 
 type CartPanelProps = {
   state: LoadState
@@ -10,7 +11,7 @@ type CartPanelProps = {
   onClose: () => void
 }
 
-function CartContent({ state }: { state: LoadState }) {
+function CartContent({ state, onClose }: { state: LoadState; onClose: () => void }) {
   const lines = useCartStore((s) => s.lines)
   const remove = useCartStore((s) => s.remove)
   const { rows, total } = cartSummary(state, lines)
@@ -28,6 +29,8 @@ function CartContent({ state }: { state: LoadState }) {
         ))}
       </ul>
       <p className="cart-total">جمع کل: {formatNumber(total)} تومان</p>
+      <p className="cart-total">جمع کل: {formatNumber(total)} تومان</p>
+      <Link className="checkout-btn" to="/checkout" onClick={onClose}>تسویه حساب</Link> 
     </>
   )
 }
@@ -50,7 +53,7 @@ export default function CartPanel({ state, open, onClose }: CartPanelProps) {
           <h2>سبد خرید</h2>
           <button type="button" className="cart-close" aria-label="بستن سبد خرید" onClick={onClose}>✕</button>
         </div>
-        {open && <CartContent state={state} />}
+        {open && <CartContent state={state} onClose={onClose} />}
       </aside>
     </>
   )

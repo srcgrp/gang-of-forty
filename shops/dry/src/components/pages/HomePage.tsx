@@ -18,8 +18,8 @@ export default function HomePage() {
     <>
       <CategoryNav state={state} selected={categoryId} onPick={setCategory} />
       <Hero />
-      <SaleSection />
       <CategoryGrid state={state} />
+      <SaleSection />
       <Catalog state={state} categoryId={categoryId} query={query} onRetry={retry} />
       <PromoBanners />
       <Blog />

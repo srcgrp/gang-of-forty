@@ -7,12 +7,14 @@ type CartState = {
     lines: CartLine[]
     add: (id: number) => void
     remove: (id:number) => void
+    clear: () => void
 }
 
 export const useCartStore = create<CartState>()((set) => ({
     lines: loadCart(),
     add: (id) => set((s) => ({ lines: addToCart(s.lines, id) })),
     remove: (id) => set((s) => ({ lines: removeFromCart(s.lines, id) })),
+    clear: () => set({ lines: [] }),
 }))
 
 useCartStore.subscribe((s) => saveCart(s.lines))

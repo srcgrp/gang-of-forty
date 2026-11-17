@@ -1218,3 +1218,26 @@ main > .status {
   border-radius: 999px;
 }
 .back-link:hover { border-color: var(--accent-color); }
+
+.checkout-btn {
+  display: block;
+  margin-top: 1rem;
+  padding: .75rem 1rem;
+  text-align: center;
+  color: var(--btn-text);
+  text-decoration: none;
+  background: var(--btn-bg);
+  border-radius: 10px;
+}
+
+.checkout-form { max-width: 520px; display: grid; gap: 1rem; margin-top: 1rem; }
+.field { display: grid; gap: .35rem; }
+.field input {
+  padding: .6rem .8rem;
+  color: var(--primary-color);
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+}
+.field input[aria-invalid='true'] { border-color: #d64545; }
+.field-error { margin: 0; color: #d64545; }
