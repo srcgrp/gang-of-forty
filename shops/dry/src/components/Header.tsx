@@ -8,15 +8,20 @@ import { cartCount } from '../features/cart/rules/lines.ts'
 import { useCartStore } from '../hooks/useCartStore.ts'
 import { Link } from '@tanstack/react-router'
 import { useFilterStore } from '../hooks/useFilterStore.ts'
+import { useEffect } from 'react'
 
 type HeaderProps = {
   onCartClick: () => void
   state: LoadState
 }
+const SHOP_NAME = 'MARTO'
 export default function Header({ onCartClick, state }: HeaderProps) {
   const count = useCartStore((s) => cartCount(s.lines))
   const query = useFilterStore((s) => s.query)
   const setQuery = useFilterStore((s) => s.setQuery)
+  useEffect(() => {
+  document.title = `${SHOP_NAME} · 🛒 ${formatNumber(count)}`
+}, [count])
   return (
     <>
       <a className="skip-link" href="#/" onClick={(e) => {

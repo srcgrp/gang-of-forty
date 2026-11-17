@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import { formatNumber } from '../features/products/catalog/format.ts'
 import { cartSummary } from '../features/products/catalog/cartView.ts'
+import { formatNumber } from '../features/products/catalog/format.ts'
 import { useCartStore } from '../hooks/useCartStore.ts'
 import type { LoadState } from '../shared/types.ts'
 
@@ -10,11 +10,29 @@ type CartPanelProps = {
   onClose: () => void
 }
 
-
-export default function CartPanel({ state, open, onClose }: CartPanelProps) {
+function CartContent({ state }: { state: LoadState }) {
   const lines = useCartStore((s) => s.lines)
   const remove = useCartStore((s) => s.remove)
   const { rows, total } = cartSummary(state, lines)
+
+  if (rows.length === 0) return <p className="cart-empty">سبد خرید شما خالی است.</p>
+  return (
+    <>
+      <ul>
+        {rows.map((row) => (
+          <li key={row.id}>
+            <span>{row.title}</span>
+            <span>{formatNumber(row.qty)}</span>
+            <button type="button" aria-label={`حذف ${row.title} از سبد`} onClick={() => remove(row.id)}>حذف</button>
+          </li>
+        ))}
+      </ul>
+      <p className="cart-total">جمع کل: {formatNumber(total)} تومان</p>
+    </>
+  )
+}
+
+export default function CartPanel({ state, open, onClose }: CartPanelProps) {
   useEffect(() => {
     if (!open) return undefined
     const onKey = (e: KeyboardEvent) => {
@@ -32,22 +50,7 @@ export default function CartPanel({ state, open, onClose }: CartPanelProps) {
           <h2>سبد خرید</h2>
           <button type="button" className="cart-close" aria-label="بستن سبد خرید" onClick={onClose}>✕</button>
         </div>
-        {rows.length === 0 ? (
-          <p className="cart-empty">سبد خرید شما خالی است.</p>
-        ) : (
-          <>
-            <ul>
-              {rows.map((row) => (
-                <li key={row.id}>
-                  <span>{row.title}</span>
-                  <span>{formatNumber(row.qty)}</span>
-                  <button type="button" aria-label={`حذف ${row.title} از سبد`} onClick={() => remove(row.id)}>حذف</button>
-                </li>
-              ))}
-            </ul>
-            <p className="cart-total">جمع کل: {formatNumber(total)} تومان</p>
-          </>
-        )}
+        {open && <CartContent state={state} />}
       </aside>
     </>
   )

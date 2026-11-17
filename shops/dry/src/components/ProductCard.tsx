@@ -3,13 +3,14 @@ import { showToast } from '../features/toast/toastStore.ts'
 import { useFavorites } from '../hooks/useFavorites.ts'
 import { useCartStore } from '../hooks/useCartStore.ts'
 import { Link, useNavigate } from '@tanstack/react-router'
+import { memo } from 'react'
 
 type ProductCardProps = {
   card: Card
   anchorId?: string
 }
 
-export default function ProductCard({ card, anchorId }: ProductCardProps) {
+function ProductCard({ card, anchorId }: ProductCardProps) {
   const { favorites, toggle } = useFavorites()
   const add = useCartStore((s) => s.add)
   const navigate = useNavigate()
@@ -74,3 +75,4 @@ export default function ProductCard({ card, anchorId }: ProductCardProps) {
         </div>
     )
 }
+export default memo(ProductCard)
