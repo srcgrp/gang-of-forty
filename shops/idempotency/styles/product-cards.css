@@ -42,7 +42,7 @@
   font-weight: 700;
 }
 
-html[data-theme="dark"] .price-box .product-price {
+div[data-theme="dark"] .price-box .product-price {
   color: #f7eedc;
 }
 

@@ -7,10 +7,11 @@ import {
   showCartToast,
   showCartStockLimitToast,
 } from "./features/cart/ui/toast";
-
 import { loadCart } from "./features/cart/storage/items";
 import { useCartEffects } from "./features/cart/hooks/useCartEffects";
+import { useThemeStore } from "./hooks/useThemeStore";
 export default function App() {
+  const theme = useThemeStore((state) => state.theme);
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const [cart, setCart] = useState<CartItem[]>(loadCart);
   const [query, setQuery] = useState("");
@@ -40,9 +41,7 @@ export default function App() {
 
   function handleCartAction(action: CartAction, id: number): void {
     if (!storeData) return;
-
     const nextCart = changeStoreCart(cart, action, id, storeData.stock);
-
     if (action === "increase" && nextCart === cart) {
       showCartStockLimitToast();
       return;
@@ -52,18 +51,20 @@ export default function App() {
   }
 
   return (
-    <StorePage
-      data={storeData}
-      loadState={loadState}
-      onRetry={retry}
-      cart={cart}
-      categoryId={categoryId}
-      query={query}
-      onQuery={setQuery}
-      onPickCategory={setCategoryId}
-      onAdd={handleAdd}
-      onCartAction={handleCartAction}
-      onClearCart={() => setCart([])}
-    />
+    <div className="app-shell" data-theme={theme}>
+      <StorePage
+        data={storeData}
+        loadState={loadState}
+        onRetry={retry}
+        cart={cart}
+        categoryId={categoryId}
+        query={query}
+        onQuery={setQuery}
+        onPickCategory={setCategoryId}
+        onAdd={handleAdd}
+        onCartAction={handleCartAction}
+        onClearCart={() => setCart([])}
+      />
+    </div>
   );
 }

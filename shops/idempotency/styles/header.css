@@ -197,7 +197,7 @@
 
 /* Cart count in dark mode */
 
-html[data-theme="dark"] .cart-count {
+div[data-theme="dark"] .cart-count {
   background-color: #f7eedc;
   color: #740d18;
 }
@@ -351,12 +351,12 @@ html[data-theme="dark"] .cart-count {
   z-index: 2000;
 }
 
-html[data-theme="dark"] .main-nav,
-html[data-theme="dark"] .search-results {
+div[data-theme="dark"] .main-nav,
+div[data-theme="dark"] .search-results {
   background-color: var(--color-primary);
 }
 
-html[data-theme="dark"] .search-result-item {
+div[data-theme="dark"] .search-result-item {
   color: var(--color-text);
 }
 
@@ -475,7 +475,7 @@ html[data-theme="dark"] .search-result-item {
   height: 12px;
 }
 
-html[data-theme="dark"] .cart-popover {
+div[data-theme="dark"] .cart-popover {
   background-color: #641722;
   color: #f7eedc;
   border-color: #f7eedc;

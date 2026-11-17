@@ -1,13 +1,8 @@
-import { useEffect, useState } from "react";
-
-type Theme = "light" | "dark";
+import { useThemeStore } from "../hooks/useThemeStore";
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState<Theme>("light");
-
-  useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-  }, [theme]);
+  const theme = useThemeStore((state) => state.theme);
+  const toggle = useThemeStore((state) => state.toggle);
 
   return (
     <div className="theme-toggle" role="group" aria-label="انتخاب تم">
@@ -17,7 +12,7 @@ export default function ThemeToggle() {
         type="button"
         aria-label="حالت روشن"
         aria-pressed={theme === "light"}
-        onClick={() => setTheme("light")}
+        onClick={theme === "dark" ? toggle : undefined}
       >
         ☀
       </button>
@@ -28,7 +23,7 @@ export default function ThemeToggle() {
         type="button"
         aria-label="حالت تاریک"
         aria-pressed={theme === "dark"}
-        onClick={() => setTheme("dark")}
+        onClick={theme === "light" ? toggle : undefined}
       >
         ☾
       </button>
