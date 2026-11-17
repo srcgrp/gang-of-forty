@@ -1,7 +1,7 @@
 import type { LoadState } from "../scripts/types";
-import Skeleton from "./status/Skeleton";
-import Status from "./status/Status";
-import Storefront from "./Storefront";
+import Skeleton from "./status/Skeleton.tsx";
+import Status from "./status/Status.tsx";
+import Storefront from "./Storefront.tsx";
 
 type PageProps = {
   state: LoadState;

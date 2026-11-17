@@ -1,17 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import type { CatalogData } from "../../scripts/types";
-import { filterProducts } from "../../scripts/logic/catalog/filter-products";
+import { filterProducts } from "../../scripts/logic/catalog/filter-products.ts";
 import {
   categorySections,
   specialOffers,
-} from "../../scripts/logic/catalog/sections";
-import { revealSections } from "../../lib/animations/animation";
-import CategoryNav from "../home/CategoryNav";
-import Hero from "../home/Hero";
-import ProductGrid from "./ProductGrid";
-import Promos from "../home/Promo";
-import { SearchResults } from "../shared/Search";
-import SaleBanner from "../home/SaleBanner";
+} from "../../scripts/logic/catalog/sections.ts";
+import { revealSections } from "../../lib/animations/animation.ts";
+import CategoryNav from "../home/CategoryNav.tsx";
+import Hero from "../home/Hero.tsx";
+import ProductGrid from "./ProductGrid.tsx";
+import Promos from "../home/Promo.tsx";
+import { SearchResults } from "../shared/Search.tsx";
+import SaleBanner from "../home/SaleBanner.tsx";
 
 type CatalogProps = { data: CatalogData; query: string };
 

@@ -1,6 +1,6 @@
-import { useCatalog } from "./hooks/useCatalog";
-import Page from "./components/Page";
-import Layout from "./components/Layout";
+import { useCatalog } from "./hooks/useCatalog.ts";
+import Page from "./components/Page.tsx";
+import Layout from "./components/Layout.tsx";
 
 export default function App() {
   const { state, retry } = useCatalog();

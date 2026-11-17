@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
-import type { LoadState } from "../scripts/types";
-import { USER_MESSAGES } from "../api/api-config";
-import { loadCatalog } from "../api/index-api";
+import type { LoadState } from "../scripts/types.ts";
+import { USER_MESSAGES } from "../api/api-config.ts";
+import { loadCatalog } from "../api/index-api.ts";
 
 const LOADING: LoadState = { status: "loading" };
 const UNKNOWN_ERROR: LoadState = {
