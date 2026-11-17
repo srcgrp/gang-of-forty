@@ -1,16 +1,13 @@
-
 import { useState } from "react";
-import type { CartRowView } from "../features/cart/logic/view";
+import type { StoreData } from "../features/products/api/store-data";
 import type { CartAction } from "../shared/types/products";
+import { getStoreCartSummary } from "../store-cart";
+import { useCartStore } from "../hooks/useCartStore";
+import { useCartEffects } from "../features/cart/hooks/useCartEffects";
+import { showCartStockLimitToast } from "../features/cart/ui/toast";
 import CartPopover from "./CartPopover";
 
-type Props = {
-  count: number;
-  rows: CartRowView[];
-  total: number;
-  onAction: (action: CartAction, id: number) => void;
-  onClear: () => void;
-};
+type Props = { data: StoreData | null };
 
 function isDesktopHover(): boolean {
   return window.matchMedia(
@@ -18,10 +15,20 @@ function isDesktopHover(): boolean {
   ).matches;
 }
 
-export default function CartPanel({
-  count, rows, total, onAction, onClear,
-}: Props) {
+export default function CartPanel({ data }: Props) {
   const [isOpen, setIsOpen] = useState(false);
+  const lines = useCartStore((state) => state.lines);
+  const change = useCartStore((state) => state.change);
+  useCartEffects(lines);
+  const { rows, count, total } = data
+    ? getStoreCartSummary(lines, data.products, data.offers, data.stock)
+    : { rows: [], count: 0, total: 0 };
+
+  function handleAction(action: CartAction, id: number): void {
+    if (!data) return;
+    const changed = change(action, id, data.stock.items[id] ?? 0);
+    if (!changed && action === "increase") showCartStockLimitToast();
+  }
 
   return (
     <div
@@ -56,8 +63,7 @@ export default function CartPanel({
       <CartPopover
         rows={rows}
         total={total}
-        onAction={onAction}
-        onClear={onClear}
+        onAction={handleAction}
       />
     </div>
   );

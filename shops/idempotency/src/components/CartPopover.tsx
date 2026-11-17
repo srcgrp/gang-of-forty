@@ -1,21 +1,21 @@
 
 import type { CartRowView } from "../features/cart/logic/view";
 import type { CartAction } from "../shared/types/products";
+import { useCartStore } from "../hooks/useCartStore";
 import CartPanelItems from "./CartPanelItems";
 
 type Props = {
   rows: CartRowView[];
   total: number;
   onAction: (action: CartAction, id: number) => void;
-  onClear: () => void;
 };
 
 export default function CartPopover({
   rows,
   total,
   onAction,
-  onClear,
 }: Props) {
+  const clear = useCartStore((state) => state.clear);
   return (
     <section
       className="cart-popover"
@@ -27,7 +27,7 @@ export default function CartPopover({
         <button
           type="button"
           className="cart-clear"
-          onClick={onClear}
+          onClick={clear}
           disabled={rows.length === 0}
         >
           خالی کردن

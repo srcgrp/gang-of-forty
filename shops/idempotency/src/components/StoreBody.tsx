@@ -16,7 +16,6 @@ type Props = {
   categoryId: number | null;
   query: string;
   onPickCategory: (id: number | null) => void;
-  onAdd: (id: number) => void;
 };
 
 export default function StoreBody({
@@ -26,7 +25,6 @@ export default function StoreBody({
   categoryId,
   query,
   onPickCategory,
-  onAdd,
 }: Props) {
   return (
     <>
@@ -44,7 +42,6 @@ export default function StoreBody({
             data={data}
             categoryId={categoryId}
             query={query}
-            onAdd={onAdd}
           />
         ) : loadState.status === "loading" ? (
           <LoadingProductSections />

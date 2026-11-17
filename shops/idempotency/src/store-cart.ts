@@ -1,42 +1,12 @@
 import type {
-  CartAction,
   CartItem,
   Offer,
   Product,
   Stock,
 } from "./shared/types/products";
 import { productImages } from "./features/products/data";
-import {
-  addCartItem,
-  canIncreaseCartItem,
-  getCartCount,
-  getCartSubtotal,
-} from "./features/cart/logic/items";
-import { applyCartAction } from "./features/cart/logic/actions";
+import { getCartCount, getCartSubtotal } from "./features/cart/logic/items";
 import { toCartRows } from "./features/cart/logic/view";
-
-export function addStoreProduct(
-  cart: CartItem[],
-  id: number,
-  products: Product[],
-  stock: Stock,
-): CartItem[] {
-  const product = products.find((item) => item.id === id);
-  const available = stock.items[id] ?? 0;
-
-  return product && canIncreaseCartItem(cart, id, available)
-    ? addCartItem(cart, product)
-    : cart;
-}
-
-export function changeStoreCart(
-  cart: CartItem[],
-  action: CartAction,
-  id: number,
-  stock: Stock,
-): CartItem[] {
-  return applyCartAction(cart, action, id, stock.items[id] ?? 0);
-}
 
 export function getStoreCartSummary(
   cart: CartItem[],

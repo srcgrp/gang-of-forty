@@ -6,14 +6,12 @@ type Props = {
   data: StoreData;
   categoryId: number | null;
   query: string;
-  onAdd: (id: number) => void;
 };
 
 export default function ProductSections({
   data,
   categoryId,
   query,
-  onAdd,
 }: Props) {
   const sections = getSearchedSections(data, categoryId, query);
 
@@ -32,7 +30,6 @@ export default function ProductSections({
             products={section.products}
             offers={data.offers}
             stock={data.stock}
-            onAdd={onAdd}
           />
         ))
       )}

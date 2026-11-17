@@ -1,19 +1,20 @@
 import type { Product, Offer } from "../shared/types/products";
 import { productImages } from "../features/products/data";
+import { useCartStore } from "../hooks/useCartStore";
+import { showCartToast, showCartStockLimitToast } from "../features/cart/ui/toast";
 
 type ProductCardProps = {
   product: Product;
-  onAdd: (id: number) => void;
   availableStock: number;
   offer?: Offer;
 };
 
 export default function ProductCard({
   product,
-  onAdd,
   availableStock,
   offer,
 }: ProductCardProps) {
+  const add = useCartStore((state) => state.add);
   const imagePath = productImages[product.id];
   const isAvailable = availableStock > 0;
 
@@ -56,7 +57,11 @@ export default function ProductCard({
       <button
         type="button"
         disabled={!isAvailable}
-        onClick={() => onAdd(product.id)}
+        onClick={() =>
+          add(product, availableStock)
+            ? showCartToast()
+            : showCartStockLimitToast()
+        }
       >
         {isAvailable ? "افزودن به سبد" : "ناموجود"}
       </button>

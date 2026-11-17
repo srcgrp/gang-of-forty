@@ -9,7 +9,6 @@ type ProductGridProps = {
   products: Product[];
   offers: Offer[];
   stock: Stock;
-  onAdd: (id: number) => void;
 };
 
 export default function ProductGrid({
@@ -18,7 +17,6 @@ export default function ProductGrid({
   products,
   offers,
   stock,
-  onAdd,
 }: ProductGridProps) {
   return (
     <section
@@ -41,7 +39,6 @@ export default function ProductGrid({
             <ProductCard
               key={product.id}
               product={product}
-              onAdd={onAdd}
               availableStock={availableStock}
               {...(offer ? { offer } : {})}
             />

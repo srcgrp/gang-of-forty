@@ -4,36 +4,27 @@ import CategoryNav from "./CategoryNav";
 import CartPanel from "./CartPanel";
 import SearchBox from "./SearchBox";
 
-import type { CartAction } from "../shared/types/products";
-import type { CartRowView } from "../features/cart/logic/view";
+import type { StoreData } from "../features/products/api/store-data";
 import ThemeToggle from "./ThemeToggle";
 import type { Shop } from "../shared/types/shop";
 import type { SearchableProduct } from "../shared/types/search";
 
 type HeaderProps = {
   onPickCategory: (id: number | null) => void;
-  cartCount: number;
-  cartRows: CartRowView[];
-  cartTotal: number;
+  data: StoreData | null;
   query: string;
   matches: SearchableProduct[];
   onQuery: (value: string) => void;
-  onCartAction: (action: CartAction, id: number) => void;
-  onClearCart: () => void;
   shop: Shop | null;
 };
 
 export default function Header({
   shop,
   onPickCategory,
-  cartCount,
-  cartRows,
-  cartTotal,
+  data,
   query,
   matches,
   onQuery,
-  onCartAction,
-  onClearCart,
 }: HeaderProps) {
   return (
     <header className="site-header">
@@ -49,13 +40,7 @@ export default function Header({
           <MobileNav onShowAll={() => onPickCategory(null)} />
         </div>
 
-        <CartPanel
-          count={cartCount}
-          rows={cartRows}
-          total={cartTotal}
-          onAction={onCartAction}
-          onClear={onClearCart}
-        />
+        <CartPanel data={data} />
         <ThemeToggle />
         <SearchBox value={query} onChange={onQuery} matches={matches} />
       </div>
