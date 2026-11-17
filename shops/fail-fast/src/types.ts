@@ -1,4 +1,3 @@
-
 export interface Product {
   id: number;
   name: string;
@@ -65,6 +64,10 @@ export interface OfferProduct extends Product {
   discountedPrice: number;
 }
 
+export interface CartLine {
+  productId: number;
+  quantity: number;
+}
 
 export type ProductPrice = Pick<Product, "id" | "price">;
 
@@ -72,9 +75,7 @@ export type ShopConfig = Readonly<Shop>;
 
 export const NOTIFICATION_TYPES = ["success", "error", "warning"] as const;
 
-
 export type NotificationType = (typeof NOTIFICATION_TYPES)[number];
-
 
 export const CATEGORY_IDS = {
   FRUITS: 1,
