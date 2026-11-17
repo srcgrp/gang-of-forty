@@ -2,6 +2,8 @@ import Fuse from "fuse.js";
 import type { StoreData } from "../api/store-data";
 import { getHomeSections } from "./home-sections";
 
+const HOME_PREVIEW_LIMIT = 6;
+
 export function getSearchedSections(
   data: StoreData,
   categoryId: number | null,
@@ -9,7 +11,14 @@ export function getSearchedSections(
 ) {
   const sections = getHomeSections(data, categoryId);
 
-  if (!query.trim()) return sections;
+  if (!query.trim()) {
+    return categoryId === null
+      ? sections.map((section) => ({
+          ...section,
+          products: section.products.slice(0, HOME_PREVIEW_LIMIT),
+        }))
+      : sections;
+  }
 
   const search = new Fuse(data.products, {
     keys: ["name"],

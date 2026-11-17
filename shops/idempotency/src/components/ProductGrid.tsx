@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import type { Product, Offer, Stock } from "../shared/types/products";
 import ProductCard from "./ProductCard";
 import CarouselControls from "./CarouselControls";
@@ -24,7 +25,16 @@ export default function ProductGrid({
       className="product-section home-carousel-section"
       aria-labelledby={`carousel-title-${sectionId}`}
     >
-      <h2 id={`carousel-title-${sectionId}`}>{title}</h2>
+      <div className="carousel-heading">
+        <h2 id={`carousel-title-${sectionId}`}>{title}</h2>
+        <Link
+          to="/plp/$carouselId"
+          params={{ carouselId: sectionId }}
+          className="view-all-link"
+        >
+          مشاهده همه
+        </Link>
+      </div>
       {sectionId === "offers" && <SaleCountdown />}
       <div
         className="product-track"
@@ -45,7 +55,7 @@ export default function ProductGrid({
           );
         })}
       </div>
-      <CarouselControls title="{title}" />
+      <CarouselControls title={title} />
     </section>
   );
 }

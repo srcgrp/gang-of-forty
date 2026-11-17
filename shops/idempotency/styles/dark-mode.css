@@ -6,6 +6,7 @@ div[data-theme="dark"] .top-bar {
 
 div[data-theme="dark"] .categories h2,
 div[data-theme="dark"] .product-section h2,
+div[data-theme="dark"] .view-all-link,
 div[data-theme="dark"] .product-price {
   color: #F7EEDC;
 }
