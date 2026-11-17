@@ -7,6 +7,8 @@ export type Product = {
   price: number;
   tags: string[];
 };
+export type CartLine = { productId: number; quantity: number };
+
 export type Category = {
   id: number;
   slug: string;
@@ -58,8 +60,7 @@ export type LoadState =
   | { status: "loading" }
   | {
       status: "success";
-      pantryProducts: Product[];
-      offerProducts: Product[];
+      products: Product[];
       stock: Stock;
       offers: Offer[];
     }

@@ -33,16 +33,22 @@ export function render(
       break;
 
     case "success": {
+      const pantryProducts = state.products.filter(
+        (product) => product.categoryId === 4,
+      );
+      const offerProducts = state.products.filter((product) =>
+        state.offers.some((offer) => offer.productId === product.id),
+      );
       renderProducts(
         container,
-        state.pantryProducts,
+        pantryProducts,
         state.stock,
         state.offers,
       );
 
       renderProducts(
         offersContainer,
-        state.offerProducts,
+        offerProducts,
         state.stock,
         state.offers,
       );
