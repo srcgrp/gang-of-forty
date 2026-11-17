@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { loadStoreData } from "../api/store-data";
-import type { LoadState } from "../../../shared/types/products";
-import type { StoreData } from "../api/store-data";
+import { loadStoreData } from "../features/products/api/store-data";
+import type { LoadState } from "../shared/types/products";
+import type { StoreData } from "../features/products/api/store-data";
 
-export function useStoreData() {
+export function useCatalog() {
   const [loadState, setLoadState] = useState<LoadState>({
     status: "loading",
   });
@@ -45,5 +45,5 @@ export function useStoreData() {
     setAttempt((current) => current + 1);
   }
 
-  return { loadState, storeData, retry };
+  return { loadState, catalog: storeData, retry };
 }
