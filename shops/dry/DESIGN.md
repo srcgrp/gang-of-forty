@@ -204,8 +204,7 @@ src/
 | Store | فایل | چه چیزی در آن است | چه کسی عوضش می‌کند | کجا ذخیره می‌شود |
 |---|---|---|---|---|
 | `useThemeStore` | `hooks/useThemeStore.ts` | `theme` (`light` یا `dark`)، مقدار اولیه از تم سیستم | `ThemeToggle` با `toggle` | `persist` در localStorage با کلید `dry-theme` |
-| `useCartStore` | `hooks/useCartStore.ts` | `lines` (سبد) | `ProductCard`، `FavoritesDrawer` و `ProductPage` با `add`؛ `CartPanel` با `remove`؛ `CheckoutPage` با `clear``remove` | `subscribe` + `saveCart` در localStorage |
-| `useFilterStore` | `hooks/useFilterStore.ts` | `query` و `categoryId` | `Header` (جستجو) و `CategoryNav` | ذخیره نمی‌شود |
+| `useCartStore` | `hooks/useCartStore.ts` | `lines` (سبد) | `ProductCard`، `FavoritesDrawer` و `ProductPage` با `add`؛ `CartPanel` با `remove`؛ `CheckoutPage` با `clear` | `subscribe` + `saveCart` در localStorage || `useFilterStore` | `hooks/useFilterStore.ts` | `query` و `categoryId` | `Header` (جستجو) و `CategoryNav` | ذخیره نمی‌شود |
 | `useCatalogStore` | داخل `hooks/useCatalog.ts` | وضعیت بارگذاری کاتالوگ (`LoadState`) | `useCatalog` (یک بار بارگذاری، `retry` برای تلاش دوباره) | ذخیره نمی‌شود |
 
 **سبد: راه الف (Zustand)، نه `reducer + context`.** دلیل‌ها:
@@ -225,7 +224,7 @@ Layout
 │   ├── FavoritesMenu → FavoritesDrawer
 │   └── Toaster
 ├── main → Outlet → (صفحه)
-├── CartPanel
+├── CartPanel (با سبد پر، دکمه‌ی «تسویه حساب» به `#/checkout` می‌رود)
 └── Footer
 ```
 
@@ -246,8 +245,8 @@ Layout → Outlet → HomePage
 Layout → Outlet → PlpPage
 ├── لینک بازگشت
 ├── عنوان و تعداد محصولات
+├── لینک‌های مرتب‌سازی (`?sort=`)
 └── ProductCard (گرید همه‌ی محصولات کاروسل)
-الای گرید دو لینک مرتب‌سازی (?sort=) هست.» و تو CartPanel (درخت Layout): «با سبد پر، دکمه‌ی تسویه به #/checkout می‌رود.
 ```
 
 **NotFound**
