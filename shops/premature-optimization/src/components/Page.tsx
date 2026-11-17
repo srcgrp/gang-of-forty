@@ -1,18 +1,14 @@
 import type { LoadState } from "../scripts/types";
-import Skeleton from "./status/Skeleton.tsx";
-import Status from "./status/Status.tsx";
-import Storefront from "./Storefront.tsx";
+import Skeleton from "./status/Skeleton";
+import Status from "./status/Status";
+import Storefront from "./Storefront";
 
 type PageProps = {
   state: LoadState;
-  categoryId: number | null;
-  query: string;
-  onPick: (id: number) => void;
-  onQuery: (query: string) => void;
   onRetry: () => void;
 };
 
-export default function Page({ state, onRetry, ...rest }: PageProps) {
+export default function Page({ state, onRetry }: PageProps) {
   switch (state.status) {
     case "loading":
       return <Skeleton />;
@@ -26,6 +22,6 @@ export default function Page({ state, onRetry, ...rest }: PageProps) {
     case "error":
       return <Status message={state.message} isError onRetry={onRetry} />;
     case "success":
-      return <Storefront data={state} {...rest} />;
+      return <Storefront data={state} />;
   }
 }

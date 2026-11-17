@@ -1,33 +1,24 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { CatalogData } from "../../scripts/types";
-import { filterProducts } from "../../scripts/logic/catalog/filter-products.ts";
+import { filterProducts } from "../../scripts/logic/catalog/filter-products";
 import {
   categorySections,
   specialOffers,
-} from "../../scripts/logic/catalog/sections.ts";
-import { revealSections } from "../../lib/animations/animation.ts";
-import CategoryNav from "../home/CategoryNav.tsx";
-import Hero from "../home/Hero.tsx";
-import ProductGrid from "./ProductGrid.tsx";
-import Promos from "../home/Promo.tsx";
-import { SearchResults } from "../shared/Search.tsx";
-import SaleBanner from "../home/SaleBanner.tsx";
+} from "../../scripts/logic/catalog/sections";
+import { revealSections } from "../../lib/animations/animation";
+import CategoryNav from "../home/CategoryNav";
+import Hero from "../home/Hero";
+import ProductGrid from "./ProductGrid";
+import Promos from "../home/Promo";
+import { SearchResults } from "../shared/Search";
+import SaleBanner from "../home/SaleBanner";
 
-type CatalogProps = {
-  data: CatalogData;
-  categoryId: number | null;
-  query: string;
-  onPick: (id: number) => void;
-};
+type CatalogProps = { data: CatalogData; query: string };
 
-export default function Catalog({
-  data,
-  categoryId,
-  query,
-  onPick,
-}: CatalogProps) {
+export default function Catalog({ data, query }: CatalogProps) {
   const { products, offers, categories, home, stock } = data;
   const main = useRef<HTMLElement>(null);
+  const [categoryId, setCategoryId] = useState<number | null>(null);
   const shared = { offers, stock, categories };
   const special = specialOffers(products, offers);
   const sections = categorySections(products, categories);
@@ -52,7 +43,7 @@ export default function Catalog({
           <CategoryNav
             categories={categories}
             activeId={categoryId}
-            onPick={onPick}
+            onPick={setCategoryId}
           />
           {special.length > 0 && (
             <ProductGrid

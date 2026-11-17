@@ -1,24 +1,14 @@
 import type { CatalogData } from "../scripts/types";
-import Catalog from "./catalog/Catalog.tsx";
-import DocumentTitle from "./layout/DocumentTitle.tsx";
-import Footer from "./layout/Footer.tsx";
-import Header from "./layout/Header.tsx";
+import { useSearchQuery } from "../hooks/useSearchQuery";
+import Catalog from "./catalog/Catalog";
+import DocumentTitle from "./layout/DocumentTitle";
+import Footer from "./layout/Footer";
+import Header from "./layout/Header";
 
-type StorefrontProps = {
-  data: CatalogData;
-  categoryId: number | null;
-  query: string;
-  onPick: (id: number) => void;
-  onQuery: (query: string) => void;
-};
+type StorefrontProps = { data: CatalogData };
 
-export default function Storefront({
-  data,
-  categoryId,
-  query,
-  onPick,
-  onQuery,
-}: StorefrontProps) {
+export default function Storefront({ data }: StorefrontProps) {
+  const [query, setQuery] = useSearchQuery();
   const { products, offers, categories } = data;
   const shop = {
     ...data.shop,
@@ -38,14 +28,9 @@ export default function Storefront({
         products={products}
         offers={offers}
         query={query}
-        onQuery={onQuery}
+        onQuery={setQuery}
       />
-      <Catalog
-        data={data}
-        categoryId={categoryId}
-        query={query}
-        onPick={onPick}
-      />
+      <Catalog data={data} query={query} />
       <Footer shop={shop} categories={categories} />
     </>
   );
