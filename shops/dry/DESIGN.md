@@ -195,13 +195,16 @@ src/
 
 - `carouselId` یا `offers` است (پیشنهادهای ویژه) یا slug یک دسته. برای id ناشناخته (مثل `#/plp/nothing`) `carouselProducts` مقدار `null` برمی‌گرداند و `PlpPage` پیام «این فهرست پیدا نشد» و لینک بازگشت نشان می‌دهد.
 - مسیرها فقط در `App.tsx` تعریف می‌شوند و از `createHashHistory` استفاده می‌کنیم، چون فایل‌ها روی سرور ثابت سرو می‌شوند و Refresh روی `#/plp/dairy` باید کار کند.
+| `#/plp/$carouselId?sort=price` | `PlpPage` | همان PLP؛ `validateSearch` مقدار `sort` را بررسی می‌کند (`default` یا `price`) و `carouselProducts(state, carouselId, sort)` مرتب می‌کند |
+| `#/product/$productId` | `ProductPage` | `useCatalog` + `cardById(state, Number(productId))`؛ id ناشناخته پیام «محصول پیدا نشد» می‌دهد |
+| `#/checkout` | `CheckoutPage` | `useCartStore` (`lines` و `clear`) + `validateCheckout` |
 
 ## Storeها
 
 | Store | فایل | چه چیزی در آن است | چه کسی عوضش می‌کند | کجا ذخیره می‌شود |
 |---|---|---|---|---|
 | `useThemeStore` | `hooks/useThemeStore.ts` | `theme` (`light` یا `dark`)، مقدار اولیه از تم سیستم | `ThemeToggle` با `toggle` | `persist` در localStorage با کلید `dry-theme` |
-| `useCartStore` | `hooks/useCartStore.ts` | `lines` (سبد) | `ProductCard` و `FavoritesDrawer` با `add`؛ `CartPanel` با `remove` | `subscribe` + `saveCart` در localStorage |
+| `useCartStore` | `hooks/useCartStore.ts` | `lines` (سبد) | `ProductCard`، `FavoritesDrawer` و `ProductPage` با `add`؛ `CartPanel` با `remove`؛ `CheckoutPage` با `clear``remove` | `subscribe` + `saveCart` در localStorage |
 | `useFilterStore` | `hooks/useFilterStore.ts` | `query` و `categoryId` | `Header` (جستجو) و `CategoryNav` | ذخیره نمی‌شود |
 | `useCatalogStore` | داخل `hooks/useCatalog.ts` | وضعیت بارگذاری کاتالوگ (`LoadState`) | `useCatalog` (یک بار بارگذاری، `retry` برای تلاش دوباره) | ذخیره نمی‌شود |
 
@@ -244,9 +247,23 @@ Layout → Outlet → PlpPage
 ├── لینک بازگشت
 ├── عنوان و تعداد محصولات
 └── ProductCard (گرید همه‌ی محصولات کاروسل)
+الای گرید دو لینک مرتب‌سازی (?sort=) هست.» و تو CartPanel (درخت Layout): «با سبد پر، دکمه‌ی تسویه به #/checkout می‌رود.
 ```
 
 **NotFound**
 ```
 Layout → Outlet → NotFound → لینک بازگشت
+```
+
+**ProductPage**
+```
+Layout → Outlet → ProductPage
+├── لینک بازگشت
+└── جزئیات محصول (دکمه‌ی افزودن به سبد و علاقه‌مندی)
+```
+
+**CheckoutPage**
+```
+Layout → Outlet → CheckoutPage
+└── فرم controlled (نام، موبایل، نشانی) با useRef برای focus
 ```
