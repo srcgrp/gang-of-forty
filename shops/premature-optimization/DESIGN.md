@@ -132,20 +132,80 @@ GET /api/home.json        → Home
 | مقدار پیش‌فرض (نام فروشگاه) | بخش خالی مخفی می‌شود | متن‌ها | skeleton-text | فوتر/اطلاعات فروشگاه |
 
 
-## 7. Folders
+## ۷. ‏Folders
 
 ```
 src/
-  types.ts        → Data Layer
-  api/            → Network Layer
-  cart/           → Logic Layer
-  ui/             → Presentation Layer
-  main.ts         → start point
+  main.tsx          → نقطه‌ی شروع (createRoot)
+  App.tsx           → State، Effect و تابع‌های رویداد (بدون JSX بزرگ)
+  components/       → لایه‌ی نمایش (JSX)، با زیرپوشه‌های layout-home-catalog-cart-status-shared
+  lib/              → انیمیشن، اعلان، توابع کمکی (غیر از کامپوننت)
+  scripts/
+    types.ts, types/→ لایه‌ی داده
+    logic/          → توابع خالص (سبد، قیمت، فیلتر، مرتب‌سازی)
+  api/              → لایه‌ی شبکه (getJSON، loadCatalog)
+  guards/           → اعتبارسنجی پاسخ API
+  scripts/storage/  → خواندن/نوشتن localStorage و URL
+  styles/           → CSS
 ```
 
-قانون وابستگی: ui → cart → api → types ؛ فقط main.ts همه را به هم وصل می‌کند و cart/ به DOM دست نمی‌زند.
+قانون وابستگی: components → logic → types ؛ فقط App.tsx به api/ و storage/ دست می‌زند
+و داده را با props پایین می‌دهد. logic/ به DOM دست نمی‌زند و هیچ کامپوننتی fetch یا localStorage ندارد.
 
-## ۸. امنیت
+## ۸. درخت کامپوننت‌ها
+
+```
+App                          State: state، cart، categoryId، query، attempt
+└─ Page                      switch روی state.status
+   ├─ Skeleton               → loading
+   ├─ Status                 → empty / error (+ دکمه‌ی تلاش دوباره)
+   └─ Storefront             → success
+      ├─ Header
+      │  ├─ Search
+      │  └─ CartPanel        State محلی: open
+      │     └─ CartLineItem × n
+      ├─ Catalog (<main>)
+      │  ├─ SearchResults    → وقتی query خالی نیست
+      │  │  └─ ProductList   → ProductCard × n
+      │  └─ وگرنه:
+      │     ├─ Hero (بنرها)
+      │     ├─ CategoryNav   (دسته‌ی فعال، onPick)
+      │     ├─ ProductGrid   State محلی: sort  («پیشنهاد ویژه»)
+      │     │  ├─ SortSelect
+      │     │  └─ Carousel   State محلی: offset، max
+      │     │     └─ ProductList → ProductCard × n (Price، OfferBadge)
+      │     ├─ Promos
+      │     └─ ProductGrid × n (هر دسته)
+      └─ Footer
+```
+
+## ۹. ‏State کجا زندگی می‌کند؟
+
+
+| کجا ذخیره می‌شود | چه کسی عوضش می‌کند | صاحب (کامپوننت) | State |
+| ---: | ---: | ---: | ---: |
+|  هر بار از API گرفته می‌شود | Effect بارگذاری با `loadCatalog` | App | `state` (LoadState: loading / empty / error / success + داده) |
+| localStorage (Effect روی `[cart]`) | `handleAdd` / `handleRemove` با `addItem` و `removeItem` (توابع خالص) | App | `cart` (`Record<id, تعداد>`) |
+|  فقط برای پررنگ‌کردن دسته‌ی فعال | `onPick` در CategoryNav | App | `categoryId` |
+| آدرس صفحه (`?q=`، با Effect) | `onQuery` در SearchBox | App | `query` |
+|  فقط Effect بارگذاری را دوباره اجرا می‌کند | `handleRetry` (دکمه‌ی تلاش دوباره) | App | `attempt` |
+|  فقط ظاهر | کلیک روی دکمه‌ی سبد / کلیک بیرون | CartPanel | `open` |
+|  مخصوص همان بخش | SortSelect | هر ProductGrid | `sort` |
+|  فقط موقعیت اسلاید | دکمه‌های قبلی/بعدی و تغییر اندازه‌ی صفحه | هر Carousel | `offset`، `max` |
+
+### چرا این‌ها State نیستند 
+
+| چرا State نیست | چطور حساب می‌شود | مقدار |
+| ---: | ---: | ---: |
+| از `cart` و `offers` حساب می‌شود؛ State جدا ممکن است با سبد ناهماهنگ شود | از ردیف‌های سبد با قیمت نهایی، هنگام render | جمع سبد (`cartTotal`) |
+| همان دلیل | جمع تعداد‌های `cart` | تعداد کل سبد (`cartCount`) |
+| از قیمت و تخفیف مشتق می‌شود | `calculatePrice(price, offer)` | قیمت نهایی کارت |
+| وقتی سبد عوض شود خودش درست می‌شود، بدون State دوم | موجودی سرور منهای تعداد داخل سبد (`availableStock`) | موجودی قابل افزودن |
+| از `products` و `query` مشتق می‌شود | `filterProducts(products, query)` | نتایج جستجو |
+| از `products`، `categories` و `offers` مشتق می‌شوند | `categorySections` و `specialOffers` | بخش‌های دسته‌ها و پیشنهاد ویژه |
+| کار با دنیای بیرون است، نه State | Effect روی `[cart, shopName]` | عنوان صفحه (`document.title`) |
+
+## ۱۰. امنیت
 در مرورگر همه‌چیز عمومی و قابل‌دستکاری است:
 - کد جاوااسکریپت، فایل‌های /api/*.json  و localStorage را می‌توان با DevTools دید و تغییر داد.
 
