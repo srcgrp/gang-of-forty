@@ -8,9 +8,11 @@ import ThemeToggle from './ThemeToggle'
 import { formatNumber } from './format'
 import { cartCount } from '../features/cart/calculate'
 import { useCartStore } from '../hooks/useCartStore'
+import { useEffect } from 'react'
+import { Link } from '@tanstack/react-router'
 
 type HeaderProps = {
-  shop: Pick<ShopInfo, 'notice' | 'slogan' | 'phone' | 'menu'>
+  shop: Pick<ShopInfo, 'name' | 'notice' | 'slogan' | 'phone' | 'menu'>
   categories: Category[]
   query: string
   onQuery: (value: string) => void
@@ -21,8 +23,12 @@ type HeaderProps = {
 export default function Header({ shop, categories, query, onQuery,
   onOpenCart, onPickCategory }: HeaderProps) {
   const count = formatNumber(useCartStore((s) => cartCount(s.items)))
+
+   useEffect(() => {
+    document.title = `${shop.name} · 🛒 ${count}`
+  }, [shop.name, count])
   return (
-    <header className="site-header">
+   <header className="site-header">
       <div className="promo"><p id="shop-notice">{shop.notice}</p></div>
       <input type="checkbox" id="nav-toggle" className="nav-toggle sr-only"
         aria-label="باز و بسته کردن منو" aria-controls="main-nav" />
@@ -32,6 +38,9 @@ export default function Header({ shop, categories, query, onQuery,
         </a>
         <div className="header-actions">
           <ThemeToggle />
+          <Link className="icon-btn checkout-link" to="/checkout" aria-label="رفتن به صفحهٔ تسویه حساب">
+            <Icon name="check" />
+          </Link>
           <button type="button" className="icon-btn cart-toggle-btn" id="cart-count"
             onClick={onOpenCart} aria-label={`باز کردن سبد خرید، ${count} کالا`}>
             <Icon name="cart" /><span className="badge cart-badge" aria-hidden="true">{count}</span>

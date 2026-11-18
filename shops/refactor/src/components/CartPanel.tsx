@@ -1,19 +1,20 @@
-import type { ProductView } from '../types'
-import { formatNumber } from './format'
-import { cartLines, cartTotal } from '../features/cart/calculate'
-import { useCartStore } from '../hooks/useCartStore'
-import Icon from './Icon'
+import type { ProductView } from "../types";
+import { formatNumber } from "./format";
+import { cartLines, cartTotal } from "../features/cart/calculate";
+import { useCartStore } from "../hooks/useCartStore";
+import Icon from "./Icon";
 
 type CartPanelProps = {
-products: ProductView[]; onClose: () => void
-}
+  products: ProductView[];
+  onClose: () => void;
+};
 
 export default function CartPanel({ products, onClose }: CartPanelProps) {
-const items = useCartStore((s) => s.items)    
-const lines = cartLines(items, products)
-  const total = cartTotal(lines)
-  const remove = useCartStore((s) => s.remove)
-  const change = useCartStore((s) => s.change)
+  const items = useCartStore((s) => s.items);
+  const lines = cartLines(items, products);
+  const total = cartTotal(lines);
+  const remove = useCartStore((s) => s.remove);
+  const change = useCartStore((s) => s.change);
   return (
     <aside className="cart-panel" aria-labelledby="cart-title">
       <div className="cart-header">
@@ -26,7 +27,7 @@ const lines = cartLines(items, products)
       {lines.length === 0 ? (
         <div className="cart-empty-state">
           <span className="cart-empty-emoji" aria-hidden="true">🛒</span>
-          <p>سبد خرید شما خالی است؛ از فهرست کالاها چیزی اضافه کنید.</p>
+          <p>سبد خرید شما خالی است؛از فهرست کالاها چیزی اضافه کنید.</p>
         </div>
       ) : (
         <ul className="cart-items">
@@ -65,5 +66,5 @@ const lines = cartLines(items, products)
         </div>
       </div>
     </aside>
-  )
+  );
 }

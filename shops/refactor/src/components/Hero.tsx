@@ -20,7 +20,7 @@ export default function Hero({ main, side }: HeroProps) {
                 <img
                   className="hero-main__image"
                   src={`${BASE}img/bg.png`}
-                  alt=""
+                  alt="slider-img"
                   width={560}
                   height={400}
                 />
@@ -46,7 +46,7 @@ export default function Hero({ main, side }: HeroProps) {
           <img
             className="banner-custom-img"
             src={`${BASE}img/bg1.png`}
-            alt=""
+            alt="hero-side"
           />
           <div className="hero-side-content">
             <span className="side-icon" aria-hidden="true">

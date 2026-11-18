@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Outlet, useNavigate, useSearch } from '@tanstack/react-router'
-import { cartCount, cartLines } from '../features/cart/calculate'
 import { anchorClick } from './safe-href'
-import { useCartStore } from '../hooks/useCartStore'
 import { useCatalog } from '../hooks/useCatalog'
 import { useThemeStore } from '../hooks/useThemeStore'
 import CartPanel from './CartPanel'
@@ -12,16 +10,10 @@ import Header from './Header'
 export default function Layout() {
   const { state } = useCatalog()
   const theme = useThemeStore((s) => s.theme)
-  const items = useCartStore((s) => s.items)
   const search = useSearch({ strict: false }) as { q?: string; category?: number | null }
   const [query, setQuery] = useState('')
   const [isCartOpen, setIsCartOpen] = useState(false)
   const navigate = useNavigate()
-
-  useEffect(() => {
-    if (state.status !== 'success') return
-    document.title = `${state.data.shop.name} · 🛒 ${cartCount(cartLines(items, state.data.products)).toLocaleString('fa-IR')}`
-  }, [items, state])
 
   return (
     <div className="app" data-theme={theme}>

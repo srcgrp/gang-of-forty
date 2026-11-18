@@ -21,7 +21,8 @@ export default function CarouselRow({ carousels, carousel, products }: CarouselR
           <span aria-hidden="true">{carousel.emoji}</span> {carousel.title}
           <span> ({formatNumber(items.length)} کالا)</span>
         </h2>
-        <Link className="sale-show-btn" to="/plp/$carouselId" params={{ carouselId: carousel.id }}>مشاهده همه</Link>
+        <Link className="sale-show-btn" to="/plp/$carouselId" params={{ carouselId: carousel.id }}
+          search={{ sort: 'default' }}>مشاهده همه</Link>
       </div>
       {items.length === 0 ? (
         <p className="empty-message">فعلاً کالایی در این کاروسل نیست.</p>

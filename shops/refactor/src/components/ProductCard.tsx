@@ -1,3 +1,5 @@
+
+import { memo } from 'react'
 import type { ProductView } from "../types";
 import { useCartStore } from "../hooks/useCartStore";
 import confetti from "canvas-confetti";
@@ -10,8 +12,7 @@ type ProductCardProps = {
   inStock: boolean;
   discount?: number | undefined;
 };
-
-export default function ProductCard({
+ function ProductCardBase({
   product,
   inStock,
   discount,
@@ -59,3 +60,5 @@ export default function ProductCard({
     </li>
   );
 }
+const ProductCard = memo(ProductCardBase)
+export default ProductCard

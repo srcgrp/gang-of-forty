@@ -1,6 +1,6 @@
 import type { Category, Link } from '../types'
-import Icon from './Icon'
 import { anchorClick, safeHref } from './safe-href'
+import Icon from './Icon'
 
 type MainNavProps = {
   menu: Link[]
