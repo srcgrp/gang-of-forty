@@ -1,21 +1,18 @@
-import type { CartLine, Product } from '../types';
+import type { Product } from '../types';
+import { totalPrice } from '../cart/cart';
+import { useCartStore } from '../hooks/useCartStore';
 import { formatCount, formatPrice } from '../utils/format';
 
 type CartPanelProps = {
   open: boolean;
-  cart: CartLine[];
   products: Product[];
-  total: number;
-  onRemove: (productId: number) => void;
 };
 
-export default function CartPanel({
-  open,
-  cart,
-  products,
-  total,
-  onRemove,
-}: CartPanelProps) {
+export default function CartPanel({ open, products }: CartPanelProps) {
+  const cart = useCartStore((state) => state.lines);
+  const remove = useCartStore((state) => state.remove);
+  const total = totalPrice(cart, products);
+
   return (
     <aside id="cart-panel" hidden={!open}>
       <h2>سبد خرید</h2>
@@ -36,7 +33,7 @@ export default function CartPanel({
                 <button
                   type="button"
                   aria-label={`حذف ${product.name} از سبد خرید`}
-                  onClick={() => onRemove(line.productId)}
+                  onClick={() => remove(line.productId)}
                 >
                   حذف
                 </button>

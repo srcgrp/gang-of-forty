@@ -5,10 +5,9 @@ import ProductGrid from "./ProductGrid";
 type CategoryShelvesProps = {
   categories: Category[];
   state: LoadState;
-  onAdd: (id: number) => void;
 };
 
-export default function CategoryShelves({ categories, state, onAdd }: CategoryShelvesProps) {
+export default function CategoryShelves({ categories, state }: CategoryShelvesProps) {
   const productViews = state.status === "success" ? state.products : [];
 
   return (
@@ -22,7 +21,7 @@ export default function CategoryShelves({ categories, state, onAdd }: CategorySh
             <h2 className="section-title">
               {category.emoji} {category.name}
             </h2>
-            <ProductGrid state={stateForProducts(state, items)} onAdd={onAdd} />
+            <ProductGrid state={stateForProducts(state, items)} />
           </section>
         );
       })}

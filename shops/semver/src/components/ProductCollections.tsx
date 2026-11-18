@@ -9,7 +9,6 @@ type ProductCollectionsProps = {
   home: Home | null;
   state: LoadState;
   categoryId: number | null;
-  onAdd: (id: number) => void;
   onRetry: () => void;
 };
 
@@ -31,24 +30,20 @@ export default function ProductCollections(props: ProductCollectionsProps) {
         home={props.home}
         categories={props.categories}
         state={props.state}
-        onAdd={props.onAdd}
         variant="offers"
       />
       <LatestProducts
         state={props.state}
         categoryId={props.categoryId}
-        onAdd={props.onAdd}
       />
       <CategoryShelves
         categories={props.categories}
         state={props.state}
-        onAdd={props.onAdd}
       />
       <HomeCarousels
         home={props.home}
         categories={props.categories}
         state={props.state}
-        onAdd={props.onAdd}
         variant="other"
       />
       <PromoBanners home={props.home} />

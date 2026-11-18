@@ -2,16 +2,17 @@ import type { ProductView } from "../types";
 import { formatPrice } from "../utils/format";
 import confetti from "canvas-confetti";
 import { notyf } from "../utils/notify";
+import { useCartStore } from "../hooks/useCartStore";
 
 type ProductCardProps = {
   item: ProductView;
-  onAdd: (id: number) => void;
 };
 
 const discountedPrice = (price: number, percent: number): number =>
   Math.round((price * (100 - percent)) / 100);
 
-export default function ProductCard({ item, onAdd }: ProductCardProps) {
+export default function ProductCard({ item }: ProductCardProps) {
+  const add = useCartStore((state) => state.add);
   const { product, offer, stock } = item;
   const isOutOfStock = stock === 0;
   const finalPrice = offer
@@ -52,7 +53,7 @@ export default function ProductCard({ item, onAdd }: ProductCardProps) {
           }
           disabled={isOutOfStock}
           onClick={() => {
-            onAdd(product.id);
+            add(product.id);
             notyf.success(`${product.name} با موفقیت به سبد خرید اضافه شد!`);
             confetti({ particleCount: 50, spread: 60, origin: { y: 0.8 } });
           }}

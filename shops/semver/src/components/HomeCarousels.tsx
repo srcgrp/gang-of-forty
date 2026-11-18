@@ -7,11 +7,10 @@ type HomeCarouselsProps = {
   home: Home | null;
   categories: Category[];
   state: LoadState;
-  onAdd: (id: number) => void;
   variant: "offers" | "other";
 };
 
-export default function HomeCarousels({ home, categories, state, onAdd, variant }: HomeCarouselsProps) {
+export default function HomeCarousels({ home, categories, state, variant }: HomeCarouselsProps) {
   const productViews = state.status === "success" ? state.products : [];
   const slugs = new Set(categories.map((category) => category.slug));
 
@@ -30,7 +29,7 @@ export default function HomeCarousels({ home, categories, state, onAdd, variant 
               {carousel.emoji} {carousel.title}
               {carousel.source === "offers" && <SaleCountdown />}
             </h2>
-            <ProductGrid state={stateForProducts(state, items)} onAdd={onAdd} />
+            <ProductGrid state={stateForProducts(state, items)} />
           </section>
         );
       })}

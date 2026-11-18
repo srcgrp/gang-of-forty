@@ -4,13 +4,13 @@ import confetti from "canvas-confetti";
 import type { LoadState } from "../types";
 import { formatPrice } from "../utils/format";
 import { notyf } from "../utils/notify";
+import { useCartStore } from "../hooks/useCartStore";
 import "./SearchBox.css";
 
 type SearchBoxProps = {
   query: string;
   onQueryChange: (query: string) => void;
   state: LoadState;
-  onAdd: (id: number) => void;
   onRetry: () => void;
 };
 
@@ -25,9 +25,9 @@ export default function SearchBox({
   query,
   onQueryChange,
   state,
-  onAdd,
   onRetry,
 }: SearchBoxProps) {
+  const add = useCartStore((state) => state.add);
   const inputRef = useRef<HTMLInputElement>(null);
   const popupRef = useRef<HTMLDivElement>(null);
   const [focused, setFocused] = useState(false);
@@ -122,7 +122,7 @@ export default function SearchBox({
                     }
                     disabled={isOutOfStock}
                     onClick={() => {
-                      onAdd(product.id);
+                      add(product.id);
                       notyf.success(`${product.name} با موفقیت به سبد خرید اضافه شد!`);
                       confetti({ particleCount: 50, spread: 60, origin: { y: 0.8 } });
                     }}

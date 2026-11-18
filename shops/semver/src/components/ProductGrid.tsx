@@ -3,11 +3,10 @@ import ProductCard from "./ProductCard";
 
 type ProductGridProps = {
   state: LoadState;
-  onAdd: (id: number) => void;
   id?: string;
 };
 
-const renderStatus = (state: LoadState, onAdd: (id: number) => void) => {
+const renderStatus = (state: LoadState) => {
   switch (state.status) {
     case "loading":
       return (
@@ -25,7 +24,7 @@ const renderStatus = (state: LoadState, onAdd: (id: number) => void) => {
       );
     case "success":
       return state.products.map((item) => (
-        <ProductCard key={item.product.id} item={item} onAdd={onAdd} />
+        <ProductCard key={item.product.id} item={item} />
       ));
     default: {
       const unreachable: never = state;
@@ -34,10 +33,10 @@ const renderStatus = (state: LoadState, onAdd: (id: number) => void) => {
   }
 };
 
-export default function ProductGrid({ state, onAdd, id }: ProductGridProps) {
+export default function ProductGrid({ state, id }: ProductGridProps) {
   return (
     <article className="flex-item-product" id={id}>
-      {renderStatus(state, onAdd)}
+      {renderStatus(state)}
     </article>
   );
 }

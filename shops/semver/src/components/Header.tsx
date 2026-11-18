@@ -1,18 +1,15 @@
+import { useEffect, useState } from 'react';
 import CategoryNav from './CategoryNav';
 import CartPanel from './CartPanel';
 import SearchBox from './SearchBox';
 import ThemeToggle from './ThemeToggle';
-import type { CartLine, Category, Home, LoadState, Product, Shop } from '../types';
+import type { Category, Home, LoadState, Product, Shop } from '../types';
+import { countCartItems } from '../cart/cart';
+import { useCartStore } from '../hooks/useCartStore';
 import { formatCount } from '../utils/format';
 
 type HeaderProps = {
-  cartCount: number;
-  cartOpen: boolean;
-  onCartClick: () => void;
-  cart: CartLine[];
   products: Product[];
-  cartTotal: number;
-  onCartRemove: (productId: number) => void;
   categories: Category[];
   activeCategoryId: number | null;
   onCategoryPick: (categoryId: number | null) => void;
@@ -21,18 +18,11 @@ type HeaderProps = {
   query: string;
   onQueryChange: (query: string) => void;
   searchState: LoadState;
-  onAdd: (id: number) => void;
   onRetry: () => void;
 };
 
 export default function Header({
-  cartCount,
-  cartOpen,
-  onCartClick,
-  cart,
   products,
-  cartTotal,
-  onCartRemove,
   categories,
   activeCategoryId,
   onCategoryPick,
@@ -41,9 +31,15 @@ export default function Header({
   query,
   onQueryChange,
   searchState,
-  onAdd,
   onRetry,
 }: HeaderProps) {
+  const [cartOpen, setCartOpen] = useState(false);
+  const cartCount = useCartStore((state) => countCartItems(state.lines));
+
+  useEffect(() => {
+    document.title = `سوپرمارکت ناردونه | 🛒 ${formatCount(cartCount)}`;
+  }, [cartCount]);
+
   return (
     <header>
       <article>
@@ -76,7 +72,6 @@ export default function Header({
             query={query}
             onQueryChange={onQueryChange}
             state={searchState}
-            onAdd={onAdd}
             onRetry={onRetry}
           />
           <div id="user-actions">
@@ -93,7 +88,7 @@ export default function Header({
                 }
                 aria-controls="cart-panel"
                 aria-expanded={cartOpen}
-                onClick={onCartClick}
+                onClick={() => setCartOpen((open) => !open)}
               >
                 سبد خرید
                 <span
@@ -107,10 +102,7 @@ export default function Header({
               </button>
               <CartPanel
                 open={cartOpen}
-                cart={cart}
                 products={products}
-                total={cartTotal}
-                onRemove={onCartRemove}
               />
             </div>
           </div>
