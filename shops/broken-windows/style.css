@@ -140,12 +140,14 @@ img {
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
-  font-weight: 500;
+  justify-content: center;
+  gap: 9px;
+  padding: 10px 16px;
+  font-weight: 600;
   background-color: #D4537E;
   color: #fff;
-  border-radius: 999px;
+  border-radius: 12px;
+   
 }
 
 
@@ -163,19 +165,21 @@ img {
 .cart-count {
   background-color: #085041;
   color: #fff;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  font-size: 11px;
-
+  border-radius: 5px;
+  min-width: 23px;
+  height: 23px;
+  font-size: 12px;
+padding: 0 5px;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-weight: 700;
 
 }
 
 .cart:hover {
   background-color: #B93F67;
+  transform: translateY(-2px);
 }
 
 .navigation {
@@ -184,11 +188,15 @@ img {
 
 
 }
-
-.nav {
-  text-decoration: none;
+.nav{
+display: grid;
+    grid-template-columns: repeat(9, minmax(0, 1fr));
+    align-items: center;
+    width: 100%;
+    gap: 0;
+    padding: 0;
+    margin: 0;
 }
-
 .nav a {
   text-decoration: none;
   color: #5F5E5A;
@@ -198,7 +206,11 @@ img {
 .nav a:hover {
   color: #0F6E56;
 }
-
+.nav > li {
+    min-width: 0;
+    text-align: center;
+    white-space: nowrap;
+}
 li {
   display: inline;
   margin-left: 30px;
@@ -407,6 +419,12 @@ li {
 
   gap: 8px;
   align-items: center;
+   background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  width: 100%;
 }
 
 .items:hover .items-icon,
@@ -1065,8 +1083,25 @@ li {
 
   .cart {
     grid-area: cart;
-    padding: 10px 12px;
+    padding: 9px 11px;
+
   }
+@media (max-width: 768px) {
+  .cart {
+    grid-area: cart;
+    padding: 9px 11px;
+    border-radius: 10px;
+  }
+
+  .cart-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
 
   .menu-button {
     grid-area: toggle;
@@ -1422,4 +1457,15 @@ li {
     margin: 0 16px 24px;
     padding: 0;
   }
+}
+
+.status {
+  text-align: center; /* center the message */
+  padding: 40px 16px; /* space around it */
+  font-size: 16px; /* readable size */
+}
+.dropdown-label {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
 }
