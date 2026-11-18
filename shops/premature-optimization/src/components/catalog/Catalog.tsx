@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
-import type { CarouselConfig, CatalogData } from "../../scripts/types";
+import { useEffect, useMemo, useRef } from "react";
+import type { CarouselConfig, CatalogData } from "../../scripts/types.ts";
 import { useSearchStore } from "../../hooks/useSearchStore.ts";
 import { isOffersCarousel } from "../../scripts/logic/carousel/carousel-config.ts";
 import { carouselProducts } from "../../scripts/logic/carousel/carousel-products.ts";
@@ -18,7 +18,20 @@ export default function Catalog({ data }: { data: CatalogData }) {
   const { products, offers, categories, home, stock } = data;
   const main = useRef<HTMLElement>(null);
   const shared = { offers, stock, categories };
-  const carousels = homeCarousels(data);
+  const isSearching = query.trim() !== "";
+
+  const { offerCarousels, otherCarousels } = useMemo(() => {
+    const all = homeCarousels(data);
+    return {
+      offerCarousels: all.filter(isOffersCarousel),
+      otherCarousels: all.filter((c) => !isOffersCarousel(c)),
+    };
+  }, [data]);
+
+  useEffect(
+    () => (main.current ? revealSections(main.current) : undefined),
+    [],
+  );
 
   const renderCarousel = (carousel: CarouselConfig) => (
     <CarouselSection
@@ -29,14 +42,9 @@ export default function Catalog({ data }: { data: CatalogData }) {
     />
   );
 
-  useEffect(
-    () => (main.current ? revealSections(main.current) : undefined),
-    [],
-  );
-
   return (
     <main id="main-content" tabIndex={-1} ref={main}>
-      {query.trim() !== "" ? (
+      {isSearching ? (
         <SearchResults
           query={query}
           products={filterProducts(products, query)}
@@ -47,9 +55,9 @@ export default function Catalog({ data }: { data: CatalogData }) {
           <Hero hero={home.hero} side={home.side} />
           <SaleBanner />
           <CategoryNav categories={categories} />
-          {carousels.filter(isOffersCarousel).map(renderCarousel)}
+          {offerCarousels.map(renderCarousel)}
           <Promos promos={home.promos ?? []} />
-          {carousels.filter((c) => !isOffersCarousel(c)).map(renderCarousel)}
+          {otherCarousels.map(renderCarousel)}
         </>
       )}
     </main>

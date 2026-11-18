@@ -1,9 +1,10 @@
 import { Link } from "@tanstack/react-router";
-import type { Product } from "../../../scripts/types";
+import type { Product } from "../../../scripts/types.ts";
 import type { ProductDetails } from "../../../scripts/logic/catalog/product-details.ts";
 import AddToCartButton from "../../cart/AddToCartButton.tsx";
 import OfferBadge from "../../shared/OfferBadge.tsx";
 import Price from "../../shared/Price.tsx";
+import OldPrice from "./OldPrice.tsx";
 import ProductImage from "./ProductImage.tsx";
 
 type ProductDetailProps = { product: Product } & ProductDetails;
@@ -13,7 +14,7 @@ export default function ProductDetail({
   offer,
   finalPrice,
   stock,
-  categoryName = "محصول",
+  categoryName,
 }: ProductDetailProps) {
   return (
     <>
@@ -36,11 +37,7 @@ export default function ProductDetail({
               </ul>
               <h2 className="product-page-title">{product.name}</h2>
               <p className="item-description">{product.unit}</p>
-              {offer && (
-                <p className="item-old-price">
-                  <Price value={product.price} />
-                </p>
-              )}
+              {offer && <OldPrice price={product.price} />}
               <Price value={finalPrice} className="item-price" />
             </div>
           </div>

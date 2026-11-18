@@ -1,17 +1,9 @@
-import type {
-  Product,
-  Category,
-  Offer,
-  Stock,
-} from "../../../scripts/types.ts";
-import ProductCard from "./ProductCard.tsx";
+import type { Product } from "../../../scripts/types.ts";
 import { productDetails } from "../../../scripts/logic/catalog/product-details.ts";
+import type { ProductDetailsSource } from "../../../scripts/logic/catalog/product-details.ts";
+import ProductCard from "./ProductCard.tsx";
 
-export type SharedCardProps = {
-  offers: Offer[];
-  stock: Stock;
-  categories: Category[];
-};
+export type SharedCardProps = ProductDetailsSource;
 
 type ProductListProps = SharedCardProps & { products: Product[] };
 

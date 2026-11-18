@@ -1,23 +1,26 @@
+import type { Sort } from "../../scripts/types.ts";
 import {
   SORTS,
   SORT_LABELS,
   isSort,
 } from "../../scripts/logic/catalog/sort-products.ts";
-import { usePlpSort } from "../../hooks/usePlpSort.ts";
 
-export default function SortSelect() {
-  const [sort, setSort] = usePlpSort();
+type SortSelectProps = {
+  value: Sort;
+  onChange: (sort: Sort) => void;
+};
 
+export default function SortSelect({ value, onChange }: SortSelectProps) {
   return (
     <label className="sort-control">
       <span className="sort-control-label">مرتب‌سازی:</span>
       <span className="sort-select-wrap">
         <select
           className="sort-select"
-          value={sort}
+          value={value}
           onChange={(e) => {
             const next = e.target.value;
-            if (isSort(next)) setSort(next);
+            if (isSort(next)) onChange(next);
           }}
         >
           {SORTS.map((sort) => (
