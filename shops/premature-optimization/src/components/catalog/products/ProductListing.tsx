@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import type { Product, Sort } from "../../../scripts/types.ts";
+import type { Product } from "../../../scripts/types.ts";
 import { sortProducts } from "../../../scripts/logic/catalog/sort-products.ts";
 import ProductList from "./ProductList.tsx";
 import type { SharedCardProps } from "./ProductList.tsx";
