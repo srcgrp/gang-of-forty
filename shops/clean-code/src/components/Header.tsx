@@ -1,3 +1,5 @@
+import { cartCount as countLines } from "../features/cart/count";
+import { useCart } from "../hooks/useCart";
 import CartIcon from "./CartIcon";
 import Logo from "./Logo";
 import MenuToggle from "./MenuToggle";
@@ -5,18 +7,15 @@ import SearchBox from "./SearchBox";
 import ThemeToggle from "./ThemeToggle";
 
 type HeaderProps = {
-  cartCount: number;
   query: string;
   menu: { label: string; href: string }[];
   onQuery: (value: string) => void;
 };
 
-export default function Header({
-  cartCount,
-  menu,
-  query,
-  onQuery,
-}: HeaderProps) {
+export default function Header({ menu, query, onQuery }: HeaderProps) {
+  const { lines } = useCart();
+  const cartCount = countLines(lines);
+
   return (
     <header className="header">
       <div className="box header-top">

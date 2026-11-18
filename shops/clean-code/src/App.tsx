@@ -1,28 +1,26 @@
 import { useEffect, useState } from "react";
 import ShopView from "./components/ShopView.tsx";
 import Status from "./components/Status.tsx";
-import { cartCount, removeFromCart } from "./features/cart/count.ts";
+import { cartCount } from "./features/cart/count.ts";
+import { useCart } from "./hooks/useCart.ts";
 import { useLoadShop } from "./hooks/useLoadShop.ts";
 import { useThemeStore } from "./hooks/useThemeStore";
-import { loadCart, saveCart } from "./storage/cart-storage.ts";
-import type { CartLine } from "./types/product.ts";
 
 const API = import.meta.env.VITE_API_URL ?? "";
 
 export default function App() {
   const { load, retry } = useLoadShop(API);
   const [categoryId, setCategoryId] = useState<number | null>(null);
-  const [cart, setCart] = useState<CartLine[]>(loadCart);
   const [query, setQuery] = useState("");
   const theme = useThemeStore((s) => s.theme);
+  const { lines } = useCart();
 
   useEffect(
     function () {
-      saveCart(cart);
       document.title =
-        "تمیز مارکت · " + cartCount(cart).toLocaleString("fa-IR") + " 🛒";
+        "تمیز مارکت · " + cartCount(lines).toLocaleString("fa-IR") + " 🛒";
     },
-    [cart],
+    [lines],
   );
 
   if (load.status !== "success") {
@@ -36,12 +34,7 @@ export default function App() {
         onQuery={setQuery}
         load={load}
         categoryId={categoryId}
-        cart={cart}
         onPick={setCategoryId}
-        onClear={function () {
-          setCart(removeFromCart());
-        }}
-        setCart={setCart}
       />
     </div>
   );
