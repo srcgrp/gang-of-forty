@@ -38,3 +38,11 @@ export function getPricedLines(
     ),
   }));
 }
+
+export function deliveryCost(
+  subtotal: number,
+  deliveryFee: number,
+  freeDeliveryOver: number,
+): number {
+  return subtotal > freeDeliveryOver ? 0 : deliveryFee;
+}

@@ -4,7 +4,7 @@ import { carouselProducts } from "../../scripts/logic/carousel/carousel-products
 import { carouselTitle } from "../../scripts/logic/carousel/find-carousel.ts";
 import ProductListing from "../catalog/products/ProductListing.tsx";
 import Page from "../Page.tsx";
-import NotFoundStatus from "../status/NotFoundStatus.tsx";
+import NotFoundStatus from "../status/HomeLinkStatus.tsx";
 
 export default function PlpPage() {
   const { carouselId } = useParams({ from: "/plp/$carouselId" });

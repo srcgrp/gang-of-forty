@@ -13,6 +13,7 @@
 @import url("./loading.css");
 @import url("./error.css");
 @import url("./footer/footer.css");
+@import url("./body/checkout.css");
 
 header {
   position: sticky;
@@ -28,6 +29,8 @@ header {
 .app {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 main {

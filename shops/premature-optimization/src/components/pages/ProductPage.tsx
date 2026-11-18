@@ -4,7 +4,7 @@ import { findProduct } from "../../scripts/logic/catalog/find-products.ts";
 import { productDetails } from "../../scripts/logic/catalog/product-details.ts";
 import ProductDetail from "../catalog/products/ProductDetail.tsx";
 import Page from "../Page.tsx";
-import NotFoundStatus from "../status/NotFoundStatus.tsx";
+import NotFoundStatus from "../status/HomeLinkStatus.tsx";
 
 export default function ProductPage() {
   const { productId } = useParams({ from: "/product/$productId" });

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "@tanstack/react-router";
 import type { Offer, Product } from "../../scripts/types";
 import { useCartStore } from "../../hooks/useCartStore.ts";
 import { cartCount } from "../../scripts/logic/cart/cart-lines.ts";
@@ -42,6 +43,15 @@ export default function CartPanel({ products, offers }: CartPanelProps) {
       </button>
       <div className="cart-dropdown" id="cart-dropdown">
         <div className="cart-dropdown-items" id="cart-dropdown-items">
+          {count > 0 && (
+            <Link
+              className="cart-checkout-link"
+              to="/checkout"
+              onClick={() => setOpen(false)}
+            >
+              تسویه حساب
+            </Link>
+          )}
           <CartLines products={products} offers={offers} />
         </div>
       </div>

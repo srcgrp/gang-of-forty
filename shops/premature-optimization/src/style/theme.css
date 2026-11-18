@@ -57,6 +57,9 @@
 
   --logo-bg: #09448c;
 
+  --modal-bg: #8fd6ff;
+  --scroll: #022571;
+
   --card-gap: 20px;
 }
 
@@ -111,6 +114,9 @@
   --error-bg: #2a1216;
   --error-text: #ff9aa2;
   --error-border: #c9363e;
+
+  --modal-bg: #0d1b3e;
+  --scroll: #ffc824;
 }
 
 .app {
