@@ -1,6 +1,7 @@
 import CategoryNav from './CategoryNav';
 import CartPanel from './CartPanel';
 import SearchBox from './SearchBox';
+import ThemeToggle from './ThemeToggle';
 import type { CartLine, Category, Home, LoadState, Product, Shop } from '../types';
 import { formatCount } from '../utils/format';
 
@@ -79,6 +80,7 @@ export default function Header({
             onRetry={onRetry}
           />
           <div id="user-actions">
+            <ThemeToggle />
             <i className="ph ph-bell"></i>
             <div id="cart-action">
               <button

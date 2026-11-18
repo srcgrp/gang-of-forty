@@ -1,14 +1,21 @@
 /* Your shop's styles. Week 1: make it yours! */
 :root {
   --primary:      #9B1B3A;
+  --primary-bg:   #9B1B3A;
   --primary-dark: #6E1029;
+  --icon-color:   #6E1029;
+  --on-primary:   #FFFFFF;
   --ink:          #2A1A1E;
   --muted:        #6A5459;
+  --muted-bg:     #6A5459;
+  --on-muted:     #FFFFFF;
   --bg:           #FFF8F1;
   --surface:      #FFFFFF;
   --tint:         #FBE6EA;
   --accent:       #B83F0B;
   --highlight:    #FFC93C;
+  --on-highlight: #2A1A1E;
+  --hero-text:    #FFF8F1;
   --line:         #E8D9DC;
   --footer-bg:    #2A1A1E;
   --footer-text:  #D8CBCE;
@@ -52,6 +59,42 @@ body {
   margin: 0 auto;
 }
 
+.app {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.app[data-theme='dark'] {
+  --primary: #f08ca4;
+  --primary-bg: #74293f;
+  --primary-dark: #411522;
+  --icon-color: #f08ca4;
+  --on-primary: #fff8fa;
+  --ink: #f1e8ea;
+  --muted: #c4afb5;
+  --muted-bg: #55434a;
+  --on-muted: #fff8fa;
+  --bg: #161216;
+  --surface: #241d22;
+  --tint: #38252c;
+  --accent: #98421e;
+  --highlight: #e5b849;
+  --on-highlight: #241d22;
+  --hero-text: #fff8fa;
+  --line: #493840;
+  --footer-bg: #100d10;
+  --footer-text: #d8cbce;
+  --error-bg: #3b2020;
+  --error-text: #ffb4ab;
+  --success-bg: #193126;
+  --success-text: #a8d5ba;
+  --alert-bg: #382d18;
+  --alert-text: #f0cf88;
+  --loading-bg: #1c2b40;
+  --loading-text: #b4ccf0;
+}
+
 main {
   padding: 0 16px;
 }
@@ -63,7 +106,7 @@ main {
   justify-content: center;
   text-align: center;
   background-color: var(--primary-dark);
-  color: var(--surface);
+  color: var(--on-primary);
   padding: 12px;
   margin: 0px 0;
   text-align: center;
@@ -143,7 +186,8 @@ nav {
   border-radius: 8px;
   border: 2PX solid var(--line);
   font-family: iranyekan;
-  background-color: #FFFFFF;
+  background-color: var(--surface);
+  color: var(--ink);
   outline: var(--line);
 }
 
@@ -153,9 +197,9 @@ nav {
 
 
 #shopping-cart-button {
-  color: var(--surface);
-  border: 2px solid var(--primary);
-  background-color: var(--primary); 
+  color: var(--on-primary);
+  border: 2px solid var(--primary-bg);
+  background-color: var(--primary-bg);
   text-decoration: none;
   display: flex;
   flex-direction: row;
@@ -170,7 +214,7 @@ nav {
 }
 
 #shopping-cart-button:hover {
-  color: var(--surface);
+  color: var(--on-primary);
   background-color: var(--primary-dark);
   border: 2px solid var(--primary-dark);
 }
@@ -200,7 +244,25 @@ nav {
   flex-direction: row;
   align-items: center;
   gap: 24px;
-  color: var(--primary-dark);
+  color: var(--icon-color);
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--icon-color);
+  cursor: pointer;
+}
+
+.theme-toggle .ph {
+  font-size: 20px;
 }
 
 #cart-action {
@@ -312,14 +374,14 @@ nav {
   position: absolute;
   top: 100%;
   right: 0;
-  background-color: #ffffff;
+  background-color: var(--surface);
   min-width: 200px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
   border-radius: 8px;
   padding: 10px 0;
   list-style: none;
   z-index: 999;
-  border: 1px solid #eaeaea;
+  border: 1px solid var(--line);
 }
 
 /*  استایل آیتم‌های داخل زیرمنو */
@@ -375,6 +437,7 @@ nav {
 
 #btn-categories>li:focus{
   background-color: var(--primary-dark);
+  color: var(--on-primary);
 }
 
 .hero-container {
@@ -476,7 +539,7 @@ nav {
 #hero-p {
   font-family: vazirmatn;
   font-size: 28px;
-  color: var(--bg);
+  color: var(--hero-text);
 }
 
 #hero-p2 {
@@ -488,7 +551,7 @@ nav {
 #cta {
   display: inline;
   width: 250px;
-  color: var(--ink);
+  color: var(--on-highlight);
   background-color: var(--highlight);
   border: 3px solid var(--highlight);
   text-decoration: none;
@@ -674,8 +737,8 @@ i.ph-arrow-left {
   top: 22px;
   left: 22px;
   z-index: 2;
-  background-color: var(--muted);
-  color: #ffffff;
+  background-color: var(--muted-bg);
+  color: var(--on-muted);
   border-radius: 50px;
   padding: 4px 10px;
   font-family: iranyekan;
@@ -699,8 +762,8 @@ i.ph-arrow-left {
 
 .buynow-btn {
   padding: 8px 14px;
-  background-color: var(--primary);
-  color: #f7faf5;
+  background-color: var(--primary-bg);
+  color: var(--on-primary);
   border-radius: 6px;
   border: none;
   font-size: 18px;

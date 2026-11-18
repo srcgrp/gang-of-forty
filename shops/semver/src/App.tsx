@@ -3,12 +3,14 @@ import * as api from "./api/shop-api";
 import { filterProductsByQuery } from "./catalog/filter-products";
 import { toProductViews } from "./api/product-views";
 import Storefront from "./components/Storefront";
+import { useThemeStore } from "./hooks/useThemeStore";
 import { addItem, countCartItems, removeItem, totalPrice } from "./cart/cart";
 import { loadCart, saveCart } from "./storage/cart-storage";
 import type { CartLine, Category, Home, LoadState, Shop } from "./types";
 import { formatCount } from "./utils/format";
 type StoreData = { categories: Category[]; home: Home; shop: Shop };
 export default function App() {
+  const theme = useThemeStore((state) => state.theme);
   const [cart, setCart] = useState<CartLine[]>(() => loadCart());
   const [cartOpen, setCartOpen] = useState(false);
   const [categoryId, setCategoryId] = useState<number | null>(null);
@@ -55,13 +57,15 @@ export default function App() {
   };
   const searchState = filterProductsByQuery(loadState, query, categories);
   return (
-    <Storefront
-      cart={cart} cartCount={cartCount} cartOpen={cartOpen} cartTotal={cartTotal}
-      categories={categories} categoryId={categoryId} home={store?.home ?? null}
-      loadState={loadState} searchState={searchState} onRetry={handleRetry} products={products}
-      query={query} onQueryChange={setQuery} shop={store?.shop ?? null}
-      onAdd={handleAdd} onCartClick={handleCartClick}
-      onCategoryPick={handleCategoryPick} onRemove={handleRemove}
-    />
+    <div className="app" data-theme={theme}>
+      <Storefront
+        cart={cart} cartCount={cartCount} cartOpen={cartOpen} cartTotal={cartTotal}
+        categories={categories} categoryId={categoryId} home={store?.home ?? null}
+        loadState={loadState} searchState={searchState} onRetry={handleRetry} products={products}
+        query={query} onQueryChange={setQuery} shop={store?.shop ?? null}
+        onAdd={handleAdd} onCartClick={handleCartClick}
+        onCategoryPick={handleCategoryPick} onRemove={handleRemove}
+      />
+    </div>
   );
 }

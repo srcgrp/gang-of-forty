@@ -4,10 +4,10 @@
   box-sizing: border-box;
   overflow-y: auto;
   overscroll-behavior: contain;
-  border: 1px solid #d5dfe2;
+  border: 1px solid var(--line);
   border-radius: 12px;
-  background: #fff;
-  color: #263b43;
+  background: var(--surface);
+  color: var(--ink);
   direction: rtl;
   text-align: right;
   box-shadow: 0 12px 28px rgb(20 44 54 / 20%);
@@ -35,7 +35,7 @@
   align-items: center;
   gap: 10px;
   padding: 11px 14px;
-  border-bottom: 1px solid #e8edef;
+  border-bottom: 1px solid var(--line);
 }
 
 .search-suggestions__item:last-child {
@@ -48,7 +48,7 @@
   height: 2.35rem;
   place-items: center;
   border-radius: 8px;
-  background: #f1f5f5;
+  background: var(--tint);
   font-size: 1.45rem;
 }
 
