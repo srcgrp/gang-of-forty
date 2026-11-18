@@ -1,4 +1,5 @@
 import { useId } from 'react'
+import { useThemeStore } from '../hooks/useThemeStore'
 import type { Theme } from '../shared/types'
 
 const OPTIONS: { value: Theme; icon: string; label: string }[] = [
@@ -7,12 +8,9 @@ const OPTIONS: { value: Theme; icon: string; label: string }[] = [
   { value: 'dark', icon: 'themeDark', label: 'حالت تاریک' },
 ]
 
-type ThemeSwitchProps = {
-  value: Theme
-  onChange: (next: Theme) => void
-}
-
-export default function ThemeSwitch({ value, onChange }: ThemeSwitchProps) {
+export default function ThemeToggle() {
+  const theme = useThemeStore((state) => state.theme)
+  const setTheme = useThemeStore((state) => state.setTheme)
   const groupId = useId()
 
   return (
@@ -25,8 +23,8 @@ export default function ThemeSwitch({ value, onChange }: ThemeSwitchProps) {
             id={`${groupId}-${opt.value}`}
             value={opt.value}
             className="theme-switch__input"
-            checked={value === opt.value}
-            onChange={() => onChange(opt.value)}
+            checked={theme === opt.value}
+            onChange={() => setTheme(opt.value)}
           />
           <label htmlFor={`${groupId}-${opt.value}`} className="theme-switch__label" title={opt.label}>
             <span className="visually-hidden">{opt.label}</span>

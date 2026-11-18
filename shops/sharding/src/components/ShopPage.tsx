@@ -1,7 +1,8 @@
-import type { AppState, CartChange, Theme, UrlFilters } from '../shared/types'
+import type { AppState, CartChange, UrlFilters } from '../shared/types'
 import { cartCount } from '../features/cart/logic/cart'
 import { useScrollToHash } from '../hooks/useScrollToHash'
 import { useCategoryLinks } from '../hooks/useCategoryLinks'
+import { useThemeStore } from '../hooks/useThemeStore'
 import Header from './Header'
 import ShopMain from './ShopMain'
 import Footer from './Footer'
@@ -12,17 +13,16 @@ import SlowNotice from './SlowNotice'
 type ShopPageProps = {
   data: AppState
   filters: [UrlFilters, (filters: UrlFilters, mode?: 'push' | 'replace') => void]
-  theme: [Theme, (theme: Theme) => void]
   onCartChange: (id: number, change: CartChange) => void
   cartPanel: [boolean, (open: boolean) => void]
   mobileMenu: [boolean, (open: boolean) => void]
   onRetry: () => void
 }
 
-export default function ShopPage({ data, filters: filterState, theme: themeState,
+export default function ShopPage({ data, filters: filterState,
   onCartChange, cartPanel, mobileMenu, onRetry }: ShopPageProps) {
   const [filters, onFilters] = filterState
-  const [theme, onTheme] = themeState
+  const theme = useThemeStore((state) => state.theme)
   const [cartOpen, onCartOpen] = cartPanel
   const [menuOpen, onMenuOpen] = mobileMenu
   const loading = data.res.status === 'loading'
@@ -31,15 +31,13 @@ export default function ShopPage({ data, filters: filterState, theme: themeState
   const navigateCategory = useCategoryLinks(data.categories, filters, onFilters)
 
   return (
-    <>
+    <div className="app" data-theme={theme}>
       <a href="#main-content" className="skip-link"><span className="container">پرش به محتوای اصلی</span></a>
       <Header
         data={data}
         activeCategoryId={activeCategory?.id ?? null}
         cartCount={cartCount(data.cart)}
-        theme={theme}
         loading={loading}
-        onTheme={onTheme}
         cartPanel={cartPanel}
         mobileMenu={mobileMenu}
         query={filters.query}
@@ -60,9 +58,7 @@ export default function ShopPage({ data, filters: filterState, theme: themeState
         open={menuOpen}
         onClose={() => onMenuOpen(false)}
         menu={data.shop?.menu ?? []}
-        theme={theme}
-        onTheme={onTheme}
       />
-    </>
+    </div>
   )
 }

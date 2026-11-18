@@ -7,13 +7,11 @@ import { stockOf } from './shared/logic/stock'
 import { withCategoryImages } from './shared/logic/content-utils'
 import { applyCartChange, cartCount } from './features/cart/logic/cart'
 import { pruneCart } from './features/cart/cart-rows'
-import { useTheme } from './hooks/useTheme'
 import { useUrlFilters } from './hooks/useUrlFilters'
 import { showCartChange } from './lib/cart-feedback'
 import ShopPage from './components/ShopPage'
 
 export default function App() {
-  const theme = useTheme()
   const filters = useUrlFilters()
   const [data, setData] = useState(initialShopData)
   const [cart, setCart] = useState<Cart>(() => loadCart())
@@ -60,7 +58,6 @@ export default function App() {
     <ShopPage
       data={{ ...data, cart }}
       filters={filters}
-      theme={theme}
       cartPanel={cartPanel}
       mobileMenu={mobileMenu}
       onCartChange={changeCart}

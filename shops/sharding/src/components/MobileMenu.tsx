@@ -1,16 +1,14 @@
 import { useMobileMenu } from '../hooks/useMobileMenu'
-import type { Link, Theme } from '../shared/types'
-import ThemeSwitch from './ThemeSwitch'
+import type { Link } from '../shared/types'
+import ThemeToggle from './ThemeToggle'
 
 type MobileMenuProps = {
   open: boolean
   onClose: () => void
   menu: Link[]
-  theme: Theme
-  onTheme: (next: Theme) => void
 }
 
-export default function MobileMenu({ open, onClose, menu, theme, onTheme }: MobileMenuProps) {
+export default function MobileMenu({ open, onClose, menu }: MobileMenuProps) {
   // Keep focus and scrolling inside the open menu.
   const menuRef = useMobileMenu(open, onClose)
 
@@ -23,7 +21,7 @@ export default function MobileMenu({ open, onClose, menu, theme, onTheme }: Mobi
             <svg className="icon-btn__icon" aria-hidden="true"><use href="./icons.svg#close" /></svg>
           </button>
           <span className="mobile-menu__title">منو</span>
-          <ThemeSwitch value={theme} onChange={onTheme} />
+          <ThemeToggle />
         </div>
         <div className="mobile-menu__body">
           <ul className="mobile-menu__list">

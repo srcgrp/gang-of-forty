@@ -1,16 +1,14 @@
 import Topbar from './Topbar'
 import SearchBox from './SearchBox'
-import ThemeSwitch from './ThemeSwitch'
+import ThemeToggle from './ThemeToggle'
 import HeaderNav from './HeaderNav'
 import ShopIdentity from './ShopIdentity'
-import type { AppState, Theme } from '../shared/types'
+import type { AppState } from '../shared/types'
 
 type HeaderProps = {
   data: AppState
   cartCount: number
-  theme: Theme
   loading: boolean
-  onTheme: (next: Theme) => void
   cartPanel: [boolean, (open: boolean) => void]
   mobileMenu: [boolean, (open: boolean) => void]
   activeCategoryId: number | null
@@ -21,7 +19,7 @@ type HeaderProps = {
 }
 
 export default function Header({
-  data, cartCount, theme, loading, onTheme, cartPanel, mobileMenu,
+  data, cartCount, loading, cartPanel, mobileMenu,
   activeCategoryId, query, onQuery, onAddToCart, onRemoveFromCart
 }: HeaderProps) {
   const [cartOpen, setCartOpen] = cartPanel
@@ -54,7 +52,7 @@ export default function Header({
             </button>
           </div>
 
-          <ThemeSwitch value={theme} onChange={onTheme} />
+          <ThemeToggle />
         </div>
 
         <HeaderNav categories={data.categories} products={data.products} />
