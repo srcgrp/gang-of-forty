@@ -9,16 +9,15 @@ import { withOfferAndStock } from "../catalog/product-catalog.ts";
 import Promos from "./Promos.tsx";
 import { useThemeStore } from "../hooks/useThemeStore.ts";
 import { useCartTitle } from "../hooks/useCartTitle.ts";
+import { useState } from "react";
 
-type ShopPageProps = {
-  data: Data;
-  selectedId: number | null;
-  onPick: (id: number | null) => void;
-};
+type ShopPageProps = { data: Data };
 
-export default function ShopPage({ data, selectedId, onPick }: ShopPageProps) {
+export default function ShopPage({ data }: ShopPageProps) {
   useCartTitle();
   const theme = useThemeStore((s) => s.theme);
+
+  const [selectedId, setSelectedId] = useState<number | null>(null);
 
   const visible =
     selectedId === null
@@ -28,7 +27,7 @@ export default function ShopPage({ data, selectedId, onPick }: ShopPageProps) {
   const cards = visible.map((p) =>
     withOfferAndStock(p, data.offers, data.stock),
   );
-  
+
   return (
     <div className="app" data-theme={theme}>
       <a href="#main" className="skip-link">
@@ -40,7 +39,7 @@ export default function ShopPage({ data, selectedId, onPick }: ShopPageProps) {
         <CategoryNav
           categories={data.categories}
           selectedId={selectedId}
-          onPick={onPick}
+          onPick={setSelectedId}
         />
         <ProductGrid products={cards} />
         <Promos promos={data.home.promos} />

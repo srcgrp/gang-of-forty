@@ -30,6 +30,19 @@ export function getCarouselCards(
         );
 }
 
+export function carouselProducts(
+  data: Data,
+  carouselId: string,
+): CardProduct[] | null {
+  const definition = data.home.carousels.find((c) => c.id === carouselId);
+
+  if (!definition) {
+    return null;
+  }
+
+  return getCarouselCards(definition, data);
+}
+
 export function prepareCarousels(data: Data): PreparedCarousel[] {
     return data.home.carousels.map(definition => ({
         definition,
