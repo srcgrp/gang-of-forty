@@ -123,3 +123,23 @@
     opacity: 0;
   }
 }
+
+#categories,
+#contact,
+#products,
+.home-carousel-section {
+  scroll-margin-top: 130px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (max-width: 768px) {
+  #categories,
+  #contact,
+  #products,
+  .home-carousel-section {
+    scroll-margin-top: 230px;
+  }
+}

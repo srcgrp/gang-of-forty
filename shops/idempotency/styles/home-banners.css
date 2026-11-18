@@ -171,3 +171,13 @@ html[data-theme="dark"] .banner-percent {
 .home-carousel-section {
     width: 100%;
 }
+#home-promos .home-promo-card:nth-child(2) {
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@media (max-width: 520px) {
+  #home-promos .home-promo-card:nth-child(2) {
+    font-size: 15px;
+  }
+}
