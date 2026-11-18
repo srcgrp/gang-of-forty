@@ -1,3 +1,6 @@
+import { useEffect } from 'react'
+import { cartCount } from '../features/cart/logic/cart'
+import { useCartStore } from '../hooks/useCartStore'
 import Topbar from './Topbar'
 import SearchBox from './SearchBox'
 import ThemeToggle from './ThemeToggle'
@@ -7,23 +10,26 @@ import type { AppState } from '../shared/types'
 
 type HeaderProps = {
   data: AppState
-  cartCount: number
   loading: boolean
   cartPanel: [boolean, (open: boolean) => void]
   mobileMenu: [boolean, (open: boolean) => void]
   activeCategoryId: number | null
   query: string
   onQuery: (next: string) => void
-  onAddToCart: (id: number) => void
-  onRemoveFromCart: (id: number) => void
 }
 
 export default function Header({
-  data, cartCount, loading, cartPanel, mobileMenu,
-  activeCategoryId, query, onQuery, onAddToCart, onRemoveFromCart
+  data, loading, cartPanel, mobileMenu, activeCategoryId, query, onQuery
 }: HeaderProps) {
   const [cartOpen, setCartOpen] = cartPanel
   const [menuOpen, setMenuOpen] = mobileMenu
+  const count = useCartStore((state) => cartCount(state.lines))
+  const name = data.shop?.name ?? 'فروشگاه'
+
+  useEffect(() => {
+    document.title = count > 0 ? `${name} · ${count.toLocaleString('fa-IR')} 🛒` : name
+  }, [name, count])
+
   return (
     <>
       <Topbar notice={data.shop?.notice ?? ''} />
@@ -33,22 +39,20 @@ export default function Header({
             <svg className="icon-btn__icon" aria-hidden="true"><use href="./icons.svg#menu" /></svg>
           </button>
 
-          <ShopIdentity name={data.shop?.name ?? 'فروشگاه'} slogan={data.shop?.slogan ?? ''} loading={loading} />
+          <ShopIdentity name={name} slogan={data.shop?.slogan ?? ''} loading={loading} />
 
           <SearchBox
             data={data}
             activeCategoryId={activeCategoryId}
             query={query}
             onQuery={onQuery}
-            onAdd={onAddToCart}
-            onRemove={onRemoveFromCart}
           />
 
           <div className="header__actions">
             <button type="button" className="action action--cart" onClick={() => setCartOpen(!cartOpen)} aria-label="سبد خرید" aria-expanded={cartOpen} aria-controls="cart-panel">
               <svg className="action__icon" aria-hidden="true"><use href="./icons.svg#cart" /></svg>
               <span className="action__label">سبد خرید</span>
-              {cartCount > 0 && <span className="badge">{cartCount.toLocaleString('fa-IR')}</span>}
+              {count > 0 && <span className="badge">{count.toLocaleString('fa-IR')}</span>}
             </button>
           </div>
 

@@ -8,11 +8,9 @@ type SearchBoxProps = {
   activeCategoryId: number | null
   query: string
   onQuery: (next: string) => void
-  onAdd: (id: number) => void
-  onRemove: (id: number) => void
 }
 
-export default function SearchBox({ data, activeCategoryId, query, onQuery, onAdd, onRemove }: SearchBoxProps) {
+export default function SearchBox({ data, activeCategoryId, query, onQuery }: SearchBoxProps) {
   const [open, setOpen] = useState(false)
   const results = query.trim() ? searchProducts(data.products, query)
     .filter((product) => activeCategoryId === null || product.categoryId === activeCategoryId)
@@ -61,7 +59,7 @@ export default function SearchBox({ data, activeCategoryId, query, onQuery, onAd
       {showDropdown && (
         <ul className="search-results">
           {results.length === 0 && <li className="search-results__empty">نتیجه‌ای یافت نشد</li>}
-          <SearchResults products={results} data={data} onAdd={onAdd} onRemove={onRemove} onJump={jumpTo} />
+          <SearchResults products={results} data={data} onJump={jumpTo} />
         </ul>
       )}
     </form>

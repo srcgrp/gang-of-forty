@@ -1,5 +1,5 @@
-import type { AppState, CartChange, UrlFilters } from '../shared/types'
-import { cartCount } from '../features/cart/logic/cart'
+import { useState } from 'react'
+import type { AppState, UrlFilters } from '../shared/types'
 import { useScrollToHash } from '../hooks/useScrollToHash'
 import { useCategoryLinks } from '../hooks/useCategoryLinks'
 import { useThemeStore } from '../hooks/useThemeStore'
@@ -13,16 +13,15 @@ import SlowNotice from './SlowNotice'
 type ShopPageProps = {
   data: AppState
   filters: [UrlFilters, (filters: UrlFilters, mode?: 'push' | 'replace') => void]
-  onCartChange: (id: number, change: CartChange) => void
-  cartPanel: [boolean, (open: boolean) => void]
   mobileMenu: [boolean, (open: boolean) => void]
   onRetry: () => void
 }
 
 export default function ShopPage({ data, filters: filterState,
-  onCartChange, cartPanel, mobileMenu, onRetry }: ShopPageProps) {
+  mobileMenu, onRetry }: ShopPageProps) {
   const [filters, onFilters] = filterState
   const theme = useThemeStore((state) => state.theme)
+  const cartPanel = useState(false)
   const [cartOpen, onCartOpen] = cartPanel
   const [menuOpen, onMenuOpen] = mobileMenu
   const loading = data.res.status === 'loading'
@@ -36,23 +35,19 @@ export default function ShopPage({ data, filters: filterState,
       <Header
         data={data}
         activeCategoryId={activeCategory?.id ?? null}
-        cartCount={cartCount(data.cart)}
         loading={loading}
         cartPanel={cartPanel}
         mobileMenu={mobileMenu}
         query={filters.query}
         onQuery={(query) => onFilters({ ...filters, query })}
-        onAddToCart={(id) => onCartChange(id, 'add')}
-        onRemoveFromCart={(id) => onCartChange(id, 'remove')}
       />
-      <ShopMain data={data} filters={filters} onCategoryPick={navigateCategory} onCartChange={onCartChange} onRetry={onRetry} />
+      <ShopMain data={data} filters={filters} onCategoryPick={navigateCategory} onRetry={onRetry} />
       <Footer shop={data.shop} />
       <SlowNotice loading={loading} />
       <CartPanel
         open={cartOpen}
         data={data}
         onClose={() => onCartOpen(false)}
-        onCartChange={onCartChange}
       />
       <MobileMenu
         open={menuOpen}

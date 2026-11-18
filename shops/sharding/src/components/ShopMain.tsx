@@ -1,4 +1,4 @@
-import type { AppState, CartChange, UrlFilters } from '../shared/types'
+import type { AppState, UrlFilters } from '../shared/types'
 import { BANNER_IMAGES } from '../shared/content'
 import Hero from './Hero'
 import CategoryNav from './CategoryNav'
@@ -8,11 +8,10 @@ type ShopMainProps = {
   data: AppState
   filters: UrlFilters
   onCategoryPick: (category: string) => void
-  onCartChange: (id: number, change: CartChange) => void
   onRetry: () => void
 }
 
-export default function ShopMain({ data, filters, onCategoryPick, onCartChange, onRetry }: ShopMainProps) {
+export default function ShopMain({ data, filters, onCategoryPick, onRetry }: ShopMainProps) {
   const loading = data.res.status === 'loading'
   const activeCategory = data.categories.find((category) => category.slug === filters.category)
 
@@ -32,12 +31,9 @@ export default function ShopMain({ data, filters, onCategoryPick, onCartChange, 
       />
       <ProductsSection
         data={data}
-        cart={data.cart}
         activeCategoryId={activeCategory?.id ?? null}
         query={filters.query}
         onRetry={onRetry}
-        onAdd={(id) => onCartChange(id, 'add')}
-        onRemove={(id) => onCartChange(id, 'remove')}
       />
     </main>
   )

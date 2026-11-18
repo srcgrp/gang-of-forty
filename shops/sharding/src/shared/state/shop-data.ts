@@ -1,8 +1,6 @@
 import type { AppState, LoadState } from '../types'
 import { HTTPError } from '../api/get-json'
 
-type ShopData = Omit<AppState, 'cart'>
-
 export function shopLoadError(error: unknown): LoadState {
   console.warn('دریافت اطلاعات فروشگاه ناموفق بود:', error)
   if (error instanceof HTTPError && error.status === 404) {
@@ -14,7 +12,7 @@ export function shopLoadError(error: unknown): LoadState {
   return { status: 'error', message: 'دریافت اطلاعات ناموفق بود. لطفاً دوباره تلاش کنید.' }
 }
 
-export const initialShopData: ShopData = {
+export const initialShopData: AppState = {
   shop: null,
   home: null,
   categories: [],

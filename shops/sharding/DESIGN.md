@@ -12,7 +12,7 @@ Accounts, payment, checkout and changes to the shared API are outside this versi
 App
 └── ShopPage
     ├── Header
-    │   ├── Topbar, ShopIdentity, ThemeSwitch
+    │   ├── Topbar, ShopIdentity, ThemeToggle
     │   ├── SearchBox → SearchResults → SearchResult
     │   └── HeaderNav → MegaMenu → MegaMenuItem
     ├── ShopMain
@@ -26,10 +26,10 @@ App
     ├── Footer
     ├── SlowNotice
     ├── CartPanel → CartItem → Price
-    └── MobileMenu → ThemeSwitch
+    └── MobileMenu → ThemeToggle
 ```
 
-`main.tsx` mounts `App` in `StrictMode`. `App` loads data, owns the cart and page-level state, and passes data and callbacks down through `ShopPage`. Each product card reports actions to `App`; it does not change the cart itself.
+`main.tsx` mounts `App` in `StrictMode`. `App` loads shop data and passes it through `ShopPage`. The header, product cards, search results and cart panel read the cart directly from the Zustand store.
 
 ## 3. Data and ownership
 
@@ -42,9 +42,9 @@ App
 | Shop information and links | API `shop.json` | Server |
 | Hero content | `home.json` | Server |
 | Product, category, banner and promo image paths | `shared/content.ts` | Application |
-| Cart item IDs and quantities | React state + localStorage | Browser |
+| Cart item IDs and quantities | Zustand + localStorage via `cart-storage.ts` | Browser |
 | Category and search text | React state + URL | Browser |
-| Theme | React state + localStorage | Browser |
+| Theme | Zustand + localStorage via `persist` | Browser |
 | API base URL | Environment at build time | Build configuration |
 
 The separate `shop.json` at the project root records the exercise week; it is not the shop data returned by the API. Cart totals are calculated from the currently loaded products and offers, not stored as prices in the cart.
@@ -75,12 +75,13 @@ The separate `shop.json` at the project root records the exercise week; it is no
 ```text
 src/
   main.tsx              Mounts React and App.
-  App.tsx               Owns page state, data loading, cart updates and Effects.
+  App.tsx               Owns shop data loading and page-level state.
   components/           React page, UI components and component-specific props.
-  hooks/                Theme, URL, carousel, category links and menu behavior.
+  hooks/                Cart and theme stores, URL, carousel, category links and menu behavior.
   lib/                  Toast and confetti integrations.
   shared/
-    types.ts            Shared application and API types.
+    types.ts            Shared types import entry point.
+    types/              Catalog, cart and shop type definitions.
     content.ts          Local image paths.
     api/                JSON requests and validation.
     storage/            localStorage and URL reads/writes.
@@ -91,7 +92,7 @@ src/
     products/logic/     Shelf, filter and product-card data functions.
 ```
 
-The cart and products features do not import each other. `App` and the components connect their data and callbacks. React replaces the old DOM-rendering layer and `main.ts`.
+The cart and products features do not import each other. Components combine catalog data with the cart state they select from the store.
 
 ## 7. State in React
 
@@ -99,15 +100,18 @@ The cart and products features do not import each other. `App` and the component
 |---|---|---|---|
 | Shop data and `LoadState` | `App` | API Effect | React state; API remains the source of shop data |
 | Retry attempt | `App` | Retry button | React state only |
-| Cart | `App` | Product and cart callbacks; API Effect reconciles it with available stock | React state and localStorage |
+| Cart | `src/hooks/useCartStore.ts` | Product cards, search results and cart items call store actions. The API load reconciles the cart with available stock. | Zustand state and localStorage via `shared/storage/cart-storage.ts` |
 | Category and search query | `App` via `useUrlFilters` | Category selection, search input and browser history | React state and URL |
-| Theme | `App` via `useTheme` | Theme controls | React state and localStorage |
-| Cart and mobile menu open/closed | `App` | Header, panels and close actions | React state only |
+| Theme | `src/hooks/useThemeStore.ts` | `ThemeToggle` in the header and mobile menu | Zustand state and localStorage via `persist` |
+| Cart panel open/closed | `ShopPage` | Header and cart panel | React state only |
+| Mobile menu open/closed | `App` | Header and mobile menu | React state only |
 | Search dropdown open/closed | `SearchBox` | Input, focus and dismissal events | React state only |
 | Mega menu open/active category | `MegaMenu` | Menu events | React state only |
 | Carousel edge positions | Each `useCarousel` caller | Scroll, resize and item-count changes | React state only |
 | Video ready, slow notice and card pulse | `Hero`, `SlowNotice` and each `ProductCard` | Video, timer and interaction events | React state only |
 | Countdown visibility and seconds | `SalePromotion` and `SaleCountdown` | Open/close button and interval | React state only |
+
+The cart uses option A, Zustand. Selectors let the header read the total quantity and each product card read its own quantity and actions. The store reuses the pure cart rules and the existing storage format, so saved carts still load. A store subscription saves changes through `cart-storage.ts`.
 
 Cart count, cart rows and total, active category, visible shelves, search results and card prices are calculated from existing state and data during rendering. Category and search are applied together to the shelves and search dropdown. Choosing a category or following an offers link keeps the current search; if there are no matches, the page shows the empty-results message. These calculated values are not separate persistent state. The sample countdown stops at zero or when closed and starts again from ten minutes when reopened; it does not represent a server-side sale deadline.
 

@@ -3,7 +3,7 @@ import { finalPrice, hasDiscount } from '../../../shared/logic/pricing';
 import { stockOf } from '../../../shared/logic/stock';
 import { PRODUCT_IMAGES } from '../../../shared/content';
 
-export function toCard(product: Product, offer: Offer | undefined, stockQty: number, cartQty: number, stockKnown = true): Card {
+export function toCard(product: Product, offer: Offer | undefined, stockQty: number, stockKnown = true): Card {
   const discounted = hasDiscount(offer) && stockQty > 0;
   return {
     id: product.id,
@@ -15,7 +15,6 @@ export function toCard(product: Product, offer: Offer | undefined, stockQty: num
     ...(discounted && offer ? { oldPrice: product.price, discountPercent: offer.percent } : {}),
     inStock: stockQty > 0,
     stockKnown,
-    qty: cartQty,
     stockQty,
   };
 }
@@ -27,7 +26,6 @@ export function cardOf(product: Product, state: AppState): Card {
     productWithImage,
     state.offerMap.get(product.id),
     stockOf(product.id, state.stock),
-    state.cart[product.id] ?? 0,
     state.stock !== null,
   );
 }

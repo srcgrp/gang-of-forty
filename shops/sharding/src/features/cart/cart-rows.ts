@@ -1,4 +1,4 @@
-import type { AppState, Cart, Product, Offer, CartRow } from '../../shared/types';
+import type { Cart, Product, Offer, CartRow, Stock } from '../../shared/types';
 import { finalPrice } from '../../shared/logic/pricing';
 import { stockOf } from '../../shared/logic/stock';
 
@@ -24,13 +24,13 @@ export function cartTotal(rows: CartRow[]): number {
   return rows.reduce((sum, row) => sum + row.lineTotal, 0);
 }
 
-export function pruneCart(state: AppState): Cart {
-  if (state.products.length === 0 || !state.stock) return state.cart;
+export function pruneCart(cart: Cart, products: Product[], stock: Stock | null): Cart {
+  if (products.length === 0 || !stock) return cart;
   const next: Cart = {};
-  for (const [id, quantity] of Object.entries(state.cart)) {
+  for (const [id, quantity] of Object.entries(cart)) {
     const productId = Number(id);
-    const availableQuantity = Math.min(quantity, stockOf(productId, state.stock));
-    if (availableQuantity > 0 && state.products.some((product) => product.id === productId)) {
+    const availableQuantity = Math.min(quantity, stockOf(productId, stock));
+    if (availableQuantity > 0 && products.some((product) => product.id === productId)) {
       next[id] = availableQuantity;
     }
   }

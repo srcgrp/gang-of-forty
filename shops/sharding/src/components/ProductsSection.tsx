@@ -1,4 +1,4 @@
-import type { AppState, Cart } from '../shared/types'
+import type { AppState } from '../shared/types'
 import { buildShelves } from '../features/products/logic/shelves'
 import { searchProducts } from '../features/products/logic/filters'
 import ProductGrid from './ProductGrid'
@@ -7,15 +7,12 @@ import ProductStatus from './ProductStatus'
 
 type ProductsSectionProps = {
   data: AppState
-  cart: Cart
   activeCategoryId: number | null
   query: string
   onRetry: () => void
-  onAdd: (id: number) => void
-  onRemove: (id: number) => void
 }
 
-export default function ProductsSection({ data, cart, activeCategoryId, query, onRetry, onAdd, onRemove }: ProductsSectionProps) {
+export default function ProductsSection({ data, activeCategoryId, query, onRetry }: ProductsSectionProps) {
   switch (data.res.status) {
     case 'loading':
       return <ProductSkeleton />
@@ -25,7 +22,7 @@ export default function ProductsSection({ data, cart, activeCategoryId, query, o
       return <ProductStatus variant="error" title="بارگذاری محصولات ناموفق بود" text={data.res.message} onRetry={onRetry} />
     case 'success': {
       const products = searchProducts(data.products, query)
-      const shelves = buildShelves({ ...data, cart, products })
+      const shelves = buildShelves({ ...data, products })
       const visible = activeCategoryId === null ? shelves : shelves.filter(
         ({ shelf }) => shelf.categoryId === activeCategoryId,
       )
@@ -35,8 +32,7 @@ export default function ProductsSection({ data, cart, activeCategoryId, query, o
       return (
         <>
           {visible.filter(({ cards }) => !query.trim() || cards.length > 0).map(({ shelf, cards }) => (
-            <ProductGrid key={shelf.id} id={shelf.id} title={shelf.title} cards={cards}
-              onAdd={onAdd} onRemove={onRemove} />
+            <ProductGrid key={shelf.id} id={shelf.id} title={shelf.title} cards={cards} />
           ))}
         </>
       )

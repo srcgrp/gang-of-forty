@@ -8,11 +8,9 @@ type ProductGridProps = {
   id: string
   title: string
   cards: Card[]
-  onAdd: (id: number) => void
-  onRemove: (id: number) => void
 }
 
-export default function ProductGrid({ id, title, cards, onAdd, onRemove }: ProductGridProps) {
+export default function ProductGrid({ id, title, cards }: ProductGridProps) {
   const { trackRef, isAtStart, isAtEnd, scrollPrev, scrollNext } = useCarousel(cards.length)
   const titleId = `${id}-title`
   const isOffers = id === 'offers'
@@ -39,12 +37,7 @@ export default function ProductGrid({ id, title, cards, onAdd, onRemove }: Produ
 
             <ul ref={trackRef} className="product-shelf__grid" id={`${id}-grid`} tabIndex={0} aria-label={title}>
               {cards.map((card) => (
-                <ProductCard
-                  key={card.id}
-                  card={card}
-                  onAdd={onAdd}
-                  onRemove={onRemove}
-                />
+                <ProductCard key={card.id} card={card} />
               ))}
             </ul>
           </div>

@@ -1,18 +1,19 @@
 import { useEffect, useRef } from 'react'
-import type { AppState, CartChange } from '../shared/types'
+import type { AppState } from '../shared/types'
 import Price from './Price'
 import CartItem from './CartItem'
 import { cartRows, cartTotal } from '../features/cart/cart-rows'
 import { usePanelFocus } from '../hooks/usePanelFocus'
+import { useCartStore } from '../hooks/useCartStore'
 
 type CartPanelProps = {
   open: boolean
   data: AppState
   onClose: () => void
-  onCartChange: (id: number, change: CartChange) => void
 }
 
-export default function CartPanel({ open, data, onClose, onCartChange }: CartPanelProps) {
+export default function CartPanel({ open, data, onClose }: CartPanelProps) {
+  const lines = useCartStore((state) => state.lines)
   const panelRef = useRef<HTMLElement>(null)
   usePanelFocus(open, panelRef)
 
@@ -33,7 +34,7 @@ export default function CartPanel({ open, data, onClose, onCartChange }: CartPan
     }
   }, [open, onClose])
 
-  const rows = cartRows(data.cart, data.products, data.offerMap)
+  const rows = cartRows(lines, data.products, data.offerMap)
   const total = cartTotal(rows)
 
   return (
@@ -47,7 +48,7 @@ export default function CartPanel({ open, data, onClose, onCartChange }: CartPan
         {rows.length === 0 ? (
           <li className="cart-row cart-row--empty">سبد خرید خالی است</li>
         ) : (
-          rows.map((row) => <CartItem key={row.id} row={row} stock={data.stock} onChange={onCartChange} />)
+          rows.map((row) => <CartItem key={row.id} row={row} stock={data.stock} />)
         )}
       </ul>
 
