@@ -8,6 +8,7 @@ import CartPanel from "../components/CartPanel.tsx";
 import { cartCount, cartTotal } from "../cart/cart-lines.ts";
 import { withOfferAndStock } from "../catalog/product-catalog.ts";
 import Promos from "./Promos.tsx";
+import { useThemeStore } from "../hooks/useThemeStore.ts";
 
 type ShopPageProps = {
   data: Data;
@@ -41,8 +42,11 @@ export default function ShopPage({
     const product = cards.find((p) => p.id === id);
     if (product) onAdd(product);
   }
+  
+  const theme = useThemeStore((s) => s.theme);
+  
   return (
-    <>
+    <div className="app" data-theme={theme}>
       <a href="#main" className="skip-link">
         پرش به محتوای اصلی
       </a>
@@ -59,6 +63,6 @@ export default function ShopPage({
         <CartPanel lines={cart} total={total} onRemove={onRemove} />
       </main>
       <Footer shop={data.shop} categories={data.categories} />
-    </>
+    </div>
   );
 }

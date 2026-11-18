@@ -4,6 +4,7 @@ import searchIcon from "../../png/magnifying-glass-fill.png";
 import cartIcon from "../../png/shopping-bag-open-fill.png";
 import type { Category, Shop } from "../types.ts";
 import MainNav from "./MainNav.tsx";
+import ThemeToggle from "./ThemeToggle.tsx";
 
 type HeaderProps = {
   count: number;
@@ -49,6 +50,7 @@ export default function Header({ count, shop, categories }: HeaderProps) {
           {formatNumber(count)} کالا در سبد
         </span>
       </button>
+      <ThemeToggle />
       <input type="checkbox" id="menu-toggle" className="visually-hidden" />
       <label htmlFor="menu-toggle" className="menu-button">
         <span aria-hidden="true">☰</span>
