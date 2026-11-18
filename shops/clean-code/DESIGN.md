@@ -30,9 +30,11 @@ A product card shows the emoji, the name, the unit, the stock, the price, a disc
 - Stock left: server (`stock.json`)
 - Banner, slogan, address, phone, menu, and footer: server (`shop.json`)
 - Hero, promo strips, and the list of rows: server (`home.json`)
-- Search text (`query`) and selected category (`categoryId`): React state in `App` (not a separate list state; products are filtered while rendering)
-- Cart: `localStorage`, key `cart` (list of `{ productId, qty }`), only through `storage/cart-storage.ts`
-- Jumps such as `#dairy` and `#cart`: URL hash
+- Search text (`query`): React state in `Header`
+- Selected category (`categoryId`): React state in `HomePage`
+- Cart: shared context + reducer; saved in `localStorage` key `cart` only through `storage/cart-storage.ts`
+- Theme: Zustand store with persist (`clean-code-theme`)
+- Page jumps: TanStack Router hash routes (`#/`, `#/plp/$carouselId`)
 - API address prefix: `.env`, variable `VITE_API_URL`
 
 ## 4. API contract
@@ -57,48 +59,28 @@ Joins: `product.id` matches `stock.items` and `offer.productId`. `product.catego
 
 ## 6. Component tree
 
-```
-App
-├── Status                         (load !== success; Retry on error)
-└── ShopView                       (load === success)
-    ├── Banner
-    ├── SalePanel
-    │   └── SaleCountdown          (mounted while open; interval + cleanup)
-    ├── Header
-    │   ├── Logo / SearchBox / CartIcon / MenuToggle
-    ├── HomeIntro                  (hidden while searching)
-    │   ├── CategoryNav
-    │   ├── Hero
-    │   └── PromoStrips
-    ├── HomeRows
-    │   └── CarouselSection × n
-    │       └── ProductGrid
-    │           └── ProductCard × n
-    ├── CartPanel
-    └── Footer
-```
+See section 12 for the current per-page tree (routes + Layout).
 
 ## 7. Where state lives
 
 | State | Owner | Who changes it | Where stored |
 | --- | --- | --- | --- |
-| `load` | `useLoadShop` (used by `App`) | load Effect (`loadShop`); Retry | React state |
-| `attempt` | `useLoadShop` | Retry button | React state (Effect deps) |
-| `query` | `App` | `SearchBox` (`onQuery`) | React state |
-| `categoryId` | `App` | `CategoryNav` (`onPick`) | React state |
-| `cart` | `App` | add / clear cart handlers | `localStorage` via `storage/cart-storage.ts` |
-| `open` | `SalePanel` | toggle button (mount/unmount countdown) | React state |
+| `load` / `attempt` | `useCatalog` (used by pages) | load Effect (`loadShop`); Retry | React state |
+| `query` | `Header` | `SearchBox` | React state |
+| `categoryId` | `HomePage` | `CategoryNav` (`onPick`) | React state |
+| `theme` | `useThemeStore` | `ThemeToggle` | `localStorage` (`clean-code-theme`) |
+| `lines` (cart) | `CartProvider` + `cartReducer` | add / clear via `dispatch` | `localStorage` via `storage/cart-storage.ts` |
+| `open` | `SalePanel` | toggle button | React state |
 | `left` | `SaleCountdown` | `setInterval` every second | React state |
 
 Derived (not state):
 
-- cart count — from `cart`; no need to store again
-- cart rows — from `cart` + products
-- cart total — from rows + offers
-- filtered products — from products + `categoryId` + `query` via `filterProducts` while rendering
-- `document.title` — from shop name + cart count in an Effect
+- cart count — from `lines` via `cartCount`
+- cart rows / total — from `lines` + products + offers
+- carousel products — `carouselProducts(catalog, id)`
+- `document.title` — cart count Effect in `Header`
 
-`App.tsx` does not call `fetch` or `localStorage` directly. Load goes through `api/` inside `useLoadShop`; cart through `storage/`.
+`App.tsx` only defines routes. Load goes through `api/` inside `useCatalog`; cart through `storage/` inside `CartProvider`.
 
 ## 8. Folders
 
@@ -107,13 +89,14 @@ src/
   types/             types layer     Product, Shop, Home, LoadState
   api/               data layer      reading JSON with fetch
   storage/           data layer      cart in localStorage; URL helpers
+  catalog/           pure helpers    carouselProducts
   features/cart      cart rules      add, remove, count, rows, total
   features/products  product rules   offers, prices, filterProducts
   shared/            shared rules    findOffer and finalPrice
-  hooks/             React hooks     useLoadShop (load + attempt + retry)
-  components/        React UI
-  App.tsx            UI state, cart Effect, wires Status / ShopView
-  main.tsx           createRoot → <App />
+  hooks/             React hooks     useCatalog, useCart, useThemeStore, CartProvider
+  components/        React UI        Layout, Header, pages/…
+  App.tsx            TanStack Router only
+  main.tsx           createRoot → CartProvider → App
 ```
 
 ## 9. Security
@@ -121,3 +104,49 @@ src/
 Everything on the page and in the JavaScript bundle is public: prices, discounts, and the value of `VITE_API_URL`. `.env` holds no password or private key, because every `VITE_` variable is copied into the file the browser downloads. The cart in `localStorage` can also be edited on that device.
 
 The server must be the one that calculates the final cart total. A customer can change a price or a quantity in the browser tools. The server must add the total again from the product ids and its own prices, not from a number the page sends.
+
+## 10. Routes
+
+| Address             | Page       | Data from                                              |
+| ------------------- | ---------- | ------------------------------------------------------ |
+| `#/`                | `HomePage` | `useCatalog` → products, offers, home carousels        |
+| `#/plp/$carouselId` | `PlpPage`  | `useCatalog` + `carouselProducts(catalog, carouselId)` |
+| anything else       | `NotFound` | —                                                      |
+
+Unknown `carouselId` stays on `PlpPage` and shows «این فهرست پیدا نشد» (not a blank page).
+Routes are defined only in `App.tsx` with `createHashHistory()`.
+
+## 11. Stores
+
+| Store | Defined in                                                              | What it holds       | Who changes it                                                            | Where saved                                                                         |
+| ----- | ----------------------------------------------------------------------- | ------------------- | ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| Theme | `hooks/useThemeStore.ts` (Zustand + persist)                            | `theme`, `toggle`   | `ThemeToggle`                                                             | `localStorage` key `clean-code-theme`                                               |
+| Cart  | `hooks/cartReducer.ts` + `CartProvider` + `useCart` (context + reducer) | `lines`, `dispatch` | `HomePage` / `PlpPage` (add), `CartPanel` (clear), `Header` (reads count) | `localStorage` via `storage/cart-storage.ts` in a `useEffect` inside `CartProvider` |
+
+Cart choice: **context + reducer**, not Zustand.
+Why: cart actions stay as a pure reducer (`add` / `clear`) next to the week-4 cart helpers, and `CartProvider` owns save/load. Theme stayed on Zustand because it is tiny and `persist` is enough.
+
+## 12. Component tree (per page)
+
+```
+main.tsx
+└── CartProvider
+    └── App (RouterProvider only)
+        └── Layout
+            ├── Banner
+            ├── Header
+            │   ├── Logo / SearchBox / CartIcon / ThemeToggle / MenuToggle
+            └── Outlet
+                ├── HomePage                         (#/)
+                │   ├── SalePanel
+                │   │   └── SaleCountdown
+                │   ├── HomeIntro
+                │   │   ├── CategoryNav / Hero / PromoStrips
+                │   ├── HomeRows
+                │   │   └── CarouselSection → ProductGrid → ProductCard
+                │   ├── CartPanel
+                │   └── Footer
+                ├── PlpPage                          (#/plp/$carouselId)
+                │   └── ProductGrid → ProductCard
+                └── NotFound                         (unknown paths)
+```
