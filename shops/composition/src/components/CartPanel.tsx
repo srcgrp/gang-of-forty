@@ -1,12 +1,16 @@
+import { useCartStore } from "../hooks/useCartStore";
+import { cartTotal } from "../features/cart/logic/items";
 import closeIcon from "../../icons/x.svg";
-import type { CartItem, Stock } from "../shared/types";
+import type { Stock } from "../shared/types";
 import { formatNumber, formatPrice } from "../shared/format";
 
-type Props = { cart: CartItem[]; total: number; onRemove: (id: number) => void;
-  stock: Stock; onAdd: (id: number) => void; onDecrease: (id: number) => void;
-  open: boolean; onClose: () => void;
-};
-export default function CartPanel({ stock, onAdd, onDecrease, cart, total, onRemove, open, onClose }: Props) {
+type Props = { stock: Stock; open: boolean; onClose: () => void };
+export default function CartPanel({ stock, open, onClose }: Props) {
+  const cart = useCartStore((state) => state.lines);
+  const add = useCartStore((state) => state.add);
+  const onDecrease = useCartStore((state) => state.decrease);
+  const onRemove = useCartStore((state) => state.remove);
+  const total = cartTotal(cart);
   return (
     <section id="cart" className="cart-panel" hidden={!open} aria-labelledby="cart-title">
       <div className="cart-heading">
@@ -27,7 +31,7 @@ export default function CartPanel({ stock, onAdd, onDecrease, cart, total, onRem
                 <button type="button" onClick={() => onDecrease(item.id)}
                   aria-label={"کم کردن یک عدد " + item.name}>−</button>
                 <output aria-live="polite" aria-label={"تعداد " + item.name}>{formatNumber(item.quantity)}</output>
-                <button type="button" onClick={() => onAdd(item.id)}
+                <button type="button" onClick={() => add(item, stock.items[item.id] ?? 0)}
                   disabled={item.quantity >= (stock.items[item.id] ?? 0)}
                   aria-label={"زیاد کردن یک عدد " + item.name}>+</button>
               </div>

@@ -1,15 +1,19 @@
 import { useState } from "react";
-import type { ReactNode } from "react";
+import { useCartStore } from "../hooks/useCartStore";
+import { cartCount } from "../features/cart/logic/items";
+import CartPanel from "./CartPanel";
 import { formatNumber } from "../shared/format";
-import type { Category, Shop, CardView } from "../shared/types";
+import type { Category, Shop, CardView, Stock } from "../shared/types";
 import Brand from "./Brand";
 import SearchBox from "./SearchBox";
 import cartIcon from "../../icons/shopping-cart.svg";
 import ThemeToggle from "./ThemeToggle";
 import menuIcon from "../../icons/menu-2.svg";
 
-type Props = { suggestions: CardView[]; query: string; onQuery: (query: string) => void; shop: Shop; categories: Category[]; count: number; cartOpen: boolean; onCartOpen: (open: boolean) => void; children: ReactNode; onPick: (id: number | null) => void };
-export default function Header({ suggestions, query, onQuery, shop, categories, count, onPick, cartOpen, onCartOpen, children }: Props) {
+type Props = { suggestions: CardView[]; query: string; onQuery: (query: string) => void; shop: Shop; categories: Category[]; stock: Stock; onPick: (id: number | null) => void };
+export default function Header({ suggestions, query, onQuery, shop, categories, stock, onPick }: Props) {
+  const count = useCartStore((state) => cartCount(state.lines));
+  const [cartOpen, onCartOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const changeCart = (open: boolean): void => { if (open) setSearchOpen(false); onCartOpen(open); };
   const changeSearch = (open: boolean): void => { if (open) onCartOpen(false); setSearchOpen(open); };
@@ -22,7 +26,7 @@ export default function Header({ suggestions, query, onQuery, shop, categories, 
           <SearchBox open={searchOpen} onOpenChange={changeSearch} cards={suggestions} query={query} onQuery={onQuery} />
           <div className="cart-menu" onMouseEnter={() => changeCart(true)}
             onMouseLeave={() => onCartOpen(false)}
-            onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget)) onCartOpen(false); }}
+            onBlur={event => { if (event.relatedTarget && !event.currentTarget.contains(event.relatedTarget)) onCartOpen(false); }}
             onKeyDown={event => {
               if (event.key === "Escape") {
                 onCartOpen(false);
@@ -34,7 +38,7 @@ export default function Header({ suggestions, query, onQuery, shop, categories, 
             <img src={cartIcon} alt="" width="48" height="48" />
             <span>سبد خرید</span><b id="cart-count" aria-live="polite">{formatNumber(count)}</b>
           </button>
-          {children}
+          <CartPanel stock={stock} open={cartOpen} onClose={() => onCartOpen(false)} />
           </div>
           <ThemeToggle />
           <details className="mobile-menu">

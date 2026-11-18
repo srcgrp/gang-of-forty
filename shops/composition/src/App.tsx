@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
-import type { CartItem, LoadState, ShopData } from "./shared/types";
+import type { LoadState, ShopData } from "./shared/types";
 import { loadCatalog } from "./features/products/api/catalog-data";
 import { getShop, getHome } from "./shared/api/site";
-import { addItem, removeItem, decreaseItem, cartCount } from "./features/cart/logic/items";
-import { toCard, offersById } from "./features/products/catalog/cards";
-import { loadCart, saveCart } from "./features/cart/storage/cart";
 import LoadStatus from "./components/LoadStatus";
 import ShopView from "./components/ShopView";
 
@@ -14,8 +11,6 @@ export default function App() {
   const [query, setQuery] = useState("");
   const [attempt, setAttempt] = useState(0);
   const [saleOpen, setSaleOpen] = useState(false);
-  const [cartOpen, setCartOpen] = useState(false);
-  const [cart, setCart] = useState<CartItem[]>(() => loadCart());
   useEffect(() => {
     let ignore = false;
     Promise.all([loadCatalog(), getShop(), getHome()])
@@ -31,25 +26,6 @@ export default function App() {
       });
     return () => { ignore = true; };
   }, [attempt]);
-  useEffect(() => { saveCart(cart); }, [cart]);
-  useEffect(() => {
-    document.title = "بت‌شاپ · " + cartCount(cart).toLocaleString("fa-IR") + " 🛒";
-  }, [cart]);
-  function handleAdd(productId: number): void {
-    if (state.status !== "success") return;
-    const { products, stock, offers } = state.data;
-    const product = products.find(item => item.id === productId);
-    if (!product) return;
-    const card = toCard(product, stock, offersById(offers));
-    if (!card.available) return;
-    setCart(previous => addItem(previous, card.item, stock.items[productId] ?? 0));
-  }
-  function handleDecrease(productId: number): void {
-    setCart(previous => decreaseItem(previous, productId));
-  }
-  function handleRemove(productId: number): void {
-    setCart(previous => removeItem(previous, productId));
-  }
   function handleRetry(): void {
     setState({ status: "loading" });
     setAttempt(previous => previous + 1);
@@ -57,7 +33,7 @@ export default function App() {
   if (state.status !== "success") {
     return <main className="wrap"><h1>بت‌شاپ</h1><LoadStatus state={state} onRetry={handleRetry} /></main>;
   }
-  return <ShopView data={state.data} cart={cart} categoryId={categoryId} cartOpen={cartOpen}
+  return <ShopView data={state.data} categoryId={categoryId}
     query={query} onQuery={setQuery} saleOpen={saleOpen} onToggleSale={() => setSaleOpen(open => !open)}
-    onPick={setCategoryId} onCartOpen={setCartOpen} onAdd={handleAdd} onRemove={handleRemove} onDecrease={handleDecrease} />;
+    onPick={setCategoryId} />;
 }

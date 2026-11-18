@@ -1,6 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
+import CartTitle from "./components/CartTitle";
 import ThemeFrame from "./components/ThemeFrame";
 
 const root = document.getElementById("root");
@@ -8,7 +9,7 @@ const root = document.getElementById("root");
 if (root) {
   createRoot(root).render(
     <StrictMode>
-      <ThemeFrame><App /></ThemeFrame>
+      <ThemeFrame><CartTitle /><App /></ThemeFrame>
     </StrictMode>,
   );
 }

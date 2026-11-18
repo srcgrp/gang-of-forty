@@ -58,6 +58,7 @@ export type CardView = {
   oldPrice: string;
   badge: string;
   available: boolean;
+  stock: number;
   item: CartItem;
 };
 export type SectionView = { id: string; title: string; carousel: boolean; cards: CardView[] };
