@@ -1,21 +1,20 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { cartCount as countLines } from "../features/cart/count";
 import { useCart } from "../hooks/useCart";
+import { useCatalog } from "../hooks/useCatalog";
 import CartIcon from "./CartIcon";
 import Logo from "./Logo";
 import MenuToggle from "./MenuToggle";
 import SearchBox from "./SearchBox";
 import ThemeToggle from "./ThemeToggle";
 
-type HeaderProps = {
-  query: string;
-  menu: { label: string; href: string }[];
-  onQuery: (value: string) => void;
-};
-
-export default function Header({ menu, query, onQuery }: HeaderProps) {
+export default function Header() {
   const { lines } = useCart();
   const cartCount = countLines(lines);
+  const { load } = useCatalog();
+  const [query, setQuery] = useState("");
+  const menu = load.status === "success" ? load.shop.menu : [];
+
   useEffect(
     function () {
       document.title =
@@ -28,7 +27,7 @@ export default function Header({ menu, query, onQuery }: HeaderProps) {
     <header className="header">
       <div className="box header-top">
         <div className="brand">
-          <a href="#top">
+          <a href="#/">
             <Logo />
           </a>
           <div>
@@ -36,7 +35,7 @@ export default function Header({ menu, query, onQuery }: HeaderProps) {
             <p className="slogan">تازه، نزدیک، به‌صرفه</p>
           </div>
         </div>
-        <SearchBox query={query} onQuery={onQuery} />
+        <SearchBox query={query} onQuery={setQuery} />
         <a className="cart" href="#cart">
           <span className="cart-label">سبد خرید</span>
           <CartIcon />

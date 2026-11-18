@@ -1,23 +1,45 @@
-import ShopView from "./components/ShopView.tsx";
-import Status from "./components/Status.tsx";
-import { useCatalog } from "./hooks/useCatalog.ts";
-import { useThemeStore } from "./hooks/useThemeStore";
+import {
+  createHashHistory,
+  createRootRoute,
+  createRoute,
+  createRouter,
+  RouterProvider,
+} from "@tanstack/react-router";
+import Layout from "./components/Layout";
+import HomePage from "./components/pages/HomePage";
+import NotFound from "./components/pages/NotFound";
+import PlpPage from "./components/pages/PlpPage";
+
+const rootRoute = createRootRoute({
+  component: Layout,
+  notFoundComponent: NotFound,
+});
+
+const homeRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/",
+  component: HomePage,
+});
+
+const plpRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/plp/$carouselId",
+  component: PlpPage,
+});
+
+const routeTree = rootRoute.addChildren([homeRoute, plpRoute]);
+
+const router = createRouter({
+  routeTree,
+  history: createHashHistory(),
+});
+
+declare module "@tanstack/react-router" {
+  interface Register {
+    router: typeof router;
+  }
+}
 
 export default function App() {
-  const theme = useThemeStore((s) => s.theme);
-  const { load, retry } = useCatalog();
-
-  if (load.status !== "success") {
-    return (
-      <div className="app" data-theme={theme}>
-        <Status state={load} onRetry={retry} />
-      </div>
-    );
-  }
-
-  return (
-    <div className="app" data-theme={theme}>
-      <ShopView load={load} />
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }

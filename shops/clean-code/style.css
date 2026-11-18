@@ -1395,3 +1395,9 @@ a[data-cat].active {
   color: var(--ink);
   text-align: start;
 }
+
+.see-all {
+  font-size: 14px;
+  font-weight: 400;
+  margin-inline-start: 8px;
+}
