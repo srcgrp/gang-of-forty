@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import type { Product } from "../types/product.ts";
 
 type ProductCardProps = {
@@ -27,7 +28,14 @@ export default function ProductCard({
           <span className="off">{percent.toLocaleString("fa-IR")}٪</span>
         ) : null}
       </div>
-      <h3>{product.name}</h3>
+      <h3>
+        <Link
+          to="/product/$productId"
+          params={{ productId: String(product.id) }}
+        >
+          {product.name}
+        </Link>
+      </h3>
       <p className="amount">
         {product.unit}
         {qty > 0 ? " · مانده " + qty.toLocaleString("fa-IR") : ""}

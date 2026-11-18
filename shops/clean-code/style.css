@@ -1401,3 +1401,17 @@ a[data-cat].active {
   font-weight: 400;
   margin-inline-start: 8px;
 }
+
+.product-page {
+  max-width: 320px;
+  margin-top: 16px;
+}
+
+.product-page .pic {
+  height: 180px;
+  font-size: 64px;
+}
+
+.product-page h1 {
+  font-size: 22px;
+}
