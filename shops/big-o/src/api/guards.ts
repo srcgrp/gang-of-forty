@@ -1,8 +1,8 @@
-import type { Category, Product, Offer, Stock, Shop} from '../types';
+import type { Category, Product, Offer, Stock} from '../types';
 
 // Check if the input is an object or not
 // x: an unknown input, output: true if the input is an object and false if it's not
-function isRecord(x: unknown): x is Record<string, unknown> {
+export function isRecord(x: unknown): x is Record<string, unknown> {
     return typeof x === 'object' && x !== null && !Array.isArray(x);
 }
 
@@ -38,22 +38,6 @@ export function isOffer(x: unknown): x is Offer {
         typeof x.productId === 'number' &&
         typeof x.percent === 'number' &&
         typeof x.label === 'string'
-    )
-}
-
-// Check if the input is a correct form of a shop or not
-export function isShop(x: unknown): x is Shop {
-    return (
-        isRecord(x) &&
-        typeof x.name === 'string' &&
-        typeof x.slogan === 'string' && 
-        typeof x.owner === 'string' && 
-        typeof x.city === 'string' && 
-        typeof x.phone === 'string' &&
-        (isRecord(x.hours) && typeof x.hours.open === 'string' && typeof x.hours.close === 'string') &&
-        typeof x.deliveryFee === 'number' && 
-        typeof x.freeDeliveryOver === 'number' &&
-        typeof x.currency === 'string'
     )
 }
 

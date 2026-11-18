@@ -1,4 +1,5 @@
-import { isCategory, isProduct, isOffer, isShop, isStock } from './guards';
+import { isCategory, isProduct, isOffer, isStock } from './guards';
+import { isShop } from './shopGuards';
 
 const API_URL: string = import.meta.env.VITE_API_URL;
 
