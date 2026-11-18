@@ -10,6 +10,11 @@ import HomePage from "./components/pages/HomePage.tsx";
 import NotFound from "./components/pages/NotFound.tsx";
 import PlpPage from "./components/pages/PlpPage.tsx";
 import ProductPage from "./components/pages/ProductPage.tsx";
+import {
+  parseSort,
+  sortSearch,
+} from "./scripts/logic/catalog/sort-products.ts";
+import type { Sort } from "./scripts/types";
 
 const rootRoute = createRootRoute({
   component: Layout,
@@ -23,6 +28,8 @@ const homeRoute = createRoute({
 const plpRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/plp/$carouselId",
+  validateSearch: (search: Record<string, unknown>): { sort?: Sort } =>
+    sortSearch(parseSort(search.sort)),
   component: PlpPage,
 });
 const productRoute = createRoute({
