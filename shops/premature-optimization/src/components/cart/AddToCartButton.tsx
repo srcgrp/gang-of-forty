@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { MouseEvent, ReactNode } from "react";
 import type { Product } from "../../scripts/types";
 import { useCartStore } from "../../hooks/useCartStore.ts";
 import { useIsSoldOut } from "../../hooks/useIsSoldOut.ts";
@@ -17,23 +17,25 @@ export default function AddToCartButton({
   className,
   children,
 }: AddToCartButtonProps) {
-  const add = useCartStore((s) => s.add);
+  const add = useCartStore((state) => state.add);
   const soldOut = useIsSoldOut(product.id, stock);
+
+  const title = soldOut
+    ? "موجودی این محصول تمام شده است"
+    : `افزودن ${product.name} به سبد خرید`;
+
+  function handleClick(event: MouseEvent<HTMLButtonElement>) {
+    add(product.id);
+    addedFeedback(event.currentTarget);
+  }
 
   return (
     <button
       className={className}
       type="button"
       disabled={soldOut}
-      title={
-        soldOut
-          ? "موجودی این محصول تمام شده است"
-          : `افزودن ${product.name} به سبد خرید`
-      }
-      onClick={(e) => {
-        add(product.id);
-        addedFeedback(e.currentTarget);
-      }}
+      title={title}
+      onClick={handleClick}
     >
       {children}
     </button>
