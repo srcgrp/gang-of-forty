@@ -50,3 +50,6 @@ export const SHOP_DEFAULTS = {
     deliveryFee: 35000,
     freeDeliveryOver: 500000,
 } satisfies Pick<Shop, 'currency' | 'deliveryFee' | 'freeDeliveryOver'>;
+
+export type Theme = 'light' | 'dark';
+

@@ -12,10 +12,11 @@ import Footer from './components/Footer.tsx'
 import Header from './components/Header.tsx'
 import Hero from './components/Hero.tsx'
 import ProductGrid from './components/ProductGrid.tsx'
-
+import { useThemeStore } from './hooks/useThemeStore.ts'
 const SHOP_NAME = 'سوپرمارکت باز-بسته'
 
 export default function App() {
+  const theme = useThemeStore((s) => s.theme)
   const [state, setState] = useState<LoadState>({ status: 'loading' })
   const [categoryId, setCategoryId] = useState<number | null>(null)
   const [cart, setCart] = useState<Cart>(() => loadCart())
@@ -49,7 +50,7 @@ export default function App() {
   const handleRemove = (id: number) => setCart(removeItem(cart, id))
 
   return (
-    <>
+    <div className="app" data-theme={theme}>
       <a className="skip-link" href="#main">پرش به محتوای اصلی</a>
       <Header cartCount={count} />
       <main id="main" tabIndex={-1} className="wrap">
@@ -60,6 +61,6 @@ export default function App() {
         <Banners />
       </main>
       <Footer />
-    </>
+    </div>
   )
 }

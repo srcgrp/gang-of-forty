@@ -1,10 +1,12 @@
 import { formatCount } from '../lib/format.ts'
 import MainNav from './MainNav.tsx'
 import SearchBox from './SearchBox.tsx'
+import ThemeToggle from './ThemeToggle.tsx'
 
 type HeaderProps = { cartCount: number }
 
 export default function Header({ cartCount }: HeaderProps) {
+
   return (
     <header className="site-header">
       <div className="topbar">🚚 ارسال رایگان برای خریدهای بالای ۵۰۰ هزار تومان</div>
@@ -19,7 +21,8 @@ export default function Header({ cartCount }: HeaderProps) {
             <span className="logo-tag">باز برای توسعه، بسته برای تغییر</span>
           </span>
         </a>
-
+      <div className="header-actions">
+        <ThemeToggle/>
         <a className="cart" href="#cart" aria-label="سبد خرید">
           <svg
             viewBox="0 0 24 24"
@@ -38,6 +41,7 @@ export default function Header({ cartCount }: HeaderProps) {
           <span className="cart-label">سبد خرید</span>
           <span className="count">{formatCount(cartCount)}</span>
         </a>
+      </div>
 
         <input className="menu-toggle" type="checkbox" id="menu-toggle" aria-label="باز و بسته کردن منو" />
         <div className="menu-btn" aria-hidden="true">

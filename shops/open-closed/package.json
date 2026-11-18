@@ -8,7 +8,7 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "check": "tsc --noEmit",
-    "lint": "oxlint src"
+    "lint": "oxlint src --deny-warnings"
   },
   "dependencies": {
     "@tanstack/react-router": "^1.170.46",
