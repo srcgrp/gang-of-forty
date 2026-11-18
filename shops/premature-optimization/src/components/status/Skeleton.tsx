@@ -1,32 +1,34 @@
-const BANNERS = ["fruit", "sale"];
-const CATEGORIES = ["c1", "c2", "c3", "c4", "c5", "c6", "c7"];
-const CAROUSELS = ["top", "bottom"];
-const PROMOS = ["left", "right"];
+type SkeletonBlocksProps = {
+  count: number;
+  variant: "banner" | "category" | "carousel";
+};
+
+function SkeletonBlocks({ count, variant }: SkeletonBlocksProps) {
+  return (
+    <>
+      {Array.from({ length: count }, (_, index) => (
+        <div key={index} className={`skeleton skeleton-${variant}`} />
+      ))}
+    </>
+  );
+}
 
 export default function Skeleton() {
   return (
     <main id="main-content" aria-busy="true">
       <section className="banner">
-        {BANNERS.map((key) => (
-          <div key={key} className="skeleton skeleton-banner" />
-        ))}
+        <SkeletonBlocks count={2} variant="banner" />
       </section>
       <section className="categories">
         <div className="categories-section">
-          {CATEGORIES.map((key) => (
-            <div key={key} className="skeleton skeleton-category" />
-          ))}
+          <SkeletonBlocks count={7} variant="category" />
         </div>
       </section>
       <div>
-        {CAROUSELS.map((key) => (
-          <div key={key} className="skeleton skeleton-banner" />
-        ))}
+        <SkeletonBlocks count={2} variant="carousel" />
       </div>
       <section className="banner-down">
-        {PROMOS.map((key) => (
-          <div key={key} className="skeleton skeleton-banner" />
-        ))}
+        <SkeletonBlocks count={2} variant="banner" />
       </section>
     </main>
   );

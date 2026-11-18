@@ -14,8 +14,9 @@ export default function AnchorLink({
   function scrollToTarget(event: MouseEvent<HTMLAnchorElement>) {
     event.preventDefault();
     const target = document.getElementById(targetId);
-    target?.scrollIntoView();
-    target?.focus({ preventScroll: true });
+    if (!target) return;
+    target.scrollIntoView();
+    target.focus({ preventScroll: true });
   }
 
   return (
