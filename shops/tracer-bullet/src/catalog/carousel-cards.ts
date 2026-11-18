@@ -43,6 +43,30 @@ export function carouselProducts(
   return getCarouselCards(definition, data);
 }
 
+export type PlpList = { title: string; cards: CardProduct[] };
+
+export function plpList(data: Data, id: string): PlpList | null {
+  const definition = data.home.carousels.find((c) => c.id === id);
+  if (definition) {
+    return {
+      title: definition.title,
+      cards: getCarouselCards(definition, data),
+    };
+  }
+
+  const category = data.categories.find((c) => c.slug === id);
+  if (category) {
+    return {
+      title: category.name,
+      cards: data.products
+        .filter((p) => p.categoryId === category.id)
+        .map((p) => withOfferAndStock(p, data.offers, data.stock)),
+    };
+  }
+
+  return null;
+}
+
 export function prepareCarousels(data: Data): PreparedCarousel[] {
     return data.home.carousels.map(definition => ({
         definition,

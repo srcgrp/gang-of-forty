@@ -7,6 +7,7 @@ import MainNav from "./MainNav.tsx";
 import ThemeToggle from "./ThemeToggle.tsx";
 import { cartCount } from "../cart/cart-lines.ts";
 import { useCartStore } from "../hooks/useCartStore.ts";
+import { Link } from "@tanstack/react-router";
 
 type HeaderProps = {
   shop: Shop;
@@ -19,13 +20,13 @@ export default function Header({ shop, categories }: HeaderProps) {
     <header id="top">
       <p className="notice">{shop.notice}</p>
       <h1 className="logo">
-        <a href="#top">
+        <Link to="/">
           <Logo />
           <span className="logo-text">
             <span>پرتقال</span>
             <small className="slogan">{shop.slogan}</small>
           </span>
-        </a>
+        </Link>
       </h1>
       <form className="search" role="search" action="#">
         <label htmlFor="search" className="visually-hidden">

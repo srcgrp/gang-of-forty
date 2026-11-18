@@ -1,4 +1,5 @@
 import type { Category, Link } from "../types.ts";
+import AppLink from "./AppLink.tsx";
 
 type MainNavProps = {
   menu: Link[];
@@ -14,14 +15,14 @@ export default function MainNav({ menu, categories }: MainNavProps) {
           <ul className="dropdown-menu">
             {categories.map((c) => (
               <li key={c.id}>
-                <a href={`#${c.slug}`}>{c.name}</a>
+                <AppLink href={`#${c.slug}`}>{c.name}</AppLink>
               </li>
             ))}
           </ul>
         </li>
         {menu.map((m) => (
           <li key={m.href}>
-            <a href={m.href}>{m.label}</a>
+            <AppLink href={m.href}>{m.label}</AppLink>
           </li>
         ))}
       </ul>
