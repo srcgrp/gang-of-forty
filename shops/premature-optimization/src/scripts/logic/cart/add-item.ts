@@ -1,5 +1,7 @@
 import type { Cart } from "../../types";
+import { toCartKey } from "./cart-key.ts";
 
-export function addItem(cart: Cart, id: string): Cart {
-  return { ...cart, [id]: (cart[id] ?? 0) + 1 };
+export function addItem(cart: Cart, productId: number): Cart {
+  const key = toCartKey(productId);
+  return { ...cart, [key]: (cart[key] ?? 0) + 1 };
 }
