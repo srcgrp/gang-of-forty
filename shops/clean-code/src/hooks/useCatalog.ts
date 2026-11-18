@@ -2,14 +2,16 @@ import { useEffect, useState } from "react";
 import { loadShop } from "../api/load-shop.ts";
 import type { LoadState } from "../types/load.ts";
 
-export function useLoadShop(api: string) {
+const API = import.meta.env.VITE_API_URL ?? "";
+
+export function useCatalog() {
   const [load, setLoad] = useState<LoadState>({ status: "loading" });
   const [attempt, setAttempt] = useState(0);
 
   useEffect(
     function () {
       let ignore = false;
-      loadShop(api)
+      loadShop(API)
         .then(function (shop) {
           if (ignore) return;
           if (shop.products.length === 0) {
@@ -29,7 +31,7 @@ export function useLoadShop(api: string) {
         ignore = true;
       };
     },
-    [api, attempt],
+    [attempt],
   );
 
   function retry() {

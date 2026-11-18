@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { cartRows, cartTotal } from "../features/cart/rows.ts";
 import { filterProducts } from "../features/products/filter.ts";
 import { useCart } from "../hooks/useCart.ts";
@@ -11,13 +12,8 @@ import HomeRows from "./HomeRows.tsx";
 import SalePanel from "./SalePanel.tsx";
 
 type Success = Extract<LoadState, { status: "success" }>;
-type ShopViewProps = {
-  load: Success;
-  categoryId: number | null;
-  onPick: (id: number | null) => void;
-  query: string;
-  onQuery: (value: string) => void;
-};
+type ShopViewProps = { load: Success };
+
 export default function ShopView(p: ShopViewProps) {
   const { lines, dispatch } = useCart();
   const products = p.load.products;
@@ -25,7 +21,9 @@ export default function ShopView(p: ShopViewProps) {
   const offers = p.load.offers;
   const cats = p.load.categories;
   const home = p.load.home;
-  const visible = filterProducts(products, p.categoryId, p.query);
+  const [categoryId, setCategoryId] = useState<number | null>(null);
+  const [query, setQuery] = useState("");
+  const visible = filterProducts(products, categoryId, query);
   const rows = cartRows(lines, products);
   const total = cartTotal(rows, offers);
 
@@ -33,15 +31,15 @@ export default function ShopView(p: ShopViewProps) {
     <>
       <Banner />
       <SalePanel />
-      <Header menu={p.load.shop.menu} query={p.query} onQuery={p.onQuery} />
+      <Header menu={p.load.shop.menu} query={query} onQuery={setQuery} />
       <main id="content">
         <div className="box">
-          {p.query === "" ? (
+          {query === "" ? (
             <HomeIntro
               home={home}
               categories={cats}
-              categoryId={p.categoryId}
-              onPick={p.onPick}
+              categoryId={categoryId}
+              onPick={setCategoryId}
             />
           ) : null}
           <HomeRows

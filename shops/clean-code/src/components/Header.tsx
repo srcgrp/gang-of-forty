@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { cartCount as countLines } from "../features/cart/count";
 import { useCart } from "../hooks/useCart";
 import CartIcon from "./CartIcon";
@@ -15,6 +16,13 @@ type HeaderProps = {
 export default function Header({ menu, query, onQuery }: HeaderProps) {
   const { lines } = useCart();
   const cartCount = countLines(lines);
+  useEffect(
+    function () {
+      document.title =
+        "تمیز مارکت · " + cartCount.toLocaleString("fa-IR") + " 🛒";
+    },
+    [cartCount],
+  );
 
   return (
     <header className="header">

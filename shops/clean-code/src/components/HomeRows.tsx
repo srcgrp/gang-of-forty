@@ -1,4 +1,4 @@
-import { offerProducts } from "../features/products/offer.ts";
+import { carouselProducts } from "../catalog/carouselProducts";
 import type { Category, Offer, Product } from "../types/product.ts";
 import type { Home } from "../types/shop.ts";
 import CarouselSection from "./CarouselSection.tsx";
@@ -11,6 +11,7 @@ type HomeRowsProps = {
   stock: Record<string, number>;
   onAdd: (id: number) => void;
 };
+
 export default function HomeRows({
   home,
   categories,
@@ -19,16 +20,12 @@ export default function HomeRows({
   stock,
   onAdd,
 }: HomeRowsProps) {
-  const onOffer = offerProducts(products, offers);
+  const catalog = { products, offers, home };
   const used: Record<string, boolean> = {};
+
   const featured = home.carousels.map(function (item) {
     used[item.id] = true;
-    const list =
-      "categoryId" in item
-        ? products.filter(function (p) {
-            return p.categoryId === item.categoryId;
-          })
-        : onOffer;
+    const list = carouselProducts(catalog, item.id) ?? [];
     return (
       <CarouselSection
         key={item.id}
@@ -41,6 +38,7 @@ export default function HomeRows({
       />
     );
   });
+
   const more = categories
     .filter(function (cat) {
       return !used[cat.slug];
@@ -61,6 +59,7 @@ export default function HomeRows({
         />
       );
     });
+
   return (
     <>
       <div id="featured">{featured}</div>
