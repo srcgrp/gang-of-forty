@@ -1,13 +1,13 @@
 import type { Product } from '../types.ts'
 import { describeProduct } from '../lib/format.ts'
 import Price from './Price.tsx'
+import { useCartStore } from '../hooks/useCartStore.ts'
 
 const TINTS = ['t-blue', 't-yellow', 't-green', 't-pink', 't-purple', 't-orange']
 
 type ProductCardProps = {
   product: Product
   index: number
-  onAdd: (id: number) => void
   badge?: string
   inStock?: boolean
 }
@@ -15,10 +15,10 @@ type ProductCardProps = {
 export default function ProductCard({
   product,
   index,
-  onAdd,
   badge,
   inStock = true,
 }: ProductCardProps) {
+  const add = useCartStore((s) => s.add)
   const nameId = `d-${product.id}-n`
   const tint = TINTS[index % TINTS.length]
 
@@ -38,7 +38,7 @@ export default function ProductCard({
             type="button"
             disabled={!inStock}
             aria-label={`افزودن ${describeProduct(product)} به سبد خرید`}
-            onClick={() => onAdd(product.id)}
+            onClick={() => add(product.id)}
           >
             <span aria-hidden="true">+</span>
           </button>

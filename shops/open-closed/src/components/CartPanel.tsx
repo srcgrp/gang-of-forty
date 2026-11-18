@@ -1,14 +1,18 @@
-import type { CartLine } from '../cart/cart.ts'
+import { cartLines, cartSubtotal, totalQuantity } from '../cart/cart.ts'
+import { useCartStore } from '../hooks/useCartStore.ts'
 import { formatCount, formatPrice } from '../lib/format.ts'
+import type { Product } from '../types.ts'
 
-type CartPanelProps = {
-  lines: CartLine[]
-  totalCount: number
-  subtotal: number
-  onRemove: (id: number) => void
-}
+type CartPanelProps = { products: Product[] }
 
-export default function CartPanel({ lines, totalCount, subtotal, onRemove }: CartPanelProps) {
+export default function CartPanel({ products }: CartPanelProps) {
+  const cart = useCartStore((s) => s.cart)
+  const remove = useCartStore((s) => s.remove)
+
+  const lines = cartLines(cart, products)
+  const totalCount = totalQuantity(cart)
+  const subtotal = cartSubtotal(lines)
+
   return (
     <section className="section" id="cart" aria-labelledby="cart-title">
       <div className="section-head">
@@ -28,7 +32,7 @@ export default function CartPanel({ lines, totalCount, subtotal, onRemove }: Car
                   className="btn"
                   type="button"
                   aria-label={`حذف ${product.name} از سبد`}
-                  onClick={() => onRemove(product.id)}
+                  onClick={() => remove(product.id)}
                 >
                   حذف
                 </button>

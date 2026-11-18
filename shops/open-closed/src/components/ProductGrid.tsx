@@ -8,10 +8,9 @@ const SKELETON_IDS = ['a', 'b', 'c', 'd', 'e', 'f']
 type ProductGridProps = {
   state: LoadState
   categoryId: number | null
-  onAdd: (id: number) => void
 }
 
-export default function ProductGrid({ state, categoryId, onAdd }: ProductGridProps) {
+export default function ProductGrid({ state, categoryId }: ProductGridProps) {
   const products =
     state.status === 'success'
       ? state.products.filter((p) => categoryId === null || p.categoryId === categoryId)
@@ -58,7 +57,6 @@ export default function ProductGrid({ state, categoryId, onAdd }: ProductGridPro
               key={p.id}
               product={p}
               index={i}
-              onAdd={onAdd}
               badge={p.tags.includes('جدید') ? 'جدید' : undefined}
             />
           ))}

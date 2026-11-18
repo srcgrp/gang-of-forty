@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { fetchProducts } from './api/products.ts'
-import { addItem, cartLines, cartSubtotal, removeItem, totalQuantity } from './cart/cart.ts'
-import { loadCart, saveCart } from './storage/cart.ts'
-import type { Cart, LoadState } from './types.ts'
+import { totalQuantity } from './cart/cart.ts'
+import { useCartStore } from './hooks/useCartStore.ts'
+import { useThemeStore } from './hooks/useThemeStore.ts'
+import type { LoadState } from './types.ts'
 import { formatCount } from './lib/format.ts'
 import { errorMessage } from './lib/errorMessage.ts'
 import Banners from './components/Banners.tsx'
@@ -12,14 +13,14 @@ import Footer from './components/Footer.tsx'
 import Header from './components/Header.tsx'
 import Hero from './components/Hero.tsx'
 import ProductGrid from './components/ProductGrid.tsx'
-import { useThemeStore } from './hooks/useThemeStore.ts'
+
 const SHOP_NAME = 'سوپرمارکت باز-بسته'
 
 export default function App() {
-  const theme = useThemeStore((s) => s.theme)
   const [state, setState] = useState<LoadState>({ status: 'loading' })
   const [categoryId, setCategoryId] = useState<number | null>(null)
-  const [cart, setCart] = useState<Cart>(() => loadCart())
+  const theme = useThemeStore((s) => s.theme)
+  const count = useCartStore((s) => totalQuantity(s.cart))
 
   useEffect(() => {
     let ignore = false
@@ -38,26 +39,21 @@ export default function App() {
     }
   }, [])
 
-  const count = totalQuantity(cart)
-
   useEffect(() => {
-    saveCart(cart)
     document.title = count > 0 ? `${SHOP_NAME} · ${formatCount(count)} 🛒` : SHOP_NAME
-  }, [cart, count])
+  }, [count])
 
-  const lines = cartLines(cart, state.status === 'success' ? state.products : [])
-  const handleAdd = (id: number) => setCart(addItem(cart, id))
-  const handleRemove = (id: number) => setCart(removeItem(cart, id))
+  const products = state.status === 'success' ? state.products : []
 
   return (
     <div className="app" data-theme={theme}>
       <a className="skip-link" href="#main">پرش به محتوای اصلی</a>
-      <Header cartCount={count} />
+      <Header />
       <main id="main" tabIndex={-1} className="wrap">
         <Hero />
         <CategoryNav categoryId={categoryId} onPick={setCategoryId} />
-        <ProductGrid state={state} categoryId={categoryId} onAdd={handleAdd} />
-        <CartPanel lines={lines} totalCount={count} subtotal={cartSubtotal(lines)} onRemove={handleRemove} />
+        <ProductGrid state={state} categoryId={categoryId} />
+        <CartPanel products={products} />
         <Banners />
       </main>
       <Footer />

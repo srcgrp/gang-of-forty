@@ -2,11 +2,12 @@ import { formatCount } from '../lib/format.ts'
 import MainNav from './MainNav.tsx'
 import SearchBox from './SearchBox.tsx'
 import ThemeToggle from './ThemeToggle.tsx'
+import { totalQuantity } from '../cart/cart.ts'
+import { useCartStore } from '../hooks/useCartStore.ts'
 
-type HeaderProps = { cartCount: number }
 
-export default function Header({ cartCount }: HeaderProps) {
-
+export default function Header() {
+  const count = useCartStore((s) => totalQuantity(s.cart))
   return (
     <header className="site-header">
       <div className="topbar">🚚 ارسال رایگان برای خریدهای بالای ۵۰۰ هزار تومان</div>
@@ -39,7 +40,7 @@ export default function Header({ cartCount }: HeaderProps) {
             <path d="M2 3h3l2.7 11.4a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 1.9-1.5L21 7H6" />
           </svg>
           <span className="cart-label">سبد خرید</span>
-          <span className="count">{formatCount(cartCount)}</span>
+          <span className="count">{formatCount(count)}</span>
         </a>
       </div>
 
