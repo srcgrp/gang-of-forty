@@ -106,7 +106,7 @@ h1 {
       position: sticky;
       top: 0;
       z-index: 1000;
-      background: #fff;
+      background: var(--header-bg, #fff);
       ;
       box-shadow: 0 2px 8px #0001;
     }
@@ -165,7 +165,10 @@ h1 {
   line-height: 1.3;
 }
 
-.logo-text strong { font-size: 1.15rem; color: #1f2a1c; }
+.logo-text strong {
+   font-size: 1.15rem;
+  color: #ffffff;
+ }
 .logo-text small  { font-size: .72rem;  color: #666; }
 
     .search {
@@ -954,6 +957,7 @@ h1 {
     .card s {
       color: #666;
     }
+
   
     .off {
       align-self: flex-start;
@@ -1008,9 +1012,35 @@ h1 {
         height: 125px;
       }
     }
+    
+    .app {
+    --bg: #ffffff;
+    --text: #1d1d1f;
+    --card: #f2f3f5;
+    --footer-bg: #84bb87;
+    --header-bg: #fff;
+    background: var(--bg);
+    color: var(--text);
+    }
+    
+  .app[data-theme='dark'] {
+  --bg: #16181d;
+  --text: #e8eaf0;
+  --card: #252a33;
+  --footer-bg: #252a33;
+  --header-bg: #252a33;
+   }
+   
+  .app .logo-text strong {
+    color: #1f2a1c;
+    }
+  
+  .app[data-theme='dark'] .logo-text strong {
+      color: #ffffff;
+    }
  /* footer */
  .footer {
-   background:#84bb87;
+   background:var(--footer-bg, #84bb87);
    color: #ffffff;
    padding: 40px 20px 20px;
    overflow-x: hidden;

@@ -1,4 +1,4 @@
- 
+import { useThemeStore } from './hooks/useThemeStore'
 import { useState } from 'react'
 import { cartCount, cartTotal } from './cart/cart'
 import { useCart } from './ui/useCart'
@@ -15,12 +15,13 @@ export default function App() {
   const { cart, handleAdd, handleRemove } = useCart()
   useDocumentTitle(cart)
 
+  const theme = useThemeStore((s) => s.theme)
   const products = loadState.status === 'success' ? loadState.products : []
   const itemCount = cartCount(cart)
   const total = cartTotal(cart, products, offers)
 
   return (
-    <>
+    <div className="app" data-theme={theme}>
       <Header itemCount={itemCount} categories={categories} shop={shop} />
       <main id="main">
         <Hero home={home} />
@@ -39,6 +40,6 @@ export default function App() {
         />
       </main>
       <Footer shop={shop} />
-    </>
+    </div>
   )
 }

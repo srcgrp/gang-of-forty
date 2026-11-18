@@ -1,6 +1,6 @@
  
 import type { Category, Shop } from '../types'
- 
+import ThemeToggle from './ThemeToggle'
 
 type HeaderProps = {
   itemCount: number
@@ -35,6 +35,7 @@ export default function Header({ itemCount, categories, shop }: HeaderProps) {
         <button className="cart" type="button" aria-label="سبد خرید">
           🛍️ سبد خرید <b id="cart-count">{itemCount.toLocaleString('fa-IR')}</b>
         </button>
+        <ThemeToggle />
         <label htmlFor="menu-toggle" className="burger" aria-hidden="true">☰</label>
       </div>
 
