@@ -1,14 +1,15 @@
 import type { CardProduct } from "../types.ts";
 import { formatNumber, formatPrice } from "../format/formatting.ts";
 import OfferBadge from "./OfferBadge.tsx";
+import { useCartStore } from "../hooks/useCartStore.ts";
 
 type ProductCardProps = {
   product: CardProduct;
-  onAdd: (id: number) => void;
 };
 
-export default function ProductCard({ product, onAdd }: ProductCardProps) {
+export default function ProductCard({ product }: ProductCardProps) {
   const outOfStock = product.stock === 0;
+  const add = useCartStore((s) => s.add);
 
   return (
     <li className={outOfStock ? "out-of-stock" : ""}>
@@ -42,7 +43,7 @@ export default function ProductCard({ product, onAdd }: ProductCardProps) {
       <button
         type="button"
         disabled={outOfStock}
-        onClick={() => onAdd(product.id)}
+        onClick={() => add(product)}
         aria-label={
           outOfStock
             ? `${product.name}: ناموجود`

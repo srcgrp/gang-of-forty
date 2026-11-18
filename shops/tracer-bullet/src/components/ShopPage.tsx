@@ -1,34 +1,25 @@
-import type { CardProduct, CartLine, Data } from "../types.ts";
+import type { Data } from "../types.ts";
 import Footer from "../components/Footer.tsx";
 import ProductGrid from "../components/ProductGrid.tsx";
 import Header from "../components/Header.tsx";
 import Hero from "../components/Hero.tsx";
 import CategoryNav from "../components/CategoryNav.tsx";
 import CartPanel from "../components/CartPanel.tsx";
-import { cartCount, cartTotal } from "../cart/cart-lines.ts";
 import { withOfferAndStock } from "../catalog/product-catalog.ts";
 import Promos from "./Promos.tsx";
 import { useThemeStore } from "../hooks/useThemeStore.ts";
+import { useCartTitle } from "../hooks/useCartTitle.ts";
 
 type ShopPageProps = {
   data: Data;
   selectedId: number | null;
   onPick: (id: number | null) => void;
-  cart: CartLine[];
-  onAdd: (product: CardProduct) => void;
-  onRemove: (id: number) => void;
 };
 
-export default function ShopPage({
-  data,
-  selectedId,
-  onPick,
-  cart,
-  onAdd,
-  onRemove,
-}: ShopPageProps) {
-  const count = cartCount(cart);
-  const total = cartTotal(cart);
+export default function ShopPage({ data, selectedId, onPick }: ShopPageProps) {
+  useCartTitle();
+  const theme = useThemeStore((s) => s.theme);
+
   const visible =
     selectedId === null
       ? data.products
@@ -37,20 +28,13 @@ export default function ShopPage({
   const cards = visible.map((p) =>
     withOfferAndStock(p, data.offers, data.stock),
   );
-
-  function handleAdd(id: number) {
-    const product = cards.find((p) => p.id === id);
-    if (product) onAdd(product);
-  }
-  
-  const theme = useThemeStore((s) => s.theme);
   
   return (
     <div className="app" data-theme={theme}>
       <a href="#main" className="skip-link">
         پرش به محتوای اصلی
       </a>
-      <Header count={count} shop={data.shop} categories={data.categories} />
+      <Header shop={data.shop} categories={data.categories} />
       <main id="main">
         <Hero hero={data.home.hero} side={data.home.side} />
         <CategoryNav
@@ -58,9 +42,9 @@ export default function ShopPage({
           selectedId={selectedId}
           onPick={onPick}
         />
-        <ProductGrid products={cards} onAdd={handleAdd} />
+        <ProductGrid products={cards} />
         <Promos promos={data.home.promos} />
-        <CartPanel lines={cart} total={total} onRemove={onRemove} />
+        <CartPanel />
       </main>
       <Footer shop={data.shop} categories={data.categories} />
     </div>

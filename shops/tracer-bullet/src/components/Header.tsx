@@ -5,14 +5,16 @@ import cartIcon from "../../png/shopping-bag-open-fill.png";
 import type { Category, Shop } from "../types.ts";
 import MainNav from "./MainNav.tsx";
 import ThemeToggle from "./ThemeToggle.tsx";
+import { cartCount } from "../cart/cart-lines.ts";
+import { useCartStore } from "../hooks/useCartStore.ts";
 
 type HeaderProps = {
-  count: number;
   shop: Shop;
   categories: Category[];
 };
 
-export default function Header({ count, shop, categories }: HeaderProps) {
+export default function Header({ shop, categories }: HeaderProps) {
+  const count = useCartStore((s) => cartCount(s.lines));
   return (
     <header id="top">
       <p className="notice">{shop.notice}</p>
