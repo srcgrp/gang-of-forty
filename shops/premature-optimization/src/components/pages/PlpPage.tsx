@@ -4,6 +4,7 @@ import { carouselProducts } from "../../scripts/logic/carousel/carousel-products
 import { carouselTitle } from "../../scripts/logic/carousel/find-carousel.ts";
 import ProductListing from "../catalog/products/ProductListing.tsx";
 import Page from "../Page.tsx";
+import MainContent from "../shared/MainContent.tsx";
 import NotFoundStatus from "../status/HomeLinkStatus.tsx";
 
 export default function PlpPage() {
@@ -17,9 +18,9 @@ export default function PlpPage() {
         const title = carouselTitle(data, carouselId);
         if (products === null || title === null) {
           return (
-            <main id="main-content" tabIndex={-1}>
+            <MainContent>
               <NotFoundStatus message="این فهرست پیدا نشد." />
-            </main>
+            </MainContent>
           );
         }
         return (

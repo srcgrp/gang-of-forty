@@ -4,6 +4,7 @@ import { findProduct } from "../../scripts/logic/catalog/find-products.ts";
 import { productDetails } from "../../scripts/logic/catalog/product-details.ts";
 import ProductDetail from "../catalog/products/ProductDetail.tsx";
 import Page from "../Page.tsx";
+import MainContent from "../shared/MainContent.tsx";
 import NotFoundStatus from "../status/HomeLinkStatus.tsx";
 
 export default function ProductPage() {
@@ -16,9 +17,9 @@ export default function ProductPage() {
         const product = findProduct(data.products, productId);
         if (product === null) {
           return (
-            <main id="main-content" tabIndex={-1}>
+            <MainContent>
               <NotFoundStatus message="محصول پیدا نشد." />
-            </main>
+            </MainContent>
           );
         }
         return (

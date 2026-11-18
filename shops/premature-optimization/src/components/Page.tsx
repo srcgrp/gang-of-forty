@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import type { CatalogData, LoadState } from "../scripts/types";
+import type { CatalogData, LoadState } from "../scripts/types.ts";
 import Skeleton from "./status/Skeleton.tsx";
 import Status from "./status/Status.tsx";
 

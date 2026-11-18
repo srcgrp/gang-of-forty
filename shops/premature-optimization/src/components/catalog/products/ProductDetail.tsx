@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import type { Product } from "../../../scripts/types.ts";
 import type { ProductDetails } from "../../../scripts/logic/catalog/product-details.ts";
 import AddToCartButton from "../../cart/AddToCartButton.tsx";
+import MainContent from "../../shared/MainContent.tsx";
 import OfferBadge from "../../shared/OfferBadge.tsx";
 import Price from "../../shared/Price.tsx";
 import OldPrice from "./OldPrice.tsx";
@@ -21,7 +22,7 @@ export default function ProductDetail({
       <Link className="view-all-link" to="/">
         بازگشت به صفحه اصلی
       </Link>
-      <main id="main-content" tabIndex={-1}>
+      <MainContent>
         <article className="product-page">
           <div className="product-page-parts">
             <ProductImage product={product} />
@@ -49,7 +50,7 @@ export default function ProductDetail({
             افزودن به سبد خرید
           </AddToCartButton>
         </article>
-      </main>
+      </MainContent>
     </>
   );
 }

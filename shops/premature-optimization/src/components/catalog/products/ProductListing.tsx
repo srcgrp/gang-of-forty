@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import type { Product } from "../../../scripts/types.ts";
 import { sortProducts } from "../../../scripts/logic/catalog/sort-products.ts";
 import { usePlpSort } from "../../../hooks/usePlpSort.ts";
+import MainContent from "../../shared/MainContent.tsx";
 import SortSelect from "../SortSelect.tsx";
 import ProductList from "./ProductList.tsx";
 import type { SharedCardProps } from "./ProductList.tsx";
@@ -26,7 +27,7 @@ export default function ProductListing({
   );
 
   return (
-    <main id="main-content" tabIndex={-1}>
+    <MainContent>
       <section className="recommendation plp" id="plp">
         <div className="recommendation-heading">
           <div className="recommendation-title-wrapper">
@@ -49,6 +50,6 @@ export default function ProductListing({
           </ul>
         )}
       </section>
-    </main>
+    </MainContent>
   );
 }

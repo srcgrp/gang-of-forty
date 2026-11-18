@@ -11,6 +11,7 @@ import CategoryNav from "../home/CategoryNav.tsx";
 import Hero from "../home/Hero.tsx";
 import Promos from "../home/Promo.tsx";
 import SaleBanner from "../home/SaleBanner.tsx";
+import MainContent from "../shared/MainContent.tsx";
 import { SearchResults } from "../shared/Search.tsx";
 
 export default function Catalog({ data }: { data: CatalogData }) {
@@ -43,7 +44,7 @@ export default function Catalog({ data }: { data: CatalogData }) {
   );
 
   return (
-    <main id="main-content" tabIndex={-1} ref={main}>
+    <MainContent ref={main}>
       {isSearching ? (
         <SearchResults
           query={query}
@@ -60,6 +61,6 @@ export default function Catalog({ data }: { data: CatalogData }) {
           {otherCarousels.map(renderCarousel)}
         </>
       )}
-    </main>
+    </MainContent>
   );
 }
