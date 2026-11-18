@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { cartRows, cartTotal } from "../../features/cart/rows";
-import { useCart } from "../../hooks/useCart";
+import { useCartDispatch } from "../../hooks/useCart";
 import { useCatalog } from "../../hooks/useCatalog";
 import CartPanel from "../CartPanel";
 import Footer from "../Footer";
@@ -11,7 +10,7 @@ import Status from "../Status";
 
 export default function HomePage() {
   const { load, retry } = useCatalog();
-  const { lines, dispatch } = useCart();
+  const dispatch = useCartDispatch();
   const [categoryId, setCategoryId] = useState<number | null>(null);
 
   if (load.status !== "success") {
@@ -21,8 +20,6 @@ export default function HomePage() {
   const products = load.products;
   const stock = load.stock.items;
   const offers = load.offers;
-  const rows = cartRows(lines, products);
-  const total = cartTotal(rows, offers);
 
   return (
     <>
@@ -51,13 +48,7 @@ export default function HomePage() {
               dispatch({ type: "add", id, stock: stock[id] ?? 0 });
             }}
           />
-          <CartPanel
-            rows={rows}
-            total={total}
-            onClear={function () {
-              dispatch({ type: "clear" });
-            }}
-          />
+          <CartPanel products={products} offers={offers} />
         </div>
       </main>
       <Footer categories={load.categories} help={load.shop.help} />

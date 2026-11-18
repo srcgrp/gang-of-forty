@@ -1,10 +1,16 @@
 import { useContext } from "react";
-import { CartContext } from "./cartContext";
+import { CartDispatchContext, CartLinesContext } from "./cartContext";
 
-export function useCart() {
-  const value = useContext(CartContext);
-  if (!value) {
-    throw new Error("useCart باید داخل CartProvider باشد");
+export function useCartLines() {
+  const lines = useContext(CartLinesContext);
+  if (lines === null) {
+    throw new Error("useCartLines باید داخل CartProvider باشد");
   }
-  return value;
+  return lines;
+}
+
+export function useCartDispatch() {
+  const dispatch = useContext(CartDispatchContext);
+  if (!dispatch) throw new Error("useCartDispatch باید داخل CartProvider باشد");
+  return dispatch;
 }

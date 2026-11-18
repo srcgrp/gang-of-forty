@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { useEffect, useReducer } from "react";
 import { loadCart, saveCart } from "../storage/cart-storage";
-import { CartContext } from "./cartContext";
+import { CartDispatchContext, CartLinesContext } from "./cartContext";
 import { cartReducer } from "./cartReducer";
 
 type CartProviderProps = {
@@ -19,8 +19,10 @@ export default function CartProvider({ children }: CartProviderProps) {
   );
 
   return (
-    <CartContext.Provider value={{ lines, dispatch }}>
-      {children}
-    </CartContext.Provider>
+    <CartDispatchContext.Provider value={dispatch}>
+      <CartLinesContext.Provider value={lines}>
+        {children}
+      </CartLinesContext.Provider>
+    </CartDispatchContext.Provider>
   );
 }

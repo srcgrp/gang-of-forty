@@ -1,7 +1,7 @@
 import { Link, useParams, useSearch } from "@tanstack/react-router";
 import { carouselProducts } from "../../catalog/carouselProducts";
 import { sortProducts } from "../../catalog/sortProducts";
-import { useCart } from "../../hooks/useCart";
+import { useCartDispatch } from "../../hooks/useCart";
 import { useCatalog } from "../../hooks/useCatalog";
 import ProductGrid from "../ProductGrid";
 import Status from "../Status";
@@ -10,7 +10,7 @@ export default function PlpPage() {
   const { carouselId } = useParams({ from: "/plp/$carouselId" });
   const { sort } = useSearch({ from: "/plp/$carouselId" });
   const { load, retry } = useCatalog();
-  const { dispatch } = useCart();
+  const dispatch = useCartDispatch();
 
   if (load.status !== "success") {
     return <Status state={load} onRetry={retry} />;

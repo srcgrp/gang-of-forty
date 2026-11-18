@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { cartCount as countLines } from "../features/cart/count";
-import { useCart } from "../hooks/useCart";
+import { useCartLines } from "../hooks/useCart";
 import { useCatalog } from "../hooks/useCatalog";
 import CartIcon from "./CartIcon";
 import Logo from "./Logo";
@@ -9,7 +9,7 @@ import SearchBox from "./SearchBox";
 import ThemeToggle from "./ThemeToggle";
 
 export default function Header() {
-  const { lines } = useCart();
+  const lines = useCartLines();
   const cartCount = countLines(lines);
   const { load } = useCatalog();
   const [query, setQuery] = useState("");

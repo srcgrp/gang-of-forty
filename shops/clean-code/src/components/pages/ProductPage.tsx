@@ -1,12 +1,12 @@
 import { Link, useParams } from "@tanstack/react-router";
-import { useCart } from "../../hooks/useCart";
+import { useCartDispatch } from "../../hooks/useCart";
 import { useCatalog } from "../../hooks/useCatalog";
 import Status from "../Status";
 
 export default function ProductPage() {
   const { productId } = useParams({ from: "/product/$productId" });
   const { load, retry } = useCatalog();
-  const { dispatch } = useCart();
+  const dispatch = useCartDispatch();
   const id = Number(productId);
 
   if (load.status !== "success") {

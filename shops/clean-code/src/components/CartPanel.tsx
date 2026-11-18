@@ -1,12 +1,18 @@
-import type { CartItem } from "../types/product.ts";
+import { cartRows, cartTotal } from "../features/cart/rows.ts";
+import { useCartDispatch, useCartLines } from "../hooks/useCart.ts";
+import type { Offer, Product } from "../types/product.ts";
 
 type CartPanelProps = {
-  rows: CartItem[];
-  total: number;
-  onClear: () => void;
+  products: Product[];
+  offers: Offer[];
 };
 
-export default function CartPanel({ rows, total, onClear }: CartPanelProps) {
+export default function CartPanel({ products, offers }: CartPanelProps) {
+  const lines = useCartLines();
+  const dispatch = useCartDispatch();
+  const rows = cartRows(lines, products);
+  const total = cartTotal(rows, offers);
+
   return (
     <aside className="cart-panel">
       <section id="cart">
@@ -25,7 +31,13 @@ export default function CartPanel({ rows, total, onClear }: CartPanelProps) {
           </ul>
         )}
         <p>{total.toLocaleString("fa-IR")}</p>
-        <button type="button" id="clear-cart" onClick={onClear}>
+        <button
+          type="button"
+          id="clear-cart"
+          onClick={function () {
+            dispatch({ type: "clear" });
+          }}
+        >
           خالی کردن سبد
         </button>
       </section>
