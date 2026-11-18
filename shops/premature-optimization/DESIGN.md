@@ -195,11 +195,11 @@ src/
 ### چرا سبد با Zustand است (و نه Context + reducer)؟
 
 1. مصرف‌کننده‌های سبد در شاخه‌های دور از هم هستند: `DocumentTitle`، `CartPanel`، `CartLines`، `CartLineItem` (در Layout/Header) و `AddToCartButton`، `ProductCard`، `OrderSummary`، `CheckoutForm`، `CheckoutPage` (داخل Outlet). با Context باید Provider را بالای `Layout` گذاشت؛ Zustand بدون Provider است.
-2. با selector فقط کامپوننتِ ذی‌نفع دوباره رندر می‌شود. `useIsSoldOut` فقط یک boolean انتخاب می‌کند، پس با هر `add` فقط کارتی که ناموجود می‌شود رندر می‌شود. با Context، هر تغییر سبد همه‌ی ده‌ها `ProductCard` را رندر می‌کند (و `memo` کمکی نمی‌کند چون مقدار context عوض شده).
+2. با selector فقط کامپوننت ذی‌نفع دوباره رندر می‌شود. `useIsSoldOut` فقط یک boolean انتخاب می‌کند، پس با هر `add` فقط کارتی که ناموجود می‌شود رندر می‌شود. با Context، هر تغییر سبد همه‌ی `ProductCard` را رندر می‌کند (و `memo` کمکی نمی‌کند چون مقدار context عوض شده).
 3. ذخیره‌سازی خارج از React انجام می‌شود: مقدار اولیه هم‌زمان از localStorage خوانده می‌شود (بدون flash سبد خالی) و یک `subscribe` در یک نقطه می‌نویسد، نه Effect در هر Provider.
 4. ‏ actionها هویت ثابت دارند و منطق همچنان در توابع خالص `logic/cart/` می‌ماند؛ پس تست‌پذیری reducer را از دست نمی‌دهیم.
 
-هزینه‌ی این انتخاب: یک وابستگی اضافه و store سراسری (singleton) که در تست‌ها باید reset شود. اگر سبد فقط در یک زیردرخت مصرف می‌شد، Context + reducer کافی بود. «تم» هم به همین دلیل (مصرف در Layout و Header، و نیاز به persist) Zustand است.
+هزینه‌ی این انتخاب: یک وابستگی اضافه و store سراسری که در تست‌ها باید reset شود. اگر سبد فقط در یک زیردرخت مصرف می‌شد، Context + reducer کافی بود. تم هم به همین دلیل (مصرف در Layout و Header، و نیاز به persist) Zustand است.
 
 ## ۱۰. درخت کامپوننت‌ها
 
