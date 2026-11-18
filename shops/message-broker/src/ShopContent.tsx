@@ -69,7 +69,7 @@ export default function ShopContent(props: Props) {
         <ProductGrid products={special} offers={offers} onAdd={onAdd} />
       </section>
 
-      <Hero id="posters-2" />
+      <Hero id="posters-2" home={home} />
 
       <section className="wrap" id="new-products">
         <h2 id="new-title">محصولات</h2>
