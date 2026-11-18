@@ -10,7 +10,7 @@ import Footer from './components/Footer'
 
 export default function App() {
   const [categoryId, setCategoryId] = useState<number | null>(null)
- const { categories, offers, home, loadState } = useShopData()
+ const { categories, offers, home, shop, loadState } = useShopData()
   const { cart, handleAdd, handleRemove } = useCart()
 
   useDocumentTitle(cart)
@@ -39,7 +39,7 @@ export default function App() {
           onRemove={handleRemove}
         />
       </main>
-      <Footer />
+      <Footer shop={shop} />
     </>
   )
 }
