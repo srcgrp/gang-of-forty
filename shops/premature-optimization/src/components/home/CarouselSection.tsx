@@ -1,11 +1,12 @@
-import type { CarouselConfig, Product } from "../../scripts/types";
+import type { CarouselConfig, Product } from "../../scripts/types.ts";
+import { formatNumber } from "../../lib/formatNumber.ts";
 import Carousel from "../catalog/Carousel.tsx";
-import ProductList from "../catalog/products/ProductList.tsx";
-import type { SharedCardProps } from "../catalog/products/ProductList.tsx";
+import ProductList, {
+  type SharedCardProps,
+} from "../catalog/products/ProductList.tsx";
 import PlpLink from "../shared/PlpLink.tsx";
 
 const PREVIEW_COUNT = 8;
-const format = new Intl.NumberFormat("fa-IR");
 
 type CarouselSectionProps = SharedCardProps & {
   carousel: CarouselConfig;
@@ -17,6 +18,8 @@ export default function CarouselSection({
   products,
   ...shared
 }: CarouselSectionProps) {
+  const previewProducts = products.slice(0, PREVIEW_COUNT);
+
   return (
     <section className="recommendation" id={carousel.id}>
       <div className="recommendation-heading">
@@ -24,17 +27,14 @@ export default function CarouselSection({
           {carousel.emoji} {carousel.title}
         </h2>
         <PlpLink carouselId={carousel.id} className="view-all-link">
-          مشاهده هر <span>{format.format(products.length)}</span> محصول
+          مشاهده هر <span>{formatNumber(products.length)}</span> محصول
         </PlpLink>
       </div>
-      {products.length === 0 ? (
+      {previewProducts.length === 0 ? (
         <p className="empty-message">محصولی برای نمایش وجود ندارد.</p>
       ) : (
         <Carousel>
-          <ProductList
-            products={products.slice(0, PREVIEW_COUNT)}
-            {...shared}
-          />
+          <ProductList products={previewProducts} {...shared} />
         </Carousel>
       )}
     </section>
