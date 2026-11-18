@@ -1,22 +1,22 @@
-import type { CartRowData } from "../types"
+import type { Offer, Product } from "../types"
+import { cartRows, cartTotal } from "../cart/cartRules"
+import { useCartStore } from "../hooks/useCartStore"
 import CartRow from "./CartRow"
 import Price from "./Price"
 
 type CartPanelProps = {
-    rows: CartRowData[]
-    total: number
-    cartOpen: boolean
-    onRemove: (id: number) => void
-    onToggle: () => void
+    products: Product[]
+    offers: Offer[]
 }
 
-export default function CartPanel({
-    rows,
-    total,
-    cartOpen,
-    onRemove,
-    onToggle
-}: CartPanelProps) {
+export default function CartPanel({ products, offers }: CartPanelProps) {
+    const cart = useCartStore((store) => store.cart)
+    const cartOpen = useCartStore((store) => store.cartOpen)
+    const remove = useCartStore((store) => store.remove)
+    const toggle = useCartStore((store) => store.toggle)
+    const rows = cartRows(cart, products, offers)
+    const total = cartTotal(rows)
+
     return (
         <section
             className="cart-panel"
@@ -33,7 +33,7 @@ export default function CartPanel({
                         className="button button--secondary"
                         type="button"
                         aria-label="بستن سبد خرید"
-                        onClick={onToggle}
+                        onClick={toggle}
                     >
                         بستن
                     </button>
@@ -43,13 +43,7 @@ export default function CartPanel({
                 ) : (
                     <ul className="cart-list">
                         {rows.map(function (row) {
-                            return (
-                                <CartRow
-                                    key={row.id}
-                                    row={row}
-                                    onRemove={onRemove}
-                                />
-                            )
+                            return <CartRow key={row.id} row={row} onRemove={remove} />
                         })}
                     </ul>
                 )}

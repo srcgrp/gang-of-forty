@@ -1,5 +1,4 @@
 import type { Category, Shop } from "../types"
-import type { CartButtonProps } from "./CartButton"
 import type { SearchBoxProps } from "./SearchBox"
 import BrandLogo from "./BrandLogo"
 import CategoryNav from "./CategoryNav"
@@ -17,14 +16,12 @@ type HeaderProps = {
     categories: Category[]
     shop: Shop
     catalogControls: CatalogControls
-    cartControls: CartButtonProps
 }
 
 export default function Header({
     categories,
     shop,
-    catalogControls,
-    cartControls
+    catalogControls
 }: HeaderProps) {
     const { categoryId, onPick } = catalogControls
     const navigationProps = { categories, menu: shop.menu, categoryId, onPick }
@@ -47,7 +44,7 @@ export default function Header({
                     onQuery={catalogControls.onQuery}
                 />
                 <div className="header-actions">
-                    <CartButton {...cartControls} />
+                    <CartButton />
                     <ThemeToggle />
                 </div>
                 <details className="mobile-menu" id="mobile-menu">

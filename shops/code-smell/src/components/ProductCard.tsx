@@ -1,17 +1,16 @@
 import type { ProductCardData } from "../types"
+import { useCartStore } from "../hooks/useCartStore"
 import Price from "./Price"
 import OfferBadge from "./OfferBadge"
 import AddToCartButton from "./AddToCartButton"
 
 type ProductCardProps = {
     product: ProductCardData
-    onAdd: (id: number) => void
 }
 
-export default function ProductCard({
-    product,
-    onAdd
-}: ProductCardProps) {
+export default function ProductCard({ product }: ProductCardProps) {
+    const add = useCartStore((store) => store.add)
+
     return (
         <li>
             <article className="product-card">
@@ -41,7 +40,7 @@ export default function ProductCard({
                     <AddToCartButton
                         product={product}
                         inStock={!product.isUnavailable}
-                        onAdd={onAdd}
+                        onAdd={add}
                     />
                 </div>
             </article>

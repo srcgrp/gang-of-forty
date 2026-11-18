@@ -1,5 +1,4 @@
-import type { CartRowData, CarouselWithProducts, ShopData } from "../types"
-import type { CartButtonProps } from "./CartButton"
+import type { CarouselWithProducts, ShopData } from "../types"
 import Header, { type CatalogControls } from "./Header"
 import Hero from "./Hero"
 import Categories from "./Categories"
@@ -14,22 +13,19 @@ type ShopPageProps = {
     data: ShopData
     carousels: CarouselWithProducts[]
     catalogControls: CatalogControls
-    cartControls: CartButtonProps
     countdownControls: CountdownControls
-    rows: CartRowData[]
-    total: number
-    onAdd: (id: number) => void
     onPick: (id: number | null) => void
-    onRemove: (id: number) => void
 }
 
 export default function ShopPage({
-    data, carousels, catalogControls,
-    cartControls, rows, total,
-    onAdd, onPick, onRemove,
-    countdownControls
+    data,
+    carousels,
+    catalogControls,
+    countdownControls,
+    onPick
 }: ShopPageProps) {
     const isSearching = catalogControls.query.trim() !== ""
+
     return (
         <>
             <a className="skip-link" href="#main-content">
@@ -39,10 +35,9 @@ export default function ShopPage({
                 categories={data.categories}
                 shop={data.shop}
                 catalogControls={catalogControls}
-                cartControls={cartControls}
             />
             <main id="main-content" tabIndex={-1}>
-                {isSearching && <ProductGrid carousels={carousels} onAdd={onAdd} />}
+                {isSearching && <ProductGrid carousels={carousels} />}
                 <Hero
                     hero={data.home.hero}
                     shop={data.shop}
@@ -52,15 +47,9 @@ export default function ShopPage({
                 <Categories categories={data.categories} onPick={onPick} />
                 <SaleCountdownPanel {...countdownControls} />
                 <Promos home={data.home} categories={data.categories} onPick={onPick} />
-                {!isSearching && <ProductGrid carousels={carousels} onAdd={onAdd} />}
+                {!isSearching && <ProductGrid carousels={carousels} />}
                 <Guide shop={data.shop} />
-                <CartPanel
-                    rows={rows}
-                    total={total}
-                    cartOpen={cartControls.cartOpen}
-                    onRemove={onRemove}
-                    onToggle={cartControls.onToggle}
-                />
+                <CartPanel products={data.products} offers={data.offers} />
             </main>
             <Footer categories={data.categories} shop={data.shop} onPick={onPick} />
         </>

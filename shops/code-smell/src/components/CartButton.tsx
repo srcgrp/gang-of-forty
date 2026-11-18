@@ -1,14 +1,16 @@
+import { cartCount } from "../cart/cartRules"
+import { useCartStore } from "../hooks/useCartStore"
+
 export type CartButtonProps = {
     count: number
     cartOpen: boolean
     onToggle: () => void
 }
 
-export default function CartButton({
-    count,
-    cartOpen,
-    onToggle
-}: CartButtonProps) {
+export default function CartButton() {
+    const count = useCartStore((store) => cartCount(store.cart))
+    const cartOpen = useCartStore((store) => store.cartOpen)
+    const toggle = useCartStore((store) => store.toggle)
     const countText = count.toLocaleString("fa-IR")
 
     return (
@@ -18,8 +20,8 @@ export default function CartButton({
             type="button"
             aria-controls="cart"
             aria-expanded={cartOpen}
-            aria-label={"سبد خرید:" + " " + countText + " " + "کالا"}
-            onClick={onToggle}
+            aria-label={"سبد خرید: " + countText + " کالا"}
+            onClick={toggle}
         >
             <img
                 className="cart-button__icon"

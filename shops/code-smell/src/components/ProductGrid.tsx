@@ -4,10 +4,9 @@ import CarouselControls from "./CarouselControls"
 
 type ProductGridProps = {
     carousels: CarouselWithProducts[]
-    onAdd: (id: number) => void
 }
 
-export default function ProductGrid({ carousels, onAdd }: ProductGridProps) {
+export default function ProductGrid({ carousels }: ProductGridProps) {
     return (
         <div id="products">
             {carousels.map(function (carousel, index) {
@@ -55,7 +54,6 @@ export default function ProductGrid({ carousels, onAdd }: ProductGridProps) {
                                         <ProductCard
                                             key={product.id}
                                             product={product}
-                                            onAdd={onAdd}
                                         />
                                     )
                                 })}

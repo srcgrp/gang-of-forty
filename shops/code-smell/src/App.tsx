@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react"
-import type { Cart, LoadState } from "./types"
+import type { LoadState } from "./types"
 import { loadShopData, getLoadErrorMessage } from "./api/loadShopData"
-import { addToCart, removeFromCart, cartCount } from "./cart/cartRules"
+import { cartCount } from "./cart/cartRules"
 import { getPageData } from "./catalog/shopPageData"
 import ShopPage from "./components/ShopPage"
 import Status from "./components/Status"
-import { loadCart, saveCart } from "./storage/cartStorage"
+import { useCartStore } from "./hooks/useCartStore"
 
 export default function App() {
     const [state, setState] = useState<LoadState>({ status: "loading" })
     const [attempt, setAttempt] = useState(0)
     const [categoryId, setCategoryId] = useState<number | null>(null)
     const [query, setQuery] = useState("")
-    const [cart, setCart] = useState<Cart>(() => loadCart())
-    const [cartOpen, setCartOpen] = useState(false)
     const [countdownOpen, setCountdownOpen] = useState(false)
+    const count = useCartStore((store) => cartCount(store.cart))
+
     useEffect(function () {
         let ignore = false
         function showSlowConnection(message: string): void {
@@ -39,13 +39,9 @@ export default function App() {
     }, [attempt])
 
     useEffect(function () {
-        saveCart(cart)
-    }, [cart])
-
-    useEffect(function () {
-        const countText = cartCount(cart).toLocaleString("fa-IR")
-        document.title = "بوی کد | سبد خرید:" + " " + countText + " " + "کالا"
-    }, [cart])
+        const countText = count.toLocaleString("fa-IR")
+        document.title = "بوی کد | سبد خرید: " + countText + " کالا"
+    }, [count])
 
     function retry(): void {
         setState({ status: "loading" })
@@ -55,16 +51,18 @@ export default function App() {
     if (state.status !== "success") {
         return <Status state={state} onRetry={retry} />
     }
-    const onToggle = () => setCartOpen(!cartOpen)
+
     const catalogControls = { categoryId, query, onPick: setCategoryId, onQuery: setQuery }
-    const pageData = getPageData(state.data, cart, catalogControls, cartOpen, onToggle)
+    const pageData = getPageData(state.data, catalogControls)
     return (
         <ShopPage
             {...pageData}
-            countdownControls={{ open: countdownOpen, onToggle: () => setCountdownOpen(!countdownOpen) }}
-            onAdd={(id: number) => setCart(addToCart(cart, { id, quantity: 1 }))}
+            countdownControls={{
+                open: countdownOpen,
+                onToggle: () => setCountdownOpen(!countdownOpen)
+            }}
+    
             onPick={setCategoryId}
-            onRemove={(id: number) => setCart(removeFromCart(cart, id))}
         />
     )
 }
