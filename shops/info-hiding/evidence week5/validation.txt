@@ -1,0 +1,23 @@
+Week 5 local validation
+
+npm ci: exit 0; 29 packages installed; 0 vulnerabilities.
+npm run check: exit 0.
+npm run lint: exit 0; no warnings or errors.
+npm run build: exit 0; TypeScript, lint and Vite production build passed.
+python shops/yasaman/check_ci.py: exit 0.
+Nu validator: source HTML and CSS passed without errors.
+html-validate: source index.html passed without errors.
+All 25 TypeScript/TSX source files are at most 70 lines.
+Local import graph has no cycles; prohibited syntax scan passed.
+Normal preview and development: no browser errors or warnings.
+Detailed browser cases: browser-checks.json.
+
+Official academy checks: NOT RUN / required tools unavailable.
+Repository: https://github.com/srcgrp/gang-of-fourty
+Inspected main commit: 838df33935db1b4ec735335f531a019304168208
+scripts/check-shop.mjs and scripts/check-arch.mjs are absent in that commit.
+The checks above do not replace the official academy checker.
+Once the academy supplies its updated files, run from its repository root:
+node scripts/check-arch.mjs shops/<slug>/src
+node scripts/check-shop.mjs <slug>
+Copy the full actual output into the academy PR.
