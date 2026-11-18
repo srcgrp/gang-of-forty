@@ -55,7 +55,8 @@
 }
 
 .nf-btn {
-    margin-top: calc(var(--gap) * 0.5);
+    margin-block-start: calc(var(--gap) * 0.5);
+    margin-inline: auto;
     min-height: var(--tap);
     padding-inline: calc(var(--gutter) * 1.5);
     display: inline-flex;
