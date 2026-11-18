@@ -30,7 +30,7 @@ export default function FooterLists({ categories, help }: FooterListsProps) {
         </h2>
         <ul className="footer-help">
           {help.map((h) => (
-            <li key={h.href}>
+            <li key={`${h.href}-${h.label}`}>
               <a href={h.href}>{h.label}</a>
             </li>
           ))}
