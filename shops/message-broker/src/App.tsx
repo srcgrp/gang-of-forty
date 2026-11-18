@@ -1,3 +1,4 @@
+ 
 import { useState } from 'react'
 import { cartCount, cartTotal } from './cart/cart'
 import { useCart } from './ui/useCart'
@@ -10,19 +11,17 @@ import Footer from './components/Footer'
 
 export default function App() {
   const [categoryId, setCategoryId] = useState<number | null>(null)
- const { categories, offers, home, shop, loadState } = useShopData()
+  const { categories, offers, home, shop, loadState } = useShopData()
   const { cart, handleAdd, handleRemove } = useCart()
-
   useDocumentTitle(cart)
 
-  const products =
-    loadState.status === 'success' ? loadState.products : []
+  const products = loadState.status === 'success' ? loadState.products : []
   const itemCount = cartCount(cart)
   const total = cartTotal(cart, products, offers)
 
   return (
     <>
-      <Header itemCount={itemCount} />
+      <Header itemCount={itemCount} categories={categories} shop={shop} />
       <main id="main">
         <Hero home={home} />
         <ShopContent
