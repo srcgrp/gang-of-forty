@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Link } from "@tanstack/react-router";
 import type { Product } from "../../../scripts/types";
 import type { ProductDetails } from "../../../scripts/logic/catalog/product-details.ts";
@@ -9,7 +10,7 @@ import ProductImage from "./ProductImage.tsx";
 
 type ProductCardProps = { product: Product } & Partial<ProductDetails>;
 
-export default function ProductCard({
+export default memo(function ProductCard({
   product,
   offer,
   finalPrice = product.price,
@@ -44,4 +45,4 @@ export default function ProductCard({
       </div>
     </li>
   );
-}
+});
