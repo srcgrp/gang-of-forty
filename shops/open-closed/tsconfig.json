@@ -13,7 +13,9 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noEmit": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "jsx": "react-jsx",
+    "noUncheckedSideEffectImports" : false,
   },
   "include": ["src"]
 }
