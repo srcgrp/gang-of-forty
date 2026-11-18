@@ -16,7 +16,11 @@ export default function PlpPage() {
         const products = carouselProducts(data, carouselId);
         const title = carouselTitle(data, carouselId);
         if (products === null || title === null) {
-          return <NotFoundStatus message="این فهرست پیدا نشد." />;
+          return (
+            <main id="main-content" tabIndex={-1}>
+              <NotFoundStatus message="این فهرست پیدا نشد." />
+            </main>
+          );
         }
         return (
           <ProductListing

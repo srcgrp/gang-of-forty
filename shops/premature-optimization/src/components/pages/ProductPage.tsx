@@ -15,7 +15,11 @@ export default function ProductPage() {
       {(data) => {
         const product = findProduct(data.products, productId);
         if (product === null) {
-          return <NotFoundStatus message="محصول پیدا نشد." />;
+          return (
+            <main id="main-content" tabIndex={-1}>
+              <NotFoundStatus message="محصول پیدا نشد." />
+            </main>
+          );
         }
         return (
           <ProductDetail product={product} {...productDetails(product, data)} />
