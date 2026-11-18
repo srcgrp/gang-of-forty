@@ -2,7 +2,7 @@ import { gsap } from "gsap";
 import { pulseCart } from "./animation.ts";
 
 export function flyToCart(button: HTMLElement): void {
-  const card = button.closest<HTMLElement>(".product-item");
+  const card = button.closest<HTMLElement>(".product-item, .product-page");
   const image = card?.querySelector<HTMLElement>(
     ".product-icon img, .product-icon .product-emoji-char",
   );

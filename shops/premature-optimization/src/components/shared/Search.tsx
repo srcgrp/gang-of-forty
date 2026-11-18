@@ -1,6 +1,6 @@
 import type { Product } from "../../scripts/types";
-import ProductList from "../catalog/ProductList.tsx";
-import type { SharedCardProps } from "../catalog/ProductList.tsx";
+import ProductList from "../catalog/products/ProductList.tsx";
+import type { SharedCardProps } from "../catalog/products/ProductList.tsx";
 import { useNavigate } from "@tanstack/react-router";
 import { useSearchStore } from "../../hooks/useSearchStore.ts";
 

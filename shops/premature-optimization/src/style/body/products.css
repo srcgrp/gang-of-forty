@@ -4,6 +4,7 @@
 
 .recommendation-title {
   font-size: 1.5rem;
+  margin-left: 0;
 }
 
 .dairy-carousel {
@@ -92,6 +93,7 @@
   color: var(--on-solid);
   background: var(--red);
   border-radius: 24px;
+  pointer-events: none;
 }
 
 .product-discount[hidden],
@@ -200,6 +202,150 @@
   color: var(--muted);
 }
 
+.product-emoji-char {
+  display: block;
+  font-size: 5rem;
+  line-height: 1;
+  user-select: none;
+}
+
+.recommendation-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.recommendation-title-wrapper {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.view-all-link {
+  align-self: flex-end;
+  margin: 20px 36px 16px;
+  color: var(--link);
+  background-color: var(--bg-link);
+  border-radius: 24px;
+  padding: 6px 10px;
+  width: fit-content;
+  font-weight: 600;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.view-all-link:hover {
+  text-decoration: underline;
+}
+
+.view-all-link span {
+  padding: 0 1.5px;
+  text-decoration: underline;
+}
+
+.plp-count {
+  margin: -8px 10px 12px;
+  color: var(--link);
+}
+
+.plp-count span {
+  font-size: xx-large;
+}
+
+.product-item > a {
+  display: block;
+  width: 100%;
+  text-decoration: none;
+}
+
+.product-item > a::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+}
+
+.product-item .buy-button {
+  position: relative;
+  z-index: 1;
+}
+
+.product-page {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 32px;
+  margin: 20px 36px 36px;
+  padding: 24px;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+}
+
+.product-page-parts{
+  display: flex;
+  gap: 24px;
+}
+
+.product-page .product-icon {
+  flex: 0 0 280px;
+  max-width: 100%;
+  height: auto;
+  margin: 0;
+}
+
+.product-page-info {
+  display: flex;
+  flex: 1 1 260px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.product-page-title {
+  font-size: 1.5rem;
+}
+
+.product-page-buy {
+  padding: 8px 24px;
+  font-size: 1rem;
+  align-self: end;
+}
+
+.product-page-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 0;
+  list-style: none;
+}
+
+.product-page-tags .item-tag {
+  margin: 0;
+}
+
+.product-tag {
+  padding: 6px 10px;
+  border-radius: 24px;
+  font-size: small;
+  font-weight: 700;
+  color: var(--on-accent);
+  background: var(--accent-tag);
+}
+
+@media (max-width: 700px) {
+  .product-emoji-char {
+    font-size: 3.5rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .product-emoji-char {
+    font-size: 3.75rem;
+  }
+}
+
 @media (min-width: 1500px) {
   .banner,
   .banner-down,
@@ -278,54 +424,5 @@
     right: 6px;
     padding: 4px 6px;
     font-size: 0.75rem;
-  }
-}
-
-.product-emoji-char {
-  display: block;
-  font-size: 5rem;
-  line-height: 1;
-  user-select: none;
-}
-
-.recommendation-heading {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-}
-
-.view-all-link {
-  margin: 20px 36px 16px;
-  color: var(--link);
-  background-color: var(--bg-link);
-  border-radius: 24px;
-  padding: 6px 10px;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.view-all-link:hover {
-  text-decoration: underline;
-}
-
-.view-all-link span {
-  padding: 0 1.5px;
-  text-decoration: underline;
-}
-
-.plp-count {
-  margin: -8px 16px 12px;
-  color: var(--muted);
-}
-
-@media (max-width: 700px) {
-  .product-emoji-char {
-    font-size: 3.5rem;
-  }
-}
-
-@media (max-width: 380px) {
-  .product-emoji-char {
-    font-size: 3.75rem;
   }
 }

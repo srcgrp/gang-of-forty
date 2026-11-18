@@ -1,7 +1,7 @@
 import type { CarouselConfig, Product } from "../../scripts/types";
 import Carousel from "../catalog/Carousel.tsx";
-import ProductList from "../catalog/ProductList.tsx";
-import type { SharedCardProps } from "../catalog/ProductList.tsx";
+import ProductList from "../catalog/products/ProductList.tsx";
+import type { SharedCardProps } from "../catalog/products/ProductList.tsx";
 import PlpLink from "../shared/PlpLink.tsx";
 
 const PREVIEW_COUNT = 8;
