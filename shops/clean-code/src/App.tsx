@@ -3,6 +3,7 @@ import ShopView from "./components/ShopView.tsx";
 import Status from "./components/Status.tsx";
 import { cartCount, removeFromCart } from "./features/cart/count.ts";
 import { useLoadShop } from "./hooks/useLoadShop.ts";
+import { useThemeStore } from "./hooks/useThemeStore";
 import { loadCart, saveCart } from "./storage/cart-storage.ts";
 import type { CartLine } from "./types/product.ts";
 
@@ -13,6 +14,7 @@ export default function App() {
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const [cart, setCart] = useState<CartLine[]>(loadCart);
   const [query, setQuery] = useState("");
+  const theme = useThemeStore((s) => s.theme);
 
   useEffect(
     function () {
@@ -28,17 +30,19 @@ export default function App() {
   }
 
   return (
-    <ShopView
-      query={query}
-      onQuery={setQuery}
-      load={load}
-      categoryId={categoryId}
-      cart={cart}
-      onPick={setCategoryId}
-      onClear={function () {
-        setCart(removeFromCart());
-      }}
-      setCart={setCart}
-    />
+    <div className="app" data-theme={theme}>
+      <ShopView
+        query={query}
+        onQuery={setQuery}
+        load={load}
+        categoryId={categoryId}
+        cart={cart}
+        onPick={setCategoryId}
+        onClear={function () {
+          setCart(removeFromCart());
+        }}
+        setCart={setCart}
+      />
+    </div>
   );
 }

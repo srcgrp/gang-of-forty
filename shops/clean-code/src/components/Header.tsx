@@ -2,6 +2,7 @@ import CartIcon from "./CartIcon";
 import Logo from "./Logo";
 import MenuToggle from "./MenuToggle";
 import SearchBox from "./SearchBox";
+import ThemeToggle from "./ThemeToggle";
 
 type HeaderProps = {
   cartCount: number;
@@ -36,6 +37,7 @@ export default function Header({
             {cartCount.toLocaleString("fa-IR")}
           </span>
         </a>
+        <ThemeToggle />
         <MenuToggle />
       </div>
       <nav className="main-nav" id="menu" aria-label="منوی اصلی">
