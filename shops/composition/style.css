@@ -331,7 +331,7 @@ section:target h2 {
   display: flex;
   gap: 8px;
 }
-.carousel-controls a {
+.carousel-controls button {
   padding: 8px 12px;
   border: 1px solid #aaa;
   border-radius: 6px;
@@ -476,7 +476,7 @@ footer nav {
   .section-heading h2 {
     font-size: 20px;
   }
-  .carousel-controls a {
+  .carousel-controls button {
     padding: 8px;
   }
   .footer-grid {
@@ -685,7 +685,7 @@ footer nav {
 }
 [data-theme="dark"] .product-card,
 [data-theme="dark"] .category-tile,
-[data-theme="dark"] .carousel-controls a {
+[data-theme="dark"] .carousel-controls button {
   background: var(--theme-surface);
   border-color: var(--theme-border);
 }
@@ -944,3 +944,53 @@ footer nav {
 .search-clear:hover { background: #0000000d; }
 [data-theme="dark"] .search-clear img { filter: invert(1); }
 [data-theme="dark"] .search-clear:hover { background: var(--theme-clear-hover); }
+
+.plp-page { padding-block: 32px; min-height: 45vh; }
+.back-home { color: inherit; text-underline-offset: 5px; }
+.view-all {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 20px;
+  border: 1px solid #facc15;
+  border-radius: 10px;
+  background: #facc15;
+  color: #222;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+.view-all:hover { background: #eab308; border-color: #eab308; }
+.view-all:focus-visible { outline: 3px solid currentColor; outline-offset: 4px; }
+[data-theme="dark"] .view-all:focus-visible { outline-color: #facc15; }
+.section-heading { flex-wrap: wrap; gap: 12px; }
+
+.plp-page .sample-products { grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); }
+
+@media (max-width: 600px) {
+  .product-section > .section-heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 12px;
+    margin-block-end: 16px;
+  }
+  .product-section > .section-heading > h2 {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+  .product-section > .section-heading > .view-all {
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: start;
+    padding-inline: 14px;
+  }
+  .product-section > .section-heading > .carousel-controls {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: end;
+  }
+}

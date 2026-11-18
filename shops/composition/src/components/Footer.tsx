@@ -1,7 +1,8 @@
+import SiteLink from "./SiteLink";
 import type { Shop, Category } from "../shared/types";
 
-type Props = { shop: Shop; categories: Category[]; onNavigate: () => void };
-export default function Footer({ shop, categories, onNavigate }: Props) {
+type Props = { shop: Shop; categories: Category[] };
+export default function Footer({ shop, categories }: Props) {
   return (
     <footer id="contact">
       <div className="wrap footer-grid">
@@ -12,7 +13,7 @@ export default function Footer({ shop, categories, onNavigate }: Props) {
         <nav id="footer-categories" aria-label="دسته‌بندی‌های پایین صفحه">
           <h2>دسته‌بندی‌ها</h2>
           {categories.map(category => (
-            <a key={category.id} href={"#" + category.slug} onClick={onNavigate}>{category.name}</a>
+            <SiteLink key={category.id} href={"#" + category.slug}>{category.name}</SiteLink>
           ))}
         </nav>
         <div id="shop-hours">
@@ -22,7 +23,7 @@ export default function Footer({ shop, categories, onNavigate }: Props) {
       </div>
       <div id="footer-bottom" className="wrap footer-bottom">
         <p>{shop.copyright.replace(shop.name, "بت‌شاپ")}</p>
-        <a href="#top">بازگشت به بالا ↑</a>
+        <SiteLink href="#top">بازگشت به بالا ↑</SiteLink>
       </div>
     </footer>
   );

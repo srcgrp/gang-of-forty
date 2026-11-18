@@ -1,6 +1,7 @@
+import { Link } from "@tanstack/react-router";
 export default function Brand() {
   return (
-    <a className="brand" href="#top">
+    <Link className="brand" to="/">
 <svg
             viewBox="0 0 120 80"
             width="64"
@@ -28,6 +29,6 @@ export default function Brand() {
             <circle cx="65" cy="32" r="2" fill="#20221f"></circle>
           </svg>
       <span><strong>بت‌شاپ</strong><small>تازه، نزدیک، به‌صرفه</small></span>
-    </a>
+    </Link>
   );
 }

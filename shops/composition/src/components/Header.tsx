@@ -1,3 +1,4 @@
+import SiteLink from "./SiteLink";
 import { useState } from "react";
 import { useCartStore } from "../hooks/useCartStore";
 import { cartCount } from "../features/cart/logic/items";
@@ -10,8 +11,8 @@ import cartIcon from "../../icons/shopping-cart.svg";
 import ThemeToggle from "./ThemeToggle";
 import menuIcon from "../../icons/menu-2.svg";
 
-type Props = { suggestions: CardView[]; query: string; onQuery: (query: string) => void; shop: Shop; categories: Category[]; stock: Stock; onPick: (id: number | null) => void };
-export default function Header({ suggestions, query, onQuery, shop, categories, stock, onPick }: Props) {
+type Props = { suggestions: CardView[]; query: string; onQuery: (query: string) => void; shop: Shop; categories: Category[]; stock: Stock };
+export default function Header({ suggestions, query, onQuery, shop, categories, stock }: Props) {
   const count = useCartStore((state) => cartCount(state.lines));
   const [cartOpen, onCartOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -46,7 +47,7 @@ export default function Header({ suggestions, query, onQuery, shop, categories, 
               <img src={menuIcon} alt="" width="48" height="48" />
             </summary>
             <nav id="mobile-links" aria-label="منوی موبایل">
-              {shop.menu.map(link => <a key={link.href} href={link.href} onClick={() => onPick(null)}>{link.label}</a>)}
+              {shop.menu.map(link => <SiteLink key={link.href} href={link.href}>{link.label}</SiteLink>)}
             </nav>
           </details>
         </div>
@@ -55,12 +56,12 @@ export default function Header({ suggestions, query, onQuery, shop, categories, 
             <button className="category-trigger" type="button">☰ همهٔ دسته‌ها</button>
             <div id="category-links" className="category-links">
               {categories.map(category => (
-                <a key={category.id} href={"#" + category.slug} onClick={() => onPick(category.id)}>{category.name}</a>
+                <SiteLink key={category.id} href={"#" + category.slug}>{category.name}</SiteLink>
               ))}
             </div>
           </div>
           <div id="main-links" className="main-links">
-            {shop.menu.map(link => <a key={link.href} href={link.href} onClick={() => onPick(null)}>{link.label}</a>)}
+            {shop.menu.map(link => <SiteLink key={link.href} href={link.href}>{link.label}</SiteLink>)}
           </div>
         </nav>
       </header>

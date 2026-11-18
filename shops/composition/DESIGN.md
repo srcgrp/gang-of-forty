@@ -25,7 +25,7 @@
 
 ## ۴. اطلاعات کجا نگهداری می‌شوند؟
 
-محصولات، قیمت، موجودی، تخفیف و محتوای فروشگاه از سرور می‌آیند. داده‌ها و شمارندهٔ تلاش مجدد در useCatalog هستند. دسته، جست‌وجو و باز بودن شمارش معکوس در HomePage هستند. اقلام سبد در useCartStore و تم در useThemeStore نگهداری می‌شوند. باز بودن سبد در Header و ثانیه‌های باقی‌مانده در SaleCountdown است. تعداد و جمع سبد State جدا ندارند.
+محصولات، قیمت، موجودی، تخفیف و محتوای فروشگاه از سرور می‌آیند. داده‌ها و شمارندهٔ تلاش مجدد در useCatalogRequest هستند و با useCatalog خوانده می‌شوند. دسته و جست‌وجو در LayoutContent و باز بودن شمارش معکوس در HomePage هستند. اقلام سبد در useCartStore و تم در useThemeStore نگهداری می‌شوند. باز بودن سبد در Header و ثانیه‌های باقی‌مانده در SaleCountdown است. تعداد و جمع سبد State جدا ندارند.
 
 اقلام کامل سبد در کلید `batshop-cart` با توابع storage خوانده و ذخیره می‌شوند. دادهٔ خراب هنگام خواندن به سبد خالی برمی‌گردد. تم با persist در کلید `composition-theme` ذخیره می‌شود.
 
@@ -44,7 +44,7 @@
 ## ۷. کدها را چطور تقسیم کردم؟
 
 - `src/main.tsx`: اتصال React به عنصر root و فعال کردن StrictMode.
-- `src/App.tsx`: نمایش HomePage؛ مسیرها در گام چهار اضافه می‌شوند.
+- `src/App.tsx`: تعریف مسیرها، Register و نمایش RouterProvider.
 - `src/components`: نمایش صفحه با JSX و Props تایپ‌دار؛ ظاهر اصلی در `ShopView` است.
 - `src/features/products`: دریافت و اعتبارسنجی دادهٔ محصولات و آماده‌سازی کارت‌ها و دسته‌ها.
 - `src/features/cart`: توابع خالص افزودن، حذف، تعداد و جمع قیمت؛ اعتبارسنجی و ذخیرهٔ سبد.
@@ -65,43 +65,35 @@ UI قدیمی و `src/main.ts` حذف شده‌اند. هیچ فایل TypeScrip
 کامپوننت‌ها را مطابق ساختار فعلی صفحه این‌طور کنار هم گذاشتم:
 
 ```text
-App → HomePage
-├── LoadStatus
-└── ShopView
-    ├── Header
-    │   ├── Brand
-    │   ├── SearchBox
-    │   │   └── SearchSuggestions
-    │   ├── CartPanel
-    │   └── ThemeToggle
-    ├── Hero
-    ├── CategoryNav
-    ├── Promos
-    ├── SaleBanner
-    │   └── SaleCountdown (فقط وقتی باز است)
-    ├── SearchResults (هنگام جست‌وجو)
-    │   └── ProductGrid → ProductCard → ProductImage
-    ├── ProductSections (وقتی متن جست‌وجو خالی است)
-    │   └── ProductGrid × تعداد بخش‌های نمایشی
-    │       └── ProductCard × تعداد محصولات هر بخش
-    │           └── ProductImage
+App (RouterProvider)
+└── Layout → ThemeFrame → CatalogProvider → LayoutContent
+    ├── CartTitle
+    ├── Header → Brand / SearchBox / CartPanel / ThemeToggle
+    │   └── SearchBox → SearchSuggestions
+    ├── Outlet
+    │   ├── HomePage → LoadStatus یا ShopView
+    │   │   └── Hero / CategoryNav / Promos / SaleBanner / ProductSections / SearchResults
+    │   │       ├── SaleBanner → SaleCountdown (وقتی باز است)
+    │   │       └── ProductGrid → ProductCard → ProductImage
+    │   ├── PlpPage → LoadStatus یا ProductGrid → ProductCard
+    │   └── NotFound
     └── Footer
 ```
 
 `HomePage` در حالت‌های loading، empty و error، کامپوننت `LoadStatus` را نشان می‌دهد؛ وقتی دریافت اطلاعات موفق باشد، `ShopView` را نمایش می‌دهد. این دو شاخه هم‌زمان نمایش داده نمی‌شوند.
 
-`CartPanel` داخل `Header` ساخته می‌شود و cartOpen محلی Header آن را باز و بسته می‌کند. main.tsx، App و CartTitle را داخل ThemeFrame و StrictMode قرار می‌دهد. CartTitle با selector تعداد سبد را می‌خواند و عنوان تب را در Effect به‌روز می‌کند.
+`CartPanel` داخل `Header` است و cartOpen محلی Header آن را باز و بسته می‌کند. main.tsx، App را در StrictMode قرار می‌دهد. Layout پوشش ThemeFrame را دارد و CartTitle در LayoutContent با selector تعداد سبد را می‌خواند و عنوان تب را در Effect به‌روز می‌کند.
 
 ## ۱۰. State کجا زندگی می‌کند؟
 
-State مشترک سبد و تم را در Storeهای Zustand گذاشتم. داده‌ها در useCatalog و فیلترهای صفحه در HomePage هستند. وضعیت باز بودن سبد و پیشنهادها در Header، گزینهٔ فعال در SearchBox و زمان باقی‌مانده در SaleCountdown نگهداری می‌شود.
+State مشترک سبد و تم را در Storeهای Zustand گذاشتم. داده‌ها در CatalogProvider با useCatalogRequest دریافت می‌شوند و فیلترهای صفحه در LayoutContent هستند. وضعیت باز بودن سبد و پیشنهادها در Header، گزینهٔ فعال در SearchBox و زمان باقی‌مانده در SaleCountdown نگهداری می‌شود.
 
 | State | کامپوننت صاحب | چه کسی عوضش می‌کند؟ | کجا ذخیره می‌شود؟ |
 |---|---|---|---|
-| `state` از نوع `LoadState<ShopData>` | `useCatalog` | Effect داخل useCatalog و retry برای برگشت به loading | حافظهٔ React؛ ابتدا loading است و با رفرش دوباره دریافت می‌شود |
-| `categoryId` | `HomePage` | `setCategoryId` از طریق `onPick`؛ انتخاب دسته یا برگشت به نمایش همهٔ دسته‌ها | حافظهٔ React؛ مقدار اولیه null است و در URL یا storage ذخیره نمی‌شود |
-| `query` | `HomePage` | `SearchBox` از طریق `onQuery` و `setQuery` | حافظهٔ React؛ با رفرش خالی می‌شود |
-| `attempt` | `useCatalog` | `retry` با افزایش شمارنده | حافظهٔ React؛ مقدار اولیه صفر است |
+| `state` از نوع `LoadState<ShopData>` | `useCatalogRequest` | Effect داخل useCatalogRequest و retry برای برگشت به loading | حافظهٔ React؛ ابتدا loading است و با رفرش دوباره دریافت می‌شود |
+| `categoryId` | `LayoutContent` | `setCategoryId` از طریق `onPick`؛ انتخاب دسته یا برگشت به نمایش همهٔ دسته‌ها | حافظهٔ React؛ مقدار اولیه null است و در URL یا storage ذخیره نمی‌شود |
+| `query` | `LayoutContent` | `SearchBox` از طریق `onQuery` و `setQuery` | حافظهٔ React؛ با رفرش خالی می‌شود |
+| `attempt` | `useCatalogRequest` | `retry` با افزایش شمارنده | حافظهٔ React؛ مقدار اولیه صفر است |
 | `saleOpen` | `HomePage` | دکمهٔ باز و بسته کردن شمارش معکوس | حافظهٔ React؛ مقدار اولیه false است |
 | `left` | `SaleCountdown` | interval هر ثانیه با به‌روزرسانی تابعی | حافظهٔ همان کامپوننت؛ با هر mount از ۳۰۰ ثانیه شروع می‌شود |
 | `lines` | `useCartStore` | عملیات add، decrease و remove با توابع خالص سبد | Store و کلید batshop-cart در localStorage |
@@ -126,7 +118,7 @@ Store سبد با loadCart شروع می‌شود و subscribe پس از تغی�
 
 ## ۱۱. بخش‌های امتیازی
 
-`SearchBox` یک ورودی کنترل‌شده است: value از query می‌آید و onChange مقدار جدید را به HomePage می‌فرستد. جست‌وجو از نام و برچسب محصولات استفاده می‌کند و حروف فارسی و عربی را یکسان می‌کند. اگر نتیجه‌ای نباشد، پیام مشخص نشان می‌دهم.
+`SearchBox` یک ورودی کنترل‌شده است: value از query می‌آید و onChange مقدار جدید را به LayoutContent می‌فرستد. جست‌وجو از نام و برچسب محصولات استفاده می‌کند و حروف فارسی و عربی را یکسان می‌کند. اگر نتیجه‌ای نباشد، پیام مشخص نشان می‌دهم.
 
 در حالت خطا، دکمهٔ «تلاش دوباره» وضعیت را loading می‌کند و attempt را افزایش می‌دهد. Effect وابسته به attempt دوباره همهٔ داده‌ها را می‌خواند؛ cleanup پاسخ تلاش قبلی را نادیده می‌گیرد.
 
@@ -141,7 +133,7 @@ Store سبد با loadCart شروع می‌شود و subscribe پس از تغی�
 | `searchOpen` | `Header` | فوکوس، تایپ، خروج، کلیک بیرون و Escape | فقط حافظهٔ کامپوننت |
 | `active` | `SearchBox` | کلیدهای جهت؛ با تایپ یا انتخاب بازنشانی می‌شود | فقط حافظهٔ کامپوننت |
 
-متن query در HomePage است. فهرست پیشنهادها و شمارهٔ معتبر انتخاب‌شده State جدا ندارند. شنوندهٔ pointerdown هنگام unmount حذف می‌شود.
+متن query در LayoutContent است. فهرست پیشنهادها و شمارهٔ معتبر انتخاب‌شده State جدا ندارند. شنوندهٔ pointerdown هنگام unmount حذف می‌شود.
 
 در سبد، دکمه‌های مثبت و منفی هر بار فقط یک عدد تغییر می‌دهند. در تعداد یک، منفی آن قلم را حذف می‌کند. دکمهٔ «حذف کامل» همهٔ تعداد آن قلم را حذف می‌کند. افزایش از موجودی بیشتر نمی‌شود و تغییر تعداد، مبلغ ردیف، جمع سبد، عنوان تب و ذخیرهٔ سبد را به‌روز می‌کند. شمارش معکوس داخل بنر مشخصی بالای بنرهای اصلی است و همچنان با دکمه mount و unmount می‌شود.
 
@@ -155,8 +147,18 @@ Store در `src/hooks/useCartStore.ts` است. عملیات افزودن، کا�
 
 ## هفتهٔ ششم — هوک دریافت داده
 
-دریافت داده و LoadState در `src/hooks/useCatalog.ts` قرار دارند. هوک مستقیماً وضعیت از نوع LoadState<ShopData> را همراه متد retry برمی‌گرداند تا دکمهٔ تلاش دوباره حفظ شود. همهٔ درخواست‌ها از توابع API انجام می‌شوند و cleanup با ignore از اعمال پاسخ قدیمی جلوگیری می‌کند.
+دریافت داده و LoadState در `src/hooks/useCatalogRequest.ts` قرار دارند. CatalogProvider این هوک را یک بار برای Layout اجرا می‌کند و صفحه‌ها با useCatalog همان وضعیت مشترک را می‌خوانند؛ تغییر مسیر درخواست تکراری ایجاد نمی‌کند. هوک مستقیماً وضعیت از نوع LoadState<ShopData> را همراه متد retry برمی‌گرداند تا دکمهٔ تلاش دوباره حفظ شود. همهٔ درخواست‌ها از توابع API انجام می‌شوند و cleanup با ignore از اعمال پاسخ قدیمی جلوگیری می‌کند.
 
-HomePage هوک را صدا می‌زند و Stateهای دسته، جست‌وجو و باز بودن شمارش معکوس را نگه می‌دارد. App هیچ useState یا useEffect ندارد و فعلاً HomePage را نمایش می‌دهد؛ مسیرها در گام چهار اضافه می‌شوند.
+HomePage و PlpPage هوک useCatalog را صدا می‌زنند. HomePage باز بودن شمارش معکوس را نگه می‌دارد؛ دسته و جست‌وجو در LayoutContent هستند تا Header مشترک به آن‌ها دسترسی داشته باشد. App هیچ useState یا useEffect ندارد و فقط مسیرها را تعریف می‌کند.
 
 تابع خالص carouselProducts در catalog محصولات تخفیف‌دار یا دستهٔ کاروسل را انتخاب می‌کند. دسته‌های مستقل فعلی صفحه نیز با slug پشتیبانی می‌شوند. شناسهٔ ناشناخته null و فهرست معتبر بدون محصول آرایهٔ خالی برمی‌گرداند. buildPage از همین تابع استفاده می‌کند.
+
+## هفتهٔ ششم — مسیرها
+
+مسیرها را در App.tsx با TanStack Router تعریف کردم. createHashHistory برای رفرش صفحه‌های داخلی روی سرور فایل‌های ثابت است و Register به لینک‌ها نوع می‌دهد. Layout سربرگ و تم مشترک را نگه می‌دارد و صفحهٔ انتخاب‌شده در Outlet نمایش داده می‌شود.
+
+در خانه حداکثر شش محصول از هر فهرست نمایش می‌دهم. لینک «مشاهده همه» تعداد کل محصولات را نشان می‌دهد و به /plp/$carouselId می‌رود. PlpPage پارامتر را با useParams({ from }) می‌خواند؛ همهٔ محصولات را با همان ProductCard نشان می‌دهد و لینک بازگشت دارد. شناسهٔ نامعتبر پیام «این فهرست پیدا نشد» دارد؛ آدرس ناشناخته به NotFound می‌رود.
+
+لینک‌های منو و بنرها با Router هماهنگ شدند. دکمه‌های ابتدا و انتهای کاروسل فقط پیمایش می‌کنند و آدرس را تغییر نمی‌دهند. جست‌وجو از سربرگ مشترک کاربر را به خانه می‌برد و نتایج همان‌جا نمایش داده می‌شوند.
+
+برای نیاز خود TanStack Router، strictNullChecks را فعال کردم. مسیر اشتباه /plp/$carouselID را موقتاً امتحان کردم و خطای TS2820 گرفتم؛ بعد مسیر درست را برگرداندم.

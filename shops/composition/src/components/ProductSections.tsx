@@ -8,12 +8,12 @@ export default function ProductSections({ page, category }: Props) {
     <>
       <div id="carousels">
         {sections.filter(section => section.carousel).map(section => (
-          <ProductGrid key={section.id} section={section} />
+          <ProductGrid key={section.id} section={section} preview />
         ))}
       </div>
       <div id="category-products">
         {sections.filter(section => !section.carousel).map(section => (
-          <ProductGrid key={section.id} section={section} />
+          <ProductGrid key={section.id} section={section} preview />
         ))}
       </div>
     </>
