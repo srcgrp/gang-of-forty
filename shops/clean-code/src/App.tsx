@@ -26,6 +26,13 @@ const plpRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/plp/$carouselId",
   component: PlpPage,
+  validateSearch: function (search: Record<string, unknown>): {
+    sort: "default" | "price";
+  } {
+    return {
+      sort: search.sort === "price" ? "price" : "default",
+    };
+  },
 });
 
 const productRoute = createRoute({

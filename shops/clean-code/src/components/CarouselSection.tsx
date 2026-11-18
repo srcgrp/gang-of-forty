@@ -34,6 +34,7 @@ export default function CarouselSection({
           to="/plp/$carouselId"
           params={{ carouselId: id }}
           className="see-all"
+          search={{ sort: "default" }}
         >
           مشاهده همه ({total.toLocaleString("fa-IR")})
         </Link>
