@@ -4,57 +4,101 @@
 
 **A visitor can:**
 - read the shop notice and slogan, the hero and promo banners, and the menu, all taken from the API
-- filter the products by category, and click the selected category again to clear it
+- see the home page with one row per carousel from `home.json` (today: special offers and dairy), each with its first four products and a "مشاهده همه" link that shows the number of products
+- open a full product list on its own page (`#/plp/offers`, `#/plp/dairy`), and also a list for each category (`#/plp/fruits`, `#/plp/bakery` and the other category slugs) from the menu, the dropdown, the hero, the promos and the footer
+- reload a list page, or go Back and Forward, and stay on the same page
+- see a clear message for an unknown list (`#/plp/nothing`) and a "page not found" page for any other address
 - see which products are sold out and which have a discount
-- add products to the cart, see the lines, quantity and total in the cart panel, and remove a line
+- add products to the cart from any list, see the lines, quantity and total in the cart panel, and remove a line
 - keep the cart after a refresh, and see the item count in the header and the tab title
+- switch between a light and a dark theme with a button, and keep the choice after a refresh
 - read the shop's about text, address and working hours in the footer, and call the phone number
-- click the logo, or "back to top", to go back to the top
+- click the logo to go to the home page, click "تماس با ما" to scroll to the contact section, and click "back to top" in the footer
 - use the skip link to jump to the main content
 
 **A visitor cannot (yet):**
 - search for products (the search box is only markup)
 - see a confirmation message after adding to the cart
-- slide carousels: `home.json` still describes them, but the page does not build them
-- jump to a category or banner section: the menu, dropdown, category, banner and footer links point to sections that the page does not build, so they do not scroll anywhere
+- slide the home rows with arrow buttons: the rows are plain lists and the old arrow controls are not built
+- filter the products by category on the home page: the Week 5 category buttons are no longer on the page
+- use the three help links in the footer: their addresses in `shop.json` are only `#`, so they do nothing
+- open a product page, sort a list, or check out: these are not built
 
 ## 2. Page sections
 
-This describes the React page. It uses all six API files. What is loaded and checked but not shown: the `carousels` list in `home.json`, and the `shop.json` fields that `types.ts` does not describe (see section 4). The shop name "پرتقال" is fixed text in the components.
+This describes the React page. It uses all six API files. What is loaded and checked but not shown: the `shop.json` fields that `types.ts` does not describe (see section 4). The shop name "پرتقال" is fixed text in the components.
+
+The page has one shell, `Layout`, that is the same on every address. Inside its `<main>`, the router shows one of three pages: `HomePage`, `PlpPage` or `NotFound`. The cart panel sits under the page content on every address.
+
+**Routes** (hash addresses, so a reload works on any static server):
+
+| Address | Page | Data from |
+|---|---|---|
+| `#/` | `HomePage` | `useCatalog()` and `carouselProducts` |
+| `#/plp/$carouselId` (for example `#/plp/dairy`) | `PlpPage` | `useCatalog()` and `plpList`: a carousel with that id first, then a category with that slug |
+| any other address (for example `#/nowhere`) | `NotFound` | none |
+
+The routes are defined in `App.tsx` only. A list address with an unknown id (`#/plp/nothing`) is still a valid route: `PlpPage` shows "این فهرست پیدا نشد" and a link home.
+
+**The shell (every address):**
 
 | Section | What it shows | Data comes from |
 |---|---|---|
-| Skip link | A link at the top that jumps to the main content | Static markup |
+| Skip link | A link at the top that moves focus to the main content (it does not change the address) | Static markup |
 | Header notice | The shop notice | `shop.json` |
-| Logo and shop name | The decorative logo and the fixed name "پرتقال", with the slogan under it | Name: static markup. Slogan: `shop.json` |
+| Logo and shop name | The decorative logo as a link to the home page, the fixed name "پرتقال", and the slogan under it | Name: static markup. Slogan: `shop.json` |
 | Search box | An input and a button; typing does nothing yet | Static markup |
-| Cart button | The number of items in the cart, in Persian digits | The cart (`localStorage`, key `tracer-bullet:cart`) |
-| Main menu | The menu links, and a "همه دسته‌ها" dropdown with one link per category | Links: `shop.json`. Dropdown: `categories.json` |
-| Hero and side promo | Two banners, each with a title, an emoji, a text and a button | `home.json` |
-| Category navigation | One button per category; the selected one is highlighted, and clicking it again clears the filter | `categories.json` |
-| Product grid | One card per product: emoji, name, unit, price, a discount or sold-out badge, and an add button | `products.json`, `offers.json`, `stock.json` |
-| Promo links | Two links, each with a text and an emoji | `home.json` |
-| Cart panel | The cart lines with quantity, line price and a remove button, the total, and a message when the cart is empty | The cart (`localStorage`) |
+| Cart button | The number of items in the cart, in Persian digits | The cart store (`localStorage`, key `tracer-bullet:cart`) |
+| Theme button | The current theme; clicking switches between light and dark | The theme store (`localStorage`, key `tracer-bullet:theme`) |
+| Main menu | The menu links, and a "همه دسته‌ها" dropdown with one link per category. Each link opens a list page; "تماس با ما" scrolls to the footer instead | Links: `shop.json`. Dropdown: `categories.json` |
+| Cart panel | The cart lines with quantity, line price and a remove button, the total, and a message when the cart is empty | The cart store (`localStorage`) |
 | Footer texts | The about text, the address, the phone as a `tel:` link, and the working hours rows | `shop.json` |
-| Footer lists | The category links and the help links | Categories: `categories.json`. Help: `shop.json` |
-| Status message | One message instead of the whole page while loading, when empty, or on error | Built by `App` |
+| Footer lists | The category links (they open list pages) and the help links (placeholders that do nothing) | Categories: `categories.json`. Help: `shop.json` |
+| Back to top | A footer link that scrolls to the top without changing the address | Static markup |
+| Status message | One message instead of the whole shell while the data loads, when it is empty, or on error | Built by `Layout` |
+
+**Home page (`#/`):**
+
+| Section | What it shows | Data comes from |
+|---|---|---|
+| Hero and side promo | Two banners, each with a title, an emoji, a text and a button that opens a list page | `home.json` |
+| Carousel rows | For each carousel: its title and emoji, its first four products as cards, and a "مشاهده همه (N)" link to the full list | Carousels: `home.json`. Products: `products.json`, `offers.json`, `stock.json` |
+| Promo links | Two links, each with a text and an emoji, that open list pages | `home.json` |
+
+**List page (`#/plp/<id>`):**
+
+| Section | What it shows | Data comes from |
+|---|---|---|
+| Back link | A link to the home page | Static markup |
+| Title and count | The name of the carousel or category and the number of products | `home.json` carousels or `categories.json` |
+| Product grid | One card per product: emoji, name, unit, price, a discount or sold-out badge, and an add button | `products.json`, `offers.json`, `stock.json` |
+| Not-found message | "این فهرست پیدا نشد" and a link home, when the id is neither a carousel nor a category slug | Built by `PlpPage` |
+
+**Not-found page (any other address):** a short message and a link to the home page.
+
+**Page loading messages:** `Layout` loads the data and shows the status message until it is ready. Each page also loads the data itself, so a page can show the same message briefly inside the shell (see section 5).
+
 
 ## 3. Data and owners
 
 | Information | Where it lives | Owner |
 |---|---|---|
-| Products, categories, offers, shop texts, home banners (5 JSON files) | Files in `/api` on the server. A temporary copy sits in `App`'s `state` and is refetched on every load. Shown: `hero`, `side` and `promos` from `home.json`, and all the described `shop.json` fields. Loaded and checked but not shown: `carousels` | The server |
-| Stock numbers (`stock.json`) | A file on the server. Copied into `state` with the other data, once, when the page loads | The server |
-| The cart lines | `localStorage`, key `tracer-bullet:cart`, a JSON list of lines. Survives a refresh | The visitor's browser |
-| The selected category | `selectedId` in `App`. Lost on refresh | The visitor |
-| Section the visitor jumped to | The `#hash` in the URL. Only `#top` and `#main` lead anywhere, because the page builds no category or banner sections. Survives a refresh and can be shared as a link | The URL, i.e. the visitor's navigation |
-| API address | `VITE_API_URL` in `.env.development` and `.env.production`, read by `getJSON`. It is public, so it is not a secret | The developer (set at build time) |
+| Products, categories, offers, shop texts, home banners and carousels (5 JSON files) | Files in `/api` on the server. `useCatalog` loads them and keeps the result in shared state. The pages and components read the data through the hook. | The server |
+| Stock numbers (`stock.json`) | A file on the server. Loaded with the other five files by `useCatalog` when the data is needed. | The server |
+| The cart lines | `localStorage`, key `tracer-bullet:cart`, a JSON list of lines. `useCartStore` owns the cart in memory and saves changes through a `subscribe`. Survives a refresh. | The visitor's browser |
+| The selected theme | `localStorage`, key `tracer-bullet:theme`. `useThemeStore` owns the current theme and saves it so the choice survives a refresh. | The visitor's browser |
+| The current page or list | The URL, using hash routing: `#/` for home and `#/plp/<id>` for a carousel or category list. `PlpPage` reads the id using `useParams({ from })`. Survives refresh and supports Back and Forward. | The URL, i.e. the visitor's navigation |
+| Section the visitor jumped to | A page anchor handled without replacing the router's hash route. The skip link, contact link and back-to-top link scroll to their targets without changing the current page. | The current page in the browser |
+| API address | `VITE_API_URL` in `.env.development` and `.env.production`, read by `getJSON`. It is public, so it is not a secret. | The developer (set at build time) |
 
 The server never learns what is in the cart: the page stores only the lines in the browser.
 
+The hooks own shared state instead of `App.tsx`. `useCatalog` handles the API data, `useCartStore` handles the cart, `useThemeStore` handles the theme, and `useCartTitle` updates the browser tab title from the cart count. `App.tsx` only defines the routes.
+
+
 ## 4. API contract
 
-All 6 files are requested once, when the page loads, in parallel with `Promise.all`. Each response comes in through `getJSON` as `unknown` and is checked by a Type Guard before the page uses it. If any request fails, the whole load fails and the page shows the `error` state.
+All 6 files are requested together, in parallel with Promise.all, every time useCatalog runs (see section 5). Each response comes in through `getJSON` as `unknown` and is checked by a Type Guard before the page uses it. If any request fails, the whole load fails and the page shows the `error` state.
 
 **What happens to invalid data:** an invalid product is dropped and logged with `console.warn`, and the rest of the page still loads. Invalid offers, categories, stock, shop or home data fail the whole load, because the page can't work without them, and the visitor sees the `error` state.
 
@@ -93,14 +137,14 @@ All 6 files are requested once, when the page loads, in parallel with `Promise.a
 
 ## 5. States
 
-`App` keeps one `LoadState` with four values. While the state is not `success`, `App` returns the `Status` component instead of the page, so the message replaces **everything**, including the header and the footer.
+`useCatalog` keeps one `LoadState` with four values. It loads all six API files and makes the result available to the React components. `Layout` reads this state through the hook. While the state is not `success`, `Layout` shows `Status` instead of the full page, so the message replaces the header, page content and footer.
 
 | State | When | What the visitor sees |
 |---|---|---|
 | `loading` | From the first render until all 6 requests finish | The message "درحال بارگذاری" (`role="status"`) |
-| `success` | All 6 files loaded and valid, and there is at least one product | The whole page (`ShopPage`) |
+| `success` | All 6 files loaded and valid, and there is at least one product | The full layout with the header, routed page, cart panel and footer |
 | `empty` | Everything loaded and valid, but the products list is empty | The message "محصولی بارگذاری نشده است" |
-| `error` | Any request fails, or any file fails its Type Guard | The message "خطا: لطفا دوباره تلاش کنید" (`role="alert"`) |
+| `error` | Any request fails, or any required file fails its Type Guard | The message "خطا: لطفا دوباره تلاش کنید" (`role="alert"`) |
 
 All 6 requests share one load (`Promise.all`), so any failure counts as one error. A product that fails its guard is dropped with `console.warn` and does not cause an error.
 
@@ -108,47 +152,55 @@ All 6 requests share one load (`Promise.all`), so any failure counts as one erro
 
 | Part | Normal | Special case |
 |---|---|---|
-| Cart panel | Lines with quantity and price, and the total | Empty cart: the message "سبد خالی است" and a total of ۰ |
-| Product grid | One card per product in the selected category | A category with no products shows an empty list with no message (read from the code) |
+| Cart panel | Lines with quantity and price, and the total, read from `useCartStore` | Empty cart: the message "سبد خالی است" and a total of ۰ |
+| Home carousel | One row per carousel from `home.json`, with its first four products and a link to the full list | A carousel with no matching products shows an empty row |
+| List page (`PlpPage`) | One card per product in the requested carousel or category | An unknown id shows "این فهرست پیدا نشد" and a link home |
 | Product card | Name, unit and price | Discount: the old price crossed out, the new price and a percent badge. Sold out: a "ناموجود" badge and a disabled button |
-| Category navigation | All categories, none selected | The selected one is marked with `aria-current`; clicking it again shows all products |
+| Theme toggle | Switches between light and dark themes through `useThemeStore` | The saved theme is restored after a refresh |
+| Router | `HomePage` for `#/`, `PlpPage` for `#/plp/<id>` | `NotFound` for any other route |
 
 **Observations:**
-- A broken file (`/broken.json`) and a missing file (`/missing.json`) show the same error message. This was tested. The visitor is not told which kind of failure it was.
-- The `empty` state is read from the code (`getDataLoadState`) and was not tested.
-- The loading, empty and error messages hide the header and the footer. For now this is acceptable, but a failed page looks very different from a working one.
-- The page title shows the item count even while loading or after an error, because the title effect runs in `App` above the early return. Read from the code, not tested.
-- A sold-out product that also has an offer (102) gets the sold-out badge and a disabled button, but the card still shows the old and new price. Read from the code, not tested.
-- A product missing from `stock.json` would get `undefined` stock and be shown as available. Not tested.
-- The cart is read from `localStorage` when `App` first renders, before the data loads, so the saved cart is never lost during loading. Tested by adding items and reloading.
+
+- A broken file (`/broken.json`) and a missing file (`/missing.json`) show the same error message. The visitor is not told which kind of failure it was.
+- The `empty` state is determined by the data-loading logic and is not caused by an empty cart or an empty carousel.
+- The loading, empty and error messages hide the header and footer. For now this is acceptable, but a failed page looks very different from a working one.
+- `useCartTitle` reads the cart count and updates `document.title` independently of the catalog load state. The title can therefore still show the cart count while data is loading or after a load error.
+- A sold-out product that also has an offer (102) gets the sold-out badge and a disabled button, but the card can still show the old and discounted prices.
+- A product missing from `stock.json` would get `undefined` stock and could be shown as available. This case has not been tested.
+- `useCartStore` restores the cart from `localStorage` independently of the API data. The saved cart is not cleared during loading.
+- The selected theme is restored from `localStorage` through `useThemeStore`, so it is independent of the catalog load state.
+- `PlpPage` reads its list id from the route rather than a selected-category state in `App`. Reloading, Back and Forward keep the correct list page.
+- Components read only the store values they need through selectors. The cart count, cart lines and cart actions are not passed down from `App` through callback props.
 
 ## 6. Folders
 
-**Rule:** imports only point down. `main.tsx` mounts React and renders `App`. `App.tsx` owns the state and the effects. The layers below never import each other:
+**Rule:** imports only point down. `main.tsx` mounts React and renders `App`. `App.tsx` only defines the routes. Components read shared state through the hooks, and the hooks use the rule layers below them:
 
-`main.tsx` → `App.tsx` → `components/` → `cart/`, `catalog/`, `format/` → `types.ts`
-`App.tsx` also imports `api/` and `storage/` → `types.ts`
+`main.tsx` → `App.tsx` → `components/` (and `components/pages/`) → `hooks/` → `api/`, `storage/`, `cart/`, `catalog/`, `format/` → `types.ts`
 
 - `types.ts` imports nothing. All the types live in this one file.
-- `components/` are React components. They draw the page from props and report events up through callback props. They never use `fetch` or `localStorage`.
+- `components/` and `components/pages/` are React components. They draw the page and call the hooks. They never use `fetch` or `localStorage`, and no component imports `App.tsx`.
+- `hooks/` holds the shared state: the two stores and the data hook. A hook never imports a component.
 - `format/` formats numbers and prices for display.
 - `cart/` and `catalog/` hold the rules: pure functions that touch no page, network or storage.
 - `api/` and `storage/` talk to the outside (the server and the browser) and never touch the page.
 - The old `ui/` folder and `main.ts` are deleted: React replaced them.
-- No file is longer than 70 lines.
+- No file is longer than 70 lines, and each page file in `components/pages/` stays under that too.
 
 **Structure of `src/`:**
 
-```
+```text
 src/
   types.ts       all types, imports nothing
   api/           fetch and Type Guards
   storage/       localStorage (cart-storage.ts saves the cart lines)
   cart/          pure cart rules: add, remove, count, total
-  catalog/       prices, offers, stock, search
+  catalog/       prices, offers, stock, search, carousel and list products
   format/        number and price formatting for display
-  components/    React components: the page
-  App.tsx        state, effects, event handlers
+  hooks/         useThemeStore, useCartStore, useCartTitle, useCatalog
+  components/    shared components: Layout, Header, Footer, cards...
+  components/pages/   HomePage, PlpPage, NotFound
+  App.tsx        the routes only
   main.tsx       mounts <App /> in #root
 ```
 
@@ -157,61 +209,95 @@ src/
 | `types.ts` | types | The shape of all data: API data, cart and page types | `Product`, `Category`, `Offer`, `Stock`, `Link`, `ScheduleRow`, `Promo`, `Banner`, `Shop`, the carousel types, `Home`, `Data`, `CardProduct`, plus `CartLine` and `Sort` / `SORTS` |
 | `api/` | data (network) | Fetching the JSON files and checking their shape | `loadData`; `getJSON` and the Type Guards (created in Step 3) |
 | `storage/` | data (browser) | Reading and writing `localStorage` | `cart-storage.ts`: `loadCart` (with a guard for every line) and `saveCart`. `cart-count-storage.ts` is the old counter and is no longer used by the page |
+| `hooks/` | shared state | `useThemeStore`, `useCartStore`, `useCartTitle`, `useCatalog` | The `useState` and the load and save effects from `App` |
 | `cart/` | rules | How the cart changes | `cart-lines.ts`: `addToCart`, `removeFromCart`, `cartCount`, `cartTotal`, all pure. `cart-count.ts` is the old counter and is no longer used by the page |
 | `catalog/` | rules | Prices, offers, stock and search | `withOfferAndStock`; the special-offers price calculation (from `renderSpecialOffers`); filtering products by category (from `renderCategoryCarousel`); the Fuse setup and search |
-| `components/` | page (React) | One component per file. They draw data from props and report events through callback props: `ShopPage` (the layout, and the calculation of the visible cards, the count and the total), `Status`, `Header` with `Logo` and `MainNav`, `Hero`, `CategoryNav`, `ProductGrid` with `ProductCard` and `OfferBadge`, `Promos`, `CartPanel`, and `Footer` with `FooterLists` | `ui/` is gone and its job moved here: `createCard` and `createProductBadge` → `ProductCard`, `OfferBadge`; `renderBanner` → `Hero`; `renderPromos` → `Promos`; `renderCategories` → `CategoryNav`; `renderLinks` and `createCategoryLink` for the menu and the dropdown → `MainNav`; for the footer lists → `FooterLists`; `renderShopTexts` → `Header` (notice, slogan) and `Footer` (about, address, phone); `renderSchedule` → `Footer`; `load-state-view` → `Status`; the cart panel is new |
+| `components/` | page (React) | One component per file: `Layout`, `Status`, `Header` with `Logo`, `ThemeToggle` and `MainNav`, `Hero`, `ProductGrid` with `ProductCard` and `OfferBadge`, `Promos`, `CartPanel`, `Footer` with `FooterLists`, `AppLink`, and the pages `HomePage`, `PlpPage` and `NotFound` in `components/pages/` | `ui/` is gone and its job moved here: `createCard` and `createProductBadge` → `ProductCard`, `OfferBadge`; `renderBanner` → `Hero`; `renderPromos` → `Promos`; `renderCategories` → removed in Week 6; `renderLinks` and `createCategoryLink` for the menu and the dropdown → `MainNav`; for the footer lists → `FooterLists`; `renderShopTexts` → `Header` (notice, slogan) and `Footer` (about, address, phone); `renderSchedule` → `Footer`; `load-state-view` → `Status`; the cart panel is new |
 | `format/` | display | `formatNumber`, `formatPrice` | Moved from `ui/formatting.ts` |
-| `App.tsx` | wiring | The state, the load effect, the save-cart effect, the page-title effect, the add and remove handlers | `init` and the click handler from `main.ts` |
+| `App.tsx` | wiring | The router and the three routes, nothing else | `init` and the click handler from `main.ts` |
 | `main.tsx` | start | Mounts `<App />` in `#root` | The start of `main.ts` |
 
 **Consequences of these rules:**
-1. Components never fetch or read storage. `App` loads the data and the saved cart, and passes them down as props.
-2. `ShopPage` calculates the visible cards with `catalog/`, and the count and total with `cart/`. Every other component only draws what it receives.
-3. Adding to the cart is one handler in `App`: the pure `addToCart` returns a new cart, `setCart` stores it, and an effect saves it. Nothing is changed in place.
-4. Buttons report clicks through callback props (`onAdd`, `onRemove`, `onPick`), so no `data-` attributes or container click listeners are needed.
-5. Formatting is in `format/`, because several components use it and it must not depend on a deleted folder.
-6. Long components are split into small ones to stay under 70 lines per file: `Logo` and `MainNav` come out of `Header`, and `FooterLists` comes out of `Footer`.
+
+1. Components never fetch or read storage. The hooks do it, and the components call the hooks.
+2. A component reads only the part of a store that it needs, with a selector: `Header` the count, `CartPanel` the lines and `remove`, `ProductCard` only `add`.
+3. Adding to the cart is one store action: the pure `addToCart` returns a new list, the store keeps it, and a `subscribe` saves it. Nothing is changed in place.
+4. Pages are chosen by the router. They read the address with `useParams({ from })` and never import `App.tsx`, which avoids a circular import.
+5. Formatting is in `format/`, because several components use it.
+6. Links that come from the API (`#fruits`, `#dairy`...) go through `AppLink`, because with hash routing a plain `#slug` would be read as a route.
+
 
 ## 7. Component tree
 
-```
+```text
 main.tsx
-└─ App                 state, effects, handlers
-   ├─ Status           loading, empty or error message
-   └─ ShopPage         the page, once the data has loaded
+└─ App                    the router (RouterProvider)
+   └─ Layout              the shell: loads the data, shows Status until ready
+      ├─ Status           loading, empty or error message
       ├─ Header
       │  ├─ Logo
-      │  └─ MainNav
-      ├─ Hero
-      ├─ CategoryNav
-      ├─ ProductGrid
-      │  └─ ProductCard × n
-      │     └─ OfferBadge   only for sold-out or discounted products
-      ├─ Promos
-      ├─ CartPanel
+      │  ├─ ThemeToggle
+      │  └─ MainNav       uses AppLink
+      ├─ main
+      │  ├─ Outlet        one of the three pages below
+      │  └─ CartPanel
       └─ Footer
-         └─ FooterLists
+         └─ FooterLists   uses AppLink
 ```
 
-**Data goes down, events go up:**
-- `App` → `ShopPage`: `data`, `selectedId`, `cart`, and the callbacks `onPick`, `onAdd`, `onRemove`.
-- `ShopPage` → `Header`: `count`, `shop`, `categories`. → `Hero`: `hero`, `side`. → `CategoryNav`: `categories`, `selectedId`, `onPick`. → `ProductGrid`: `products`, `onAdd`. → `Promos`: `promos`. → `CartPanel`: `lines`, `total`, `onRemove`. → `Footer`: `shop`, `categories`.
+**Each page (inside `Outlet`):**
+
+```text
+HomePage                  #/
+├─ Hero                   uses AppLink
+├─ one section per carousel
+│  └─ ProductGrid
+│     └─ ProductCard × up to 4
+│        └─ OfferBadge    only for sold-out or discounted products
+└─ Promos                 uses AppLink
+
+PlpPage                   #/plp/$carouselId
+├─ back link
+└─ ProductGrid
+   └─ ProductCard × n
+      └─ OfferBadge
+
+NotFound                  any other address
+└─ link home
+```
+
+**Data goes down, events go through store actions:**
+
+- `Layout` → `Header`: `shop`, `categories`. → `Footer`: `shop`, `categories`.
+- `HomePage` → `Hero`: `hero`, `side`. → `ProductGrid`: `products`. → `Promos`: `promos`.
+- `PlpPage` → `ProductGrid`: `products`.
 - `Header` → `MainNav`: `menu`, `categories`. `Footer` → `FooterLists`: `categories`, `help`.
-- Components never change their props. A click calls a callback prop, and the owner of the state changes it.
+- `Layout`, `HomePage` and `PlpPage` use `useCatalog` to read the API data. Components receive the display data they need through props.
+- The cart is not passed down through the component tree: `ProductCard` selects `add`, `CartPanel` selects `lines` and `remove`, and `Header` selects the count, each directly from `useCartStore`.
+- `ThemeToggle` reads the theme and calls `toggle` through `useThemeStore`.
+- Components never change their props. Shared state changes go through store actions, while navigation goes through the router.
+- No page or component imports `App.tsx`, so the router does not create a circular import.
+
 
 ## 8. Where state lives
 
-| State | Owner | Who changes it | Where it is saved |
+| State | Defined in | Who changes it | Where it is saved |
 |---|---|---|---|
-| `state` (loading, empty, error or success with the data) | `App` | The load effect, in `.then` and `.catch` | Nowhere: it is fetched again on every load |
-| `selectedId` (the selected category, or `null` for all) | `App` | `CategoryNav`, through the `onPick` callback | Memory only: lost on refresh |
-| `cart` (the list of cart lines) | `App` | `handleAdd` and `handleRemove`, which call the pure `addToCart` and `removeFromCart` | `localStorage`, key `tracer-bullet:cart`, through `storage/cart-storage.ts`. It is read when `App` first renders and written by an effect on `[cart]` |
+| `theme` (`light` or `dark`) | `hooks/useThemeStore.ts` (Zustand) | `toggle`, called by `ThemeToggle` | `localStorage` through `persist`, key `tracer-bullet:theme` |
+| `lines` (the cart lines) | `hooks/useCartStore.ts` (Zustand) | `add` (called by `ProductCard`) and `remove` (called by `CartPanel`), which use the pure `addToCart` and `removeFromCart` | `localStorage`, key `tracer-bullet:cart`, through `storage/cart-storage.ts`. It is read when the store is created and written by a `subscribe` after every change |
+| `state` (loading, empty, error or success with the data) | `hooks/useCatalog.ts` (`useState` inside the hook) | The load effect, in `.then` and `.catch` | Nowhere: it is fetched again |
+| The current page | The router, in `App.tsx` | The visitor (links, Back and Forward) | The address after `#` |
 
-**Not state** (calculated on every render, so they can never go out of sync):
-- The item count and the cart total: `cartCount(cart)` and `cartTotal(cart)`. A separate `useState` for them could disagree with the cart.
-- The visible products: `data.products` filtered by `selectedId`, then converted to cards by `withOfferAndStock`.
-- `isActive` in `CategoryNav` and `outOfStock` in `ProductCard`: a comparison made while drawing.
-- The page title: an effect copies the cart count into `document.title` after each change. The title itself is not stored anywhere.
+**Why Zustand for the cart:** The cart is used by several components that are in different parts of the component tree. `ProductCard` adds products, `CartPanel` shows and removes lines, and `Header` displays the item count. Zustand gives them access to the same cart state without passing it through multiple levels of props. Selectors let each component subscribe only to the part it needs, and a `subscribe` saves changes to `localStorage`. The pure cart functions stay separate from the store.
+
+**Not state** (calculated from existing values, so they cannot go out of sync):
+
+- The item count and the cart total: `cartCount(lines)` and `cartTotal(lines)`. A separate stored value could disagree with the lines.
+- The products of a list: `carouselProducts` and `plpList` build them from the API data and the requested list id.
+- `outOfStock` in `ProductCard`: a comparison made while drawing.
+- The page title: `useCartTitle` copies the cart count into `document.title` after each change. The title itself is not stored anywhere.
+
+**Removed in Week 6:** the category filter (`selectedId`) and `CategoryNav`. The home page now shows carousel rows, and the categories open list pages.
 
 ## 9. Security
 
