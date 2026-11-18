@@ -1,8 +1,7 @@
 import { useEffect, useRef } from "react";
-import type { CartLine } from "../../scripts/types";
+import type { CartLine } from "../../scripts/types.ts";
 import Price from "../shared/Price.tsx";
-
-const format = new Intl.NumberFormat("fa-IR");
+import { formatNumber } from "../../lib/formatNumber.ts";
 
 type CartItemsModalProps = {
   open: boolean;
@@ -45,22 +44,22 @@ export default function CartItemsModal({
           ✕
         </button>
       </div>
-      <ul className="checkout-summary-lines checkout-modal-lines">
-        <div className="checkout-modal-content">
+      <div className="checkout-summary-lines checkout-modal-lines">
+        <ul className="checkout-modal-content">
           {lines.map((line) => (
             <li className="checkout-summary-line" key={line.id}>
               <span className="checkout-summary-name">
                 {line.name}
                 <span className="checkout-summary-quantity">
                   {" "}
-                  × {format.format(line.quantity)}
+                  × {formatNumber(line.quantity)}
                 </span>
               </span>
               <Price value={line.price * line.quantity} />
             </li>
           ))}
-        </div>
-      </ul>
+        </ul>
+      </div>
     </dialog>
   );
 }

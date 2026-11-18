@@ -4,8 +4,8 @@ import { useNavigate } from "@tanstack/react-router";
 import type {
   CheckoutErrors,
   CheckoutField,
-  CheckoutForm as CheckoutFormValues,
-} from "../../scripts/types";
+  CheckoutFormValues,
+} from "../../scripts/types.ts";
 import { useCartStore } from "../../hooks/useCartStore.ts";
 import {
   firstInvalidField,
@@ -13,13 +13,30 @@ import {
 } from "../../scripts/logic/checkout/validate-checkout.ts";
 import { notify } from "../../lib/animations/notify.ts";
 import FormField from "./FormField.tsx";
+import type { FieldElement, FormFieldProps } from "./FormField.tsx";
+
+type FieldConfig = Pick<
+  FormFieldProps,
+  "label" | "autoComplete" | "type" | "multiline"
+> & { field: CheckoutField };
+
+const FIELDS: readonly FieldConfig[] = [
+  { field: "name", label: "نام و نام خانوادگی", autoComplete: "name" },
+  { field: "mobile", label: "شماره موبایل", autoComplete: "tel", type: "tel" },
+  {
+    field: "address",
+    label: "آدرس",
+    autoComplete: "street-address",
+    multiline: true,
+  },
+];
 
 const EMPTY_FORM: CheckoutFormValues = { name: "", mobile: "", address: "" };
 
 export default function CheckoutForm() {
-  const [form, setForm] = useState(EMPTY_FORM);
+  const [form, setForm] = useState<CheckoutFormValues>(EMPTY_FORM);
   const [submitted, setSubmitted] = useState(false);
-  const fieldRefs = useRef<Partial<Record<CheckoutField, HTMLElement | null>>>(
+  const fieldRefs = useRef<Partial<Record<CheckoutField, FieldElement | null>>>(
     {},
   );
   const clearCart = useCartStore((s) => s.clear);
@@ -27,18 +44,6 @@ export default function CheckoutForm() {
 
   const errors = validateCheckout(form);
   const shownErrors: CheckoutErrors = submitted ? errors : {};
-
-  function bind(field: CheckoutField) {
-    return {
-      value: form[field],
-      error: shownErrors[field],
-      inputRef: (element: HTMLElement | null) => {
-        fieldRefs.current[field] = element;
-      },
-      onChange: (value: string) =>
-        setForm((prev) => ({ ...prev, [field]: value })),
-    };
-  }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -49,33 +54,29 @@ export default function CheckoutForm() {
       fieldRefs.current[invalidField]?.focus();
       return;
     }
+
     notify.success("سفارش شما ثبت شد");
-    void navigate({ to: "/", replace: true }).then(clearCart);
+    void navigate({ to: "/", replace: true }).then(() => clearCart());
   }
 
   return (
     <form className="checkout-form" noValidate onSubmit={handleSubmit}>
       <div className="checkout-fields">
-        <FormField
-          id="checkout-name"
-          label="نام و نام خانوادگی"
-          autoComplete="name"
-          {...bind("name")}
-        />
-        <FormField
-          id="checkout-mobile"
-          label="شماره موبایل"
-          type="tel"
-          autoComplete="tel"
-          {...bind("mobile")}
-        />
-        <FormField
-          id="checkout-address"
-          label="آدرس"
-          autoComplete="street-address"
-          multiline
-          {...bind("address")}
-        />
+        {FIELDS.map(({ field, ...config }) => (
+          <FormField
+            key={field}
+            id={`checkout-${field}`}
+            value={form[field]}
+            error={shownErrors[field]}
+            inputRef={(element) => {
+              fieldRefs.current[field] = element;
+            }}
+            onChange={(value) =>
+              setForm((prev) => ({ ...prev, [field]: value }))
+            }
+            {...config}
+          />
+        ))}
       </div>
       <button
         className="buy-button product-page-buy checkout-submit"

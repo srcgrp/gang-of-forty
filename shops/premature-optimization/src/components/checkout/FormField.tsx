@@ -1,6 +1,8 @@
-type FieldElement = HTMLInputElement | HTMLTextAreaElement;
+import type { ChangeEvent } from "react";
 
-type FormFieldProps = {
+export type FieldElement = HTMLInputElement | HTMLTextAreaElement;
+
+export type FormFieldProps = {
   id: string;
   label: string;
   value: string;
@@ -11,6 +13,8 @@ type FormFieldProps = {
   inputRef: (element: FieldElement | null) => void;
   onChange: (value: string) => void;
 };
+
+const TEXTAREA_ROWS = 3;
 
 export default function FormField({
   id,
@@ -24,36 +28,29 @@ export default function FormField({
   onChange,
 }: FormFieldProps) {
   const errorId = `${id}-error`;
+  const hasError = error !== undefined;
+
+  const controlProps = {
+    id,
+    ref: inputRef,
+    className: "checkout-input",
+    value,
+    autoComplete,
+    "aria-invalid": hasError,
+    "aria-describedby": hasError ? errorId : undefined,
+    onChange: (event: ChangeEvent<FieldElement>) =>
+      onChange(event.target.value),
+  };
 
   return (
     <div className="checkout-field">
       <label htmlFor={id}>{label}</label>
       {multiline ? (
-        <textarea
-          id={id}
-          ref={inputRef}
-          className="checkout-input"
-          rows={3}
-          value={value}
-          autoComplete={autoComplete}
-          aria-invalid={error !== undefined}
-          aria-describedby={error ? errorId : undefined}
-          onChange={(e) => onChange(e.target.value)}
-        />
+        <textarea {...controlProps} rows={TEXTAREA_ROWS} />
       ) : (
-        <input
-          id={id}
-          ref={inputRef}
-          className="checkout-input"
-          type={type}
-          value={value}
-          autoComplete={autoComplete}
-          aria-invalid={error !== undefined}
-          aria-describedby={error ? errorId : undefined}
-          onChange={(e) => onChange(e.target.value)}
-        />
+        <input {...controlProps} type={type} />
       )}
-      {error && (
+      {hasError && (
         <p className="checkout-error" id={errorId}>
           {error}
         </p>
