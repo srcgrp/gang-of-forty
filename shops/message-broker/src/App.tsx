@@ -24,7 +24,7 @@ export default function App() {
     <>
       <Header itemCount={itemCount} />
       <main id="main">
-        <Hero />
+        <Hero home={home} />
         <ShopContent
           categories={categories}
           categoryId={categoryId}

@@ -1,7 +1,7 @@
 import {
     isProduct, isCategory, isOffer, isStock
 } from './guards'
-import type {Stock, Shop, Home} from '../types'
+import type {Stock, Shop, Home, Link, Banner, Promo, HomeCarousel} from '../types'
 const API = import.meta.env.VITE_API_URL ?? '/api'
 
 export async function getJSON(path: string): Promise<unknown> {
@@ -55,10 +55,53 @@ function isShop(x: unknown): x is Shop {
         'schedule' in x && Array.isArray(x.schedule)
 }
 
+function isLink(x: unknown): x is Link {
+    return typeof x === 'object' && x !== null &&
+        'label' in x && typeof x.label === 'string' &&
+        'href' in x && typeof x.href === 'string'
+}
+
+function isBanner(x: unknown): x is Banner {
+    return typeof x === 'object' && x !== null &&
+        'emoji' in x && typeof x.emoji === 'string' &&
+        'title' in x && typeof x.title === 'string' &&
+        'text' in x && typeof x.text === 'string' &&
+        'cta' in x && isLink(x.cta)
+}
+
+function isPromo(x: unknown): x is Promo {
+    return typeof x === 'object' && x !== null &&
+        'href' in x && typeof x.href === 'string' &&
+        'color' in x && typeof x.color === 'string' &&
+        'emoji' in x && typeof x.emoji === 'string' &&
+        'text' in x && typeof x.text === 'string'
+}
+
+function isHomeCarousel(x: unknown): x is HomeCarousel {
+    if (typeof x !== 'object' || x === null) return false
+
+    const hasValidSource =
+        !('source' in x) || x.source === 'offers'
+
+    const hasValidCategory =
+        !('categoryId' in x) || typeof x.categoryId === 'number'
+
+    const hasTarget =
+        ('source' in x && x.source === 'offers') ||
+        ('categoryId' in x && typeof x.categoryId === 'number')
+
+    return 'id' in x && typeof x.id === 'string' &&
+        'title' in x && typeof x.title === 'string' &&
+        'emoji' in x && typeof x.emoji === 'string' &&
+        hasValidSource && hasValidCategory && hasTarget
+}
+
 function isHome(x: unknown): x is Home {
     return typeof x === 'object' && x !== null &&
-        'hero' in x && typeof x.hero === 'object' &&
-        x.hero !== null && 'side' in x &&
-        typeof x.side === 'object' && x.side !== null &&
-        'promos' in x && Array.isArray(x.promos)
+        'hero' in x && isBanner(x.hero) &&
+        'side' in x && isBanner(x.side) &&
+        'promos' in x && Array.isArray(x.promos) &&
+        x.promos.every(isPromo) &&
+        'carousels' in x && Array.isArray(x.carousels) &&
+        x.carousels.every(isHomeCarousel)
 }
