@@ -15,12 +15,11 @@ import { normalizeSearch } from "../features/products/catalog/search";
 
 type Props = {
   query: string; onQuery: (query: string) => void; saleOpen: boolean; onToggleSale: () => void;
-  dark: boolean; onToggleTheme: () => void;
   data: ShopData; cart: CartItem[]; categoryId: number | null; cartOpen: boolean;
   onPick: (id: number | null) => void; onCartOpen: (open: boolean) => void;
   onDecrease: (id: number) => void; onAdd: (id: number) => void; onRemove: (id: number) => void;
 };
-export default function ShopView({ query, onQuery, saleOpen, onToggleSale, data, cart, categoryId, cartOpen, dark, onToggleTheme, onPick, onCartOpen, onAdd, onRemove, onDecrease }: Props) {
+export default function ShopView({ query, onQuery, saleOpen, onToggleSale, data, cart, categoryId, cartOpen, onPick, onCartOpen, onAdd, onRemove, onDecrease }: Props) {
   const page = buildPage(data);
   const category = data.categories.find(item => item.id === categoryId);
   const results = createResults(data)({ query, category: category?.slug ?? "", sort: "default" });
@@ -28,7 +27,7 @@ export default function ShopView({ query, onQuery, saleOpen, onToggleSale, data,
     <div id="top">
       <a className="skip-link" href="#main">پرش به محتوای اصلی</a>
       <Header suggestions={results.cards} query={query} onQuery={onQuery} shop={data.shop} categories={data.categories} count={cartCount(cart)} onPick={onPick}
-        cartOpen={cartOpen} onCartOpen={onCartOpen} dark={dark} onToggleTheme={onToggleTheme}>
+        cartOpen={cartOpen} onCartOpen={onCartOpen}>
         <CartPanel stock={data.stock} onAdd={onAdd} onDecrease={onDecrease} cart={cart} total={cartTotal(cart)} onRemove={onRemove}
           open={cartOpen} onClose={() => onCartOpen(false)} />
       </Header>

@@ -8,8 +8,8 @@ import cartIcon from "../../icons/shopping-cart.svg";
 import ThemeToggle from "./ThemeToggle";
 import menuIcon from "../../icons/menu-2.svg";
 
-type Props = { suggestions: CardView[]; query: string; onQuery: (query: string) => void; dark: boolean; onToggleTheme: () => void; shop: Shop; categories: Category[]; count: number; cartOpen: boolean; onCartOpen: (open: boolean) => void; children: ReactNode; onPick: (id: number | null) => void };
-export default function Header({ suggestions, query, onQuery, shop, categories, count, onPick, cartOpen, onCartOpen, dark, onToggleTheme, children }: Props) {
+type Props = { suggestions: CardView[]; query: string; onQuery: (query: string) => void; shop: Shop; categories: Category[]; count: number; cartOpen: boolean; onCartOpen: (open: boolean) => void; children: ReactNode; onPick: (id: number | null) => void };
+export default function Header({ suggestions, query, onQuery, shop, categories, count, onPick, cartOpen, onCartOpen, children }: Props) {
   const [searchOpen, setSearchOpen] = useState(false);
   const changeCart = (open: boolean): void => { if (open) setSearchOpen(false); onCartOpen(open); };
   const changeSearch = (open: boolean): void => { if (open) onCartOpen(false); setSearchOpen(open); };
@@ -36,7 +36,7 @@ export default function Header({ suggestions, query, onQuery, shop, categories, 
           </button>
           {children}
           </div>
-          <ThemeToggle dark={dark} onToggle={onToggleTheme} />
+          <ThemeToggle />
           <details className="mobile-menu">
             <summary aria-label="باز و بسته کردن منوی اصلی">
               <img src={menuIcon} alt="" width="48" height="48" />
