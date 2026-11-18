@@ -61,3 +61,5 @@ export type LoadState =
   | { status: 'success';  categories: Category[], products: Product[], offeredProducts: Offer[], stock: Stock, shop: Shop }
   | { status: 'empty' }
   | { status: 'error'; message: string }
+
+  export type Theme = "light" | "dark"
