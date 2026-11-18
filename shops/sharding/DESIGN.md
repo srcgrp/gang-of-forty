@@ -29,7 +29,7 @@ App
     └── MobileMenu → ThemeToggle
 ```
 
-`main.tsx` mounts `App` in `StrictMode`. `App` loads shop data and passes it through `ShopPage`. The header, product cards, search results and cart panel read the cart directly from the Zustand store.
+`main.tsx` mounts `App` in `StrictMode`. `App` renders `ShopPage`, which calls `useCatalog` for shop data. The header, product cards, search results and cart panel read the cart directly from the Zustand store.
 
 ## 3. Data and ownership
 
@@ -51,11 +51,11 @@ The separate `shop.json` at the project root records the exercise week; it is no
 
 ## 4. API contract
 
-`App` calls `loadAllData` in an Effect. It loads `shop.json`, `home.json`, `categories.json`, `products.json`, `offers.json` and `stock.json` concurrently with `Promise.all`. If any request or validation fails, the Effect sets an error state. The retry button sets loading and increments `attempt`, triggering the same Effect again. `StrictMode` can start the Effect twice in development; its cleanup marks the first result as ignored so it cannot update state after cleanup.
+`useCatalog` calls `loadAllData` in an Effect. It loads `shop.json`, `home.json`, `categories.json`, `products.json`, `offers.json` and `stock.json` concurrently with `Promise.all`. If any request or validation fails, the Effect sets an error state. The retry button sets loading and increments `attempt`, triggering the same Effect again. `StrictMode` can start the Effect twice in development, and its cleanup marks the first result as ignored so it cannot update state after cleanup.
 
 `getJSON` returns `Promise<unknown>`, requires the configured API URL, checks the HTTP response and times out with an abort. Each loader validates its data. Invalid products, categories and offers are filtered and counted in the console; when products are skipped, the saved cart is not pruned against incomplete data. Invalid shop links and the invalid home CTA are removed before validation. A malformed response or other invalid data can reject its loader.
 
-`Product.categoryId` refers to `Category.id`, `Offer.productId` refers to `Product.id`, and `Stock.items` is keyed by product ID. The offer map is built from the loaded offers. Category shelves are built from the loaded categories and products; the offers shelf uses the offer map.
+`Product.categoryId` refers to `Category.id`, `Offer.productId` refers to `Product.id`, and `Stock.items` is keyed by product ID. The catalog merges carousel definitions from `home.json` with the existing category and offers shelves. `carouselProducts` uses the offer map or category ID to select products and returns `null` for an unknown carousel ID.
 
 ## 5. Loading states
 
@@ -75,9 +75,10 @@ The separate `shop.json` at the project root records the exercise week; it is no
 ```text
 src/
   main.tsx              Mounts React and App.
-  App.tsx               Owns shop data loading and page-level state.
+  App.tsx               Renders ShopPage.
+  catalog/              Carousel definitions and product selection.
   components/           React page, UI components and component-specific props.
-  hooks/                Cart and theme stores, URL, carousel, category links and menu behavior.
+  hooks/                Catalog loading, stores, URL, carousel and menu behavior.
   lib/                  Toast and confetti integrations.
   shared/
     types.ts            Shared types import entry point.
@@ -98,13 +99,13 @@ The cart and products features do not import each other. Components combine cata
 
 | State | Owner | Changed by | Stored in |
 |---|---|---|---|
-| Shop data and `LoadState` | `App` | API Effect | React state; API remains the source of shop data |
-| Retry attempt | `App` | Retry button | React state only |
+| Shop data and `LoadState<Catalog>` | `useCatalog` | API Effect | React state |
+| Retry attempt | `useCatalog` | Retry button | React state only |
 | Cart | `src/hooks/useCartStore.ts` | Product cards, search results and cart items call store actions. The API load reconciles the cart with available stock. | Zustand state and localStorage via `shared/storage/cart-storage.ts` |
-| Category and search query | `App` via `useUrlFilters` | Category selection, search input and browser history | React state and URL |
+| Category and search query | `ShopPage` via `useUrlFilters` | Category selection, search input and browser history | React state and URL |
 | Theme | `src/hooks/useThemeStore.ts` | `ThemeToggle` in the header and mobile menu | Zustand state and localStorage via `persist` |
 | Cart panel open/closed | `ShopPage` | Header and cart panel | React state only |
-| Mobile menu open/closed | `App` | Header and mobile menu | React state only |
+| Mobile menu open/closed | `ShopPage` | Header and mobile menu | React state only |
 | Search dropdown open/closed | `SearchBox` | Input, focus and dismissal events | React state only |
 | Mega menu open/active category | `MegaMenu` | Menu events | React state only |
 | Carousel edge positions | Each `useCarousel` caller | Scroll, resize and item-count changes | React state only |

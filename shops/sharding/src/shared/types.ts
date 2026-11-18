@@ -1,6 +1,6 @@
 export type { Cart, CartChange, CartLine, CartRow } from './types/cart';
 export type { Card, Category, Offer, Product, Shelf, ShelfView, Stock } from './types/catalog';
-export type { AppState, Home, Link, LoadState, Shop } from './types/shop';
+export type { AppState, Catalog, Home, Link, LoadState, Shop } from './types/shop';
 
 export const THEMES = ['auto', 'light', 'dark'] as const;
 export type Theme = (typeof THEMES)[number];

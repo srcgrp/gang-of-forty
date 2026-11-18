@@ -30,18 +30,22 @@ export type Home = {
   carousels?: Shelf[];
 };
 
-export type LoadState =
+type LoadStatus =
   | { status: 'loading' }
-  | { status: 'success'; products: Product[] }
+  | { status: 'success' }
   | { status: 'empty' }
   | { status: 'error'; message: string };
 
-export type AppState = {
+export type LoadState<T> = LoadStatus & { data: T };
+
+export type Catalog = {
   shop: Readonly<Shop> | null;
   home: Home | null;
   categories: Category[];
   products: Product[];
   stock: Stock | null;
   offerMap: Map<number, Offer>;
-  res: LoadState;
+  carousels: Shelf[];
 };
+
+export type AppState = Catalog & { res: LoadStatus };
