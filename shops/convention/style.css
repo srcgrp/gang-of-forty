@@ -1289,3 +1289,8 @@ input:focus-visible {
 .app .field-error { color: #c52035; }
 .app[data-theme='dark'] .field-error { color: #ff9ba8; }
 .app .sale-countdown { background: var(--card); color: var(--text); border-color: var(--border); }
+.app .cart-panel h2, .app .cart-panel h3, .app .cart-panel > div span { color: var(--text); }
+.app .cart-panel > p { color: var(--muted); }
+.app .product-image { background: var(--bg); }
+.app .category-card:hover, .app .category-card:focus-visible { background: var(--bg); }
+.app .cart-panel a { color: var(--accent); text-decoration: underline; }

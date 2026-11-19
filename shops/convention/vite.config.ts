@@ -1,11 +1,11 @@
 import { defineConfig } from 'vite'
-import type { Plugin } from 'vite'
+import type { Connect, Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import { readFile } from 'node:fs/promises'
 
 // Local development and preview use the repository's shared, read-only API fixtures.
 function localApi(): Plugin {
-  const middleware: (req: { url?: string }, res: { setHeader: (name: string, value: string) => void; end: (body: string) => void }, next: () => void) => void =
+  const middleware: Connect.NextHandleFunction =
     (req, res, next) => {
       const match = /^\/api\/([a-z-]+\.json)(?:\?.*)?$/.exec(req.url ?? '')
       if (!match) return next()
