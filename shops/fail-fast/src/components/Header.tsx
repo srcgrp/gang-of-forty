@@ -4,6 +4,7 @@ import logoImg from '../images/space-market-logo.svg'
 import TopBar from './Header/TopBar'
 import SearchBox from './Header/SearchBox'
 import Nav from './Header/Nav'
+import ThemeToggle from './ThemeToggle'
 
 interface HeaderProps {
   cartCount: number
@@ -36,6 +37,7 @@ export default function Header({
           </div>
         </a>
         <SearchBox />
+        <ThemeToggle />
         <a href="#cart" className="cart" aria-label="سبد خرید">
           <span className="cart-icon" id="cart-icon" aria-hidden="true"></span>
           <span>سبد خرید</span>

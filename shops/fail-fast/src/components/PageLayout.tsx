@@ -1,4 +1,6 @@
 import type { ReactNode } from 'react'
+import { useThemeStore } from '../hooks/useThemeStore'
+import Footer from './Footer'
 
 interface PageLayoutProps {
   header: ReactNode
@@ -11,15 +13,15 @@ export default function PageLayout({
   mainContent,
   showFooter,
 }: PageLayoutProps): ReactNode {
+  const theme = useThemeStore((state) => state.theme)
+
   return (
-    <>
+    <div className="app" data-theme={theme}>
       <div id="top"></div>
       <a href="#main" className="skip">پرش به محتوای اصلی</a>
       {header}
       <main id="main">{mainContent}</main>
       {showFooter && <Footer />}
-    </>
+    </div>
   )
 }
-
-import Footer from './Footer'
