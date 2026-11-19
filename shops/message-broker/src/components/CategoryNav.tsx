@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import type { Category } from '../types'
 
 type CategoryNavProps = {
@@ -26,17 +27,14 @@ export default function CategoryNav({
       </button>
 
       {categories.map(category => (
-        <button
+        <Link
           key={category.id}
-          type="button"
-          className={`category ${activeCategoryId === category.id ? 'active' : ''}`}
-          onClick={() => {
-          console.log('دسته انتخاب‌شده:', category.id, category.name)
-          onPick(category.id)
-          }}
+          to="/plp/$carouselId"
+          params={{ carouselId: category.slug }}
+          className="category"
         >
           {category.emoji} {category.name}
-        </button>
+        </Link>
       ))}
     </nav>
   )
