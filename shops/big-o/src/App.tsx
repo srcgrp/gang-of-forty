@@ -7,6 +7,7 @@ import { addToCart, decreaseItem } from "./cart/cartItems";
 import ShopMain from "./components/ShopMain";
 import { loadCart, saveCart } from "./storage/cart";
 import { loadShopState } from "./api/loadState";
+import { useThemeStore } from "./hooks/useThemeStore";
 
 export default function App() {
   const [cart,setCart] = useState <CartItem[]> (() => loadCart())
@@ -42,9 +43,9 @@ export default function App() {
     setState({ status: "loading" })
     setAttempt((n) => n + 1)
   }
-
+  const theme = useThemeStore((s) => s.theme)
   return (
-    <>
+    <div className="app" data-theme={theme}>
       <a href="#main-content" className="skip-link">پرش به محتوای اصلی</a>
       <Header count={count} categories={categories} activeId={categoryId} onPick={setCategoryId} onCartClick={() => setCartOpen(true)}/>
       <main id="main-content">
@@ -64,6 +65,6 @@ export default function App() {
         onClose={() => setCartOpen(false)} 
       />
       <Footer categories={categories} onSelect={setCategoryId} />
-    </> 
+    </div> 
   )
 }
