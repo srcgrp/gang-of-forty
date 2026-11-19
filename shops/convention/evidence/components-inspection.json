@@ -1,0 +1,3503 @@
+[
+  {
+    "id": 151,
+    "name": "PlpPage",
+    "result": {
+      "id": 151,
+      "responseID": 1,
+      "type": "full-data",
+      "value": {
+        "id": 151,
+        "canEditHooks": true,
+        "canEditFunctionProps": true,
+        "canEditHooksAndDeletePaths": true,
+        "canEditHooksAndRenamePaths": true,
+        "canEditFunctionPropsDeletePaths": true,
+        "canEditFunctionPropsRenamePaths": true,
+        "canToggleError": true,
+        "isErrored": false,
+        "canToggleSuspense": true,
+        "isSuspended": null,
+        "source": [
+          "PlpPage",
+          "http://127.0.0.1:5188/src/components/pages/PlpPage.tsx?t=1795103948863",
+          9,
+          16
+        ],
+        "stack": [
+          [
+            "",
+            "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+            6727,
+            60,
+            6725,
+            35,
+            false
+          ],
+          [
+            "updateMemo",
+            "http://127.0.0.1:5188/node_modules/.vite/deps/react-dom_client.js?v=fa0ef083",
+            5137,
+            16,
+            5132,
+            3,
+            false
+          ],
+          [
+            "Object.useMemo",
+            "http://127.0.0.1:5188/node_modules/.vite/deps/react-dom_client.js?v=fa0ef083",
+            14546,
+            13,
+            14540,
+            13,
+            false
+          ],
+          [
+            "exports.useMemo",
+            "http://127.0.0.1:5188/node_modules/.vite/deps/react-PYT6vkka.js?v=fa0ef083",
+            778,
+            31,
+            777,
+            21,
+            false
+          ],
+          [
+            "MatchInnerImpl",
+            "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+            6725,
+            27,
+            6705,
+            36,
+            false
+          ]
+        ],
+        "hasLegacyContext": false,
+        "key": null,
+        "type": 5,
+        "context": null,
+        "hooks": {
+          "data": [
+            {
+              "id": null,
+              "isStateEditable": false,
+              "name": "Params",
+              "value": {
+                "type": "undefined"
+              },
+              "subHooks": [
+                {
+                  "id": null,
+                  "isStateEditable": false,
+                  "name": "Match",
+                  "value": {
+                    "type": "undefined"
+                  },
+                  "subHooks": [
+                    {
+                      "id": null,
+                      "isStateEditable": false,
+                      "name": "Router",
+                      "value": {
+                        "type": "undefined"
+                      },
+                      "subHooks": [
+                        {
+                          "id": null,
+                          "isStateEditable": false,
+                          "name": "Context",
+                          "value": {
+                            "unserializable": true,
+                            "type": "class_instance",
+                            "readonly": true,
+                            "preview_short": "Router",
+                            "preview_long": "Router",
+                            "name": "Router",
+                            "tempLocationKey": "6144647",
+                            "_scroll": {
+                              "inspectable": true,
+                              "type": "object",
+                              "preview_long": "{h: false, n: true, r: true}",
+                              "preview_short": "{…}",
+                              "name": "",
+                              "size": 3
+                            },
+                            "subscribers": {
+                              "inspectable": true,
+                              "type": "iterator",
+                              "preview_long": "Set(1) {{…}}",
+                              "preview_short": "Set(1)",
+                              "name": "Set",
+                              "readonly": true
+                            },
+                            "_cache": {
+                              "inspectable": true,
+                              "type": "iterator",
+                              "preview_long": "Map(0) {}",
+                              "preview_short": "Map(0)",
+                              "name": "Map",
+                              "readonly": true
+                            },
+                            "_committed": {
+                              "inspectable": true,
+                              "type": "array",
+                              "preview_long": "[{…}, {…}]",
+                              "preview_short": "Array(2)",
+                              "name": "Array",
+                              "size": 2
+                            },
+                            "startTransition": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "update": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "updateLatestLocation": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "buildRouteTree": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "subscribe": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "emit": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "parseLocation": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "matchRoutes": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "getMatchedRoutes": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "buildLocation": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "commitLocation": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "buildAndCommitLocation": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "navigate": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "load": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "startViewTransition": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "invalidate": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "resolveRedirect": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "clearCache": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "loadRouteChunk": {
+                              "inspectable": false,
+                              "preview_short": "loadRouteChunk() {}",
+                              "preview_long": "loadRouteChunk() {}",
+                              "name": "loadRouteChunk",
+                              "type": "function"
+                            },
+                            "preloadRoute": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "matchRoute": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "getStoreConfig": {
+                              "inspectable": false,
+                              "preview_short": "getStoreFactory() {}",
+                              "preview_long": "getStoreFactory() {}",
+                              "name": "getStoreFactory",
+                              "type": "function"
+                            },
+                            "options": {
+                              "inspectable": true,
+                              "type": "object",
+                              "preview_long": "{caseSensitive: false, context: undefined, defaultP…}",
+                              "preview_short": "{…}",
+                              "name": "",
+                              "size": 11
+                            },
+                            "isServer": false,
+                            "staticLocations": {
+                              "inspectable": true,
+                              "type": "class_instance",
+                              "preview_long": "WeakMap",
+                              "preview_short": "WeakMap",
+                              "name": "WeakMap"
+                            },
+                            "protocolAllowlist": {
+                              "inspectable": true,
+                              "type": "iterator",
+                              "preview_long": "Set(4) {\"http:\", \"https:\", \"mailto:\", \"tel:\"}",
+                              "preview_short": "Set(4)",
+                              "name": "Set",
+                              "readonly": true
+                            },
+                            "history": {
+                              "inspectable": true,
+                              "type": "object",
+                              "preview_long": "{_getBlockers: _getBlockers() {}, _ignoreNextBefore…}",
+                              "preview_short": "{…}",
+                              "name": "",
+                              "size": 18
+                            },
+                            "origin": "http://127.0.0.1:5188",
+                            "basepath": "/",
+                            "rewrite": {
+                              "type": "undefined"
+                            },
+                            "latestLocation": {
+                              "inspectable": true,
+                              "type": "object",
+                              "preview_long": "{external: false, hash: \"\", href: \"/plp/dairy?sort=…}",
+                              "preview_short": "{…}",
+                              "name": "",
+                              "size": 8
+                            },
+                            "routeTree": {
+                              "inspectable": true,
+                              "type": "class_instance",
+                              "preview_long": "RootRoute",
+                              "preview_short": "RootRoute",
+                              "name": "RootRoute"
+                            },
+                            "processedTree": {
+                              "inspectable": true,
+                              "type": "object",
+                              "preview_long": "{flatCache: null, masksTree: null, matchCache: {…},…}",
+                              "preview_short": "{…}",
+                              "name": "",
+                              "size": 5
+                            },
+                            "routesById": {
+                              "inspectable": true,
+                              "type": "object",
+                              "preview_long": "{/: Route, /checkout: Route, /plp/$carouselId: Rout…}",
+                              "preview_short": "{…}",
+                              "name": "",
+                              "size": 5
+                            },
+                            "routesByPath": {
+                              "inspectable": true,
+                              "type": "object",
+                              "preview_long": "{/: Route, /checkout: Route, /plp/$carouselId: Rout…}",
+                              "preview_short": "{…}",
+                              "name": "",
+                              "size": 4
+                            },
+                            "resolvePathCache": {
+                              "inspectable": true,
+                              "type": "object",
+                              "preview_long": "{clear: clear() {}, get: get() {}, set: set() {}}",
+                              "preview_short": "{…}",
+                              "name": "",
+                              "size": 3
+                            },
+                            "lightweightCache": {
+                              "inspectable": true,
+                              "type": "class_instance",
+                              "preview_long": "WeakMap",
+                              "preview_short": "WeakMap",
+                              "name": "WeakMap"
+                            },
+                            "batch": {
+                              "inspectable": false,
+                              "preview_short": "batch() {}",
+                              "preview_long": "batch() {}",
+                              "name": "batch",
+                              "type": "function"
+                            },
+                            "stores": {
+                              "inspectable": true,
+                              "type": "object",
+                              "preview_long": "{__store: {…}, _linkScopes: {…}, byRoute: Map(3), g…}",
+                              "preview_short": "{…}",
+                              "name": "",
+                              "size": 10
+                            },
+                            "_rendered": {
+                              "inspectable": true,
+                              "type": "array",
+                              "preview_long": "[]",
+                              "preview_short": "Array(0)",
+                              "name": "Array",
+                              "size": 0
+                            },
+                            "_preflight": {
+                              "type": "undefined"
+                            },
+                            "_tx": {
+                              "inspectable": true,
+                              "type": "array",
+                              "preview_long": "[AbortController, 0, {…}, Array(0), 1795105322301, …]",
+                              "preview_short": "Array(6)",
+                              "name": "Array",
+                              "size": 6
+                            },
+                            "shouldViewTransition": {
+                              "type": "undefined"
+                            },
+                            "_pending": {
+                              "type": "undefined"
+                            },
+                            "_lifecycleEnd": 0,
+                            "_commitPromise": {
+                              "type": "undefined"
+                            },
+                            "_pendingLocation": {
+                              "type": "undefined"
+                            },
+                            "_replaceRouteChunk": {
+                              "inspectable": false,
+                              "preview_short": "replaceRouteChunk() {}",
+                              "preview_long": "replaceRouteChunk() {}",
+                              "name": "replaceRouteChunk",
+                              "type": "function"
+                            },
+                            "_refreshRoute": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            }
+                          },
+                          "subHooks": [],
+                          "debugInfo": null,
+                          "hookSource": {
+                            "lineNumber": 5099,
+                            "functionName": "useRouter",
+                            "fileName": "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                            "columnNumber": 29
+                          }
+                        }
+                      ],
+                      "debugInfo": null,
+                      "hookSource": {
+                        "lineNumber": 5660,
+                        "columnNumber": 17,
+                        "functionName": "useMatch",
+                        "fileName": "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083"
+                      }
+                    },
+                    {
+                      "id": null,
+                      "isStateEditable": false,
+                      "name": "Context",
+                      "value": {
+                        "type": "undefined"
+                      },
+                      "subHooks": [],
+                      "debugInfo": null,
+                      "hookSource": {
+                        "lineNumber": 5661,
+                        "functionName": "useMatch",
+                        "fileName": "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                        "columnNumber": 38
+                      }
+                    },
+                    {
+                      "id": null,
+                      "isStateEditable": false,
+                      "name": "StructuralSharing",
+                      "value": {
+                        "type": "undefined"
+                      },
+                      "subHooks": [
+                        {
+                          "id": 0,
+                          "isStateEditable": false,
+                          "name": "Ref",
+                          "value": {
+                            "type": "undefined"
+                          },
+                          "subHooks": [],
+                          "debugInfo": null,
+                          "hookSource": {
+                            "lineNumber": 5648,
+                            "functionName": "useStructuralSharing",
+                            "fileName": "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                            "columnNumber": 38
+                          }
+                        }
+                      ],
+                      "debugInfo": null,
+                      "hookSource": {
+                        "lineNumber": 5672,
+                        "columnNumber": 19,
+                        "functionName": "useMatch",
+                        "fileName": "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083"
+                      }
+                    },
+                    {
+                      "id": null,
+                      "isStateEditable": false,
+                      "name": "Selector",
+                      "value": {
+                        "type": "undefined"
+                      },
+                      "subHooks": [
+                        {
+                          "id": 1,
+                          "isStateEditable": false,
+                          "name": "Callback",
+                          "value": {
+                            "inspectable": false,
+                            "preview_short": "() => {}",
+                            "preview_long": "() => {}",
+                            "name": "function",
+                            "type": "function"
+                          },
+                          "subHooks": [],
+                          "debugInfo": null,
+                          "hookSource": {
+                            "lineNumber": 5638,
+                            "functionName": "useSelector",
+                            "fileName": "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                            "columnNumber": 49
+                          }
+                        },
+                        {
+                          "id": 2,
+                          "isStateEditable": false,
+                          "name": "Callback",
+                          "value": {
+                            "inspectable": false,
+                            "preview_short": "() => {}",
+                            "preview_long": "() => {}",
+                            "name": "function",
+                            "type": "function"
+                          },
+                          "subHooks": [],
+                          "debugInfo": null,
+                          "hookSource": {
+                            "lineNumber": 5642,
+                            "functionName": "useSelector",
+                            "fileName": "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                            "columnNumber": 51
+                          }
+                        },
+                        {
+                          "id": null,
+                          "isStateEditable": false,
+                          "name": "SyncExternalStoreWithSelector",
+                          "value": {
+                            "carouselId": "dairy"
+                          },
+                          "subHooks": [
+                            {
+                              "id": 3,
+                              "isStateEditable": false,
+                              "name": "Ref",
+                              "value": {
+                                "hasValue": true,
+                                "value": {
+                                  "inspectable": true,
+                                  "type": "object",
+                                  "preview_long": "{carouselId: \"dairy\"}",
+                                  "preview_short": "{…}",
+                                  "name": "",
+                                  "size": 1
+                                }
+                              },
+                              "subHooks": [],
+                              "debugInfo": null,
+                              "hookSource": {
+                                "lineNumber": 5559,
+                                "functionName": "exports.useSyncExternalStoreWithSelector",
+                                "fileName": "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                                "columnNumber": 18
+                              }
+                            },
+                            {
+                              "id": 4,
+                              "isStateEditable": false,
+                              "name": "Memo",
+                              "value": [
+                                {
+                                  "inspectable": false,
+                                  "preview_short": "() => {}",
+                                  "preview_long": "() => {}",
+                                  "name": "function",
+                                  "type": "function"
+                                },
+                                {
+                                  "inspectable": false,
+                                  "preview_short": "() => {}",
+                                  "preview_long": "() => {}",
+                                  "name": "function",
+                                  "type": "function"
+                                }
+                              ],
+                              "subHooks": [],
+                              "debugInfo": null,
+                              "hookSource": {
+                                "lineNumber": 5567,
+                                "functionName": "exports.useSyncExternalStoreWithSelector",
+                                "fileName": "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                                "columnNumber": 14
+                              }
+                            },
+                            {
+                              "id": 5,
+                              "isStateEditable": false,
+                              "name": "SyncExternalStore",
+                              "value": {
+                                "carouselId": "dairy"
+                              },
+                              "subHooks": [],
+                              "debugInfo": null,
+                              "hookSource": {
+                                "lineNumber": 5598,
+                                "functionName": "exports.useSyncExternalStoreWithSelector",
+                                "fileName": "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                                "columnNumber": 16
+                              }
+                            },
+                            {
+                              "id": 6,
+                              "isStateEditable": false,
+                              "name": "Effect",
+                              "value": {
+                                "inspectable": false,
+                                "preview_short": "() => {}",
+                                "preview_long": "() => {}",
+                                "name": "function",
+                                "type": "function"
+                              },
+                              "subHooks": [],
+                              "debugInfo": null,
+                              "hookSource": {
+                                "lineNumber": 5599,
+                                "functionName": "exports.useSyncExternalStoreWithSelector",
+                                "fileName": "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                                "columnNumber": 4
+                              }
+                            }
+                          ],
+                          "debugInfo": null,
+                          "hookSource": {
+                            "lineNumber": 5643,
+                            "columnNumber": 67,
+                            "functionName": "useSelector",
+                            "fileName": "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083"
+                          }
+                        }
+                      ],
+                      "debugInfo": null,
+                      "hookSource": {
+                        "lineNumber": 5673,
+                        "columnNumber": 25,
+                        "functionName": "useMatch",
+                        "fileName": "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083"
+                      }
+                    }
+                  ],
+                  "debugInfo": null,
+                  "hookSource": {
+                    "lineNumber": 5734,
+                    "columnNumber": 9,
+                    "functionName": "useParams",
+                    "fileName": "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083"
+                  }
+                }
+              ],
+              "debugInfo": null,
+              "hookSource": {
+                "lineNumber": 11,
+                "columnNumber": 25,
+                "functionName": "PlpPage",
+                "fileName": "http://127.0.0.1:5188/src/components/pages/PlpPage.tsx?t=1795103948863"
+              }
+            },
+            {
+              "id": null,
+              "isStateEditable": false,
+              "name": "Search",
+              "value": {
+                "type": "undefined"
+              },
+              "subHooks": [
+                {
+                  "id": null,
+                  "isStateEditable": false,
+                  "name": "Match",
+                  "value": {
+                    "type": "undefined"
+                  },
+                  "subHooks": [
+                    {
+                      "id": null,
+                      "isStateEditable": false,
+                      "name": "Router",
+                      "value": {
+                        "type": "undefined"
+                      },
+                      "subHooks": [
+                        {
+                          "id": null,
+                          "isStateEditable": false,
+                          "name": "Context",
+                          "value": {
+                            "unserializable": true,
+                            "type": "class_instance",
+                            "readonly": true,
+                            "preview_short": "Router",
+                            "preview_long": "Router",
+                            "name": "Router",
+                            "tempLocationKey": "6144647",
+                            "_scroll": {
+                              "inspectable": true,
+                              "type": "object",
+                              "preview_long": "{h: false, n: true, r: true}",
+                              "preview_short": "{…}",
+                              "name": "",
+                              "size": 3
+                            },
+                            "subscribers": {
+                              "inspectable": true,
+                              "type": "iterator",
+                              "preview_long": "Set(1) {{…}}",
+                              "preview_short": "Set(1)",
+                              "name": "Set",
+                              "readonly": true
+                            },
+                            "_cache": {
+                              "inspectable": true,
+                              "type": "iterator",
+                              "preview_long": "Map(0) {}",
+                              "preview_short": "Map(0)",
+                              "name": "Map",
+                              "readonly": true
+                            },
+                            "_committed": {
+                              "inspectable": true,
+                              "type": "array",
+                              "preview_long": "[{…}, {…}]",
+                              "preview_short": "Array(2)",
+                              "name": "Array",
+                              "size": 2
+                            },
+                            "startTransition": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "update": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "updateLatestLocation": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "buildRouteTree": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "subscribe": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "emit": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "parseLocation": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "matchRoutes": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "getMatchedRoutes": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "buildLocation": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "commitLocation": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "buildAndCommitLocation": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "navigate": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "load": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "startViewTransition": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "invalidate": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "resolveRedirect": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "clearCache": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "loadRouteChunk": {
+                              "inspectable": false,
+                              "preview_short": "loadRouteChunk() {}",
+                              "preview_long": "loadRouteChunk() {}",
+                              "name": "loadRouteChunk",
+                              "type": "function"
+                            },
+                            "preloadRoute": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "matchRoute": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            },
+                            "getStoreConfig": {
+                              "inspectable": false,
+                              "preview_short": "getStoreFactory() {}",
+                              "preview_long": "getStoreFactory() {}",
+                              "name": "getStoreFactory",
+                              "type": "function"
+                            },
+                            "options": {
+                              "inspectable": true,
+                              "type": "object",
+                              "preview_long": "{caseSensitive: false, context: undefined, defaultP…}",
+                              "preview_short": "{…}",
+                              "name": "",
+                              "size": 11
+                            },
+                            "isServer": false,
+                            "staticLocations": {
+                              "inspectable": true,
+                              "type": "class_instance",
+                              "preview_long": "WeakMap",
+                              "preview_short": "WeakMap",
+                              "name": "WeakMap"
+                            },
+                            "protocolAllowlist": {
+                              "inspectable": true,
+                              "type": "iterator",
+                              "preview_long": "Set(4) {\"http:\", \"https:\", \"mailto:\", \"tel:\"}",
+                              "preview_short": "Set(4)",
+                              "name": "Set",
+                              "readonly": true
+                            },
+                            "history": {
+                              "inspectable": true,
+                              "type": "object",
+                              "preview_long": "{_getBlockers: _getBlockers() {}, _ignoreNextBefore…}",
+                              "preview_short": "{…}",
+                              "name": "",
+                              "size": 18
+                            },
+                            "origin": "http://127.0.0.1:5188",
+                            "basepath": "/",
+                            "rewrite": {
+                              "type": "undefined"
+                            },
+                            "latestLocation": {
+                              "inspectable": true,
+                              "type": "object",
+                              "preview_long": "{external: false, hash: \"\", href: \"/plp/dairy?sort=…}",
+                              "preview_short": "{…}",
+                              "name": "",
+                              "size": 8
+                            },
+                            "routeTree": {
+                              "inspectable": true,
+                              "type": "class_instance",
+                              "preview_long": "RootRoute",
+                              "preview_short": "RootRoute",
+                              "name": "RootRoute"
+                            },
+                            "processedTree": {
+                              "inspectable": true,
+                              "type": "object",
+                              "preview_long": "{flatCache: null, masksTree: null, matchCache: {…},…}",
+                              "preview_short": "{…}",
+                              "name": "",
+                              "size": 5
+                            },
+                            "routesById": {
+                              "inspectable": true,
+                              "type": "object",
+                              "preview_long": "{/: Route, /checkout: Route, /plp/$carouselId: Rout…}",
+                              "preview_short": "{…}",
+                              "name": "",
+                              "size": 5
+                            },
+                            "routesByPath": {
+                              "inspectable": true,
+                              "type": "object",
+                              "preview_long": "{/: Route, /checkout: Route, /plp/$carouselId: Rout…}",
+                              "preview_short": "{…}",
+                              "name": "",
+                              "size": 4
+                            },
+                            "resolvePathCache": {
+                              "inspectable": true,
+                              "type": "object",
+                              "preview_long": "{clear: clear() {}, get: get() {}, set: set() {}}",
+                              "preview_short": "{…}",
+                              "name": "",
+                              "size": 3
+                            },
+                            "lightweightCache": {
+                              "inspectable": true,
+                              "type": "class_instance",
+                              "preview_long": "WeakMap",
+                              "preview_short": "WeakMap",
+                              "name": "WeakMap"
+                            },
+                            "batch": {
+                              "inspectable": false,
+                              "preview_short": "batch() {}",
+                              "preview_long": "batch() {}",
+                              "name": "batch",
+                              "type": "function"
+                            },
+                            "stores": {
+                              "inspectable": true,
+                              "type": "object",
+                              "preview_long": "{__store: {…}, _linkScopes: {…}, byRoute: Map(3), g…}",
+                              "preview_short": "{…}",
+                              "name": "",
+                              "size": 10
+                            },
+                            "_rendered": {
+                              "inspectable": true,
+                              "type": "array",
+                              "preview_long": "[]",
+                              "preview_short": "Array(0)",
+                              "name": "Array",
+                              "size": 0
+                            },
+                            "_preflight": {
+                              "type": "undefined"
+                            },
+                            "_tx": {
+                              "inspectable": true,
+                              "type": "array",
+                              "preview_long": "[AbortController, 0, {…}, Array(0), 1795105322301, …]",
+                              "preview_short": "Array(6)",
+                              "name": "Array",
+                              "size": 6
+                            },
+                            "shouldViewTransition": {
+                              "type": "undefined"
+                            },
+                            "_pending": {
+                              "type": "undefined"
+                            },
+                            "_lifecycleEnd": 0,
+                            "_commitPromise": {
+                              "type": "undefined"
+                            },
+                            "_pendingLocation": {
+                              "type": "undefined"
+                            },
+                            "_replaceRouteChunk": {
+                              "inspectable": false,
+                              "preview_short": "replaceRouteChunk() {}",
+                              "preview_long": "replaceRouteChunk() {}",
+                              "name": "replaceRouteChunk",
+                              "type": "function"
+                            },
+                            "_refreshRoute": {
+                              "inspectable": false,
+                              "preview_short": "() => {}",
+                              "preview_long": "() => {}",
+                              "name": "function",
+                              "type": "function"
+                            }
+                          },
+                          "subHooks": [],
+                          "debugInfo": null,
+                          "hookSource": {
+                            "lineNumber": 5099,
+                            "functionName": "useRouter",
+                            "fileName": "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                            "columnNumber": 29
+                          }
+                        }
+                      ],
+                      "debugInfo": null,
+                      "hookSource": {
+                        "lineNumber": 5660,
+                        "columnNumber": 17,
+                        "functionName": "useMatch",
+                        "fileName": "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083"
+                      }
+                    },
+                    {
+                      "id": null,
+                      "isStateEditable": false,
+                      "name": "Context",
+                      "value": {
+                        "type": "undefined"
+                      },
+                      "subHooks": [],
+                      "debugInfo": null,
+                      "hookSource": {
+                        "lineNumber": 5661,
+                        "functionName": "useMatch",
+                        "fileName": "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                        "columnNumber": 38
+                      }
+                    },
+                    {
+                      "id": null,
+                      "isStateEditable": false,
+                      "name": "StructuralSharing",
+                      "value": {
+                        "type": "undefined"
+                      },
+                      "subHooks": [
+                        {
+                          "id": 7,
+                          "isStateEditable": false,
+                          "name": "Ref",
+                          "value": {
+                            "type": "undefined"
+                          },
+                          "subHooks": [],
+                          "debugInfo": null,
+                          "hookSource": {
+                            "lineNumber": 5648,
+                            "functionName": "useStructuralSharing",
+                            "fileName": "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                            "columnNumber": 38
+                          }
+                        }
+                      ],
+                      "debugInfo": null,
+                      "hookSource": {
+                        "lineNumber": 5672,
+                        "columnNumber": 19,
+                        "functionName": "useMatch",
+                        "fileName": "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083"
+                      }
+                    },
+                    {
+                      "id": null,
+                      "isStateEditable": false,
+                      "name": "Selector",
+                      "value": {
+                        "type": "undefined"
+                      },
+                      "subHooks": [
+                        {
+                          "id": 8,
+                          "isStateEditable": false,
+                          "name": "Callback",
+                          "value": {
+                            "inspectable": false,
+                            "preview_short": "() => {}",
+                            "preview_long": "() => {}",
+                            "name": "function",
+                            "type": "function"
+                          },
+                          "subHooks": [],
+                          "debugInfo": null,
+                          "hookSource": {
+                            "lineNumber": 5638,
+                            "functionName": "useSelector",
+                            "fileName": "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                            "columnNumber": 49
+                          }
+                        },
+                        {
+                          "id": 9,
+                          "isStateEditable": false,
+                          "name": "Callback",
+                          "value": {
+                            "inspectable": false,
+                            "preview_short": "() => {}",
+                            "preview_long": "() => {}",
+                            "name": "function",
+                            "type": "function"
+                          },
+                          "subHooks": [],
+                          "debugInfo": null,
+                          "hookSource": {
+                            "lineNumber": 5642,
+                            "functionName": "useSelector",
+                            "fileName": "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                            "columnNumber": 51
+                          }
+                        },
+                        {
+                          "id": null,
+                          "isStateEditable": false,
+                          "name": "SyncExternalStoreWithSelector",
+                          "value": {
+                            "sort": "default"
+                          },
+                          "subHooks": [
+                            {
+                              "id": 10,
+                              "isStateEditable": false,
+                              "name": "Ref",
+                              "value": {
+                                "hasValue": true,
+                                "value": {
+                                  "inspectable": true,
+                                  "type": "object",
+                                  "preview_long": "{sort: \"default\"}",
+                                  "preview_short": "{…}",
+                                  "name": "",
+                                  "size": 1
+                                }
+                              },
+                              "subHooks": [],
+                              "debugInfo": null,
+                              "hookSource": {
+                                "lineNumber": 5559,
+                                "functionName": "exports.useSyncExternalStoreWithSelector",
+                                "fileName": "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                                "columnNumber": 18
+                              }
+                            },
+                            {
+                              "id": 11,
+                              "isStateEditable": false,
+                              "name": "Memo",
+                              "value": [
+                                {
+                                  "inspectable": false,
+                                  "preview_short": "() => {}",
+                                  "preview_long": "() => {}",
+                                  "name": "function",
+                                  "type": "function"
+                                },
+                                {
+                                  "inspectable": false,
+                                  "preview_short": "() => {}",
+                                  "preview_long": "() => {}",
+                                  "name": "function",
+                                  "type": "function"
+                                }
+                              ],
+                              "subHooks": [],
+                              "debugInfo": null,
+                              "hookSource": {
+                                "lineNumber": 5567,
+                                "functionName": "exports.useSyncExternalStoreWithSelector",
+                                "fileName": "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                                "columnNumber": 14
+                              }
+                            },
+                            {
+                              "id": 12,
+                              "isStateEditable": false,
+                              "name": "SyncExternalStore",
+                              "value": {
+                                "sort": "default"
+                              },
+                              "subHooks": [],
+                              "debugInfo": null,
+                              "hookSource": {
+                                "lineNumber": 5598,
+                                "functionName": "exports.useSyncExternalStoreWithSelector",
+                                "fileName": "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                                "columnNumber": 16
+                              }
+                            },
+                            {
+                              "id": 13,
+                              "isStateEditable": false,
+                              "name": "Effect",
+                              "value": {
+                                "inspectable": false,
+                                "preview_short": "() => {}",
+                                "preview_long": "() => {}",
+                                "name": "function",
+                                "type": "function"
+                              },
+                              "subHooks": [],
+                              "debugInfo": null,
+                              "hookSource": {
+                                "lineNumber": 5599,
+                                "functionName": "exports.useSyncExternalStoreWithSelector",
+                                "fileName": "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                                "columnNumber": 4
+                              }
+                            }
+                          ],
+                          "debugInfo": null,
+                          "hookSource": {
+                            "lineNumber": 5643,
+                            "columnNumber": 67,
+                            "functionName": "useSelector",
+                            "fileName": "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083"
+                          }
+                        }
+                      ],
+                      "debugInfo": null,
+                      "hookSource": {
+                        "lineNumber": 5673,
+                        "columnNumber": 25,
+                        "functionName": "useMatch",
+                        "fileName": "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083"
+                      }
+                    }
+                  ],
+                  "debugInfo": null,
+                  "hookSource": {
+                    "lineNumber": 5759,
+                    "columnNumber": 9,
+                    "functionName": "useSearch",
+                    "fileName": "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083"
+                  }
+                }
+              ],
+              "debugInfo": null,
+              "hookSource": {
+                "lineNumber": 12,
+                "columnNumber": 19,
+                "functionName": "PlpPage",
+                "fileName": "http://127.0.0.1:5188/src/components/pages/PlpPage.tsx?t=1795103948863"
+              }
+            },
+            {
+              "id": null,
+              "isStateEditable": false,
+              "name": "Catalog",
+              "value": {
+                "type": "undefined"
+              },
+              "subHooks": [
+                {
+                  "id": 14,
+                  "isStateEditable": false,
+                  "name": "SyncExternalStore",
+                  "value": {
+                    "status": "success",
+                    "data": {
+                      "inspectable": true,
+                      "type": "object",
+                      "preview_long": "{carousels: Array(2), categories: Array(7), offers:…}",
+                      "preview_short": "{…}",
+                      "name": "",
+                      "size": 4
+                    }
+                  },
+                  "subHooks": [],
+                  "debugInfo": null,
+                  "hookSource": {
+                    "lineNumber": 35,
+                    "functionName": "useCatalog",
+                    "fileName": "http://127.0.0.1:5188/src/hooks/useCatalog.ts?t=1795103948863",
+                    "columnNumber": 16
+                  }
+                },
+                {
+                  "id": 15,
+                  "isStateEditable": false,
+                  "name": "Effect",
+                  "value": {
+                    "inspectable": false,
+                    "preview_short": "() => {}",
+                    "preview_long": "() => {}",
+                    "name": "function",
+                    "type": "function"
+                  },
+                  "subHooks": [],
+                  "debugInfo": null,
+                  "hookSource": {
+                    "lineNumber": 36,
+                    "functionName": "useCatalog",
+                    "fileName": "http://127.0.0.1:5188/src/hooks/useCatalog.ts?t=1795103948863",
+                    "columnNumber": 2
+                  }
+                }
+              ],
+              "debugInfo": null,
+              "hookSource": {
+                "lineNumber": 13,
+                "columnNumber": 16,
+                "functionName": "PlpPage",
+                "fileName": "http://127.0.0.1:5188/src/components/pages/PlpPage.tsx?t=1795103948863"
+              }
+            }
+          ],
+          "cleaned": [
+            [
+              0,
+              "value"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "value"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "_scroll"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "subscribers"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "_cache"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "_committed"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "startTransition"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "update"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "updateLatestLocation"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "buildRouteTree"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "subscribe"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "emit"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "parseLocation"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "matchRoutes"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "getMatchedRoutes"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "buildLocation"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "commitLocation"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "buildAndCommitLocation"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "navigate"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "load"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "startViewTransition"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "invalidate"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "resolveRedirect"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "clearCache"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "loadRouteChunk"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "preloadRoute"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "matchRoute"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "getStoreConfig"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "options"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "staticLocations"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "protocolAllowlist"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "history"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "rewrite"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "latestLocation"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "routeTree"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "processedTree"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "routesById"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "routesByPath"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "resolvePathCache"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "lightweightCache"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "batch"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "stores"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "_rendered"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "_preflight"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "_tx"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "shouldViewTransition"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "_pending"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "_commitPromise"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "_pendingLocation"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "_replaceRouteChunk"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "_refreshRoute"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              1,
+              "value"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              2,
+              "value"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              2,
+              "subHooks",
+              0,
+              "value"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              3,
+              "value"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              3,
+              "subHooks",
+              0,
+              "value"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              3,
+              "subHooks",
+              1,
+              "value"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              3,
+              "subHooks",
+              2,
+              "subHooks",
+              0,
+              "value",
+              "value"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              3,
+              "subHooks",
+              2,
+              "subHooks",
+              1,
+              "value",
+              0
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              3,
+              "subHooks",
+              2,
+              "subHooks",
+              1,
+              "value",
+              1
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              3,
+              "subHooks",
+              2,
+              "subHooks",
+              3,
+              "value"
+            ],
+            [
+              1,
+              "value"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "value"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "_scroll"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "subscribers"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "_cache"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "_committed"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "startTransition"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "update"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "updateLatestLocation"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "buildRouteTree"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "subscribe"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "emit"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "parseLocation"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "matchRoutes"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "getMatchedRoutes"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "buildLocation"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "commitLocation"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "buildAndCommitLocation"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "navigate"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "load"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "startViewTransition"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "invalidate"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "resolveRedirect"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "clearCache"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "loadRouteChunk"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "preloadRoute"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "matchRoute"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "getStoreConfig"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "options"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "staticLocations"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "protocolAllowlist"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "history"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "rewrite"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "latestLocation"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "routeTree"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "processedTree"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "routesById"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "routesByPath"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "resolvePathCache"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "lightweightCache"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "batch"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "stores"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "_rendered"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "_preflight"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "_tx"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "shouldViewTransition"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "_pending"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "_commitPromise"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "_pendingLocation"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "_replaceRouteChunk"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value",
+              "_refreshRoute"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              1,
+              "value"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              2,
+              "value"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              2,
+              "subHooks",
+              0,
+              "value"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              3,
+              "value"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              3,
+              "subHooks",
+              0,
+              "value"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              3,
+              "subHooks",
+              1,
+              "value"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              3,
+              "subHooks",
+              2,
+              "subHooks",
+              0,
+              "value",
+              "value"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              3,
+              "subHooks",
+              2,
+              "subHooks",
+              1,
+              "value",
+              0
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              3,
+              "subHooks",
+              2,
+              "subHooks",
+              1,
+              "value",
+              1
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              3,
+              "subHooks",
+              2,
+              "subHooks",
+              3,
+              "value"
+            ],
+            [
+              2,
+              "value"
+            ],
+            [
+              2,
+              "subHooks",
+              0,
+              "value",
+              "data"
+            ],
+            [
+              2,
+              "subHooks",
+              1,
+              "value"
+            ]
+          ],
+          "unserializable": [
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value"
+            ],
+            [
+              1,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value"
+            ]
+          ]
+        },
+        "props": {
+          "data": {},
+          "cleaned": [],
+          "unserializable": []
+        },
+        "state": null,
+        "errors": [],
+        "warnings": [],
+        "suspendedBy": {
+          "data": [],
+          "cleaned": [],
+          "unserializable": []
+        },
+        "suspendedByRange": null,
+        "unknownSuspenders": 0,
+        "owners": [
+          {
+            "displayName": "Memo(MatchInnerImpl)",
+            "id": 58,
+            "key": null,
+            "env": null,
+            "stack": [
+              [
+                "matchView",
+                "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                6665,
+                59,
+                6657,
+                1,
+                false
+              ],
+              [
+                "MatchImpl",
+                "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                6655,
+                9,
+                6652,
+                31,
+                false
+              ]
+            ],
+            "type": 8
+          },
+          {
+            "displayName": "Memo(MatchImpl)",
+            "id": 56,
+            "key": null,
+            "env": null,
+            "stack": [
+              [
+                "OutletImpl",
+                "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                6784,
+                63,
+                6758,
+                32,
+                false
+              ]
+            ],
+            "type": 8
+          },
+          {
+            "displayName": "Memo(OutletImpl)",
+            "id": 54,
+            "key": null,
+            "env": null,
+            "stack": [
+              [
+                "Layout",
+                "http://127.0.0.1:5188/src/components/Layout.tsx?t=1795105218962",
+                31,
+                31,
+                7,
+                16,
+                false
+              ]
+            ],
+            "type": 8
+          },
+          {
+            "displayName": "Layout",
+            "id": 16,
+            "key": null,
+            "env": null,
+            "stack": [
+              [
+                "",
+                "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                6727,
+                60,
+                6725,
+                35,
+                false
+              ],
+              [
+                "mountMemo",
+                "http://127.0.0.1:5188/node_modules/.vite/deps/react-dom_client.js?v=fa0ef083",
+                5120,
+                20,
+                5117,
+                3,
+                false
+              ],
+              [
+                "Object.useMemo",
+                "http://127.0.0.1:5188/node_modules/.vite/deps/react-dom_client.js?v=fa0ef083",
+                14294,
+                13,
+                14287,
+                13,
+                false
+              ],
+              [
+                "exports.useMemo",
+                "http://127.0.0.1:5188/node_modules/.vite/deps/react-PYT6vkka.js?v=fa0ef083",
+                778,
+                31,
+                777,
+                21,
+                false
+              ],
+              [
+                "MatchInnerImpl",
+                "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                6725,
+                27,
+                6705,
+                36,
+                false
+              ]
+            ],
+            "type": 5
+          },
+          {
+            "displayName": "Memo(MatchInnerImpl)",
+            "id": 15,
+            "key": null,
+            "env": null,
+            "stack": [
+              [
+                "matchView",
+                "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                6665,
+                59,
+                6657,
+                1,
+                false
+              ],
+              [
+                "MatchImpl",
+                "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                6655,
+                9,
+                6652,
+                31,
+                false
+              ]
+            ],
+            "type": 8
+          },
+          {
+            "displayName": "Memo(MatchImpl)",
+            "id": 11,
+            "key": null,
+            "env": null,
+            "stack": [
+              [
+                "MatchesInner",
+                "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                6865,
+                78,
+                6856,
+                1,
+                false
+              ]
+            ],
+            "type": 8
+          },
+          {
+            "displayName": "MatchesInner",
+            "id": 9,
+            "key": null,
+            "env": null,
+            "stack": [
+              [
+                "Matches",
+                "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                6852,
+                56,
+                6846,
+                1,
+                false
+              ]
+            ],
+            "type": 5
+          },
+          {
+            "displayName": "Matches",
+            "id": 6,
+            "key": null,
+            "env": null,
+            "stack": [
+              [
+                "RouterProvider",
+                "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                7032,
+                56,
+                7028,
+                1,
+                false
+              ]
+            ],
+            "type": 5
+          },
+          {
+            "displayName": "RouterProvider",
+            "id": 3,
+            "key": null,
+            "env": null,
+            "stack": [
+              [
+                "App",
+                "http://127.0.0.1:5188/src/App.tsx?t=1795105218962",
+                45,
+                25,
+                44,
+                16,
+                false
+              ]
+            ],
+            "type": 5
+          },
+          {
+            "displayName": "App",
+            "id": 2,
+            "key": null,
+            "env": null,
+            "stack": null,
+            "type": 5
+          }
+        ],
+        "env": null,
+        "rootType": "createRoot()",
+        "rendererPackageName": "react-dom",
+        "rendererVersion": "19.3.1",
+        "plugins": {
+          "stylex": null
+        },
+        "nativeTag": null
+      }
+    }
+  },
+  {
+    "id": 158,
+    "name": "ProductCard",
+    "result": {
+      "id": 158,
+      "responseID": 1,
+      "type": "full-data",
+      "value": {
+        "id": 158,
+        "canEditHooks": true,
+        "canEditFunctionProps": true,
+        "canEditHooksAndDeletePaths": true,
+        "canEditHooksAndRenamePaths": true,
+        "canEditFunctionPropsDeletePaths": true,
+        "canEditFunctionPropsRenamePaths": true,
+        "canToggleError": true,
+        "isErrored": false,
+        "canToggleSuspense": true,
+        "isSuspended": null,
+        "source": [
+          "ProductCard",
+          "http://127.0.0.1:5188/src/components/ProductCard.tsx",
+          7,
+          1
+        ],
+        "stack": [
+          [
+            "",
+            "http://127.0.0.1:5188/src/components/pages/PlpPage.tsx?t=1795103948863",
+            77,
+            76,
+            77,
+            47,
+            false
+          ],
+          [
+            "Array.map",
+            "",
+            0,
+            0,
+            0,
+            0,
+            false
+          ],
+          [
+            "PlpPage",
+            "http://127.0.0.1:5188/src/components/pages/PlpPage.tsx?t=1795103948863",
+            77,
+            43,
+            9,
+            16,
+            false
+          ]
+        ],
+        "hasLegacyContext": false,
+        "key": "201",
+        "type": 8,
+        "context": null,
+        "hooks": {
+          "data": [
+            {
+              "id": null,
+              "isStateEditable": false,
+              "name": "BoundStore",
+              "value": {
+                "type": "undefined"
+              },
+              "subHooks": [
+                {
+                  "id": null,
+                  "isStateEditable": false,
+                  "name": "Store",
+                  "value": {
+                    "inspectable": false,
+                    "preview_short": "add() {}",
+                    "preview_long": "add() {}",
+                    "name": "add",
+                    "type": "function"
+                  },
+                  "subHooks": [
+                    {
+                      "id": 0,
+                      "isStateEditable": false,
+                      "name": "Callback",
+                      "value": {
+                        "inspectable": false,
+                        "preview_short": "() => {}",
+                        "preview_long": "() => {}",
+                        "name": "function",
+                        "type": "function"
+                      },
+                      "subHooks": [],
+                      "debugInfo": null,
+                      "hookSource": {
+                        "lineNumber": 34,
+                        "functionName": "useStore",
+                        "fileName": "http://127.0.0.1:5188/node_modules/.vite/deps/zustand.js?v=fa0ef083",
+                        "columnNumber": 78
+                      }
+                    },
+                    {
+                      "id": 1,
+                      "isStateEditable": false,
+                      "name": "SyncExternalStore",
+                      "value": {
+                        "inspectable": false,
+                        "preview_short": "add() {}",
+                        "preview_long": "add() {}",
+                        "name": "add",
+                        "type": "function"
+                      },
+                      "subHooks": [],
+                      "debugInfo": null,
+                      "hookSource": {
+                        "lineNumber": 34,
+                        "functionName": "useStore",
+                        "fileName": "http://127.0.0.1:5188/node_modules/.vite/deps/zustand.js?v=fa0ef083",
+                        "columnNumber": 29
+                      }
+                    }
+                  ],
+                  "debugInfo": null,
+                  "hookSource": {
+                    "lineNumber": 40,
+                    "columnNumber": 38,
+                    "functionName": "useBoundStore",
+                    "fileName": "http://127.0.0.1:5188/node_modules/.vite/deps/zustand.js?v=fa0ef083"
+                  }
+                }
+              ],
+              "debugInfo": null,
+              "hookSource": {
+                "lineNumber": 9,
+                "columnNumber": 14,
+                "functionName": "ProductCard",
+                "fileName": "http://127.0.0.1:5188/src/components/ProductCard.tsx"
+              }
+            }
+          ],
+          "cleaned": [
+            [
+              0,
+              "value"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "value"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              0,
+              "value"
+            ],
+            [
+              0,
+              "subHooks",
+              0,
+              "subHooks",
+              1,
+              "value"
+            ]
+          ],
+          "unserializable": []
+        },
+        "props": {
+          "data": {
+            "product": {
+              "id": 201,
+              "categoryId": 2,
+              "name": "شیر کم‌چرب",
+              "emoji": "🥛",
+              "unit": "۱ لیتر",
+              "price": 38000,
+              "tags": {
+                "inspectable": true,
+                "type": "array",
+                "preview_long": "[]",
+                "preview_short": "Array(0)",
+                "name": "Array",
+                "size": 0
+              }
+            }
+          },
+          "cleaned": [
+            [
+              "product",
+              "tags"
+            ]
+          ],
+          "unserializable": []
+        },
+        "state": null,
+        "errors": [],
+        "warnings": [],
+        "suspendedBy": {
+          "data": [],
+          "cleaned": [],
+          "unserializable": []
+        },
+        "suspendedByRange": null,
+        "unknownSuspenders": 0,
+        "owners": [
+          {
+            "displayName": "PlpPage",
+            "id": 151,
+            "key": null,
+            "env": null,
+            "stack": [
+              [
+                "",
+                "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                6727,
+                60,
+                6725,
+                35,
+                false
+              ],
+              [
+                "updateMemo",
+                "http://127.0.0.1:5188/node_modules/.vite/deps/react-dom_client.js?v=fa0ef083",
+                5137,
+                16,
+                5132,
+                3,
+                false
+              ],
+              [
+                "Object.useMemo",
+                "http://127.0.0.1:5188/node_modules/.vite/deps/react-dom_client.js?v=fa0ef083",
+                14546,
+                13,
+                14540,
+                13,
+                false
+              ],
+              [
+                "exports.useMemo",
+                "http://127.0.0.1:5188/node_modules/.vite/deps/react-PYT6vkka.js?v=fa0ef083",
+                778,
+                31,
+                777,
+                21,
+                false
+              ],
+              [
+                "MatchInnerImpl",
+                "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                6725,
+                27,
+                6705,
+                36,
+                false
+              ]
+            ],
+            "type": 5
+          },
+          {
+            "displayName": "Memo(MatchInnerImpl)",
+            "id": 58,
+            "key": null,
+            "env": null,
+            "stack": [
+              [
+                "matchView",
+                "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                6665,
+                59,
+                6657,
+                1,
+                false
+              ],
+              [
+                "MatchImpl",
+                "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                6655,
+                9,
+                6652,
+                31,
+                false
+              ]
+            ],
+            "type": 8
+          },
+          {
+            "displayName": "Memo(MatchImpl)",
+            "id": 56,
+            "key": null,
+            "env": null,
+            "stack": [
+              [
+                "OutletImpl",
+                "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                6784,
+                63,
+                6758,
+                32,
+                false
+              ]
+            ],
+            "type": 8
+          },
+          {
+            "displayName": "Memo(OutletImpl)",
+            "id": 54,
+            "key": null,
+            "env": null,
+            "stack": [
+              [
+                "Layout",
+                "http://127.0.0.1:5188/src/components/Layout.tsx?t=1795105218962",
+                31,
+                31,
+                7,
+                16,
+                false
+              ]
+            ],
+            "type": 8
+          },
+          {
+            "displayName": "Layout",
+            "id": 16,
+            "key": null,
+            "env": null,
+            "stack": [
+              [
+                "",
+                "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                6727,
+                60,
+                6725,
+                35,
+                false
+              ],
+              [
+                "mountMemo",
+                "http://127.0.0.1:5188/node_modules/.vite/deps/react-dom_client.js?v=fa0ef083",
+                5120,
+                20,
+                5117,
+                3,
+                false
+              ],
+              [
+                "Object.useMemo",
+                "http://127.0.0.1:5188/node_modules/.vite/deps/react-dom_client.js?v=fa0ef083",
+                14294,
+                13,
+                14287,
+                13,
+                false
+              ],
+              [
+                "exports.useMemo",
+                "http://127.0.0.1:5188/node_modules/.vite/deps/react-PYT6vkka.js?v=fa0ef083",
+                778,
+                31,
+                777,
+                21,
+                false
+              ],
+              [
+                "MatchInnerImpl",
+                "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                6725,
+                27,
+                6705,
+                36,
+                false
+              ]
+            ],
+            "type": 5
+          },
+          {
+            "displayName": "Memo(MatchInnerImpl)",
+            "id": 15,
+            "key": null,
+            "env": null,
+            "stack": [
+              [
+                "matchView",
+                "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                6665,
+                59,
+                6657,
+                1,
+                false
+              ],
+              [
+                "MatchImpl",
+                "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                6655,
+                9,
+                6652,
+                31,
+                false
+              ]
+            ],
+            "type": 8
+          },
+          {
+            "displayName": "Memo(MatchImpl)",
+            "id": 11,
+            "key": null,
+            "env": null,
+            "stack": [
+              [
+                "MatchesInner",
+                "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                6865,
+                78,
+                6856,
+                1,
+                false
+              ]
+            ],
+            "type": 8
+          },
+          {
+            "displayName": "MatchesInner",
+            "id": 9,
+            "key": null,
+            "env": null,
+            "stack": [
+              [
+                "Matches",
+                "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                6852,
+                56,
+                6846,
+                1,
+                false
+              ]
+            ],
+            "type": 5
+          },
+          {
+            "displayName": "Matches",
+            "id": 6,
+            "key": null,
+            "env": null,
+            "stack": [
+              [
+                "RouterProvider",
+                "http://127.0.0.1:5188/node_modules/.vite/deps/@tanstack_react-router.js?v=fa0ef083",
+                7032,
+                56,
+                7028,
+                1,
+                false
+              ]
+            ],
+            "type": 5
+          },
+          {
+            "displayName": "RouterProvider",
+            "id": 3,
+            "key": null,
+            "env": null,
+            "stack": [
+              [
+                "App",
+                "http://127.0.0.1:5188/src/App.tsx?t=1795105218962",
+                45,
+                25,
+                44,
+                16,
+                false
+              ]
+            ],
+            "type": 5
+          },
+          {
+            "displayName": "App",
+            "id": 2,
+            "key": null,
+            "env": null,
+            "stack": null,
+            "type": 5
+          }
+        ],
+        "env": null,
+        "rootType": "createRoot()",
+        "rendererPackageName": "react-dom",
+        "rendererVersion": "19.3.1",
+        "plugins": {
+          "stylex": null
+        },
+        "nativeTag": null
+      }
+    }
+  }
+]
