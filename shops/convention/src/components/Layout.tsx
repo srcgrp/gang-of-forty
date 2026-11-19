@@ -1,7 +1,6 @@
 import { Outlet } from '@tanstack/react-router'
 import { useThemeStore } from '../hooks/useThemeStore'
 import Header from './Header'
-import CartPanel from './CartPanel'
 
 export default function Layout() {
   const theme = useThemeStore((state) => state.theme)
@@ -9,6 +8,5 @@ export default function Layout() {
     <a className="skip-link" href="#main-content">رفتن به محتوای اصلی</a>
     <Header />
     <main id="main-content" className="container"><Outlet /></main>
-    <CartPanel />
   </div>
 }

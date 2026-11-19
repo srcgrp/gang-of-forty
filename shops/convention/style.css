@@ -1294,3 +1294,39 @@ input:focus-visible {
 .app .product-image { background: var(--bg); }
 .app .category-card:hover, .app .category-card:focus-visible { background: var(--bg); }
 .app .cart-panel a { color: var(--accent); text-decoration: underline; }
+
+/* Restore the original header, hero and single-row category layout. */
+.app .header-content { gap: 20px; }
+.app .header-content .search-box { min-width: 0; }
+.app .header-content > .logo, .app .header-content > .cart-link, .app .header-content > button { flex-shrink: 0; }
+.app .header-content > .cart-link { white-space: nowrap; }
+.app .main-nav { display: block; background: var(--card); border-color: var(--border); }
+.app .nav-list { gap: 24px; flex-wrap: wrap; }
+.app .nav-list a, .app .mega-menu-column h3, .app .mega-menu-column a { color: var(--text); }
+.app .nav-list a:hover { color: white; }
+.app .products-menu-toggle { background: transparent; color: var(--text); border: 0; font-size: 15px; font-weight: 600; padding: 10px; }
+.app .products-menu .mega-menu { background: var(--card); border-color: var(--border); opacity: 0; visibility: hidden; transform: translateY(10px); width: min(700px, 92vw); }
+.app .products-menu[data-open='true'] .mega-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+.app .hero { padding: 60px 32px; background: linear-gradient(135deg, #eef6ff, var(--card)); border-radius: 12px; }
+.app[data-theme='dark'] .hero { background: linear-gradient(135deg, #252e48, var(--card)); }
+.app .hero-label, .app .hero h1 strong { color: #030164; }
+.app[data-theme='dark'] .hero-label, .app[data-theme='dark'] .hero h1 strong { color: #b8bcff; }
+.app .hero p { color: var(--muted); }
+.app .hero-content { min-width: 0; }
+.app .hero-visual { flex-shrink: 0; max-width: 40%; }
+.app .category-list { display: flex; flex-wrap: nowrap; gap: 16px; overflow-x: auto; padding-block: 8px; }
+.app .category-card { flex: 1 0 130px; min-width: 130px; }
+.app #products { scroll-margin-top: 180px; }
+.app .checkout-form + .cart-panel, .app main .cart-panel { width: 100%; }
+@media (max-width: 1000px) {
+  .app .header-content { flex-wrap: wrap; padding-block: 12px; gap: 12px; }
+  .app .header-content .search-box { order: 3; flex-basis: 100%; max-width: none; }
+  .app .header-content > .cart-link { margin-inline-start: auto; font-size: 14px; }
+}
+@media (max-width: 650px) {
+  .app .nav-list { gap: 4px 12px; }
+  .app .nav-list a, .app .products-menu-toggle { font-size: 13px; }
+  .app .mega-menu { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; padding: 16px; }
+  .app .hero { padding: 32px 20px; }
+  .app .hero-visual { max-width: 100%; }
+}
