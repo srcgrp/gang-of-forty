@@ -1,0 +1,8 @@
+{
+  "sourceFiles": 34,
+  "maxLines": 47,
+  "cycles": 0,
+  "forbiddenSyntax": 0,
+  "storeReadsWithoutSelector": 0,
+  "rootApiOrWorkflowChanges": false
+}
