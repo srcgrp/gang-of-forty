@@ -16,7 +16,7 @@ export default function ProductGrid({ section, preview = false }: Props) {
     <section id={section.id} className="product-section" aria-labelledby={section.id + "-title"}>
       <div className="section-heading">
         <h2 id={section.id + "-title"}>{section.title}</h2>
-        {preview && <Link className="view-all" to="/plp/$carouselId" params={{ carouselId: section.id }}>
+        {preview && <Link className="view-all" to="/plp/$carouselId" params={{ carouselId: section.id }} search={{ sort: "default" }}>
           مشاهده همه ({formatNumber(section.cards.length)})
         </Link>}
         {section.carousel && <div className="carousel-controls" role="group" aria-label={"کنترل " + section.title}

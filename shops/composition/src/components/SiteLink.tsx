@@ -11,5 +11,5 @@ export default function SiteLink({ href, children, ...props }: Props) {
   if (!id || id === "top" || id === "contact") {
     return <Link to="/" hash={id} {...props}>{children}</Link>;
   }
-  return <Link to="/plp/$carouselId" params={{ carouselId: id }} {...props}>{children}</Link>;
+  return <Link to="/plp/$carouselId" params={{ carouselId: id }} search={{ sort: "default" }} {...props}>{children}</Link>;
 }

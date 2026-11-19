@@ -1,10 +1,11 @@
+import { memo } from "react";
 import { Link } from "@tanstack/react-router";
 import type { CardView } from "../shared/types";
 import { useCartStore } from "../hooks/useCartStore";
 import ProductImage from "./ProductImage";
 
 type Props = { card: CardView; id: string };
-export default function ProductCard({ card, id }: Props) {
+function ProductCard({ card, id }: Props) {
   const add = useCartStore((state) => state.add);
   return (
     <article id={id} className={"product-card product-card-link" + (card.available ? "" : " is-unavailable")}>
@@ -22,3 +23,5 @@ export default function ProductCard({ card, id }: Props) {
     </article>
   );
 }
+
+export default memo(ProductCard);

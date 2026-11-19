@@ -4,16 +4,21 @@ import HomePage from "./components/pages/HomePage";
 import PlpPage from "./components/pages/PlpPage";
 import ProductPage from "./components/pages/ProductPage";
 import NotFound from "./components/pages/NotFound";
+import CheckoutPage from "./components/pages/CheckoutPage";
 
 const rootRoute = createRootRoute({ component: Layout, notFoundComponent: NotFound });
 const homeRoute = createRoute({ getParentRoute: () => rootRoute, path: "/", component: HomePage });
 const plpRoute = createRoute({
   getParentRoute: () => rootRoute, path: "/plp/$carouselId", component: PlpPage,
+  validateSearch: (search: Record<string, unknown>): { sort: "default" | "price" } => ({
+    sort: search.sort === "price" ? "price" : "default",
+  }),
 });
 const productRoute = createRoute({
   getParentRoute: () => rootRoute, path: "/product/$productId", component: ProductPage,
 });
-const routeTree = rootRoute.addChildren([homeRoute, plpRoute, productRoute]);
+const checkoutRoute = createRoute({ getParentRoute: () => rootRoute, path: "/checkout", component: CheckoutPage });
+const routeTree = rootRoute.addChildren([homeRoute, plpRoute, productRoute, checkoutRoute]);
 const router = createRouter({ routeTree, history: createHashHistory(), scrollRestoration: true });
 
 declare module "@tanstack/react-router" {

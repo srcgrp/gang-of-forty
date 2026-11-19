@@ -1,3 +1,4 @@
+import { memo, useMemo } from "react";
 import type { ShopData } from "../shared/types";
 import { buildPage } from "../features/products/catalog/sections";
 import Hero from "./Hero";
@@ -12,8 +13,8 @@ type Props = {
   query: string; saleOpen: boolean; onToggleSale: () => void;
   data: ShopData; categoryId: number | null; onPick: (id: number | null) => void;
 };
-export default function ShopView({ query, saleOpen, onToggleSale, data, categoryId, onPick }: Props) {
-  const page = buildPage(data);
+function ShopView({ query, saleOpen, onToggleSale, data, categoryId, onPick }: Props) {
+  const page = useMemo(() => buildPage(data), [data]);
   const category = data.categories.find(item => item.id === categoryId);
   return (
     <main id="main" className="wrap" tabIndex={-1}>
@@ -27,3 +28,5 @@ export default function ShopView({ query, saleOpen, onToggleSale, data, category
     </main>
   );
 }
+
+export default memo(ShopView);

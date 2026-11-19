@@ -172,7 +172,7 @@ Store سبد با loadCart شروع می‌شود و subscribe پس از تغی�
 | Store | کجا تعریف شده؟ | چه چیزی دارد؟ | چه کسی تغییرش می‌دهد؟ | کجا ذخیره می‌شود؟ |
 |---|---|---|---|---|
 | تم | `src/hooks/useThemeStore.ts` | `theme` از نوع light یا dark و عملیات `toggle` | دکمهٔ ThemeToggle، عملیات toggle را صدا می‌زند | middleware به نام persist، مقدار را در localStorage با کلید `composition-theme` نگه می‌دارد |
-| سبد | `src/hooks/useCartStore.ts` | آرایهٔ `lines` و عملیات `add`، `decrease` و `remove` | ProductCard برای افزودن؛ CartPanel برای افزایش، کاهش و حذف کامل | مقدار اولیه با loadCart خوانده می‌شود؛ subscribe با saveCart در `src/features/cart/storage/cart.ts` و کلید `batshop-cart` ذخیره می‌کند |
+| سبد | `src/hooks/useCartStore.ts` | آرایهٔ `lines` و عملیات `add`، `decrease`، `remove` و `clear` | ProductCard برای افزودن؛ CartPanel برای افزایش، کاهش و حذف کامل؛ CheckoutPage برای خالی کردن پس از ثبت | مقدار اولیه با loadCart خوانده می‌شود؛ subscribe با saveCart در `src/features/cart/storage/cart.ts` و کلید `batshop-cart` ذخیره می‌کند |
 
 تعداد و جمع قیمت جزو State ذخیره‌شدهٔ سبد نیستند؛ آن‌ها را با cartCount و cartTotal از lines حساب می‌کنم. اطلاعات هر قلم شامل شناسه، نام، قیمت و تعداد است. ThemeFrame فقط theme را می‌خواند و ThemeToggle مقدار theme و عملیات toggle را با selectorهای جدا می‌گیرد.
 
@@ -196,9 +196,10 @@ HomePage و PlpPage هوک useCatalog را صدا می‌زنند. HomePage با
 | `/`، در مرورگر `/#/` | `HomePage` | useCatalog از CatalogProvider؛ داده‌های API در useCatalogRequest دریافت می‌شوند. ShopView با buildPage و carouselProducts فهرست‌ها را آماده می‌کند |
 | `/plp/$carouselId`، مثلاً `/#/plp/dairy` | `PlpPage` | پارامتر از useParams و داده از useCatalog؛ carouselProducts محصولات فهرست را انتخاب می‌کند و toCards اطلاعات نمایش را می‌سازد |
 | `/product/$productId`، مثلاً `/#/product/201` | `ProductPage` | useCatalog و useParams؛ شناسه با Number تبدیل و محصول پیدا می‌شود؛ toCard قیمت و موجودی را آماده می‌کند |
+| `/checkout` | `CheckoutPage` | useCartStore اقلام و جمع سبد را می‌دهد؛ پس از ثبت، clear و navigate با replace اجرا می‌شوند |
 | هر مسیر تعریف‌نشده، مثلاً `/#/nowhere` | `NotFound` | محتوای ثابت و لینک بازگشت؛ خود این صفحه دادهٔ API نمی‌خواند |
 
-مسیر `/#/plp/nothing` همچنان به PlpPage می‌رود، ولی چون شناسه معتبر نیست پیام «این فهرست پیدا نشد» می‌دهد. این حالت با مسیر ناشناخته که NotFound نشان می‌دهد فرق دارد. صفحهٔ تسویه و مرتب‌سازی در URL هنوز جزو قابلیت‌های پیاده‌شده نیستند و مربوط به امتیازی‌های مرحلهٔ بعد هستند.
+مسیر `/#/plp/nothing` همچنان به PlpPage می‌رود، ولی چون شناسه معتبر نیست پیام «این فهرست پیدا نشد» می‌دهد. این حالت با مسیر ناشناخته که NotFound نشان می‌دهد فرق دارد. مرتب‌سازی با `sort` در آدرس PLP و صفحهٔ تسویه در `/checkout` پیاده شده‌اند.
 
 
 مسیرها را در App.tsx با TanStack Router تعریف کردم. createHashHistory برای رفرش صفحه‌های داخلی روی سرور فایل‌های ثابت است و Register به لینک‌ها نوع می‌دهد. Layout سربرگ و تم مشترک را نگه می‌دارد و صفحهٔ انتخاب‌شده در Outlet نمایش داده می‌شود.
@@ -224,3 +225,12 @@ Layout → LayoutContent → Outlet → ProductPage
 این صفحه State یا Store جدید ندارد و سبد و تم مشترک را استفاده می‌کند.
 
 محدودهٔ لینک عنوان با CSS روی کل کارت گسترش داده شده؛ کلیک روی تصویر و فضای کارت هم صفحهٔ محصول را باز می‌کند. دکمهٔ افزودن به سبد بالاتر از لایهٔ لینک قرار دارد و مستقل کار می‌کند. صفحهٔ جزئیات چیدمان واکنش‌گرا، تصویر بزرگ‌تر، قیمت برجسته و دکمهٔ وسط‌چین دارد.
+
+
+## هفتهٔ ششم — امتیازی‌های باقی‌مانده
+
+مرتب‌سازی PLP با validateSearch مقدار sort را فقط از default و price می‌پذیرد. لینک‌های پیش‌فرض و ارزان‌ترین مقدار را در آدرس نگه می‌دارند؛ تابع خالص sortProducts قیمت نهایی پس از تخفیف را حساب می‌کند و آرایهٔ داده را تغییر نمی‌دهد.
+
+ProductCard با memo پوشانده شده و اکشن افزودن به سبد را با selector می‌خواند. مقدار context فیلترها و تابع تغییر حراج پایدارند و HomePage و ShopView هم memo دارند. Header تعداد را از store می‌خواند و عنوان تب را هم به‌روز می‌کند؛ تغییر سبد نباید render دوبارهٔ صفحه یا کارت‌ها ایجاد کند. تصویر Profiler باید در مرورگر ثبت و به PR اضافه شود.
+
+مسیر /checkout به CheckoutPage می‌رسد. فرم سه فیلد controlled دارد؛ خطاها از مقادیر در render حساب می‌شوند و پس از اولین submit نشان داده می‌شوند. اولین فیلد نامعتبر با useRef فوکوس می‌شود. سفارش معتبر سبد را خالی و با replace به خانه برمی‌گرداند.

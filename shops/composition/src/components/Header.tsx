@@ -1,5 +1,6 @@
 import SiteLink from "./SiteLink";
-import { useState } from "react";
+import { Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { useCartStore } from "../hooks/useCartStore";
 import { cartCount } from "../features/cart/logic/items";
 import CartPanel from "./CartPanel";
@@ -9,11 +10,12 @@ import Brand from "./Brand";
 import SearchBox from "./SearchBox";
 import cartIcon from "../../icons/shopping-cart.svg";
 import ThemeToggle from "./ThemeToggle";
-import menuIcon from "../../icons/menu-2.svg";
+import MobileMenu from "./MobileMenu";
 
 type Props = { suggestions: CardView[]; query: string; onQuery: (query: string) => void; shop: Shop; categories: Category[]; stock: Stock };
 export default function Header({ suggestions, query, onQuery, shop, categories, stock }: Props) {
   const count = useCartStore((state) => cartCount(state.lines));
+  useEffect(() => { document.title = "بت‌شاپ · " + count.toLocaleString("fa-IR") + " 🛒"; }, [count]);
   const [cartOpen, onCartOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const changeCart = (open: boolean): void => { if (open) setSearchOpen(false); onCartOpen(open); };
@@ -29,10 +31,9 @@ export default function Header({ suggestions, query, onQuery, shop, categories, 
             onMouseLeave={() => onCartOpen(false)}
             onBlur={event => { if (event.relatedTarget && !event.currentTarget.contains(event.relatedTarget)) onCartOpen(false); }}
             onKeyDown={event => {
-              if (event.key === "Escape") {
-                onCartOpen(false);
-                event.currentTarget.querySelector("button")?.focus();
-              }
+              if (event.key !== "Escape") return;
+              onCartOpen(false);
+              event.currentTarget.querySelector("button")?.focus();
             }}>
           <button className="cart-button" type="button" onClick={() => changeCart(!cartOpen)}
             aria-controls="cart" aria-expanded={cartOpen} aria-label={"سبد خرید، " + formatNumber(count) + " کالا"}>
@@ -41,15 +42,9 @@ export default function Header({ suggestions, query, onQuery, shop, categories, 
           </button>
           <CartPanel stock={stock} open={cartOpen} onClose={() => onCartOpen(false)} />
           </div>
+          <Link className="checkout-link" to="/checkout">تسویه‌حساب</Link>
           <ThemeToggle />
-          <details className="mobile-menu">
-            <summary aria-label="باز و بسته کردن منوی اصلی">
-              <img src={menuIcon} alt="" width="48" height="48" />
-            </summary>
-            <nav id="mobile-links" aria-label="منوی موبایل">
-              {shop.menu.map(link => <SiteLink key={link.href} href={link.href}>{link.label}</SiteLink>)}
-            </nav>
-          </details>
+          <MobileMenu menu={shop.menu} />
         </div>
         <nav className="desktop-nav wrap" aria-label="منوی اصلی">
           <div className="category-menu">
