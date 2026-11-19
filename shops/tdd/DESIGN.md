@@ -91,6 +91,12 @@ I chose Zustand because it is already used for the theme and lets each component
 
 `useThemeStore()` subscribes to the whole store. `useThemeStore(s => s.theme)` selects only the theme, so changes to other fields would not cause that subscriber to render. The cart uses the same selector pattern; `AddToCartButton` subscribes to the stable `add` action rather than the cart lines.
 
+### Rendering
+
+`ProductCard` is wrapped in React `memo`, using the default shallow comparison. When a parent renders with the same product reference, stock, offer percentage, and card ID, the card can skip rendering. Changed props still update the card normally.
+
+All store reads in components use selectors. Only `CartPanel`, inside `Header`, reads the cart lines and count; the add button selects the stable `add` action. Adding a product therefore updates the cart panel without subscribing the page or product cards to the cart contents. `memo` handles unchanged props from parent renders, while selectors limit updates caused by store changes.
+
 ### Other state and derived values
 
 - `useCatalog()` owns `LoadState<Catalog>` and the retry counter in React state. Each call has its own state and fetch lifecycle; the hook shares loading logic, not cached data.

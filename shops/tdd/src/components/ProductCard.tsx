@@ -1,4 +1,5 @@
 import type { Product } from '../shared/types'
+import { memo } from 'react'
 import { Link } from '@tanstack/react-router'
 import AddToCartButton from './AddToCartButton'
 import Price from './Price'
@@ -11,7 +12,7 @@ type ProductCardProps = {
     cardId?: string
 }
 
-export default function ProductCard({ product, offerPercent, stock, cardId }: ProductCardProps) {
+export default memo(function ProductCard({ product, offerPercent, stock, cardId }: ProductCardProps) {
     const unavailable = stock === 0
 
     return (
@@ -28,4 +29,4 @@ export default function ProductCard({ product, offerPercent, stock, cardId }: Pr
             <AddToCartButton product={product} unavailable={unavailable} />
         </article>
     )
-}
+})
