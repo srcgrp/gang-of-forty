@@ -1780,6 +1780,12 @@ footer.is-fragment-target {
   margin-block-start: 1.5rem;
 }
 
+.product-title-link { color: inherit; text-decoration: none; }
+.product-title-link:hover { text-decoration: underline; }
+.product-view-link { margin-block-start: .5rem; font-size: .72rem; }
+.product-detail { max-width: 36rem; margin-inline: auto; }
+.product-detail .product-card { margin-block-start: 1.5rem; }
+
 .product-carousel .carousel-heading,
 .plp-heading {
   display: flex;

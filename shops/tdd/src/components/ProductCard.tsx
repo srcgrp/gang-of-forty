@@ -1,7 +1,6 @@
 import type { Product } from '../shared/types'
-import { Notyf } from 'notyf'
-import 'notyf/notyf.min.css'
-import { useCartStore } from '../hooks/useCartStore'
+import { Link } from '@tanstack/react-router'
+import AddToCartButton from './AddToCartButton'
 import Price from './Price'
 import OfferBadge from './OfferBadge'
 
@@ -12,15 +11,8 @@ type ProductCardProps = {
     cardId?: string
 }
 
-const notyf = new Notyf({ duration: 2000, position: { x: "left", y: "top" } })
-
 export default function ProductCard({ product, offerPercent, stock, cardId }: ProductCardProps) {
-    const add = useCartStore(s => s.add)
     const unavailable = stock === 0
-    const handleAdd = () => {
-        add(product.id)
-        notyf.success("به سبد خرید اضافه شد")
-    }
 
     return (
         <article className={`product-card${unavailable ? ' is-unavailable' : ''}`} id={cardId ?? `product-${product.id}`}>
@@ -28,13 +20,12 @@ export default function ProductCard({ product, offerPercent, stock, cardId }: Pr
                 <span className="product-icon" aria-hidden="true">{product.emoji}</span>
                 {offerPercent !== undefined && <OfferBadge percent={offerPercent} />}
             </div>
-            <h3>{product.name}</h3>
+            <h3><Link className="product-title-link" to="/product/$productId" params={{ productId: String(product.id) }}>{product.name}</Link></h3>
             <p className="product-amount">{product.unit}</p>
             {unavailable && <p className="stock-status">ناموجود</p>}
             <Price value={product.price} {...(offerPercent !== undefined && { offerPercent })} />
-            <button className="add-button" type="button" aria-label={`افزودن ${product.name} به سبد خرید`} disabled={unavailable} onClick={handleAdd}>
-                افزودن به سبد <span aria-hidden="true">{unavailable ? '×' : '+'}</span>
-            </button>
+            <Link className="listing-link product-view-link" to="/product/$productId" params={{ productId: String(product.id) }} aria-label={`نمایش محصول ${product.name}`}>نمایش محصول</Link>
+            <AddToCartButton product={product} unavailable={unavailable} />
         </article>
     )
 }
