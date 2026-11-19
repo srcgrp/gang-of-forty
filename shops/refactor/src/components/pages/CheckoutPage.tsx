@@ -1,10 +1,12 @@
-import { Link, useNavigate } from '@tanstack/react-router'
+import { useNavigate } from '@tanstack/react-router'
 import { cartLines, cartTotal } from '../../features/cart/calculate'
 import { useCartStore } from '../../hooks/useCartStore'
 import { useCatalog } from '../../hooks/useCatalog'
-import { formatNumber } from '../format'
+import CheckoutHeader from '../checkout/CheckoutHeader'
 import CheckoutForm from '../CheckoutForm'
 import Status from '../Status'
+import CheckoutSummary from '../checkout/CheckoutSummary'
+import CheckoutEmpty from '../checkout/CheckoutEmpty'
 
 export default function CheckoutPage() {
   const { state, retry } = useCatalog()
@@ -19,34 +21,45 @@ export default function CheckoutPage() {
   const lines = cartLines(items, state.data.products)
   const total = cartTotal(lines)
   const shop = state.data.shop
-  const delivery = total === 0 || total >= shop.freeDeliveryOver ? 0 : shop.deliveryFee
+  const delivery = total === 0 || total >= shop.freeDeliveryOver
+    ? 0
+    : shop.deliveryFee
 
-  if (lines.length === 0) {
-    return (
-      <main id="content" tabIndex={-1} className="container">
-        <h1 className="section-title">سبد خرید خالی است</h1>
-        <p className="empty-message">برای تسویه، اول از فهرست کالاها چیزی به سبد اضافه کن.</p>
-        <Link className="sale-show-btn" to="/" search={{ q: '', category: undefined }}>بازگشت به خانه</Link>
-      </main>
-    )
+  if (!lines.length) {
+    return <CheckoutEmpty />
   }
 
   const onSuccess = () => {
     clear()
-    navigate({ to: '/', search: { q: '', category: undefined }, replace: true })
+    navigate({
+      to: '/',
+      search: { q: '', category: undefined },
+      replace: true,
+    })
   }
 
   return (
-    <main id="content" tabIndex={-1} className="container">
-      <div className="section-head">
-        <h1 className="section-title">تسویه حساب</h1>
-        <Link className="sale-show-btn" to="/" search={{ q: '', category: undefined }}>بازگشت به خانه</Link>
+    <main id="content" tabIndex={-1} className="container co">
+      <CheckoutHeader />
+
+      <div className="co-layout">
+        <section className="co-main" aria-label="فرم تسویه حساب">
+          <div className="co-card">
+            <div className="co-card__head">
+              <span className="co-step">۱</span>
+              <h2 className="co-card__title">اطلاعات ارسال</h2>
+            </div>
+            <CheckoutForm onSuccess={onSuccess} />
+          </div>
+        </section>
+
+        <CheckoutSummary
+          count={lines.length}
+          total={total}
+          delivery={delivery}
+          remaining={Math.max(0, shop.freeDeliveryOver - total)}
+        />
       </div>
-      <p className="checkout-summary">
-        {formatNumber(lines.length)} کالا · جمع سبد: <strong>{formatNumber(total)} تومان</strong>
-        {' · '}هزینهٔ ارسال: {delivery === 0 ? 'رایگان' : `${formatNumber(delivery)} تومان`}
-      </p>
-      <CheckoutForm onSuccess={onSuccess} />
     </main>
   )
 }

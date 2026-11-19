@@ -52,7 +52,7 @@
 
 | Store | سبب وجود (کدام راه و چرا) | کجا تعریف شده | چه چیزی در آن است | چه کسی عوضش می‌کند | کجا ذخیره می‌شود |
 |---|---|---|---|---|---|
-| `useCartStore` | سبد بین `Header`، `CartPanel`، `ProductCard` و `CheckoutPage` مشترک است و props drilling نمی‌خواهیم. راه انتخابی: **Zustand** — به‌جای context + reducer کد کمتری دارد و selectorهای ریز از رندر بی‌مورد جلوگیری می‌کنند. | `src/hooks/useCartStore.ts` | آیتم‌های سبد (`CartItem[]`) و اکشن‌های `add` / `remove` / `change` / `clear` | `ProductCard` و `ProductPage` (افزودن)، `CartPanel` (حذف و تغییر تعداد)، `CheckoutPage` (خالی کردن با `clear` بعد از ثبت سفارش)؛ `Header` فقط می‌خواند | `localStorage` به‌صورت دستی (بدون middleware `persist`): مقدار اولیه با `readCart()` خوانده می‌شود و با `subscribe` + `writeCart` هر تغییر ذخیره می‌شود. |
+| `useCartStore` | سبد بین `Header`، `CartPanel`، `ProductCard` و `CheckoutPage` مشترک است و props drilling نمی‌خواهیم. راه انتخابی: **Zustand** — به‌جای context + reducer کد کمتری دارد و selectorهای ریز از رندر بی‌مورد جلوگیری می‌کنند. | `src/hooks/useCartStore.ts` | آیتم‌های سبد (`CartItem[]`) و اکشن‌های `add` / `remove` / `change` / `clear` | `ProductCard` و `ProductPage` (افزودن؛ اکشن افزودن سقف موجودی محصول را رعایت می‌کند)، `CartPanel` (حذف و تغییر تعداد)، `CheckoutPage` (خالی کردن با `clear` بعد از ثبت سفارش)؛ `Header` فقط می‌خواند | `localStorage` به‌صورت دستی (بدون middleware `persist`): مقدار اولیه با `readCart()` خوانده می‌شود و با `subscribe` + `writeCart` هر تغییر ذخیره می‌شود. |
 | `useThemeStore` | تم در `Header` و همهٔ صفحه لازم است و باید بعد از رفرش بماند. راه انتخابی: **Zustand + persist** — همان مزایای بالا به‌علاوهٔ ذخیرهٔ خودکار در localStorage. | `src/hooks/useThemeStore.ts` | تم فعلی (`'light' \| 'dark'`) و اکشن `toggle` | دکمهٔ تغییر تم در `Header` | `localStorage` با `persist` (کلید `refactor-theme`). |
 
 > **نکته:** state واکشی کاتالوگ store سراسری نیست؛ داخل هوک `useCatalog` و محدودهٔ مصرف‌کننده‌اش زندگی می‌کند.
@@ -164,7 +164,6 @@ if (state.status !== 'success') return <Status state={state} />;
 
 ## چک‌های سلامت
 
-هر تغییر با چهار چک تأیید می‌شود:
 
 ```bash
 npm run check    # بدون خطا

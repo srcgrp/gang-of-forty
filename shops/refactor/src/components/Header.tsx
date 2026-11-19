@@ -10,6 +10,9 @@ import { cartCount } from '../features/cart/calculate'
 import { useCartStore } from '../hooks/useCartStore'
 import { useEffect } from 'react'
 import { Link } from '@tanstack/react-router'
+import { LuClipboardList, LuListChecks } from 'react-icons/lu'
+
+
 
 type HeaderProps = {
   shop: Pick<ShopInfo, 'name' | 'notice' | 'slogan' | 'phone' | 'menu'>
@@ -39,7 +42,9 @@ export default function Header({ shop, categories, query, onQuery,
         <div className="header-actions">
           <ThemeToggle />
           <Link className="icon-btn checkout-link" to="/checkout" aria-label="رفتن به صفحهٔ تسویه حساب">
-            <Icon name="check" />
+                <LuClipboardList size={22} />
+
+
           </Link>
           <button type="button" className="icon-btn cart-toggle-btn" id="cart-count"
             onClick={onOpenCart} aria-label={`باز کردن سبد خرید، ${count} کالا`}>

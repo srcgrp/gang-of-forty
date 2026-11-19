@@ -13,10 +13,12 @@ const FIELDS: { key: FieldKey; id: string; label: string; placeholder: string }[
   { key: 'address', id: 'checkout-address', label: 'نشانی', placeholder: 'شهر، خیابان، پلاک' },
 ]
 
+const normalizeDigits = (value: string) => value.replace(/[۰-۹٠-٩]/g, (digit) => String('۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩'.indexOf(digit) % 10))
+
 const validate = (form: FormState): Errors => {
   const errors: Errors = {}
   if (form.name.trim().length < 3) errors.name = 'نام را کامل بنویس (حداقل ۳ حرف).'
-  if (!/^09\d{9}$/.test(form.mobile.trim())) errors.mobile = 'موبایل باید با ۰۹ شروع شود و ۱۱ رقم باشد.'
+  if (!/^09\d{9}$/.test(normalizeDigits(form.mobile.trim()))) errors.mobile = 'موبایل باید با ۰۹ شروع شود و ۱۱ رقم باشد.'
   if (form.address.trim().length < 10) errors.address = 'نشانی را کامل بنویس (حداقل ۱۰ حرف).'
   return errors
 }

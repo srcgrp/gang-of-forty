@@ -1,10 +1,10 @@
 import type { CartItem, CartLine, ProductView } from '../../types'
 
-export const addToCart = (cart: CartItem[], id: number): CartItem[] => {
-  const inCart = cart.some((item) => item.id === id)
-  if (!inCart) {
-    return [...cart, { id, quantity: 1 }]
-  }
+export const addToCart = (cart: CartItem[], id: number, stockLimit?: number): CartItem[] => {
+  const inCart = cart.find((item) => item.id === id)
+  if (stockLimit !== undefined && stockLimit <= 0) return cart
+  if (!inCart) return [...cart, { id, quantity: 1 }]
+  if (stockLimit !== undefined && inCart.quantity >= stockLimit) return cart
   return cart.map((item) => (item.id === id ? { ...item, quantity: item.quantity + 1 } : item))
 }
 

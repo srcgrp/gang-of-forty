@@ -28,10 +28,12 @@ export default function Layout() {
       {state.status === 'success' && (
         <>
           <Footer shop={state.data.shop} categories={state.data.categories} />
-          <div className={`cart-root${isCartOpen ? ' is-open' : ''}`}>
-            <div className="cart-overlay" aria-hidden="true" onClick={() => setIsCartOpen(false)} />
-            <CartPanel products={state.data.products} onClose={() => setIsCartOpen(false)} />
-          </div>
+          {isCartOpen && (
+            <div className="cart-root is-open">
+              <div className="cart-overlay" aria-hidden="true" onClick={() => setIsCartOpen(false)} />
+              <CartPanel products={state.data.products} onClose={() => setIsCartOpen(false)} />
+            </div>
+          )}
         </>
       )}
     </div>
