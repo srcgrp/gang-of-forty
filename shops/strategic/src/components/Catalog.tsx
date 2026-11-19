@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router';
 import type { Category, ProductItem } from '../types';
 import ProductGrid from './ProductGrid';
 
@@ -7,7 +8,7 @@ export default function Catalog({ title, category, items }: CatalogProps) {
   return (
     <>
       <div className="back-bar">
-        <a className="back-btn" href="./"><svg className="icon" aria-hidden="true"><use href="#i-arrow-right" /></svg>بازگشت به صفحه اصلی</a>
+        <Link className="back-btn" to="/" search={{}}><svg className="icon" aria-hidden="true"><use href="#i-arrow-right" /></svg>بازگشت به صفحه اصلی</Link>
       </div>
       <section className="catalog" aria-labelledby="catalog-t">
         <div className="sec-head">

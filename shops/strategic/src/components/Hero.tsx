@@ -1,10 +1,12 @@
+import { configuredCarousels, shelfElementId } from '../catalog/home-shelves';
+import StoreLink from './StoreLink';
 import type { ShopModel } from '../types';
 import { heroTag } from '../features/products/hero-tag';
-import { bannerArt, safeHref, stripEmoji } from './shop-content';
+import { bannerArt, stripEmoji } from './shop-content';
 
 export default function Hero({ model }: { model: ShopModel }) {
   const { hero, side } = model.home;
-  const offers = model.carousels.find(section => section.source === 'offers');
+  const offers = configuredCarousels(model).find(section => section.source === 'offers');
   const tag = heroTag(model.offerItems);
   const [art, width, height] = bannerArt(side.title + ' ' + side.text);
   return (
@@ -17,8 +19,8 @@ export default function Hero({ model }: { model: ShopModel }) {
           </h1>
           <p className="hero__lead">{stripEmoji(hero.text)}</p>
           <div className="hero__actions">
-            {hero.cta && <a className="btn" href={safeHref(hero.cta.href)}>{stripEmoji(hero.cta.label)}</a>}
-            {offers && <a className="btn btn--outline" href={`#${offers.id}`}>{stripEmoji(offers.title)}</a>}
+            {hero.cta && <StoreLink className="btn" href={hero.cta.href}>{stripEmoji(hero.cta.label)}</StoreLink>}
+            {offers && <StoreLink className="btn btn--outline" href={`#${shelfElementId(offers.id)}`}>{offers.title}</StoreLink>}
           </div>
         </div>
         <div className="hero__stage">
@@ -29,21 +31,21 @@ export default function Hero({ model }: { model: ShopModel }) {
           <img className="hero__item hero__item--tomato" src="./assets/images/hero/tomato.webp" alt="گوجه‌فرنگی" width="541" height="560" fetchPriority="high" decoding="async" />
           <img className="hero__item hero__item--orange" src="./assets/images/hero/orange.webp" alt="پرتقال تامسون" width="560" height="466" decoding="async" />
           <img className="hero__item hero__item--strawberry" src="./assets/images/hero/strawberry.webp" alt="توت‌فرنگی" width="518" height="560" decoding="async" />
-          {tag && <a className="hero__tag" href={offers ? `#${offers.id}` : '#categories'}>
+          {tag && <StoreLink className="hero__tag" href={offers ? `#${shelfElementId(offers.id)}` : '#categories'}>
             <span className="hero__tag-name">{tag.product.name}، {tag.product.unit}</span>
             <span className="hero__tag-row">
               <del><span className="sr-only">قیمت قبلی: </span>{tag.oldPrice.toLocaleString('fa-IR')}</del>
               <strong>{tag.price.toLocaleString('fa-IR')} تومان</strong>
               <span className="hero__tag-off">{tag.percent.toLocaleString('fa-IR')}٪<span className="sr-only"> تخفیف</span></span>
             </span>
-          </a>}
+          </StoreLink>}
         </div>
       </div>
       <div className="hero__promo">
         <div className="hero__promo-copy">
           <h2 className="hero__promo-title">{stripEmoji(side.title)}</h2>
           <p className="hero__promo-note">{stripEmoji(side.text)}</p>
-          {side.cta && <a className="btn btn--green" href={safeHref(side.cta.href)}>{stripEmoji(side.cta.label)}</a>}
+          {side.cta && <StoreLink className="btn btn--green" href={side.cta.href}>{stripEmoji(side.cta.label)}</StoreLink>}
         </div>
         <img className="hero__promo-art" src={`./assets/images/hero/${art}.webp`} alt="" width={width} height={height} decoding="async" />
       </div>

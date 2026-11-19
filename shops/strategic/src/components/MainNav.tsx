@@ -1,31 +1,46 @@
+import { useRef, useState } from 'react';
 import type { ShopMenuItem } from '../types';
-import { safeHref, stripEmoji } from './shop-content';
+import { Link } from '@tanstack/react-router';
+import StoreLink from './StoreLink';
+import { stripEmoji } from './shop-content';
 import type { CategoryListProps } from './CategoryLink';
 import CategoryNav from './CategoryNav';
 
-export default function MainNav({ categories, categoryId, onPick, menu, onHome }: CategoryListProps & { menu: readonly ShopMenuItem[]; onHome: boolean }) {
+export default function MainNav({ categories, categoryId, menu }: CategoryListProps & { menu: readonly ShopMenuItem[] }) {
+  const toggle = useRef<HTMLInputElement>(null);
+  const trigger = useRef<HTMLAnchorElement>(null);
+  const [dismissed, setDismissed] = useState(false);
+  function close(restoreFocus = false) {
+    const mobileOpen = toggle.current?.checked;
+    if (toggle.current) toggle.current.checked = false;
+    if (restoreFocus) {
+      if (mobileOpen) toggle.current?.focus();
+      else trigger.current?.focus();
+    }
+    setDismissed(true);
+  }
   return (
     <>
-        <input className="sr-only menu-toggle" type="checkbox" id="menu-toggle" aria-controls="primary-nav" />
+        <input ref={toggle} className="sr-only menu-toggle" type="checkbox" id="menu-toggle" aria-controls="primary-nav" />
         <label className="burger" htmlFor="menu-toggle">
           <span className="sr-only">باز و بسته کردن منوی اصلی</span>
           <span className="bars" />
         </label>
         <label className="scrim" htmlFor="menu-toggle" aria-hidden="true" />
-        <nav className="main-nav" id="primary-nav" aria-label="منوی اصلی">
+        <nav onClick={(event) => { if (event.target instanceof Element && event.target.closest('a')) close(Boolean(event.target.closest('.mega-panel'))); }} onKeyDown={(event) => { if (event.key === 'Escape') { event.preventDefault(); close(true); } }} className="main-nav" id="primary-nav" aria-label="منوی اصلی">
           <ul id="nav-list">
-            <li className="mega">
-              <a href={onHome ? '#categories' : './#categories'}>
+            <li className="mega" data-dismissed={dismissed || undefined}
+              onMouseEnter={() => setDismissed(false)}
+              onFocus={(event) => {
+                if (!event.currentTarget.contains(event.relatedTarget)) setDismissed(false);
+              }}>
+              <Link ref={trigger} activeOptions={{ exact: true, includeHash: true }} to="/" hash="categories" search={{}}>
                 <svg className="icon" aria-hidden="true" focusable="false"><use href="#i-menu" /></svg>
                 {" همه دسته‌ها"}
-              </a>
-              <CategoryNav menu categories={categories} categoryId={categoryId} onPick={onPick} />
+              </Link>
+              <CategoryNav menu categories={categories} categoryId={categoryId} />
             </li>
-            {menu.map(item => {
-              const href = safeHref(item.href);
-              const target = !onHome && href.startsWith('#') && href !== '#contact' ? './' + href : href;
-              return <li key={item.label}><a href={target}>{stripEmoji(item.label)}</a></li>;
-            })}
+            {menu.map(item => <li key={item.label}><StoreLink list href={item.href}>{stripEmoji(item.label)}</StoreLink></li>)}
           </ul>
         </nav>
     </>

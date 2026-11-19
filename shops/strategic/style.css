@@ -459,9 +459,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
 .mega > a { color: var(--brand-ink); font-weight: 800; }
 
-.mega-panel { display: none; }
+.mega-panel { display: block; padding-inline-start: 1rem; }
 
-.main-nav a[aria-current] {
+.main-nav a[aria-current="page"] {
     background: var(--green-soft);
     color: var(--brand-ink);
     font-weight: 700;
@@ -1445,13 +1445,15 @@ main > * + * { margin-top: 2rem; }
     visibility 0s .2s;
   }
   
-  .mega:hover .mega-panel, .mega:focus-within .mega-panel {
+  .mega:not([data-dismissed]):hover .mega-panel, .mega:not([data-dismissed]):focus-within .mega-panel {
     visibility: visible;
     opacity: 1;
     transform: none;
     transition-delay: 0s;
   }
   
+  .mega[data-dismissed] .mega-panel { display: none; }
+
   .mega-panel a { min-height: 2.75rem; }
   
   .cart { justify-self: end; }

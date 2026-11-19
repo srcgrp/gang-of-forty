@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import type { LoadState, ShopModel } from '../types';
 import { loadApiData } from '../api/load';
 import { errorState } from '../api/error-state';
@@ -7,10 +7,14 @@ import { useCartStore } from './useCartStore';
 
 type CatalogState = LoadState<ShopModel> & { retry: () => void };
 
+export const CatalogContext = createContext<CatalogState | null>(null);
+
 export function useCatalog(): CatalogState {
+  const shared = useContext(CatalogContext);
   const [state, setState] = useState<LoadState<ShopModel>>({ status: 'loading' });
   const [attempt, setAttempt] = useState(0);
   useEffect(() => {
+    if (shared) return;
     let ignore = false;
     useCartStore.getState().startCatalogLoad();
     loadApiData()
@@ -26,10 +30,10 @@ export function useCatalog(): CatalogState {
         setState(errorState(error));
       });
     return () => { ignore = true; };
-  }, [attempt]);
+  }, [attempt, shared]);
   function retry() {
     setState({ status: 'loading' });
     setAttempt((previous) => previous + 1);
   }
-  return { ...state, retry };
+  return shared ?? { ...state, retry };
 }
