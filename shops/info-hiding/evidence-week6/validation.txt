@@ -1,0 +1,22 @@
+Week 6 validation
+
+npm ci: exit 0; 40 installed packages, 41 audited; zero vulnerabilities.
+npm run check: exit 0.
+npm run lint: exit 0; oxlint src --deny-warnings; no warnings.
+npm run build: exit 0; TypeScript, lint and Vite build passed.
+python shops/yasaman/check_ci.py: exit 0.
+Nu validator: index.html and style.css passed with --errors-only.
+html-validate: index.html passed.
+Browser tests: browser-checks.json; all recorded cases passed.
+Source checks: source-audit.json; all source files below 70 lines, no cycles.
+Typed route typo proof: typed-route-error.txt; bad route rejected, then corrected.
+React DevTools extension: actual Components and Profiler screenshots captured.
+Profiler enabled Record why each component rendered; add action committed one update.
+What caused this update: Header and CartPanel.
+Normal development and preview: no runtime, React key or console warnings/errors.
+Direct static production PLP refresh was tested under /shops/yasaman/.
+
+Official check-shop/check-arch tools were absent from the academy public main.
+They were NOT run. The user said the academy does not require or supply them.
+Local checks above are not presented as official checker output.
+Academy PR and Porsline submission remain separate handoff actions.

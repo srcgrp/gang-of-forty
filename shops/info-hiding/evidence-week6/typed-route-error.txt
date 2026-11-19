@@ -1,0 +1,14 @@
+Intentional route typo: /plp/$carouselID
+
+
+> yasaman@1.0.0 check
+> tsc --noEmit
+
+src/components/CarouselRow.tsx(14,19): error TS2820: Type '"/plp/$carouselID"' is not assignable to type '"." | ".." | "/" | "/plp/$carouselId"'. Did you mean '"/plp/$carouselId"'?
+src/components/CarouselRow.tsx(14,51): error TS2353: Object literal may only specify known properties, and 'carouselId' does not exist in type 'ParamsReducerFn<RouterCore<Route<Register, any, "/", "/", string, "__root__", undefined, {}, {}, AnyContext, AnyContext, {}, undefined, readonly [Route<unknown, RootRoute<Register, ... 10 more ..., undefined>, ... 15 more ..., undefined>, Route<...>], unknown, unknown, unknown, undefined>, "never", false, RouterHist...'.
+
+After restoring /plp/$carouselId:
+
+> yasaman@1.0.0 check
+> tsc --noEmit
+

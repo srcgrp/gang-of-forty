@@ -430,7 +430,7 @@ section:target, footer:target {
   border: 1px solid #a5b8aa;
   border-radius: 8px;
   background: var(--card);
-  color: #26372d;
+  color: #b8eacd;
 }
 
 #category-filters button[aria-pressed="true"] {
