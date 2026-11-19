@@ -28,6 +28,15 @@ export function removeFromCart(cart: Cart, id: number): Cart {
     return updatedCart
 }
 
+export function decreaseFromCart(cart: Cart, id: number): Cart {
+    const productId = String(id)
+    const quantity = cart[productId] ?? 0
+    if (quantity <= 1) {
+        return cart
+    }
+    return { ...cart, [productId]: quantity - 1 }
+}
+
 export function cartRows(
     cart: Cart,
     products: Product[],

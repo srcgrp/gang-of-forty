@@ -39,8 +39,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                     />
                     <AddToCartButton
                         product={product}
-                        inStock={!product.isUnavailable}
-                        onAdd={add}
+                        onAdd={(id) => add(id, product.stockQuantity)}
                     />
                 </div>
             </article>

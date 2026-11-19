@@ -1789,3 +1789,47 @@ button {
     align-items: center;
     margin-block-end: 0;
 }
+
+.cart-row__quantity,
+.cart-row__controls {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+}
+
+.cart-row__controls button {
+    inline-size: 2rem;
+    min-block-size: 2rem;
+    padding: 0;
+}
+
+.cart-row__controls button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.cart-row__subtotal {
+    padding-inline-start: var(--space-2);
+    font-size: var(--font-size-xs);
+}
+
+@media (max-width: 480px) {
+    .cart-row {
+        grid-template-columns: 1.5rem minmax(0, 1fr) auto;
+    }
+
+    .cart-row__remove {
+        grid-column: 3;
+        grid-row: 1;
+    }
+
+    .cart-row__quantity {
+        grid-column: 1 / 3;
+        grid-row: 2;
+    }
+
+    .cart-row__subtotal {
+        grid-column: 3;
+        grid-row: 2;
+    }
+}

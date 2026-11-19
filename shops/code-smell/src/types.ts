@@ -50,7 +50,7 @@ export type CartItem = Pick<Product, "id"> & { quantity: number }
 export type CartRowData = Product & CartItem & { lineTotal: number }
 export type ProductCardData = Product & {
     offer: Offer | undefined
-    isUnavailable: boolean
+    stockQuantity: number
     categoryName: string
     finalPrice: number
 }

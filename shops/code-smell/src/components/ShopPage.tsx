@@ -49,7 +49,11 @@ export default function ShopPage({
                 <Promos home={data.home} categories={data.categories} onPick={onPick} />
                 {!isSearching && <ProductGrid carousels={carousels} />}
                 <Guide shop={data.shop} />
-                <CartPanel products={data.products} offers={data.offers} />
+                <CartPanel
+                    products={data.products}
+                    offers={data.offers}
+                    stock={data.stock.items}
+                />
             </main>
             <Footer categories={data.categories} shop={data.shop} onPick={onPick} />
         </>

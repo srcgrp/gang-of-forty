@@ -1,12 +1,13 @@
 import { create } from "zustand"
 import type { Cart } from "../types"
-import { addToCart, removeFromCart } from "../cart/cartRules"
+import { addToCart, decreaseFromCart, removeFromCart } from "../cart/cartRules"
 import { loadCart, saveCart } from "../storage/cartStorage"
 
 type CartState = {
     cart: Cart
     cartOpen: boolean
-    add: (id: number) => void
+    add: (id: number, stockQuantity: number) => void
+    decrease: (id: number) => void
     remove: (id: number) => void
     toggle: () => void
 }
@@ -15,11 +16,18 @@ export const useCartStore = create<CartState>()(function (set) {
     return {
         cart: loadCart(),
         cartOpen: false,
-        add: function (id) {
+        add: function (id, stockQuantity) {
             set(function (state) {
-                return {
-                    cart: addToCart(state.cart, { id, quantity: 1 })
+                const quantity = state.cart[String(id)] ?? 0
+                if (quantity >= stockQuantity) {
+                    return state
                 }
+                return { cart: addToCart(state.cart, { id, quantity: 1 }) }
+            })
+        },
+        decrease: function (id) {
+            set(function (state) {
+                return { cart: decreaseFromCart(state.cart, id) }
             })
         },
         remove: function (id) {
