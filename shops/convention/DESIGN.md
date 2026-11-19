@@ -1,111 +1,61 @@
-# Convention Store - Design Documentation
+# Convention - Week 6
 
-## 1. Component Tree
+## Routes
 
-The application uses a component-based architecture with React.
+Routes are declared in `src/App.tsx`, the architecture entry point permitted to import pages.
+TanStack Router registration types every Link and parameter. Pages read parameters through
+`useParams({ from })`, avoiding an import cycle with App. Hash history preserves nested shop
+URLs on static hosting and supports refresh, Back and Forward.
 
-```text
-App
-├── Header
-├── CategoryNav
-├── ProductGrid
-│   └── ProductCard
-└── CartPanel
-```
+| Address | Page | Data |
+| --- | --- | --- |
+| `/` | HomePage | useCatalog; home.json carousels; category navigation; local search |
+| `/plp/$carouselId` | PlpPage | useParams; useCatalog; carouselProducts |
+| unmatched | NotFound | Return-home link |
 
-### Component Responsibilities
+Unknown list IDs display “این فهرست پیدا نشد”; empty lists remain valid lists.
+Home rows show at most four products and link to the complete list with its total count.
+Category navigation also accepts category slugs from categories.json.
 
-- **App:** Main component that manages application state, side effects, and connects other components.
-- **Header:** Displays the website header and cart item count.
-- **CategoryNav:** Displays product categories.
-- **ProductGrid:** Displays products and handles loading, success, empty, and error states.
-- **ProductCard:** Displays an individual product and provides an add-to-cart action.
-- **CartPanel:** Displays cart items, quantities, prices, and the total amount. It also provides the remove action.
+## Stores and data
 
-## 2. State Table
+| Store | Defined in | State | Writers | Persistence |
+| --- | --- | --- | --- | --- |
+| Theme | hooks/useThemeStore.ts | light/dark | ThemeToggle calls toggle | Zustand persist, convention-theme |
+| Cart | hooks/useCartStore.ts | CartItem[] only | ProductCard add; CartPanel remove | storage/cart-storage.ts, convention-cart |
 
-| State | Type | Location | Purpose |
-|---|---|---|---|
-| cart | CartItem[] | App | Stores cart items and quantities |
-| productsState | LoadState<Product[]> | App | Manages product loading and API results |
+Zustand was chosen for the cart because consumers subscribe to independent selectors without
+providers or prop passing. Count and totals are derived; pure cart functions remain in cart/.
+Header reads only the count, cards only the stable add action, and CartPanel reads lines.
+`useThemeStore()` subscribes to every update; `useThemeStore(s => s.theme)` subscribes only
+to the selected theme. Theme colors are CSS variables on Layout's wrapping div, not document.
+Hooks never access document. Browser storage is isolated in storage/ or persist middleware.
 
-### State Details
+useCatalog returns the LoadState discriminated union plus a retry action. Its effect ignores
+late results after unmount. A shared in-flight request and memory cache avoid duplicate loads
+across Layout, Home and PLP. Failures are not cached; retry starts a new request. All JSON is
+validated as unknown without casts. API requests remain in api/; selection remains in catalog/.
+Vite dev and preview serve the root repository API files through a read-only middleware because
+the former remote proxy returned HTTP 502. Deployment still uses ../../api from the shop URL.
 
-- The `cart` state is initialized using `loadCart()` from localStorage.
-- Cart changes are saved using `saveCart()`.
-- The `productsState` state manages four possible statuses:
-  - loading
-  - success
-  - empty
-  - error
-
-## 3. Derived Values
-
-The following values are calculated from the application state:
-
-| Value | Calculation | Purpose |
-|---|---|---|
-| products | Products from successful productsState | Provides available products |
-| cartLines | Matches cart items with product data | Provides complete cart item information |
-| total | Sum of price × quantity | Calculates the cart total |
-| cartCount | getCartCount(cart) | Calculates the total number of items in the cart |
-
-Derived values are calculated during rendering and are not stored as separate state.
-
-## 4. Side Effects
-
-The application uses React `useEffect` for the following operations:
-
-- Fetch products from the API.
-- Cancel pending API requests using `AbortController` during cleanup.
-- Save cart changes to localStorage using `saveCart`.
-- Update `document.title` whenever the cart changes.
-
-## 5. Folder Structure
+## Component trees
 
 ```text
-src/
-├── api/
-│   ├── catalog-data.ts
-│   ├── get-json.ts
-│   └── products.ts
-├── cart/
-│   └── cart.ts
-├── catalog/
-│   └── products.ts
-├── components/
-│   ├── CartPanel.tsx
-│   ├── CategoryNav.tsx
-│   ├── Header.tsx
-│   ├── ProductCard.tsx
-│   └── ProductGrid.tsx
-├── data/
-│   └── sample-products.ts
-├── storage/
-│   └── cart-storage.ts
-├── App.tsx
-├── main.tsx
-└── types.ts
+App -> RouterProvider -> Layout
+  Header -> ThemeToggle
+  main -> Outlet
+    HomePage -> CategoryNav, SearchBox, SaleCountdown, CarouselRow -> ProductCard
+    PlpPage -> ProductCard
+    NotFound -> home Link
+  CartPanel
 ```
 
-### Folder Responsibilities
+ProductCard is memoized and reads only the stable add selector. Cart changes update Header
+and CartPanel; they do not change page props or card subscriptions. Theme changes update the
+Layout wrapper; CSS variables propagate the new palette.
 
-- **api:** Handles API requests, product retrieval, and additional catalog data.
-- **cart:** Contains pure functions for cart operations.
-- **catalog:** Contains catalog-related utility functions.
-- **components:** Contains reusable React UI components.
-- **data:** Contains sample product data.
-- **storage:** Handles cart persistence in localStorage.
-- **App.tsx:** Manages application state and connects components.
-- **main.tsx:** React application entry point.
-- **types.ts:** Contains shared TypeScript types and interfaces.
+## Verification
 
-### Additional Notes
-
-Some modules are not currently connected to the main React application flow:
-
-- `data/sample-products.ts` contains sample product data.
-- `catalog/products.ts` contains the `formatPrice` utility.
-- `api/catalog-data.ts` provides functions for fetching categories, offers, and stock information.
-
-These modules are retained in the project but are not currently used by the active React components.
+Run from shops/convention: npm run check, npm run lint, npm run build, npm run preview.
+The requested check-shop.mjs does not exist in this checkout and was explicitly waived by the owner.
+Profiler evidence and final browser verification will be recorded after the bonus routes are complete.
