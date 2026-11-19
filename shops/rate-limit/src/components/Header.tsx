@@ -13,6 +13,7 @@ type HeaderProps = {
 
 export default function Header({ onCartClick }: HeaderProps) {
   const cartCount = useCartStore((s) => countItems(s.cart));
+  const stockMessage = useCartStore((s) => s.stockMessage);
   const query = useSearchStore((s) => s.query);
   const setQuery = useSearchStore((s) => s.setQuery);
 
@@ -33,6 +34,7 @@ export default function Header({ onCartClick }: HeaderProps) {
           <span className="cart-count">{toPersianDigits(cartCount)}</span>
         </div>
         <ThemeToggle />
+        <p className="cart-stock-message" role="status" aria-atomic="true">{stockMessage}</p>
       </div>
     </header>
   );

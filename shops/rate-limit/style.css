@@ -246,6 +246,25 @@ header p {
   gap: 10px;
 }
 
+header .cart-stock-message {
+  position: absolute;
+  top: calc(100% + 8px);
+  inset-inline-end: 0;
+  width: max-content;
+  max-width: min(280px, 85vw);
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text);
+  z-index: 40;
+}
+
+header .cart-stock-message:empty {
+  padding: 0;
+  border: 0;
+}
+
 .cart {
   display: flex;
   align-items: center;

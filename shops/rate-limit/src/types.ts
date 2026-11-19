@@ -77,6 +77,7 @@ export type CartLine = Pick<Product, "id" | "name" | "price"> & {
 export type Cart = Readonly<Record<number, CartLine>>;
 export interface CartState {
   cart: Cart;
+  stockMessage: string | null;
   add: (item: CatalogItem) => void;
   remove: (id: number) => void;
 }

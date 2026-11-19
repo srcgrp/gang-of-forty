@@ -1,8 +1,10 @@
 import { Link, useParams, useSearch } from '@tanstack/react-router';
 import { sortProducts } from '../../catalog/sort';
+import { filterItems } from '../../catalog/filter';
 import { carouselProducts, carouselTitle } from '../../catalog/group';
 import { toPersianDigits } from '../../format/price';
 import { useCatalog } from '../../hooks/useCatalog';
+import { useSearchStore } from '../../hooks/useSearchStore';
 import ProductCard from '../Productcard';
 import Status from '../Status';
 
@@ -10,6 +12,7 @@ export default function PlpPage() {
   const { carouselId } = useParams({ from: '/plp/$carouselId' });
   const { sort } = useSearch({ from: '/plp/$carouselId' });
   const state = useCatalog();
+  const query = useSearchStore((s) => s.query);
 
   if (state.status !== 'success') {
     return (
@@ -34,11 +37,13 @@ export default function PlpPage() {
     );
   }
 
+  const filteredProducts = filterItems(products, { query });
+
   return (
     <section className="category-section">
       <h2>{title}</h2>
       <div className="plp-meta">
-        <span>{toPersianDigits(products.length)} محصول</span>
+        <span>{toPersianDigits(filteredProducts.length)} محصول</span>
         <Link to="/" className="plp-back">بازگشت به خانه</Link>
       </div>
       <nav className="plp-meta" aria-label="مرتب‌سازی محصولات">
@@ -47,8 +52,11 @@ export default function PlpPage() {
         <Link to="/plp/$carouselId" params={{ carouselId }} search={{ sort: 'price' }}
           aria-current={sort === 'price' ? 'page' : undefined}>ارزان‌ترین</Link>
       </nav>
+      {filteredProducts.length === 0 && (
+        <p className="product-grid-empty" role="status">نتیجه‌ای پیدا نشد.</p>
+      )}
       <div className="plp-grid">
-        {sortProducts(products, sort).map((p) => (
+        {sortProducts(filteredProducts, sort).map((p) => (
           <ProductCard key={p.id} product={p} percent={p.percent} stock={p.stock} />
         ))}
       </div>
