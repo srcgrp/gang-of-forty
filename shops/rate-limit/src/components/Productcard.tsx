@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react';
+import { memo } from 'react';
 import type { CatalogItem } from '../types';
 import { toPersianDigits } from '../format/price';
 import { useCartStore } from '../hooks/useCartStore';
@@ -13,7 +14,7 @@ type ProductCardProps = {
   stock?: number;
 };
 
-export default function ProductCard({ product, percent, stock }: ProductCardProps) {
+function ProductCard({ product, percent, stock }: ProductCardProps) {
   const add = useCartStore((s) => s.add);
   const { name, price, oldPrice, unit, emoji, color } = product;
   const soldOut = stock === 0;
@@ -53,3 +54,5 @@ export default function ProductCard({ product, percent, stock }: ProductCardProp
     </article>
   );
 }
+
+export default memo(ProductCard);

@@ -2,6 +2,9 @@ import { useEffect } from 'react';
 import { cartTotal } from '../cart/cartLines';
 import { DEFAULT_CURRENCY, formatMoney, toPersianDigits } from '../format/price';
 import { useCartStore } from '../hooks/useCartStore';
+import type { Cart } from '../types';
+
+const EMPTY_CART: Cart = {};
 
 type CartPanelProps = {
   open: boolean;
@@ -9,7 +12,7 @@ type CartPanelProps = {
 };
 
 export default function CartPanel({ open, onClose }: CartPanelProps) {
-  const cart = useCartStore((s) => s.cart);
+  const cart = useCartStore((s) => open ? s.cart : EMPTY_CART);
   const remove = useCartStore((s) => s.remove);
   const lines = Object.values(cart);
 
