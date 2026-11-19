@@ -83,7 +83,7 @@ The routes are defined in `App.tsx` only. A list address with an unknown id (`#/
 
 | Information | Where it lives | Owner |
 |---|---|---|
-| Products, categories, offers, shop texts, home banners and carousels (5 JSON files) | Files in `/api` on the server. `useCatalog` loads them and keeps the result in shared state. The pages and components read the data through the hook. | The server |
+| Products, categories, offers, shop texts, home banners and carousels (5 JSON files) | Files in `/api` on the server. `useCatalog` loads them and keeps the result in its own state, one copy per component that calls it. The pages and components read the data through the hook. | The server |
 | Stock numbers (`stock.json`) | A file on the server. Loaded with the other five files by `useCatalog` when the data is needed. | The server |
 | The cart lines | `localStorage`, key `tracer-bullet:cart`, a JSON list of lines. `useCartStore` owns the cart in memory and saves changes through a `subscribe`. Survives a refresh. | The visitor's browser |
 | The selected theme | `localStorage`, key `tracer-bullet:theme`. `useThemeStore` owns the current theme and saves it so the choice survives a refresh. | The visitor's browser |
@@ -171,6 +171,7 @@ All 6 requests share one load (`Promise.all`), so any failure counts as one erro
 - The selected theme is restored from `localStorage` through `useThemeStore`, so it is independent of the catalog load state.
 - `PlpPage` reads its list id from the route rather than a selected-category state in `App`. Reloading, Back and Forward keep the correct list page.
 - Components read only the store values they need through selectors. The cart count, cart lines and cart actions are not passed down from `App` through callback props.
+- Every component that calls `useCatalog` fetches all 6 files itself, so the data is loaded twice at start (`Layout` and the page) and again each time a page mounts. A shared cache would avoid this. It is a known trade-off, read from the code.
 
 ## 6. Folders
 
