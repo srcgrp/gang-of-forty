@@ -1,29 +1,467 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت کمترین شگفتی</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>سوپرمارکت آنلاین کمترین شگفتی | خرید تازه و روزانه</title>
+  <meta name="author" content="vania">
+   <link rel="stylesheet" href="style.css">
+  <!-- فونت استاندارد فارسی وزیرمتن -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
 </head>
 <body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>😮 سلام دنیا!</h1>
+
+  <a href="#main-content" class="skip-link">پرش به محتوای اصلی</a>
+
+  <!-- نوار اطلاع‌رسانی بالای سایت -->
+  <aside class="top-banner" aria-label="اطلاعیه ویژه">
+    <div class="container">
+      <p>🚚 ارسال کاملاً رایگان و سریع برای سفارش‌های بالای ۵۰۰ هزار تومان در سراسر شهر</p>
+    </div>
+  </aside>
+
+  <!-- هدر اصلی -->
+  <header class="site-header">
+    <div class="container header-inner">
+      
+      <!-- لوگو و نام برند -->
+      <a href="#" class="brand-logo" aria-label="سوپرمارکت کمترین شگفتی">
+        <svg class="brand-svg" width="46" height="46" viewBox="0 0 48 48" role="img" aria-label="لوگو کمترین شگفتی">
+          <circle cx="24" cy="24" r="22" fill="#059669" />
+          <path d="M14 16 h6 l4 14 h12 l3 -10 h-22" stroke="#ffffff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+          <circle cx="25" cy="34" r="2.2" fill="#ffffff" />
+          <circle cx="34" cy="34" r="2.2" fill="#ffffff" />
+          <path d="M21 23 l3 3 l6 -6" stroke="#fcd34d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+        </svg>
+        <div class="brand-text">
+          <span class="shop-name">سوپرمارکت کمترین شگفتی</span>
+          <span class="shop-slogan">تازه، شفاف، بدون غافلگیری در فاکتور</span>
+        </div>
+      </a>
+
+      <!-- فرم جستجو -->
+      <form class="search-box" role="search">
+        <input type="search" placeholder="جستجو در میان ۲۰۰۰+ کالای سوپرمارکتی..." aria-label="جستجوی محصولات">
+        <button type="submit" aria-label="اجرای جستجو">🔍</button>
+      </form>
+
+      <!-- سبد خرید -->
+      <div class="cart-widget">
+        <button type="button" class="cart-btn" aria-label="سبد خرید شامل ۳ کالا">
+          <span class="cart-icon">🛒</span>
+          <span class="cart-title">سبد خرید</span>
+          <span class="badge">۳</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ناوبری اصلی -->
+    <nav class="main-nav" aria-label="ناوبری اصلی">
+      <div class="container nav-container">
+        
+        <input type="checkbox" id="menu-toggle" class="menu-toggle" aria-label="منوی موبایل">
+        <label for="menu-toggle" class="hamburger-btn">
+          <span>☰</span> دسته‌بندی محصولات
+        </label>
+
+        <ul class="nav-links">
+          <!-- منوی آبشاری همه دسته‌ها -->
+          <li class="dropdown-wrapper" tabindex="0">
+            <span class="dropdown-trigger">
+              <span>🗂️</span> همه دسته‌ها <span class="arrow-indicator">▾</span>
+            </span>
+            <ul class="dropdown-menu" aria-label="زیرمنوی دسته‌بندی‌ها">
+              <li>
+                <a href="#fruits">
+                  <span class="dropdown-icon-box bg-green-tint">
+                    <img src="glossy_red_apple_badge.png" alt="میوه" class="menu-mini-img" width="22" height="22" loading="lazy">
+                  </span>
+                  <span>میوه و سبزیجات</span>
+                </a>
+              </li>
+              <li>
+                <a href="#dairy">
+                  <span class="dropdown-icon-box bg-blue-tint">
+                    <img src="glossy_milk_glass_app_icon.png" alt="لبنیات" class="menu-mini-img" width="22" height="22" loading="lazy">
+                  </span>
+                  <span>لبنیات تازه</span>
+                </a>
+              </li>
+              <li>
+                <a href="#protein">
+                  <span class="dropdown-icon-box bg-red-tint">
+                    <img src="glossy_steak_badge_icon.png" alt="گوشت" class="menu-mini-img" width="22" height="22" loading="lazy">
+                  </span>
+                  <span>گوشت و مرغ</span>
+                </a>
+              </li>
+              <li>
+                <a href="#bakery">
+                  <span class="dropdown-icon-box bg-amber-tint">
+                    <img src="bread.png" alt="نان" class="menu-mini-img" width="22" height="22" loading="lazy">
+                  </span>
+                  <span>نان و غلات</span>
+                </a>
+              </li>
+              <li>
+                <a href="#drinks">
+                  <span class="dropdown-icon-box bg-teal-tint">
+                    <img src="glossy_green_juice_carton_icon.png" alt="نوشیدنی" class="menu-mini-img" width="22" height="22" loading="lazy">
+                  </span>
+                  <span>نوشیدنی‌ها</span>
+                </a>
+              </li>
+              <li>
+                <a href="#snacks">
+                  <span class="dropdown-icon-box bg-pink-tint">
+                    <img src="glossy_pink_popcorn_badge.png" alt="تنقلات" class="menu-mini-img" width="22" height="22" loading="lazy">
+                  </span>
+                  <span>تنقلات سالم</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li><a href="#discounts" class="active-link">🔥 پیشنهاد ویژه</a></li>
+          <li><a href="#dairy">لبنیات ارگانیک</a></li>
+          <li><a href="#fruits">میوه و تره‌بار</a></li>
+          <li><a href="#bakery">نان داغ روز</a></li>
+          <li><a href="#contact">تماس و پشتیبانی</a></li>
+        </ul>
+      </div>
+    </nav>
   </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>کمترین شگفتی</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p><bdi>Principle of Least Astonishment</bdi> یعنی «اصل کمترین شگفتی»: هر چیزی باید همان‌طور رفتار کند که کاربر یا برنامه‌نویس انتظار دارد. تابعی به اسم <bdi>getPrice</bdi> نباید چیزی را پاک کند و دکمه «انصراف» نباید سفارش را ثبت کند. اگر رفتار کدت کسی را غافلگیر کند، احتمالاً طراحی ایراد دارد.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
-    </section>
+
+  <!-- محتوای اصلی -->
+  <main id="main-content">
+    <div class="container">
+      
+      <!-- ================= بخش بنرهای شاخص (Hero Banners) ================= -->
+      <section class="hero-banners-section" aria-label="پیشنهادهای برتر">
+        <div class="container hero-banners-grid">
+          
+          <!-- بنر میوه و سبزیجات (راست) -->
+          <article class="hero-banner-card banner-fruit">
+            <div class="banner-overlay"></div>
+            <div class="hero-banner-content">
+              <span class="hero-badge">🌱 برداشت روز</span>
+              <h2 class="hero-banner-title">میوه و سبزیجات<br>دست‌چین روز</h2>
+              <p class="hero-banner-desc">تازه از مزارع ایرانی، مستقیم به خانه شما</p>
+              <a href="#fruits" class="hero-banner-btn">مشاهده تازه‌ها ←</a>
+            </div>
+          </article>
+
+          <!-- بنر لبنیات ارگانیک (چپ) -->
+          <article class="hero-banner-card banner-dairy">
+            <div class="banner-overlay"></div>
+            <div class="hero-banner-content">
+              <span class="hero-badge">🥛 تضمین کیفیت و قیمت</span>
+              <h2 class="hero-banner-title">تا ۲۰٪ تخفیف<br>جشنواره لبنیات ارگانیک</h2>
+              <p class="hero-banner-desc">لذت طعم طبیعی با بهترین قیمت‌ها</p>
+              <a href="#dairy" class="hero-banner-btn">خرید لبنیات تازه ←</a>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- ================= بخش دسته‌بندی‌های محبوب ================= -->
+      <section class="categories-section" aria-labelledby="cat-main-heading">
+        <div class="container">
+          <div class="section-title-wrapper">
+            <h2 id="cat-main-heading" class="categories-heading">🍃 دسته‌بندی‌های محبوب</h2>
+            <a href="#all-cats" class="view-all-link">مشاهده همه دسته‌ها ←</a>
+          </div>
+
+          <div class="categories-grid">
+
+            <!-- ۱. لبنیات -->
+            <a href="#dairy" class="cat-pill-card">
+              <div class="cat-pill-icon bg-blue-tint">
+                <img src="glossy_milk_glass_app_icon.png" alt="دسته‌بندی لبنیات" class="cat-img" width="60" height="60" loading="lazy">
+              </div>
+              <span class="cat-pill-name">لبنیات</span>
+            </a>
+
+            <!-- ۲. میوه و سبزی -->
+            <a href="#fruits" class="cat-pill-card">
+              <div class="cat-pill-icon bg-green-tint">
+                <img src="glossy_red_apple_badge.png" alt="دسته‌بندی میوه و سبزی" class="cat-img" width="60" height="60" loading="lazy">
+              </div>
+              <span class="cat-pill-name">میوه و سبزی</span>
+            </a>
+
+            <!-- ۳. گوشت و مرغ -->
+            <a href="#protein" class="cat-pill-card">
+              <div class="cat-pill-icon bg-red-tint">
+                <img src="glossy_steak_badge_icon.png" alt="دسته‌بندی گوشت و مرغ" class="cat-img" width="60" height="60" loading="lazy">
+              </div>
+              <span class="cat-pill-name">گوشت و مرغ</span>
+            </a>
+
+            <!-- ۴. نان و شیرینی -->
+            <a href="#bakery" class="cat-pill-card">
+              <div class="cat-pill-icon bg-amber-tint">
+                <img src="bread.png" alt="دسته‌بندی نان و شیرینی" class="cat-img" width="60" height="60" loading="lazy">
+              </div>
+              <span class="cat-pill-name">نان و شیرینی</span>
+            </a>
+
+            <!-- ۵. نوشیدنی‌ها -->
+            <a href="#drinks" class="cat-pill-card">
+              <div class="cat-pill-icon bg-teal-tint">
+                <img src="glossy_green_juice_carton_icon.png" alt="دسته‌بندی نوشیدنی‌ها" class="cat-img" width="60" height="60" loading="lazy">
+              </div>
+              <span class="cat-pill-name">نوشیدنی</span>
+            </a>
+
+            <!-- ۶. تنقلات سالم -->
+            <a href="#snacks" class="cat-pill-card">
+              <div class="cat-pill-icon bg-pink-tint">
+                <img src="glossy_pink_popcorn_badge.png" alt="دسته‌بندی تنقلات سالم" class="cat-img" width="60" height="60" loading="lazy">
+              </div>
+              <span class="cat-pill-name">تنقلات سالم</span>
+            </a>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- کاروسل ۱: پیشنهاد ویژه امروز -->
+      <section id="discounts" class="carousel-section" aria-label="پیشنهاد ویژه امروز">
+        <div class="section-header">
+          <div class="header-title-group">
+            <span class="pulse-icon">🔥</span>
+            <h2 class="carousel-heading">پیشنهادهای شگفت‌انگیز امروز</h2>
+          </div>
+          <div class="carousel-controls">
+            <a href="#disc-1" class="scroll-btn" aria-label="محصولات ابتدا">❯ ابتدا</a>
+            <a href="#disc-6" class="scroll-btn" aria-label="محصولات انتها">انتها ❮</a>
+          </div>
+        </div>
+
+        <div class="carousel-track" id="track-disc" tabindex="0" aria-label="لیست افقی تخفیف‌ها">
+          
+          <article class="product-card" id="disc-1">
+            <span class="badge-tag tag-discount">۲۵٪ تخفیف</span>
+            <div class="product-img-box">
+              <span class="emoji-visual">🍅</span>
+            </div>
+            <h3 class="product-name">گوجه‌فرنگی بوته‌ای تازه</h3>
+            <p class="product-unit">بسته‌بندی ۱ کیلوگرمی</p>
+            <div class="price-container">
+              <del>۶۰,۰۰۰</del>
+              <span class="current-price">۴۵,۰۰۰ تومان</span>
+            </div>
+            <button type="button" class="add-to-cart-btn">➕ افزودن به سبد</button>
+          </article>
+
+          <article class="product-card" id="disc-2">
+            <span class="badge-tag tag-discount">۱۵٪ تخفیف</span>
+            <div class="product-img-box">
+              <span class="emoji-visual">🥛</span>
+            </div>
+            <h3 class="product-name">شیر بطری کم‌چرب محلی</h3>
+            <p class="product-unit">۱ لیتر خالص</p>
+            <div class="price-container">
+              <del>۴۰,۰۰۰</del>
+              <span class="current-price">۳۴,۰۰۰ تومان</span>
+            </div>
+            <button type="button" class="add-to-cart-btn">➕ افزودن به سبد</button>
+          </article>
+
+          <article class="product-card" id="disc-3">
+            <span class="badge-tag tag-discount">۳۰٪ تخفیف</span>
+            <div class="product-img-box">
+              <span class="emoji-visual">🍌</span>
+            </div>
+            <h3 class="product-name">موز اکوادور ممتاز</h3>
+            <p class="product-unit">دست‌چین ۱ کیلوگرم</p>
+            <div class="price-container">
+              <del>۱۴۰,۰۰۰</del>
+              <span class="current-price">۹۸,۰۰۰ تومان</span>
+            </div>
+            <button type="button" class="add-to-cart-btn">➕ افزودن به سبد</button>
+          </article>
+
+          <article class="product-card" id="disc-4">
+            <span class="badge-tag tag-discount">۱۰٪ تخفیف</span>
+            <div class="product-img-box">
+              <span class="emoji-visual">🥒</span>
+            </div>
+            <h3 class="product-name">خیار قلمی گلخانه‌ای</h3>
+            <p class="product-unit">بسته‌بندی ۱ کیلوگرم</p>
+            <div class="price-container">
+              <del>۳۵,۰۰۰</del>
+              <span class="current-price">۳۱,۵۰۰ تومان</span>
+            </div>
+            <button type="button" class="add-to-cart-btn">➕ افزودن به سبد</button>
+          </article>
+
+          <article class="product-card" id="disc-5">
+            <span class="badge-tag tag-special">ویژه</span>
+            <div class="product-img-box">
+              <span class="emoji-visual">🥔</span>
+            </div>
+            <h3 class="product-name">سیب‌زمینی پاک‌شده ممتاز</h3>
+            <p class="product-unit">بسته ۲ کیلوگرمی</p>
+            <div class="price-container">
+              <span class="current-price">۵۸,۰۰۰ تومان</span>
+            </div>
+            <button type="button" class="add-to-cart-btn">➕ افزودن به سبد</button>
+          </article>
+
+          <article class="product-card is-out" id="disc-6">
+            <span class="badge-tag tag-out">اتمام موجودی</span>
+            <div class="product-img-box">
+              <span class="emoji-visual">🥑</span>
+            </div>
+            <h3 class="product-name">آووکادو تازه وارداتی</h3>
+            <p class="product-unit">۱ عدد درشت</p>
+            <div class="price-container">
+              <span class="current-price">۱۳۵,۰۰۰ تومان</span>
+            </div>
+            <button type="button" class="add-to-cart-btn" disabled>ناموجود</button>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- کاروسل ۲: لبنیات تازه -->
+      <section id="dairy" class="carousel-section" aria-label="محصولات لبنی">
+        <div class="section-header">
+          <div class="header-title-group">
+            <span class="pulse-icon">🥛</span>
+            <h2 class="carousel-heading">لبنیات تازه و محلی</h2>
+          </div>
+          <div class="carousel-controls">
+            <a href="#dairy-1" class="scroll-btn" aria-label="لبنیات ابتدا">❯ ابتدا</a>
+            <a href="#dairy-6" class="scroll-btn" aria-label="لبنیات انتها">انتها ❮</a>
+          </div>
+        </div>
+
+        <div class="carousel-track" id="track-dairy" tabindex="0" aria-label="لیست افقی لبنیات">
+          
+          <article class="product-card" id="dairy-1">
+            <span class="badge-tag tag-discount">۱۵٪ تخفیف</span>
+            <div class="product-img-box">
+              <span class="emoji-visual">🥛</span>
+            </div>
+            <h3 class="product-name">شیر پاستوریزه کم‌چرب</h3>
+            <p class="product-unit">بطری ۱ لیتری</p>
+            <div class="price-container">
+              <del>۴۰,۰۰۰</del>
+              <span class="current-price">۳۴,۰۰۰ تومان</span>
+            </div>
+            <button type="button" class="add-to-cart-btn">➕ افزودن به سبد</button>
+          </article>
+
+          <article class="product-card" id="dairy-2">
+            <div class="product-img-box">
+              <span class="emoji-visual">🧀</span>
+            </div>
+            <h3 class="product-name">پنیر لیقوان اصیل سنتی</h3>
+            <p class="product-unit">ظرف ۴۰۰ گرم</p>
+            <div class="price-container">
+              <span class="current-price">۸۵,۰۰۰ تومان</span>
+            </div>
+            <button type="button" class="add-to-cart-btn">➕ افزودن به سبد</button>
+          </article>
+
+          <article class="product-card" id="dairy-3">
+            <div class="product-img-box">
+              <span class="emoji-visual">🍶</span>
+            </div>
+            <h3 class="product-name">ماست چکیده هم‌زده پرچرب</h3>
+            <p class="product-unit">سطل ۹۰۰ گرم</p>
+            <div class="price-container">
+              <span class="current-price">۶۹,۰۰۰ تومان</span>
+            </div>
+            <button type="button" class="add-to-cart-btn">➕ افزودن به سبد</button>
+          </article>
+
+          <article class="product-card" id="dairy-4">
+            <span class="badge-tag tag-discount">۱۲٪ تخفیف</span>
+            <div class="product-img-box">
+              <span class="emoji-visual">🧈</span>
+            </div>
+            <h3 class="product-name">کره حیوانی اعلا محلی</h3>
+            <p class="product-unit">قالب ۱۰۰ گرم</p>
+            <div class="price-container">
+              <del>۴۸,۰۰۰</del>
+              <span class="current-price">۴۲,۰۰۰ تومان</span>
+            </div>
+            <button type="button" class="add-to-cart-btn">➕ افزودن به سبد</button>
+          </article>
+
+          <article class="product-card" id="dairy-5">
+            <div class="product-img-box">
+              <span class="emoji-visual">🥣</span>
+            </div>
+            <h3 class="product-name">سرشیر تازه گاومیش</h3>
+            <p class="product-unit">بسته ۲۰۰ گرم</p>
+            <div class="price-container">
+              <span class="current-price">۵۴,۰۰۰ تومان</span>
+            </div>
+            <button type="button" class="add-to-cart-btn">➕ افزودن به سبد</button>
+          </article>
+
+          <article class="product-card" id="dairy-6">
+            <div class="product-img-box">
+              <span class="emoji-visual">🫙</span>
+            </div>
+            <h3 class="product-name">کشک سنتی بدون نمک غلیظ</h3>
+            <p class="product-unit">شیشه ۵۰۰ گرم</p>
+            <div class="price-container">
+              <span class="current-price">۶۲,۰۰۰ تومان</span>
+            </div>
+            <button type="button" class="add-to-cart-btn">➕ افزودن به سبد</button>
+          </article>
+
+        </div>
+      </section>
+
+    </div>
   </main>
-  <footer>
-    <p dir="ltr">slug: <code>least-surprise</code></p>
+
+  <!-- فوتر فروشگاه -->
+  <footer id="contact" class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h3 class="footer-title">درباره سوپرمارکت کمترین شگفتی</h3>
+          <p class="footer-text">هدف ما ایجاد خریدی آسوده، شفاف و بدون تغییر ناگهانی قیمت در فاکتور نهایی است. کلیه محصولات سوپرمارکتی، لبنیات روز و تره‌بار مستقیماً از تأمین‌کنندگان معتبر آماده و در کمترین زمان ارسال می‌گردند.</p>
+        </div>
+
+        <div class="footer-col">
+          <h3 class="footer-title">دسترسی و بخش‌ها</h3>
+          <ul class="footer-links">
+            <li><a href="#discounts">تخفیف‌های شگفت‌انگیز</a></li>
+            <li><a href="#dairy">لبنیات و پروتئین</a></li>
+            <li><a href="#fruits">میوه و سبزیجات روز</a></li>
+            <li><a href="#bakery">نان و شیرینی تازه</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h3 class="footer-title">ارتباط و پشتیبانی</h3>
+          <address class="footer-contact">
+            <p>📍 نشانی: تهران، خیابان ولیعصر، جنب پارک ملت</p>
+            <p>📞 پشتیبانی: <span dir="ltr">021 - 8877 6655</span></p>
+            <p>✉️ ایمیل: info@least-surprise.local</p>
+            <p>⏰ ساعات کاری: همه‌روزه از ۸ صبح الی ۲۴</p>
+          </address>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© ۱۴۰۵ کلیه حقوق برای سوپرمارکت آنلاین کمترین شگفتی محفوظ است.</p>
+        <a href="#main-content" class="back-to-top">↑ بازگشت به بالای صفحه</a>
+      </div>
+    </div>
   </footer>
+
 </body>
 </html>

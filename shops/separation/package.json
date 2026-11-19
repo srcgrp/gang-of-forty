@@ -1,0 +1,22 @@
+{
+  "name": "separation",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "check": "tsc --noEmit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "typescript": "^7.0.2",
+    "vite": "^8.3.5"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5"
+  }
+}

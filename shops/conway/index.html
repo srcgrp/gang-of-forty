@@ -1,29 +1,398 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت قانون کانوی</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
+  <title>سوپرمارکت گلرخ | میوه، لبنیات و خواربار تازه</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>🏢 سلام دنیا!</h1>
+<body id="top">
+  <a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+
+  <!-- Notice bar -->
+  <p class="notice-bar"><span aria-hidden="true">🚚</span> ارسال رایگان برای خریدهای بالای ۵۰۰ هزار تومان</p>
+
+  <!-- Header -->
+  <header class="header">
+    <!-- Mobile menu: the checkbox trick, no JavaScript -->
+    <input type="checkbox" id="menu-toggle" class="menu-checkbox hidden-text">
+
+    <div class="container header-row">
+      <a href="#top" class="logo">
+        <svg role="img" viewBox="0 0 48 48" width="48" height="48">
+          <title>لوگوی سوپرمارکت گلرخ</title>
+          <circle cx="24" cy="24" r="24" fill="#c2410c" />
+          <polyline points="14,24 24,10 34,24" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          <circle cx="19" cy="21" r="5" fill="#b91c1c" />
+          <polygon points="19,16 22,11 24,14" fill="#fffaf5" />
+          <circle cx="29" cy="21" r="4.5" fill="#fdba74" />
+          <rect x="8" y="22" width="32" height="5" rx="2" fill="#fdba74" />
+          <polygon points="11,27 37,27 34,39 14,39" fill="#ffffff" />
+          <line x1="19" y1="30" x2="19" y2="36" stroke="#c2410c" stroke-width="2" stroke-linecap="round" />
+          <line x1="24" y1="30" x2="24" y2="36" stroke="#c2410c" stroke-width="2" stroke-linecap="round" />
+          <line x1="29" y1="30" x2="29" y2="36" stroke="#c2410c" stroke-width="2" stroke-linecap="round" />
+        </svg>
+        <span class="logo-text">
+          <span class="shop-name">سوپرمارکت گلرخ</span>
+          <span class="slogan">هر روز تازه، همیشه نزدیک</span>
+        </span>
+      </a>
+
+      <div class="search-box">
+        <label for="search" class="hidden-text">جستجو</label>
+        <input type="search" id="search" placeholder="جستجو در میان ۴۳ کالا ...">
+      </div>
+
+      <button type="button" class="cart-button"><span aria-hidden="true">🛒</span> <span class="cart-text">سبد خرید</span> <span class="cart-count" id="cart-count">۰</span></button>
+
+      <label for="menu-toggle" class="menu-button"><span aria-hidden="true">☰</span><span class="hidden-text">باز و بسته کردن منو</span></label>
+    </div>
+
+    <!-- Main menu -->
+    <nav class="main-menu" aria-label="منوی اصلی">
+      <ul class="container menu-list">
+        <li class="all-categories">
+          <button type="button" class="all-categories-button"><span aria-hidden="true">☰</span> همه دسته‌ها</button>
+          <ul class="mega-menu">
+            <li><a href="#fruits"><span class="mega-icon bg-fruits" aria-hidden="true">🍎</span> میوه و سبزی</a></li>
+            <li><a href="#dairy"><span class="mega-icon bg-dairy" aria-hidden="true">🥛</span> لبنیات</a></li>
+            <li><a href="#bakery"><span class="mega-icon bg-bakery" aria-hidden="true">🥖</span> نان و شیرینی</a></li>
+            <li><a href="#pantry"><span class="mega-icon bg-pantry" aria-hidden="true">🍚</span> خواربار</a></li>
+            <li><a href="#drinks"><span class="mega-icon bg-drinks" aria-hidden="true">🧃</span> نوشیدنی</a></li>
+            <li><a href="#protein"><span class="mega-icon bg-protein" aria-hidden="true">🍗</span> پروتئین</a></li>
+            <li><a href="#snacks"><span class="mega-icon bg-snacks" aria-hidden="true">🍪</span> تنقلات</a></li>
+          </ul>
+        </li>
+        <li><a href="#offers">پیشنهاد ویژه</a></li>
+        <li><a href="#fruits">میوه و سبزی</a></li>
+        <li><a href="#dairy">لبنیات</a></li>
+        <li><a href="#bakery">نان تازه</a></li>
+        <li><a href="#contact">تماس با ما</a></li>
+      </ul>
+    </nav>
   </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>قانون کانوی</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p>ملوین کانوی سال ۱۹۶۷ گفت: «هر سازمانی که سیستمی طراحی کند، سیستمی می‌سازد که ساختارش کپی ساختار ارتباطی آن سازمان است.» اگر سه تیم روی یک کامپایلر کار کنند، کامپایلر سه‌مرحله‌ای می‌شود. معماری نرم‌افزار آینه تیم‌هاست.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
-    </section>
+
+  <main id="main" tabindex="-1">
+    <div class="container">
+
+      <!-- Hero and side banner -->
+      <div class="hero-row">
+        <section class="hero">
+          <div class="hero-text">
+            <h1>میوه‌های تازه، هر روز صبح</h1>
+            <p>مستقیم از باغ‌های اطراف شهر، تا دو ساعت بعد دم در خانه شما.</p>
+            <a href="#fruits" class="button-light">خرید میوه و سبزی</a>
+          </div>
+          <span class="hero-emoji" aria-hidden="true">🍉</span>
+        </section>
+
+        <section class="side-banner">
+          <h2>تا ۲۰٪ تخفیف لبنیات</h2>
+          <p>فقط تا پایان هفته</p>
+          <span class="side-emoji" aria-hidden="true">🧀</span>
+          <a href="#dairy" class="button-main">دیدن محصولات</a>
+        </section>
+      </div>
+
+      <!-- Categories -->
+      <section class="categories" id="categories">
+        <h2>دسته‌بندی‌ها <span class="here-label">اینجا هستید</span></h2>
+        <ul class="category-list">
+          <li>
+            <a class="category-item" href="#fruits">
+              <span class="category-icon bg-fruits" aria-hidden="true">🍎</span>
+              میوه و سبزی
+            </a>
+          </li>
+          <li>
+            <a class="category-item" href="#dairy">
+              <span class="category-icon bg-dairy" aria-hidden="true">🥛</span>
+              لبنیات
+            </a>
+          </li>
+          <li>
+            <a class="category-item" href="#bakery">
+              <span class="category-icon bg-bakery" aria-hidden="true">🥖</span>
+              نان و شیرینی
+            </a>
+          </li>
+          <li>
+            <a class="category-item" href="#pantry">
+              <span class="category-icon bg-pantry" aria-hidden="true">🍚</span>
+              خواربار
+            </a>
+          </li>
+          <li>
+            <a class="category-item" href="#drinks">
+              <span class="category-icon bg-drinks" aria-hidden="true">🧃</span>
+              نوشیدنی
+            </a>
+          </li>
+          <li>
+            <a class="category-item" href="#protein">
+              <span class="category-icon bg-protein" aria-hidden="true">🍗</span>
+              پروتئین
+            </a>
+          </li>
+          <li>
+            <a class="category-item" href="#snacks">
+              <span class="category-icon bg-snacks" aria-hidden="true">🍪</span>
+              تنقلات
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Carousel: today's offers -->
+      <section class="product-section" id="offers">
+        <div class="section-head">
+          <h2><span aria-hidden="true">🔥</span> پیشنهاد ویژه امروز <span class="here-label">اینجا هستید</span></h2>
+          <div class="carousel-buttons">
+            <a class="carousel-button" href="#offers-first" aria-label="رفتن به اولین محصول">→</a>
+            <a class="carousel-button" href="#offers-last" aria-label="رفتن به آخرین محصول">←</a>
+          </div>
+        </div>
+
+        <section class="carousel" id="offers-list" tabindex="0" aria-label="محصولات پیشنهاد ویژه">
+          <article class="product-card" id="offers-first">
+            <span class="discount-badge">۲۵٪</span>
+            <div class="product-image bg-fruits" aria-hidden="true">🍅</div>
+            <div class="card-body">
+              <h3 class="product-name">گوجه‌فرنگی</h3>
+              <p class="product-unit">۱ کیلو</p>
+              <div class="price-row">
+                <p class="price"><s class="old-price"><span class="hidden-text">قیمت قبلی </span>۴۵٬۰۰۰</s> <span class="new-price">۳۳٬۷۵۰ تومان</span></p>
+                <button type="button" class="add-button" data-name="گوجه‌فرنگی"><span aria-hidden="true">+</span><span class="hidden-text">افزودن گوجه‌فرنگی به سبد</span></button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <span class="discount-badge">۳۰٪</span>
+            <div class="product-image bg-fruits" aria-hidden="true">🥒</div>
+            <div class="card-body">
+              <h3 class="product-name">خیار سالادی</h3>
+              <p class="product-unit">۱ کیلو</p>
+              <div class="price-row">
+                <p class="price"><s class="old-price"><span class="hidden-text">قیمت قبلی </span>۵۰٬۰۰۰</s> <span class="new-price">۳۵٬۰۰۰ تومان</span></p>
+                <button type="button" class="add-button" data-name="خیار سالادی"><span aria-hidden="true">+</span><span class="hidden-text">افزودن خیار سالادی به سبد</span></button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <span class="discount-badge">۱۵٪</span>
+            <div class="product-image bg-dairy" aria-hidden="true">🥛</div>
+            <div class="card-body">
+              <h3 class="product-name">شیر کم‌چرب</h3>
+              <p class="product-unit">۱ لیتر</p>
+              <div class="price-row">
+                <p class="price"><s class="old-price"><span class="hidden-text">قیمت قبلی </span>۳۸٬۰۰۰</s> <span class="new-price">۳۲٬۳۰۰ تومان</span></p>
+                <button type="button" class="add-button" data-name="شیر کم‌چرب"><span aria-hidden="true">+</span><span class="hidden-text">افزودن شیر کم‌چرب به سبد</span></button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <span class="discount-badge">۱۰٪</span>
+            <div class="product-image bg-dairy" aria-hidden="true">🧀</div>
+            <div class="card-body">
+              <h3 class="product-name">پنیر لیقوان</h3>
+              <p class="product-unit">۴۰۰ گرم</p>
+              <div class="price-row">
+                <p class="price"><s class="old-price"><span class="hidden-text">قیمت قبلی </span>۱۶۵٬۰۰۰</s> <span class="new-price">۱۴۸٬۵۰۰ تومان</span></p>
+                <button type="button" class="add-button" data-name="پنیر لیقوان"><span aria-hidden="true">+</span><span class="hidden-text">افزودن پنیر لیقوان به سبد</span></button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <span class="discount-badge">۲۰٪</span>
+            <div class="product-image bg-dairy" aria-hidden="true">🧈</div>
+            <div class="card-body">
+              <h3 class="product-name">کره حیوانی</h3>
+              <p class="product-unit">۱۰۰ گرم</p>
+              <div class="price-row">
+                <p class="price"><s class="old-price"><span class="hidden-text">قیمت قبلی </span>۷۰٬۰۰۰</s> <span class="new-price">۵۶٬۰۰۰ تومان</span></p>
+                <button type="button" class="add-button" data-name="کره حیوانی"><span aria-hidden="true">+</span><span class="hidden-text">افزودن کره حیوانی به سبد</span></button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <span class="discount-badge">۱۲٪</span>
+            <div class="product-image bg-drinks" aria-hidden="true">🍵</div>
+            <div class="card-body">
+              <h3 class="product-name">چای لاهیجان</h3>
+              <p class="product-unit">۴۵۰ گرم</p>
+              <div class="price-row">
+                <p class="price"><s class="old-price"><span class="hidden-text">قیمت قبلی </span>۲۳۰٬۰۰۰</s> <span class="new-price">۲۰۲٬۴۰۰ تومان</span></p>
+                <button type="button" class="add-button" data-name="چای لاهیجان"><span aria-hidden="true">+</span><span class="hidden-text">افزودن چای لاهیجان به سبد</span></button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card" id="offers-last">
+            <span class="discount-badge">۱۰٪</span>
+            <div class="product-image bg-protein" aria-hidden="true">🍗</div>
+            <div class="card-body">
+              <h3 class="product-name">ران مرغ</h3>
+              <p class="product-unit">۹۰۰ گرم</p>
+              <div class="price-row">
+                <p class="price"><s class="old-price"><span class="hidden-text">قیمت قبلی </span>۲۱۰٬۰۰۰</s> <span class="new-price">۱۸۹٬۰۰۰ تومان</span></p>
+                <button type="button" class="add-button" data-name="ران مرغ"><span aria-hidden="true">+</span><span class="hidden-text">افزودن ران مرغ به سبد</span></button>
+              </div>
+            </div>
+          </article>
+        </section>
+      </section>
+
+      <!-- Promo banners -->
+      <div class="promo-row">
+        <a href="#dairy" class="promo promo-breakfast">
+          <span class="promo-text">سبد صبحانه خانواده</span>
+          <span class="promo-emoji" aria-hidden="true">🍳</span>
+        </a>
+        <a href="#bakery" class="promo promo-bread">
+          <span class="promo-text">نان داغ، هر روز ساعت ۷</span>
+          <span class="promo-emoji" aria-hidden="true">🥐</span>
+        </a>
+      </div>
+
+      <!-- Carousel: dairy -->
+      <section class="product-section" id="dairy">
+        <div class="section-head">
+          <h2><span aria-hidden="true">🥛</span> لبنیات <span class="here-label">اینجا هستید</span></h2>
+          <div class="carousel-buttons">
+            <a class="carousel-button" href="#dairy-first" aria-label="رفتن به اولین محصول">→</a>
+            <a class="carousel-button" href="#dairy-last" aria-label="رفتن به آخرین محصول">←</a>
+          </div>
+        </div>
+
+        <section class="carousel" id="dairy-list" tabindex="0" aria-label="محصولات لبنیات" aria-live="polite">
+        </section>
+      </section>
+
+      <!-- Aisles: one box for every other category -->
+      <section class="aisles" aria-labelledby="aisles-title">
+        <h2 id="aisles-title">راهروهای فروشگاه</h2>
+        <div class="aisle-grid">
+          <section class="aisle bg-fruits" id="fruits">
+            <span class="aisle-emoji" aria-hidden="true">🍎</span>
+            <h3>میوه و سبزی <span class="here-label">اینجا هستید</span></h3>
+            <ul class="aisle-list">
+              <li>سیب قرمز دماوند</li>
+              <li>پرتقال تامسون شمال</li>
+              <li>موز</li>
+            </ul>
+          </section>
+
+          <section class="aisle bg-bakery" id="bakery">
+            <span class="aisle-emoji" aria-hidden="true">🥖</span>
+            <h3>نان و شیرینی <span class="here-label">اینجا هستید</span></h3>
+            <ul class="aisle-list">
+              <li>نان سنگک</li>
+              <li>نان باگت</li>
+              <li>کیک یزدی</li>
+            </ul>
+          </section>
+
+          <section class="aisle bg-pantry" id="pantry">
+            <span class="aisle-emoji" aria-hidden="true">🍚</span>
+            <h3>خواربار <span class="here-label">اینجا هستید</span></h3>
+            <ul class="aisle-list">
+              <li>برنج طارم هاشمی</li>
+              <li>عسل کوهستان</li>
+              <li>زعفران قائنات</li>
+            </ul>
+          </section>
+
+          <section class="aisle bg-drinks" id="drinks">
+            <span class="aisle-emoji" aria-hidden="true">🧃</span>
+            <h3>نوشیدنی <span class="here-label">اینجا هستید</span></h3>
+            <ul class="aisle-list">
+              <li>چای لاهیجان</li>
+              <li>دوغ محلی</li>
+              <li>آب معدنی</li>
+            </ul>
+          </section>
+
+          <section class="aisle bg-protein" id="protein">
+            <span class="aisle-emoji" aria-hidden="true">🍗</span>
+            <h3>پروتئین <span class="here-label">اینجا هستید</span></h3>
+            <ul class="aisle-list">
+              <li>ران مرغ</li>
+              <li>گوشت چرخ‌کرده</li>
+              <li>ماهی قزل‌آلا</li>
+            </ul>
+          </section>
+
+          <section class="aisle bg-snacks" id="snacks">
+            <span class="aisle-emoji" aria-hidden="true">🍪</span>
+            <h3>تنقلات <span class="here-label">اینجا هستید</span></h3>
+            <ul class="aisle-list">
+              <li>پاپ‌کورن</li>
+              <li>چیپس</li>
+              <li>شکلات تلخ</li>
+            </ul>
+          </section>
+        </div>
+      </section>
+
+    </div>
   </main>
-  <footer>
-    <p dir="ltr">slug: <code>conway</code></p>
+
+  <!-- Footer -->
+  <footer class="footer" id="contact">
+    <div class="container">
+      <div class="footer-columns">
+        <div class="footer-column">
+          <h2>سوپرمارکت گلرخ <span class="here-label">اینجا هستید</span></h2>
+          <p>از سال ۱۴۰۵ کنار شما هستیم؛ میوه و لبنیات تازه با قیمت منصفانه.</p>
+          <address>
+            <p><span aria-hidden="true">📍</span> تهران، خیابان گلرخ، پلاک ۱۲</p>
+            <p><span aria-hidden="true">☎</span> <a href="tel:+982112345678"><span dir="ltr">021&#8209;1234&#8209;5678</span></a></p>
+          </address>
+        </div>
+
+        <div class="footer-column">
+          <h2>دسته‌ها</h2>
+          <ul>
+            <li><a href="#fruits">میوه و سبزی</a></li>
+            <li><a href="#dairy">لبنیات</a></li>
+            <li><a href="#bakery">نان و شیرینی</a></li>
+            <li><a href="#pantry">خواربار</a></li>
+            <li><a href="#drinks">نوشیدنی</a></li>
+            <li><a href="#protein">پروتئین</a></li>
+            <li><a href="#snacks">تنقلات</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h2>دسترسی سریع</h2>
+          <ul>
+            <li><a href="#offers">پیشنهاد ویژه امروز</a></li>
+            <li><a href="#categories">دسته‌بندی‌ها</a></li>
+            <li><a href="#main">محتوای اصلی</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h2>ساعت کاری</h2>
+          <ul>
+            <li>شنبه تا پنجشنبه: ۸ تا ۲۲</li>
+            <li>جمعه: ۹ تا ۱۴</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© ۱۴۰۵ سوپرمارکت گلرخ — عضو دار و دسته چهل‌نفره</p>
+        <a href="#top" class="to-top">بازگشت به بالا ↑</a>
+      </div>
+    </div>
   </footer>
+
+  <script type="module" src="./script.ts"></script>
 </body>
 </html>
