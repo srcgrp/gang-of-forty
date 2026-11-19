@@ -23,10 +23,8 @@ export default function ProductGrid({ id, title, cards, total }: ProductGridProp
         <div className="product-shelf__inner">
           <div className="product-shelf__main">
             <div className="product-shelf__head">
-              <div className="product-shelf__heading">
-                <h2 id={titleId} className="product-shelf__title">{title}</h2>
-                {isOffers && <SalePromotion />}
-              </div>
+              <h2 id={titleId} className="product-shelf__title">{title}</h2>
+              {isOffers && <SalePromotion />}
               <div className="product-shelf__actions">
                 <CarouselNav
                   isAtStart={isAtStart}

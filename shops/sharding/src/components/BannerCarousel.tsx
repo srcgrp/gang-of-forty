@@ -13,9 +13,10 @@ export default function BannerCarousel({ banners, loading }: BannerCarouselProps
   const { trackRef, isAtStart, isAtEnd, scrollPrev, scrollNext } = useCarousel(loading ? 0 : banners.length + 1)
 
   if (loading) {
+    // The loaded track must mount separately so it starts with its own scroll position.
     return (
       <div className="hero-carousel">
-        <ul className="hero-carousel__track">
+        <ul key="loading" className="hero-carousel__track">
           {[1, 2, 3, 4].map((slot) => (
             <li key={slot} className="hero-carousel__slide" data-skeleton>
               <span className="hero-banner"></span>
@@ -28,7 +29,14 @@ export default function BannerCarousel({ banners, loading }: BannerCarouselProps
 
   return (
     <div className="hero-carousel">
-      <ul ref={trackRef} className="hero-carousel__track" id="banner-track" tabIndex={0} aria-label="کاروسل پیشنهادهای ویژه">
+      <ul
+        ref={trackRef}
+        className="hero-carousel__track"
+        id="banner-track"
+        data-scroll-restoration-id="banner-track"
+        tabIndex={0}
+        aria-label="کاروسل پیشنهادهای ویژه"
+      >
         <BasketSlide />
         {banners.map((src, i) => (
           <li key={src} className="hero-carousel__slide">
