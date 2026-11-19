@@ -3,30 +3,37 @@
 ## Component tree
 
 ```text
-App
-├─ Header
-├─ CategoryNav
-├─ ProductGrid (selected category)
-│  └─ ProductCard × n
-├─ ProductGrid (special offers)
-│  └─ ProductCard × n
-└─ CartPanel
+App (TanStack Router)
+└─ Layout
+   ├─ Header
+   ├─ Outlet
+   │  ├─ HomePage → CategoryNav, ProductGrid × n, CartPanel
+   │  ├─ PlpPage → ProductGrid, CartPanel
+   │  └─ NotFound
+   └─ Footer
 
 Header, ProductCard, and CartPanel read the cart directly from `useCartStore`.
 ```
+
+## Routes
+
+| URL | Page | Data source |
+|---|---|---|
+| `/` | `HomePage` with short product rows and a “مشاهده همه” link for each row | `useCatalog` and `src/catalog/carousels.ts` |
+| `/plp/$carouselId` | `PlpPage` with every product in that row | `useParams` and `carouselProducts` |
+| Any other URL | `NotFound` with a link home | No catalog data |
 
 ## State
 
 | State | Owner | Who changes it | Where it is saved |
 |---|---|---|---|
-| `categoryId` | `App` | `CategoryNav` through `onPick` | In memory |
+| selected route | TanStack Router | Category and “مشاهده همه” links | URL hash |
 | `lines` | `src/hooks/useCartStore.ts` | ProductCard and CartPanel actions | `storage/cartStorage.ts` |
 | catalog load state and retry attempt | `src/hooks/useCatalog.ts` | API effect and Retry button | In memory |
 
 These values are calculated while rendering and are not separate state:
 
-- `visibleProducts` filters products by `categoryId`.
-- `offerProducts` contains products with an offer.
+- `carouselProducts` selects all products, one category, or products with an offer.
 - `cartCount` adds the quantities in the cart.
 - `cartTotal` adds the current prices of cart products.
 
@@ -39,9 +46,11 @@ store subscription saves each updated cart through `storage/cartStorage.ts`.
 
 ## Data and folders
 
-- `src/App.tsx` applies the selected theme and renders the current page.
+- `src/App.tsx` defines typed routes with TanStack Router.
+- `src/components/Layout.tsx` applies the selected theme and renders `Header`, `Outlet`, and `Footer`.
 - `src/hooks/useCatalog.ts` loads and validates products, stock, and offers.
-- `src/components/pages/HomePage.tsx` uses the catalog hook and owns the selected category.
+- `src/components/pages/` contains `HomePage`, `PlpPage`, and `NotFound`.
+- `src/catalog/carousels.ts` defines home rows and selects products for each row.
 - `src/components/` contains `Header`, `CategoryNav`, `ProductGrid`, `ProductCard`, and `CartPanel`.
 - `src/api/` contains the existing API helpers and data guards.
 - `src/features/cart/` contains the pure cart update and total functions.

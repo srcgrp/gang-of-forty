@@ -766,6 +766,37 @@ html {
 .section-header h2 {
     margin: 0;
 }
+.section-header > a {
+    color: var(--accent);
+    font-weight: 700;
+    text-decoration: none;
+}
+.section-header > a:hover {
+    text-decoration: underline;
+}
+.plp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+}
+.plp-grid .tent-article {
+    width: auto;
+    min-width: 0;
+    flex-shrink: 1;
+}
+.not-found {
+    min-height: 50vh;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 12px;
+    color: var(--text);
+}
+.not-found a,
+.plp-section + a {
+    color: var(--accent);
+    font-weight: 700;
+}
 
 .carousel-nav {
     display: flex;

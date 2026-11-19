@@ -1,57 +1,35 @@
-import { useState } from "react";
 import { useCatalog } from "../../hooks/useCatalog";
 import type { Catalog } from "../../types";
-import CartPanel from "../CartPanel";
+import { CAROUSELS, carouselProducts } from "../../catalog/carousels";
 import CategoryNav from "../CategoryNav";
-import Footer from "../Footer";
-import Header from "../Header";
 import ProductGrid from "../ProductGrid";
+import CartPanel from "../CartPanel";
 
-function emptyCatalog(): Catalog {
-  return { products: [], offers: [], stock: { updatedAt: "", items: {} } };
-}
+const EMPTY: Catalog = { products: [], offers: [], stock: { updatedAt: "", items: {} } };
 
 export default function HomePage() {
   const { state, retry } = useCatalog();
-  const [categoryId, setCategoryId] = useState<number | null>(null);
-  const catalog = state.status === "success" ? state : emptyCatalog();
-  const visibleProducts = categoryId === null
-    ? catalog.products
-    : catalog.products.filter((product) => product.categoryId === categoryId);
-  const offerProducts = catalog.products.filter((product) =>
-    catalog.offers.some((offer) => offer.productId === product.id),
-  );
-  const message = state.status === "error"
-    ? "بارگذاری محصولات انجام نشد. لطفاً دوباره تلاش کنید."
-    : "در حال حاضر محصولی برای نمایش نیست.";
+  const catalog = state.status === "success" ? state : EMPTY;
+  const message = state.status === "error" ? "بارگذاری محصولات انجام نشد." : "در حال حاضر محصولی نیست.";
 
   return (
     <>
-      <Header />
-      <main id="main-content">
-        <CategoryNav selectedId={categoryId} onPick={setCategoryId} />
+      <CategoryNav />
+      {CAROUSELS.map((carousel) => (
         <ProductGrid
-          id="tents"
-          title="محصولات"
-          products={visibleProducts}
+          key={carousel.id}
+          id={carousel.id}
+          carouselId={carousel.id}
+          title={carousel.title}
+          products={(carouselProducts(catalog, carousel.id) ?? []).slice(0, 5)}
           status={state.status}
           message={message}
           stock={state.status === "success" ? state.stock : undefined}
           offers={catalog.offers}
           onRetry={retry}
         />
-        <ProductGrid
-          id="special-offers"
-          title="پیشنهاد ویژه"
-          products={offerProducts}
-          status={state.status}
-          message={message}
-          stock={state.status === "success" ? state.stock : undefined}
-          offers={catalog.offers}
-        />
-        <CartPanel products={catalog.products} />
-      </main>
-      <Footer />
+      ))}
+      {state.status === "success" && <CartPanel products={catalog.products} />}
     </>
   );
 }
