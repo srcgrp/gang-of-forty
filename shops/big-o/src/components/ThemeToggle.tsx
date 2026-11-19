@@ -4,7 +4,8 @@ export default function ThemeToggle() {
     const theme = useThemeStore((s) => s.theme)
     const toggle = useThemeStore((s) => s.toggle)
     return (
-        <button onClick= {toggle} type="button">
+        <button className="theme-toggle" onClick= {toggle} type="button">
+            <span aria-hidden="true">{theme === "light" ? "🌙" : "☀️"}</span>
             {theme === "light" ? "تم تیره" : "تم روشن"}
         </button>
     )

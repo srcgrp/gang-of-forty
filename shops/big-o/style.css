@@ -446,6 +446,32 @@ main {
   outline-offset: 2px;
 }
 
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 24px;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 50px;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.theme-toggle:hover {
+  background-color: var(--color-primary-soft);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
 .carousel-arrows {
   display: flex;
   justify-content: center;
@@ -898,6 +924,7 @@ footer ul {
   .product-card,
   .carousel-arrows a,
   .sale-toggle,
+  .theme-toggle,
   .mega-menu {
     transition: none;
   }
