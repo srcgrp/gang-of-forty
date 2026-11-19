@@ -1,6 +1,10 @@
 import type { Offer, Product } from "../types";
 import { calculateDiscountedPrice } from "../shared/pricing";
 import { useCartStore } from "../hooks/useCartStore";
+import { Notyf } from "notyf";
+import confetti from "canvas-confetti";
+
+const notyf = new Notyf();
 
 type ProductCardProps = {
   product: Product;
@@ -14,6 +18,11 @@ export default function ProductCard({
   stockCount,
 }: ProductCardProps) {
   const addToCart = useCartStore((state) => state.add);
+  const handleAdd = () => {
+    addToCart(product.id);
+    notyf.success(`${product.name} به سبد خرید اضافه شد`);
+    confetti({ particleCount: 60, spread: 70 });
+  };
   const price = offer
     ? calculateDiscountedPrice(product.price, offer.percent)
     : product.price;
@@ -37,7 +46,7 @@ export default function ProductCard({
           className="add-to-cart"
           aria-label={stockCount === 0 ? `${product.name} ناموجود است` : `افزودن ${product.name} به سبد خرید`}
           disabled={stockCount === 0}
-          onClick={() => addToCart(product.id)}
+          onClick={handleAdd}
         >
           +
         </button>

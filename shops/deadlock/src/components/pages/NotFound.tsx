@@ -5,7 +5,7 @@ export default function NotFound() {
     <main className="not-found">
       <h1>این صفحه پیدا نشد</h1>
       <p>آدرسی که باز کردی در فروشگاه وجود ندارد.</p>
-      <Link to="/">بازگشت به خانه</Link>
+      <Link className="page-back-link" to="/">بازگشت به خانه</Link>
     </main>
   );
 }

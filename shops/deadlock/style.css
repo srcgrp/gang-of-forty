@@ -13,6 +13,10 @@
     --banner: #b4a97c;
     --muted: #8A8A7A;
     --accent: #4F5B2A;
+    --action-bg: #4F5B2A;
+    --action-text: #fff;
+    --action-hover: #3e481f;
+    --logo-text: #2F3A26;
     --panel: rgba(255, 253, 247, 0.88);
     min-height: 100vh;
     color: var(--text);
@@ -28,6 +32,10 @@
     --banner: #676f4a;
     --muted: #b8ae91;
     --accent: #582f0e;
+    --action-bg: #c3ce8a;
+    --action-text: #25351f;
+    --action-hover: #f4e5c8;
+    --logo-text: #25351f;
     --panel: rgba(231, 216, 193, 0.97);
     --card-hover: #d9c6a5;
     --logo-back: #25351f;
@@ -126,7 +134,7 @@ header {
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 24px;
     font-weight: 800;
-    color: var(--text);
+    color: var(--logo-text);
     letter-spacing: 1px;
     line-height: 1.1;
     margin: 0;
@@ -767,12 +775,24 @@ html {
     margin: 0;
 }
 .section-header > a {
-    color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 8px 16px;
+    border: 1px solid var(--action-bg);
+    border-radius: 999px;
+    background-color: var(--action-bg);
+    color: var(--action-text);
     font-weight: 700;
     text-decoration: none;
+    transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
 }
 .section-header > a:hover {
-    text-decoration: underline;
+    background-color: var(--action-hover);
+    color: var(--logo-text);
+    box-shadow: 0 4px 12px rgba(37, 53, 31, 0.2);
+    transform: translateY(-1px);
 }
 .plp-grid {
     display: grid;
@@ -793,9 +813,29 @@ html {
     color: var(--text);
 }
 .not-found a,
-.plp-section + a {
-    color: var(--accent);
+.page-back-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 9px 18px;
+    border: 1px solid var(--action-bg);
+    border-radius: 999px;
+    background-color: var(--action-bg);
+    color: var(--action-text);
     font-weight: 700;
+    text-decoration: none;
+    transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.plp-back-link {
+    margin: 18px 16px 0;
+}
+.not-found a:hover,
+.page-back-link:hover {
+    background-color: var(--action-hover);
+    color: var(--logo-text);
+    box-shadow: 0 4px 12px rgba(37, 53, 31, 0.2);
+    transform: translateY(-1px);
 }
 
 .carousel-nav {
@@ -1460,7 +1500,7 @@ summary:focus-visible {
     background-color: var(--nav);
 }
 .app[data-theme="dark"] .logo-text {
-    color: var(--text);
+    color: var(--logo-text);
 }
 .app[data-theme="dark"] .product,
 .app[data-theme="dark"] .tent-article,
