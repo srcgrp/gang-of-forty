@@ -67,4 +67,7 @@ export type LoadState<T> =
 
 export type Theme = "light" | "dark"
 
+// How the products of the PLP page are sorted
+export type SortOption = "default" | "price"
+
 export type CartProduct = Pick<Product, "id" | "name" | "price">
