@@ -14,17 +14,14 @@ import CheckoutPage from "./pages/CheckoutPage";
 import NotFound from "./pages/NotFound";
 
 export type PlpSort = "default" | "price";
-
 const rootRoute = createRootRoute({
   component: RootLayout,
 });
-
 const homeRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/",
   component: HomePage,
 });
-
 const plpRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/plp/$carouselId",
@@ -33,19 +30,16 @@ const plpRoute = createRoute({
   }),
   component: PLP,
 });
-
 const productRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/product/$productId",
   component: ProductPage,
 });
-
 const cartRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/cart",
   component: CartPage,
 });
-
 const checkoutRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/checkout",
@@ -65,13 +59,11 @@ const router = createRouter({
   defaultNotFoundComponent: NotFound,
   history: createHashHistory(),
 });
-
 declare module "@tanstack/react-router" {
   interface Register {
     router: typeof router;
   }
 }
-
 export default function App() {
   return <RouterProvider router={router} />;
 }

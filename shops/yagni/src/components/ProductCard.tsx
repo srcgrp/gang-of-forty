@@ -2,7 +2,6 @@ import { memo } from "react";
 import { Link } from "@tanstack/react-router";
 import type { Product } from "../types";
 import { useCartStore } from "../hooks/useCartStore";
-
 interface ProductCardProps {
   product: Product;
   price: number;
@@ -10,7 +9,6 @@ interface ProductCardProps {
   discountPercent?: number;
   outOfStock?: boolean;
 }
-
 const ProductCard = memo(function ProductCard({
   product,
   price,
@@ -19,12 +17,15 @@ const ProductCard = memo(function ProductCard({
   outOfStock,
 }: ProductCardProps) {
   const add = useCartStore((state) => state.add);
-
   return (
-    <article className={`product-card${outOfStock ? " product-card--out-of-stock" : ""}`}>
+    <article
+      className={`product-card${outOfStock ? " product-card--out-of-stock" : ""}`}
+    >
       <div className="product-badges">
         {discountPercent !== undefined && (
-          <span className="badge-discount">{discountPercent.toLocaleString("fa-IR")}٪</span>
+          <span className="badge-discount">
+            {discountPercent.toLocaleString("fa-IR")}٪
+          </span>
         )}
         {product.tags.length > 0 && (
           <div className="product-tags">
@@ -55,9 +56,13 @@ const ProductCard = memo(function ProductCard({
       <div className="product-footer">
         <div className="product-pricing">
           {originalPrice !== undefined && (
-            <span className="old-price">{originalPrice.toLocaleString("fa-IR")} تومان</span>
+            <span className="old-price">
+              {originalPrice.toLocaleString("fa-IR")} تومان
+            </span>
           )}
-          <span className="current-price">{price.toLocaleString("fa-IR")} تومان</span>
+          <span className="current-price">
+            {price.toLocaleString("fa-IR")} تومان
+          </span>
         </div>
         <button
           className="add-btn"
@@ -66,11 +71,11 @@ const ProductCard = memo(function ProductCard({
           disabled={Boolean(outOfStock)}
           onClick={() => add(product, price)}
         >
+          {" "}
           +
         </button>
       </div>
     </article>
   );
 });
-
 export default ProductCard;
