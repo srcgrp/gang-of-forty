@@ -26,9 +26,9 @@ export default function Navigation(){
         </li>
 
             <li><a href="#categories">تنقلات</a></li>
-            <li><a href="#dairy">لبنیات  </a></li>
+            <li><a href="#dairy">لبنیات</a></li>
             <li><a href="#categories">میوه</a></li>
-            <li><a href="#categories">خوارباو </a></li>
+            <li><a href="#categories">خواربار</a></li>
             <li><a href="#categories">نوشیدنی</a></li>
             <li><a href="#categories">صبحانه</a></li>
             <li><a href="#special-offer-nuts">خشکبار</a></li>

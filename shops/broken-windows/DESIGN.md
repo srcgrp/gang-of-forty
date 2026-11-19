@@ -12,10 +12,22 @@
 - کاربر میتونه  با جستجو کردن محصول مورد نظر خودش رو در سایت پیدا کنه
 - تو بخش دسته بندی ها اگر کاربر روی هر دسته بزنه، به صفحه‌ی فهرست همون دسته (PLP) میره و همه‌ی محصولاتش رو می‌ بینه
 - کنار عنوان هر کاروسل لینک مشاهده همه هست که به صفحه‌ی فهرست همون کاروسل میره
+- کلیک روی کارت محصول صفحه مربوط به همون محصول رو باز میکنه 
+- کاربر می‌تونه محصولات رو از سبد خرید حذف کنه.
+- کاربر میتونه با کلیک روی عنوان محصول وارد صفحه جزئیات همون محصول بشه.
+- کاربر می‌تونه محصولات صفحه PLP رو بر اساس قیمت مرتب کنه.
+- ترتیب مرتب‌سازی بعد از Refresh حفظ می‌شه.
+- کاربر میتونه از صفحه محصول، محصول رو به سبد خرید اضافه کنه.
+- کاربر میتونه از صفحه Checkout اطلاعات نام، شماره موبایل و آدرسش رو وارد کنه.
+- فرم Checkout اطلاعات واردشده رو اعتبارسنجی میکنه و در صورت معتبر بودن، سبد خرید خالی می‌شه و کاربر به صفحه اصلی برمیگرده.
+- کاربر می‌تونه تم روشن و تیره رو انتخاب کنه و انتخابش بعد از Refresh حفظ می‌شه.
+- دکمه‌های Back و Forward مرورگر بین مسیرهای قبلی و بعدی کار می‌کنن.
+
+
+
 ### چه چیزی عمدا خارج ازین نسخه ست؟
 
 - ـ(دکمه ورود ظاهریه) لاگین کردن کاربر
-- کلیک روی کارت محصول چیزی رو باز نمیکنه 
 - موجودی انبار تو کارت محصولاتم نشون داده نمیشه
 - پرداخت و ثبت سفارش و حساب جمع نهایی توسط سرور
 
@@ -74,12 +86,14 @@ src/
       lookup.ts
       pageView.ts
       stock.ts    
+      sortProduct.ts
 
   cart/
     addToCart.ts
     removeFromCart.ts
     totals.ts
     unitPrice.ts
+    checkout.ts
 
 
    hooks/
@@ -87,15 +101,22 @@ src/
     useThemeStore.ts  
     useCartStore.ts  
     useSearchStore.ts
+    useCheckoutForm.ts
+
 
   components/
     pages/
         HomePage.tsx
         NotFound.tsx
         PlpPage.tsx 
+        ProductPage.tsx
+        CheckoutPage.tsx
     ArrowLeft.tsx
     Benefits.tsx
     CartPanel.tsx
+    CarouselRow.tsx
+    CartLink.tsx
+    CartPortal.tsx
     CategoryNave.tsx
     Footer.tsx
     FooterBottom.tsx
@@ -104,6 +125,7 @@ src/
     FooterInfo.tsx
     FooterOpenHours.tsx
     Header.tsx
+    FormField.tsx
     Hero.tsx
     DocumentTitle.tsx
     Layout.tsx
@@ -115,7 +137,6 @@ src/
     Status.tsx
     SearchBox.tsx
     ThemeToggle.tsx
-    carouselRow.tsx
   
   storage/
     cartStorage.ts
@@ -143,18 +164,21 @@ src/
 
 ## 8. مسیرها
 
-آدرس‌ها با `createHashHistory` ساخته میشن، پس شکلشون `#/plp/dairy` هست و با رفرش هم همون صفحه میاد. مسیرها فقط تو `App.tsx` تعریف شدن، چون قانون معماری فقط به `App.tsx` و `main.tsx` اجازه میده صفحه‌ها رو import کنن.
-
-| آدرس | صفحه | داده از کجا |
+| آدرس | صفحه | داده و منطق |
 |---|---|---|
-| `/` | `HomePage` | `useCatalog` برای گرفتن داده از api، `carouselProducts` و `carouselTitle` برای ساختن کاروسل‌ها، `searchProducts` برای جستجو |
-| `/plp/$carouselId` | `PlpPage` | `useParams` برای خوندن `carouselId` از آدرس، `useCatalog`، `carouselProducts` و `carouselTitle`، `searchProducts` |
-| هر آدرس دیگه (مثلا `/nowhere`) | `NotFound` | داده‌ای نمی‌خواد |
+| `/` | `HomePage` | `useCatalog` برای دریافت داده‌ها، `carouselProducts` و `carouselTitle` برای ساخت کاروسل‌ها و `searchProducts` برای جستجو |
+| `/plp/$carouselId` | `PlpPage` | `useParams` برای خواندن `carouselId`، `useSearch` برای خواندن sort، `useCatalog` برای دریافت داده‌ها و توابع مربوط به محصولات |
+| `/product/$productId` | `ProductPage` | `useParams` برای خواندن `productId` و پیدا کردن محصول |
+| `/checkout` | `CheckoutPage` | فرم کنترل‌شده و `useCheckoutForm` برای مدیریت فرم و اعتبارسنجی |
+| هر آدرس ناشناخته | `NotFound` | داده‌ای نیاز ندارد |
 
-- اگه `carouselId` ناشناخته باشه (مثلا `/plp/nothing`)، `carouselProducts` مقدار `null` برمی‌گردونه و `PlpPage` پیام «این فهرست پیدا نشد» رو نشون میده.
-- `carouselId` یا `offers` هست (محصولات تخفیف‌دار) یا `slug` یکی از دسته‌ها تو `categories.json`.
-- کاشی‌های دسته‌بندی و لینک «مشاهده همه» با `Link` به `/plp/$carouselId` میرن. آدرس و پارامتر تایپ‌دارن و غلط تایپی تو آدرس خطای TypeScript میده.
-- هر صفحه خودش `useCatalog` رو صدا می‌زنه، پس با رفتن به هر صفحه پنج فایل دوباره گرفته میشه.
+- در مسیر PLP از `validateSearch` برای اعتبارسنجی پارامتر sort استفاده شده است. مقدار `price` محصولات را بر اساس قیمت مرتب می‌کند و مقدار پیش‌فرض `default` ترتیب عادی را حفظ می‌کند.
+- اگر `productId` ناشناخته باشد، `ProductPage` پیام مناسب نمایش می‌دهد.
+- اگر `carouselId` ناشناخته باشد، `PlpPage` پیام «این فهرست پیدا نشد» را نمایش می‌دهد.
+- لینک عنوان هر کارت محصول به مسیر `/product/$productId` می‌رود.
+- مسیر Checkout از طریق `/checkout` در دسترس است.
+- مسیرها در `App.tsx` تعریف شده‌اند و برای مدیریت آدرس‌ها از `createHashHistory` استفاده شده است. به همین دلیل آدرس صفحات با `#` مشخص می‌شود و با Refresh کردن صفحه، مسیر فعلی حفظ می‌شود.
+
 
 ## 9. Storeها
 
@@ -163,7 +187,7 @@ Store یعنی State مشترک که بیرون از درخت React زندگی �
 | Store | کجا تعریف شده | چی توشه | کی عوضش می‌کنه | کجا ذخیره میشه |
 |---|---|---|---|---|
 | تم | `hooks/useThemeStore.ts` | `theme` و تابع `toggle` | دکمه‌ی `ThemeToggle` تو `Header` | `localStorage` با میدلور `persist` |
-| سبد | `hooks/useCartStore.ts` | `lines` و توابع `add` و `remove` | `add` با + تو `ProductCard`، `remove` با ✕ تو `CartPanel` | `localStorage` از راه `storage/cartStorage.ts` |
+| سبد | `hooks/useCartStore.ts` | `lines` و توابع `add` و `remove` و `clear` | `add` با + تو `ProductCard`، `remove` با ✕ تو `CartPanel` | `localStorage` از راه `storage/cartStorage.ts` |
 | جستجو | `hooks/useSearchStore.ts` | `query` و تابع `setQuery` | `SearchBox` تو `Header` | ذخیره نمیشه، با رفرش خالی میشه |
 
 ### چرا راه الف ینی zustand رو انتخاب کردم
@@ -182,20 +206,25 @@ Store یعنی State مشترک که بیرون از درخت React زندگی �
 ```
 App
 └─ RouterProvider
-   └─ Layout (div تم)
+   └─ Layout
       ├─ DocumentTitle
       ├─ Header
       │  ├─ SearchBox
-      │  └─ ThemeToggle
+      │  ├─ ThemeToggle
+      │  ├─ CartLink
+      │  └─ CartPortal
+      │     └─ CartPanel
       ├─ Navigation
       ├─ main
-      │  └─ Outlet  ← صفحه‌ی مسیر
+      │  └─ Outlet
       └─ Footer
          ├─ FooterInfo
          ├─ FooterCategory
          ├─ FooterContact
          ├─ FooterOpenHours
          └─ FooterBottom
+
+
 ```
 
 
@@ -206,13 +235,13 @@ HomePage
 ├─ Status (وقتی loading، empty یا error)
 ├─ Hero
 ├─ Benefits
-├─ CategoryNav (هر کاشی یه Link به PLP)
+├─ CategoryNave (هر کاشی یه Link به PLP)
 ├─ CarouselRow «پیشنهاد ویژه»
 │  └─ ProductGrid → ProductCard × n
 ├─ Middle
 ├─ CarouselRow «لبنیات»
 │  └─ ProductGrid → ProductCard × n
-├─ CartPanel
+├─ #cart-panel-root (محل نمایش Portal)
 └─ Notification
 ```
 ### صفحه‌ی فهرست محصولات `/plp/$carouselId`
@@ -224,6 +253,29 @@ PlpPage
 └─ وقتی id درسته:
    ├─ Link برگشت به خونه
    └─ ProductGrid (با wrap) → ProductCard × n
+```
+
+### صفحه محصول 
+
+```
+ProductPage
+├─ پیام محصول پیدا نشد (وقتی id ناشناخته است)
+└─ اطلاعات محصول
+   └─ دکمه افزودن به سبد خرید
+```
+
+
+### صفحه تسویه حساب 
+
+```
+
+CheckoutPage
+├─ پیام خالی بودن سبد (اگر سبد خالی باشد)
+└─ فرم تسویه حساب
+   ├─ فیلد نام
+   ├─ فیلد شماره موبایل
+   ├─ فیلد آدرس
+   └─ دکمه ثبت 
 ```
 
 ### صفحه‌ی پیدا نشد
