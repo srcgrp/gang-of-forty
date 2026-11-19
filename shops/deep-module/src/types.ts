@@ -1,5 +1,3 @@
-export type { ApiErrorType, LoadState } from "./shared/api/types";
-
 export interface Product {
   id: number;
   name: string;
@@ -59,11 +57,31 @@ export interface Home {
 }
 
 export interface AppData {
-  products: Product[]; categories: Category[]; shop: Shop;
-  home: Home; offers: Offer[]; stock: StockData;
+  products: Product[];
+  categories: Category[];
+  shop: Shop;
+  home: Home;
+  offers: Offer[];
+  stock: StockData;
 }
 
 export interface CartLine {
-  id: number; name: string; price: number; quantity: number;
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
   emoji?: string | undefined;
 }
+
+export type ApiErrorType =
+  | "timeout"
+  | "abort"
+  | "http"
+  | "parse"
+  | "network"
+  | "unknown";
+
+export type LoadState<T> =
+  | { status: "loading" }
+  | { status: "success"; data: T }
+  | { status: "error"; message: string; type?: ApiErrorType };

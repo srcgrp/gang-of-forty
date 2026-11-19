@@ -1,4 +1,4 @@
-import type { Category, Home, Offer, Product, Shop, StockData } from "../types";
+import type { Category, Home, Offer, Product, Shop, StockData } from "../../types";
 
 export function isRecord(v: unknown): v is Record<string, unknown> {
   return typeof v === "object" && v !== null;
