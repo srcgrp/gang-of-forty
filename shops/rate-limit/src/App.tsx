@@ -6,6 +6,7 @@ import { addItem, countItems } from './cart/rules';
 import { removeLine } from './cart/cartLines';
 import { loadCart, saveCart } from './storage/cart';
 import { cartTitle } from './format/title';
+import { useThemeStore } from './hooks/useThemeStore';
 import TopBar from './components/TopBar';
 import Hero from './components/Hero';
 import Catalog from './components/Catalog';
@@ -22,7 +23,7 @@ export default function App() {
   const [cart, setCart] = useState(() => loadCart());
   const [cartOpen, setCartOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
+  const theme = useThemeStore((s) => s.theme);
 
   useEffect(() => {
     let ignore = false;
@@ -44,7 +45,6 @@ export default function App() {
   const count = countItems(cart); 
   useEffect(() => saveCart(cart), [cart]);
   useEffect(() => { document.title = cartTitle(shop?.name, count); }, [shop, count]);
-  useEffect(() => { document.documentElement.dataset.theme = darkMode ? 'dark' : 'light'; }, [darkMode]);
 
   const handleAdd = (item: CatalogItem) => setCart(addItem(cart, item));
   const handleRemove = (id: number) => setCart(removeLine(cart, id));
@@ -58,8 +58,8 @@ export default function App() {
   };
 
   return (
-    <div id="top">
-      <TopBar count={count} darkMode={darkMode} onToggleTheme={setDarkMode} onCartClick={() => setCartOpen(true)}
+    <div id="top" className="app" data-theme={theme}>
+      <TopBar count={count} onCartClick={() => setCartOpen(true)}
         query={query} onQuery={setQuery}
         categories={categories} activeId={categoryId} menuOpen={menuOpen} onToggleMenu={setMenuOpen} onPick={handlePick} />
       <Hero />

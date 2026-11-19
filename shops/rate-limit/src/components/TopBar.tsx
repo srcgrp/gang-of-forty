@@ -5,8 +5,6 @@ import Header from './Header';
 
 type TopBarProps = {
   count: number;
-  darkMode: boolean;
-  onToggleTheme: (checked: boolean) => void;
   onCartClick: () => void;
   categories: Category[];
   activeId: number | null;
@@ -18,7 +16,7 @@ type TopBarProps = {
 };
 
 export default function TopBar(props: TopBarProps) {
-  const { count, darkMode, onToggleTheme, onCartClick, query, onQuery } = props;
+  const { count, onCartClick, query, onQuery } = props;
   const { categories, activeId, menuOpen, onToggleMenu, onPick } = props;
 
   return (
@@ -28,8 +26,6 @@ export default function TopBar(props: TopBarProps) {
       <div className="sticky-header">
         <Header
           cartCount={count}
-          darkMode={darkMode}
-          onToggleTheme={onToggleTheme}
           onCartClick={onCartClick}
           query={query}
           onQuery={onQuery}

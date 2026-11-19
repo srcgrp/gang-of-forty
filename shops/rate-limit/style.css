@@ -1,6 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap");
 
-:root {
+.app {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  transition: background-color 0.25s, color 0.25s;
+}
+
+:root,
+.app {
   color-scheme: light;
   --bg: #fafaff;
   --header-bg: #fafaff;
@@ -26,8 +34,7 @@
   --logo-outline: none;
 }
 
-:root[data-theme="dark"],
-:root:has(#theme-checkbox:checked) {
+.app[data-theme="dark"] {
   color-scheme: dark;
   --bg: #0e1226;
   --header-bg: #131933;
@@ -2140,8 +2147,7 @@ nav a:focus-visible {
   font-weight: 800;
 }
 
-:root[data-theme="dark"] .offer-media,
-:root:has(#theme-checkbox:checked) .offer-media {
+.app[data-theme="dark"] .offer-media {
   background: color-mix(in srgb, var(--media-bg, var(--img-bg)) 70%, var(--surface));
 }
 

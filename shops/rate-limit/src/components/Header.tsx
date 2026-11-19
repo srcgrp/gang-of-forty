@@ -5,14 +5,13 @@ import SearchBox from './SearchBox';
 
 type HeaderProps = {
   cartCount: number;
-  darkMode: boolean;
-  onToggleTheme: (checked: boolean) => void;
   onCartClick: () => void;
   query: string;
   onQuery: (query: string) => void;
 };
 
-export default function Header({ cartCount, darkMode, onToggleTheme, onCartClick, query, onQuery }: HeaderProps) {  return (
+export default function Header({ cartCount, onCartClick, query, onQuery }: HeaderProps) {
+  return (
     <header>
       <a href="#top" className="logo-link" aria-label="بازگشت به صفحه اصلی">
         <Logo />
@@ -28,7 +27,7 @@ export default function Header({ cartCount, darkMode, onToggleTheme, onCartClick
           <span className="cart-text">سبد خرید</span>
           <span className="cart-count">{toPersianDigits(cartCount)}</span>
         </div>
-        <ThemeToggle checked={darkMode} onChange={onToggleTheme} />
+        <ThemeToggle />
       </div>
     </header>
   );

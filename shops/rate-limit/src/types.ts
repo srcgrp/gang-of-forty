@@ -110,6 +110,12 @@ export interface StateView {
   build: (products: CatalogItem[]) => HTMLElement[];
 }
 
+export type Theme = "light" | "dark";
+export interface ThemeState {
+  theme: Theme;
+  toggle: () => void;
+}
+
 export interface CardView {
   emoji: string;
   name: string;

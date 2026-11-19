@@ -1,9 +1,9 @@
-type ThemeToggleProps = {
-  checked: boolean;
-  onChange: (checked: boolean) => void;
-};
+import { useThemeStore } from '../hooks/useThemeStore';
 
-export default function ThemeToggle({ checked, onChange }: ThemeToggleProps) {
+export default function ThemeToggle() {
+  const theme = useThemeStore((s) => s.theme);
+  const toggle = useThemeStore((s) => s.toggle);
+
   return (
     <>
       <input
@@ -12,8 +12,8 @@ export default function ThemeToggle({ checked, onChange }: ThemeToggleProps) {
         className="theme-checkbox"
         id="theme-checkbox"
         aria-label="حالت تاریک"
-        checked={checked}
-        onChange={(e) => onChange(e.target.checked)}
+        checked={theme === 'dark'}
+        onChange={toggle}
       />
       <label className="theme-toggle" htmlFor="theme-checkbox" aria-hidden="true">
         <svg
