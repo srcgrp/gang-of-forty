@@ -1,83 +1,159 @@
+
 # Least Surprise Supermarket — Design Document
 
 ## 1. Requirements & Scope
 
 ### Must Do
-- Browse available grocery products.
+- Browse grocery products.
 - View product stock, prices, and discount offers.
 - Add products to cart with stock validation.
-- Increment, decrement, and remove cart items.
-- Persist cart data across page reloads.
+- Remove products from cart.
+- Persist cart and theme settings.
 - Search products by title.
-- Filter products by category.
+- Browse product categories and offers.
+- Navigate between Home and PLP pages.
 - Handle loading, success, empty, and error states.
-- Retry failed API requests.
-- Display a sale countdown with proper timer cleanup.
+- Retry failed product requests.
+- Display a sale countdown with timer cleanup.
+- Support light and dark themes.
 
 ### Out of Scope
-- User authentication and profiles.
-- Online payment integration.
-- Order history and delivery tracking.
+- User authentication.
+- Online payment.
+- Order history.
+- Delivery tracking.
 
-## 2. Components
+## 2. Routing
 
-- **App:** Main application component and state owner.
-- **Header:** Displays the brand and cart item count.
-- **SearchBox:** Receives and updates the search query.
-- **CategoryNav:** Displays category filters.
-- **ProductGrid:** Renders the filtered product list.
-- **ProductCard:** Displays product details and add-to-cart action.
-- **CartPanel:** Displays cart items and total price.
-- **SaleCountdown:** Displays the countdown timer.
-- **Footer:** Displays footer information.
+| Route | Page | Description |
+|---|---|---|
+| `/` | HomePage | Home page with product carousels |
+| `/plp/$carouselId` | PlpPage | Products for a selected carousel |
+| Unknown route | NotFound | Invalid route handling |
 
-## 3. Data & State Ownership
+Routing is implemented using TanStack Router and hash history.
 
-- **API:** Provides products, stock, and discount offers.
-- **App State:** Manages LoadState, search query, selected category, cart, retry attempt, and countdown visibility.
-- **SaleCountdown State:** Manages the remaining countdown seconds.
-- **localStorage:** Stores cart items for persistence.
-- **Computed Values:** Total count, total price, and filtered products are calculated during rendering and are not stored as separate state.
+## 3. Component Architecture
 
-## 4. API Contract
+### Root
+- App
+  - Layout
+    - Header
+    - Outlet
+      - HomePage
+      - PlpPage
+      - NotFound
+    - CartPanel
+    - Footer
 
-- `GET /products.json`: Retrieves product information.
-- `GET /stock.json`: Retrieves stock information.
-- `GET /offers.json`: Retrieves discount offers.
+### HomePage
+- SearchBox
+- SaleCountdown
+- ProductGrid
+  - ProductCard
 
-API responses are validated using runtime type guards.
+### PlpPage
+- SearchBox
+- ProductGrid
+  - ProductCard
 
-Stock records use `id` and `stock`.
-Offer records use `productId` and `discountPercent`.
+## 4. State Ownership
 
-The API requests run together using `Promise.all`.
+| State | Owner | Persistence |
+|---|---|---|
+| Theme | useThemeStore | localStorage |
+| Cart items | useCartStore | localStorage |
+| Product loading state | useCatalog | React state |
+| Retry attempt | useCatalog | React state |
+| Search query | HomePage / PlpPage | React state |
+| Home configuration | HomePage / PlpPage | React state |
+| Countdown seconds | SaleCountdown | React state |
 
-## 5. Application States
+### Derived Values
+- Cart total count.
+- Cart total price.
+- Filtered products.
+- Carousel product lists.
 
-The application uses a discriminated union named `LoadState`.
+Derived values are calculated from existing state and are not stored separately.
 
-- **loading:** Product data is being fetched.
-- **success:** Valid products are available.
-- **empty:** No valid products are available.
-- **error:** An API request or data loading operation failed.
+## 5. Zustand Stores
 
-Filtered results are calculated separately. If no products match the search or selected category, an empty-results message is displayed.
+### useThemeStore
+- Stores the current theme.
+- Toggles between light and dark.
+- Persists theme in localStorage.
 
-## 6. Directory Structure
+### useCartStore
+- Stores cart items.
+- Adds products with stock validation.
+- Removes cart items.
+- Calculates total quantity and total price.
+- Persists cart in localStorage.
 
-- `src/types.ts`: Domain types and LoadState.
-- `src/api/`: API requests and runtime validation.
-- `src/catalog/`: Product filtering functions.
-- `src/storage/`: Cart persistence using localStorage.
-- `src/cart/`: Pure cart business logic.
-- `src/components/`: React UI components.
-- `src/App.tsx`: Application state and component coordination.
-- `src/main.tsx`: React application entry point.
+## 6. Data & API
 
-## 7. Security and Price Integrity
+### API Files
+- `GET /products.json`
+- `GET /stock.json`
+- `GET /offers.json`
+- `GET /home.json`
 
-Client-side prices and totals must not be trusted for real transactions.
+Products, stock, and offers are loaded by `loadShopData`.
+Requests are performed using Promise.all.
 
-For a production payment system, the server should validate product prices, discount rules, stock availability, and final order totals before accepting an order.
+Runtime type guards validate API data.
 
-The current project calculates cart totals on the client and does not implement a payment backend.
+### Data Structure
+- Products: id, title, price, category, image.
+- Stock: id, stock.
+- Offers: id, discount.
+- Home configuration: carousels.
+
+## 7. Custom Hook
+
+### useCatalog
+- Loads product data.
+- Manages loading, success, empty, and error states.
+- Provides retry functionality.
+- Prevents state updates after unmount.
+
+## 8. Catalog Logic
+
+### carouselProducts
+- Category carousel: filters products by categoryId.
+- Offers carousel: filters products with discounts.
+- Returns the products belonging to the selected carousel.
+
+### filterProducts
+- Filters products by selected category.
+- Filters products by search query.
+
+## 9. Directory Structure
+
+- `src/api/`: API requests and data validation.
+- `src/cart/`: Cart business logic.
+- `src/catalog/`: Product filtering and carousel logic.
+- `src/components/`: Shared UI components and Layout.
+- `src/hooks/`: Custom hooks and Zustand stores.
+- `src/pages/`: HomePage, PlpPage, NotFound.
+- `src/storage/`: Cart storage utilities.
+- `src/types.ts`: TypeScript domain types.
+- `src/App.tsx`: Router configuration.
+- `src/main.tsx`: React entry point.
+- `src/style.css`: Application styles.
+- `public/`: JSON data and public assets.
+
+## 10. Performance
+
+React Profiler was used to record component rendering during cart and theme updates.
+
+Profiler recording was captured as evidence for the assignment.
+
+## 11. Security & Price Integrity
+
+Client-side prices and cart totals are not trusted for real transactions.
+
+A production backend must validate prices, discounts, stock, and order totals before processing payments.
+
+The current project does not include a payment backend.

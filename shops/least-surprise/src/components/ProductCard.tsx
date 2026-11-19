@@ -1,27 +1,23 @@
 
-import type { ProductWithDetails } from '../types';
+import { memo } from 'react'
+import { Link } from '@tanstack/react-router'
+import type { ProductWithDetails } from '../types'
 
 type ProductCardProps = {
-  readonly product: ProductWithDetails;
-  readonly onAdd: (id: string) => void;
-};
+  readonly product: ProductWithDetails
+  readonly onAdd: (id: string) => void
+}
 
-export default function ProductCard({
-  product,
-  onAdd,
-}: ProductCardProps) {
-  const isEmoji = product.image.startsWith('emoji:');
-
+function ProductCard({ product, onAdd }: ProductCardProps) {
+  const isEmoji = product.image.startsWith('emoji:')
   const imageContent = isEmoji
     ? product.image.replace('emoji:', '')
-    : `/${product.image}`;
+    : `/${product.image}`
 
   return (
     <article className="product-card">
       {isEmoji ? (
-        <div className="product-sticker">
-          {imageContent}
-        </div>
+        <div className="product-sticker">{imageContent}</div>
       ) : (
         <img
           className="product-image"
@@ -30,7 +26,11 @@ export default function ProductCard({
         />
       )}
 
-      <h3>{product.title}</h3>
+      <h3>
+        <Link to="/product/$productId" params={{ productId: product.id }}>
+          {product.title}
+        </Link>
+      </h3>
 
       {product.discountPercent > 0 && (
         <p className="product-old-price">
@@ -41,20 +41,17 @@ export default function ProductCard({
       <p className="product-price">
         {product.finalPrice.toLocaleString('fa-IR')} تومان
       </p>
-
-      <p className="product-stock">
-        موجودی: {product.stock}
-      </p>
+      <p className="product-stock">موجودی: {product.stock}</p>
 
       <button
         type="button"
         disabled={product.stock <= 0}
-        onClick={() => onAdd(String(product.id))}
+        onClick={() => onAdd(product.id)}
       >
-        {product.stock > 0
-          ? 'افزودن به سبد خرید'
-          : 'ناموجود'}
+        {product.stock > 0 ? 'افزودن به سبد خرید' : 'ناموجود'}
       </button>
     </article>
-  );
+  )
 }
+
+export default memo(ProductCard)
