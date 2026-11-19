@@ -16,8 +16,10 @@ import ProductGrid from './components/ProductGrid'
 import CartPanel from './components/CartPanel'
 
 import SaleCountdown from './components/SaleCountdown'
+import { useThemeStore } from './hooks/useThemeStore'
 
 export default function App() {
+  const theme = useThemeStore((state) => state.theme)
   const [cart, setCart] = useState<CartItem[]>(() => loadCart())
 
   const [searchTerm, setSearchTerm] = useState('')
@@ -115,7 +117,7 @@ export default function App() {
   )
 
   return (
-    <>
+    <div className="app" data-theme={theme}>
       <Header
   cartCount={getCartCount(cart)}
   searchTerm={searchTerm}
@@ -138,6 +140,6 @@ export default function App() {
         total={total}
         onRemove={handleRemove}
       />
-    </>
+    </div>
   )
 }

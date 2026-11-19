@@ -1,5 +1,6 @@
 
 import SearchBox from './SearchBox'
+import ThemeToggle from './ThemeToggle'
 
 type HeaderProps = {
   cartCount: number
@@ -32,6 +33,7 @@ export default function Header({
         <a href="#cart" className="cart-link">
           🛍️ سبد خرید ({cartCount})
         </a>
+        <ThemeToggle />
       </div>
     </header>
   )

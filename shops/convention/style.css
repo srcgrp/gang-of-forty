@@ -1260,3 +1260,11 @@ input:focus-visible {
     letter-spacing: 3px;
     color: #d84315;
 }
+.app { --bg: #f8f9fa; --text: #222; --card: #fff; --border: #d5d9df; --muted: #555; --accent: #176443; min-height: 100vh; background: var(--bg); color: var(--text); }
+.app[data-theme='dark'] { --bg: #161b22; --text: #edf2f7; --card: #222b36; --border: #455364; --muted: #c3cdd9; --accent: #83e1b5; color-scheme: dark; }
+.app .site-header, .app .product-card, .app .cart-panel, .app .category-card { background: var(--card); color: var(--text); border-color: var(--border); }
+.app .product-info h3, .app .section-header h2, .app .product-info p { color: var(--text); }
+.app button, .app input { border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; }
+.app input { background: var(--card); color: var(--text); }
+.app button { cursor: pointer; }
+.app :focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
