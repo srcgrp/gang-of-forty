@@ -9,7 +9,7 @@ export default function Header() {
     <nav className="container header-content" aria-label="ناوبری اصلی">
       <Link to="/" className="logo">🛒 Convention</Link>
       <Link to="/">خانه</Link>
-      <span className="cart-link" aria-live="polite">🛍️ سبد خرید ({count.toLocaleString('fa-IR')})</span>
+      <Link to="/checkout" className="cart-link" aria-live="polite">🛍️ سبد خرید ({count.toLocaleString('fa-IR')})</Link>
       <ThemeToggle />
     </nav>
   </header>

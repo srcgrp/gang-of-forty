@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import { useCartStore } from '../hooks/useCartStore'
 
 import type { CartLine } from '../types'
@@ -38,6 +39,7 @@ export default function CartPanel() {
           <h3>
             مجموع: {total.toLocaleString('fa-IR')} تومان
           </h3>
+          <Link to="/checkout">ادامه و تسویه حساب</Link>
         </>
       )}
     </aside>

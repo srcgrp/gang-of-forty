@@ -2,6 +2,7 @@ import { createHashHistory, createRootRoute, createRoute, createRouter, RouterPr
 import Layout from './components/Layout'
 import HomePage from './components/pages/HomePage'
 import PlpPage from './components/pages/PlpPage'
+import CheckoutPage from './components/pages/CheckoutPage'
 import ProductPage from './components/pages/ProductPage'
 import NotFound from './components/pages/NotFound'
 
@@ -12,7 +13,8 @@ const plpRoute = createRoute({ getParentRoute: () => rootRoute, path: '/plp/$car
     sort: search.sort === 'price' ? 'price' : 'default',
   }) })
 const productRoute = createRoute({ getParentRoute: () => rootRoute, path: '/product/$productId', component: ProductPage })
-const router = createRouter({ routeTree: rootRoute.addChildren([homeRoute, plpRoute, productRoute]), history: createHashHistory() })
+const checkoutRoute = createRoute({ getParentRoute: () => rootRoute, path: '/checkout', component: CheckoutPage })
+const router = createRouter({ routeTree: rootRoute.addChildren([homeRoute, plpRoute, productRoute, checkoutRoute]), history: createHashHistory() })
 
 declare module '@tanstack/react-router' {
   interface Register { router: typeof router }
