@@ -1,19 +1,19 @@
 import type { Offer, Product } from "../types";
 import { calculateDiscountedPrice } from "../shared/pricing";
+import { useCartStore } from "../hooks/useCartStore";
 
 type ProductCardProps = {
   product: Product;
   offer?: Offer | undefined;
   stockCount: number;
-  onAdd: (id: number) => void;
 };
 
 export default function ProductCard({
   product,
   offer,
   stockCount,
-  onAdd,
 }: ProductCardProps) {
+  const addToCart = useCartStore((state) => state.add);
   const price = offer
     ? calculateDiscountedPrice(product.price, offer.percent)
     : product.price;
@@ -37,7 +37,7 @@ export default function ProductCard({
           className="add-to-cart"
           aria-label={stockCount === 0 ? `${product.name} ناموجود است` : `افزودن ${product.name} به سبد خرید`}
           disabled={stockCount === 0}
-          onClick={() => onAdd(product.id)}
+          onClick={() => addToCart(product.id)}
         >
           +
         </button>

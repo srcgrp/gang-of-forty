@@ -11,6 +11,8 @@ App
 ├─ ProductGrid (special offers)
 │  └─ ProductCard × n
 └─ CartPanel
+
+Header, ProductCard, and CartPanel read the cart directly from `useCartStore`.
 ```
 
 ## State
@@ -18,7 +20,7 @@ App
 | State | Owner | Who changes it | Where it is saved |
 |---|---|---|---|
 | `categoryId` | `App` | `CategoryNav` through `onPick` | In memory |
-| `cart` | `App` | Product and remove buttons | `storage/cartStorage.ts` |
+| `lines` | `src/hooks/useCartStore.ts` | ProductCard and CartPanel actions | `storage/cartStorage.ts` |
 | `loadState` | `App` | API loading effect | In memory |
 | `attempt` | `App` | Retry button | In memory |
 
@@ -28,6 +30,13 @@ These values are calculated while rendering and are not separate state:
 - `offerProducts` contains products with an offer.
 - `cartCount` adds the quantities in the cart.
 - `cartTotal` adds the current prices of cart products.
+
+## Cart store choice
+
+The cart uses Zustand so `Header`, product cards, and `CartPanel` can subscribe to
+only the cart data or action they need without passing cart props through `App`
+and `ProductGrid`. Cart updates stay in the existing pure functions, and the
+store subscription saves each updated cart through `storage/cartStorage.ts`.
 
 ## Data and folders
 

@@ -9,7 +9,6 @@ type ProductGridProps = {
   message: string;
   stock: Stock | undefined;
   offers: Offer[];
-  onAdd: (id: number) => void;
   onRetry?: () => void;
 };
 
@@ -21,7 +20,6 @@ export default function ProductGrid({
   message,
   stock,
   offers,
-  onAdd,
   onRetry,
 }: ProductGridProps) {
   return (
@@ -45,7 +43,6 @@ export default function ProductGrid({
                 product={product}
                 stockCount={stockCount}
                 offer={offer}
-                onAdd={onAdd}
               />
             );
           })}

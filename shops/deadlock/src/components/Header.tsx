@@ -1,4 +1,4 @@
-type HeaderProps = { cartCount: number };
+import { useCartStore } from "../hooks/useCartStore";
 import ThemeToggle from "./ThemeToggle";
 const LINKS = [
   { label: "دسته‌بندی‌ها", href: "#categories" },
@@ -7,7 +7,10 @@ const LINKS = [
   { label: "تماس با ما", href: "#contact" },
 ];
 
-export default function Header({ cartCount }: HeaderProps) {
+export default function Header() {
+  const cartCount = useCartStore((state) =>
+    state.lines.reduce((count, line) => count + line.quantity, 0),
+  );
   return (
     <>
       <a href="#main-content" className="skip-link">پرش به محتوای اصلی</a>
