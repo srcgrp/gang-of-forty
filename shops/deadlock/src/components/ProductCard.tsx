@@ -1,4 +1,5 @@
 import type { Offer, Product } from "../types";
+import { Link } from "@tanstack/react-router";
 import { calculateDiscountedPrice } from "../shared/pricing";
 import { useCartStore } from "../hooks/useCartStore";
 import { Notyf } from "notyf";
@@ -29,10 +30,17 @@ export default function ProductCard({
 
   return (
     <article className="tent-article">
-      <span className="product-emoji" aria-hidden="true">
-        {product.emoji}
-      </span>
-      <h3>{product.name}</h3>
+      <Link
+        className="product-card-link"
+        to="/product/$productId"
+        params={{ productId: String(product.id) }}
+        aria-label={`مشاهده جزئیات ${product.name}`}
+      >
+        <span className="product-emoji" aria-hidden="true">
+          {product.emoji}
+        </span>
+        <h3>{product.name}</h3>
+      </Link>
       <p>{product.unit}</p>
       {offer && <span className="discount-badge">{offer.percent.toLocaleString("fa-IR")}٪</span>}
       {stockCount === 0 && <p className="stock-label">ناموجود</p>}

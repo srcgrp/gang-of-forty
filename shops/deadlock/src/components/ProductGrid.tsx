@@ -32,7 +32,7 @@ export default function ProductGrid({
       <div className="section-header">
         <h2 className="titles">{title}</h2>
         {carouselId && !isPlp && (
-          <Link to="/plp/$carouselId" params={{ carouselId }}>مشاهده همه ←</Link>
+          <Link to="/plp/$carouselId" params={{ carouselId }} search={{ sort: "default" }}>مشاهده همه ←</Link>
         )}
       </div>
       {status !== "success" ? (

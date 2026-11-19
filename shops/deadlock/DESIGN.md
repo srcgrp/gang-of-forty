@@ -16,6 +16,8 @@ App (RouterProvider)
     │   │   ├── ProductGrid
     │   │   │   └── ProductCard (one per product)
     │   │   └── CartPanel
+    │   ├── ProductPage
+    │   │   └── CartPanel
     │   └── NotFound
     └── Footer
 ```
@@ -29,7 +31,8 @@ store's `add` action.
 | URL | Page | Data source |
 |---|---|---|
 | `#/` | `HomePage` with short product rows and a “مشاهده همه” link for each row | `useCatalog` and `src/catalog/carousels.ts` |
-| `#/plp/$carouselId` | `PlpPage` with every product in that row | `useParams` and `carouselProducts` |
+| `#/plp/$carouselId` | `PlpPage` with every product in that row and sort links | `useParams`, `useSearch`, and `carouselProducts` |
+| `#/product/$productId` | `ProductPage` with details for one product | `useParams` and `useCatalog` |
 | Any other URL | `NotFound` with a link home | No catalog data |
 
 Routes are defined in `src/App.tsx` with TanStack Router and hash history. An
@@ -87,6 +90,7 @@ each updated cart through `src/storage/cartStorage.ts`.
 - `src/components/Layout.tsx` applies the selected theme and renders `Header`, `Outlet`, and `Footer`.
 - `src/hooks/useCatalog.ts` loads and validates products, stock, and offers.
 - `src/components/pages/` contains `HomePage`, `PlpPage`, and `NotFound`.
+- `src/components/pages/ProductPage.tsx` displays one product's details.
 - `src/catalog/carousels.ts` defines home rows and selects products for each row.
 - `src/components/` contains `Header`, `CategoryNav`, `ProductGrid`, `ProductCard`, and `CartPanel`.
 - `src/api/` contains the API helpers and data guards.

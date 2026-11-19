@@ -830,6 +830,99 @@ html {
 .plp-back-link {
     margin: 18px 16px 0;
 }
+.product-card-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+.product-card-link:hover h3 {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+.plp-sort {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 16px;
+    color: var(--text);
+}
+.plp-sort a {
+    padding: 7px 14px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--text);
+    text-decoration: none;
+}
+.plp-sort a[aria-current="page"] {
+    border-color: var(--action-bg);
+    background: var(--action-bg);
+    color: var(--action-text);
+}
+.product-detail-page {
+    max-width: 1000px;
+    margin: 24px auto;
+    padding: 0 16px;
+}
+.product-detail {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(220px, 0.8fr) minmax(260px, 1.2fr);
+    align-items: center;
+    gap: 32px;
+    margin-top: 20px;
+    padding: 32px;
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    background: var(--panel);
+    box-shadow: 0 12px 28px rgba(37, 53, 31, 0.12);
+}
+.product-detail-emoji {
+    display: grid;
+    min-height: 280px;
+    place-items: center;
+    border-radius: 18px;
+    background: var(--card);
+    font-size: clamp(100px, 18vw, 170px);
+}
+.product-detail-info {
+    position: relative;
+    color: var(--text);
+}
+.product-detail-info h1 {
+    margin: 0 0 16px;
+}
+.product-detail-stock.is-empty {
+    color: var(--danger, #9f291c);
+    font-weight: 800;
+}
+.product-detail-prices {
+    margin: 20px 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+.product-detail-prices p {
+    margin: 6px 0;
+}
+.product-detail-add {
+    min-height: 48px;
+    padding: 10px 22px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--action-bg);
+    color: var(--action-text);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+.product-detail-add:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+.product-detail-add:not(:disabled):hover {
+    background: var(--action-hover);
+    color: var(--logo-text);
+}
 .not-found a:hover,
 .page-back-link:hover {
     background-color: var(--action-hover);
@@ -1464,6 +1557,17 @@ input:focus-visible,
 summary:focus-visible {
     outline: 3px solid #2F3A26;
     outline-offset: 3px;
+}
+
+@media (max-width: 680px) {
+    .product-detail {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 20px;
+    }
+    .product-detail-emoji {
+        min-height: 220px;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
