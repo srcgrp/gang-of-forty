@@ -8,7 +8,7 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "check": "tsc --noEmit",
-    "lint": "oxlint src"
+    "lint": "oxlint src --deny-warnings"
   },
   "devDependencies": {
     "@types/react": "^19.3.0",
@@ -19,10 +19,12 @@
     "vite": "^8.3.5"
   },
   "dependencies": {
+    "@tanstack/react-router": "^1.170.46",
     "fuse.js": "^7.5.0",
     "notyf": "^3.10.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "sweetalert2": "^11.26.25"
+    "sweetalert2": "^11.26.25",
+    "zustand": "^5.1.0"
   }
 }
