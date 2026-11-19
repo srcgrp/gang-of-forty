@@ -4,7 +4,7 @@
 
 The user can browse the shop, categories, offers and products; view prices and availability; search by name; and select a category. They can add products to the cart, change quantities, remove items and see an estimated total. The cart and theme remain in localStorage, while category and search text are kept in the URL. The page also has a mobile menu and carousel controls.
 
-Accounts, payment, checkout and changes to the shared API are outside this version.
+The user can complete a frontend checkout form for their name, mobile number, and address. A valid submission clears the cart and returns to the home page. Accounts, payment, and server-side order submission are outside this version.
 
 ## 2. Routes
 
@@ -15,6 +15,7 @@ Accounts, payment, checkout and changes to the shared API are outside this versi
 | `/` (`#/`) | `HomePage` | `useCatalog` supplies the `home.json` carousels and category shelves. `useUrlFilters` reads category and search from the route. Each visible shelf previews up to six products. |
 | `/plp/$carouselId` (e.g. `#/plp/dairy?sort=price`) | `PlpPage` | `useParams` reads `carouselId`. `useCatalog` supplies the title, and `carouselProducts` selects the full list. The validated `sort` parameter selects the default order or ascending displayed price. An unknown carousel ID shows «این فهرست پیدا نشد». |
 | `/product/$productId` | `ProductPage` | `useParams` reads `productId`. The page converts it to a number, finds the product in `useCatalog` and uses `cardOf` for its price, image and stock. An unknown product ID shows «محصول پیدا نشد». |
+| `/checkout` (`#/checkout`) | `CheckoutPage` | The header links to the checkout form. Local form state drives validation, and a valid submission clears the Zustand cart and replaces the current history entry with the home route. |
 | Unmatched paths (e.g. `#/nowhere`) | `NotFound` | The page renders a static message and a home link. The shared layout still provides the header and cart panel. |
 
 ## 3. Stores
@@ -22,7 +23,7 @@ Accounts, payment, checkout and changes to the shared API are outside this versi
 | Store | Defined in | State and actions | Writers | Persistence |
 |---|---|---|---|---|
 | Theme (Zustand) | `src/hooks/useThemeStore.ts` | `theme` (`auto`, `light`, or `dark`) and `setTheme` | `ThemeToggle` in the header and mobile menu | Zustand `persist` writes `theme` to localStorage under `sharding-theme`. |
-| Cart (Zustand) | `src/hooks/useCartStore.ts` | `lines` maps product IDs to quantities. Actions are `add`, `remove`, `removeLine` and `reconcile`. | `ProductCartActions`, `SearchResult` and `CartItem` add or decrement items. `CartItem` can also remove a full line. `useLoadCatalog` reconciles stock after a complete product load. | `loadCart` reads localStorage on initialization. A store subscription calls `saveCart` when `lines` changes. Both live in `src/shared/storage/cart-storage.ts` and use the existing `sharding:v1:cart` key. |
+| Cart (Zustand) | `src/hooks/useCartStore.ts` | `lines` maps product IDs to quantities. Actions are `add`, `remove`, `removeLine`, `clear` and `reconcile`. | `ProductCartActions`, `SearchResult` and `CartItem` add or decrement items. `CartItem` can also remove a full line. `CheckoutPage` clears the cart after successful validation. `useLoadCatalog` reconciles stock after a complete product load. | `loadCart` reads localStorage on initialization. A store subscription calls `saveCart` when `lines` changes. Both live in `src/shared/storage/cart-storage.ts` and use the existing `sharding:v1:cart` key. |
 
 The cart uses option A, Zustand. `CartButton` selects the total quantity within the header, the open `CartPanel` selects the lines to calculate the total price, and `ProductCartActions` selects the quantity for its own product and the actions it needs. Memoized cart rows receive individual values so rows with unchanged quantities and prices can skip updates. `ProductCard` is memoized, and the card and route component functions stay out of cart commits. Adding from a card or the product detail page also updates that product's quantity controls. Adding from the header search updates only the header subtree when the product has no quantity control mounted on the current route.
 
@@ -164,7 +165,7 @@ Cart count, cart rows and total, active category, visible shelves, search result
 ## 10. Security and deployment
 
 - Browser state and all `VITE_*` values are public. Do not put secrets in the frontend.
-- The displayed total is an estimate. A future checkout must calculate the final amount and validate prices, discounts and stock on the server.
+- The displayed total is an estimate. A server-side checkout must calculate the final amount and validate prices, discounts and stock.
 - API text is rendered through React; API links pass through the link guard before use.
 - Vite uses `base: './'`. Development uses `VITE_API_URL=/api`; production uses `VITE_API_URL=../../api` for a page under `/shops/<slug>/`.
 - Before delivery, check TypeScript, lint, build, preview and the repository's week-five shop checker. Check the deployed subpath, Network and Console as required by the exercise.

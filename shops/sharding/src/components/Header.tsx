@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from '@tanstack/react-router'
 import Topbar from './Topbar'
 import SearchBox from './SearchBox'
 import ThemeToggle from './ThemeToggle'
@@ -42,7 +43,13 @@ export default function Header({
             onQuery={onQuery}
           />
 
-          <CartButton shopName={name} open={cartOpen} onToggle={() => setCartOpen((open) => !open)} />
+          <div className="header__actions">
+            <CartButton shopName={name} open={cartOpen} onToggle={() => setCartOpen((open) => !open)} />
+            <Link to="/checkout" className="action action--checkout" aria-label="تسویه‌حساب" onClick={() => setCartOpen(false)}>
+              <svg className="action__icon" aria-hidden="true"><use href="./icons.svg#receipt" /></svg>
+              <span className="action__label">تسویه‌حساب</span>
+            </Link>
+          </div>
 
           <ThemeToggle />
         </div>

@@ -400,13 +400,13 @@
   flex-shrink: 0;
 }
 
-.action--cart {
+:is(.action--cart, .action--checkout) {
   border: 1px solid var(--border);
   padding-inline: 12px;
   background: var(--surface);
 }
 
-.action--cart:hover {
+:is(.action--cart, .action--checkout):hover {
   border-color: var(--accent);
 }
 

@@ -17,12 +17,10 @@ export default function CartButton({ shopName, open, onToggle }: CartButtonProps
   }, [shopName, count, formattedCount])
 
   return (
-    <div className="header__actions">
-      <button type="button" className="action action--cart" onClick={onToggle} aria-label="سبد خرید" aria-expanded={open} aria-controls="cart-panel">
-        <svg className="action__icon" aria-hidden="true"><use href="./icons.svg#cart" /></svg>
-        <span className="action__label">سبد خرید</span>
-        {count > 0 && <span className="badge">{formattedCount}</span>}
-      </button>
-    </div>
+    <button type="button" className="action action--cart" onClick={onToggle} aria-label="سبد خرید" aria-expanded={open} aria-controls="cart-panel">
+      <svg className="action__icon" aria-hidden="true"><use href="./icons.svg#cart" /></svg>
+      <span className="action__label">سبد خرید</span>
+      {count > 0 && <span className="badge">{formattedCount}</span>}
+    </button>
   )
 }
