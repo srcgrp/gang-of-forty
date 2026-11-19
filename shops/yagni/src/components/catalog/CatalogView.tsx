@@ -71,6 +71,7 @@ export default function CatalogView({
                 title={carousel.title}
                 emoji={carousel.emoji}
                 products={products.filter((item) => visible.has(item.product.id))}
+                showAll
               />
             );
           })}

@@ -18,7 +18,7 @@ export const useThemeStore = create<ThemeState>()(
         })),
     }),
     {
-      name: "<slug>-theme",
+      name: "yagni-theme",
     },
   ),
 );

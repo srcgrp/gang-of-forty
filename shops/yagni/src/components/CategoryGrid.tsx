@@ -16,6 +16,7 @@ export default function CategoryGrid({ categories }: CategoryGridProps) {
             className="category-card"
             to="/plp/$carouselId"
             params={{ carouselId: category.slug }}
+            search={{ sort: "default" }}
             key={category.id}
           >
             <span className="category-card__image" style={{ backgroundColor: category.color }}>{category.emoji}</span>

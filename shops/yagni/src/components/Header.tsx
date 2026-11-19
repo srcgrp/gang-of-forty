@@ -1,13 +1,11 @@
 import { Link } from "@tanstack/react-router";
 import SearchBox from "./SearchBox";
+import { useProductSearch } from "../hooks/SearchContext";
 import { useThemeStore } from "../hooks/useThemeStore";
 import { countCartItems, totalCartPrice } from "../cart/cart-logic";
 import { useCartStore } from "../hooks/useCartStore";
-interface HeaderProps {
-  searchQuery: string;
-  onSearch: (query: string) => void;
-}
-export default function Header({ searchQuery, onSearch }: HeaderProps) {
+export default function Header() {
+  const { query, setQuery } = useProductSearch();
   const theme = useThemeStore((s) => s.theme);
   const toggle = useThemeStore((s) => s.toggle);
   const cartCount = useCartStore((s) => countCartItems(s.lines));
@@ -30,7 +28,7 @@ export default function Header({ searchQuery, onSearch }: HeaderProps) {
             <small>فروشگاه همیشه سبز</small>
           </div>
         </Link>
-        <SearchBox query={searchQuery} onQuery={onSearch} />
+        <SearchBox query={query} onQuery={setQuery} />
 
         {/* Theme Toggle */}
         <button
@@ -52,6 +50,7 @@ export default function Header({ searchQuery, onSearch }: HeaderProps) {
             </svg>
           )}
         </button>
+        <Link to="/checkout" className="header__checkout">تکمیل خرید</Link>
         <Link
           to="/cart"
           className="header__cart"

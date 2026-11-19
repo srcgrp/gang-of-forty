@@ -5,7 +5,6 @@ import CatalogError from "../components/catalog/CatalogError";
 import CatalogLoading from "../components/catalog/CatalogLoading";
 import { useCartStore } from "../hooks/useCartStore";
 import { useCatalog } from "../hooks/useCatalog";
-import NotFound from "./NotFound";
 
 export default function ProductPage() {
   const { productId } = useParams({ from: "/product/$productId" });
@@ -33,12 +32,12 @@ export default function ProductPage() {
 
   const parsedId = Number(productId);
   if (!Number.isInteger(parsedId) || parsedId <= 0) {
-    return <NotFound />;
+    return <ProductNotFound />;
   }
 
   const product = state.data.products.find((item) => item.id === parsedId);
   if (!product) {
-    return <NotFound />;
+    return <ProductNotFound />;
   }
 
   const card = toCard(product, state.data.offers, state.data.stock.items);
@@ -69,7 +68,8 @@ export default function ProductPage() {
           {category && (
             <p className="product-detail__category">
               دسته‌بندی:{" "}
-              <Link to="/plp/$carouselId" params={{ carouselId: category.slug }}>
+              <Link to="/plp/$carouselId" params={{ carouselId: category.slug }}
+                search={{ sort: "default" }}>
                 {category.name}
               </Link>
             </p>
@@ -108,11 +108,22 @@ function PageNavigation({
     <nav className="route-page__navigation" aria-label="مسیر صفحه">
       <Link to="/">صفحه اصلی</Link>
       {categorySlug && categoryName && (
-        <Link to="/plp/$carouselId" params={{ carouselId: categorySlug }}>
+        <Link to="/plp/$carouselId" params={{ carouselId: categorySlug }}
+          search={{ sort: "default" }}>
           {categoryName}
         </Link>
       )}
       <Link to="/cart">سبد خرید</Link>
     </nav>
+  );
+}
+
+function ProductNotFound() {
+  return (
+    <main className="route-page product-page">
+      <h1>محصول پیدا نشد</h1>
+      <p>محصول موردنظر در فروشگاه وجود ندارد.</p>
+      <Link to="/">بازگشت به صفحه اصلی</Link>
+    </main>
   );
 }

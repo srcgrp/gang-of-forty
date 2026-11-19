@@ -1,5 +1,4 @@
 import type { Categories, Home, LoadState, Shop, Catalog } from "../types";
-import Header from "./Header";
 import CategoryNav from "./CategoryNav";
 import Banner from "./Banner";
 import CategoryGrid from "./CategoryGrid";
@@ -17,7 +16,6 @@ interface StorefrontProps {
   searchQuery: string;
   selectedCategoryId: number | null;
   isCountdownVisible: boolean;
-  onSearch: (query: string) => void;
   onPickCategory: (id: number | null) => void;
   onRetry: () => void;
   onToggleCountdown: () => void;
@@ -36,10 +34,6 @@ export default function Storefront(props: StorefrontProps) {
 
   return (
     <>
-      <Header
-        searchQuery={searchQuery}
-        onSearch={props.onSearch}
-      />
       <CategoryNav
         categories={categories}
         selectedCategoryId={selectedCategoryId}

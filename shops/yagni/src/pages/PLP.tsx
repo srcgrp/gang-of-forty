@@ -1,11 +1,10 @@
 import { Link, useParams, useSearch } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
-import { carouselProducts } from "../catalog/catalog-logic";
+import { useState } from "react";
+import { carouselProducts, sortProducts } from "../catalog/catalog-logic";
 import CatalogError from "../components/catalog/CatalogError";
 import CatalogLoading from "../components/catalog/CatalogLoading";
 import ProductGrid from "../components/ProductGrid";
 import { useCatalog } from "../hooks/useCatalog";
-import NotFound from "./NotFound";
 
 export default function PLP() {
   const { carouselId } = useParams({ from: "/plp/$carouselId" });
@@ -18,13 +17,7 @@ export default function PLP() {
       ? carouselProducts(state.data, carouselId)
       : null;
 
-  const sortedProducts = useMemo(() => {
-    if (!products) return null;
-    if (sort === "price") {
-      return [...products].sort((a, b) => a.price - b.price);
-    }
-    return products;
-  }, [products, sort]);
+  const sortedProducts = products === null ? null : sortProducts(products, sort);
 
   if (state.status === "loading") {
     return (
@@ -44,7 +37,15 @@ export default function PLP() {
     );
   }
 
-  if (sortedProducts === null) return <NotFound />;
+  if (sortedProducts === null) {
+    return (
+      <main className="route-page">
+        <PageNavigation />
+        <h1>این فهرست پیدا نشد</h1>
+        <p>کاروسل یا دسته‌بندی موردنظر وجود ندارد.</p>
+      </main>
+    );
+  }
 
   const carousel = state.data.carousels.find((item) => item.id === carouselId);
   const category = state.data.categories.find((item) => item.slug === carouselId);

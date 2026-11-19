@@ -4,7 +4,7 @@
 
 Mina Store is a Persian grocery storefront built with React, TypeScript, and Vite. It loads shop and catalog data from the API layer, displays products and category/carousel listings, and lets users manage a shopping cart, choose a theme, and proceed to checkout.
 
-The application uses TanStack Router for page navigation and Zustand for shared cart and theme state. The checkout page currently displays an order summary; customer details and payment submission are outside the current implementation.
+The application uses TanStack Router for page navigation and Zustand for shared cart and theme state. The checkout page includes controlled customer fields, validation, first-invalid-field focus, cart clearing, and navigation back to the home page after a valid submission.
 
 ## 2. Routes
 
@@ -13,7 +13,8 @@ The application uses TanStack Router for page navigation and Zustand for shared 
 | `/` | `HomePage` | Main storefront; uses `useCatalog` to load catalog data and `Storefront` to render the shop sections. |
 | `/plp/$carouselId` | `PLP` | Product listing for a carousel or category; reads `carouselId` with `useParams`, then uses `useCatalog` and `carouselProducts` to select products. |
 | `/cart` | `CartPage` | Displays cart lines and supports quantity updates and item removal through `useCartStore`. |
-| `/checkout` | `CheckoutPage` | Displays the current cart summary and total through `useCartStore`; checkout form/payment are not implemented yet. |
+| `/product/$productId` | `ProductPage` | Finds a product by its numeric route parameter and displays its details and add-to-cart action. |
+| `/checkout` | `CheckoutPage` | Controlled delivery form, calculated validation, invalid-field focus, order summary, and successful cart clearing. |
 | Unknown address | `NotFound` | Shown by TanStack Router's `defaultNotFoundComponent` for an unmatched route. |
 
 The router is configured in `src/App.tsx` with `createHashHistory`, `createRootRoute`, `createRoute`, `createRouter`, and `RouterProvider`. Navigation links use TanStack Router's `Link`. Product titles and category cards navigate to `/plp/$carouselId`; liking a product does not have a separate route.
@@ -27,9 +28,9 @@ App (RouterProvider)
 └── RootLayout
     └── Outlet
         └── HomePage
+            ├── Header
+            │   └── SearchBox
             └── Storefront
-                ├── Header
-                │   └── SearchBox
                 ├── CategoryNav
                 ├── Banner
                 ├── SaleCountdownArea
@@ -45,7 +46,7 @@ App (RouterProvider)
                 └── StoreFooter
 ```
 
-`HomePage` owns the search query, selected category, countdown visibility, and retry attempt. `useCatalog` supplies the catalog load state.
+`RootLayout` owns the shared search context and renders the Header for every route. `HomePage` owns selected category, countdown visibility, and retry attempt. A small `CartDocumentTitle` subscriber updates the document title without making the storefront subscribe to cart changes. `useCatalog` supplies the catalog load state.
 
 ### Product listing page — `/plp/$carouselId`
 
@@ -60,7 +61,20 @@ App (RouterProvider)
                 └── ProductCard
 ```
 
-`PLP` reads the route parameter, loads catalog data with `useCatalog`, and gets the relevant product cards from `carouselProducts`. An unknown carousel/category identifier renders `NotFound`.
+`PLP` reads the route parameter, loads catalog data with `useCatalog`, and gets the relevant product cards from `carouselProducts`. An unknown carousel/category identifier renders the specific “این فهرست پیدا نشد” message. The page offers default and price sorting; the pure `sortProducts` function lives in `src/catalog/`.
+
+### Product page — `/product/$productId`
+
+```text
+RootLayout
+└── Header
+└── Outlet
+    └── ProductPage
+        ├── Product details and pricing
+        └── Add-to-cart action (or product-not-found message)
+```
+
+`ProductPage` converts `productId` with `Number()` and displays a dedicated product-not-found message when the identifier is invalid or absent from the catalog.
 
 ### Cart page — `/cart`
 
@@ -86,11 +100,10 @@ App (RouterProvider)
     └── Outlet
         └── CheckoutPage
             ├── PageNavigation
-            ├── Empty-cart message (when cart is empty)
-            └── Order summary
-                ├── Order lines
-                ├── Total
-                └── Checkout implementation notice
+            ├── Controlled name, mobile, and address fields
+            ├── Validation errors after first submit
+            ├── Focus first invalid field with useRef
+            └── Order summary and total
 ```
 
 ### Not-found page
@@ -107,9 +120,10 @@ App (RouterProvider)
 | Store / state | What it stores | What it replaces / why it is used | Where it is stored |
 |---|---|---|---|
 | Cart — `useCartStore` (Zustand) | Cart `lines` and actions: `add`, `updateQuantity`, and `remove`. | Replaces cart state that would otherwise need to be passed through multiple components or held in a page-level component. Zustand is the selected approach (not Context + Reducer) because the cart is shared by the header, cart page, and checkout page. | In-memory Zustand store; cart lines are loaded from and saved to browser `localStorage` through `src/storage/cart-storage.ts` using the key `yagni-cart`. |
-| Theme — `useThemeStore` (Zustand + `persist`) | Current `theme` (`light` or `dark`) and `toggle` action. | Replaces local theme state and prop drilling; the theme is needed by the root layout and header. | Zustand store persisted to browser `localStorage` using the configured key `<slug>-theme`. |
+| Theme — `useThemeStore` (Zustand + `persist`) | Current `theme` (`light` or `dark`) and `toggle` action. | Replaces local theme state and prop drilling; the theme is needed by the root layout and header. | Zustand store persisted to browser `localStorage` using the key `yagni-theme`. |
 | Catalog — `useCatalog` hook | `LoadState<Catalog>`: loading, success, empty, or error; catalog data includes products, offers, stock, categories, shop, home, and carousels. | Replaces duplicated fetching and loading state in individual pages. This is a hook-local React state, not a Zustand store. | In-memory React state inside `useCatalog`; data is fetched through `src/api/` and is not persisted by this hook. |
-| Home page UI state — `HomePage` | Search query, selected category ID, countdown visibility, and retry attempt. | Replaces global state for values only needed by the home page. | Local React `useState` in `src/pages/HomePage.tsx`. |
+| Search — `SearchContext` | Shared search query and setter. | Lets the global Header drive home catalog filtering without prop drilling. | React context created in `src/hooks/SearchContext.tsx`. |
+| Home page UI state — `HomePage` | Selected category ID, countdown visibility, and retry attempt. | Values only needed by the home page. | Local React `useState` in `src/pages/HomePage.tsx`. |
 | PLP retry state — `PLP` | Retry attempt counter. | Keeps retry behavior local to the product listing page. | Local React `useState` in `src/pages/PLP.tsx`. |
 
 Derived values are not stored separately: cart item count and total are calculated from cart lines; product cards for a carousel/category are calculated by `carouselProducts`; filtered products are calculated from the current search query.
@@ -136,7 +150,9 @@ Derived values are not stored separately: cart item count and total are calculat
 - Adding, removing, or changing product quantities updates the Zustand cart store.
 - Cart persistence is handled by `src/storage/cart-storage.ts`.
 - The theme toggle updates `useThemeStore`; `RootLayout` reads the theme and applies it through the app's `data-theme` attribute.
-- `HomePage` updates the browser document title with the shop name and cart item count.
+- `CartDocumentTitle` updates the browser document title with the shop name and cart item count, isolated from the storefront component tree.
+- The shared Header is rendered by `RootLayout` on all routes and includes search, theme toggle, cart, and checkout navigation.
+- Each home carousel includes a “مشاهده همه” link to its corresponding PLP.
 - Timers and other effects are cleaned up by the components that create them.
 
 ## 8. Folder Structure

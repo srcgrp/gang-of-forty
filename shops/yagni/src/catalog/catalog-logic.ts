@@ -3,3 +3,4 @@ export { discountedPrice, finalPrice, inStock, toCard } from "./product-pricing"
 export { productCardData, suggestionCardData } from "./card-data";
 export { visibleProducts } from "./visible-products";
 export { carouselProducts } from "./carousel-products";
+export { sortProducts } from "./sort-products";
