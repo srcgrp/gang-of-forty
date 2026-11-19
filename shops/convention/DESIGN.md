@@ -9,7 +9,7 @@ URLs on static hosting and supports refresh, Back and Forward.
 
 | Address | Page | Data |
 | --- | --- | --- |
-| `/` | HomePage | useCatalog; home.json carousels; category navigation; local search |
+| `/` | HomePage | useCatalog; home.json carousels; category navigation; shared header search |
 | `/plp/$carouselId` | PlpPage | useParams; useCatalog; carouselProducts |
 | `/product/$productId` | ProductPage | numeric route ID; useCatalog; related products |
 | `/checkout` | CheckoutPage | shared cart; useCatalog; controlled CheckoutForm |
@@ -23,6 +23,7 @@ Category navigation also accepts category slugs from categories.json.
 
 | Store | Defined in | State | Writers | Persistence |
 | --- | --- | --- | --- | --- |
+| Search | hooks/useSearchStore.ts | query | HeaderSearch; navigation reset | In memory only |
 | Theme | hooks/useThemeStore.ts | light/dark | ThemeToggle calls toggle | Zustand persist, convention-theme |
 | Cart | hooks/useCartStore.ts | CartItem[] only | ProductCard/ProductPage add; CartPanel remove; CheckoutForm clear | storage/cart-storage.ts, convention-cart |
 
@@ -46,18 +47,18 @@ the former remote proxy returned HTTP 502. Deployment still uses ../../api from 
 
 ```text
 App -> RouterProvider -> Layout
-  Header -> ThemeToggle
+  Header -> HeaderSearch -> SearchBox
+         -> StoreNav, ThemeToggle
   main -> Outlet
-    HomePage -> CategoryNav, SearchBox, SaleCountdown, CarouselRow -> ProductCard
+    HomePage -> Hero, CategoryNav, SaleCountdown, CarouselRow -> ProductCard
     PlpPage -> ProductCard
     ProductPage -> ProductCard (related products)
-    CheckoutPage -> CheckoutForm
+    CheckoutPage -> CartPanel, CheckoutForm
     NotFound -> home Link
-  CartPanel
 ```
 
-ProductCard is memoized and reads only the stable add selector. Cart changes update Header
-and CartPanel; they do not change page props or card subscriptions. Theme changes update the
+ProductCard is memoized and reads only the stable add selector. On home and PLP, cart changes update Header and its children only; CartPanel is mounted
+inside checkout, where it also updates. These changes do not affect page props or card subscriptions. Theme changes update the
 Layout wrapper; CSS variables propagate the new palette.
 
 ## Verification
@@ -79,12 +80,12 @@ Temporary wrong route `/plp/$carouselID` and invalid sort `cheap` were rejected 
 ![React DevTools add-to-cart commit](evidence/profiler-add-to-cart.png)
 
 The real React DevTools 8 Profiler records one add-to-cart commit on the dairy PLP.
-Header and CartPanel (and their children) update; PlpPage and all ProductCards do not render.
-The cart count selector and cart-line selector caused these updates. The stable add selector
+Only Header and its children update; PlpPage and all ProductCards do not render.
+The cart count selector causes the update. CartPanel is mounted only on checkout. The stable add selector
 and memo keep every ProductCard unchanged. See evidence/profiler-summary.json.
 DevTools' optional “Record why each component rendered” setting throws an “Unknown Fiber”
 exception in this installed DevTools build; durations were recorded with that option off.
-The Profiler still identifies Header and CartPanel as the commit initiators. This limitation
+The Profiler still identifies Header as the commit initiator on the PLP. This limitation
 is confined to the temporary verification viewer, which is not included in the app bundle.
 The Components inspection screenshot and backend inspection confirm PlpPage's Params,
 Search and Catalog hooks plus the ProductCard product prop.
@@ -101,3 +102,14 @@ Search and Catalog hooks plus the ProductCard product prop.
   saves it through storage/, and navigates home with replace. No backend order is submitted.
 - The new week 6 branch was synchronized with current main. Only shops/convention is changed
   relative to main; shared API content exactly matches main.
+
+## Home and header restoration
+
+The original two-row header includes the search form, cart link, theme control and category
+navigation with a four-column product dropdown. HeaderSearch shares an in-memory query with
+HomePage through useSearchStore; searching on another page returns home and displays results.
+Clearing search or selecting the logo restores the hero and carousels. Navigation uses typed
+routes. The dropdown supports pointer hover, touch activation, keyboard toggle and Escape.
+The original “خرید روزانه، ساده و سریع” hero and its product anchor are restored.
+Categories remain in a single flex row; on narrow screens the row scrolls inside its container
+without document overflow. Cart details and remove actions appear exclusively on checkout.

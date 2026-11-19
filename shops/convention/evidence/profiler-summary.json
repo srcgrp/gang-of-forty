@@ -1,28 +1,53 @@
 {
   "tool": "react-devtools-inline 8.0.0",
   "recordChangeDescriptions": false,
-  "note": "Optional hook-change recording throws Unknown Fiber in this DevTools build. Native initiators and timings are available.",
+  "note": "CartPanel is mounted only on checkout. Adding on PLP updates Header and its children only; native commit timings captured with optional hook-change inspection disabled.",
   "roots": [
     {
       "id": 1,
       "commits": [
         {
-          "duration": 2.9,
+          "duration": 5.7,
           "rendered": [
             {
-              "id": 30,
+              "id": 25,
+              "name": "span",
+              "time": 0
+            },
+            {
+              "id": 26,
+              "name": "span",
+              "time": 0
+            },
+            {
+              "id": 24,
               "name": "a",
+              "time": 0
+            },
+            {
+              "id": 23,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 22,
+              "name": "Anonymous",
               "time": 0.1
             },
             {
               "id": 29,
-              "name": "Anonymous",
-              "time": 0.4
+              "name": "label",
+              "time": 0
             },
             {
-              "id": 28,
-              "name": "Anonymous",
-              "time": 0.5
+              "id": 31,
+              "name": "input",
+              "time": 0
+            },
+            {
+              "id": 30,
+              "name": "SearchBox",
+              "time": 0
             },
             {
               "id": 32,
@@ -30,49 +55,314 @@
               "time": 0
             },
             {
-              "id": 31,
-              "name": "ThemeToggle",
+              "id": 28,
+              "name": "form",
+              "time": 0
+            },
+            {
+              "id": 27,
+              "name": "HeaderSearch",
               "time": 0.3
             },
             {
+              "id": 35,
+              "name": "a",
+              "time": 0
+            },
+            {
+              "id": 34,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 33,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 37,
+              "name": "button",
+              "time": 0
+            },
+            {
+              "id": 36,
+              "name": "ThemeToggle",
+              "time": 0
+            },
+            {
               "id": 21,
+              "name": "div",
+              "time": 0.5
+            },
+            {
+              "id": 44,
+              "name": "span",
+              "time": 0
+            },
+            {
+              "id": 43,
+              "name": "button",
+              "time": 0
+            },
+            {
+              "id": 63,
+              "name": "Anonymous",
+              "time": 0.2
+            },
+            {
+              "id": 62,
+              "name": "Anonymous",
+              "time": 0.2
+            },
+            {
+              "id": 65,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 64,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 67,
+              "name": "Anonymous",
+              "time": 0
+            },
+            {
+              "id": 66,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 69,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 68,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 71,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 70,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 73,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 72,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 75,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 74,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 77,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 76,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 79,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 78,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 81,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 80,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 83,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 82,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 85,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 84,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 87,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 86,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 89,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 88,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 91,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 90,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 93,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 92,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 45,
+              "name": "div",
+              "time": 1.7
+            },
+            {
+              "id": 42,
+              "name": "li",
+              "time": 1.7
+            },
+            {
+              "id": 52,
+              "name": "a",
+              "time": 0
+            },
+            {
+              "id": 51,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 50,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 49,
+              "name": "li",
+              "time": 0.1
+            },
+            {
+              "id": 95,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 94,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 97,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 96,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 99,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 98,
+              "name": "Anonymous",
+              "time": 0.1
+            },
+            {
+              "id": 101,
+              "name": "Anonymous",
+              "time": 0
+            },
+            {
+              "id": 100,
+              "name": "Anonymous",
+              "time": 0
+            },
+            {
+              "id": 41,
+              "name": "ul",
+              "time": 2.1
+            },
+            {
+              "id": 40,
+              "name": "div",
+              "time": 2.1
+            },
+            {
+              "id": 39,
               "name": "nav",
-              "time": 0.8
+              "time": 2.1
+            },
+            {
+              "id": 38,
+              "name": "StoreNav",
+              "time": 4.7
             },
             {
               "id": 20,
               "name": "header",
-              "time": 0.8
+              "time": 5.2
             },
             {
               "id": 19,
               "name": "Header",
-              "time": 1.8
-            },
-            {
-              "id": 44,
-              "name": "h2",
-              "time": 0
-            },
-            {
-              "id": 118,
-              "name": "Anonymous",
-              "time": 0.4
-            },
-            {
-              "id": 119,
-              "name": "Anonymous",
-              "time": 0.4
-            },
-            {
-              "id": 43,
-              "name": "aside",
-              "time": 1
-            },
-            {
-              "id": 42,
-              "name": "CartPanel",
-              "time": 2.9
+              "time": 5.7
             }
           ]
         }

@@ -1,0 +1,22 @@
+{
+  "checks": [
+    "no cart panel on home and PLP",
+    "cart details and removal available on checkout",
+    "one search input inside header",
+    "header live search from product route",
+    "empty search restores hero",
+    "no-match message shown",
+    "logo clears search",
+    "restored hero product anchor works",
+    "dropdown hover and product link work",
+    "category menu links navigate",
+    "keyboard activation and Escape work",
+    "mobile touch dropdown works",
+    "seven categories share the same row on desktop and mobile",
+    "category overflow scrolls within container",
+    "390px document width equals viewport",
+    "dark theme remains available",
+    "PLP add renders Header and its children only"
+  ],
+  "runtimeErrors": []
+}

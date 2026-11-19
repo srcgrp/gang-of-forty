@@ -22,7 +22,7 @@ There is no fabricated output for this unavailable check.
 
 - [x] Product detail /product/$productId, typed card title links, add action and invalid-ID message.
 - [x] PLP validateSearch and immutable ascending price sorting; default/price stored in URL.
-- [x] memo ProductCard and store selectors: adding to cart renders Header/CartPanel and their children, with no PLP or ProductCard render.
+- [x] memo ProductCard and store selectors: adding to cart renders Header and its children on home/PLP (cart details are on checkout), with no PLP or ProductCard render.
 - [x] Controlled checkout with name/mobile/address; derived errors after first submit; useRef focus; clear persisted cart and navigate home with replace.
 
 ## Validation
@@ -37,7 +37,7 @@ npm run build       PASS
 npm exec --yes --package=html-validate@9 -- html-validate index.html
 ```
 
-Nineteen production-preview browser checks, including simulated API failure/retry, malformed/empty data, routing fallbacks, sorting, mobile layout and checkout, are recorded in [browser-checks.json](shops/convention/evidence/browser-checks.json). Intentionally invalid route/sort probes produce TS2820/TS2322 and were removed; output is in evidence/typecheck-probe.txt.
+Nineteen baseline production-preview browser checks and the subsequent UI restoration checks in evidence/ui-restoration-checks.json, including simulated API failure/retry, malformed/empty data, routing fallbacks, sorting, mobile layout and checkout, are recorded in [browser-checks.json](shops/convention/evidence/browser-checks.json). Intentionally invalid route/sort probes produce TS2820/TS2322 and were removed; output is in evidence/typecheck-probe.txt.
 
 ## Design decisions
 
@@ -53,6 +53,12 @@ Refresh example: `shops/convention/#/plp/dairy?sort=price`.
 
 ![PLP component inspection](shops/convention/evidence/components-plp.png)
 
-The selected commit identifies Header and CartPanel as update initiators. The cart count and cart lines changed; ProductCard's stable add selector did not change, so memoized cards and PLP were skipped. Raw measured timings are in evidence/profiler-summary.json; component inspection is in evidence/components-inspection.json.
+The selected commit identifies Header as the update initiator. The cart count changed; ProductCard's stable add selector did not change, so memoized cards and PLP were skipped. Raw measured timings are in evidence/profiler-summary.json; component inspection is in evidence/components-inspection.json.
 
 DevTools 8's optional hook-change descriptions throw an `Unknown Fiber` exception with this renderer. The actual flamegraph and commit initiators were captured with that option off. This affects only the temporary ignored verification viewer, not the app or production console.
+
+## Home and header
+
+The original hero and two-row header navigation are restored. Search is back in the header,
+including live results when used from another route. All categories share one horizontally
+scrollable row. Cart details and removal are located on checkout instead of the shared Layout.
