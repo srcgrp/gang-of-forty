@@ -2,6 +2,7 @@ import {useState} from 'react';
 
 import CartPanel from './CartPanel';
 import ProductGrid from './ProductGrid';
+import ThemeToggle from './ThemeToggle';
 
 import type {CartLine, Category, Offer, Product, Shop} from '../types';
 
@@ -176,6 +177,8 @@ export default function Header({
                         </div>
                     )}
                 </div>
+
+                <ThemeToggle />
             </div>
 
             <nav
@@ -190,7 +193,7 @@ export default function Header({
                             onClick={() => setMenuOpen((open) => !open)}
                             aria-expanded={menuOpen}
                         >
-                            همه دسته‌ها
+                            همه دسته‌بندی‌ها
                         </button>
 
                         {menuOpen && (
