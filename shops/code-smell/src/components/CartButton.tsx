@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { cartCount } from "../cart/cartRules"
 import { useCartStore } from "../hooks/useCartStore"
 
@@ -12,6 +13,10 @@ export default function CartButton() {
     const cartOpen = useCartStore((store) => store.cartOpen)
     const toggle = useCartStore((store) => store.toggle)
     const countText = count.toLocaleString("fa-IR")
+
+    useEffect(function () {
+        document.title = "بوی کد | سبد خرید: " + countText + " کالا"
+    }, [countText])
 
     return (
         <button

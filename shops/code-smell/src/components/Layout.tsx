@@ -1,10 +1,7 @@
 import { Link, Outlet, useLocation, useNavigate } from "@tanstack/react-router"
-import { useEffect, useState } from "react"
-import { cartCount } from "../cart/cartRules"
+import { useState } from "react"
 import { CatalogContext, useLoadCatalog } from "../hooks/useCatalog"
-import { useCartStore } from "../hooks/useCartStore"
 import { useThemeStore } from "../hooks/useThemeStore"
-import CartPanel from "./CartPanel"
 import Header from "./Header"
 
 export default function Layout() {
@@ -12,13 +9,8 @@ export default function Layout() {
     const catalog = useLoadCatalog()
     const [categoryId, setCategoryId] = useState<number | null>(null)
     const [query, setQuery] = useState("")
-    const count = useCartStore((store) => cartCount(store.cart))
     const navigate = useNavigate()
     const pathname = useLocation({ select: (location) => location.pathname })
-
-    useEffect(function () {
-        document.title = "بوی کد | سبد خرید: " + count.toLocaleString("fa-IR") + " کالا"
-    }, [count])
 
     function onQuery(value: string): void {
         setQuery(value)
@@ -41,13 +33,8 @@ export default function Layout() {
                 >
                     پرش به محتوای اصلی
                 </Link>
-                {data && (
-                    <Header categories={data.categories} shop={data.shop} catalogControls={catalogControls} />
-                )}
+                {data && <Header data={data} catalogControls={catalogControls} />}
                 <Outlet />
-                {data && (
-                    <CartPanel products={data.products} offers={data.offers} stock={data.stock.items} />
-                )}
             </div>
         </CatalogContext.Provider>
     )

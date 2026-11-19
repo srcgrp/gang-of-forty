@@ -11,9 +11,13 @@ type CartPanelProps = {
 }
 
 export default function CartPanel({ products, offers, stock }: CartPanelProps) {
-    const cart = useCartStore((store) => store.cart)
-    const cartOpen = useCartStore((store) => store.cartOpen)
+    const cart = useCartStore((store) => store.cartOpen ? store.cart : null)
     const toggle = useCartStore((store) => store.toggle)
+
+    if (cart === null) {
+        return <section className="cart-panel" id="cart" hidden />
+    }
+
     const rows = cartRows(cart, products, offers)
     const total = cartTotal(rows)
 
@@ -22,7 +26,6 @@ export default function CartPanel({ products, offers, stock }: CartPanelProps) {
             className="cart-panel"
             id="cart"
             aria-labelledby="cart-title"
-            hidden={!cartOpen}
         >
             <div className="cart-panel__body">
                 <header className="section__header cart-panel__header">

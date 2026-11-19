@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router"
+import { memo } from "react"
 import type { ProductCardData } from "../types"
 import { useCartStore } from "../hooks/useCartStore"
 import Price from "./Price"
@@ -9,7 +10,7 @@ type ProductCardProps = {
     product: ProductCardData
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+function ProductCard({ product }: ProductCardProps) {
     const add = useCartStore((store) => store.add)
 
     return (
@@ -51,3 +52,5 @@ export default function ProductCard({ product }: ProductCardProps) {
         </li>
     )
 }
+
+export default memo(ProductCard)

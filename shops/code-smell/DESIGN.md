@@ -20,7 +20,7 @@
 - صفحه ی فهرست کالاها عنوان و تعداد کالاهای کاروسل، کارت همه ی کالاها و لینک بازگشت به خانه را دارد.
 - صفحه ی محصول نام، واحد، قیمت و دکمه ی افزودن به سبد را نشان می دهد.
 - راهنمای خرید، پرسش های پرتکرار و فوتر در صفحه ی اصلی نمایش داده می شوند.
-- پنل سبد خرید در چیدمان مشترک است و از صفحه ی اصلی و صفحه ی فهرست قابل دسترسی است.
+- پنل سبد خرید بخشی از هدر مشترک است و در صفحه های فروشگاه قابل دسترسی است.
 
 ## ۳. داده ها و صاحبشان
 
@@ -89,58 +89,58 @@ App
         │   ├── SearchBox
         │   ├── CartButton
         │   ├── ThemeToggle
-        │   └── CategoryNav
-        │       └── CategoryMenu
-        │           └── CategoryMenuItem
-        ├── Outlet
-        │   ├── HomePage
-        │   │   ├── Status
-        │   │   └── ShopPage
-        │   │       ├── Hero
-        │   │       ├── Categories
-        │   │       │   └── CategoryCard
-        │   │       ├── SaleCountdownPanel
-        │   │       │   └── SaleCountdown
-        │   │       ├── Promos
-        │   │       │   ├── PromoCard
-        │   │       │   └── DiscountCard
-        │   │       ├── ProductGrid
-        │   │       │   ├── CarouselHeading
-        │   │       │   │   ├── Link
-        │   │       │   │   └── CarouselControls
-        │   │       │   └── ProductCard
-        │   │       │       ├── OfferBadge
-        │   │       │       ├── Link
-        │   │       │       ├── Price
-        │   │       │       └── AddToCartButton
-        │   │       ├── Guide
-        │   │       │   └── Faq
-        │   │       └── Footer
-        │   │           ├── FooterAbout
-        │   │           ├── FooterLinks
-        │   │           └── FooterHours
-        │   ├── PlpPage
-        │   │   ├── Link
-        │   │   ├── Status
-        │   │   └── ProductCard
-        │   │       ├── OfferBadge
-        │   │       ├── Link
-        │   │       ├── Price
-        │   │       └── AddToCartButton
-        │   ├── ProductPage
-        │   │   ├── Status
-        │   │   ├── Link
-        │   │   ├── Price
-        │   │   └── AddToCartButton
-        │   └── NotFound
-        │       └── Link
-        └── CartPanel
-            ├── CartRow
-            │   └── Price
-            └── Price
+        │   ├── CategoryNav
+        │   │   └── CategoryMenu
+        │   │       └── CategoryMenuItem
+        │   └── CartPanel
+        │       ├── CartRow
+        │       │   └── Price
+        │       └── Price
+        └── Outlet
+            ├── HomePage
+            │   ├── Status
+            │   └── ShopPage
+            │       ├── Hero
+            │       ├── Categories
+            │       │   └── CategoryCard
+            │       ├── SaleCountdownPanel
+            │       │   └── SaleCountdown
+            │       ├── Promos
+            │       │   ├── PromoCard
+            │       │   └── DiscountCard
+            │       ├── ProductGrid
+            │       │   ├── CarouselHeading
+            │       │   │   ├── Link
+            │       │   │   └── CarouselControls
+            │       │   └── ProductCard
+            │       │       ├── OfferBadge
+            │       │       ├── Link
+            │       │       ├── Price
+            │       │       └── AddToCartButton
+            │       ├── Guide
+            │       │   └── Faq
+            │       └── Footer
+            │           ├── FooterAbout
+            │           ├── FooterLinks
+            │           └── FooterHours
+            ├── PlpPage
+            │   ├── Link
+            │   ├── Status
+            │   └── ProductCard
+            │       ├── OfferBadge
+            │       ├── Link
+            │       ├── Price
+            │       └── AddToCartButton
+            ├── ProductPage
+            │   ├── Status
+            │   ├── Link
+            │   ├── Price
+            │   └── AddToCartButton
+            └── NotFound
+                └── Link
 ```
 
-کامپوننت `Outlet` فقط صفحه ی مسیر فعلی را نشان می دهد: `HomePage` برای خانه، `PlpPage` برای فهرست کالاها، `ProductPage` برای یک کالا و `NotFound` برای آدرس های ناشناخته. بعد از بارگذاری موفق، هدر نمایش داده می شود و پنل سبد با دکمه ی سبد باز می شود. هر دو در `Layout` قرار دارند.
+کامپوننت `Outlet` فقط صفحه ی مسیر فعلی را نشان می دهد: `HomePage` برای خانه، `PlpPage` برای فهرست کالاها، `ProductPage` برای یک کالا و `NotFound` برای آدرس های ناشناخته. بعد از بارگذاری موفق، هدر نمایش داده می شود و پنل سبد با دکمه ی سبد باز می شود. پنل سبد زیر `Header` قرار دارد و همراه هدر در صفحه های فروشگاه در دسترس است.
 
 در صفحه ی اصلی، `Status` برای حالت بارگذاری، خالی یا خطا نمایش داده می شود و در حالت موفق `ShopPage` دیده می شود. سربرگ کاروسل در پیش نمایش لینک «مشاهده همه» دارد. کنترل های حرکت کاروسل در جست وجو، وقتی چند نتیجه وجود داشته باشد، نمایش داده می شوند.
 
@@ -162,7 +162,7 @@ App
 برای این موارد State جدا تعریف نکردم، چون از داده های موجود به دست می آیند:
 
 - محصولات و کاروسل های قابل نمایش از اطلاعات API، دسته ی انتخاب شده و متن جست وجو به دست می آیند.
-- تعداد کالاهای سبد را `cartCount` از `cart` حساب می کند. `Layout` از این تعداد برای عنوان تب مرورگر هم استفاده می کند.
+- تعداد کالاهای سبد را `cartCount` از `cart` حساب می کند. `CartButton` از این تعداد برای عنوان تب مرورگر هم استفاده می کند.
 - ردیف های سبد را `cartRows` از سبد، محصولات و تخفیف ها می سازد.
 - جمع سبد را `cartTotal` از ردیف های سبد حساب می کند.
 - قیمت نهایی و وضعیت موجودی کارت ها از اطلاعات محصول، تخفیف و موجودی به دست می آیند.
@@ -195,3 +195,5 @@ App
 کامپوننت `Layout` تم را می خواند و روی `data-theme` می گذارد تا رنگ های روشن یا تیره اعمال شوند.
 
 برای سبد خرید Zustand را انتخاب کردم چون کارت کالا، دکمه ی سبد و پنل در بخش های مختلف صفحه اند. هرکدام با selector مقدار یا تابعی را که لازم دارد مستقیم از Store می گیرد. این طوری لازم نیست اطلاعات و توابع سبد را از کامپوننت های واسط عبور بدهم. قانون های سبد هم در توابع خالص `cartRules.ts` باقی مانده اند.
+
+کارت کالا با `memo` تعریف شده است. تغییر تعداد سبد در `CartButton` شمارنده و عنوان تب را به روز می کند و `Layout` به تعداد سبد وابسته نیست. وقتی پنل بسته است، selector آن `null` برمی گرداند و تغییر محتوای سبد باعث رندر پنل بسته نمی شود.
