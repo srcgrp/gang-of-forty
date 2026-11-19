@@ -1,14 +1,10 @@
-import {
-  createHashHistory,
-  createRootRoute,
-  createRoute,
-  createRouter,
-  RouterProvider,
+import { createHashHistory, createRootRoute, createRoute, createRouter, RouterProvider,
 } from "@tanstack/react-router";
 import Layout from "./components/Layout.tsx";
 import HomePage from "./components/pages/HomePage.tsx";
 import NotFound from "./components/pages/NotFound.tsx";
 import PlpPage from "./components/pages/PlpPage.tsx";
+import ProductPage from "./components/pages/ProductPage.tsx";
 
 const rootRoute = createRootRoute({
   component: Layout,
@@ -25,7 +21,17 @@ const plpRoute = createRoute({
   component: PlpPage,
 });
 
-const routeTree = rootRoute.addChildren([homeRoute, plpRoute]);
+const productRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/product/$productId",
+  component: ProductPage,
+});
+
+const routeTree = rootRoute.addChildren([
+  homeRoute,
+  plpRoute,
+  productRoute,
+]);
 const router = createRouter({ routeTree, history: createHashHistory() });
 
 declare module "@tanstack/react-router" {
