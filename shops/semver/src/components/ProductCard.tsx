@@ -1,23 +1,18 @@
+import { Link } from "@tanstack/react-router";
+import { memo } from "react";
+import { productPrice } from "../catalog/product-price";
 import type { ProductView } from "../types";
 import { formatPrice } from "../utils/format";
-import confetti from "canvas-confetti";
-import { notyf } from "../utils/notify";
-import { useCartStore } from "../hooks/useCartStore";
+import AddToCartButton from "./AddToCartButton";
 
 type ProductCardProps = {
   item: ProductView;
 };
 
-const discountedPrice = (price: number, percent: number): number =>
-  Math.round((price * (100 - percent)) / 100);
-
-export default function ProductCard({ item }: ProductCardProps) {
-  const add = useCartStore((state) => state.add);
+export default memo(function ProductCard({ item }: ProductCardProps) {
   const { product, offer, stock } = item;
   const isOutOfStock = stock === 0;
-  const finalPrice = offer
-    ? discountedPrice(product.price, offer.percent)
-    : product.price;
+  const finalPrice = productPrice(item);
 
   return (
     <article className={`product-cart${isOutOfStock ? " out-of-stock" : ""}`}>
@@ -34,7 +29,9 @@ export default function ProductCard({ item }: ProductCardProps) {
         </span>
       </div>
       <div className="product-details">
-        <p className="product-description">{product.name}</p>
+        <p className="product-description">
+          <Link to="/product/$productId" params={{ productId: String(product.id) }}>{product.name}</Link>
+        </p>
         <span className="product-unit">{product.unit || ""}</span>
       </div>
       <div className="card-btn">
@@ -42,25 +39,8 @@ export default function ProductCard({ item }: ProductCardProps) {
           {offer && <span className="price-old">{formatPrice(product.price)}</span>}
           <p className="price-label">{formatPrice(finalPrice)}</p>
         </div>
-        <button
-          className="buynow-btn"
-          type="button"
-          data-product-id={product.id}
-          aria-label={
-            isOutOfStock
-              ? `${product.name} ناموجود است`
-              : `افزودن ${product.name} به سبد خرید`
-          }
-          disabled={isOutOfStock}
-          onClick={() => {
-            add(product.id);
-            notyf.success(`${product.name} با موفقیت به سبد خرید اضافه شد!`);
-            confetti({ particleCount: 50, spread: 60, origin: { y: 0.8 } });
-          }}
-        >
-          +
-        </button>
+        <AddToCartButton item={item} compact />
       </div>
     </article>
   );
-}
+});

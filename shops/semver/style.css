@@ -341,12 +341,17 @@ nav {
   cursor: pointer;
 }
 
-#cart-panel > p:last-child {
+#cart-panel .cart-panel-total {
   margin: 12px 0 0;
   padding-top: 12px;
   border-top: 1px solid var(--line);
   font-size: 14px;
   font-weight: 700;
+}
+
+.cart-panel-checkout {
+  display: inline-block;
+  margin-block-start: 8px;
 }
 
 #header-categories {
@@ -639,6 +644,52 @@ i.ph-arrow-left {
   flex-wrap: wrap;
 }
 
+.catalog-sort {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-block: 12px;
+}
+
+.catalog-sort [aria-current="page"] {
+  font-weight: 700;
+}
+
+.product-detail,
+.checkout-form,
+.checkout-field {
+  display: grid;
+  gap: 12px;
+}
+
+.product-detail .buynow-btn,
+.checkout-form .buynow-btn {
+  justify-self: start;
+  font-family: inherit;
+}
+
+.checkout-form {
+  max-inline-size: 32rem;
+  margin-block-start: 16px;
+}
+
+.checkout-field input {
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+}
+
+.checkout-field input[aria-invalid="true"] {
+  border-color: var(--error-text);
+}
+
+.checkout-error {
+  color: var(--error-text);
+}
+
 .flex-item-product {
   display: flex;
   justify-content: flex-start;
@@ -862,6 +913,16 @@ h5, h3 ,p {
   font-size: 16px;
   font-weight: 600;
   font-family: iranyekan;
+}
+
+.product-description a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.product-description a:hover,
+.product-description a:focus-visible {
+  text-decoration: underline;
 }
 
 .feature-container {
@@ -1266,6 +1327,16 @@ body {
 
   #shopping-cart-button {
     flex: 0 0 auto;
+  }
+
+  #cart-action {
+    position: static;
+  }
+
+  #cart-panel {
+    top: auto;
+    inset-inline-end: 16px;
+    margin-block-start: 8px;
   }
 
   #btn-categories {

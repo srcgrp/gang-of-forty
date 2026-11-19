@@ -8,6 +8,7 @@ export default function CarouselLink({ carouselId, title }: CarouselLinkProps) {
       className="catalog-link carousel-link"
       to="/plp/$carouselId"
       params={{ carouselId }}
+      search={{ sort: "default" }}
       aria-label={`مشاهده همه: ${title}`}
     >
       مشاهده همه

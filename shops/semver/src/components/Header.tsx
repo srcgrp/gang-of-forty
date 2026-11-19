@@ -120,6 +120,7 @@ export default function Header({
               <CartPanel
                 open={cartOpen}
                 products={products}
+                onCheckout={() => setCartOpen(false)}
               />
             </div>
           </div>

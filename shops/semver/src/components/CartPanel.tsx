@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router';
 import type { Product } from '../types';
 import { totalPrice } from '../cart/cart';
 import { useCartStore } from '../hooks/useCartStore';
@@ -6,9 +7,10 @@ import { formatCount, formatPrice } from '../utils/format';
 type CartPanelProps = {
   open: boolean;
   products: Product[];
+  onCheckout: () => void;
 };
 
-export default function CartPanel({ open, products }: CartPanelProps) {
+export default function CartPanel({ open, products, onCheckout }: CartPanelProps) {
   const cart = useCartStore((state) => state.lines);
   const remove = useCartStore((state) => state.remove);
   const total = totalPrice(cart, products);
@@ -42,7 +44,8 @@ export default function CartPanel({ open, products }: CartPanelProps) {
           })}
         </ul>
       )}
-      <p>جمع کل: {formatPrice(total)}</p>
+      <p className="cart-panel-total">جمع کل: {formatPrice(total)}</p>
+      <Link className="catalog-link cart-panel-checkout" to="/checkout" onClick={onCheckout}>تسویه‌حساب</Link>
     </aside>
   );
 }
