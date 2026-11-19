@@ -18,16 +18,17 @@
     color: var(--text);
 }
 .app[data-theme="dark"] {
-    --bg: #16181d;
-    --text: #e8eaf0;
-    --surface: #20232a;
-    --card: #252a33;
-    --border: #444b56;
-    --nav: #252a33;
-    --banner: #303643;
-    --muted: #a0a6b2;
-    --accent: #a5bb7c;
-    --panel: rgba(37, 42, 51, 0.95);
+    --bg: #313c2b;
+    --text: #f1e8d6;
+    --surface: #e7d8c1;
+    --card: #e7d8c1;
+    --card-text: #29291f;
+    --border: #a4aa86;
+    --nav: #414934;
+    --banner: #676f4a;
+    --muted: #b8ae91;
+    --accent: #582f0e;
+    --panel: rgba(231, 216, 193, 0.97);
     background-color: var(--bg);
     color: var(--text);
 }
@@ -1396,29 +1397,29 @@ summary:focus-visible {
 .app[data-theme="dark"] .Categories {
     background-color: var(--card);
     border-color: var(--border);
-    color: var(--text);
+    color: var(--card-text);
 }
 .app[data-theme="dark"] .product:hover,
 .app[data-theme="dark"] .tent-article:hover,
 .app[data-theme="dark"] .Categories:hover {
-    background-color: #303643;
+    background-color: #d9c6a5;
 }
 .app[data-theme="dark"] .cart-panel {
     border-color: var(--border);
-    color: var(--text);
+    color: var(--card-text);
 }
 .app[data-theme="dark"] .cart-panel h2,
 .app[data-theme="dark"] .cart-panel > p:last-child {
-    color: var(--text);
+    color: var(--card-text);
 }
 .app[data-theme="dark"] .cart-row button {
     border-color: var(--border);
     background-color: var(--card);
-    color: var(--text);
+    color: var(--card-text);
 }
 .app[data-theme="dark"] .cart-row button:hover {
     background-color: var(--accent);
-    color: #16181d;
+    color: #f1e8d6;
 }
 .app[data-theme="dark"] .discounted-price,
 .app[data-theme="dark"] .stock-label {
