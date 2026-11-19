@@ -12,10 +12,12 @@
   --color-sale : rgb(204 70 34);
   --color-accent : rgb(246 195 67);
   --color-primary: rgb(69 123 83);
+  --color-primary-bg: rgb(69 123 83);
   --color-footer-bg: rgb(33 42 32);
   --color-primary-soft  : rgb(230 241 232);
   --color-surface: rgb(255, 255, 255);
   --color-page-bg: rgb(251 248 242);
+  --color-border: rgb(236, 230, 230);
   --tint-red: rgb(249 228 221);
   --tint-blue: rgb(228 238 251);
   --tint-yellow: rgb(251 240 207);
@@ -25,6 +27,25 @@
   --gutter: max(0.75rem, calc((100% - 75rem) / 2));
 }
 
+
+.app[data-theme="dark"] {
+  --color-text: rgb(232 236 230);
+  --color-text-muted: rgb(160 168 160);
+  --color-primary: rgb(110 180 128);
+  --color-primary-bg: rgb(46 96 61);
+  --color-footer-bg: rgb(10 13 10);
+  --color-primary-soft: rgb(36 56 41);
+  --color-surface: rgb(30 36 31);
+  --color-page-bg: rgb(18 22 19);
+  --color-border: rgb(52 60 54);
+  --tint-red: rgb(74 40 34);
+  --tint-blue: rgb(32 48 72);
+  --tint-yellow: rgb(70 58 24);
+  --tint-green: rgb(28 60 50);
+  --tint-pink: rgb(72 36 48);
+  --tint-purple: rgb(52 40 76);
+}
+
 html {
   scroll-padding-block-start: 6rem;
 }
@@ -32,6 +53,10 @@ html {
 body {
   margin: 0px;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.app {
+  min-height: 100vh;
   background-color: var(--color-page-bg);
   color: var(--color-text);
 }
@@ -73,7 +98,7 @@ header {
   align-items: center;
   font-size: .75rem;
   gap: 0.4rem;
-  background-color: var(--color-primary);
+  background-color: var(--color-primary-bg);
   padding-block:0.3rem;
 }
 
@@ -153,7 +178,7 @@ header {
   padding-block: 0.75rem;
   color: var(--color-text);
   text-decoration: none;
-  border-block-start: 1px solid rgb(236, 230, 230);
+  border-block-start: 1px solid var(--color-border);
 }
 
 .all-categories > a {
@@ -232,7 +257,7 @@ main {
 
 .first-banner {
   color: aliceblue;
-  background-color: var(--color-primary);
+  background-color: var(--color-primary-bg);
   padding-inline: 1rem;
   padding-block: 1rem;
   line-height: 1.3rem;
@@ -249,7 +274,7 @@ main {
 
 .first-banner-link a {
   background-color: var(--color-accent);
-  color: var(--color-text);
+  color: rgb(17 24 17);
   margin-block-start: 0.5rem;
   border: none;
   border-radius: 50px;
@@ -289,7 +314,7 @@ main {
   flex-direction: column;
 }
 .second-banner-link a {
-  background-color: var(--color-primary);
+  background-color: var(--color-primary-bg);
   color: aliceblue;
   margin-block-start: 0.5rem;
   border: none;
@@ -327,7 +352,7 @@ main {
   padding-block: 0.5rem;
   padding-inline: 0.5rem;
   color: inherit;
-  border: 1px solid rgb(236, 230, 230);
+  border: 1px solid var(--color-border);
   border-radius: 0.5rem;
   height: 100%;
 }
@@ -402,7 +427,7 @@ main {
 
 .sale-toggle {
   padding: 0.25rem 0.75rem;
-  border: 1px solid rgb(236, 230, 230);
+  border: 1px solid var(--color-border);
   border-radius: 50px;
   background-color: var(--color-surface);
   color: var(--color-text-muted);
@@ -435,7 +460,7 @@ main {
   height: 32px;
   border-radius: 50%;
   background-color: var(--color-surface);
-  border: 1px solid rgb(236, 230, 230);
+  border: 1px solid var(--color-border);
   transition: background-color 0.2s ease;
 }
 
@@ -488,7 +513,7 @@ html[dir="ltr"] .carousel-arrows img {
   padding: 1rem;
   font-size: 0.875rem;
   text-align: center;
-  border: 1px solid rgb(236, 230, 230);
+  border: 1px solid var(--color-border);
   border-radius: 0.5rem;
 }
 
@@ -511,7 +536,7 @@ html[dir="ltr"] .carousel-arrows img {
   padding: 5px 1rem;
   border: none;
   border-radius: 50px;
-  background-color: var(--color-primary);
+  background-color: var(--color-primary-bg);
   color: aliceblue;
   font: inherit;
   font-weight: bold;
@@ -525,7 +550,7 @@ html[dir="ltr"] .carousel-arrows img {
 
 .product-card {
   background-color: var(--color-surface);
-  border: 1px solid rgb(236, 230, 230);
+  border: 1px solid var(--color-border);
   border-radius: 1rem;
   padding: 0.5rem;
   display: flex;
@@ -641,7 +666,7 @@ html[dir="ltr"] .carousel-arrows img {
   justify-content: center;
   align-items: center;
   color: white;
-  background-color: var(--color-primary);
+  background-color: var(--color-primary-bg);
   border: none;
   border-radius: 30%;
   cursor: pointer;
@@ -768,9 +793,10 @@ footer ul {
     width: 100%;
     padding-block: 0.6rem;
     padding-inline: 1rem;
-    border: 1px solid rgb(236, 230, 230);
+    border: 1px solid var(--color-border);
     border-radius: 2rem;
     background-color: var(--color-page-bg);
+    color: inherit;
     font: inherit;
   }
 
@@ -780,7 +806,7 @@ footer ul {
 
   .navbar {
     display: block;
-    border-block-end: 1px solid rgb(236, 230, 230);
+    border-block-end: 1px solid var(--color-border);
   }
 
   .navbar > ul {
@@ -804,7 +830,7 @@ footer ul {
     min-width: 24rem;
     padding: 0.5rem;
     background-color: var(--color-surface);
-    border: 1px solid rgb(236, 230, 230);
+    border: 1px solid var(--color-border);
     border-radius: 0.5rem;
     box-shadow: 0 8px 16px rgb(17 24 17 / 0.12);
     opacity: 0;
@@ -923,6 +949,7 @@ footer ul {
   border: 1px solid rgb(0 0 0 / 0.2);
   border-radius: 0.5rem;
   background: var(--color-surface);
+  color: inherit;
   font-size: 1.25rem;
   line-height: 1;
   cursor: pointer;
@@ -955,7 +982,7 @@ body:has(.cart-panel) {
   align-items: center;
   gap: 0.25rem 0.75rem;
   padding: 0.75rem;
-  border: 1px solid rgb(236, 230, 230);
+  border: 1px solid var(--color-border);
   border-radius: 0.75rem;
   background: var(--color-surface);
 }
@@ -986,6 +1013,7 @@ body:has(.cart-panel) {
   border: 1px solid rgb(0 0 0 / 0.15);
   border-radius: 0.5rem;
   background: var(--tint-green);
+  color: inherit;
   line-height: 1;
   cursor: pointer;
 }
