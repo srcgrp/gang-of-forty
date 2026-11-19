@@ -153,6 +153,7 @@ main,
 footer {
   width: min(100% - clamp(1.5rem, 5vw, 4rem), var(--container));
   margin-inline: auto;
+  font-size: 0.75rem;
 }
 
 .header-content {
@@ -452,6 +453,34 @@ footer nav {
   text-decoration: none;
 }
 
+.product-carousel .carousel-status {
+  margin-block: 0.75rem;
+  padding: 1rem;
+  color: var(--ink);
+  background: var(--surface-soft);
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+}
+
+/* Make the error state visually distinct. */
+.product-carousel .carousel-status.is-error {
+  border-inline-start: 4px solid #c94b45;
+}
+
+/* Existing layout rules must not override the hidden attribute. */
+.product-carousel [hidden] {
+  display: none !important;
+}
+
+.product-carousel .carousel-status:empty {
+  display: none;
+}
+
+.product-carousel .stock-badge {
+  inset-block-start: auto;
+  inset-block-end: 0.7rem;
+}
+
 .product-track {
   display: flex;
   gap: 1rem;
@@ -483,7 +512,7 @@ footer nav {
   box-shadow: 0 .6rem 1.2rem rgb(23 50 42 / 10%);
 }
 
-.product-card:target {
+.product-card.is-fragment-target {
   border-color: var(--green);
   outline: 2px solid var(--green);
   outline-offset: 2px;
@@ -752,9 +781,9 @@ footer a,
   padding-block: .35rem;
 }
 
-main section[id]:target,
-.store-sections article[id]:target,
-footer:target {
+main section[id].is-fragment-target,
+.store-sections article[id].is-fragment-target,
+footer.is-fragment-target {
   outline: 2px solid var(--green);
   outline-offset: .25rem;
   border-radius: .75rem;
@@ -957,6 +986,34 @@ footer:target {
   background: var(--green-soft);
   border: 1px solid rgb(21 92 69 / 12%);
   border-radius: 999px;
+}
+
+.cart-actions {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.clear-cart {
+  min-height: 2.9rem;
+  padding: .45rem .65rem;
+  font: inherit;
+  font-weight: 700;
+  color: var(--green-deep);
+  background: var(--surface-soft);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.clear-cart:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+#search-results {
+  scroll-margin-top: var(--header-offset);
 }
 
 .cart strong {
@@ -1707,7 +1764,7 @@ footer:target {
   transform: translateY(-6px);
 }
 
-.product-card:target {
+.product-card.is-fragment-target {
   border-color: var(--orange);
   outline: 3px solid rgb(242 155 56 / 20%);
   outline-offset: 2px;
@@ -2194,7 +2251,7 @@ main > .store-sections article > a::after {
   height: 2.4rem;
   background: rgb(255 255 255 / 10%);
   border-radius: 50%;
-  font-size: 1rem;
+  font-size: 0.8rem;
 }
 
 #about .store-sections h3 {
@@ -2211,6 +2268,7 @@ main > .store-sections article > a::after {
 
 footer {
   display: grid;
+  align-items: center;
   grid-template-columns: minmax(16rem, 1fr) minmax(0, 1.8fr);
   column-gap: clamp(2rem, 7vw, 7rem);
   width: 100%;
@@ -2258,7 +2316,7 @@ footer nav a {
   width: fit-content;
   min-height: 2.4rem;
   color: #b8cec4;
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   text-decoration: none;
   transition: color .2s ease, transform .2s ease;
 }
@@ -2778,5 +2836,85 @@ footer { padding-block: clamp(2.5rem, 5vw, 4rem); }
   .add-button:disabled:active {
     color: #d8e1dd;
     background: #46564f;
+  }
+}
+
+.page-status:empty,
+.announcement:empty {
+  display: none;
+}
+
+.page-status {
+  padding: 0.75rem;
+  color: var(--ink);
+  background: var(--surface-soft);
+  border-radius: 0.75rem;
+}
+
+#category-sections > article,
+.product-carousel,
+#contact,
+#about {
+  scroll-margin-block-start: 0;
+}
+
+#shop-schedule h3 {
+  margin-block: 1rem 0.4rem;
+  font-size: 0.9rem;
+}
+
+#shop-schedule p {
+  margin-block: 0.25rem;
+}
+
+.category-grid {
+  grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+}
+
+#page-status.is-error {
+  border-inline-start: 4px solid #c94b45;
+}
+
+#cart-status {
+  margin: 0;
+  font-size: 0.75rem;
+}
+
+#about .store-sections article > div {
+  grid-column: 2;
+  min-width: 0;
+}
+
+footer #shop-schedule h3 {
+  color: #dff4e9;
+}
+
+/* Readable story columns use the full panel width. */
+#about .about-columns {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.5rem, 4vw, 3rem);
+  margin-block: 1rem 1.5rem;
+}
+
+#about .about-columns p {
+  max-inline-size: none;
+  margin-block: 0 1rem;
+  color: #c5d9d0;
+  font-size: 1rem;
+  line-height: 1.95;
+}
+
+#about .store-sections p {
+  font-size: 0.85rem;
+  line-height: 1.9;
+}
+
+@media (max-width: 38rem) {
+  #about .about-columns {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
   }
 }

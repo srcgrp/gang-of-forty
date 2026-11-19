@@ -360,7 +360,7 @@ li {
 
 .all-items {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(7, 1fr);
   gap: 16px;
 
 }
@@ -478,6 +478,7 @@ li {
 
 .special-offer-items {
   display: flex;
+ flex-wrap: nowrap;
   overflow-x: auto;
   gap: 12px;
   scroll-snap-type: x mandatory;
@@ -518,6 +519,7 @@ li {
   margin-bottom: 8px;
   border-radius: 8px;
   position: relative;
+    font-size: 64px;
 }
 
 .discount-badge {
@@ -536,6 +538,7 @@ li {
   max-width: 90%;
   max-height: 90%;
   object-fit: contain;
+
 }
 
 .special-offer-item-details {
@@ -1034,9 +1037,14 @@ li {
 
 
 
+.special-offer-emoji { font-size: 64px; line-height: 1; }
+.unavailable .special-offer-emoji { opacity: 0.5; }
+
 
 
 @media screen and (max-width: 768px) {
+   .special-offer-emoji { font-size: 36px; }
+  
   html {
     scroll-padding-top: 120px;
   }
