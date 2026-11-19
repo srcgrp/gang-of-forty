@@ -4,7 +4,7 @@
 
 - A customer can see the groceries, grouped by category, with the unit, the price, how many are left, and a discount when there is one.
 - A customer can search by name, add an available product to the cart, see the cart count, and empty the cart.
-- Not now: login, payment, checkout, and choosing a delivery time.
+- Bonus: product page, PLP sort, checkout form (name / mobile / address). Not now: login, payment, and choosing a delivery time.
 
 ## 2. Page sections
 
@@ -107,11 +107,13 @@ The server must be the one that calculates the final cart total. A customer can 
 
 ## 10. Routes
 
-| Address             | Page       | Data from                                              |
-| ------------------- | ---------- | ------------------------------------------------------ |
-| `#/`                | `HomePage` | `useCatalog` → products, offers, home carousels        |
-| `#/plp/$carouselId` | `PlpPage`  | `useCatalog` + `carouselProducts(catalog, carouselId)` |
-| anything else       | `NotFound` | —                                                      |
+| Address                 | Page          | Data from                                              |
+| ----------------------- | ------------- | ------------------------------------------------------ |
+| `#/`                    | `HomePage`    | `useCatalog` → products, offers, home carousels        |
+| `#/plp/$carouselId`     | `PlpPage`     | `useCatalog` + `carouselProducts` + `?sort=`           |
+| `#/product/$productId`  | `ProductPage` | `useCatalog` → one product by id                       |
+| `#/checkout`            | `CheckoutPage`| controlled form; on success clears cart and goes home  |
+| anything else           | `NotFound`    | —                                                      |
 
 Unknown `carouselId` stays on `PlpPage` and shows «این فهرست پیدا نشد» (not a blank page).
 Routes are defined only in `App.tsx` with `createHashHistory()`.
@@ -121,7 +123,7 @@ Routes are defined only in `App.tsx` with `createHashHistory()`.
 | Store | Defined in                                                              | What it holds       | Who changes it                                                            | Where saved                                                                         |
 | ----- | ----------------------------------------------------------------------- | ------------------- | ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
 | Theme | `hooks/useThemeStore.ts` (Zustand + persist)                            | `theme`, `toggle`   | `ThemeToggle`                                                             | `localStorage` key `clean-code-theme`                                               |
-| Cart  | `hooks/cartReducer.ts` + `CartProvider` + `useCart` (context + reducer) | `lines`, `dispatch` | `HomePage` / `PlpPage` (add), `CartPanel` (clear), `Header` (reads count) | `localStorage` via `storage/cart-storage.ts` in a `useEffect` inside `CartProvider` |
+| Cart  | `hooks/cartReducer.ts` + `CartProvider` + `useCart` (context + reducer) | `lines`, `dispatch` | pages (add), `CartPanel` / `CheckoutPage` (clear), `Header` (reads count) | `localStorage` via `storage/cart-storage.ts` in a `useEffect` inside `CartProvider` |
 
 Cart choice: **context + reducer**, not Zustand.
 Why: cart actions stay as a pure reducer (`add` / `clear`) next to the week-4 cart helpers, and `CartProvider` owns save/load. Theme stayed on Zustand because it is tiny and `persist` is enough.
@@ -135,7 +137,7 @@ main.tsx
         └── Layout
             ├── Banner
             ├── Header
-            │   ├── Logo / SearchBox / CartIcon / ThemeToggle / MenuToggle
+            │   ├── Logo / SearchBox / CartIcon / تکمیل سفارش / ThemeToggle / MenuToggle
             └── Outlet
                 ├── HomePage                         (#/)
                 │   ├── SalePanel
@@ -148,5 +150,7 @@ main.tsx
                 │   └── Footer
                 ├── PlpPage                          (#/plp/$carouselId)
                 │   └── ProductGrid → ProductCard
+                ├── ProductPage                      (#/product/$productId)
+                ├── CheckoutPage                     (#/checkout)
                 └── NotFound                         (unknown paths)
 ```

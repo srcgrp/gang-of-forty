@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { cartCount as countLines } from "../features/cart/count";
 import { useCartLines } from "../hooks/useCart";
@@ -43,6 +44,9 @@ export default function Header() {
             {cartCount.toLocaleString("fa-IR")}
           </span>
         </a>
+        <Link className="checkout-link" to="/checkout">
+          تکمیل سفارش
+        </Link>
         <ThemeToggle />
         <MenuToggle />
       </div>

@@ -1449,3 +1449,41 @@ a[data-cat].active {
 .sort-links a:hover {
   border-color: var(--coral);
 }
+
+.checkout-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.checkout-form {
+  max-width: 420px;
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.checkout-form label {
+  display: grid;
+  gap: 4px;
+}
+
+.checkout-form input {
+  min-height: 44px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font: inherit;
+}
+
+.checkout-form .error {
+  color: var(--coral-deep);
+  font-size: 14px;
+}
