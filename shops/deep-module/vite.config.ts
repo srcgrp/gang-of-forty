@@ -1,9 +1,12 @@
 import { defineConfig } from "vite";
-
-const api = { "/api": { target: "https://gof.zzb.cx", changeOrigin: true } };
+import react from "@vitejs/plugin-react";
 
 export default defineConfig({
-  base: "./",
-  server: { proxy: api },
-  preview: { proxy: api },
+  base: "/",
+  plugins: [react()],
+  server: {
+    host: "0.0.0.0",
+    port: 3000,
+    allowedHosts: true,
+  },
 });
