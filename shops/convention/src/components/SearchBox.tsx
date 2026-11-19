@@ -9,6 +9,7 @@ export default function SearchBox({
 }: SearchBoxProps) {
   return (
     <input
+      id="search"
       type="search"
       placeholder="جست‌وجوی محصول..."
       value={value}

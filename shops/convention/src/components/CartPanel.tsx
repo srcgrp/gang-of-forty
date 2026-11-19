@@ -2,21 +2,22 @@ import { useCartStore } from '../hooks/useCartStore'
 
 import type { CartLine } from '../types'
 
-type CartPanelProps = {
-  items: CartLine[]
-  total: number
-}
+import { useCatalog } from '../hooks/useCatalog'
 
-export default function CartPanel({
-  items,
-  total,
-}: CartPanelProps) {
+export default function CartPanel() {
+  const lines = useCartStore((state) => state.lines)
   const remove = useCartStore((state) => state.remove)
+  const catalog = useCatalog()
+  const items: CartLine[] = catalog.status === 'success' ? lines.flatMap((line) => {
+    const product = catalog.data.products.find((item) => item.id === line.productId)
+    return product ? [{ ...product, quantity: line.quantity }] : []
+  }) : []
+  const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
   return (
     <aside className="cart-panel" id="cart">
       <h2>سبد خرید</h2>
 
-      {items.length === 0 ? (
+      {catalog.status !== 'success' && lines.length > 0 ? <p>جزئیات سبد پس از دریافت محصولات نمایش داده می‌شود.</p> : items.length === 0 ? (
         <p>سبد خرید شما خالی است.</p>
       ) : (
         <>

@@ -1268,3 +1268,14 @@ input:focus-visible {
 .app input { background: var(--card); color: var(--text); }
 .app button { cursor: pointer; }
 .app :focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+
+.app main { padding-block: 24px; min-height: 50vh; }
+.app h1, .app h2 { margin-block: 16px; }
+.app .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(230px, 100%), 1fr)); gap: 20px; }
+.app .product-grid .product-card { width: auto; min-width: 0; }
+.app .cart-panel { position: static; width: min(1200px, 92%); margin: 32px auto; padding: 24px; border: 1px solid var(--border); border-radius: 12px; }
+.app .cart-panel > div { display: flex; flex-wrap: wrap; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.app .section-header a, .app main > section > a { color: var(--accent); text-decoration: underline; }
+.skip-link { position: absolute; inset-inline-start: 16px; top: -100px; z-index: 2000; padding: 8px; background: var(--card); }
+.skip-link:focus { top: 8px; }
+@media (max-width: 650px) { .app .header-content { flex-wrap: wrap; gap: 12px; padding-block: 12px; } }
