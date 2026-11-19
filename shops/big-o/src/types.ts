@@ -62,4 +62,6 @@ export type LoadState =
   | { status: 'empty' }
   | { status: 'error'; message: string }
 
-  export type Theme = "light" | "dark"
+export type Theme = "light" | "dark"
+
+export type CartProduct = Pick<Product, "id" | "name" | "price">

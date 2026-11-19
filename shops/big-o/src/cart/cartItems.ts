@@ -1,6 +1,6 @@
-import type { CartItem, Product } from "../types";
+import type { CartItem, CartProduct } from "../types";
 
-export function addToCart(cart: CartItem[], product: Product): CartItem[] {
+export function addToCart(cart: CartItem[], product: CartProduct): CartItem[] {
     const exists = cart.some((cartItem) => cartItem.id === product.id)
     if (exists) {
       return cart.map((cartItem) => cartItem.id === product.id ? {...cartItem , qty : cartItem.qty + 1} : cartItem)
