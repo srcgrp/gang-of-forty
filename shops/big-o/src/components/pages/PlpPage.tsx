@@ -1,12 +1,15 @@
-import { Link, useParams } from "@tanstack/react-router"
+import { Link, useParams, useSearch } from "@tanstack/react-router"
 import { getCardInfo } from "../../catalog/cardInfo"
 import { carouselProducts, carouselTitle } from "../../catalog/carouselProducts"
+import { sortProducts } from "../../catalog/sortProducts"
 import { useCatalog } from "../../hooks/useCatalog"
 import CatalogMessage from "../CatalogMessage"
 import ProductCard from "../ProductCard"
+import SortLinks from "../SortLinks"
 
 export default function PlpPage() {
   const { carouselId } = useParams({ from: "/plp/$carouselId" })
+  const { sort } = useSearch({ from: "/plp/$carouselId" })
   const { state, retry } = useCatalog()
   if (state.status !== "success") {
     return <CatalogMessage state={state} onRetry={retry} />
@@ -23,6 +26,7 @@ export default function PlpPage() {
       </div>
     )
   }
+  const sorted = sortProducts(products, sort, catalog.offeredProducts)
 
   return (
     <section>
@@ -30,11 +34,12 @@ export default function PlpPage() {
         <h2>{title} ({products.length.toLocaleString("fa-IR")})</h2>
         <Link className="text-link" to="/">بازگشت</Link>
       </div>
+      <SortLinks carouselId={carouselId} sort={sort} />
       {products.length === 0 ? (
         <p className="msg load-msg">محصولی در این فهرست نیست.</p>
       ) : (
         <ul className="plp-grid">
-          {products.map((product) => (
+          {sorted.map((product) => (
             <ProductCard
               key={product.id}
               product={product}
