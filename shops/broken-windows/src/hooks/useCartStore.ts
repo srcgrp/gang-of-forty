@@ -5,6 +5,7 @@ import { loadCart, saveCart } from "../storage/cartStorage";
 import type { CartLine, Product } from "../types";
 
 type CartState = {
+  clear: () => void;
   lines: CartLine[];
   add: (product: Product, price: number) => void;
   remove: (id: number) => void;
@@ -12,7 +13,7 @@ type CartState = {
 
 export const useCartStore = create<CartState>()((set) => ({
   lines: loadCart(),
-
+  clear: () => set({ lines: [] }),
   add: (product, price) =>
     set((state) => ({
       lines: addToCart(state.lines, product, price),

@@ -1635,3 +1635,49 @@ background: var(--bg);
     margin: 20px 12px;
   }
 }
+.checkout {
+  max-width: 480px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+.checkout-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.checkout-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.checkout-field input {
+  padding: 10px 14px;
+  border: 1px solid #1D9E75;
+  border-radius: 10px;
+  background: var(--card, #f2f3f5);
+  color: var(--text, #1d1d1f);
+  font: inherit;
+}
+
+.checkout-field input[aria-invalid="true"] {
+  border-color: #D4537E;
+}
+
+.checkout-error {
+  margin: 0;
+  color: #D4537E;
+  font-size: 14px;
+}
+
+.checkout-button {
+  padding: 12px;
+  border: none;
+  border-radius: 999px;
+  background: #0F6E56;
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+}
