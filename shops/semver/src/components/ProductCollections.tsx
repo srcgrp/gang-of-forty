@@ -1,13 +1,12 @@
-import type { Category, Home, LoadState } from "../types";
+import type { Catalog, ProductLoadState } from "../types";
 import CategoryShelves from "./CategoryShelves";
 import HomeCarousels from "./HomeCarousels";
 import LatestProducts from "./LatestProducts";
 import PromoBanners from "./PromoBanners";
 
 type ProductCollectionsProps = {
-  categories: Category[];
-  home: Home | null;
-  state: LoadState;
+  catalog: Catalog | null;
+  state: ProductLoadState;
   categoryId: number | null;
   onRetry: () => void;
 };
@@ -27,8 +26,7 @@ export default function ProductCollections(props: ProductCollectionsProps) {
   return (
     <>
       <HomeCarousels
-        home={props.home}
-        categories={props.categories}
+        catalog={props.catalog}
         state={props.state}
         variant="offers"
       />
@@ -37,16 +35,15 @@ export default function ProductCollections(props: ProductCollectionsProps) {
         categoryId={props.categoryId}
       />
       <CategoryShelves
-        categories={props.categories}
+        categories={props.catalog?.categories ?? []}
         state={props.state}
       />
       <HomeCarousels
-        home={props.home}
-        categories={props.categories}
+        catalog={props.catalog}
         state={props.state}
         variant="other"
       />
-      <PromoBanners home={props.home} />
+      <PromoBanners home={props.catalog?.home ?? null} />
     </>
   );
 }

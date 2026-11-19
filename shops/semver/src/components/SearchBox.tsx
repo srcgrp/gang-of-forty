@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import confetti from "canvas-confetti";
-import type { LoadState } from "../types";
+import type { ProductLoadState } from "../types";
 import { formatPrice } from "../utils/format";
 import { notyf } from "../utils/notify";
 import { useCartStore } from "../hooks/useCartStore";
@@ -10,7 +10,7 @@ import "./SearchBox.css";
 type SearchBoxProps = {
   query: string;
   onQueryChange: (query: string) => void;
-  state: LoadState;
+  state: ProductLoadState;
   onRetry: () => void;
 };
 
@@ -96,7 +96,7 @@ export default function SearchBox({
       case "success":
         return (
           <ul className="search-suggestions__list">
-            {state.products.map(({ product, offer, stock }) => {
+            {state.data.map(({ product, offer, stock }) => {
               const isOutOfStock = stock === 0;
               const price = offer
                 ? Math.round((product.price * (100 - offer.percent)) / 100)

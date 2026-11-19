@@ -1,27 +1,24 @@
+import { carouselProducts } from "../catalog/carousel-products";
 import { stateForProducts } from "../catalog/product-state";
-import type { Category, Home, LoadState } from "../types";
+import type { Catalog, ProductLoadState } from "../types";
 import ProductGrid from "./ProductGrid";
 import SaleCountdown from "./SaleCountdown";
 
 type HomeCarouselsProps = {
-  home: Home | null;
-  categories: Category[];
-  state: LoadState;
+  catalog: Catalog | null;
+  state: ProductLoadState;
   variant: "offers" | "other";
 };
 
-export default function HomeCarousels({ home, categories, state, variant }: HomeCarouselsProps) {
-  const productViews = state.status === "success" ? state.products : [];
-  const slugs = new Set(categories.map((category) => category.slug));
+export default function HomeCarousels({ catalog, state, variant }: HomeCarouselsProps) {
+  const slugs = new Set(catalog?.categories.map((category) => category.slug));
 
   return (
     <div id={variant === "offers" ? "carousels" : undefined}>
-      {home?.carousels
+      {catalog && catalog.home.carousels
         .filter((carousel) => (carousel.source === "offers") === (variant === "offers"))
         .map((carousel) => {
-        const items = carousel.source === "offers"
-          ? productViews.filter((view) => view.offer !== undefined)
-          : productViews.filter(({ product }) => product.categoryId === carousel.categoryId);
+        const items = carouselProducts(catalog, carousel.id) ?? [];
         const id = slugs.has(carousel.id) ? `carousel-${carousel.id}` : carousel.id;
         return (
           <section key={carousel.id}>

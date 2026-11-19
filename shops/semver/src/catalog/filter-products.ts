@@ -1,4 +1,5 @@
-import type { Category, LoadState } from "../types";
+import type { Category, ProductLoadState } from "../types";
+import { stateForProducts } from "./product-state";
 
 const normalize = (value: string): string =>
   value
@@ -8,15 +9,15 @@ const normalize = (value: string): string =>
     .replace(/[\u064b-\u065f\u0670\u200c]/g, "");
 
 export function filterProductsByQuery(
-  state: LoadState,
+  state: ProductLoadState,
   query: string,
   categories: Category[],
-): LoadState {
+): ProductLoadState {
   const term = normalize(query.trim());
   if (state.status !== "success" || !term) return state;
 
   const categoryNames = new Map(categories.map(({ id, name }) => [id, name]));
-  const products = state.products.filter(({ product }) => {
+  const products = state.data.filter(({ product }) => {
     const searchable = [
       product.name,
       product.unit ?? "",
@@ -26,5 +27,5 @@ export function filterProductsByQuery(
     return normalize(searchable.join(" ")).includes(term);
   });
 
-  return products.length ? { status: "success", products } : { status: "empty" };
+  return stateForProducts(state, products);
 }

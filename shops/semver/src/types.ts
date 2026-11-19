@@ -32,11 +32,13 @@ export interface ProductView {
   stock?: number;
 }
 
-export type LoadState =
+export type LoadState<T> =
   | { status: 'loading' }
-  | { status: 'success'; products: ProductView[] }
-  | { status: 'empty' }
+  | { status: 'success'; data: T }
+  | { status: 'empty'; data: T }
   | { status: 'error'; message: string };
+
+export type ProductLoadState = LoadState<ProductView[]>;
 
 
   
@@ -111,4 +113,11 @@ export interface Home {
   side: HomeBanner;
   promos: HomePromo[];
   carousels: CarouselConfig[];
+}
+
+export interface Catalog {
+  products: ProductView[];
+  categories: Category[];
+  home: Home;
+  shop: Shop;
 }

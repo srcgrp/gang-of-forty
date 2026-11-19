@@ -1,49 +1,46 @@
-import type { Category, Home, LoadState, Product, Shop } from "../types";
+import { useState } from "react";
+import { filterProductsByQuery } from "../catalog/filter-products";
+import { stateForProducts } from "../catalog/product-state";
+import { useCatalog } from "../hooks/useCatalog";
 import CategoryList from "./CategoryList";
 import Footer from "./Footer";
 import Header from "./Header";
 import ProductCollections from "./ProductCollections";
 
-type StorefrontProps = {
-  categories: Category[];
-  categoryId: number | null;
-  home: Home | null;
-  loadState: LoadState;
-  searchState: LoadState;
-  products: Product[];
-  query: string;
-  shop: Shop | null;
-  onCategoryPick: (id: number | null) => void;
-  onQueryChange: (query: string) => void;
-  onRetry: () => void;
-};
+export default function Storefront() {
+  const state = useCatalog();
+  const [categoryId, setCategoryId] = useState<number | null>(null);
+  const [query, setQuery] = useState("");
+  const catalog = state.status === "success" || state.status === "empty" ? state.data : null;
+  const categories = catalog?.categories ?? [];
+  const products = catalog?.products.map(({ product }) => product) ?? [];
+  const productState = stateForProducts(state, catalog?.products ?? []);
+  const searchState = filterProductsByQuery(productState, query, categories);
 
-export default function Storefront(props: StorefrontProps) {
   return (
     <>
       <Header
-        products={props.products}
-        categories={props.categories}
-        activeCategoryId={props.categoryId}
-        onCategoryPick={props.onCategoryPick}
-        shop={props.shop}
-        home={props.home}
-        query={props.query}
-        onQueryChange={props.onQueryChange}
-        searchState={props.searchState}
-        onRetry={props.onRetry}
+        products={products}
+        categories={categories}
+        activeCategoryId={categoryId}
+        onCategoryPick={setCategoryId}
+        shop={catalog?.shop ?? null}
+        home={catalog?.home ?? null}
+        query={query}
+        onQueryChange={setQuery}
+        searchState={searchState}
+        onRetry={state.retry}
       />
       <main>
-        <CategoryList categories={props.categories} />
+        <CategoryList categories={categories} />
         <ProductCollections
-          categories={props.categories}
-          home={props.home}
-          state={props.loadState}
-          categoryId={props.categoryId}
-          onRetry={props.onRetry}
+          catalog={catalog}
+          state={productState}
+          categoryId={categoryId}
+          onRetry={state.retry}
         />
       </main>
-      <Footer shop={props.shop} categories={props.categories} />
+      <Footer shop={catalog?.shop ?? null} categories={categories} />
     </>
   );
 }

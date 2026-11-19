@@ -1,18 +1,15 @@
+import { latestProducts } from "../catalog/carousel-products";
 import { stateForProducts } from "../catalog/product-state";
-import type { LoadState } from "../types";
+import type { ProductLoadState } from "../types";
 import ProductGrid from "./ProductGrid";
 
 type LatestProductsProps = {
-  state: LoadState;
+  state: ProductLoadState;
   categoryId: number | null;
 };
 
 export default function LatestProducts({ state, categoryId }: LatestProductsProps) {
-  const productViews = state.status === "success" ? state.products : [];
-  const latest = [...productViews]
-    .sort((a, b) => b.product.id - a.product.id)
-    .slice(0, 8)
-    .filter(({ product }) => categoryId === null || product.categoryId === categoryId);
+  const latest = state.status === "success" ? latestProducts(state.data, categoryId) : [];
 
   return (
     <>

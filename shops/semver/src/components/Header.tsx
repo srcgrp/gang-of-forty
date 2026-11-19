@@ -3,7 +3,7 @@ import CategoryNav from './CategoryNav';
 import CartPanel from './CartPanel';
 import SearchBox from './SearchBox';
 import ThemeToggle from './ThemeToggle';
-import type { Category, Home, LoadState, Product, Shop } from '../types';
+import type { Category, Home, Product, ProductLoadState, Shop } from '../types';
 import { countCartItems } from '../cart/cart';
 import { useCartStore } from '../hooks/useCartStore';
 import { formatCount } from '../utils/format';
@@ -17,7 +17,7 @@ type HeaderProps = {
   home: Home | null;
   query: string;
   onQueryChange: (query: string) => void;
-  searchState: LoadState;
+  searchState: ProductLoadState;
   onRetry: () => void;
 };
 

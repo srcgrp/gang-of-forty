@@ -1,12 +1,12 @@
-import type { LoadState } from "../types";
+import type { ProductLoadState } from "../types";
 import ProductCard from "./ProductCard";
 
 type ProductGridProps = {
-  state: LoadState;
+  state: ProductLoadState;
   id?: string;
 };
 
-const renderStatus = (state: LoadState) => {
+const renderStatus = (state: ProductLoadState) => {
   switch (state.status) {
     case "loading":
       return (
@@ -23,7 +23,7 @@ const renderStatus = (state: LoadState) => {
         </p>
       );
     case "success":
-      return state.products.map((item) => (
+      return state.data.map((item) => (
         <ProductCard key={item.product.id} item={item} />
       ));
     default: {

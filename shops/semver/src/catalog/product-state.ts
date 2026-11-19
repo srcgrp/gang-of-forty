@@ -1,11 +1,11 @@
-import type { LoadState, ProductView } from "../types";
+import type { LoadState, ProductLoadState, ProductView } from "../types";
 
 export const stateForProducts = (
-  state: LoadState,
+  state: LoadState<unknown>,
   products: ProductView[],
-): LoadState => {
-  if (state.status !== "success") return state;
+): ProductLoadState => {
+  if (state.status === "loading" || state.status === "error") return state;
   return products.length > 0
-    ? { status: "success", products }
-    : { status: "empty" };
+    ? { status: "success", data: products }
+    : { status: "empty", data: products };
 };
