@@ -51,3 +51,6 @@ export type LoadState =
     | { status: "error"; message: string };
 
 export type PlpSort = "default" | "price";
+
+export type CheckoutValues = { name: string; mobile: string; address: string };
+export type CheckoutErrors = Partial<Record<keyof CheckoutValues, string>>;

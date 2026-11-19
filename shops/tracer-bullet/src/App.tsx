@@ -11,6 +11,7 @@ import NotFound from "./components/pages/NotFound.tsx";
 import PlpPage from "./components/pages/PlpPage.tsx";
 import ProductPage from "./components/pages/ProductPage.tsx";
 import type { PlpSort } from "./types.ts";
+import CheckoutPage from "./components/pages/CheckoutPage.tsx";
 
 const rootRoute = createRootRoute({
   component: Layout,
@@ -35,7 +36,13 @@ const productRoute = createRoute({
   component: ProductPage,
 });
 
-const routeTree = rootRoute.addChildren([homeRoute, plpRoute, productRoute]);
+const checkoutRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/checkout",
+  component: CheckoutPage,
+});
+
+const routeTree = rootRoute.addChildren([homeRoute, plpRoute, productRoute, checkoutRoute]);
 const router = createRouter({ routeTree, history: createHashHistory() });
 
 declare module "@tanstack/react-router" {

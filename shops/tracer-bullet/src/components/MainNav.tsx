@@ -1,5 +1,6 @@
 import type { Category, Link } from "../types.ts";
 import AppLink from "./AppLink.tsx";
+import { Link as RouterLink } from "@tanstack/react-router";
 
 type MainNavProps = {
   menu: Link[];
@@ -25,6 +26,9 @@ export default function MainNav({ menu, categories }: MainNavProps) {
             <AppLink href={m.href}>{m.label}</AppLink>
           </li>
         ))}
+        <li>
+          <RouterLink to="/checkout">تسویه حساب</RouterLink>
+        </li>
       </ul>
     </nav>
   );
