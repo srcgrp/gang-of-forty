@@ -7,6 +7,7 @@ import {useThemeStore} from '../hooks/useThemeStore';
 import Footer from './Footer';
 import Header from './Header';
 import LoadStateView from './LoadStateView';
+import ThemeToggle from './ThemeToggle';
 
 export default function Layout() {
     const {loadState, retry, query, onQuery, onPickCategory} = useAppContext();
@@ -14,7 +15,15 @@ export default function Layout() {
     const theme = useThemeStore((state) => state.theme);
 
     if (loadState.status !== 'success') {
-        return <LoadStateView loadState={loadState} onRetry={retry} />;
+        return (
+            <div className='app' data-theme={theme}>
+                <div className='load-state-theme-toggle'>
+                    <ThemeToggle />
+                </div>
+
+                <LoadStateView loadState={loadState} onRetry={retry} />
+            </div>
+        );
     }
 
     const {data} = loadState;
@@ -24,7 +33,7 @@ export default function Layout() {
     return (
         <div className='app' data-theme={theme}>
             <a className='skip-link' href='#main'>
-                پرش به محتوای اصلی
+                رفتن به محتوای اصلی
             </a>
 
             <Header
