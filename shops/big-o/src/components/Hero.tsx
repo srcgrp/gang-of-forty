@@ -1,5 +1,6 @@
 import firstBannerImg from "../../assets/products/watermelon.svg";
 import secondBannerImg from "../../assets/products/cheese.svg";
+import { Link } from "@tanstack/react-router"
 
 export default function Hero() {
     return (
@@ -8,7 +9,7 @@ export default function Hero() {
                 <h2>میوه های تازه،<br/> هر روز صبح</h2>
                 <p>مستقیم از باغ های اطراف شهر، تا دو ساعت بعد دم در خانه شما.</p>
                 <div className="first-banner-link">
-                <a href="#">خرید میوه و سبزی</a>
+                <Link to="/plp/$carouselId" params={{ carouselId: "fruits" }}>خرید میوه و سبزی</Link>
                 <img src={ firstBannerImg } alt=""/>
                 </div>
 
@@ -19,7 +20,7 @@ export default function Hero() {
                     <p>فقط تا پایان هفته</p>
                     <div className="second-banner-link">
                         <img src={ secondBannerImg } alt=""/>
-                        <a href="#dairy">دیدن محصولات</a>
+                        <Link to="/plp/$carouselId" params={{ carouselId: "dairy" }}>دیدن محصولات</Link>
                     </div>
 
             </section>
