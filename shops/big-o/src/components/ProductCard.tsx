@@ -1,3 +1,4 @@
+import { useCartStore } from '../hooks/useCartStore'
 import type { CardInfo, Product } from '../types'
 import Badge from './Badge'
 import Price from './Price'
@@ -6,12 +7,12 @@ type ProductCardProps = {
   product: Product
   info?: CardInfo | undefined
   anchorId?: string | undefined
-  onAdd: (id: number) => void
 }
 
-export default function ProductCard({ product, info = {}, anchorId, onAdd }: ProductCardProps) {
+export default function ProductCard({ product, info = {}, anchorId }: ProductCardProps) {
   const { percent, label, finalPrice, inStock = true } = info
   const titleId = `product-${product.id}`
+  const add = useCartStore((s) => s.add)
 
   return (
     <li id={anchorId}>
@@ -25,7 +26,7 @@ export default function ProductCard({ product, info = {}, anchorId, onAdd }: Pro
         <p>{product.unit}</p>
         <div className="card-footer">
           <Price price={product.price} finalPrice={finalPrice} />
-          <button type="button" aria-describedby={titleId} disabled={!inStock} onClick={() => onAdd(product.id)}>
+          <button type="button" aria-describedby={titleId} disabled={!inStock} onClick={() => add(product)}>
             <span aria-hidden="true">+</span>
             <span className="visually-hidden">افزودن به سبد خرید</span>
           </button>

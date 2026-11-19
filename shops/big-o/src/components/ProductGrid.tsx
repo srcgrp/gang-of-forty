@@ -9,12 +9,11 @@ type ProductGridProps = {
   title: string
   getInfo: (product: Product) => CardInfo
   products: Product[]
-  onAdd: (id: number) => void
   headerExtra?: ReactNode
 }
 
 
-export default function ProductGrid({title, sectionId, getInfo, products, onAdd, headerExtra}: ProductGridProps) {
+export default function ProductGrid({title, sectionId, getInfo, products, headerExtra}: ProductGridProps) {
     const firstCard = `first-${sectionId}`
     const lastCard = `last-${sectionId}`
 
@@ -23,7 +22,7 @@ export default function ProductGrid({title, sectionId, getInfo, products, onAdd,
         if (i === products.length - 1) return lastCard
         return undefined
     }
-
+    
     return (
         <section  className="product-carousel" id={sectionId}>
             <div className="carousel-header">
@@ -38,7 +37,7 @@ export default function ProductGrid({title, sectionId, getInfo, products, onAdd,
             </div>
             <ul>
                 {products.map((product, index) => (
-                    <ProductCard key={product.id} product={product} info={getInfo(product)} anchorId={signArrow(index)} onAdd={onAdd} />
+                    <ProductCard key={product.id} product={product} info={getInfo(product)} anchorId={signArrow(index)} />
                 ))}
             </ul>
         </section>

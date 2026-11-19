@@ -2,7 +2,7 @@ import type { CartItem } from "../types"
 
 type CartItemRowProps = {
   item: CartItem
-  onAdd: (id: number) => void
+  onAdd: (item: CartItem) => void
   onRemove: (id: number) => void
 }
 
@@ -13,7 +13,7 @@ export default function CartItemRow({ item, onAdd, onRemove }: CartItemRowProps)
         <p className="cart-item-total">{(item.qty * item.price).toLocaleString("fa-IR")} تومان</p>
         <p className="cart-item-price">{item.price.toLocaleString("fa-IR")} تومان / عدد</p>
         <div className="cart-stepper">
-            <button type="button" onClick={() => onAdd(item.id)}>
+            <button type="button" onClick={() => onAdd(item)}>
             <span aria-hidden="true">+</span>
             <span className="visually-hidden">افزودن به تعداد محصول</span>
             </button>

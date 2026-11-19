@@ -9,12 +9,11 @@ import SaleBox from "./SaleBox"
 
 type ShopMainProps = {
   state: LoadState
-  onAdd: (id: number) => void
   categoryId : number | null
   onSelectCategory: (id: number) => void
   onRetry: () => void
 }
-export default function ShopMain({state, onAdd, categoryId, onSelectCategory, onRetry} : ShopMainProps) {
+export default function ShopMain({state, categoryId, onSelectCategory, onRetry} : ShopMainProps) {
     switch (state.status) {
         case "loading" : 
             return <p className="msg load-msg">در حال بارگذاری...</p>
@@ -38,7 +37,6 @@ export default function ShopMain({state, onAdd, categoryId, onSelectCategory, on
                     title="پیشنهاد ویژه امروز"
                     products={filterSpecialProducts(state.offeredProducts, state.products, state.stock)}
                     getInfo={(p) => getCardInfo(p, state.offeredProducts, state.stock)}
-                    onAdd={onAdd}
                     headerExtra={<SaleBox />}
                     />
                     <Ads />
@@ -48,7 +46,6 @@ export default function ShopMain({state, onAdd, categoryId, onSelectCategory, on
                             title={selected.name}
                             products={filterProductsByCategoryID(selected.id, state.products)}
                             getInfo={(p) => getCardInfo(p, state.offeredProducts, state.stock)}
-                            onAdd={onAdd}
                         />
                     )}
                 </>

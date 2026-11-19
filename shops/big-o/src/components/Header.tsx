@@ -3,15 +3,17 @@ import cartIcon from "../../assets/icons/cart.svg";
 import CategoryNav from "./CategoryNav";
 import type { Category } from "../types";
 import ThemeToggle from "./ThemeToggle";
+import { useCartStore } from "../hooks/useCartStore";
+import { cartCount } from "../cart/cartTotal";
 
 type HeaderProps = { 
-    count: number
     categories: Category[]
     onPick: (id: number) => void
     onCartClick: () => void
     activeId: number | null
 }
-export default function Header({ count, categories, onPick, onCartClick, activeId}: HeaderProps) {
+export default function Header({categories, onPick, onCartClick, activeId}: HeaderProps) {
+    const count = useCartStore((s) => cartCount(s.items))
     return (
         <header>
             <Announcement />

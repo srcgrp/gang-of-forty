@@ -1,19 +1,17 @@
-import type { CartItem } from "../types"
+import { useCartStore } from "../hooks/useCartStore"
 import CartItemRow from "./CartItemRow"
 
 type CartPanelProps = {
   open: boolean
-  items: CartItem[]
   onClose: () => void
-  onAdd: (id: number) => void
-  onRemove: (id: number) => void
 }
 
-export default function CartPanel({ open, items, onClose, onAdd, onRemove }: CartPanelProps) {
+export default function CartPanel({ open, onClose }: CartPanelProps) {
+  const items = useCartStore((s) => s.items)
+  const onAdd = useCartStore((s) => s.add)
+  const onRemove = useCartStore((s) => s.remove)
   if (!open) return null
-
   const total = items.reduce((sum, item) => sum + item.qty * item.price, 0)
-
   return (
     <>
       <div className="cart-backdrop" onClick={onClose} />

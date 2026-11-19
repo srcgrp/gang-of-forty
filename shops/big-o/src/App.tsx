@@ -1,16 +1,15 @@
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import type { CartItem, LoadState} from "./types"
+import type { LoadState } from "./types"
 import CartPanel from "./components/CartPanel"
 import { useEffect, useState } from "react";
-import { addToCart, decreaseItem } from "./cart/cartItems";
 import ShopMain from "./components/ShopMain";
-import { loadCart, saveCart } from "./storage/cart";
 import { loadShopState } from "./api/loadState";
 import { useThemeStore } from "./hooks/useThemeStore";
+import { useCartStore } from "./hooks/useCartStore";
+import { cartCount } from "./cart/cartTotal";
 
 export default function App() {
-  const [cart,setCart] = useState <CartItem[]> (() => loadCart())
   const [state, setState] = useState <LoadState> ({status: 'loading'})
   const [categoryId, setCategoryId] = useState<number | null>(null)
   const [cartOpen, setCartOpen] = useState(false)
@@ -22,22 +21,12 @@ export default function App() {
     return () => { ignore = true }
   }, [attempt])
 
-  useEffect(() => { saveCart(cart) }, [cart])
-
   const categories = state.status === "success" ? state.categories : []
   const shopName = state.status === "success" ? state.shop.name : "سوپر مارکت نمونه"
-  const count = cart.reduce((sum, item) => sum + item.qty, 0)
+  const count = useCartStore((s) => cartCount(s.items))
 
   useEffect(() => { document.title = `${shopName} · ${count.toLocaleString("fa-IR")} 🛒` }, [shopName, count])
 
-  function handleAdd(id: number) {
-    if (state.status !== "success") return 
-    const product = state.products.find((item) => item.id === id)
-    if (product === undefined) return
-    setCart(addToCart(cart, product)) 
-  }
-
-  const handleRemove = (id: number) => setCart(decreaseItem(cart, id))
 
   function handleRetry() {
     setState({ status: "loading" })
@@ -47,20 +36,16 @@ export default function App() {
   return (
     <div className="app" data-theme={theme}>
       <a href="#main-content" className="skip-link">پرش به محتوای اصلی</a>
-      <Header count={count} categories={categories} activeId={categoryId} onPick={setCategoryId} onCartClick={() => setCartOpen(true)}/>
+      <Header categories={categories} activeId={categoryId} onPick={setCategoryId} onCartClick={() => setCartOpen(true)}/>
       <main id="main-content">
         <ShopMain
           state={state}
           categoryId={categoryId}
-          onAdd={handleAdd}
           onSelectCategory={setCategoryId}
           onRetry={handleRetry}
         />
       </main>
       <CartPanel
-        items={cart}
-        onAdd={handleAdd}
-        onRemove={handleRemove}
         open={cartOpen}
         onClose={() => setCartOpen(false)} 
       />
