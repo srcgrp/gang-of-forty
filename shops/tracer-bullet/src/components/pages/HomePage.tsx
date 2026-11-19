@@ -28,7 +28,7 @@ export default function HomePage() {
               <h2 id={`carousel-${c.id}`}>
                 {c.title} <span aria-hidden="true">{c.emoji}</span>
               </h2>
-              <Link to="/plp/$carouselId" params={{ carouselId: c.id }}>
+              <Link to="/plp/$carouselId" params={{ carouselId: c.id }} search={{ sort: "default" }}>
                 مشاهده همه ({formatNumber(cards.length)})
               </Link>
             </div>

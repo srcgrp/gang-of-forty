@@ -1,10 +1,16 @@
-import { createHashHistory, createRootRoute, createRoute, createRouter, RouterProvider,
+import {
+  createHashHistory,
+  createRootRoute,
+  createRoute,
+  createRouter,
+  RouterProvider,
 } from "@tanstack/react-router";
 import Layout from "./components/Layout.tsx";
 import HomePage from "./components/pages/HomePage.tsx";
 import NotFound from "./components/pages/NotFound.tsx";
 import PlpPage from "./components/pages/PlpPage.tsx";
 import ProductPage from "./components/pages/ProductPage.tsx";
+import type { PlpSort } from "./types.ts";
 
 const rootRoute = createRootRoute({
   component: Layout,
@@ -19,19 +25,17 @@ const plpRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/plp/$carouselId",
   component: PlpPage,
+  validateSearch: (search: Record<string, unknown>): { sort: PlpSort } => ({
+    sort: search.sort === "price" ? "price" : "default",
+  }),
 });
-
 const productRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/product/$productId",
   component: ProductPage,
 });
 
-const routeTree = rootRoute.addChildren([
-  homeRoute,
-  plpRoute,
-  productRoute,
-]);
+const routeTree = rootRoute.addChildren([homeRoute, plpRoute, productRoute]);
 const router = createRouter({ routeTree, history: createHashHistory() });
 
 declare module "@tanstack/react-router" {

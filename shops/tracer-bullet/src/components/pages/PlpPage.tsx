@@ -1,12 +1,14 @@
-import { Link, useParams } from "@tanstack/react-router";
+import { Link, useParams, useSearch } from "@tanstack/react-router";
 import ProductGrid from "../ProductGrid.tsx";
 import Status from "../Status.tsx";
 import { useCatalog } from "../../hooks/useCatalog.ts";
 import { plpList } from "../../catalog/carousel-cards.ts";
+import { sortCards } from "../../catalog/sort-cards.ts";
 import { formatNumber } from "../../format/formatting.ts";
 
 export default function PlpPage() {
   const { carouselId } = useParams({ from: "/plp/$carouselId" });
+  const { sort } = useSearch({ from: "/plp/$carouselId" });
   const state = useCatalog();
 
   if (state.status !== "success") {
@@ -30,7 +32,23 @@ export default function PlpPage() {
       <h2>
         {list.title} ({formatNumber(list.cards.length)})
       </h2>
-      <ProductGrid products={list.cards} />
+      <Link
+        to="/plp/$carouselId"
+        params={{ carouselId }}
+        search={{ sort: "default" }}
+        aria-current={sort === "default" ? "true" : undefined}
+      >
+        پیش‌فرض
+      </Link>{" "}
+      <Link
+        to="/plp/$carouselId"
+        params={{ carouselId }}
+        search={{ sort: "price" }}
+        aria-current={sort === "price" ? "true" : undefined}
+      >
+        ارزان‌ترین
+      </Link>
+      <ProductGrid products={sortCards(list.cards, sort)} />
     </section>
   );
 }
