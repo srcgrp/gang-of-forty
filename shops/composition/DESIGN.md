@@ -60,29 +60,57 @@ UI قدیمی و `src/main.ts` حذف شده‌اند. هیچ فایل TypeScrip
 
 قیمت، موجودی و سبد داخل مرورگر قابل تغییرند. در فروشگاه واقعی سرور باید هنگام ثبت سفارش دوباره قیمت، موجودی و مجوز خرید را بررسی کند؛ بررسی سمت مرورگر جای این کار را نمی‌گیرد.
 
-## ۹. درخت کامپوننت‌ها
+## ۹. درخت کامپوننت‌های هر صفحه
 
-کامپوننت‌ها را مطابق ساختار فعلی صفحه این‌طور کنار هم گذاشتم:
+پوشش مشترک همهٔ مسیرها این است. Header کامل و Footer وقتی داده‌ها دریافت شده باشند نمایش داده می‌شوند؛ در وضعیت‌های دیگر سربرگ ساده شامل Brand و ThemeToggle داریم.
 
 ```text
-App (RouterProvider)
+main.tsx → StrictMode → App (RouterProvider)
 └── Layout → ThemeFrame → CatalogProvider → LayoutContent
-    ├── CartTitle
-    ├── Header → Brand / SearchBox / CartPanel / ThemeToggle
-    │   └── SearchBox → SearchSuggestions
-    ├── Outlet
-    │   ├── HomePage → LoadStatus یا ShopView
-    │   │   └── Hero / CategoryNav / Promos / SaleBanner / ProductSections / SearchResults
-    │   │       ├── SaleBanner → SaleCountdown (وقتی باز است)
-    │   │       └── ProductGrid → ProductCard → ProductImage
-    │   ├── PlpPage → LoadStatus یا ProductGrid → ProductCard
-    │   └── NotFound
-    └── Footer
+    └── HomeFiltersContext.Provider
+        ├── CartTitle
+        ├── Header
+        │   ├── Brand
+        │   ├── SearchBox → SearchSuggestions
+        │   ├── CartPanel
+        │   ├── ThemeToggle
+        │   └── SiteLink (لینک‌های منو)
+        ├── Outlet → صفحهٔ مسیر فعلی
+        └── Footer → SiteLink
 ```
 
-`HomePage` در حالت‌های loading، empty و error، کامپوننت `LoadStatus` را نشان می‌دهد؛ وقتی دریافت اطلاعات موفق باشد، `ShopView` را نمایش می‌دهد. این دو شاخه هم‌زمان نمایش داده نمی‌شوند.
+صفحهٔ خانه (`/`):
 
-`CartPanel` داخل `Header` است و cartOpen محلی Header آن را باز و بسته می‌کند. main.tsx، App را در StrictMode قرار می‌دهد. Layout پوشش ThemeFrame را دارد و CartTitle در LayoutContent با selector تعداد سبد را می‌خواند و عنوان تب را در Effect به‌روز می‌کند.
+```text
+Outlet → HomePage
+├── loading / empty / error → LoadStatus
+└── success → ShopView
+    ├── SaleBanner → SaleCountdown (فقط وقتی باز است)
+    ├── Hero → SiteLink
+    ├── CategoryNav
+    ├── Promos → SiteLink
+    └── بدون جست‌وجو: ProductSections / با جست‌وجو: SearchResults
+        └── ProductGrid → ProductCard → ProductImage
+```
+
+صفحهٔ فهرست محصولات (`/plp/$carouselId`):
+
+```text
+Outlet → PlpPage
+├── loading / empty / error → Link بازگشت + LoadStatus
+├── success با شناسهٔ ناشناخته → Link بازگشت + پیام پیدا نشدن فهرست
+└── success با شناسهٔ معتبر → Link بازگشت + عنوان و تعداد
+    └── ProductGrid → ProductCard → ProductImage
+```
+
+مسیر ناشناخته:
+
+```text
+Outlet → NotFound
+└── پیام پیدا نشدن صفحه + Link بازگشت به خانه
+```
+
+درخت‌ها شاخه‌های جایگزین دارند؛ مثلاً LoadStatus و ShopView هم‌زمان نمایش داده نمی‌شوند. فهرست معتبر بدون محصول هم پیام خالی بودن را در ProductGrid نشان می‌دهد. CartPanel داخل Header است و باز و بسته شدنش با State محلی همان Header کنترل می‌شود. CartTitle تعداد سبد را با selector می‌خواند و عنوان تب را در Effect به‌روز می‌کند.
 
 ## ۱۰. State کجا زندگی می‌کند؟
 
@@ -116,7 +144,7 @@ Store سبد با loadCart شروع می‌شود و subscribe پس از تغی�
 - نتیجهٔ جست‌وجو با `createResults(data)` از query، دسته و داده‌های محصولات هنگام render حساب می‌شود؛ State یا Effect جدا ندارد. پاک کردن متن، کاروسل‌های دستهٔ انتخاب‌شده را برمی‌گرداند.
 - دقیقه و ثانیهٔ نمایشی از `left` حساب می‌شوند و State جدا ندارند.
 
-## ۱۱. بخش‌های امتیازی
+## ۱۱. بخش‌های امتیازی هفتهٔ پنجم
 
 `SearchBox` یک ورودی کنترل‌شده است: value از query می‌آید و onChange مقدار جدید را به LayoutContent می‌فرستد. جست‌وجو از نام و برچسب محصولات استفاده می‌کند و حروف فارسی و عربی را یکسان می‌کند. اگر نتیجه‌ای نباشد، پیام مشخص نشان می‌دهم.
 
@@ -139,7 +167,15 @@ Store سبد با loadCart شروع می‌شود و subscribe پس از تغی�
 
 باز شدن سبد، پیشنهادهای جست‌وجو را می‌بندد و باز شدن پیشنهادها هم سبد را می‌بندد. متن جست‌وجو هنگام جابه‌جایی حفظ می‌شود. این هماهنگی در Header انجام می‌شود.
 
-## هفتهٔ ششم — انتخاب روش سبد مشترک
+## هفتهٔ ششم — جدول Storeها و انتخاب روش سبد
+
+| Store | کجا تعریف شده؟ | چه چیزی دارد؟ | چه کسی تغییرش می‌دهد؟ | کجا ذخیره می‌شود؟ |
+|---|---|---|---|---|
+| تم | `src/hooks/useThemeStore.ts` | `theme` از نوع light یا dark و عملیات `toggle` | دکمهٔ ThemeToggle، عملیات toggle را صدا می‌زند | middleware به نام persist، مقدار را در localStorage با کلید `composition-theme` نگه می‌دارد |
+| سبد | `src/hooks/useCartStore.ts` | آرایهٔ `lines` و عملیات `add`، `decrease` و `remove` | ProductCard برای افزودن؛ CartPanel برای افزایش، کاهش و حذف کامل | مقدار اولیه با loadCart خوانده می‌شود؛ subscribe با saveCart در `src/features/cart/storage/cart.ts` و کلید `batshop-cart` ذخیره می‌کند |
+
+تعداد و جمع قیمت جزو State ذخیره‌شدهٔ سبد نیستند؛ آن‌ها را با cartCount و cartTotal از lines حساب می‌کنم. اطلاعات هر قلم شامل شناسه، نام، قیمت و تعداد است. ThemeFrame فقط theme را می‌خواند و ThemeToggle مقدار theme و عملیات toggle را با selectorهای جدا می‌گیرد.
+
 
 برای سبد Zustand را انتخاب کردم؛ مثل تم، بدون Provider قابل استفاده است و هر کامپوننت با selector فقط بخش موردنیازش را می‌خواند. ProductCard فقط add را می‌گیرد، Header فقط تعداد محاسبه‌شده را و CartPanel اقلام و عملیات تغییر آن‌ها را. props مربوط به اقلام و عملیات سبد از App و کامپوننت‌های واسط حذف شده‌اند.
 
@@ -153,7 +189,16 @@ HomePage و PlpPage هوک useCatalog را صدا می‌زنند. HomePage با
 
 تابع خالص carouselProducts در catalog محصولات تخفیف‌دار یا دستهٔ کاروسل را انتخاب می‌کند. دسته‌های مستقل فعلی صفحه نیز با slug پشتیبانی می‌شوند. شناسهٔ ناشناخته null و فهرست معتبر بدون محصول آرایهٔ خالی برمی‌گرداند. buildPage از همین تابع استفاده می‌کند.
 
-## هفتهٔ ششم — مسیرها
+## هفتهٔ ششم — جدول مسیرها
+
+| آدرس مسیر | صفحه | داده از کجا می‌آید؟ |
+|---|---|---|
+| `/`، در مرورگر `/#/` | `HomePage` | useCatalog از CatalogProvider؛ داده‌های API در useCatalogRequest دریافت می‌شوند. ShopView با buildPage و carouselProducts فهرست‌ها را آماده می‌کند |
+| `/plp/$carouselId`، مثلاً `/#/plp/dairy` | `PlpPage` | پارامتر از useParams و داده از useCatalog؛ carouselProducts محصولات فهرست را انتخاب می‌کند و toCards اطلاعات نمایش را می‌سازد |
+| هر مسیر تعریف‌نشده، مثلاً `/#/nowhere` | `NotFound` | محتوای ثابت و لینک بازگشت؛ خود این صفحه دادهٔ API نمی‌خواند |
+
+مسیر `/#/plp/nothing` همچنان به PlpPage می‌رود، ولی چون شناسه معتبر نیست پیام «این فهرست پیدا نشد» می‌دهد. این حالت با مسیر ناشناخته که NotFound نشان می‌دهد فرق دارد. صفحهٔ محصول و تسویه و مرتب‌سازی در URL هنوز جزو مسیرهای پیاده‌شده نیستند و مربوط به امتیازی‌های مرحلهٔ بعد هستند.
+
 
 مسیرها را در App.tsx با TanStack Router تعریف کردم. createHashHistory برای رفرش صفحه‌های داخلی روی سرور فایل‌های ثابت است و Register به لینک‌ها نوع می‌دهد. Layout سربرگ و تم مشترک را نگه می‌دارد و صفحهٔ انتخاب‌شده در Outlet نمایش داده می‌شود.
 
