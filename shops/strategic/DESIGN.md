@@ -7,51 +7,78 @@
 
 ## Parts of the page
 Header, category filters, home hero, product shelves, promotional banners, category/search grids, quantity controls, cart summary and footer.
-The home-return button always navigates home; browser Back/Forward retains its history behavior. Category tiles, category menu entries, footer categories and “see all” links select a filter. API hero/menu fragment links deliberately scroll to home shelves.
+The home-return button always navigates home; browser Back/Forward retains its history behavior. “See all” links open the carousel PLP. Category links open a matching carousel or select the category on Home. Store links can also scroll to sections such as the footer.
 The existing Armin brand/contact details stay in the presentation layer; the API's sample shop identity is still fully typed and validated.
 
-## Component tree
+## Routes
+
+[App.tsx](src/App.tsx) defines the routes and registers the router type. With `createHashHistory`, the part after `#` selects the page. `Layout` calls `useCatalog` to load the six API files and shares the result through `CatalogContext`. Pages read the same catalog through the hook.
+
+| Address | Page | Where the data comes from |
+| --- | --- | --- |
+| `/` (browser `#/`) | `HomePage` | `useCatalog` supplies the model. `Home` uses `homeShelves` and `carouselProducts` for the carousels in `home.json`, in configuration order. Each shelf previews up to four items and links to its full list. Category navigation uses `categories.json`. A selected category or a search term switches the same page to `Catalog` using `selectionView`. |
+| `/plp/$carouselId` (e.g. `#/plp/dairy`) | `PlpPage` | `useParams({ from: '/plp/$carouselId' })` supplies the ID. The page finds that shelf in `homeShelves` using the catalog from `useCatalog`. Inside `homeShelves`, `carouselProducts` selects discounted offer items or the items for the configured category ID. The shelf supplies the title and complete list. An optional `q` filters that list before `Catalog` displays its count and cards. |
+| `/plp/$carouselId` with an unknown ID (e.g. `#/plp/nothing`) | `PlpPage` | After loading, the shelf lookup yields no match. The page displays «این فهرست پیدا نشد» and a link home. |
+| Any unmatched path (e.g. `#/nowhere`) | `NotFound` | The root route selects its `notFoundComponent`. Its message and home link are static. |
+
+## Stores
+
+| Store | Defined in | What it holds | Who changes it | Where it is stored |
+| --- | --- | --- | --- | --- |
+| Theme | [useThemeStore.ts](src/hooks/useThemeStore.ts) | `theme` starts as `light` and can be `light` or `dark`. | `ThemeToggle` calls `toggle()`. `Layout` reads the result and applies `data-theme`. | Zustand’s `persist` middleware saves the theme in browser `localStorage` under `strategic-theme`. |
+| Cart | [useCartStore.ts](src/hooks/useCartStore.ts) | `lines` holds product IDs and quantities. `items` holds the catalog lookup. `catalogStatus` tracks loading, ready or error. | The add button in `ProductCard` calls `add`. `QuantityControl` calls `add` or `remove`. Both actions use the pure `changeCart` function. `useCatalog` calls `startCatalogLoad`, `setCatalog` or `failCatalogLoad`. On success, `setCatalog` reconciles the saved quantities with stock. | [cart-storage.ts](src/storage/cart-storage.ts) restores `lines` with `loadCart`. A store subscription calls `saveCart` when the lines change. The `localStorage` key is `armin-market:cart`. Catalog items and readiness stay in memory. |
+
+I chose Zustand for the cart because the theme already uses it. The header subscribes to the item count, each quantity control reads its own product’s quantity, and the cart panel derives totals from the lines and current prices. The pages and product grids can pass product data down without passing cart actions through every level.
+
+## Component trees by page
+
+All three pages share this layout. The router mounts the selected page at `Outlet`.
 
 ```text
-App
-└── ShopPage
-    └── Layout
-        ├── IconSprite → SpriteShop, SpriteUi, SpriteContact
-        ├── Header
-        │   ├── Brand → Logo → LogoFrame, LogoBody
-        │   ├── ThemeToggle
-        │   ├── SearchBox
-        │   ├── CartMenu → CartPanel → QuantityControl, Amount
-        │   └── MainNav → CategoryNav → CategoryLink
-        ├── LoadStatus
-        │   ├── LoadingSkeleton (loading)
-        │   ├── NotFound (success, unknown category)
-        │   ├── Catalog (success, category, offers or search)
-        │   │   └── ProductGrid → ProductCard × n → ProductPurchase → QuantityControl
-        │   └── Home (success, home route)
-        │       ├── Hero
-        │       ├── CategoryNav → CategoryLink
-        │       ├── OffersShelf → (optional SaleCountdown), ProductGrid → ProductCard × n → ProductPurchase → QuantityControl
-        │       ├── Promos
-        │       └── CategoryShelf × n → ProductGrid → ProductCard × n → ProductPurchase → QuantityControl
-        └── Footer → FooterAbout, CategoryLink
+StrictMode → App → RouterProvider → Layout → CatalogContext.Provider
+  ├── IconSprite → SpriteShop, SpriteContact, SpriteUi
+  ├── Header
+  │   ├── Brand → Logo → LogoBody, LogoFrame
+  │   ├── SearchBox
+  │   ├── CartMenu → CartPanel → QuantityControl, Amount (populated cart)
+  │   ├── ThemeToggle
+  │   └── MainNav
+  │       ├── CategoryNav → CategoryLink
+  │       └── StoreLink
+  ├── main → Outlet
+  └── Footer → FooterAbout, CategoryLink, StoreLink
 ```
 
-`main.tsx` mounts `App` inside `StrictMode`. The tree shows where components render. `Header` owns its cart menu and renders `CartPanel` directly. No cart state or callbacks pass through App, ShopPage, Home, shelves or ProductGrid. Shelf order follows the API configuration. A product card shows its quantity control once that product is in the cart.
+The branches below start at the same outlet. In each product grid, `ProductGrid → ProductCard → ProductPurchase` displays an add button or, when the product is in the cart, `QuantityControl`.
+
+```text
+Outlet → HomePage
+  ├── Loading or error → LoadStatus (LoadingSkeleton while loading)
+  ├── Selected category or search → Catalog → ProductGrid when there are matches
+  └── Home feed → Home
+      ├── Hero → StoreLink
+      ├── CategoryNav → CategoryLink
+      ├── OffersShelf or CategoryShelf → ProductGrid (first configured shelf)
+      ├── Promos → StoreLink
+      └── Remaining configured shelves → ProductGrid
+
+Outlet → PlpPage
+  ├── Loading or error → LoadStatus (LoadingSkeleton while loading)
+  ├── Known carousel → Catalog → ProductGrid when there are matches
+  └── Unknown carousel → Missing-list message and Link to home
+
+Outlet → NotFound
+  └── Page-not-found message and Link to home
+```
+
+An offers shelf can also mount `SaleCountdown`. On the unfiltered home page, an empty catalog also displays the empty-state message from `LoadStatus`. A known PLP with zero matching products keeps its title and shows the empty-list message in `Catalog`.
 
 ## Where state lives
 
 | State | Owner | Who changes it | Where it is stored |
 |---|---|---|---|
-| `load` | App | The loading effect sets success, empty or error after the request settles. Retry sets it to loading before incrementing `attempt`. Cleanup ignores an obsolete response. | React memory, initially loading |
-| `attempt` | App | The Retry button increments it; the API-loading effect depends on it and runs again. | React memory, initially `0` |
-| `model` | App | The same effect calls `buildModel` on the validated API data. | React memory, initially `emptyModel` |
-| `categoryId` | App | `applyRoute` resolves the selected category after loading, navigation or browser Back/Forward. | React memory. The URL stores the slug. |
-| `query` | App | SearchBox updates it on every input change; App also writes the query to the URL. Browser Back/Forward restores it through `applyRoute`. | React memory and the URL |
-| `missing` | App | `applyRoute` checks whether the catalog slug exists in the loaded model. | React memory, reconstructed from the URL and model |
-| `lines` | useCartStore | `add` / `remove` call the existing pure `changeCart`; `setCatalog` reconciles lines against loaded stock. | Zustand memory; `loadCart` / `saveCart` in storage/ use the existing `armin-market:cart` key. A subscription saves line changes. |
-| `catalogStatus` | useCartStore | App reports loading, ready or error for the catalog request. | Memory only; preserves saved lines on errors |
-| `theme` | useThemeStore | ThemeToggle calls `toggle`. Layout selects the current theme. | Zustand persist, `strategic-theme` |
+| Catalog load state and retry attempt | `useCatalog` in `Layout` | The effect builds the model on success and reports failures. Retry increments the attempt counter. | React memory shared through `CatalogContext` |
+| Category, carousel and search | TanStack Router | Category and shelf links navigate. `SearchBox` calls the navigation hook when the text changes. Back and Forward restore the previous location. | The URL hash holds the path, optional `category` on Home, and optional `q`. |
 | `mode` | CartMenu | CartMenu requests closed, hover or pinned mode. A category/search/home key change remounts this menu with closed mode. | React memory |
 | `edges` | Each OffersShelf or CategoryShelf via `useShelfScroll` | The hook measures the scroll position and available width on resize and scroll. | Local React memory for that shelf |
 | `countdownVisible` | OffersShelf | The toggle button mounts or unmounts SaleCountdown. | Local React memory for the offers shelf |
@@ -60,7 +87,7 @@ App
 
 ### Values calculated from state
 
-- **Visible products and catalog heading** are derived from the model, selected category and query using `selectionView`. They are calculated during rendering, so a separate State would duplicate existing data.
+- **Visible products and catalog heading** are derived from the loaded model. Home uses `selectionView` for a selected category or query. The PLP uses the matched shelf and any active search term. They are calculated during rendering, so a separate State would duplicate existing data.
 
 - **Product count and sorted categories** are derived from the loaded model. They do not need independent State because they change whenever the model changes.
 
@@ -91,7 +118,7 @@ Prices round once to the nearest whole toman after applying the discount. They a
 
 ## States and recovery
 
-LoadStatus switches on the load state. It renders a skeleton while loading, the selected view on success, a no-products message for an empty catalog, and a readable message with a Retry button on failure. Retry increments `attempt`, which reruns the API-loading effect. An unknown category and a valid category with no matches each have their own view. Refreshing also starts a new request. In development, StrictMode can start two requests; the effect cleanup ignores the obsolete response.
+The pages render their content from the loaded model. They use `LoadStatus` for the loading skeleton and for failures with a Retry button. Retry increments `attempt`, which reruns the API-loading effect. An unknown carousel shows the missing-list message. A known list with no matching products shows its title and an empty state. Refreshing also starts a new request. In development, StrictMode can start two requests; the effect cleanup ignores the obsolete response.
 
 Search results are derived during rendering from the model, category and query; no second products State is maintained. The optional sale countdown is a local demonstration timer rather than an API-provided sale deadline. Hiding it unmounts the component and clears its interval; showing it again starts a fresh five-minute countdown. Development-only `console.debug` ticks make it possible to verify that logging stops after the component is hidden; production builds do not emit these timer logs.
 
@@ -100,11 +127,13 @@ Search results are derived during rendering from the model, category and query; 
 ```text
 src/
   main.tsx             React entry point and stylesheet import
-  App.tsx              Application state, effects and event handlers
+  App.tsx              Typed route definitions, hash history and RouterProvider
   types.ts             Shared domain and API types
   vite-env.d.ts        Vite environment types
-  hooks/               Zustand theme and shared cart stores
-  components/          JSX views, presentation helpers and useShelfScroll
+  hooks/               Catalog loading, navigation, theme and cart stores
+  catalog/             Carousel configuration and product selection
+  components/          Layout, JSX views, presentation helpers and useShelfScroll
+  components/pages/    HomePage, PlpPage and NotFound
   api/                 Fetching, response validation and parallel loading
   storage/             Cart persistence and URL/history access
   features/cart/       Quantity rules, stock reconciliation and totals
@@ -116,7 +145,7 @@ src/
 
 Everything bundled for the browser is public, including Vite environment variables. API responses and stored cart entries are validated. React renders API labels as text, and links from shop content pass through a protocol check. An ordering server would need to check stock and calculate prices and totals again before accepting an order.
 
-## Week 6: completed through step 2
+## Implementation notes from steps 0–2
 
 Steps 0 and 1 retain week 6 metadata, both required dependencies, strict lint,
 and the existing persisted theme on the Layout wrapper.
@@ -134,14 +163,11 @@ The store reuses the pure cart functions and the existing storage module/key,
 so saved carts remain compatible. The validated catalog is supplied once loading
 succeeds to enforce stock limits, reconcile obsolete products and compute prices.
 Catalog metadata stays in memory; only lines are saved. Unknown IDs cannot be added.
-The subscription is disposed on Vite hot replacement. App keeps the original
-data-loading and URL logic: useCatalog and TanStack routes belong to steps 3/4
-and are outside this delivery.
+The subscription is disposed on Vite hot replacement. The loading effect now lives in `useCatalog`, and TanStack Router manages navigation.
 ### Cart catalog readiness
 
-The cart store tracks `catalogStatus` as loading, ready or error. App reports
-request start, validated success and failure while retaining its step-2 loading
-effect. A failed request or retry never erases saved cart lines. Only a successful
+The cart store tracks `catalogStatus` as loading, ready or error. `useCatalog` reports
+request start, validated success and failure. A failed request or retry never erases saved cart lines. Only a successful
 response reconciles quantities against the current catalog.
 
 CartPanel displays the saved count with a loading/error message until prices
