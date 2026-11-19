@@ -1791,6 +1791,41 @@ footer.is-fragment-target {
 .product-detail { max-width: 36rem; margin-inline: auto; }
 .product-detail .product-card { margin-block-start: 1.5rem; }
 
+.header-actions { grid-template-columns: repeat(2, auto); }
+.header-actions .cart-actions { grid-column: 1 / -1; justify-content: center; }
+.checkout-link { min-height: 2.25rem; padding: .35rem .6rem; font-size: .72rem; white-space: nowrap; }
+.checkout { max-width: 36rem; margin-inline: auto; }
+.checkout-form {
+  display: grid;
+  gap: 1.25rem;
+  margin-block-start: 1.5rem;
+  padding: clamp(1rem, 3vw, 2rem);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+.checkout-field { display: grid; gap: .4rem; }
+.checkout-field label { font-size: .9rem; font-weight: 700; }
+.checkout-field input,
+.checkout-field textarea {
+  width: 100%;
+  min-width: 0;
+  padding: .7rem .85rem;
+  color: var(--ink);
+  background: var(--surface-soft);
+  border: 1px solid var(--line-strong);
+  border-radius: .75rem;
+  font: inherit;
+  font-size: .9rem;
+  scroll-margin-block-start: calc(var(--header-offset) + 1rem);
+}
+.checkout-field textarea { min-height: 7rem; resize: vertical; }
+.checkout-field [aria-invalid="true"] { border-color: var(--red); }
+.checkout-error { margin: 0; color: #a73625; font-size: .8rem; }
+.app[data-theme="dark"] .checkout-error { color: #ffaea3; }
+.checkout-form .add-button { justify-content: center; margin: 0; font-size: .9rem; }
+
 .product-carousel .carousel-heading,
 .plp-heading {
   display: flex;

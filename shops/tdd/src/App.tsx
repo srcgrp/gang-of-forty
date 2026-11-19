@@ -3,6 +3,7 @@ import Layout from './components/Layout'
 import HomePage from './components/pages/HomePage'
 import PlpPage from './components/pages/PlpPage'
 import ProductPage from './components/pages/ProductPage'
+import CheckoutPage from './components/pages/CheckoutPage'
 import NotFound from './components/pages/NotFound'
 
 const rootRoute = createRootRoute({ component: Layout, notFoundComponent: NotFound })
@@ -14,7 +15,8 @@ const plpRoute = createRoute({
     }),
 })
 const productRoute = createRoute({ getParentRoute: () => rootRoute, path: '/product/$productId', component: ProductPage })
-const routeTree = rootRoute.addChildren([homeRoute, plpRoute, productRoute])
+const checkoutRoute = createRoute({ getParentRoute: () => rootRoute, path: '/checkout', component: CheckoutPage })
+const routeTree = rootRoute.addChildren([homeRoute, plpRoute, productRoute, checkoutRoute])
 const router = createRouter({ routeTree, history: createHashHistory() })
 
 declare module '@tanstack/react-router' {

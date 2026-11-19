@@ -40,6 +40,7 @@ export default function Header({ categories, shop, categoryId, products, offers,
                     <SearchBox query={query} onChange={onQueryChange} />
                     <div className="header-actions">
                         <ThemeToggle />
+                        <Link className="listing-link checkout-link" to="/checkout">تسویه حساب</Link>
                         <CartPanel products={products} offers={offers} />
                     </div>
                 </div>
