@@ -1,0 +1,67 @@
+import type { Category, ShopData, CarouselWithProducts } from "../types"
+import { getCategoryCards } from "./getProductCardData"
+import { getHomeCarousels } from "./getCarouselProducts"
+
+export function getSelectedCategory(
+    categories: Category[],
+    slug: string | null
+): Category | null {
+    return categories.find(function (category) {
+        return category.slug === slug
+    }) || null
+}
+
+export function getCatalogCarousels(
+    data: ShopData,
+    category: Category | null
+): CarouselWithProducts[] {
+    if (category) {
+        const cards = getCategoryCards(
+            category,
+            data.products,
+            data.offers,
+            data.stock.items
+        )
+
+        return [{
+            id: "filtered-products",
+            title: category.name,
+            emoji: category.emoji,
+            products: cards
+        }]
+    } else {
+        return getHomeCarousels(
+            data.home.carousels,
+            data.products,
+            data.categories,
+            data.offers,
+            data.stock.items
+        )
+    }
+}
+
+export function getVisibleCarousels(
+    data: ShopData,
+    categoryId: number | null
+): CarouselWithProducts[] {
+    const category = data.categories.find(function (item) {
+        return item.id === categoryId
+    }) ?? null
+
+    return getCatalogCarousels(data, category)
+}
+
+export function getCarouselById(data: ShopData, id: string): CarouselWithProducts | null {
+    let carousel = data.home.carousels.find((item) => item.id === id)
+    if (!carousel) {
+        const category = getSelectedCategory(data.categories, id)
+        if (!category) {
+            return null
+        }
+        carousel = { id, title: category.name, emoji: category.emoji, categoryId: category.id }
+    }
+
+    return getHomeCarousels(
+        [carousel], data.products, data.categories, data.offers, data.stock.items
+    )[0] ?? null
+}
