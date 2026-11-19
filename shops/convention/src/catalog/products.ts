@@ -13,3 +13,7 @@ export function carouselProducts(catalog: Catalog, carouselId: string): Product[
     const category = catalog.categories.find((item) => item.slug === carouselId)
     return category ? catalog.products.filter((product) => product.categoryId === category.id) : null
 }
+
+export function sortProducts(products: Product[], sort: 'default' | 'price'): Product[] {
+    return sort === 'price' ? [...products].sort((a, b) => a.price - b.price) : products;
+}

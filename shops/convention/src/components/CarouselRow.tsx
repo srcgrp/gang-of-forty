@@ -7,7 +7,7 @@ export default function CarouselRow({ carousel, products }: Props) {
   return <section className="products-section" aria-label={carousel.title}>
     <div className="section-header">
       <h2>{carousel.emoji} {carousel.title}</h2>
-      <Link to="/plp/$carouselId" params={{ carouselId: carousel.id }}>
+      <Link to="/plp/$carouselId" search={{ sort: 'default' }} params={{ carouselId: carousel.id }}>
         مشاهده همه ({products.length.toLocaleString('fa-IR')})
       </Link>
     </div>

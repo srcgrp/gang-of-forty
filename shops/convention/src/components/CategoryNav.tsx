@@ -6,7 +6,7 @@ export default function CategoryNav({ categories }: { categories: Category[] }) 
     <h2>دسته‌بندی محصولات</h2>
     <div className="category-list">
       {categories.map((category) => <Link key={category.id} className="category-card"
-        to="/plp/$carouselId" params={{ carouselId: category.slug }}>
+        to="/plp/$carouselId" search={{ sort: 'default' }} params={{ carouselId: category.slug }}>
         <span className="category-icon">{category.emoji}</span><span>{category.name}</span>
       </Link>)}
     </div>
