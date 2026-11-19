@@ -4,6 +4,18 @@
     min-width: 0;
 }
 
+:root {
+    --page-bg: #f8fafc;
+    --surface-bg: #ffffff;
+    --text-color: #1f2a1c;
+}
+
+.app[data-theme='dark'] {
+    --page-bg: #121a24;
+    --surface-bg: #1e293b;
+    --text-color: #f1f5f9;
+}
+
 html {
     scroll-padding-top: 160px;
 }
@@ -12,7 +24,11 @@ body {
     font-family: 'Orbitron', sans-serif;
     margin: 0;
     padding: 0;
-    color: #1f2a1c;
+    background: var(--page-bg);
+    color: var(--text-color);
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
 }
 
 /* -------------------------------- ICONS -------------------------------- */
@@ -1732,4 +1748,70 @@ main {
 .theme-toggle:focus-visible {
     outline: 2px solid #457b9d;
     outline-offset: 3px;
+}
+
+.app {
+    min-height: 100vh;
+    background-color: var(--page-bg);
+    color: var(--text-color);
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.app header {
+    background-color: var(--surface-bg);
+}
+
+.app .item {
+    background-color: var(--surface-bg);
+    color: var(--text-color);
+}
+
+/* ---------------- THEME VARIABLES ---------------- */
+
+:root {
+    --page-bg: #f8fafc;
+    --surface-bg: #ffffff;
+    --text-color: #1f2a1c;
+}
+
+.app[data-theme='dark'] {
+    --page-bg: #121a24;
+    --surface-bg: #1e293b;
+    --text-color: #f1f5f9;
+}
+
+/* ---------------- THEME STYLES ---------------- */
+
+body {
+    background: var(--page-bg);
+    color: var(--text-color);
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.app {
+    min-height: 100vh;
+    background-color: var(--page-bg);
+    color: var(--text-color);
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.app header {
+    background-color: var(--surface-bg);
+}
+
+.app .item {
+    background-color: var(--surface-bg);
+    color: var(--text-color);
+}
+
+/* Dark theme: main navigation items only */
+.app[data-theme='dark'] .main-nav-items > li > a,
+.app[data-theme='dark'] .main-nav-items > li > button {
+    color: #fff;
 }
