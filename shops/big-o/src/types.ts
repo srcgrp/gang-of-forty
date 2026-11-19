@@ -15,11 +15,7 @@ export type Product = {
     tags: string[]
 };
 
-export type Offer = {
-    productId: number,
-    percent: number,
-    label: string
-};
+export type Offer = {productId: number, percent: number, label: string};
 
 export type Stock = {
     updatedAt: string,
@@ -39,19 +35,13 @@ export type Shop = {
 }
 
 // Display info for a product card: offer label/percent, whether it's in stock, and the price after discount.
-export interface CardInfo extends Partial<Pick<Offer, 'label' | 'percent'>> {
-  inStock?: boolean;
-  finalPrice?: number;
-}
+export interface CardInfo extends Partial<Pick<Offer, 'label' | 'percent'>> { inStock?: boolean; finalPrice?: number;}
 
 const MESSAGE_TYPES = ['load', 'error'] as const;
 
 export type MessageType = (typeof MESSAGE_TYPES)[number];
 
-export type LinkItem = {
-    label: string,
-    href: string
-};
+export type LinkItem = { label: string, href: string };
 
 // An item in the cart: a product’s name/price/id and how many of it
 export interface CartItem extends Pick<Product, 'name'|'price'|'id'> {qty: number}
@@ -67,9 +57,7 @@ export type Catalog = {
 
 type CarouselBase = { id: string; title: string; emoji: string }
 
-export type Carousel =
-  | (CarouselBase & { source: "offers" })
-  | (CarouselBase & { categoryId: number })
+export type Carousel = | (CarouselBase & { source: "offers" }) | (CarouselBase & { categoryId: number })
 
 export type LoadState<T> =
   | { status: 'loading' }
