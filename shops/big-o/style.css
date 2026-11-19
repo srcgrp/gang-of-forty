@@ -328,7 +328,14 @@ main {
   min-height: 24px;
 }
 
-
+.plp-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+}
 .categories h2 {
   font-size: 1rem;
   margin-block: 0 0.75rem;
@@ -643,12 +650,18 @@ html[dir="ltr"] .carousel-arrows img {
 }
 
 
-.product-carousel li:nth-child(6n + 1) { --cardBadge: var(--tint-red); }
-.product-carousel li:nth-child(6n + 2) { --cardBadge: var(--tint-blue); }
-.product-carousel li:nth-child(6n + 3) { --cardBadge: var(--tint-yellow) }
-.product-carousel li:nth-child(6n + 4) { --cardBadge: var(--tint-pink) }
-.product-carousel li:nth-child(6n + 5) { --cardBadge: var(--tint-green) }
-.product-carousel li:nth-child(6n + 6) { --cardBadge: var(--tint-purple) }
+.product-carousel li:nth-child(6n + 1),
+.plp-grid li:nth-child(6n + 1) { --cardBadge: var(--tint-red); }
+.product-carousel li:nth-child(6n + 2),
+.plp-grid li:nth-child(6n + 2) { --cardBadge: var(--tint-blue); }
+.product-carousel li:nth-child(6n + 3),
+.plp-grid li:nth-child(6n + 3) { --cardBadge: var(--tint-yellow); }
+.product-carousel li:nth-child(6n + 4),
+.plp-grid li:nth-child(6n + 4) { --cardBadge: var(--tint-pink); }
+.product-carousel li:nth-child(6n + 5),
+.plp-grid li:nth-child(6n + 5) { --cardBadge: var(--tint-green); }
+.product-carousel li:nth-child(6n + 6),
+.plp-grid li:nth-child(6n + 6) { --cardBadge: var(--tint-purple); }
 
 .product-card h3 {
   font-size: 0.875rem;
