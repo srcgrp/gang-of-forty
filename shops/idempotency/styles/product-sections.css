@@ -15,7 +15,8 @@
 .categories:target,
 .product-section:target,
 #about:target,
-#contact:target {
+#contact:target,
+.is-targeted {
   animation: target-highlight 1.8s ease-out;
 }
 
@@ -122,4 +123,48 @@
   100% {
     opacity: 0;
   }
+}
+
+#categories,
+#contact,
+#products,
+.home-carousel-section {
+  scroll-margin-top: 130px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (max-width: 768px) {
+  #categories,
+  #contact,
+  #products,
+  .home-carousel-section {
+    scroll-margin-top: 230px;
+  }
+}
+
+.plp-count {
+  margin: -12px 0 24px;
+  color: var(--color-text-soft);
+  font-weight: 600;
+  text-align: center;
+}
+
+.plp-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
+.plp-actions {
+  margin-top: 32px;
+  text-align: center;
+}
+
+.plp-actions .retry-button {
+  display: inline-block;
+  text-decoration: none;
 }
