@@ -3,12 +3,13 @@ import { formatNumber, formatPrice } from "../format/formatting.ts";
 import OfferBadge from "./OfferBadge.tsx";
 import { useCartStore } from "../hooks/useCartStore.ts";
 import { Link } from "@tanstack/react-router";
+import { memo } from "react";
 
 type ProductCardProps = {
   product: CardProduct;
 };
 
-export default function ProductCard({ product }: ProductCardProps) {
+function ProductCard({ product }: ProductCardProps) {
   const outOfStock = product.stock === 0;
   const add = useCartStore((s) => s.add);
 
@@ -60,3 +61,5 @@ export default function ProductCard({ product }: ProductCardProps) {
     </li>
   );
 }
+
+export default memo(ProductCard);

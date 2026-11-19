@@ -4,11 +4,10 @@ import Header from "./Header.tsx";
 import Footer from "./Footer.tsx";
 import CartPanel from "./CartPanel.tsx";
 import { useCatalog } from "../hooks/useCatalog.ts";
-import { useCartTitle } from "../hooks/useCartTitle.ts";
 import { useThemeStore } from "../hooks/useThemeStore.ts";
+import CartTitle from "./CartTitle.tsx";
 
 export default function Layout() {
-  useCartTitle();
   const theme = useThemeStore((s) => s.theme);
   const state = useCatalog();
 
@@ -20,6 +19,7 @@ export default function Layout() {
 
   return (
     <div className="app" data-theme={theme}>
+        <CartTitle />
       <a
         href="#main"
         className="skip-link"
