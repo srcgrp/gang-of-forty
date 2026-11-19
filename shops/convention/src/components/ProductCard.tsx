@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import { memo } from 'react'
 import { useCartStore } from '../hooks/useCartStore'
 
@@ -18,7 +19,8 @@ function ProductCard({
       </div>
 
       <div className="product-info">
-        <h3>{product.name}</h3>
+        <h3><Link to="/product/$productId" params={{ productId: String(product.id) }}>{product.name}</Link></h3>
+        <p>{product.unit}</p>
         <p>{product.price.toLocaleString('fa-IR')} تومان</p>
 
         <button
