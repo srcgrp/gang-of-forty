@@ -7,11 +7,13 @@ import { loadCart, saveCart } from './features/cart/data/storage'
 import { addToCart, cartCount, cartTotal, removeFromCart } from './features/cart/cart'
 import LoadStatus from './components/LoadStatus'
 import Storefront from './components/Storefront'
+import { useThemeStore } from './hooks/useThemeStore'
 
 const pageTitle = document.title
 const notyf = new Notyf({ duration: 2000, position: { x: "left", y: "top" } })
 
 export default function App() {
+    const theme = useThemeStore(s => s.theme)
     const [loadState, setLoadState] = useState<LoadState>({ status: 'loading' })
     const [shopData, setShopData] = useState<Awaited<ReturnType<typeof loadShopData>> | null>(null)
     const [categoryId, setCategoryId] = useState<number | null>(null)
@@ -50,11 +52,13 @@ export default function App() {
         setRetryCount(current => current + 1)
     }
 
-    if (loadState.status !== 'success') return <LoadStatus state={loadState} onRetry={handleRetry} />
-    if (shopData === null) return null
-
-    return <Storefront data={shopData} categoryId={categoryId} cart={cart}
-        count={cartCount(cart)} total={cartTotal(cart, loadState.products)}
-        query={query} onQueryChange={setQuery} onPick={setCategoryId}
-        onAdd={handleAdd} onRemove={handleRemove} onClear={handleClear} />
+    return (
+        <div className="app" data-theme={theme}>
+            {loadState.status !== 'success' ? <LoadStatus state={loadState} onRetry={handleRetry} /> : shopData &&
+                <Storefront data={shopData} categoryId={categoryId} cart={cart}
+                    count={cartCount(cart)} total={cartTotal(cart, loadState.products)}
+                    query={query} onQueryChange={setQuery} onPick={setCategoryId}
+                    onAdd={handleAdd} onRemove={handleRemove} onClear={handleClear} />}
+        </div>
+    )
 }

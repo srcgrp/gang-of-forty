@@ -2,6 +2,7 @@ import type { CartLine, Category, Product, ShopDetails } from '../shared/types'
 import CartPanel from './CartPanel'
 import CategoryNav from './CategoryNav'
 import SearchBox from './SearchBox'
+import ThemeToggle from './ThemeToggle'
 
 type HeaderProps = {
     categories: Category[]
@@ -41,7 +42,10 @@ export default function Header({ categories, shop, categoryId, cart, products, c
                         <span><strong>سام مارکت</strong><small>{shop.slogan}</small></span>
                     </a>
                     <SearchBox query={query} onChange={onQueryChange} />
-                    <CartPanel cart={cart} products={products} count={cartCount} total={cartTotal} onRemove={onRemove} onClear={onClear} />
+                    <div className="header-actions">
+                        <ThemeToggle />
+                        <CartPanel cart={cart} products={products} count={cartCount} total={cartTotal} onRemove={onRemove} onClear={onClear} />
+                    </div>
                 </div>
                 <p id="cart-status" className="page-status" role="status"></p>
                 <CategoryNav categories={categories} shopLinks={shop.menu} activeCategoryId={categoryId} onPick={onPick} />
