@@ -7,10 +7,9 @@ import ProductCard from './Productcard';
 type CategoryCarouselProps = {
   category: Category;
   products: CatalogItem[];
-  onAdd: (id: number) => void;
 };
 
-export default function CategoryCarousel({ category, products, onAdd }: CategoryCarouselProps) {
+export default function CategoryCarousel({ category, products }: CategoryCarouselProps) {
   if (products.length === 0) return null;
   const titleId = `${category.slug}-title`;
 
@@ -29,7 +28,7 @@ export default function CategoryCarousel({ category, products, onAdd }: Category
       </div>
       <Carousel>
         {products.map((p) => (
-          <ProductCard key={p.id} product={p} percent={p.percent} stock={p.stock} onAdd={onAdd} />
+          <ProductCard key={p.id} product={p} percent={p.percent} stock={p.stock} />
         ))}
       </Carousel>
     </section>

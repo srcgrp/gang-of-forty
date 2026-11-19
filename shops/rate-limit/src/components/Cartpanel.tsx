@@ -1,16 +1,16 @@
 import { useEffect } from 'react';
-import type { Cart } from '../types';
 import { cartTotal } from '../cart/cartLines';
 import { DEFAULT_CURRENCY, formatMoney, toPersianDigits } from '../format/price';
+import { useCartStore } from '../hooks/useCartStore';
 
 type CartPanelProps = {
-  cart: Cart;
   open: boolean;
   onClose: () => void;
-  onRemove: (id: number) => void;
 };
 
-export default function CartPanel({ cart, open, onClose, onRemove }: CartPanelProps) {
+export default function CartPanel({ open, onClose }: CartPanelProps) {
+  const cart = useCartStore((s) => s.cart);
+  const remove = useCartStore((s) => s.remove);
   const lines = Object.values(cart);
 
   useEffect(() => {
@@ -55,7 +55,7 @@ export default function CartPanel({ cart, open, onClose, onRemove }: CartPanelPr
                   </div>
                   <span className="cart-line-total">{formatMoney(line.price * line.quantity, DEFAULT_CURRENCY)}</span>
                   <button type="button" className="cart-line-remove" aria-label={`حذف ${line.name}`}
-                    onClick={() => onRemove(line.id)}>
+                    onClick={() => remove(line.id)}>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
                       strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <path d="M4 7h16M10 11v6M14 11v6M6 7l1 12h10l1-12M9 7V4h6v3" />

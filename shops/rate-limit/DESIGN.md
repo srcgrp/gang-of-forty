@@ -45,7 +45,7 @@ App
 ```
 
 ## 4. Data (types.ts)
-Product, Category, Stock, Offer, Cart
+Product, Category, Stock, Offer, Cart, CartState, Theme, ThemeState
 
 ## 5. Where does each piece live? (System Level)
 - **Server:** Product information, Category information, Stock information, Promotional offers
@@ -61,18 +61,18 @@ Product, Category, Stock, Offer, Cart
 | `status` (`loading` / `success` / `error`) | `App` | `App` (در طول چرخه درخواست‌های `fetch` و نمایش در `Status`) | React State (در حافظه) |
 | `selectedCategory` | `App` | `CategoryNav` و `CategoryCards` (از طریق Prop Callback هنگام انتخاب دسته‌بندی) | React State + URL Query/Hash |
 | `searchQuery` | `App` | `SearchBox` (از طریق Prop Callback هنگام تایپ کاربر) | React State (در حافظه) |
-| `cartItems` (آیتم‌ها و تعدادشان) | `App` | `ProductCard` (افزودن به سبد) و `CartPanel` (تغییر تعداد/حذف آیتم) | React State + `localStorage` |
+| `cart` (آیتم‌ها و تعدادشان) | `useCartStore` (Zustand، بیرون از React) | `ProductCard` (`add`) و `CartPanel` (`remove`) | Zustand store + `localStorage` (فقط از طریق `storage/cart.ts`) |
 | `isCartOpen` | `App` | `TopBar` / `Header` (باز کردن پنل) و `CartPanel` (بستن پنل) | React State (در حافظه) |
-| `theme` (`light` / `dark`) | `App` | `ThemeToggle` (تغییر تم رابط کاربری) | React State + `localStorage` |
+| `theme` (`light` / `dark`) | `useThemeStore` (Zustand) | `ThemeToggle` (`toggle`) | Zustand `persist` + `localStorage` (کلید `rate-limit-theme`) |
 | `timeLeft` (تایمر تخفیف ویژه) | `SaleCountdown` | `SaleCountdown` (به‌روزرسانی ثانیه‌شمار در `useEffect`) | Local React State |
 | `scrollIndex` / `activeSlide` | `Carousel` | `Carousel` (دکمه‌های قبلی و بعدی اسلایدر) | Local React State |
 
 ### مقادیر حساب‌شده (Derived Values — چرا State نیستند؟)
-- **مجموع تعداد آیتم‌های سبد (`cartCount` برای نمایش در `TopBar`/`Header`):** از جمع مقادیر `cartItems` محاسبه می‌شود؛ نگهداری آن به عنوان State جداگانه باعث ناهماهنگی (Out of sync) بین لیست سبد و عدد روی آیکون می‌شود.
-- **مبلغ کل سبد خرید (`totalPrice` در `CartPanel`):** حاصل جمع `(قیمت محصول × تعداد)` با اعمال تخفیف‌های `offers` است؛ چون مستقیماً از `cartItems`، `products` و `offers` به دست می‌آید، در زمان رندر محاسبه می‌شود.
+- **مجموع تعداد آیتم‌های سبد (`cartCount` برای نمایش در `TopBar`/`Header`):** با selector از روی `cart` در Store محاسبه می‌شود (`useCartStore((s) => countItems(s.cart))`)؛ نگهداری آن به عنوان State جداگانه باعث ناهماهنگی (Out of sync) بین لیست سبد و عدد روی آیکون می‌شود.
+- **مبلغ کل سبد خرید (`totalPrice` در `CartPanel`):** حاصل جمع `(قیمت محصول × تعداد)` با اعمال تخفیف‌های `offers` است؛ چون مستقیماً از `cart`، `products` و `offers` به دست می‌آید، در زمان رندر محاسبه می‌شود.
 - **لیست محصولات فیلترشده (`filteredProducts` برای `Catalog` و `ProductGrid`):** از ترکیب `products` با `selectedCategory` و `searchQuery` به دست می‌آید؛ ذخیره آن در State باعث تکرار داده‌های اصلی و پیچیدگی در همگام‌سازی می‌شد.
 - **قیمت نهایی پس از تخفیف و درصد تخفیف (`finalPrice` و `discountPercent` در `Price` و `OfferBadge`):** با تطبیق شناسه محصول با آرایه `offers` محاسبه می‌شود و نیازی به ذخیره مجزا ندارد.
-- **وضعیت موجودی هر کارت (`isAvailable` و `remainingStock` در `ProductCard`):** از تفاضل موجودی کل در `stock` و تعداد موجود در `cartItems` به دست می‌آید.
+- **وضعیت موجودی هر کارت (`isAvailable` و `remainingStock` در `ProductCard`):** از تفاضل موجودی کل در `stock` و تعداد موجود در `cart` به دست می‌آید.
 
 ## 7. API (what we fetch, and when)
 - `GET /api/products.json` → on start
@@ -92,6 +92,9 @@ src/
 ├── data/
 ├── format/
 ├── storage/
+├── hooks/
+│   ├── useCartStore.ts
+│   └── useThemeStore.ts
 ├── components/
 │   ├── AdBanner.tsx
 │   ├── AnnouncementBar.tsx
@@ -122,3 +125,15 @@ src/
 ├── App.tsx
 └── main.tsx
 ```
+## 10. Decision: shared cart with Zustand (Step 2, Option A)
+**Problem:** `Header` (count), `ProductCard` (add) and `CartPanel` (list, remove) all need the cart. While it lived in `App`, `cart`, `onAdd`, `onRemove` and `count` had to pass through `TopBar`, `Catalog`, `ProductGrid` and `CategoryCarousel`, which never use them.
+
+**Chosen:** a Zustand store, `src/hooks/useCartStore.ts`, instead of `useReducer` + `useContext`.
+- **Less code:** no `Provider`, no action union, no extra `useCart.ts` / `CartProvider.tsx` files.
+- **Fewer re-renders:** each component reads only its slice with a selector. `Header` re-renders only when the count changes; `ProductCard` reads only `add` (a stable function), so it does not re-render when the cart changes. With Context, every consumer re-renders on every change.
+- **Existing logic is reused:** the pure functions `addItem`, `removeLine`, `countItems` and `cartTotal` are unchanged. Storage stays only in `storage/`: `loadCart` when the store is created, `saveCart` in `subscribe` after every change.
+- **Consistent:** the theme store (Step 1) uses the same approach.
+
+**Rules:** count and total are derived (selector or render), never stored. A selector must return a primitive or an existing reference, never a new array or object (e.g. `Object.values`); compute those in the component.
+
+**Trade-off:** the store is a module-level singleton, so tests must reset its state between runs.

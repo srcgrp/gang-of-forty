@@ -7,10 +7,9 @@ type ProductGridProps = {
   title: string;
   subtitle?: string;
   products: CatalogItem[];
-  onAdd: (id: number) => void;
 };
 
-export default function ProductGrid({ id, title, subtitle, products, onAdd }: ProductGridProps) {
+export default function ProductGrid({ id, title, subtitle, products }: ProductGridProps) {
   const titleId = id ? `${id}-title` : undefined;
 
   return (
@@ -25,7 +24,7 @@ export default function ProductGrid({ id, title, subtitle, products, onAdd }: Pr
       ) : (
         <Carousel>
           {products.map((p) => (
-            <ProductCard key={p.id} product={p} percent={p.percent} stock={p.stock} onAdd={onAdd} />
+            <ProductCard key={p.id} product={p} percent={p.percent} stock={p.stock} />
           ))}
         </Carousel>
       )}

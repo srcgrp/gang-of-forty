@@ -4,7 +4,6 @@ import CategoryNav from './Categorynav';
 import Header from './Header';
 
 type TopBarProps = {
-  count: number;
   onCartClick: () => void;
   categories: Category[];
   activeId: number | null;
@@ -16,7 +15,7 @@ type TopBarProps = {
 };
 
 export default function TopBar(props: TopBarProps) {
-  const { count, onCartClick, query, onQuery } = props;
+  const { onCartClick, query, onQuery } = props;
   const { categories, activeId, menuOpen, onToggleMenu, onPick } = props;
 
   return (
@@ -25,7 +24,6 @@ export default function TopBar(props: TopBarProps) {
       <AnnouncementBar />
       <div className="sticky-header">
         <Header
-          cartCount={count}
           onCartClick={onCartClick}
           query={query}
           onQuery={onQuery}

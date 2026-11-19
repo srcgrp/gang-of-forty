@@ -15,21 +15,15 @@ type CatalogProps = {
   categoryId: number | null;
   query: string;
   onPick: (id: number | null) => void;
-  onAdd: (item: CatalogItem) => void;
   onRetry: () => void;
 };
 
-export default function Catalog({ state, categories, categoryId, query, onPick, onAdd, onRetry }: CatalogProps) {
+export default function Catalog({ state, categories, categoryId, query, onPick, onRetry }: CatalogProps) {
   const [showTimer, setShowTimer] = useState(true);
 
   const products = state.status === 'success' ? state.products : [];
   const specials = filterItems(products.filter((p) => p.percent !== undefined), { query });
   const visible = filterItems(products, { categoryId, query });
-
-  const add = (id: number) => {
-    const item = products.find((p) => p.id === id);
-    if (item) onAdd(item);
-  };
 
   return (
     <main id="main-content">
@@ -57,7 +51,6 @@ export default function Catalog({ state, categories, categoryId, query, onPick, 
               title="پیشنهاد ویژه امروز 🔥"
               subtitle="تا پایان موجودی"
               products={specials}
-              onAdd={add}
             />
           )}
 
@@ -70,7 +63,6 @@ export default function Catalog({ state, categories, categoryId, query, onPick, 
                 key={c.id}
                 category={c}
                 products={visible.filter((p) => p.categoryId === c.id)}
-                onAdd={add}
               />
             ))}
           </div>
