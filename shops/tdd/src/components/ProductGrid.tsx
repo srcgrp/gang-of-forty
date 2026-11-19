@@ -1,16 +1,14 @@
-import type { CarouselConfig, Category, Offer, Product, Stock } from '../shared/types'
+import type { Catalog } from '../shared/types'
+import { carouselProducts, productsInCategory } from '../features/products/products'
 import ProductCard from './ProductCard'
 
 type ProductGridProps = {
-    products: Product[]
-    stock: Stock
-    offers: Offer[]
-    carousels: CarouselConfig[]
-    categories: Category[]
+    data: Catalog
     categoryId: number | null
 }
 
-export default function ProductGrid({ products, stock, offers, carousels, categories, categoryId }: ProductGridProps) {
+export default function ProductGrid({ data, categoryId }: ProductGridProps) {
+    const { products, stock, offers, categories, home: { carousels } } = data
     const offerConfig = carousels.find(config => config.source === 'offers')
     const defaultCategoryId = carousels.find(config => config.categoryId !== undefined)?.categoryId
     const selectedCategory = categories.find(category => category.id === (categoryId ?? defaultCategoryId))
@@ -19,13 +17,13 @@ export default function ProductGrid({ products, stock, offers, carousels, catego
             id: 'category-products',
             title: selectedCategory.name,
             emoji: selectedCategory.emoji,
-            products: products.filter(product => product.categoryId === selectedCategory.id)
+            products: productsInCategory(products, selectedCategory.id)
         }] : []),
         ...(offerConfig ? [{
             id: 'offers',
             title: offerConfig.title,
             emoji: offerConfig.emoji,
-            products: products.filter(product => offers.some(offer => offer.productId === product.id))
+            products: carouselProducts(data, offerConfig.id) ?? []
         }] : [])
     ]
 

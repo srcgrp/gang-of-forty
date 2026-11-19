@@ -1,4 +1,4 @@
-import type { Product, Stock, Offer, Category, CarouselConfig } from '../../shared/types'
+import type { Product, Stock, Offer, Category, CarouselConfig, Catalog } from '../../shared/types'
 
 export function discountedPrice(product: Product, offer?: Offer): number {
     return offer ? Math.round(product.price * (1 - offer.percent / 100)) : product.price
@@ -12,6 +12,12 @@ export function productsForCarousel(config: CarouselConfig, products: Product[],
     return config.source === "offers"
         ? products.filter(product => offers.has(product.id))
         : products.filter(product => product.categoryId === config.categoryId)
+}
+
+export function carouselProducts(catalog: Catalog, carouselId: string): Product[] | null {
+    const config = catalog.home.carousels.find(item => item.id === carouselId)
+    if (!config) return null
+    return productsForCarousel(config, catalog.products, new Map(catalog.offers.map(offer => [offer.productId, offer])))
 }
 
 export function prepareProducts(products: Product[], categories: Category[], offers: Offer[], carousels: CarouselConfig[], stock: Stock) {

@@ -59,8 +59,12 @@ export type Home = {
     promos: HomePromo[], carousels: CarouselConfig[]
 }
 
-export type LoadState =
-    | { status: 'loading' }
-    | { status: 'success', products: Product[] }
+export type Catalog = {
+    products: Product[], stock: Stock, offers: Offer[]
+    categories: Category[], shop: ShopDetails, home: Home
+}
+
+export type LoadState<T> = { status: 'loading' }
+    | { status: 'success', data: T }
     | { status: 'empty' }
     | { status: 'error', message: string }

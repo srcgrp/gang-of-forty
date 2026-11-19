@@ -1,7 +1,7 @@
 import type { LoadState } from '../shared/types'
 
 type LoadStatusProps = {
-    state: Exclude<LoadState, { status: 'success' }>
+    state: Exclude<LoadState<unknown>, { status: 'success' }>
     onRetry: () => void
 }
 
