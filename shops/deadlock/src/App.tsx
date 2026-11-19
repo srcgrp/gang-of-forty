@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import CategoryNav from "./components/CategoryNav";
 import ProductGrid from "./components/ProductGrid";
 import CartPanel from "./components/CartPanel";
+import Footer from "./components/Footer";
 import { getJSON, isOffer, isProduct, isStock } from "./api/api";
 import { keepValid } from "./api/validation";
 import { addToCart, cartTotal, removeFromCart } from "./features/cart/cartState";
@@ -66,6 +67,7 @@ export default function App() {
         <ProductGrid id="special-offers" title="پیشنهاد ویژه" products={offerProducts} status={loadState.status} message={message} stock={stock} offers={offers} onAdd={(id) => setCart((current) => addToCart(current, id))} />
         <CartPanel cart={cart} products={products} total={cartTotal(cart, products)} onRemove={(id) => setCart((current) => removeFromCart(current, id))} />
       </main>
+      <Footer />
     </div>
   );
 }

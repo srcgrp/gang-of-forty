@@ -25,7 +25,7 @@ export default function CartPanel({
 
           return (
             <div className="cart-row" key={line.productId}>
-              <span>{product.name} × {line.quantity}</span>
+              <span>{product.name} <strong className="cart-multiply">×</strong> {line.quantity}</span>
               <button type="button" onClick={() => onRemove(line.productId)}>
                 حذف
               </button>
