@@ -1,11 +1,11 @@
 import { create } from "zustand"
-import type { CartItem, Product } from "../types"
+import type { CartItem, CartProduct} from "../types"
 import { loadCart, saveCart } from "../storage/cart"
 import { addToCart, decreaseItem } from "../cart/cartItems"
 
 type CartState = {
   items: CartItem[]
-  add: (product: Product) => void
+  add: (product: CartProduct) => void
   remove: (id: number) => void
 }
 
