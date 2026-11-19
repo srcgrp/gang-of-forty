@@ -61,8 +61,15 @@ export type Catalog = {
     products: Product[], 
     offeredProducts: Offer[], 
     stock: Stock, 
-    shop: Shop 
+    shop: Shop,
+    carousels: Carousel[]
 }
+
+type CarouselBase = { id: string; title: string; emoji: string }
+
+export type Carousel =
+  | (CarouselBase & { source: "offers" })
+  | (CarouselBase & { categoryId: number })
 
 export type LoadState<T> =
   | { status: 'loading' }

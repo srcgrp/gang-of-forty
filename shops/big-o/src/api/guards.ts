@@ -1,4 +1,4 @@
-import type { Category, Product, Offer, Stock} from '../types';
+import type { Category, Product, Offer, Stock, Carousel} from '../types';
 
 // Check if the input is an object or not
 // x: an unknown input, output: true if the input is an object and false if it's not
@@ -47,5 +47,17 @@ export function isStock(x: unknown): x is Stock {
         isRecord(x) &&
         typeof x.updatedAt === 'string' &&
         (isRecord(x.items) && Object.values(x.items).every(t => typeof t === 'number'))
+    )
+}
+
+// Check if the input is a correct form of carousel or not
+export function isCarousel(x: unknown): x is Carousel {
+    return (
+        isRecord(x) && 
+        typeof x.id === 'string' &&
+        typeof x.title === 'string' &&
+        typeof x.emoji === 'string' &&
+        (x.source === 'offers' || typeof x.categoryId === 'number')
+        
     )
 }
