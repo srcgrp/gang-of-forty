@@ -1,7 +1,9 @@
-import type {Offer, Product} from '../types';
+import {Link} from '@tanstack/react-router';
+
 import {discountedPrice} from '../catalog/pricing';
 import {useAddToCart} from '../hooks/useAddToCart';
 
+import type {Offer, Product} from '../types';
 type ProductCardProps = {
     product: Product;
     inStock?: boolean;
@@ -45,7 +47,14 @@ export default function ProductCard({
                 </span>
             )}
 
-            <h3>{product.name}</h3>
+            <Link
+                to='/product/$productId'
+                params={{productId: String(product.id)}}
+                className='product-card-title'
+            >
+                <h3>{product.name}</h3>
+            </Link>
+
             <p className='item-weight'>{product.unit}</p>
 
             <div className='item-purchase'>
