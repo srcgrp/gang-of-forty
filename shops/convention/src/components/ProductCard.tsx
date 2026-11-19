@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { useCartStore } from '../hooks/useCartStore'
 
 import type { Product } from '../types'
@@ -6,7 +7,7 @@ type ProductCardProps = {
   product: Product
 }
 
-export default function ProductCard({
+function ProductCard({
   product,
 }: ProductCardProps) {
   const add = useCartStore((state) => state.add)
@@ -30,3 +31,5 @@ export default function ProductCard({
     </article>
   )
 }
+
+export default memo(ProductCard)
