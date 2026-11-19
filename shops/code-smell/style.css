@@ -1866,3 +1866,12 @@ button {
 .not-found-title {
     font-size: calc(var(--font-size-xl) + 0.125rem);
 }
+.order-success {
+    color: #166534;
+    text-align: center;
+    font-weight: 600;
+}
+
+.app[data-theme="dark"] .order-success {
+    color: #86efac;
+}

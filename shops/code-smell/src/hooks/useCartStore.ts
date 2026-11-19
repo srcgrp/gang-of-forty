@@ -9,6 +9,7 @@ type CartState = {
     add: (id: number, stockQuantity: number) => void
     decrease: (id: number) => void
     remove: (id: number) => void
+    clear: () => void
     toggle: () => void
 }
 
@@ -36,6 +37,9 @@ export const useCartStore = create<CartState>()(function (set) {
                     cart: removeFromCart(state.cart, id)
                 }
             })
+        },
+        clear: function () {
+            set({ cart: {}, cartOpen: false })
         },
         toggle: function () {
             set(function (state) {

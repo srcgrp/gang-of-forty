@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router"
 import type { Offer, Product, Stock } from "../types"
 import { cartRows, cartTotal } from "../cart/cartRules"
 import { useCartStore } from "../hooks/useCartStore"
@@ -22,16 +23,10 @@ export default function CartPanel({ products, offers, stock }: CartPanelProps) {
     const total = cartTotal(rows)
 
     return (
-        <section
-            className="cart-panel"
-            id="cart"
-            aria-labelledby="cart-title"
-        >
+        <section className="cart-panel" id="cart" aria-labelledby="cart-title">
             <div className="cart-panel__body">
-                <header className="section__header cart-panel__header">
-                    <h2 className="section__title" id="cart-title">
-                        سبد خرید
-                    </h2>
+                <div className="section__header cart-panel__header">
+                    <h2 className="section__title" id="cart-title">سبد خرید</h2>
                     <button
                         className="button button--secondary"
                         type="button"
@@ -40,7 +35,7 @@ export default function CartPanel({ products, offers, stock }: CartPanelProps) {
                     >
                         بستن
                     </button>
-                </header>
+                </div>
                 {rows.length === 0 ? (
                     <p>سبد خرید شما خالی است.</p>
                 ) : (
@@ -57,8 +52,13 @@ export default function CartPanel({ products, offers, stock }: CartPanelProps) {
                     </ul>
                 )}
                 <div className="cart-summary">
-                    <strong>جمع سبد خرید:</strong>
-                    <Price amount={total} />
+                    <div>
+                        <strong>جمع سبد خرید:</strong>
+                        <Price amount={total} />
+                    </div>
+                    <Link className="button button--primary button--route" to="/checkout" onClick={toggle}>
+                        ثبت سفارش
+                    </Link>
                 </div>
             </div>
         </section>
