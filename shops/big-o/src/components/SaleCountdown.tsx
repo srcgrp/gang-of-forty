@@ -13,12 +13,10 @@ export default function SaleCountdown() {
 
   useEffect(() => {
     const id = setInterval(() => {
-      console.log("SaleCountdown: tick")
       setLeft((s) => (s > 0 ? s - 1 : 0))
     }, 1000)
     return () => {
       clearInterval(id)
-      console.log("SaleCountdown: interval cleared")
     }
   }, [])
 
