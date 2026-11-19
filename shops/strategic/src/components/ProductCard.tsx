@@ -1,3 +1,5 @@
+import { memo } from 'react';
+import { Link } from '@tanstack/react-router';
 import ProductPurchase from './ProductPurchase';
 import { useCartStore } from '../hooks/useCartStore';
 import type { ProductItem } from '../types';
@@ -6,7 +8,7 @@ type ProductCardProps = {
   item: ProductItem;
 };
 
-export default function ProductCard({ item }: ProductCardProps) {
+function ProductCard({ item }: ProductCardProps) {
   const { product, price, oldPrice, percent, soldOut, art } = item;
   const add = useCartStore((state) => state.add);
   return (
@@ -17,7 +19,7 @@ export default function ProductCard({ item }: ProductCardProps) {
           {soldOut ? <span className="badge badge--out">ناموجود</span> : percent > 0 &&
             <span className="badge">{percent.toLocaleString('fa-IR')}٪<span className="sr-only"> تخفیف</span></span>}
         </div>
-        <h3>{product.name}</h3>
+        <h3><Link to="/product/$productId" params={{ productId: String(product.id) }} search={{}}>{product.name}</Link></h3>
         <p className="unit">{product.unit}</p>
         <div className="buy">
           <p className="price">
@@ -34,3 +36,5 @@ export default function ProductCard({ item }: ProductCardProps) {
     </li>
   );
 }
+
+export default memo(ProductCard);

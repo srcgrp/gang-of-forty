@@ -31,6 +31,7 @@ export default function CartMenu({ count, children }: Props) {
 
   return (
     <div id="cart-wrap" ref={wrapper} className={open ? 'cart-wrap is-open' : 'cart-wrap'}
+      onClick={event => { if (event.target instanceof Element && event.target.closest('a')) onMode('closed'); }}
       onPointerEnter={event => { if (event.pointerType === 'mouse' && !open) onMode('hover'); }}
       onPointerLeave={() => { if (mode === 'hover') onMode('closed'); }}
       onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget)) onMode('closed'); }}>

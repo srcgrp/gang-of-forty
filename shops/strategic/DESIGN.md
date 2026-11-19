@@ -3,7 +3,7 @@
 ## Needs
 - Browse products, select a category or offers, search, add/remove packaged sale units and inspect the cart.
 - Preserve category and search together in a shareable URL; preserve the cart across refreshes.
-- Limit quantities to the current stock. Checkout is a display-only placeholder; accounts, payment and orders are out of scope.
+- Limit quantities to the current stock. Checkout validates the delivery details locally, clears the cart and returns home.
 
 ## Parts of the page
 Header, category filters, home hero, product shelves, promotional banners, category/search grids, quantity controls, cart summary and footer.
@@ -17,8 +17,10 @@ The existing Armin brand/contact details stay in the presentation layer; the API
 | Address | Page | Where the data comes from |
 | --- | --- | --- |
 | `/` (browser `#/`) | `HomePage` | `useCatalog` supplies the model. `Home` uses `homeShelves` and `carouselProducts` for the carousels in `home.json`, in configuration order. Each shelf previews up to four items and links to its full list. Category navigation uses `categories.json`. A selected category or a search term switches the same page to `Catalog` using `selectionView`. |
-| `/plp/$carouselId` (e.g. `#/plp/dairy`) | `PlpPage` | `useParams({ from: '/plp/$carouselId' })` supplies the ID. The page finds that shelf in `homeShelves` using the catalog from `useCatalog`. Inside `homeShelves`, `carouselProducts` selects discounted offer items or the items for the configured category ID. The shelf supplies the title and complete list. An optional `q` filters that list before `Catalog` displays its count and cards. |
+| `/plp/$carouselId` (e.g. `#/plp/dairy`) | `PlpPage` | `useParams({ from: '/plp/$carouselId' })` supplies the ID. The page finds that shelf in `homeShelves` using the catalog from `useCatalog`. Inside `homeShelves`, `carouselProducts` selects discounted offer items or the items for the configured category ID. The shelf supplies the title and complete list. An optional `q` filters that list before `Catalog` displays its count and cards. The PLP validates `sort` as `default` or `price`. `sortProducts` preserves the original order or sorts a copy by the discounted unit price. |
 | `/plp/$carouselId` with an unknown ID (e.g. `#/plp/nothing`) | `PlpPage` | After loading, the shelf lookup yields no match. The page displays «این فهرست پیدا نشد» and a link home. |
+| `/product/$productId` | `ProductPage` | Converts the route parameter with `Number(productId)` and looks up the item in the loaded model. Missing IDs show «محصول پیدا نشد». |
+| `/checkout` | `CheckoutPage` | Controlled name, mobile and address inputs use local state. A valid submission calls the cart’s `clear` action and replaces the checkout history entry with Home. |
 | Any unmatched path (e.g. `#/nowhere`) | `NotFound` | The root route selects its `notFoundComponent`. Its message and home link are static. |
 
 ## Stores
@@ -26,18 +28,19 @@ The existing Armin brand/contact details stay in the presentation layer; the API
 | Store | Defined in | What it holds | Who changes it | Where it is stored |
 | --- | --- | --- | --- | --- |
 | Theme | [useThemeStore.ts](src/hooks/useThemeStore.ts) | `theme` starts as `light` and can be `light` or `dark`. | `ThemeToggle` calls `toggle()`. `Layout` reads the result and applies `data-theme`. | Zustand’s `persist` middleware saves the theme in browser `localStorage` under `strategic-theme`. |
-| Cart | [useCartStore.ts](src/hooks/useCartStore.ts) | `lines` holds product IDs and quantities. `items` holds the catalog lookup. `catalogStatus` tracks loading, ready or error. | The add button in `ProductCard` calls `add`. `QuantityControl` calls `add` or `remove`. Both actions use the pure `changeCart` function. `useCatalog` calls `startCatalogLoad`, `setCatalog` or `failCatalogLoad`. On success, `setCatalog` reconciles the saved quantities with stock. | [cart-storage.ts](src/storage/cart-storage.ts) restores `lines` with `loadCart`. A store subscription calls `saveCart` when the lines change. The `localStorage` key is `armin-market:cart`. Catalog items and readiness stay in memory. |
+| Cart | [useCartStore.ts](src/hooks/useCartStore.ts) | `lines` holds product IDs and quantities. `items` holds the catalog lookup. `catalogStatus` tracks loading, ready or error. | The add buttons in `ProductCard` and `ProductPage` call `add`. Checkout calls `clear` after validation. `QuantityControl` calls `add` or `remove`. Both actions use the pure `changeCart` function. `useCatalog` calls `startCatalogLoad`, `setCatalog` or `failCatalogLoad`. On success, `setCatalog` reconciles the saved quantities with stock. | [cart-storage.ts](src/storage/cart-storage.ts) restores `lines` with `loadCart`. A store subscription calls `saveCart` when the lines change. The `localStorage` key is `armin-market:cart`. Catalog items and readiness stay in memory. |
 
 I chose Zustand for the cart because the theme already uses it. The header subscribes to the item count, each quantity control reads its own product’s quantity, and the cart panel derives totals from the lines and current prices. The pages and product grids can pass product data down without passing cart actions through every level.
 
 ## Component trees by page
 
-All three pages share this layout. The router mounts the selected page at `Outlet`.
+All pages share this layout. The router mounts the selected page at `Outlet`.
 
 ```text
 StrictMode → App → RouterProvider → Layout → CatalogContext.Provider
   ├── IconSprite → SpriteShop, SpriteContact, SpriteUi
   ├── Header
+  │   ├── CardQuantityControls → QuantityControl (portals into mounted cards)
   │   ├── Brand → Logo → LogoBody, LogoFrame
   │   ├── SearchBox
   │   ├── CartMenu → CartPanel → QuantityControl, Amount (populated cart)
@@ -49,7 +52,7 @@ StrictMode → App → RouterProvider → Layout → CatalogContext.Provider
   └── Footer → FooterAbout, CategoryLink, StoreLink
 ```
 
-The branches below start at the same outlet. In each product grid, `ProductGrid → ProductCard → ProductPurchase` displays an add button or, when the product is in the cart, `QuantityControl`.
+The branches below start at the same outlet. In each product grid, `ProductGrid → ProductCard → ProductPurchase` displays the add button and registers a target for the header’s quantity control. Each title links to the corresponding product page.
 
 ```text
 Outlet → HomePage
@@ -67,6 +70,8 @@ Outlet → PlpPage
   ├── Known carousel → Catalog → ProductGrid when there are matches
   └── Unknown carousel → Missing-list message and Link to home
 
+Outlet → ProductPage → LoadStatus, product details with add button, or missing-product message
+Outlet → CheckoutPage → Controlled delivery form
 Outlet → NotFound
   └── Page-not-found message and Link to home
 ```
@@ -133,7 +138,7 @@ src/
   hooks/               Catalog loading, navigation, theme and cart stores
   catalog/             Carousel configuration and product selection
   components/          Layout, JSX views, presentation helpers and useShelfScroll
-  components/pages/    HomePage, PlpPage and NotFound
+  components/pages/    HomePage, PlpPage, ProductPage, CheckoutPage and NotFound
   api/                 Fetching, response validation and parallel loading
   storage/             Cart persistence and URL/history access
   features/cart/       Quantity rules, stock reconciliation and totals
@@ -153,7 +158,7 @@ and the existing persisted theme on the Layout wrapper.
 Step 2 uses Zustand rather than Context + reducer: the project already uses it
 for theme, and selectors let each consumer subscribe only to the data it needs.
 Header selects only the derived count; ProductCard selects only the add action.
-ProductPurchase selects whether its product is in the cart and switches between
+In step 2, ProductPurchase selected whether its product was in the cart and switched between
 the add-button child and QuantityControl; no cart lines or callbacks pass through
 the intermediate page, shelf or grid components.
 QuantityControl selects its quantity and actions; CartPanel derives rows and

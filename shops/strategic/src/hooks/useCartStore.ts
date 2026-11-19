@@ -7,6 +7,7 @@ type CartState = {
   lines: CartLine[];
   items: ReadonlyMap<number, ProductItem>;
   catalogStatus: 'loading' | 'ready' | 'error';
+  clear: () => void;
   add: (id: number) => void;
   remove: (id: number) => void;
   setCatalog: (items: ReadonlyMap<number, ProductItem>) => void;
@@ -16,6 +17,7 @@ type CartState = {
 
 export const useCartStore = create<CartState>()((set) => ({
   lines: loadCart(),
+  clear: () => set({ lines: [] }),
   items: new Map(),
   catalogStatus: 'loading',
   startCatalogLoad: () => set({ catalogStatus: 'loading' }),

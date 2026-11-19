@@ -28,7 +28,7 @@ export default function OffersShelf({ id, title, items, total }: { id: string; t
             <h2 className="offers__title" id={`title:${shelfElementId(id)}`}>
               {title.split(' ').map((word, offset, words) => <span key={words.slice(0, offset + 1).join(' ')}>{word}{' '}</span>)}
             </h2>
-            <Link className="offers__all" to="/plp/$carouselId" params={{ carouselId: id }} search={{}}>
+            <Link className="offers__all" to="/plp/$carouselId" params={{ carouselId: id }} search={{ sort: 'default' }}>
               {`مشاهده همه (${total.toLocaleString('fa-IR')}) `}
               <svg className="icon icon--mirror" aria-hidden="true" focusable="false"><use href="#i-chevron-right" /></svg>
             </Link>
@@ -37,7 +37,7 @@ export default function OffersShelf({ id, title, items, total }: { id: string; t
           <ul className="offers__list">
             <ProductGrid items={items} />
             <li className="card card--all">
-              <Link className="offer-all" to="/plp/$carouselId" params={{ carouselId: id }} search={{}}>
+              <Link className="offer-all" to="/plp/$carouselId" params={{ carouselId: id }} search={{ sort: 'default' }}>
                 <span className="offer-all__circle"><svg className="icon icon--mirror" aria-hidden="true" focusable="false"><use href="#i-arrow-right" /></svg></span>
                 <span className="offer-all__text">
                   مشاهده همه

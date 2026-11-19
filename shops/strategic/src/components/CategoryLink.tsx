@@ -18,7 +18,7 @@ export default function CategoryLink({ category, active, children, className }: 
     </Link>
   );
   return (
-    <Link to="/plp/$carouselId" params={{ carouselId: section.id }} search={{}} activeOptions={{ exact: true, includeSearch: false }}
+    <Link to="/plp/$carouselId" params={{ carouselId: section.id }} search={{ sort: 'default' }} activeOptions={{ exact: true, includeSearch: false }}
       aria-current={active ? 'page' : undefined} className={className}>
       {children}
     </Link>

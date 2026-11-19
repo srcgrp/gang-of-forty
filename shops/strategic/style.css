@@ -1792,6 +1792,8 @@ main > .back-bar + * { margin-top: 1rem; }
 }
 
 .checkout {
+  display: grid;
+  place-items: center;
   flex: 1;
   min-height: 3rem;
   border: 0;
@@ -1865,3 +1867,13 @@ main > .back-bar + * { margin-top: 1rem; }
     scroll-behavior: auto !important;
   }
 }
+.quantity-target:empty, .buy__control:has(.stepper) > .add { display: none; }
+.quantity-target { display: inline-flex; }
+.sort-links { display: flex; gap: .75rem; margin-block: 1rem; }
+.sort-links a { border: 1px solid var(--line); border-radius: 2rem; padding: .5rem 1rem; }
+.sort-links a[aria-current="page"] { background: var(--brand); color: var(--on-brand); }
+.bonus-page { max-width: 34rem; margin: 2rem auto; padding: 1.5rem; border: 1px solid var(--line); border-radius: 1rem; background: var(--surface); }
+.bonus-page .back-btn { display: table; margin-block-start: 1rem; }
+.checkout-field { display: grid; gap: .375rem; margin-block: 1rem; }
+.checkout-field input { width: 100%; padding: .75rem; border: 1px solid var(--line); border-radius: .5rem; color: inherit; background: var(--surface); font: inherit; }
+.checkout-field [role="alert"] { color: var(--red); }

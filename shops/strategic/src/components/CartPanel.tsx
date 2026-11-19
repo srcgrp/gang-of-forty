@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router';
 import Amount from './Amount';
 import { useCartStore } from '../hooks/useCartStore';
 import { cartView } from '../features/cart/cart';
@@ -37,10 +38,9 @@ export default function CartPanel() {
             </li>
           ))}
         </ul>
-        <p className="mini__note" id="mini-note">ثبت سفارش در این مرحله از پروژه فعال نیست.</p>
         <div className="mini__foot">
           <div className="mini__total"><Amount total={view.total} old={view.oldTotal} discount={view.discount} /></div>
-          <button className="checkout" type="button" aria-disabled="true" aria-describedby="mini-note">ثبت سفارش</button>
+          <Link className="checkout" to="/checkout" search={{}}>تسویه حساب</Link>
         </div>
       </div>}
     </section>

@@ -24,7 +24,7 @@ export default function StoreLink({ href, className, children, list = false }: P
       : sections.find((entry) => entry.id === hash)
         ?? (hash === OFFERS_VIEW ? sections.find((entry) => entry.source === 'offers') : undefined);
     if (section && list) {
-      return <Link to="/plp/$carouselId" params={{ carouselId: section.id }} search={{}} activeOptions={{ exact: true, includeSearch: false }} className={className}>{children}</Link>;
+      return <Link to="/plp/$carouselId" params={{ carouselId: section.id }} search={{ sort: 'default' }} activeOptions={{ exact: true, includeSearch: false }} className={className}>{children}</Link>;
     }
     if (!section && category) {
       return <Link to="/" search={{ category: category.slug }} className={className}>{children}</Link>;

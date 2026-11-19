@@ -1,12 +1,15 @@
-import type { ReactNode } from 'react';
+import { useCallback, useId, type ReactNode } from 'react';
+import { useCardSlots } from '../hooks/useCardSlots';
 import type { ProductItem } from '../types';
-import { useCartStore } from '../hooks/useCartStore';
-import { qtyOf } from '../features/cart/cart';
-import QuantityControl from './QuantityControl';
 
-type Props = { item: ProductItem; children: ReactNode };
-
-export default function ProductPurchase({ item, children }: Props) {
-  const inCart = useCartStore((state) => qtyOf(state.lines, item.product.id) > 0);
-  return inCart ? <QuantityControl item={item} /> : children;
+export default function ProductPurchase({ item, children }: { item: ProductItem; children: ReactNode }) {
+  const key = useId();
+  const mount = useCardSlots((s) => s.mount);
+  const unmount = useCardSlots((s) => s.unmount);
+  const register = useCallback((target: HTMLDivElement | null) => {
+    if (target === null) return;
+    mount({ key, item, target });
+    return () => unmount(key);
+  }, [key, item, mount, unmount]);
+  return <>{children}<div className="quantity-target" ref={register} /></>;
 }

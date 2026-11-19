@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router';
 import type { ShopData } from '../types';
+import CardQuantityControls from './CardQuantityControls';
 import CartMenu from './CartMenu';
 import { stripEmoji } from './shop-content';
 import { useEffect } from 'react';
@@ -39,6 +40,7 @@ export default function Header({ categories, categoryId, productCount, query, on
           <MainNav menu={shop.menu} categories={categories} categoryId={categoryId} />
         </div>
       </header>
+      <CardQuantityControls />
     </>
   );
 }

@@ -1,10 +1,11 @@
+import type { ReactNode } from 'react';
 import { Link } from '@tanstack/react-router';
 import type { Category, ProductItem } from '../types';
 import ProductGrid from './ProductGrid';
 
-type CatalogProps = { title: string; category?: Category | undefined; items: readonly ProductItem[] };
+type CatalogProps = { children?: ReactNode; title: string; category?: Category | undefined; items: readonly ProductItem[] };
 
-export default function Catalog({ title, category, items }: CatalogProps) {
+export default function Catalog({ title, category, items, children }: CatalogProps) {
   return (
     <>
       <div className="back-bar">
@@ -18,6 +19,7 @@ export default function Catalog({ title, category, items }: CatalogProps) {
           </h1>
           <p className="catalog__count">{items.length.toLocaleString('fa-IR')} کالا</p>
         </div>
+        {children}
         {items.length ? <ul className="grid"><ProductGrid items={items} /></ul> :
           <p className="state">فعلاً کالایی در این بخش نداریم.</p>}
       </section>

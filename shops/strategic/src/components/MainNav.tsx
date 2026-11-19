@@ -40,6 +40,7 @@ export default function MainNav({ categories, categoryId, menu }: CategoryListPr
               </Link>
               <CategoryNav menu categories={categories} categoryId={categoryId} />
             </li>
+            <li><Link to="/checkout" search={{}}>تسویه حساب</Link></li>
             {menu.map(item => <li key={item.label}><StoreLink list href={item.href}>{stripEmoji(item.label)}</StoreLink></li>)}
           </ul>
         </nav>
