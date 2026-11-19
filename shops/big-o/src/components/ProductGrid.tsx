@@ -12,8 +12,7 @@ type ProductGridProps = {
   headerExtra?: ReactNode
 }
 
-
-export default function ProductGrid({title, sectionId, getInfo, products, headerExtra}: ProductGridProps) {
+export default function ProductGrid({ title, sectionId, getInfo, products, headerExtra }: ProductGridProps) {
     const firstCard = `first-${sectionId}`
     const lastCard = `last-${sectionId}`
 
@@ -22,17 +21,28 @@ export default function ProductGrid({title, sectionId, getInfo, products, header
         if (i === products.length - 1) return lastCard
         return undefined
     }
-    
+
+    // Scrolls one card into view inside the row, without changing the address
+    function scrollToCard(id: string) {
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" })
+    }
+
     return (
-        <section  className="product-carousel" id={sectionId}>
+        <section className="product-carousel" id={sectionId}>
             <div className="carousel-header">
                 <div className="carousel-title">
                     <h2>{title}</h2>
                     {headerExtra}
                 </div>
                 <div className="carousel-arrows">
-                    <a href={`#${firstCard}`}><img src={rightArrow} alt="" /><span className="visually-hidden">اولین محصول در {title}</span></a>
-                    <a href={`#${lastCard}`}><img src={leftArrow} alt="" /><span className="visually-hidden">آخرین محصول در {title}</span></a>
+                    <button type="button" onClick={() => scrollToCard(firstCard)}>
+                        <img src={rightArrow} alt="" />
+                        <span className="visually-hidden">اولین محصول در {title}</span>
+                    </button>
+                    <button type="button" onClick={() => scrollToCard(lastCard)}>
+                        <img src={leftArrow} alt="" />
+                        <span className="visually-hidden">آخرین محصول در {title}</span>
+                    </button>
                 </div>
             </div>
             <ul>

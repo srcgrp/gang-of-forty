@@ -501,23 +501,25 @@ main {
   align-items: center;
   gap: 0.5rem;
 }
-.carousel-arrows a {
+.carousel-arrows button {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 32px;
   height: 32px;
+  padding: 0;
   border-radius: 50%;
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
+  cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
-.carousel-arrows a:hover {
+.carousel-arrows button:hover {
   background-color: var(--color-primary-soft);
 }
 
-.carousel-arrows a:focus-visible {
+.carousel-arrows button:focus-visible {
   outline: 2px solid var(--color-text);
   outline-offset: 2px;
 }
@@ -530,14 +532,7 @@ html[dir="ltr"] .carousel-arrows img {
   transform: scaleX(-1);
 }
 
-.product-carousel:target h2::after {
-  display: inline-block;
-  content: "اینجا هستید";
-  margin-inline-start: 0.5rem;
-  font-size: 0.75rem;
-  font-weight: normal;
-  color: var(--color-primary);
-}
+
 
 .product-carousel ul{
   list-style: none;
@@ -951,7 +946,7 @@ footer ul {
 
 @media (prefers-reduced-motion: reduce) {
   .product-card,
-  .carousel-arrows a,
+  .carousel-arrows button,
   .sale-toggle,
   .theme-toggle,
   .mega-menu {
