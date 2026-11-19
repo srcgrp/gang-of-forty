@@ -1,11 +1,11 @@
 import type { Category } from "../types"
+import { Link } from "@tanstack/react-router"
 
 type FooterProps = {
   categories: Category[]
-  onSelect: (id: number) => void
 }
 
-export default function Footer({ categories, onSelect }: FooterProps) {
+export default function Footer({ categories }: FooterProps) {
     return (
         <footer>
             <section className="address-section">
@@ -21,8 +21,8 @@ export default function Footer({ categories, onSelect }: FooterProps) {
                 <h2 id="quick-links">دسته ها</h2>
                 <ul>
                     {categories.map((category) => 
-                        <li key={category.id} >
-                            <a href={`#${category.slug}`}  onClick={() => onSelect(category.id)}>{category.name}</a>
+                        <li key={category.id}>
+                            <Link to="/plp/$carouselId" params={{ carouselId: category.slug }}>{category.name}</Link>
                         </li>
                     )}
                 </ul>
@@ -40,7 +40,15 @@ export default function Footer({ categories, onSelect }: FooterProps) {
             </section>
             <div className="footer-bottom">
             <p><small>© ۱۴۰۵ سوپرمارکت نمونه · عضو دار و دسته چهل‌نفره</small></p>
-            <a href="#">بازگشت به بالا <span aria-hidden="true">&#8593;</span></a>
+            <a
+            href="#"
+            onClick={(event) => {
+                event.preventDefault()
+                window.scrollTo({ top: 0 })
+            }}
+            >
+                بازگشت به بالا <span aria-hidden="true">&#8593;</span>
+            </a>
             </div>
 
         </footer>
