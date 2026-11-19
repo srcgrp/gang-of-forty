@@ -15,12 +15,14 @@ Routes are defined in `src/App.tsx` using TanStack Router. `createHashHistory()`
 | Address | Page | Where the data comes from |
 | --- | --- | --- |
 | `/` (browser: `/#/`) | `HomePage` → `Storefront` | `useCatalog()` loads the catalog; `ProductGrid` uses `carouselProducts()` and shows the first six products per carousel |
-| `/plp/$carouselId` (browser: `/#/plp/dairy`) | `PlpPage` | `useParams({ from: '/plp/$carouselId' })` reads the ID; `useCatalog()` loads data; `carouselProducts()` selects the full list |
+| `/plp/$carouselId` (browser: `/#/plp/dairy?sort=price`) | `PlpPage` | `useParams()` reads the ID; `useSearch()` reads the validated sort; `useCatalog()` loads data; `carouselProducts()` selects the list and `sortProducts()` orders it |
 | `/plp/<unknown-id>` | `PlpPage` with a "list not found" message | `carouselProducts()` returns `null` when neither a carousel ID nor a category slug matches |
 | `/product/$productId` (browser: `/#/product/201`) | `ProductPage` | `useParams({ from: '/product/$productId' })` reads the ID; `useCatalog()` loads data; `Number(productId)` is used to find the product, or show "product not found" |
 | Any unmatched path | `NotFound` | Static message and a link home; no page-specific fetch |
 
 `carouselProducts()` first checks the carousel configurations. It selects offer products or products in the configured category. If there is no carousel with that ID, it tries a category slug. A valid list without products shows an empty-list message.
+
+The PLP accepts `sort=default` or `sort=price`. `validateSearch` returns `default` for missing or invalid values. The "Default" and "Cheapest" links update the URL; `sortProducts()` preserves API order for default and sorts a copy by the final discounted unit price for cheapest. There is no extra sorting state in React or localStorage.
 
 `App` registers the route tree and router type through `Register`, then renders `RouterProvider`. This lets TypeScript check route links and parameter names. `PlpPage` and `ProductPage` read their parameters using `useParams({ from })`; `Layout` uses `useParams({ strict: false })` because it also renders on routes without `carouselId`.
 
@@ -123,7 +125,7 @@ The API base is `/api` in `.env.development` and `../../api` in `.env.production
 
 Navigation uses TanStack `Link`: carousel "View all" links and category links go to PLPs, while section links use router hashes. `Storefront` scrolls to the requested home section after its content mounts.
 
-Refreshing a PLP restores the route from the URL, theme from `tdd-theme`, and cart lines from `tdd:w5:cart`; catalog data is fetched again. Back and Forward change the active route while the shared stores remain available.
+Refreshing a PLP restores the route and sorting from the URL, theme from `tdd-theme`, and cart lines from `tdd:w5:cart`; catalog data is fetched again. Back and Forward restore the chosen sorting. Category and carousel links start with default sorting; same-page section links preserve the current search parameters.
 
 Only cart IDs and quantities are persisted, so totals are recalculated with the loaded products and offers. The storage module validates saved cart lines and handles unreadable storage by returning an empty cart.
 

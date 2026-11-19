@@ -7,7 +7,12 @@ import NotFound from './components/pages/NotFound'
 
 const rootRoute = createRootRoute({ component: Layout, notFoundComponent: NotFound })
 const homeRoute = createRoute({ getParentRoute: () => rootRoute, path: '/', component: HomePage })
-const plpRoute = createRoute({ getParentRoute: () => rootRoute, path: '/plp/$carouselId', component: PlpPage })
+const plpRoute = createRoute({
+    getParentRoute: () => rootRoute, path: '/plp/$carouselId', component: PlpPage,
+    validateSearch: (search: Record<string, unknown>): { sort: 'default' | 'price' } => ({
+        sort: search.sort === 'price' ? 'price' : 'default',
+    }),
+})
 const productRoute = createRoute({ getParentRoute: () => rootRoute, path: '/product/$productId', component: ProductPage })
 const routeTree = rootRoute.addChildren([homeRoute, plpRoute, productRoute])
 const router = createRouter({ routeTree, history: createHashHistory() })

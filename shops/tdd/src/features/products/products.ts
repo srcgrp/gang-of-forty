@@ -4,6 +4,12 @@ export function discountedPrice(product: Product, offer?: Offer): number {
     return offer ? Math.round(product.price * (1 - offer.percent / 100)) : product.price
 }
 
+export function sortProducts(products: Product[], offers: Offer[], sort: 'default' | 'price'): Product[] {
+    if (sort === 'default') return products
+    const price = (product: Product) => discountedPrice(product, offers.find(offer => offer.productId === product.id))
+    return [...products].sort((a, b) => price(a) - price(b))
+}
+
 export function productsInCategory(products: Product[], categoryId: number): Product[] {
     return products.filter(product => product.categoryId === categoryId)
 }

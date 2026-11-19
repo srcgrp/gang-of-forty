@@ -1780,6 +1780,11 @@ footer.is-fragment-target {
   margin-block-start: 1.5rem;
 }
 
+.plp-sort { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-block-start: 1.25rem; }
+.plp-sort > span { color: var(--muted); font-size: .8rem; }
+.plp-sort .listing-link { min-height: 2.5rem; padding: .4rem .85rem; }
+.plp-sort a[aria-current] { color: var(--paper); background: var(--green); border-color: var(--green); }
+
 .product-title-link { color: inherit; text-decoration: none; }
 .product-title-link:hover { text-decoration: underline; }
 .product-view-link { margin-block-start: .5rem; font-size: .72rem; }

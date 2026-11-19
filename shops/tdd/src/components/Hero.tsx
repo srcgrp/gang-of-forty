@@ -17,7 +17,7 @@ export default function Hero({ data, categories }: HeroProps) {
                 <h1 id="hero-title">{data.title}</h1>
                 <p>{data.text}</p>
                 <div className="hero-actions">
-                    {category ? <Link className="hero-primary-action" to="/plp/$carouselId" params={{ carouselId: category.slug }}>{data.cta.label}</Link>
+                    {category ? <Link className="hero-primary-action" to="/plp/$carouselId" params={{ carouselId: category.slug }} search={{ sort: 'default' }}>{data.cta.label}</Link>
                         : <a className="hero-primary-action" href={data.cta.href}>{data.cta.label}</a>}
                     <Link className="hero-secondary-action" to="/" hash="about">داستان سام مارکت</Link>
                 </div>

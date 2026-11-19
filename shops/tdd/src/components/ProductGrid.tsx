@@ -15,7 +15,7 @@ export default function ProductGrid({ data }: ProductGridProps) {
                     <section className="product-carousel" id={carousel.id} key={carousel.id}>
                         <header className="section-heading carousel-heading">
                             <h2>{carousel.emoji} {carousel.title}</h2>
-                            <Link className="listing-link" to="/plp/$carouselId" params={{ carouselId: carousel.id }}>
+                            <Link className="listing-link" to="/plp/$carouselId" params={{ carouselId: carousel.id }} search={{ sort: 'default' }}>
                                 مشاهده همه ({products.length.toLocaleString('fa-IR')}) <span aria-hidden="true">←</span>
                             </Link>
                         </header>

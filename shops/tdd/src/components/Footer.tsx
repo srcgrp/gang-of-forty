@@ -23,7 +23,7 @@ export default function Footer({ shop, categories }: FooterProps) {
             </section>
             <nav id="footer-categories" aria-label="دسته‌بندی‌های پایین صفحه">
                 {categories.map(category => (
-                    <Link to="/plp/$carouselId" params={{ carouselId: category.slug }} key={category.id}>
+                    <Link to="/plp/$carouselId" params={{ carouselId: category.slug }} search={{ sort: 'default' }} key={category.id}>
                         {category.name}
                     </Link>
                 ))}
@@ -33,7 +33,7 @@ export default function Footer({ shop, categories }: FooterProps) {
                     ? <Link to="/" hash={link.href.slice(1)} key={link.label}>{link.label}</Link>
                     : <a href={link.href} key={link.label}>{link.label}</a>)}
             </nav>
-            <Link className="back-to-top" to="." hash="top">بازگشت به بالا <span aria-hidden="true">↑</span></Link>
+            <Link className="back-to-top" to="." search hash="top">بازگشت به بالا <span aria-hidden="true">↑</span></Link>
             <p id="shop-copyright">{shop.copyright.replaceAll(shop.name, 'سام مارکت')}</p>
         </footer>
     )

@@ -16,7 +16,7 @@ export default function PromoGrid({ promos, categories }: PromoGridProps) {
                     <article className={index % 2 === 0 ? 'promo promo-primary' : 'promo promo-secondary'} key={promo.href}>
                         <div>
                             <h2>{promo.text}</h2>
-                            {category ? <Link to="/plp/$carouselId" params={{ carouselId: category.slug }}>مشاهده محصولات</Link>
+                            {category ? <Link to="/plp/$carouselId" params={{ carouselId: category.slug }} search={{ sort: 'default' }}>مشاهده محصولات</Link>
                                 : <a href={promo.href}>مشاهده محصولات</a>}
                         </div>
                         <span style={{ background: promo.color }} aria-hidden="true">{promo.emoji}</span>

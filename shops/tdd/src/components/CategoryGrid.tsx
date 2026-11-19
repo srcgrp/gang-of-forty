@@ -11,7 +11,7 @@ export default function CategoryGrid({ categories }: CategoryGridProps) {
             <h2 id="categories-title">دسته‌بندی‌ها</h2>
             <div className="category-grid" id="category-grid">
                 {categories.map(category => (
-                    <Link to="/plp/$carouselId" params={{ carouselId: category.slug }} key={category.id}>
+                    <Link to="/plp/$carouselId" params={{ carouselId: category.slug }} search={{ sort: 'default' }} key={category.id}>
                         <span style={{ background: category.color }} aria-hidden="true">{category.emoji}</span>
                         <strong>{category.name}</strong>
                     </Link>

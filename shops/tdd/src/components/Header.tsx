@@ -18,7 +18,7 @@ type HeaderProps = {
 export default function Header({ categories, shop, categoryId, products, offers, query, onQueryChange }: HeaderProps) {
     return (
         <>
-            <Link className="skip-link" to="." hash="main-content">پرش به محتوای اصلی</Link>
+            <Link className="skip-link" to="." search hash="main-content">پرش به محتوای اصلی</Link>
             <header className="site-header">
                 <p className="announcement" id="shop-notice" role="status">{shop.notice}</p>
                 <div className="header-content">

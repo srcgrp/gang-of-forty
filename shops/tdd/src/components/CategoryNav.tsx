@@ -11,7 +11,7 @@ export default function CategoryNav({ categories, shopLinks, activeCategoryId }:
     const renderShopLink = (link: ShopLink) => {
         const category = categories.find(item => link.href === `#${item.slug}`)
 
-        if (category) return <Link to="/plp/$carouselId" params={{ carouselId: category.slug }} key={link.href}>{link.label}</Link>
+        if (category) return <Link to="/plp/$carouselId" params={{ carouselId: category.slug }} search={{ sort: 'default' }} key={link.href}>{link.label}</Link>
         return link.href.startsWith('#')
             ? <Link to="/" hash={link.href.slice(1)} key={link.href}>{link.label}</Link>
             : <a href={link.href} key={link.href}>{link.label}</a>
@@ -27,7 +27,7 @@ export default function CategoryNav({ categories, shopLinks, activeCategoryId }:
                         {categories.map(category => (
                             <Link
                                 key={category.id}
-                                to="/plp/$carouselId" params={{ carouselId: category.slug }}
+                                to="/plp/$carouselId" params={{ carouselId: category.slug }} search={{ sort: 'default' }}
                                 className={activeCategoryId === category.id ? 'is-active' : undefined}
                                 aria-current={activeCategoryId === category.id ? 'true' : undefined}
                             >
@@ -47,7 +47,7 @@ export default function CategoryNav({ categories, shopLinks, activeCategoryId }:
                             {categories.map(category => (
                                 <Link
                                     key={category.id}
-                                    to="/plp/$carouselId" params={{ carouselId: category.slug }}
+                                    to="/plp/$carouselId" params={{ carouselId: category.slug }} search={{ sort: 'default' }}
                                     className={activeCategoryId === category.id ? 'is-active' : undefined}
                                     aria-current={activeCategoryId === category.id ? 'true' : undefined}
                                 >

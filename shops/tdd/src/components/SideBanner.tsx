@@ -19,7 +19,7 @@ export default function SideBanner({ data, categories }: SideBannerProps) {
             <div>
                 <h2>{data.title}</h2>
                 <p>{data.text}</p>
-                {category ? <Link to="/plp/$carouselId" params={{ carouselId: category.slug }}>{data.cta.label}</Link>
+                {category ? <Link to="/plp/$carouselId" params={{ carouselId: category.slug }} search={{ sort: 'default' }}>{data.cta.label}</Link>
                     : <a href={data.cta.href}>{data.cta.label}</a>}
             </div>
         </section>
