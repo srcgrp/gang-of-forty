@@ -1,5 +1,7 @@
 import {useRef} from 'react';
 
+import {Link} from '@tanstack/react-router';
+
 import {getCarouselProducts} from '../catalog/carousel-products';
 import {buildContext} from '../catalog/context';
 import ProductCard from './ProductCard';
@@ -18,6 +20,7 @@ export default function HomeCarousels({data}: HomeCarouselsProps) {
             {data.home.carousels.map((carousel) => (
                 <CarouselSection
                     key={carousel.id}
+                    carouselId={carousel.id}
                     title={`${carousel.emoji} ${carousel.title}`}
                     products={getCarouselProducts(carousel, context)}
                     stockById={context.stockById}
@@ -30,6 +33,7 @@ export default function HomeCarousels({data}: HomeCarouselsProps) {
 }
 
 type CarouselSectionProps = {
+    carouselId: string;
     title: string;
     products: AppData['products'];
     stockById: Record<number, number>;
@@ -40,6 +44,7 @@ type CarouselSectionProps = {
 };
 
 function CarouselSection({
+    carouselId,
     title,
     products,
     stockById,
@@ -63,24 +68,34 @@ function CarouselSection({
 
     return (
         <section className='carousel'>
-            <h2 className='titles'>{title}</h2>
+            <div className='carousel-heading'>
+                <h2 className='titles'>{title}</h2>
 
-            <div className='carousel-controls'>
-                <button
-                    type='button'
-                    onClick={() => move(false)}
-                    aria-label='رفتن به ابتدای فهرست'
-                >
-                    ←
-                </button>
+                <div className='carousel-controls'>
+                    <Link
+                        className='carousel-view-all'
+                        to='/plp/$carouselId'
+                        params={{carouselId}}
+                    >
+                        مشاهده همه
+                    </Link>
 
-                <button
-                    type='button'
-                    onClick={() => move(true)}
-                    aria-label='رفتن به انتهای فهرست'
-                >
-                    →
-                </button>
+                    <button
+                        type='button'
+                        onClick={() => move(false)}
+                        aria-label='رفتن به ابتدای فهرست'
+                    >
+                        ←
+                    </button>
+
+                    <button
+                        type='button'
+                        onClick={() => move(true)}
+                        aria-label='رفتن به انتهای فهرست'
+                    >
+                        →
+                    </button>
+                </div>
             </div>
 
             <div className='carousel-items' ref={itemsRef}>

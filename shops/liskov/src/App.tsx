@@ -1,8 +1,50 @@
 import {useEffect, useState} from 'react';
 
-import AppContent from './components/AppContent';
+import {
+    createHashHistory,
+    createRootRoute,
+    createRoute,
+    createRouter,
+    RouterProvider,
+} from '@tanstack/react-router';
+
+import Layout from './components/Layout';
+import HomePage from './components/pages/HomePage';
+import NotFound from './components/pages/NotFound';
+import PlpPage from './components/pages/PlpPage';
+import {AppProvider} from './context/AppContext';
 import {useCartStore} from './hooks/useCartStore';
 import {useCatalog} from './hooks/useCatalog';
+
+const rootRoute = createRootRoute({
+    component: Layout,
+    notFoundComponent: NotFound,
+});
+
+const homeRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: '/',
+    component: HomePage,
+});
+
+const plpRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: '/plp/$carouselId',
+    component: PlpPage,
+});
+
+const routeTree = rootRoute.addChildren([homeRoute, plpRoute]);
+
+const router = createRouter({
+    routeTree,
+    history: createHashHistory(),
+});
+
+declare module '@tanstack/react-router' {
+    interface Register {
+        router: typeof router;
+    }
+}
 
 export default function App() {
     const cart = useCartStore((state) => state.lines);
@@ -22,13 +64,17 @@ export default function App() {
     }, [cart, loadState]);
 
     return (
-        <AppContent
-            loadState={loadState}
-            selectedCategoryId={selectedCategoryId}
-            onPickCategory={setSelectedCategoryId}
-            query={query}
-            onQuery={setQuery}
-            onRetry={retry}
-        />
+        <AppProvider
+            value={{
+                loadState,
+                retry,
+                query,
+                onQuery: setQuery,
+                selectedCategoryId,
+                onPickCategory: setSelectedCategoryId,
+            }}
+        >
+            <RouterProvider router={router} />
+        </AppProvider>
     );
 }

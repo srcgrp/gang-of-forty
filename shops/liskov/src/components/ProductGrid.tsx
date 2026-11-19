@@ -9,6 +9,7 @@ type ProductGridProps = {
     stockById?: Record<number, number>;
     offerByProductId?: Map<number, Offer>;
     categoryById?: Map<number, Category>;
+    layout?: 'carousel' | 'grid';
 };
 
 export default function ProductGrid({
@@ -16,6 +17,7 @@ export default function ProductGrid({
     stockById,
     offerByProductId = new Map(),
     categoryById,
+    layout = 'carousel',
 }: ProductGridProps) {
     const itemsRef = useRef<HTMLDivElement>(null);
 
@@ -25,6 +27,25 @@ export default function ProductGrid({
             behavior: 'smooth',
         });
     };
+
+    const cards = products.map((product) => {
+        const inStock =
+            stockById === undefined ? true : (stockById[product.id] ?? 0) > 0;
+
+        return (
+            <ProductCard
+                key={product.id}
+                product={product}
+                inStock={inStock}
+                offer={offerByProductId.get(product.id)}
+                categoryColor={categoryById?.get(product.categoryId)?.color}
+            />
+        );
+    });
+
+    if (layout === 'grid') {
+        return <div className='product-grid'>{cards}</div>;
+    }
 
     return (
         <>
@@ -47,26 +68,7 @@ export default function ProductGrid({
             </div>
 
             <div className='carousel-items' ref={itemsRef}>
-                {products.map((product) => {
-                    const inStock =
-                        stockById === undefined
-                            ? true
-                            : (stockById[product.id] ?? 0) > 0;
-
-                    const offer = offerByProductId.get(product.id);
-
-                    return (
-                        <ProductCard
-                            key={product.id}
-                            product={product}
-                            inStock={inStock}
-                            offer={offer}
-                            categoryColor={
-                                categoryById?.get(product.categoryId)?.color
-                            }
-                        />
-                    );
-                })}
+                {cards}
             </div>
         </>
     );
