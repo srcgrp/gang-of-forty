@@ -6817,7 +6817,10 @@ body,
   border-radius: 12px;
   border: 1.5px solid var(--border);
   background: var(--surface-alt);
-  transition: border-color var(--t), box-shadow var(--t), background var(--t);
+  transition:
+    border-color var(--t),
+    box-shadow var(--t),
+    background var(--t);
 }
 
 .search-bar .search__submit,
@@ -6856,7 +6859,10 @@ body,
   border: 1px solid var(--border);
   background: var(--surface-alt);
   color: var(--text);
-  transition: background var(--t), border-color var(--t), transform var(--t);
+  transition:
+    background var(--t),
+    border-color var(--t),
+    transform var(--t);
 }
 
 .header-action-btn:hover {
@@ -6889,7 +6895,10 @@ body,
 
 .main-nav-wrapper {
   max-height: 50px;
-  transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
+  transition:
+    max-height 0.3s ease,
+    opacity 0.3s ease,
+    padding 0.3s ease;
   overflow: hidden;
   background: var(--surface);
 }
@@ -6968,7 +6977,10 @@ body,
   font-weight: 500;
   white-space: nowrap;
   gap: 6px;
-  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
 }
 
 .nav__links--scroll a:hover {
@@ -7106,7 +7118,13 @@ button,
 input,
 select,
 textarea {
-  transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+  transition:
+    color 0.2s ease-in-out,
+    background-color 0.2s ease-in-out,
+    border-color 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out,
+    transform 0.2s ease-in-out,
+    opacity 0.2s ease-in-out;
 }
 
 @keyframes fadeIn {
@@ -7126,18 +7144,28 @@ textarea {
 
 .search-bar,
 .search-box-modern {
-  transition: max-width 0.25s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+  transition:
+    max-width 0.25s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .search-bar:focus-within,
 .search-box-modern:focus-within {
   max-width: 680px;
   transform: scale(1.01);
-  box-shadow: 0 0 0 4px var(--ring), 0 12px 26px -14px rgba(16, 185, 129, 0.35);
+  box-shadow:
+    0 0 0 4px var(--ring),
+    0 12px 26px -14px rgba(16, 185, 129, 0.35);
 }
 
 .product-card--modern {
-  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+  transition:
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
 }
 
 .product-card--modern .product-card__media {
@@ -7147,10 +7175,14 @@ textarea {
 @media (hover: hover) {
   .product-card--modern:hover {
     transform: translateY(-4px);
-    box-shadow: 0 18px 36px -16px rgba(0, 0, 0, 0.22), 0 0 0 1px var(--primary-soft);
+    box-shadow:
+      0 18px 36px -16px rgba(0, 0, 0, 0.22),
+      0 0 0 1px var(--primary-soft);
   }
   [data-theme="dark"] .product-card--modern:hover {
-    box-shadow: 0 18px 36px -14px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.14);
+    box-shadow:
+      0 18px 36px -14px rgba(0, 0, 0, 0.65),
+      0 0 0 1px rgba(255, 255, 255, 0.14);
   }
   .product-card--modern:hover .product-card__media {
     transform: scale(1.02);
@@ -7234,7 +7266,12 @@ textarea {
 }
 
 .skeleton {
-  background: linear-gradient(90deg, var(--skel-base) 25%, var(--skel-hi) 50%, var(--skel-base) 75%);
+  background: linear-gradient(
+    90deg,
+    var(--skel-base) 25%,
+    var(--skel-hi) 50%,
+    var(--skel-base) 75%
+  );
   background-size: 200% 100%;
   animation: shimmer 1.4s infinite ease-in-out;
   border-radius: 12px;
@@ -7615,7 +7652,10 @@ textarea {
     font-size: 0.72rem;
     font-weight: 600;
     text-decoration: none;
-    transition: color var(--t), background var(--t), transform var(--t);
+    transition:
+      color var(--t),
+      background var(--t),
+      transform var(--t);
   }
 
   .mobile-nav-item:active {
@@ -7698,7 +7738,8 @@ textarea {
   }
 
   .products-grid .product-card__add::after,
-  .product-card--modern .product-card__add:not(.product-card__add--disabled)::after {
+  .product-card--modern
+    .product-card__add:not(.product-card__add--disabled)::after {
     content: none;
   }
 
@@ -7838,7 +7879,10 @@ textarea {
     border: 1px solid var(--border);
     background: var(--surface-alt);
     color: var(--text);
-    transition: background var(--t), border-color var(--t), transform var(--t);
+    transition:
+      background var(--t),
+      border-color var(--t),
+      transform var(--t);
   }
 
   .mobile-header-menu-btn:active {
@@ -7860,7 +7904,9 @@ textarea {
     height: 2px;
     border-radius: 2px;
     background: currentColor;
-    transition: transform 0.25s ease, opacity 0.2s ease;
+    transition:
+      transform 0.25s ease,
+      opacity 0.2s ease;
     transform-origin: center;
   }
 
@@ -7901,7 +7947,11 @@ textarea {
     overflow: hidden;
     pointer-events: none;
     transform: scale(0.8);
-    transition: width 0.24s ease, min-width 0.24s ease, opacity 0.2s ease, transform 0.24s ease;
+    transition:
+      width 0.24s ease,
+      min-width 0.24s ease,
+      opacity 0.2s ease,
+      transform 0.24s ease;
   }
 
   .header-top--search-hidden .mobile-header-search-btn {
@@ -7929,7 +7979,10 @@ textarea {
     max-height: 56px;
     opacity: 1;
     transform: translateY(0);
-    transition: max-height 0.28s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.22s ease, transform 0.28s ease;
+    transition:
+      max-height 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.22s ease,
+      transform 0.28s ease;
   }
 
   .header-top__search.header-top__search--hidden {
@@ -7960,7 +8013,9 @@ textarea {
     -webkit-backdrop-filter: blur(4px);
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.28s ease, visibility 0.28s;
+    transition:
+      opacity 0.28s ease,
+      visibility 0.28s;
   }
 
   .mobile-menu-backdrop--open {
@@ -7984,7 +8039,9 @@ textarea {
     visibility: hidden;
     overflow-y: auto;
     padding-bottom: calc(24px + env(safe-area-inset-bottom));
-    transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.32s;
+    transition:
+      transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0.32s;
   }
 
   .mobile-menu--open {
@@ -8077,7 +8134,9 @@ textarea {
     color: var(--text);
     font-size: 0.94rem;
     font-weight: 500;
-    transition: background var(--t), color var(--t);
+    transition:
+      background var(--t),
+      color var(--t);
   }
 
   .mobile-menu__list a:hover,
@@ -8219,7 +8278,12 @@ textarea {
   color: var(--text-soft);
   font-size: 0.84rem;
   font-weight: 600;
-  transition: background var(--t), color var(--t), border-color var(--t), transform var(--t), box-shadow var(--t);
+  transition:
+    background var(--t),
+    color var(--t),
+    border-color var(--t),
+    transform var(--t),
+    box-shadow var(--t);
 }
 
 .sort-btn:hover,
@@ -8258,7 +8322,9 @@ textarea {
 
 @media (hover: hover) {
   .product-grid-premium .product-card {
-    transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.24s ease;
+    transition:
+      transform 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.24s ease;
   }
 
   .product-grid-premium .product-card:hover {
@@ -8329,7 +8395,9 @@ textarea {
   font-size: 0.94rem;
   font-weight: 800;
   box-shadow: 0 10px 24px -10px var(--btn-shadow);
-  transition: transform 0.2s var(--spring), box-shadow var(--t);
+  transition:
+    transform 0.2s var(--spring),
+    box-shadow var(--t);
 }
 
 .load-more-btn:hover {
@@ -8400,5 +8468,61 @@ textarea {
   }
 }
 
+.mega__menu {
+  display: none;
+}
 
+.mega.mega--open .mega__menu {
+  display: block;
+  position: absolute;
+  top: 100%;
+  inset-inline-start: 0;
+  z-index: 1000 !important;
+  min-width: 240px;
+  padding: var(--sp-2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-lg);
+  animation: megaFadeIn 200ms var(--ease) both;
+}
 
+@keyframes megaFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (hover: hover) {
+  .mega:hover .mega__menu {
+    display: block;
+  }
+}
+.main-nav-wrapper,
+.main-nav,
+.nav__wrapper,
+.site-header {
+  overflow: visible !important;
+}
+
+.site-header {
+  z-index: 500 !important;
+}
+
+.main-nav {
+  z-index: 400 !important;
+}
+
+.mega {
+  position: relative;
+  z-index: 300 !important;
+}
+
+.mega__menu {
+  z-index: 9999 !important;
+}
