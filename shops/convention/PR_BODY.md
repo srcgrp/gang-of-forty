@@ -1,5 +1,7 @@
 Convention now supports a multi-page grocery store with persistent shared theme/cart state. Home previews lead to complete product lists, and the bonus routes provide product details, URL sorting and validated checkout.
 
+This is a draft for review. Four issues found in the final audit remain open and must be addressed before merging.
+
 ## Definition of Done
 
 - [x] shop.json has week 6; TanStack Router and Zustand installed; lint denies warnings.
@@ -11,7 +13,7 @@ Convention now supports a multi-page grocery store with persistent shared theme/
 - [x] Unknown list IDs display a list-specific message; unknown paths display NotFound.
 - [x] All pages are inside src/components/pages and below 70 lines.
 - [x] Production preview retains route, theme, cart and sort after refresh; Back/Forward work.
-- [x] TypeScript, lint, build, HTML validation and domain tests pass; browser runtime has no errors.
+- [x] TypeScript, lint, build, HTML validation and domain tests pass; normal production-preview flows have no console/runtime errors. Edge-case failures are listed below.
 - [x] DESIGN.md documents route/store tables and component trees; real React DevTools evidence included.
 - [x] PR changes only shops/convention; generated outputs and local dependencies are excluded.
 
@@ -39,11 +41,20 @@ npm exec --yes --package=html-validate@9 -- html-validate index.html
 
 Nineteen baseline production-preview browser checks and the subsequent UI restoration checks in evidence/ui-restoration-checks.json, including simulated API failure/retry, malformed/empty data, routing fallbacks, sorting, mobile layout and checkout, are recorded in [browser-checks.json](shops/convention/evidence/browser-checks.json). Intentionally invalid route/sort probes produce TS2820/TS2322 and were removed; output is in evidence/typecheck-probe.txt.
 
+The final audit covered 18 scenario groups: 14 passed and four exposed the issues below. Passing coverage included category counts, sorting and browser history, persisted state after refresh, checkout validation, responsive layouts from 320 to 1440 pixels, API failure/retry and corrupt saved-cart recovery.
+
+## Known issues / merge blockers
+
+- [ ] **P1 — Static deployment requires a build step.** The current repository deployment workflow uploads source files without building this Vite app. Serving the repository directly at `/shops/convention/` leaves the React root empty because `index.html` requests `/src/main.tsx`, which returns 404. Vite production preview works; the repository deployment needs to build and serve the shop output before merging. The live deployment was not tested.
+- [ ] **P2 — Checkout accepts a cart containing only unavailable products.** Persist product 201 in the cart, remove it from the API response, then open checkout. The panel reports an empty cart while the header still counts the saved line and the checkout form remains active. Checkout must validate saved lines against the loaded catalog before allowing submission.
+- [ ] **P2 — Skip link conflicts with hash routing.** Activate the first keyboard skip link and refresh. `href="#main-content"` is interpreted as the `/main-content` route and displays NotFound. Focus/scroll to the main content without replacing the router hash.
+- [ ] **P3 — Mobile menu cannot close on a second tap.** Tap the all-products toggle twice on a touch device: `aria-expanded` remains true because pointer clicks always set the menu open. Make repeated taps toggle the menu while preserving mouse hover and keyboard behavior.
+
 ## Design decisions
 
 The cart uses Zustand: stable action selectors and a separate derived count selector prevent unrelated card/page renders. `useThemeStore()` subscribes to the entire store; `useThemeStore(s => s.theme)` subscribes only to theme changes. Routes are declared in App because it is the architecture entry point allowed to import pages. Pages use `useParams({ from })` and `useSearch({ from })` without importing App, preserving type safety without an import cycle.
 
-The former remote development proxy returned HTTP 502. Vite development/preview now reads the repository API JSON through a read-only middleware. Deployment retains the shop-relative ../../api path; shared API files match main.
+The former remote development proxy returned HTTP 502. Vite development/preview now reads the repository API JSON through a read-only middleware. Production API requests use the shop-relative ../../api path; shared API files match main. Static deployment remains blocked by the missing build step described above.
 
 Refresh example: `shops/convention/#/plp/dairy?sort=price`.
 
