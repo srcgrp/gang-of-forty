@@ -4,6 +4,7 @@ import {Link, useNavigate} from '@tanstack/react-router';
 
 import {cartTotal} from '../../cart/cart';
 import {useAppContext} from '../../context/useAppContext';
+import {useAddToCart} from '../../hooks/useAddToCart';
 import {useCartStore} from '../../hooks/useCartStore';
 
 const faNumber = new Intl.NumberFormat('fa-IR');
@@ -14,12 +15,20 @@ type FormValues = {
     address: string;
 };
 
+function normalizeDigits(value: string) {
+    return value
+        .replace(/[۰-۹]/g, (digit) => String('۰۱۲۳۴۵۶۷۸۹'.indexOf(digit)))
+        .replace(/[٠-٩]/g, (digit) => String('٠١٢٣٤٥٦٧٨٩'.indexOf(digit)));
+}
+
 export default function CheckoutPage() {
     const navigate = useNavigate();
     const {loadState} = useAppContext();
 
     const cart = useCartStore((state) => state.lines);
     const clearCart = useCartStore((state) => state.clear);
+    const decrease = useCartStore((state) => state.decrease);
+    const addToCart = useAddToCart();
 
     const [values, setValues] = useState<FormValues>({
         name: '',
@@ -44,7 +53,7 @@ export default function CheckoutPage() {
             values.name.trim().length < 3
                 ? 'نام باید حداقل ۳ کاراکتر باشد.'
                 : '',
-        mobile: /^09\d{9}$/.test(values.mobile.trim())
+        mobile: /^09\d{9}$/.test(normalizeDigits(values.mobile.trim()))
             ? ''
             : 'شماره موبایل باید ۱۱ رقم و با 09 شروع شود.',
         address:
@@ -212,17 +221,46 @@ export default function CheckoutPage() {
                                         className='checkout-summary-item'
                                         key={item.productId}
                                     >
-                                        <span>
-                                            {product.emoji} {product.name}
-                                            {' × '}
-                                            {faNumber.format(item.quantity)}
-                                        </span>
-                                        <strong>
-                                            {faNumber.format(
-                                                product.price * item.quantity,
-                                            )}{' '}
-                                            تومان
-                                        </strong>
+                                        <div className='cart-item-info'>
+                                            <strong>
+                                                {product.emoji} {product.name}
+                                            </strong>
+                                            <span>
+                                                {faNumber.format(
+                                                    product.price *
+                                                        item.quantity,
+                                                )}{' '}
+                                                تومان
+                                            </span>
+                                        </div>
+
+                                        <div className='cart-item-quantity'>
+                                            <button
+                                                type='button'
+                                                className='cart-quantity-button'
+                                                onClick={() =>
+                                                    decrease(product.id)
+                                                }
+                                                aria-label={`کاهش تعداد ${product.name}`}
+                                            >
+                                                −
+                                            </button>
+
+                                            <span className='cart-quantity-value'>
+                                                {faNumber.format(item.quantity)}
+                                            </span>
+
+                                            <button
+                                                type='button'
+                                                className='cart-quantity-button'
+                                                onClick={() =>
+                                                    addToCart(product.id)
+                                                }
+                                                aria-label={`افزایش تعداد ${product.name}`}
+                                            >
+                                                +
+                                            </button>
+                                        </div>
                                     </div>
                                 );
                             })}

@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 
 import {Link} from '@tanstack/react-router';
 
@@ -38,6 +38,35 @@ export default function Header({
 }: HeaderProps) {
     const [menuOpen, setMenuOpen] = useState(false);
     const [cartOpen, setCartOpen] = useState(false);
+
+    const cartRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (!cartOpen) return;
+
+        function handleOutsideClick(event: PointerEvent) {
+            if (
+                event.target instanceof Node &&
+                !cartRef.current?.contains(event.target)
+            ) {
+                setCartOpen(false);
+            }
+        }
+
+        function handleEscape(event: KeyboardEvent) {
+            if (event.key === 'Escape') {
+                setCartOpen(false);
+            }
+        }
+
+        document.addEventListener('pointerdown', handleOutsideClick);
+        document.addEventListener('keydown', handleEscape);
+
+        return () => {
+            document.removeEventListener('pointerdown', handleOutsideClick);
+            document.removeEventListener('keydown', handleEscape);
+        };
+    }, [cartOpen]);
 
     const cart = useCartStore((state) => state.lines);
     const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -144,7 +173,7 @@ export default function Header({
                     )}
                 </div>
 
-                <div className='header-cart'>
+                <div className='header-cart' ref={cartRef}>
                     <Link to='/checkout' className='checkout-header-link'>
                         تسویه حساب
                     </Link>
