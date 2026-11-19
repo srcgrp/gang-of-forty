@@ -35,7 +35,7 @@ export default function HomePage() {
             headerExtra={
               <>
                 {"source" in carousel && <SaleBox />}
-                <Link to="/plp/$carouselId" params={{ carouselId: carousel.id }}>
+                <Link className="text-link" to="/plp/$carouselId" params={{ carouselId: carousel.id }}>
                   مشاهده همه ({all.length.toLocaleString("fa-IR")})
                 </Link>
               </>

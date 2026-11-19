@@ -28,7 +28,7 @@ export default function PlpPage() {
     <section>
       <div className="carousel-header">
         <h2>{title} ({products.length.toLocaleString("fa-IR")})</h2>
-        <Link to="/">بازگشت</Link>
+        <Link className="text-link" to="/">بازگشت</Link>
       </div>
       {products.length === 0 ? (
         <p className="msg load-msg">محصولی در این فهرست نیست.</p>

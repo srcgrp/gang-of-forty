@@ -409,6 +409,22 @@ main {
   gap: 0.5rem 0.75rem;
 }
 
+.text-link {
+  color: var(--color-primary);
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.text-link:hover {
+  text-decoration: underline;
+}
+
+.text-link:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
 .sale-box {
   display: flex;
   align-items: center;
