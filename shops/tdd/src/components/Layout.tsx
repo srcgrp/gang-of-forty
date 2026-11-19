@@ -21,7 +21,7 @@ export default function Layout() {
 
     return (
         <div className="app" id="top" data-theme={theme}>
-            {data && <Header categories={data.categories} shop={data.shop} categoryId={categoryId} products={data.products} query={query} onQueryChange={setQuery} />}
+            {data && <Header categories={data.categories} shop={data.shop} categoryId={categoryId} products={data.products} offers={data.offers} query={query} onQueryChange={setQuery} />}
             <main id="main-content" tabIndex={-1}>
                 {state.status === 'success' ? <>
                     <SearchResults query={query} products={results} stock={state.data.stock} offers={state.data.offers} />

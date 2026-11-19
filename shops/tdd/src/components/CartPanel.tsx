@@ -1,22 +1,23 @@
 import Swal from 'sweetalert2'
 import 'sweetalert2/dist/sweetalert2.min.css'
 import { useEffect } from 'react'
-import type { Product } from '../shared/types'
+import type { Product, Offer } from '../shared/types'
 import { useCartStore } from '../hooks/useCartStore'
 import { cartCount, cartTotal } from '../features/cart/cart'
 
 type CartPanelProps = {
     products: Product[]
+    offers: Offer[]
 }
 
 const pageTitle = document.title
 
-export default function CartPanel({ products }: CartPanelProps) {
+export default function CartPanel({ products, offers }: CartPanelProps) {
     const cart = useCartStore(s => s.lines)
     const count = useCartStore(s => cartCount(s.lines))
     const remove = useCartStore(s => s.remove)
     const clear = useCartStore(s => s.clear)
-    const total = cartTotal(cart, products)
+    const total = cartTotal(cart, products, offers)
     const formatPrice = (value: number) => value.toLocaleString('fa-IR')
 
     useEffect(() => {

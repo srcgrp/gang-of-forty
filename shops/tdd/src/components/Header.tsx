@@ -1,4 +1,4 @@
-import type { Category, Product, ShopDetails } from '../shared/types'
+import type { Category, Product, Offer, ShopDetails } from '../shared/types'
 import { Link } from '@tanstack/react-router'
 import CartPanel from './CartPanel'
 import CategoryNav from './CategoryNav'
@@ -10,11 +10,12 @@ type HeaderProps = {
     shop: ShopDetails
     categoryId: number | null
     products: Product[]
+    offers: Offer[]
     query: string
     onQueryChange: (value: string) => void
 }
 
-export default function Header({ categories, shop, categoryId, products, query, onQueryChange }: HeaderProps) {
+export default function Header({ categories, shop, categoryId, products, offers, query, onQueryChange }: HeaderProps) {
     return (
         <>
             <Link className="skip-link" to="." hash="main-content">پرش به محتوای اصلی</Link>
@@ -39,7 +40,7 @@ export default function Header({ categories, shop, categoryId, products, query, 
                     <SearchBox query={query} onChange={onQueryChange} />
                     <div className="header-actions">
                         <ThemeToggle />
-                        <CartPanel products={products} />
+                        <CartPanel products={products} offers={offers} />
                     </div>
                 </div>
                 <p id="cart-status" className="page-status" role="status"></p>
