@@ -9,6 +9,7 @@ import Layout from "./components/Layout"
 import HomePage from "./components/pages/HomePage"
 import NotFound from "./components/pages/NotFound"
 import PlpPage from "./components/pages/PlpPage"
+import ProductPage from "./components/pages/ProductPage"
 
 const rootRoute = createRootRoute({
     component: Layout,
@@ -27,8 +28,14 @@ const plpRoute = createRoute({
     component: PlpPage
 })
 
+const productRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: "/product/$productId",
+    component: ProductPage
+})
+
 const router = createRouter({
-    routeTree: rootRoute.addChildren([homeRoute, plpRoute]),
+    routeTree: rootRoute.addChildren([homeRoute, plpRoute, productRoute]),
     history: createHashHistory()
 })
 

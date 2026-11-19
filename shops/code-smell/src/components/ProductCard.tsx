@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router"
 import type { ProductCardData } from "../types"
 import { useCartStore } from "../hooks/useCartStore"
 import Price from "./Price"
@@ -22,7 +23,11 @@ export default function ProductCard({ product }: ProductCardProps) {
                         <OfferBadge offer={product.offer} />
                     )}
                 </div>
-                <h3 className="product-card__title">{product.name}</h3>
+                <h3 className="product-card__title">
+                    <Link to="/product/$productId" params={{ productId: String(product.id) }}>
+                        {product.name}
+                    </Link>
+                </h3>
                 <p className="product-card__unit">{product.unit}</p>
                 <p
                     className="product-card__tags"
