@@ -1,4 +1,3 @@
-/* Your shop's styles. Week 1: make it yours! */
 * {
     box-sizing: border-box;
     min-width: 0;
@@ -48,7 +47,6 @@ body {
     border-radius: 6px;
 }
 
-/*---------------- Accessibility / Screen Reader / Hidden ----------------*/
 .visually-hidden {
     position: absolute;
     width: 1px;
@@ -57,7 +55,6 @@ body {
     overflow: hidden;
 }
 
-/* ---------------- Accessibility / Skip Tab ----------------*/
 .skip-link {
     position: absolute;
     top: 0;
@@ -633,6 +630,7 @@ main {
     font-weight: bold;
     font-size: 18px;
     text-decoration: none;
+    color: #1f2a1c;
 }
 
 .s-banners .icon {
@@ -696,8 +694,6 @@ main {
     color: rgb(248, 197, 102);
 }
 
-/*---------------- Main footer ----------------*/
-
 .footer-about p {
     max-width: 400px;
 }
@@ -706,8 +702,6 @@ main {
     width: 20px;
     height: 20px;
 }
-
-/*--------------- Bottom footer ---------------*/
 
 .footer-bottom {
     border-top: 1px solid rgba(255, 255, 255, 0.12);
@@ -854,8 +848,6 @@ main {
     }
 }
 
-/* -------------------------------- MOBILE RESPONSIVE -------------------------------- */
-
 @media (max-width: 480px) {
     .footer-main {
         grid-template-columns: 1fr;
@@ -969,15 +961,9 @@ main {
     line-height: 1;
 }
 
-.s-banners {
-    color: #1f2a1c;
-}
-
 .item-image {
     background-color: #eef2f7;
 }
-
-/* Skeleton صفحه */
 
 .banner-skeleton {
     flex: 1;
@@ -1116,8 +1102,6 @@ main {
         max-width: none;
     }
 }
-
-/* -------------------------------- CAROUSEL CONTROLS -------------------------------- */
 
 /* -------------------------------- CAROUSEL HEADING -------------------------------- */
 
@@ -1264,8 +1248,6 @@ main {
 .search-dropdown .carousel-controls {
     display: none;
 }
-
-/* Compact search results */
 
 .search-dropdown .carousel-items {
     display: flex;
@@ -1544,6 +1526,7 @@ main {
 }
 
 /* Cart quantity controls */
+
 .cart-item-quantity {
     display: flex;
     align-items: center;
@@ -1595,6 +1578,7 @@ main {
 }
 
 /* -------------------------------- PRODUCT GRID -------------------------------- */
+
 .product-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1670,25 +1654,6 @@ main {
     background: #1d3557;
     color: #fff;
 }
-/* -------------------------------- SECTIONS AND TITLES -------------------------------- */
-
-.page-section {
-    border-radius: 16px;
-    padding: 6px 8px;
-    margin: 0 -8px;
-}
-
-.page-section:target {
-    background-color: rgba(248, 197, 102, 0.22);
-    outline: 2px solid #1e2749;
-}
-
-.page-section:target .titles::after {
-    content: ' ‹ اینجا هستید';
-    font-size: 13px;
-    font-weight: normal;
-    color: #555;
-}
 
 /* -------------------------------- PLP PAGE -------------------------------- */
 
@@ -1712,6 +1677,7 @@ main {
         padding-inline: 12px;
     }
 }
+
 /* -------------------------------- THEME TOGGLE -------------------------------- */
 
 .theme-toggle {
@@ -1750,47 +1716,7 @@ main {
     outline-offset: 3px;
 }
 
-.app {
-    min-height: 100vh;
-    background-color: var(--page-bg);
-    color: var(--text-color);
-    transition:
-        background-color 0.2s ease,
-        color 0.2s ease;
-}
-
-.app header {
-    background-color: var(--surface-bg);
-}
-
-.app .item {
-    background-color: var(--surface-bg);
-    color: var(--text-color);
-}
-
-/* ---------------- THEME VARIABLES ---------------- */
-
-:root {
-    --page-bg: #f8fafc;
-    --surface-bg: #ffffff;
-    --text-color: #1f2a1c;
-}
-
-.app[data-theme='dark'] {
-    --page-bg: #121a24;
-    --surface-bg: #1e293b;
-    --text-color: #f1f5f9;
-}
-
 /* ---------------- THEME STYLES ---------------- */
-
-body {
-    background: var(--page-bg);
-    color: var(--text-color);
-    transition:
-        background 0.2s ease,
-        color 0.2s ease;
-}
 
 .app {
     min-height: 100vh;
@@ -1811,6 +1737,7 @@ body {
 }
 
 /* Dark theme: main navigation items only */
+
 .app[data-theme='dark'] .main-nav-items > li > a,
 .app[data-theme='dark'] .main-nav-items > li > button {
     color: #fff;
@@ -2129,6 +2056,8 @@ body {
     }
 }
 
+/* -------------------------------- CHECKOUT PAGE -------------------------------- */
+
 .checkout-header-link {
     display: inline-flex;
     align-items: center;
@@ -2152,20 +2081,12 @@ body {
     background: #1d3557;
 }
 
-[data-theme='dark'] .checkout-header-link {
-    color: #a8dadc;
-    border-color: #a8dadc;
-}
-
-[data-theme='dark'] .checkout-header-link:hover {
-    color: #1d3557;
-    background: #a8dadc;
-}
-
-/* Checkout Page */
-
 .checkout-page {
-    padding-bottom: 60px;
+    width: 100%;
+    max-width: none;
+    margin: 0 !important;
+    padding: 6px 100px 60px !important;
+    box-sizing: border-box;
 }
 
 .checkout-page > h1 {
@@ -2334,29 +2255,6 @@ body {
     color: #64748b;
 }
 
-.checkout-header-link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 40px;
-    padding: 0 14px;
-    margin-left: 8px;
-    border: 1px solid #1d3557;
-    border-radius: 10px;
-    color: #1d3557;
-    font-size: 13px;
-    font-weight: 600;
-    text-decoration: none;
-    transition:
-        background 0.2s ease,
-        color 0.2s ease;
-}
-
-.checkout-header-link:hover {
-    color: #fff;
-    background: #1d3557;
-}
-
 [data-theme='dark'] .checkout-page > h1,
 [data-theme='dark'] .checkout-form h2,
 [data-theme='dark'] .checkout-summary h2,
@@ -2427,6 +2325,10 @@ body {
     .checkout-summary,
     .checkout-empty {
         padding: 20px;
+    }
+
+    .checkout-page {
+        padding: 6px 20px 60px !important;
     }
 }
 
