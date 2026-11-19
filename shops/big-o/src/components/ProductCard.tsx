@@ -2,6 +2,7 @@ import { useCartStore } from '../hooks/useCartStore'
 import type { CardInfo, Product } from '../types'
 import Badge from './Badge'
 import Price from './Price'
+import { Link } from '@tanstack/react-router'
 
 type ProductCardProps = {
   product: Product
@@ -22,7 +23,11 @@ export default function ProductCard({ product, info = {}, anchorId }: ProductCar
         {inStock && label !== undefined && percent !== undefined && (
           <Badge text={`${percent.toLocaleString('fa-IR')} ٪`} readerText={label} className="discount-badge" />
         )}
-        <h3 id={titleId}>{product.name}</h3>
+        <h3 id={titleId}>
+          <Link to="/product/$productId" params={{ productId: String(product.id) }}>
+            {product.name}
+          </Link>
+        </h3>
         <p>{product.unit}</p>
         <div className="card-footer">
           <Price price={product.price} finalPrice={finalPrice} />
