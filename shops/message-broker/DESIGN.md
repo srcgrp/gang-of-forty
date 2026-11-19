@@ -80,3 +80,101 @@
 تعداد کالاها و مبلغ کل از روی وضعیت فعلی سبد خرید و اطلاعات محصولات محاسبه می‌شوند و به‌عنوان State جداگانه نگهداری نمی‌شوند.
 
 با استفاده از این روش، انتقال Props مربوط به سبد خرید از App به کامپوننت‌های میانی حذف شده است.
+## 9. Routing
+
+The application uses TanStack Router with hash-based routing.
+
+| Route | Page | Component | Data Source |
+|---|---|---|---|
+| `/` | Home page | HomePage | Catalog data from useCatalog |
+| `/plp/$carouselId` | Product listing page | PlpPage | Catalog data from useCatalog, filtered by carouselId |
+
+- `Layout` is the shared root component for application pages.
+- `NotFound` handles unknown routes.
+- `createHashHistory` is used for hash-based navigation.
+- `carouselId` identifies the selected carousel or category.
+
+## 10. مدیریت وضعیت برنامه (State Management)
+
+در این پروژه برای مدیریت وضعیت‌های مشترک از کتابخانه Zustand استفاده شده است.
+
+### جدول Storeها
+
+| Store | مسیر فایل | وضعیت نگهداری‌شده | عملیات | روش ذخیره‌سازی |
+|---|---|---|---|---|
+| سبد خرید | `src/hooks/useCartStore.ts` | آرایه `lines` از نوع `CartLine[]` | `add` و `remove` | با استفاده از `loadCart()` و `saveCart()` |
+| تم | `src/hooks/useThemeStore.ts` | مقدار `theme` از نوع `light` یا `dark` | `toggle` | با استفاده از middleware به نام `persist` و کلید `message-broker-theme` |
+
+### مدیریت وضعیت سبد خرید
+
+سبد خرید با استفاده از Zustand و هوک `useCartStore` مدیریت می‌شود.
+
+- تابع `add(id)` محصول را به سبد خرید اضافه می‌کند.
+- تابع `remove(id)` محصول را از سبد خرید حذف می‌کند.
+- اطلاعات اولیه سبد خرید با `loadCart()` بارگذاری می‌شود.
+- با استفاده از `subscribe`، تغییرات سبد خرید از طریق `saveCart()` ذخیره می‌شوند.
+
+دلیل انتخاب Zustand این است که وضعیت سبد خرید در چندین کامپوننت استفاده می‌شود. Zustand دسترسی به این وضعیت را بدون نیاز به انتقال اطلاعات و توابع از طریق چندین سطح از Props فراهم می‌کند.
+
+### مدیریت وضعیت تم
+
+تم برنامه با استفاده از Zustand و هوک `useThemeStore` مدیریت می‌شود.
+
+- تم اولیه برنامه `light` است.
+- تابع `toggle()` بین دو حالت `light` و `dark` جابه‌جا می‌شود.
+- middleware به نام `persist` تم انتخاب‌شده را با کلید `message-broker-theme` ذخیره می‌کند؛ بنابراین پس از Refresh صفحه، تم انتخاب‌شده باقی می‌ماند.
+
+## 11. ساختار کامپوننت‌ها (Component Tree)
+
+### ساختار مشترک صفحات
+
+کامپوننت `Layout` ساختار مشترک صفحات برنامه را مدیریت می‌کند. صفحه موردنظر با استفاده از `Outlet` نمایش داده می‌شود.
+
+```text
+Layout
+├── Header
+├── Outlet
+│   ├── HomePage
+│   ├── PlpPage
+│   └── NotFound
+└── Footer
+```
+
+### ساختار صفحه اصلی (HomePage)
+
+```text
+HomePage
+├── Hero
+├── CategoryNav
+├── Carousel Sections
+│   └── ProductGrid
+│       └── ProductCard
+│           ├── Price
+│           └── OfferBadge
+├── Hero (Posters)
+├── New Products Section
+│   └── ProductGrid
+│       └── ProductCard
+│           ├── Price
+│           └── OfferBadge
+└── CartPanel
+```
+
+### ساختار صفحه فهرست محصولات (PlpPage)
+
+```text
+PlpPage
+└── ProductGrid
+    └── ProductCard
+        ├── Price
+        └── OfferBadge
+```
+
+### توضیح ساختار
+
+- `Layout` شامل Header، Footer و محل نمایش صفحات از طریق Outlet است.
+- `HomePage` صفحه اصلی فروشگاه است و بخش‌هایی مانند بنرها، دسته‌بندی‌ها، کاروسل محصولات و سبد خرید را نمایش می‌دهد.
+- `PlpPage` محصولات مربوط به کاروسل یا دسته‌بندی انتخاب‌شده را نمایش می‌دهد.
+- `ProductGrid` فهرستی از محصولات را نمایش می‌دهد و برای هر محصول یک `ProductCard` می‌سازد.
+- `ProductCard` اطلاعات هر محصول، قیمت نهایی و میزان تخفیف را نمایش می‌دهد.
+- `Price` و `OfferBadge` برای نمایش قیمت و تخفیف محصولات استفاده می‌شوند.
