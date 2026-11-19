@@ -6,7 +6,6 @@ import { useThemeStore } from '../hooks/useThemeStore'
 import { useUrlFilters } from '../hooks/useUrlFilters'
 import Header from './Header'
 import Footer from './Footer'
-import CartPanel from './CartPanel'
 import MobileMenu from './MobileMenu'
 import SlowNotice from './SlowNotice'
 
@@ -15,8 +14,6 @@ export default function Layout() {
   const data = { ...catalog.data, res: catalog }
   const { filters, setQuery } = useUrlFilters()
   const theme = useThemeStore((state) => state.theme)
-  const cartPanel = useState(false)
-  const [cartOpen, onCartOpen] = cartPanel
   const mobileMenu = useState(false)
   const [menuOpen, onMenuOpen] = mobileMenu
   const loading = catalog.status === 'loading'
@@ -39,7 +36,6 @@ export default function Layout() {
         data={data}
         activeCategoryId={activeCategory?.id ?? null}
         loading={loading}
-        cartPanel={cartPanel}
         mobileMenu={mobileMenu}
         query={filters.query}
         onQuery={setQuery}
@@ -51,7 +47,6 @@ export default function Layout() {
       </main>
       <Footer shop={data.shop} />
       <SlowNotice loading={loading} />
-      <CartPanel open={cartOpen} data={data} onClose={() => onCartOpen(false)} />
       <MobileMenu open={menuOpen} onClose={() => onMenuOpen(false)} menu={data.shop?.menu ?? []} />
     </div>
   )

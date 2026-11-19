@@ -5,6 +5,7 @@ import CartItem from './CartItem'
 import { cartRows, cartTotal } from '../features/cart/cart-rows'
 import { usePanelFocus } from '../hooks/usePanelFocus'
 import { useCartStore } from '../hooks/useCartStore'
+import { stockOf } from '../shared/logic/stock'
 
 type CartPanelProps = {
   open: boolean
@@ -13,7 +14,7 @@ type CartPanelProps = {
 }
 
 export default function CartPanel({ open, data, onClose }: CartPanelProps) {
-  const lines = useCartStore((state) => state.lines)
+  const lines = useCartStore((state) => open ? state.lines : undefined)
   const panelRef = useRef<HTMLElement>(null)
   usePanelFocus(open, panelRef)
 
@@ -34,11 +35,13 @@ export default function CartPanel({ open, data, onClose }: CartPanelProps) {
     }
   }, [open, onClose])
 
+  if (!lines) return <aside ref={panelRef} id="cart-panel" className="cart-panel" hidden aria-label="سبد خرید" />
+
   const rows = cartRows(lines, data.products, data.offerMap)
   const total = cartTotal(rows)
 
   return (
-    <aside ref={panelRef} id="cart-panel" className="cart-panel" hidden={!open} aria-label="سبد خرید">
+    <aside ref={panelRef} id="cart-panel" className="cart-panel" aria-label="سبد خرید">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h2 className="cart-panel__title">سبد خرید</h2>
         <button type="button" onClick={onClose} aria-label="بستن سبد" data-initial-focus="">×</button>
@@ -48,7 +51,9 @@ export default function CartPanel({ open, data, onClose }: CartPanelProps) {
         {rows.length === 0 ? (
           <li className="cart-row cart-row--empty">سبد خرید خالی است</li>
         ) : (
-          rows.map((row) => <CartItem key={row.id} row={row} stock={data.stock} />)
+          rows.map(({ id, name, qty, lineTotal }) => (
+            <CartItem key={id} id={id} name={name} qty={qty} lineTotal={lineTotal} max={stockOf(id, data.stock)} />
+          ))
         )}
       </ul>
 

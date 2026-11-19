@@ -1,17 +1,16 @@
-import { useEffect } from 'react'
-import { cartCount } from '../features/cart/logic/cart'
-import { useCartStore } from '../hooks/useCartStore'
+import { useState } from 'react'
 import Topbar from './Topbar'
 import SearchBox from './SearchBox'
 import ThemeToggle from './ThemeToggle'
 import HeaderNav from './HeaderNav'
 import ShopIdentity from './ShopIdentity'
+import CartButton from './CartButton'
+import CartPanel from './CartPanel'
 import type { AppState } from '../shared/types'
 
 type HeaderProps = {
   data: AppState
   loading: boolean
-  cartPanel: [boolean, (open: boolean) => void]
   mobileMenu: [boolean, (open: boolean) => void]
   activeCategoryId: number | null
   query: string
@@ -19,16 +18,11 @@ type HeaderProps = {
 }
 
 export default function Header({
-  data, loading, cartPanel, mobileMenu, activeCategoryId, query, onQuery
+  data, loading, mobileMenu, activeCategoryId, query, onQuery
 }: HeaderProps) {
-  const [cartOpen, setCartOpen] = cartPanel
+  const [cartOpen, setCartOpen] = useState(false)
   const [menuOpen, setMenuOpen] = mobileMenu
-  const count = useCartStore((state) => cartCount(state.lines))
   const name = data.shop?.name ?? 'فروشگاه'
-
-  useEffect(() => {
-    document.title = count > 0 ? `${name} · ${count.toLocaleString('fa-IR')} 🛒` : name
-  }, [name, count])
 
   return (
     <>
@@ -48,19 +42,14 @@ export default function Header({
             onQuery={onQuery}
           />
 
-          <div className="header__actions">
-            <button type="button" className="action action--cart" onClick={() => setCartOpen(!cartOpen)} aria-label="سبد خرید" aria-expanded={cartOpen} aria-controls="cart-panel">
-              <svg className="action__icon" aria-hidden="true"><use href="./icons.svg#cart" /></svg>
-              <span className="action__label">سبد خرید</span>
-              {count > 0 && <span className="badge">{count.toLocaleString('fa-IR')}</span>}
-            </button>
-          </div>
+          <CartButton shopName={name} open={cartOpen} onToggle={() => setCartOpen((open) => !open)} />
 
           <ThemeToggle />
         </div>
 
         <HeaderNav categories={data.categories} products={data.products} />
       </header>
+      <CartPanel open={cartOpen} data={data} onClose={() => setCartOpen(false)} />
     </>
   )
 }

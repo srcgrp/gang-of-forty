@@ -22,9 +22,9 @@ Accounts, payment, checkout and changes to the shared API are outside this versi
 | Store | Defined in | State and actions | Writers | Persistence |
 |---|---|---|---|---|
 | Theme (Zustand) | `src/hooks/useThemeStore.ts` | `theme` (`auto`, `light`, or `dark`) and `setTheme` | `ThemeToggle` in the header and mobile menu | Zustand `persist` writes `theme` to localStorage under `sharding-theme`. |
-| Cart (Zustand) | `src/hooks/useCartStore.ts` | `lines` maps product IDs to quantities. Actions are `add`, `remove`, `removeLine` and `reconcile`. | `ProductCard` and `SearchResult` add or decrement items. `ProductPage` adds items, and `CartItem` can also remove a full line. `useLoadCatalog` reconciles stock after a complete product load. | `loadCart` reads localStorage on initialization. A store subscription calls `saveCart` when `lines` changes. Both live in `src/shared/storage/cart-storage.ts` and use the existing `sharding:v1:cart` key. |
+| Cart (Zustand) | `src/hooks/useCartStore.ts` | `lines` maps product IDs to quantities. Actions are `add`, `remove`, `removeLine` and `reconcile`. | `ProductCartActions`, `SearchResult` and `CartItem` add or decrement items. `CartItem` can also remove a full line. `useLoadCatalog` reconciles stock after a complete product load. | `loadCart` reads localStorage on initialization. A store subscription calls `saveCart` when `lines` changes. Both live in `src/shared/storage/cart-storage.ts` and use the existing `sharding:v1:cart` key. |
 
-The cart uses option A, Zustand. Route components can share the cart without forwarding its data and actions through props. Selectors let the header read the total quantity and each product card read its own quantity and actions. The store reuses the pure cart rules and the existing storage format. The header derives the item count, and the cart panel derives the total from quantities, product prices and offers.
+The cart uses option A, Zustand. `CartButton` selects the total quantity within the header, the open `CartPanel` selects the lines to calculate the total price, and `ProductCartActions` selects the quantity for its own product and the actions it needs. Memoized cart rows receive individual values so rows with unchanged quantities and prices can skip updates. `ProductCard` is memoized, and the card and route component functions stay out of cart commits. Adding from a card or the product detail page also updates that product's quantity controls. Adding from the header search updates only the header subtree when the product has no quantity control mounted on the current route.
 
 ## 4. Component trees
 
@@ -32,12 +32,12 @@ The cart uses option A, Zustand. Route components can share the cart without for
 
 - `App` → `RouterProvider` → `Layout`
     - `Header`
-        - `Topbar`, `ShopIdentity`, `ThemeToggle`
+        - `Topbar`, `ShopIdentity`, `ThemeToggle`, `CartButton`
         - `SearchBox` → `SearchResults` → `SearchResult`
         - `HeaderNav` → `MegaMenu` → `MegaMenuItem`
+        - `CartPanel` → `CartItem` → `Price`
     - `Outlet` renders the active page in the catalog context
     - `Footer`, `SlowNotice`
-    - `CartPanel` → `CartItem` → `Price`
     - `MobileMenu` → `ThemeToggle`
 
 ### Home
@@ -50,7 +50,7 @@ The cart uses option A, Zustand. Route components can share the cart without for
         - `ProductsSection`
             - `ProductSkeleton` or `ProductStatus`, depending on the load state and search results
             - `ProductGrid` for each visible shelf → `CarouselNav`, `ProductCard`
-                - `ProductCard` → `ProductImage`, product page link, `Price`
+                - `ProductCard` → `ProductImage`, product page link, `Price`, `ProductCartActions`
                 - The offers grid also renders `SalePromotion` → `SaleCountdown` while open
 
 ### Product listing
@@ -61,7 +61,7 @@ The cart uses option A, Zustand. Route components can share the cart without for
         - `ProductSkeleton` while loading or `ProductStatus` on a load error
         - Title, count and home link for a known carousel
         - `PlpSortLinks` updates the route search parameter
-        - `ProductCard` for every product → `ProductImage`, product page link, `Price`
+        - `ProductCard` for every product → `ProductImage`, product page link, `Price`, `ProductCartActions`
         - A list-specific message and home link for an unknown carousel
 
 ### Product details
@@ -70,7 +70,7 @@ The cart uses option A, Zustand. Route components can share the cart without for
     - `Header`
     - `Outlet` → `ProductPage`
         - `ProductImage` → `OfferBadge` for eligible offers
-        - Product name, unit, `Price`, add-to-cart button and home link
+        - Product name, unit, `Price`, `ProductCartActions` and home link
         - `ProductSkeleton` while loading or `ProductStatus` on a load error or unknown product ID
 
 ### Not found

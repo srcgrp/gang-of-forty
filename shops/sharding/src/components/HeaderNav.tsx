@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { Link } from '@tanstack/react-router'
 import { categorySearch } from '../shared/storage/url'
 import MegaMenu from './MegaMenu'
@@ -7,7 +8,7 @@ type HeaderNavProps = { categories: Category[]; products: Product[] }
 
 const activeOptions = { exact: true, includeHash: true }
 
-export default function HeaderNav({ categories, products }: HeaderNavProps) {
+export default memo(function HeaderNav({ categories, products }: HeaderNavProps) {
   return (
     <nav className="header-nav" aria-label="ناوبری اصلی">
     <div className="container header-nav__inner">
@@ -21,4 +22,4 @@ export default function HeaderNav({ categories, products }: HeaderNavProps) {
     </div>
     </nav>
   )
-}
+})

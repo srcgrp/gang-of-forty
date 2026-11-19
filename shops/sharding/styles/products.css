@@ -441,7 +441,7 @@
   font-variant-numeric: tabular-nums;
 }
 
-.product--cart-pulse {
+.product__actions--pulse {
   animation: pulse 300ms var(--ease);
 }
 

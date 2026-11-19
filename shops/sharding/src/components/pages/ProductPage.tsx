@@ -1,10 +1,9 @@
 import { Link, useParams } from '@tanstack/react-router'
 import { cardOf } from '../../features/products/logic/to-card'
-import { useCartStore } from '../../hooks/useCartStore'
 import { useCatalog } from '../../hooks/useCatalog'
 import Price from '../Price'
 import ProductImage from '../ProductImage'
-import ProductQuantity from '../ProductQuantity'
+import ProductCartActions from '../ProductCartActions'
 import ProductSkeleton from '../ProductSkeleton'
 import ProductStatus from '../ProductStatus'
 
@@ -12,9 +11,6 @@ export default function ProductPage() {
   const { productId } = useParams({ from: '/product/$productId' })
   const id = Number(productId)
   const state = useCatalog()
-  const qty = useCartStore((cart) => cart.lines[id] ?? 0)
-  const add = useCartStore((cart) => cart.add)
-  const remove = useCartStore((cart) => cart.remove)
 
   if (state.status === 'loading') return <ProductSkeleton />
   if (state.status === 'error') {
@@ -27,7 +23,6 @@ export default function ProductPage() {
   }
 
   const card = cardOf(product, state.data)
-  const addOne = () => add(card.id, card.stockQty)
 
   return (
     <section className="product-shelf" aria-labelledby="product-title">
@@ -39,19 +34,7 @@ export default function ProductPage() {
               <h1 id="product-title">{card.name}</h1>
               <p>واحد فروش {card.unit}</p>
               <Price value={card.price} {...(card.oldPrice !== undefined ? { oldValue: card.oldPrice } : {})} />
-              {qty > 0 ? (
-                <ProductQuantity
-                  name={card.name}
-                  quantity={qty}
-                  max={card.stockQty}
-                  onAdd={addOne}
-                  onRemove={() => remove(card.id, card.name)}
-                />
-              ) : (
-                <button type="button" className="product-details__add" onClick={addOne} disabled={!card.inStock}>
-                  افزودن به سبد
-                </button>
-              )}
+              <ProductCartActions card={card} variant="detail" />
               <Link to="/" search={true} className="catalog-link">
                 <svg width="16" height="16" fill="currentColor" aria-hidden="true">
                   <use href="./icons.svg#arrowForward" />
