@@ -6,7 +6,14 @@ import PlpPage from './components/pages/PlpPage'
 
 const rootRoute = createRootRoute({ component: Layout, notFoundComponent: NotFound })
 const homeRoute = createRoute({ getParentRoute: () => rootRoute, path: '/', component: HomePage })
-const plpRoute = createRoute({ getParentRoute: () => rootRoute, path: '/plp/$carouselId', component: PlpPage })
+const plpRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/plp/$carouselId',
+  component: PlpPage,
+  validateSearch: (search: Record<string, unknown>): { sort: 'default' | 'price' } => ({
+    sort: search.sort === 'price' ? 'price' : 'default',
+  }),
+})
 
 const routeTree = rootRoute.addChildren([homeRoute, plpRoute])
 const router = createRouter({ routeTree, history: createHashHistory(), scrollRestoration: true })

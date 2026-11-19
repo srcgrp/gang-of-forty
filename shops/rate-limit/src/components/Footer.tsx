@@ -31,7 +31,7 @@ export default function Footer({ categories }: FooterProps) {
             <ul className="footer-list">
               {categories.map((c) => (
                 <li key={c.id}>
-                  <Link to="/plp/$carouselId" params={{ carouselId: c.slug }}>{c.name}</Link>
+                  <Link to="/plp/$carouselId" search={{ sort: 'default' }} params={{ carouselId: c.slug }}>{c.name}</Link>
                 </li>
               ))}
             </ul>

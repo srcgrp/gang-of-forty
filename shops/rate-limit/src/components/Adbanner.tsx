@@ -2,7 +2,7 @@ import { Link } from '@tanstack/react-router';
 
 export default function AdBanner() {
   return (
-    <Link className="ad-banner" to="/plp/$carouselId" params={{ carouselId: 'fruits' }}
+    <Link className="ad-banner" to="/plp/$carouselId" search={{ sort: 'default' }} params={{ carouselId: 'fruits' }}
       aria-label="۲۰٪ تخفیف اولین سفارش با کد NEW20">
       <div className="ad-content">
         <span className="ad-tag">ویژه مشتریان جدید</span>

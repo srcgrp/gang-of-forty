@@ -26,7 +26,7 @@ export default function CategoryCarousel({ category, products, total }: Category
           {category.emoji}
         </span>
         <h2 className="category-carousel-title" id={titleId}>{category.name}</h2>
-        <Link to="/plp/$carouselId" params={{ carouselId: category.slug }} className="category-carousel-count">
+        <Link to="/plp/$carouselId" search={{ sort: 'default' }} params={{ carouselId: category.slug }} className="category-carousel-count">
           مشاهده همه ({toPersianDigits(total)})
         </Link>
       </div>

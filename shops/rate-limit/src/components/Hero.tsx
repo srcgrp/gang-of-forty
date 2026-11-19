@@ -19,7 +19,7 @@ export default function Hero() {
         </p>
 
         <div className="hero-actions">
-          <Link to="/plp/$carouselId" params={{ carouselId: 'fruits' }} className="hero-btn hero-btn-primary">شروع خرید</Link>
+          <Link to="/plp/$carouselId" search={{ sort: 'default' }} params={{ carouselId: 'fruits' }} className="hero-btn hero-btn-primary">شروع خرید</Link>
           <a href="#/" className="hero-btn hero-btn-secondary" onClick={toAbout}>درباره فروشگاه</a>
         </div>
 

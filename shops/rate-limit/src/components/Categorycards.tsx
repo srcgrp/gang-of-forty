@@ -12,7 +12,7 @@ export default function CategoryCards({ categories }: CategoryCardsProps) {
       <div className="category-list">
         {categories.map((c) => (
           <div className="category-card" key={c.id}>
-            <Link to="/plp/$carouselId" params={{ carouselId: c.slug }}>
+            <Link to="/plp/$carouselId" search={{ sort: 'default' }} params={{ carouselId: c.slug }}>
               <img alt="" src={`/images/${c.slug}.png`} />
               <h3 className="category-card-title">{c.name}</h3>
             </Link>

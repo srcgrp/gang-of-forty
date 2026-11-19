@@ -39,11 +39,11 @@ export default function CategoryNav({ categories, open, onToggle }: CategoryNavP
             </label>
           </li>
           <li id="special-offer-button">
-            <Link to="/plp/$carouselId" params={{ carouselId: 'offers' }}>پیشنهادات ویژه 🔥</Link>
+            <Link to="/plp/$carouselId" search={{ sort: 'default' }} params={{ carouselId: 'offers' }}>پیشنهادات ویژه 🔥</Link>
           </li>
-          <li><Link to="/plp/$carouselId" params={{ carouselId: 'fruits' }}>میوه و سبزی</Link></li>
-          <li><Link to="/plp/$carouselId" params={{ carouselId: 'dairy' }}>لبنیات</Link></li>
-          <li><Link to="/plp/$carouselId" params={{ carouselId: 'bakery' }}>نان تازه</Link></li>
+          <li><Link to="/plp/$carouselId" search={{ sort: 'default' }} params={{ carouselId: 'fruits' }}>میوه و سبزی</Link></li>
+          <li><Link to="/plp/$carouselId" search={{ sort: 'default' }} params={{ carouselId: 'dairy' }}>لبنیات</Link></li>
+          <li><Link to="/plp/$carouselId" search={{ sort: 'default' }} params={{ carouselId: 'bakery' }}>نان تازه</Link></li>
           <li><a href="#/" onClick={toContact}>تماس با ما</a></li>
         </ul>
       </nav>
@@ -55,7 +55,7 @@ export default function CategoryNav({ categories, open, onToggle }: CategoryNavP
         {categories.map((c) => (
           <Link
             key={c.id}
-            to="/plp/$carouselId"
+            to="/plp/$carouselId" search={{ sort: 'default' }}
             params={{ carouselId: c.slug }}
             activeProps={{ className: 'is-active' }}
             onClick={close}
