@@ -5,7 +5,6 @@
 .carousel-container {
   width: min(1240px, calc(100% - 40px));
   margin: 48px auto 0;
-  
 }
 
 /* ========================================
@@ -54,7 +53,7 @@
   border: 1px solid var(--border);
   border-radius: 10px;
 
-  background: var(--surface);
+  background: var(--card);
   color: var(--text-muted);
 
   cursor: pointer;
@@ -77,7 +76,7 @@
   color: var(--primary);
   border-color: var(--primary);
 
-  background: color-mix(in srgb, var(--primary) 8%, var(--surface));
+  background: color-mix(in srgb, var(--primary) 8%, var(--card));
 
   transform: translateY(-2px);
 }
@@ -193,4 +192,3 @@
     width: calc(100% - 16px);
   }
 }
-

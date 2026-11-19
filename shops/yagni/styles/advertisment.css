@@ -6,6 +6,12 @@
   border: 1px solid var(--border);
   border-radius: 18px;
   box-shadow: 0 8px 24px rgb(15 23 42 / 6%);
+
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--primary) 12%, var(--card)),
+    var(--card)
+  );
 }
 
 .advertisement a {
@@ -42,11 +48,7 @@
   border: 1px solid var(--border);
   border-radius: 50%;
 
-  
-
   font-size: 3rem;
-
- 
 }
 
 .advertisement__text {
@@ -55,8 +57,6 @@
   font-weight: 750;
   line-height: 1.8;
 }
-
-
 
 @media (max-width: 900px) {
   .advertisement {
