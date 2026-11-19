@@ -13,7 +13,7 @@ type ShopMainProps = {
   onSelectCategory: (id: number) => void
   onRetry: () => void
 }
-export default function ShopMain({state, categoryId, onSelectCategory, onRetry} : ShopMainProps) {
+export default function ShopMain({state, categoryId, onRetry} : ShopMainProps) {
     switch (state.status) {
         case "loading" : 
             return <p className="msg load-msg">در حال بارگذاری...</p>
@@ -31,7 +31,7 @@ export default function ShopMain({state, categoryId, onSelectCategory, onRetry} 
             return (
                <>
                     <Hero />
-                    <CategoryList categories={state.data.categories} onSelect={onSelectCategory}/>
+                    <CategoryList categories={state.data.categories}/>
                     <ProductGrid
                     sectionId="special-products"
                     title="پیشنهاد ویژه امروز"
