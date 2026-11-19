@@ -1,9 +1,12 @@
+import {memo} from 'react';
+
 import {Link} from '@tanstack/react-router';
 
 import {discountedPrice} from '../catalog/pricing';
 import {useAddToCart} from '../hooks/useAddToCart';
 
 import type {Offer, Product} from '../types';
+
 type ProductCardProps = {
     product: Product;
     inStock?: boolean;
@@ -13,7 +16,7 @@ type ProductCardProps = {
 
 const faNumber = new Intl.NumberFormat('fa-IR');
 
-export default function ProductCard({
+function ProductCard({
     product,
     inStock = true,
     offer,
@@ -79,3 +82,5 @@ export default function ProductCard({
         </article>
     );
 }
+
+export default memo(ProductCard);

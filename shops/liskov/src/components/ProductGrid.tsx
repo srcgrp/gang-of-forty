@@ -1,4 +1,4 @@
-import {useRef} from 'react';
+import {memo, useRef} from 'react';
 
 import ProductCard from './ProductCard';
 
@@ -12,10 +12,12 @@ type ProductGridProps = {
     layout?: 'carousel' | 'grid';
 };
 
-export default function ProductGrid({
+const EMPTY_OFFERS = new Map<number, Offer>();
+
+function ProductGrid({
     products,
     stockById,
-    offerByProductId = new Map(),
+    offerByProductId = EMPTY_OFFERS,
     categoryById,
     layout = 'carousel',
 }: ProductGridProps) {
@@ -73,3 +75,5 @@ export default function ProductGrid({
         </>
     );
 }
+
+export default memo(ProductGrid);
