@@ -56,13 +56,14 @@ export type Shop = {
   copyright: string;
 };
 
-export type LoadState =
+export type Catalog = {
+  products: Product[];
+  stock: Stock;
+  offers: Offer[];
+};
+
+export type LoadState<T> =
   | { status: "loading" }
-  | {
-      status: "success";
-      products: Product[];
-      stock: Stock;
-      offers: Offer[];
-    }
+  | ({ status: "success" } & T)
   | { status: "empty" }
-  | { status: "error"; message: string }
+  | { status: "error"; message: string };

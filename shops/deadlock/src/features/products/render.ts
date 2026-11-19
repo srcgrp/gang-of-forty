@@ -1,4 +1,4 @@
-import type { Offer, Product, Stock, LoadState } from "../../types";
+import type { Catalog, Offer, Product, Stock, LoadState } from "../../types";
 import { createProductCard } from "./productCard";
 import { showMessage, textmsg } from "../../shared/messages";
 export function renderProducts(
@@ -21,7 +21,7 @@ export function renderProducts(
 export function render(
   container: HTMLDivElement,
   offersContainer: HTMLDivElement,
-  state: LoadState,
+  state: LoadState<Catalog>,
 ): void {
   container.replaceChildren();
   offersContainer.replaceChildren();

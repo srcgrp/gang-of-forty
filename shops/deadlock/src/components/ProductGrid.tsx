@@ -1,11 +1,11 @@
-import type { LoadState, Offer, Product, Stock } from "../types";
+import type { Catalog, LoadState, Offer, Product, Stock } from "../types";
 import ProductCard from "./ProductCard";
 
 type ProductGridProps = {
   id: string;
   title: string;
   products: Product[];
-  status: LoadState["status"];
+  status: LoadState<Catalog>["status"];
   message: string;
   stock: Stock | undefined;
   offers: Offer[];

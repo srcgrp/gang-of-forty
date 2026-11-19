@@ -21,8 +21,7 @@ Header, ProductCard, and CartPanel read the cart directly from `useCartStore`.
 |---|---|---|---|
 | `categoryId` | `App` | `CategoryNav` through `onPick` | In memory |
 | `lines` | `src/hooks/useCartStore.ts` | ProductCard and CartPanel actions | `storage/cartStorage.ts` |
-| `loadState` | `App` | API loading effect | In memory |
-| `attempt` | `App` | Retry button | In memory |
+| catalog load state and retry attempt | `src/hooks/useCatalog.ts` | API effect and Retry button | In memory |
 
 These values are calculated while rendering and are not separate state:
 
@@ -40,7 +39,9 @@ store subscription saves each updated cart through `storage/cartStorage.ts`.
 
 ## Data and folders
 
-- `src/App.tsx` owns state, effects, and event handlers.
+- `src/App.tsx` applies the selected theme and renders the current page.
+- `src/hooks/useCatalog.ts` loads and validates products, stock, and offers.
+- `src/components/pages/HomePage.tsx` uses the catalog hook and owns the selected category.
 - `src/components/` contains `Header`, `CategoryNav`, `ProductGrid`, `ProductCard`, and `CartPanel`.
 - `src/api/` contains the existing API helpers and data guards.
 - `src/features/cart/` contains the pure cart update and total functions.
