@@ -10,7 +10,6 @@ In the **Profiler** tab, with **Record why each component rendered while profili
 - `CartPanel` re-rendered when the cart items changed. Header children that do not use `memo`, including `CategoryNav`, `SearchBox`, and `ThemeToggle`, re-rendered with their parent.
 - `PlpPage`, `ProductGrid`, and `ProductCard` did not re-render in this commit. The product card selects only the stable `add` function from the cart store.
 
-![Screenshot of the commit in React DevTools Profiler](step-5-profiler.jpg)
+Attach the screenshot to the [Step 5 slot in the PR description](PR-WEEK-6.md#screenshot-1-step-5-profiler).
 
 I recorded the session with React DevTools Inline in a separate local preview. To avoid an `Unknown Fiber` error, I limited hook inspection to supported fiber types in the temporary tool only. The shop's code and dependencies did not change.
-

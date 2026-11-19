@@ -6,7 +6,7 @@
 |---|---|---|
 | `/` (`#/`) | `HomePage` | `useCatalog()` supplies categories, product views, and home configuration. `HomeCategoryContext` supplies the selected category for the latest-products filter. |
 | `/plp/$carouselId` (e.g. `#/plp/dairy?sort=price`) | `PlpPage` | `useParams` reads the ID, and `useSearch` reads the validated sort. From `useCatalog()`, `findCarousel` resolves the heading and `carouselProducts` selects the full list. |
-| `/product/$productId` (e.g. `#/product/1`) | `ProductPage` | `useParams` supplies the ID string; the page converts it with `Number` and finds the matching product view in `useCatalog()`. |
+| `/product/$productId` (e.g. `#/product/201`) | `ProductPage` | `useParams` supplies the ID string; the page converts it with `Number` and finds the matching product view in `useCatalog()`. |
 | `/checkout` | `CheckoutPage` | Controlled form values are local to the page. Successful validation calls the cart store's `clear` action and replaces the current history entry with home. |
 | Any unmatched path | `NotFound` | The root route's `notFoundComponent`; the page itself does not need catalog data. An unknown carousel ID on a matched PLP route is handled by `PlpPage` instead. |
 
@@ -150,11 +150,11 @@ src/
 
 With **Record why each component rendered while profiling** enabled, adding one product from `#/plp/dairy` produced one commit. The Profiler attributed the update to `Header` and `CartPanel`: the cart quantity and lines changed. The ranked chart includes header descendants but no `PlpPage`, `ProductGrid`, or `ProductCard`. The store's `add` action stays stable, so the add buttons do not re-render from that subscription either.
 
-The [Profiler screenshot](bonus-profiler.jpg) is ready to attach to the pull request. It was captured with React DevTools Inline in an isolated local preview. The temporary inspector skipped unsupported fibers and tolerated missing hook stack frames; no application code or dependencies were modified for the recording.
+The bonus recording used React DevTools Inline in an isolated local preview. The temporary inspector skipped unsupported fibers and tolerated missing hook stack frames; no application code or dependencies were modified for the recording. Attach the screenshot to the [bonus slot in the PR description](PR-WEEK-6.md#screenshot-2-bonus-profiler).
 
 ## Scope and current limitations
 
 - Search runs in the browser over the catalog returned by the API.
 - The countdown is a one-hour client-side timer because the API has no sale deadline.
 - The cart is stored locally. Checkout validates locally, clears the cart, and returns home; it does not submit an order or take payment.
-- The existing stylesheet at `../style.css` continues to define the storefront appearance. `SearchBox.css` contains only the requested search-popup styles.
+- The existing `style.css` continues to define the storefront appearance. `SearchBox.css` contains only the requested search-popup styles.
