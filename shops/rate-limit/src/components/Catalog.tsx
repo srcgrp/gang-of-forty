@@ -1,6 +1,10 @@
-import { useState } from 'react';
-import type { CatalogItem, Category, LoadState } from '../types';
+import { useEffect, useState } from 'react';
+import type { Catalog as CatalogData, LoadState } from '../types';
+import { countItems } from '../cart/rules';
 import { filterItems } from '../catalog/filter';
+import { carouselProducts } from '../catalog/group';
+import { cartTitle } from '../format/title';
+import { useCartStore } from '../hooks/useCartStore';
 import AdBanner from './Adbanner';
 import CategoryCards from './Categorycards';
 import CategoryCarousel from './CategoryCarousel';
@@ -10,20 +14,27 @@ import SaleCountdown from './SaleCountdown';
 import Status from './Status';
 
 type CatalogProps = {
-  state: LoadState<CatalogItem>;
-  categories: Category[];
+  state: LoadState<CatalogData>;
   categoryId: number | null;
   query: string;
   onPick: (id: number | null) => void;
-  onRetry: () => void;
 };
 
-export default function Catalog({ state, categories, categoryId, query, onPick, onRetry }: CatalogProps) {
+export default function Catalog({ state, categoryId, query, onPick }: CatalogProps) {
   const [showTimer, setShowTimer] = useState(true);
+  const count = useCartStore((s) => countItems(s.cart));
 
-  const products = state.status === 'success' ? state.products : [];
-  const specials = filterItems(products.filter((p) => p.percent !== undefined), { query });
-  const visible = filterItems(products, { categoryId, query });
+  const catalog = state.status === 'success' ? state.data : null;
+  const categories = catalog?.categories ?? [];
+  const specials = filterItems(catalog ? carouselProducts(catalog, 'offers') ?? [] : [], { query });
+  const carousels = categories.map((category) => ({
+    category,
+    products: filterItems(catalog ? carouselProducts(catalog, category.slug) ?? [] : [], { categoryId, query }),
+  }));
+  const hasResults = carousels.some((c) => c.products.length > 0);
+
+  const shopName = catalog?.shop?.name;
+  useEffect(() => { document.title = cartTitle(shopName, count); }, [shopName, count]);
 
   return (
     <main id="main-content">
@@ -33,7 +44,7 @@ export default function Catalog({ state, categories, categoryId, query, onPick, 
         <div className="category-carousels">
           <div className="offer-message" role="alert">
             <p>{state.message}</p>
-            <button type="button" className="offer-retry" onClick={onRetry}>تلاش دوباره</button>
+            <button type="button" className="offer-retry" onClick={state.retry}>تلاش دوباره</button>
           </div>
         </div>
       ) : (
@@ -55,15 +66,11 @@ export default function Catalog({ state, categories, categoryId, query, onPick, 
           )}
 
           <div className="category-carousels">
-            {visible.length === 0 && specials.length === 0 && (
+            {!hasResults && specials.length === 0 && (
               <p className="product-grid-empty">نتیجه‌ای پیدا نشد.</p>
             )}
-            {categories.map((c) => (
-              <CategoryCarousel
-                key={c.id}
-                category={c}
-                products={visible.filter((p) => p.categoryId === c.id)}
-              />
+            {carousels.map(({ category, products }) => (
+              <CategoryCarousel key={category.id} category={category} products={products} />
             ))}
           </div>
         </Status>

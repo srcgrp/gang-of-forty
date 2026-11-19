@@ -1,4 +1,4 @@
-import type { Catalog, CatalogItem, Category, Offer, Product, Stock } from "../types";
+import type { Catalog, CatalogItem, Category, Offer, Product, Shop, Stock } from "../types";
 import { sortItems } from "./sort";
 
 const discounted = (price: number, percent: number): number =>
@@ -20,7 +20,8 @@ export function buildCatalog(
   products: Product[],
   offers: Offer[],
   stock: Stock,
-  categories: Category[]
+  categories: Category[],
+  shop: Shop | null
 ): Catalog {
   const offerByProduct = new Map(offers.map((o) => [o.productId, o]));
   const colorByCategory = new Map(categories.map((c) => [c.id, c.color]));
@@ -36,5 +37,5 @@ export function buildCatalog(
     .map((o) => itemById.get(o.productId))
     .filter((i): i is CatalogItem => i !== undefined);
 
-  return { items, specials: sortItems(specials), categories };
+  return { items, specials: sortItems(specials), categories, shop };
 }

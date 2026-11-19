@@ -63,6 +63,7 @@ export interface Catalog {
   items: CatalogItem[];
   specials: CatalogItem[];
   categories: Category[];
+  shop: Shop | null;
 }
 export interface CategoryGroup {
   category: Category;
@@ -101,11 +102,11 @@ export type SortComparators = Record<
   (a: CatalogItem, b: CatalogItem) => number
 >;
 
-export type LoadState<P extends Product = Product> =
+export type LoadState<T = unknown> =
   | { status: "loading" }
-  | { status: "success"; products: P[] }
+  | { status: "success"; data: T }
   | { status: "empty" }
-  | { status: "error"; message: string };
+  | { status: "error"; message: string; retry?: () => void };
 
 export interface StateView {
   skeletons: number;
