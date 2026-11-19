@@ -1,77 +1,39 @@
-import type { Category, Offer, Stock } from "../types";
-import { getJSON } from "./get-json";
-
-export async function getCategories(): Promise<Category[]> {
-    const data = await getJSON("categories.json");
-
-    if (!Array.isArray(data) || !data.every(isCategory)) {
-        throw new Error("Invalid categories data");
-    }
-
-    return data;
-}
-
-export async function getOffers(): Promise<Offer[]> {
-    const data = await getJSON("offers.json");
-
-    if (!Array.isArray(data) || !data.every(isOffer)) {
-        throw new Error("Invalid offers data");
-    }
-
-    return data;
-}
-
-export async function getStock(): Promise<Stock> {
-    const data = await getJSON("stock.json");
-
-    if (!isStock(data)) {
-        throw new Error("Invalid stock data");
-    }
-
-    return data;
-}
+import type { Carousel, Category, Offer, Catalog } from '../types'
+import { getJSON } from './get-json'
+import { getProducts } from './products'
 
 function isCategory(value: unknown): value is Category {
-    if (typeof value !== "object" || value === null) return false;
-
-    const item = value as Record<string, unknown>;
-
-    return (
-        typeof item.id === "number" &&
-        typeof item.slug === "string" &&
-        typeof item.name === "string" &&
-        typeof item.emoji === "string" &&
-        typeof item.color === "string"
-    );
+  return typeof value === 'object' && value !== null &&
+    'id' in value && typeof value.id === 'number' &&
+    'slug' in value && typeof value.slug === 'string' &&
+    'name' in value && typeof value.name === 'string' &&
+    'emoji' in value && typeof value.emoji === 'string' &&
+    'color' in value && typeof value.color === 'string'
 }
 
 function isOffer(value: unknown): value is Offer {
-    if (typeof value !== "object" || value === null) return false;
-
-    const item = value as Record<string, unknown>;
-
-    return (
-        typeof item.productId === "number" &&
-        typeof item.percent === "number" &&
-        typeof item.label === "string"
-    );
+  return typeof value === 'object' && value !== null &&
+    'productId' in value && typeof value.productId === 'number' &&
+    'percent' in value && typeof value.percent === 'number' &&
+    'label' in value && typeof value.label === 'string'
 }
 
-function isStock(value: unknown): value is Stock {
-    if (typeof value !== "object" || value === null) return false;
+function isCarousel(value: unknown): value is Carousel {
+  return typeof value === 'object' && value !== null &&
+    'id' in value && typeof value.id === 'string' &&
+    'title' in value && typeof value.title === 'string' &&
+    'emoji' in value && typeof value.emoji === 'string' &&
+    (('source' in value && value.source === 'offers') ||
+     ('categoryId' in value && typeof value.categoryId === 'number'))
+}
 
-    const item = value as Record<string, unknown>;
-
-    if (
-        typeof item.updatedAt !== "string" ||
-        typeof item.items !== "object" ||
-        item.items === null ||
-        Array.isArray(item.items)
-    ) {
-        return false;
-    }
-
-    return Object.values(item.items).every(
-        (quantity) => typeof quantity === "number"
-    );
+export async function getCatalog(): Promise<Catalog> {
+  const [products, categories, offers, home] = await Promise.all([
+    getProducts(), getJSON('categories.json'), getJSON('offers.json'), getJSON('home.json'),
+  ])
+  if (!Array.isArray(categories) || !categories.every(isCategory)) throw new Error('Invalid categories data')
+  if (!Array.isArray(offers) || !offers.every(isOffer)) throw new Error('Invalid offers data')
+  if (typeof home !== 'object' || home === null || !('carousels' in home) ||
+      !Array.isArray(home.carousels) || !home.carousels.every(isCarousel)) throw new Error('Invalid home data')
+  return { products, categories, offers, carousels: home.carousels }
 }

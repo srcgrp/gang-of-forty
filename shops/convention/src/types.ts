@@ -97,3 +97,17 @@ export const FILTER_OPTIONS = [
 ] as const;
 
 export type FilterOption = (typeof FILTER_OPTIONS)[number];
+export type Carousel = {
+    id: string;
+    title: string;
+    emoji: string;
+    source?: 'offers';
+    categoryId?: number;
+};
+
+export type Catalog = {
+    products: Product[];
+    categories: Category[];
+    offers: Offer[];
+    carousels: Carousel[];
+};

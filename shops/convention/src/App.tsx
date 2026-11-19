@@ -1,10 +1,6 @@
-
-import { useEffect, useState } from 'react'
-import type { Product, LoadState } from './types'
+import { useState } from 'react'
 import { useCartStore } from './hooks/useCartStore'
-
-import { getProducts } from './api/products'
-
+import { useCatalog } from './hooks/useCatalog'
 import Header from './components/Header'
 import CategoryNav from './components/CategoryNav'
 import ProductGrid from './components/ProductGrid'
@@ -19,56 +15,12 @@ export default function App() {
 
   const [searchTerm, setSearchTerm] = useState('')
 
-  const [productsState, setProductsState] = useState<LoadState<Product[]>>({
-    status: 'loading',
-  })
-
-  const [retryCount, setRetryCount] = useState(0)
-  
-
-  useEffect(() => {
-    const controller = new AbortController()
-    
-
-    getProducts(controller.signal)
-      .then((products) => {
-        if (products.length === 0) {
-          setProductsState({ status: 'empty' })
-        } else {
-          setProductsState({
-            status: 'success',
-            data: products,
-          })
-        }
-      })
-      .catch((error: unknown) => {
-        if (controller.signal.aborted) {
-          return
-        }
-
-        setProductsState({
-          status: 'error',
-          message:
-            error instanceof Error
-              ? error.message
-              : 'خطای ناشناخته در دریافت محصولات',
-        })
-      })
-
-    return () => {
-      controller.abort()
-    }
-  }, [retryCount])
-
-  function handleRetry() {
-  setProductsState({ status: 'loading' })
-  setRetryCount((previous) => previous + 1)
-}
+  const catalog = useCatalog()
 
   // Get products from API
   const products =
-    productsState.status === 'success'
-      ? productsState.data
+    catalog.status === 'success'
+      ? catalog.data.products
       : []
 
   // Filter products based on search term
@@ -105,9 +57,9 @@ export default function App() {
       <SaleCountdown />
 
       <ProductGrid
-        state={productsState}
+        state={catalog.status === 'success' ? { status: 'success', data: products } : catalog}
         products={filteredProducts}
-        onRetry={handleRetry}
+        onRetry={catalog.retry}
        />
 
       <CartPanel

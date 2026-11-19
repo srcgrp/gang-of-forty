@@ -10,15 +10,8 @@ export async function getProducts(
         throw new Error("Invalid products data");
     }
 
-    const validProducts = data.filter(isProduct);
-
-    if (validProducts.length !== data.length) {
-        console.warn(
-            `${data.length - validProducts.length} invalid products were ignored.`
-        );
-    }
-
-    return validProducts;
+    if (!data.every(isProduct)) throw new Error("Invalid products data");
+    return data;
 }
 
 function isProduct(value: unknown): value is Product {
@@ -26,7 +19,9 @@ function isProduct(value: unknown): value is Product {
         return false;
     }
 
-    const product = value as Record<string, unknown>;
+    if (!("id" in value) || !("categoryId" in value) || !("name" in value) ||
+        !("emoji" in value) || !("unit" in value) || !("price" in value)) return false;
+    const product = value;
 
     return (
         typeof product.id === "number" &&
@@ -36,7 +31,7 @@ function isProduct(value: unknown): value is Product {
         typeof product.unit === "string" &&
         typeof product.price === "number" &&
         (
-            product.tags === undefined ||
+            !("tags" in product) || product.tags === undefined ||
             (
                 Array.isArray(product.tags) &&
                 product.tags.every(
