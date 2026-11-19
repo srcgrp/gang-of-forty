@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 import { catalogCarousels } from '../catalog/carousels'
 import { loadAllData } from '../shared/api/load-all'
 import { withCategoryImages } from '../shared/logic/content-utils'
@@ -10,7 +10,15 @@ type CatalogState = LoadState<Catalog> & {
   retry: () => void
 }
 
+export const CatalogContext = createContext<CatalogState | null>(null)
+
 export function useCatalog(): CatalogState {
+  const state = useContext(CatalogContext)
+  if (!state) throw new Error('useCatalog requires a catalog provider')
+  return state
+}
+
+export function useLoadCatalog(): CatalogState {
   const [state, setState] = useState<LoadState<Catalog>>({
     status: 'loading',
     data: initialShopData,

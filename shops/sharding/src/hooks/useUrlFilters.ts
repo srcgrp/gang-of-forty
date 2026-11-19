@@ -1,26 +1,29 @@
-import { useEffect, useState } from 'react'
-import type { UrlFilters } from '../shared/types'
-import { readUrlFilters, writeUrlFilters } from '../shared/storage/url'
+import { useNavigate, useSearch } from '@tanstack/react-router'
+import { toShopSearch } from '../shared/storage/url'
 
-type SetFilters = (next: UrlFilters, mode?: 'push' | 'replace') => void
+export function useUrlFilters() {
+  const { category = '', q = '' } = useSearch({ from: '__root__' })
+  const navigate = useNavigate()
+  const filters = { category, query: q }
 
-export function useUrlFilters(): [UrlFilters, SetFilters] {
-  const [filters, setFiltersState] = useState<UrlFilters>(() => readUrlFilters())
-
-  useEffect(() => {
-    function onPop(): void {
-      setFiltersState(readUrlFilters())
-    }
-    window.addEventListener('popstate', onPop)
-    return () => {
-      window.removeEventListener('popstate', onPop)
-    }
-  }, [])
-
-  function setFilters(next: UrlFilters, mode: 'push' | 'replace' = 'replace'): void {
-    setFiltersState(next)
-    writeUrlFilters(next, mode)
+  function setQuery(query: string): void {
+    void navigate({
+      to: '.',
+      search: () => toShopSearch({ category, query }),
+      hash: true,
+      replace: true,
+      resetScroll: false,
+    })
   }
 
-  return [filters, setFilters]
+  function pickCategory(category: string): void {
+    void navigate({
+      to: '/',
+      search: toShopSearch({ category, query: q }),
+      hash: category,
+      resetScroll: false,
+    })
+  }
+
+  return { filters, setQuery, pickCategory }
 }

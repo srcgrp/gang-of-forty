@@ -1,4 +1,4 @@
-import type { AppState, Product, Offer, Card } from '../../../shared/types';
+import type { Catalog, Product, Offer, Card } from '../../../shared/types';
 import { finalPrice, hasDiscount } from '../../../shared/logic/pricing';
 import { stockOf } from '../../../shared/logic/stock';
 import { PRODUCT_IMAGES } from '../../../shared/content';
@@ -19,7 +19,7 @@ export function toCard(product: Product, offer: Offer | undefined, stockQty: num
   };
 }
 
-export function cardOf(product: Product, state: AppState): Card {
+export function cardOf(product: Product, state: Catalog): Card {
   const image = PRODUCT_IMAGES[product.id];
   const productWithImage = image === undefined ? product : { ...product, image };
   return toCard(

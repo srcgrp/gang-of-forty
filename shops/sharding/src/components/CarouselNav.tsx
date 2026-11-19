@@ -1,4 +1,4 @@
-import { writeUrlHash } from '../shared/storage/url'
+import { useNavigate } from '@tanstack/react-router'
 
 type CarouselNavProps = {
   isAtStart: boolean
@@ -11,12 +11,12 @@ type CarouselNavProps = {
 }
 
 export default function CarouselNav({ isAtStart, isAtEnd, onPrev, onNext, label, sectionId, variant = 'default' }: CarouselNavProps) {
+  const navigate = useNavigate()
   const navClass = variant === 'hero' ? 'hero-carousel__nav' : 'carousel-nav'
   const btnClass = variant === 'hero' ? 'hero-carousel__nav-btn' : 'carousel-nav__btn'
 
-  function navigate(scroll: () => void): void {
-    writeUrlHash(sectionId)
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  function move(scroll: () => void): void {
+    void navigate({ to: '.', hash: sectionId, search: true, resetScroll: false })
     scroll()
   }
 
@@ -25,7 +25,7 @@ export default function CarouselNav({ isAtStart, isAtEnd, onPrev, onNext, label,
       <button
         type="button"
         className={btnClass}
-        onClick={() => navigate(onPrev)}
+        onClick={() => move(onPrev)}
         aria-label={`نمایش موارد قبلی ${label}`}
         aria-disabled={isAtStart}
         disabled={isAtStart}
@@ -36,7 +36,7 @@ export default function CarouselNav({ isAtStart, isAtEnd, onPrev, onNext, label,
       <button
         type="button"
         className={btnClass}
-        onClick={() => navigate(onNext)}
+        onClick={() => move(onNext)}
         aria-label={`نمایش موارد بعدی ${label}`}
         aria-disabled={isAtEnd}
         disabled={isAtEnd}

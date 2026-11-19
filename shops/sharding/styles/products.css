@@ -36,6 +36,14 @@
   min-width: 0;
 }
 
+.product-shelf__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--sp-sm);
+}
+
 .product-shelf__grid {
   display: flex;
   gap: var(--sp-sm);

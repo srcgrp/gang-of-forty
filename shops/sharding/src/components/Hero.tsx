@@ -1,4 +1,6 @@
+import { Link } from '@tanstack/react-router'
 import { useEffect, useRef, useState } from 'react'
+import { apiHashLink } from '../shared/storage/url'
 import BannerCarousel from './BannerCarousel'
 import type { Home } from '../shared/types'
 
@@ -8,11 +10,7 @@ type HeroProps = {
   loading?: boolean
 }
 
-export default function Hero({
-  banners,
-  home,
-  loading = false,
-}: HeroProps) {
+export default function Hero({ banners, home, loading = false }: HeroProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [videoReady, setVideoReady] = useState(false)
 
@@ -28,6 +26,15 @@ export default function Hero({
     video.src = `${import.meta.env.BASE_URL}assets/video/hero.mp4`
     void video.play().then(() => setVideoReady(true)).catch(() => {})
   }, [loading])
+
+  const ctaHref = home?.hero?.cta?.href ?? '#fruits'
+  const ctaRoute = apiHashLink(ctaHref)
+  const ctaContent = <>
+    <span>{home?.hero?.cta?.label ?? 'مشاهده محصولات'}</span>
+    <svg className="hero-video__cta-icon" aria-hidden="true">
+      <use href="./icons.svg#arrowForward" />
+    </svg>
+  </>
 
   return (
     <section className="hero" aria-labelledby="hero-title">
@@ -51,17 +58,11 @@ export default function Hero({
             <p className="hero-video__desc">
               {loading ? ' ' : home?.hero?.text ?? 'تازه‌ترین مواد غذایی، مستقیم از مزرعه'}
             </p>
-            {!loading && (
-              <a href={home?.hero?.cta?.href ?? '#fruits'} className="hero-video__cta">
-                <span>{home?.hero?.cta?.label ?? 'مشاهده محصولات'}</span>
-                <svg className="hero-video__cta-icon" aria-hidden="true">
-                  <use href="./icons.svg#arrowForward" />
-                </svg>
-              </a>
-            )}
+            {!loading && (ctaRoute
+              ? <Link {...ctaRoute} className="hero-video__cta">{ctaContent}</Link>
+              : <a href={ctaHref} className="hero-video__cta">{ctaContent}</a>)}
           </div>
         </div>
-
         <BannerCarousel banners={banners} loading={loading} />
       </div>
     </section>

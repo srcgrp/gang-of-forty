@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 export default function Topbar({ notice }: { notice: string }) {
   return (
     <div className="topbar">
@@ -6,9 +7,9 @@ export default function Topbar({ notice }: { notice: string }) {
           {notice}
         </p>
         <nav className="topbar__links" aria-label="لینک‌های کمکی">
-          <a href="#">پیگیری سفارش</a>
-          <a href="#">سؤالات متداول</a>
-          <a href="#">تماس با پشتیبانی</a>
+          <Link to="/" search={true}>پیگیری سفارش</Link>
+          <Link to="/" search={true}>سؤالات متداول</Link>
+          <Link to="/" search={true}>تماس با پشتیبانی</Link>
         </nav>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { AppState } from '../shared/types'
 import { searchProducts } from '../features/products/logic/filters'
+import { useJumpToProduct } from '../hooks/useJumpToProduct'
 import SearchResults from './SearchResults'
 
 type SearchBoxProps = {
@@ -12,6 +13,7 @@ type SearchBoxProps = {
 
 export default function SearchBox({ data, activeCategoryId, query, onQuery }: SearchBoxProps) {
   const [open, setOpen] = useState(false)
+  const jumpToProduct = useJumpToProduct(data)
   const results = query.trim() ? searchProducts(data.products, query)
     .filter((product) => activeCategoryId === null || product.categoryId === activeCategoryId)
     .slice(0, 8) : []
@@ -34,8 +36,7 @@ export default function SearchBox({ data, activeCategoryId, query, onQuery }: Se
 
   function jumpTo(id: number): void {
     setOpen(false)
-    const el = document.querySelector(`[data-product-id="${id}"]`)
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    jumpToProduct(id)
   }
 
   const showDropdown = open && query.trim() !== ''

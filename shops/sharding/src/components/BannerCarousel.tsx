@@ -1,3 +1,5 @@
+import { Link } from '@tanstack/react-router'
+import { categorySearch } from '../shared/storage/url'
 import { useCarousel } from '../hooks/useCarousel'
 import CarouselNav from './CarouselNav'
 import BasketSlide from './BasketSlide'
@@ -30,9 +32,9 @@ export default function BannerCarousel({ banners, loading }: BannerCarouselProps
         <BasketSlide />
         {banners.map((src, i) => (
           <li key={src} className="hero-carousel__slide">
-            <a className="hero-banner" href="#offers">
+            <Link className="hero-banner" to="/" hash="offers" search={categorySearch('')} resetScroll={false}>
               <img src={src} alt={`بنر ${(i + 1).toLocaleString('fa-IR')}`} width={800} height={500} decoding="async" loading="lazy" />
-            </a>
+            </Link>
           </li>
         ))}
       </ul>

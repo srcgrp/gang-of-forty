@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import type { Card } from '../shared/types'
 import ProductCard from './ProductCard'
 import CarouselNav from './CarouselNav'
@@ -8,9 +9,10 @@ type ProductGridProps = {
   id: string
   title: string
   cards: Card[]
+  total: number
 }
 
-export default function ProductGrid({ id, title, cards }: ProductGridProps) {
+export default function ProductGrid({ id, title, cards, total }: ProductGridProps) {
   const { trackRef, isAtStart, isAtEnd, scrollPrev, scrollNext } = useCarousel(cards.length)
   const titleId = `${id}-title`
   const isOffers = id === 'offers'
@@ -25,14 +27,19 @@ export default function ProductGrid({ id, title, cards }: ProductGridProps) {
                 <h2 id={titleId} className="product-shelf__title">{title}</h2>
                 {isOffers && <SalePromotion />}
               </div>
-              <CarouselNav
-                isAtStart={isAtStart}
-                isAtEnd={isAtEnd}
-                onPrev={scrollPrev}
-                onNext={scrollNext}
-                label={title}
-                sectionId={id}
-              />
+              <div className="product-shelf__actions">
+                <CarouselNav
+                  isAtStart={isAtStart}
+                  isAtEnd={isAtEnd}
+                  onPrev={scrollPrev}
+                  onNext={scrollNext}
+                  label={title}
+                  sectionId={id}
+                />
+                <Link to="/plp/$carouselId" params={{ carouselId: id }} search={true} className="catalog-link">
+                  مشاهده همه ({total.toLocaleString('fa-IR')})
+                </Link>
+              </div>
             </div>
 
             <ul ref={trackRef} className="product-shelf__grid" id={`${id}-grid`} tabIndex={0} aria-label={title}>

@@ -1,7 +1,9 @@
+import { Link } from '@tanstack/react-router'
+import { categorySearch } from '../shared/storage/url'
 export default function BasketSlide() {
   return (
     <li className="hero-carousel__slide" data-variant="basket" data-state="active">
-      <a className="hero-banner hero-banner--basket" href="#fruits">
+      <Link className="hero-banner hero-banner--basket" to="/" hash="fruits" search={categorySearch('fruits')} resetScroll={false}>
         <div className="hero-carousel__basket-wrap" aria-hidden="true">
           <img
             className="hero-carousel__fruits"
@@ -23,7 +25,7 @@ export default function BasketSlide() {
             <span className="hero-carousel__basket-arrow" aria-hidden="true">←</span>
           </h3>
         </div>
-      </a>
+      </Link>
     </li>
   )
 }

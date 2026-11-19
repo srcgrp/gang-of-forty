@@ -1,11 +1,13 @@
+import { Link } from '@tanstack/react-router'
 import { useMobileMenu } from '../hooks/useMobileMenu'
-import type { Link } from '../shared/types'
+import { apiHashLink } from '../shared/storage/url'
+import type { Link as MenuLink } from '../shared/types'
 import ThemeToggle from './ThemeToggle'
 
 type MobileMenuProps = {
   open: boolean
   onClose: () => void
-  menu: Link[]
+  menu: MenuLink[]
 }
 
 export default function MobileMenu({ open, onClose, menu }: MobileMenuProps) {
@@ -25,11 +27,14 @@ export default function MobileMenu({ open, onClose, menu }: MobileMenuProps) {
         </div>
         <div className="mobile-menu__body">
           <ul className="mobile-menu__list">
-            {menu.map((item) => (
-              <li key={item.href}>
-                <a href={item.href} onClick={onClose}>{item.label}</a>
-              </li>
-            ))}
+            {menu.map(({ href, label }) => {
+              const route = apiHashLink(href)
+              return (
+                <li key={href}>
+                  {route ? <Link {...route} onClick={onClose}>{label}</Link> : <a href={href} onClick={onClose}>{label}</a>}
+                </li>
+              )
+            })}
           </ul>
         </div>
       </div>

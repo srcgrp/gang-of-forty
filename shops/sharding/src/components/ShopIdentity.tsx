@@ -1,8 +1,9 @@
+import { Link } from '@tanstack/react-router'
 type ShopIdentityProps = { name: string; slogan: string; loading: boolean }
 
 export default function ShopIdentity({ name, slogan, loading }: ShopIdentityProps) {
   return (
-    <a href="#" className="identity" aria-label="بازگشت به بالای صفحه">
+    <Link to="/" search={true} className="identity" aria-label="بازگشت به بالای صفحه">
       <span className="identity__logo" aria-hidden="true">
         <img className="logo-img" src="./assets/images/logo/kiwi-fruit.svg" alt="" width="48" height="48" />
       </span>
@@ -14,6 +15,6 @@ export default function ShopIdentity({ name, slogan, loading }: ShopIdentityProp
           {loading ? ' ' : slogan}
         </span>
       </span>
-    </a>
+    </Link>
   )
 }

@@ -4,7 +4,7 @@ import type { Card } from '../shared/types'
 import Price from './Price'
 import OfferBadge from './OfferBadge'
 
-export default function ProductCard({ card }: { card: Card }) {
+export default function ProductCard({ card, anchorId }: { card: Card; anchorId?: string }) {
   const [pulse, setPulse] = useState(false)
   const qty = useCartStore((state) => state.lines[card.id] ?? 0)
   const add = useCartStore((state) => state.add)
@@ -21,7 +21,7 @@ export default function ProductCard({ card }: { card: Card }) {
   }
 
   return (
-    <li className="product-item" data-product-id={card.id}>
+    <li id={anchorId} className="product-item" data-product-id={card.id}>
       <article className={`product ${pulse ? 'product--cart-pulse' : ''}`} data-stock={card.inStock ? 'in' : 'out'} onAnimationEnd={() => setPulse(false)}>
         <div className="product__link">
           <span className={`product__img ${!card.image ? 'product__img--emoji' : ''}`}>
