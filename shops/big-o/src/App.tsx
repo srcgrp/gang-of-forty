@@ -10,6 +10,7 @@ import Layout from "./components/Layout"
 import HomePage from "./components/pages/HomePage"
 import NotFound from "./components/pages/NotFound"
 import PlpPage from "./components/pages/PlpPage"
+import ProductPage from "./components/pages/ProductPage"
 import { toSortOption } from "./catalog/sortProducts"
 import type { SortOption } from "./types"
 
@@ -27,8 +28,13 @@ const plpRoute = createRoute({
   validateSearch: (search: PlpSearchInput): PlpSearch => ({ sort: toSortOption(search.sort) }),
   component: PlpPage,
 })
+const productRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/product/$productId",
+  component: ProductPage,
+})
 
-const routeTree = rootRoute.addChildren([homeRoute, plpRoute])
+const routeTree = rootRoute.addChildren([homeRoute, plpRoute, productRoute])
 const router = createRouter({ routeTree, history: createHashHistory() })
 
 declare module "@tanstack/react-router" {
