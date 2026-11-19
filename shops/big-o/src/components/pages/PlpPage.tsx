@@ -19,7 +19,7 @@ export default function PlpPage() {
     return (
       <div className="msg load-msg">
         <p>این فهرست پیدا نشد.</p>
-        <Link to="/">بازگشت به صفحه اصلی</Link>
+        <Link className="text-link" to="/">بازگشت به صفحه اصلی</Link>
       </div>
     )
   }

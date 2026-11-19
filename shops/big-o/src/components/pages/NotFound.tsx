@@ -4,7 +4,7 @@ export default function NotFound() {
   return (
     <div className="msg load-msg">
       <p>صفحه‌ای که دنبالش بودید پیدا نشد.</p>
-      <Link to="/">بازگشت به صفحه اصلی</Link>
+      <Link className="text-link" to="/">بازگشت به صفحه اصلی</Link>
     </div>
   )
 }
