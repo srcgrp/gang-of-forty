@@ -1,3 +1,4 @@
+import SectionLink from "./SectionLink"
 import type { Category } from "../types"
 import CategoryMenuItem from "./CategoryMenuItem"
 
@@ -52,9 +53,9 @@ export default function CategoryMenu({
                 </details>
             ) : (
                 <>
-                    <a className="category-menu__toggle" href="#categories">
+                    <SectionLink className="category-menu__toggle" href="#categories">
                         {title}
-                    </a>
+                    </SectionLink>
                     {links}
                 </>
             )}

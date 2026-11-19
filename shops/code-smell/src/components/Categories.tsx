@@ -1,3 +1,4 @@
+import SectionLink from "./SectionLink"
 import type { Category } from "../types"
 import CategoryCard from "./CategoryCard"
 
@@ -26,7 +27,7 @@ export default function Categories({
                             برای خرید راحتتر، دسته بندی مورد نظرتان را انتخاب کنید.
                         </p>
                     </div>
-                    <a
+                    <SectionLink
                         className="button button--secondary category-reset"
                         href="#categories"
                         onClick={function () {
@@ -34,7 +35,7 @@ export default function Categories({
                         }}
                     >
                         مشاهده همه‌ی دسته‌ها
-                    </a>
+                    </SectionLink>
                 </header>
                 <ul className="category-grid">
                     {categories.map(function (category) {

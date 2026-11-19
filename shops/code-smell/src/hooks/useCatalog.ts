@@ -1,8 +1,31 @@
-import { useEffect, useState } from "react"
+import { createContext, useContext, useEffect, useState } from "react"
 import type { LoadState } from "../types"
 import { loadShopData, getLoadErrorMessage } from "../api/loadShopData"
 
+export type CatalogControls = {
+    categoryId: number | null
+    query: string
+    onPick: (id: number | null) => void
+    onQuery: (value: string) => void
+}
+
+type CatalogContextValue = {
+    state: LoadState
+    retry: () => void
+    catalogControls: CatalogControls
+}
+
+export const CatalogContext = createContext<CatalogContextValue | null>(null)
+
 export function useCatalog() {
+    const catalog = useContext(CatalogContext)
+    if (!catalog) {
+        throw new Error("useCatalog must be used inside Layout")
+    }
+    return catalog
+}
+
+export function useLoadCatalog() {
     const [state, setState] = useState<LoadState>({ status: "loading" })
     const [attempt, setAttempt] = useState(0)
 

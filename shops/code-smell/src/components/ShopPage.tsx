@@ -1,10 +1,9 @@
 import type { CarouselWithProducts, ShopData } from "../types"
-import Header, { type CatalogControls } from "./Header"
+import type { CatalogControls } from "../hooks/useCatalog"
 import Hero from "./Hero"
 import Categories from "./Categories"
 import Promos from "./Promos"
 import ProductGrid from "./ProductGrid"
-import CartPanel from "./CartPanel"
 import Guide from "./Guide"
 import Footer from "./Footer"
 import { SaleCountdownPanel, type CountdownControls } from "./SaleCountdown"
@@ -14,28 +13,19 @@ type ShopPageProps = {
     carousels: CarouselWithProducts[]
     catalogControls: CatalogControls
     countdownControls: CountdownControls
-    onPick: (id: number | null) => void
 }
 
 export default function ShopPage({
     data,
     carousels,
     catalogControls,
-    countdownControls,
-    onPick
+    countdownControls
 }: ShopPageProps) {
-    const isSearching = catalogControls.query.trim() !== ""
+    const { query, onPick } = catalogControls
+    const isSearching = query.trim() !== ""
 
     return (
         <>
-            <a className="skip-link" href="#main-content">
-                پرش به محتوای اصلی
-            </a>
-            <Header
-                categories={data.categories}
-                shop={data.shop}
-                catalogControls={catalogControls}
-            />
             <main id="main-content" tabIndex={-1}>
                 {isSearching && <ProductGrid carousels={carousels} />}
                 <Hero
@@ -47,13 +37,8 @@ export default function ShopPage({
                 <Categories categories={data.categories} onPick={onPick} />
                 <SaleCountdownPanel {...countdownControls} />
                 <Promos home={data.home} categories={data.categories} onPick={onPick} />
-                {!isSearching && <ProductGrid carousels={carousels} />}
+                {!isSearching && <ProductGrid carousels={carousels} preview />}
                 <Guide shop={data.shop} />
-                <CartPanel
-                    products={data.products}
-                    offers={data.offers}
-                    stock={data.stock.items}
-                />
             </main>
             <Footer categories={data.categories} shop={data.shop} onPick={onPick} />
         </>

@@ -1,3 +1,4 @@
+import SectionLink from "./SectionLink"
 import type { Category, Link } from "../types"
 import CategoryMenu from "./CategoryMenu"
 
@@ -48,13 +49,13 @@ export default function CategoryNav({
 
                     return (
                         <li key={entry.href}>
-                            <a
+                            <SectionLink
                                 className="site-nav__link"
                                 href={category ? "#products" : entry.href}
                                 onClick={showsProducts ? selectProducts : undefined}
                             >
                                 {entry.label}
-                            </a>
+                            </SectionLink>
                         </li>
                     )
                 })}

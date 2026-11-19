@@ -1833,3 +1833,36 @@ button {
         grid-row: 2;
     }
 }
+
+.plp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+    gap: var(--space-4);
+}
+
+.carousel-heading-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.carousel-heading-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.button--route {
+    border-radius: var(--radius-md);
+    white-space: nowrap;
+}
+
+[data-preview="true"] .product-grid::after {
+    content: none;
+}
+
+.not-found-title {
+    font-size: calc(var(--font-size-xl) + 0.125rem);
+}

@@ -1,3 +1,4 @@
+import SectionLink from "./SectionLink"
 import type { Category, Home } from "../types"
 
 type PromoCardProps = {
@@ -17,7 +18,7 @@ export default function PromoCard({ promo, categories, onPick }: PromoCardProps)
             style={{ backgroundColor: promo.color }}
         >
             <h3 className="promo-card__title">{promo.text}</h3>
-            <a
+            <SectionLink
                 className="button button--dark"
                 href={category ? "#products" : promo.href}
                 onClick={function () {
@@ -25,7 +26,7 @@ export default function PromoCard({ promo, categories, onPick }: PromoCardProps)
                 }}
             >
                 مشاهده کالاها
-            </a>
+            </SectionLink>
             <span
                 className="promo-card__art promo-card__emoji"
                 aria-hidden="true"
