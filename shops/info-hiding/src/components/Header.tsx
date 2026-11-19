@@ -1,6 +1,10 @@
 import ThemeToggle from './ThemeToggle';
-type HeaderProps = { count: string };
-export default function Header({ count }: HeaderProps) {
+import { useCartStore } from '../hooks/useCartStore';
+import { cartCount } from '../cart/rules';
+import { formatNumber } from '../catalog/pricing';
+export default function Header() {
+    const lines = useCartStore(state => state.lines);
+    const count = formatNumber(cartCount(lines));
     return (
 <header className="header">
         <div className="header-content">
