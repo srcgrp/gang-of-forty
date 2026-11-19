@@ -29,9 +29,24 @@
     --muted: #b8ae91;
     --accent: #582f0e;
     --panel: rgba(231, 216, 193, 0.97);
+    --card-hover: #d9c6a5;
+    --logo-back: #e7d8c1;
+    --logo-front: #a4aa86;
+    --logo-sun: #f2b92c;
+    --footer-bg: #252e22;
+    --footer-border: #676f4a;
+    --footer-link: #c4c7aa;
+    --footer-link-hover: #e7d8c1;
+    --danger: #ff9b8c;
+    --error-border: #a44b40;
+    --error-bg: #352725;
+    --error-text: #ffd5cf;
+    --retry-bg: #4a5536;
+    --retry-text: #fff;
+    --mountain-overlay: linear-gradient(to bottom, rgba(49, 60, 43, 0.96) 0%, rgba(49, 60, 43, 0.9) 68%, rgba(49, 60, 43, 0.48) 100%);
     background-color: var(--bg);
     background-image:
-        linear-gradient(to bottom, rgba(49, 60, 43, 0.96) 0%, rgba(49, 60, 43, 0.9) 68%, rgba(49, 60, 43, 0.48) 100%),
+        var(--mountain-overlay),
         url("images/mountains.webp");
     background-position: center, bottom center;
     background-size: cover, 100% auto;
@@ -143,9 +158,9 @@ header {
 .logo:hover .sun {
     transform: translateY(-4px);
 }
-.app[data-theme="dark"] .mountain-back { fill: #e7d8c1; }
-.app[data-theme="dark"] .mountain-front { fill: #a4aa86; }
-.app[data-theme="dark"] .sun { fill: #f2b92c; }
+.app[data-theme="dark"] .mountain-back { fill: var(--logo-back); }
+.app[data-theme="dark"] .mountain-front { fill: var(--logo-front); }
+.app[data-theme="dark"] .sun { fill: var(--logo-sun); }
 .info-nav{
     display: flex;
     align-items: center;
@@ -823,14 +838,14 @@ html {
     margin-top: 60px;
 }
 .app[data-theme="dark"] .site-footer {
-    background-color: #252e22;
-    color: #f1e8d6;
-    border-top: 1px solid #676f4a;
+    background-color: var(--footer-bg);
+    color: var(--text);
+    border-top: 1px solid var(--footer-border);
 }
 .app[data-theme="dark"] .site-footer h3,
-.app[data-theme="dark"] .site-footer a { color: #c4c7aa; }
-.app[data-theme="dark"] .site-footer a:hover { color: #e7d8c1; }
-.app[data-theme="dark"] .footer-content { border-bottom-color: #676f4a; }
+.app[data-theme="dark"] .site-footer a { color: var(--footer-link); }
+.app[data-theme="dark"] .site-footer a:hover { color: var(--footer-link-hover); }
+.app[data-theme="dark"] .footer-content { border-bottom-color: var(--footer-border); }
 .app[data-theme="dark"] .site-footer address { font-style: normal; line-height: 1.6; }
 
 .footer-content {
@@ -1426,7 +1441,7 @@ summary:focus-visible {
 .app[data-theme="dark"] .product:hover,
 .app[data-theme="dark"] .tent-article:hover,
 .app[data-theme="dark"] .Categories:hover {
-    background-color: #d9c6a5;
+    background-color: var(--card-hover);
 }
 .app[data-theme="dark"] .cart-panel {
     border-color: var(--border);
@@ -1443,18 +1458,18 @@ summary:focus-visible {
 }
 .app[data-theme="dark"] .cart-row button:hover {
     background-color: var(--accent);
-    color: #f1e8d6;
+    color: var(--text);
 }
 .app[data-theme="dark"] .discounted-price,
 .app[data-theme="dark"] .stock-label {
-    color: #ff9b8c;
+    color: var(--danger);
 }
 .app[data-theme="dark"] .load-error {
-    border-color: #a44b40;
-    background-color: #352725;
-    color: #ffd5cf;
+    border-color: var(--error-border);
+    background-color: var(--error-bg);
+    color: var(--error-text);
 }
 .app[data-theme="dark"] .retry-button {
-    background-color: #4a5536;
-    color: #fff;
+    background-color: var(--retry-bg);
+    color: var(--retry-text);
 }
