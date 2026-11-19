@@ -56,9 +56,17 @@ export type LinkItem = {
 // An item in the cart: a product’s name/price/id and how many of it
 export interface CartItem extends Pick<Product, 'name'|'price'|'id'> {qty: number}
 
-export type LoadState =
+export type Catalog = {
+    categories: Category[],
+    products: Product[], 
+    offeredProducts: Offer[], 
+    stock: Stock, 
+    shop: Shop 
+}
+
+export type LoadState<T> =
   | { status: 'loading' }
-  | { status: 'success';  categories: Category[], products: Product[], offeredProducts: Offer[], stock: Stock, shop: Shop }
+  | { status: 'success'; data: T }
   | { status: 'empty' }
   | { status: 'error'; message: string }
 

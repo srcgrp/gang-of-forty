@@ -1,6 +1,6 @@
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import type { LoadState } from "./types"
+import type { Catalog, LoadState } from "./types"
 import CartPanel from "./components/CartPanel"
 import { useEffect, useState } from "react";
 import ShopMain from "./components/ShopMain";
@@ -10,7 +10,7 @@ import { useCartStore } from "./hooks/useCartStore";
 import { cartCount } from "./cart/cartTotal";
 
 export default function App() {
-  const [state, setState] = useState <LoadState> ({status: 'loading'})
+  const [state, setState] = useState <LoadState<Catalog>> ({status: 'loading'})
   const [categoryId, setCategoryId] = useState<number | null>(null)
   const [cartOpen, setCartOpen] = useState(false)
   const [attempt, setAttempt] = useState(0)
@@ -21,8 +21,8 @@ export default function App() {
     return () => { ignore = true }
   }, [attempt])
 
-  const categories = state.status === "success" ? state.categories : []
-  const shopName = state.status === "success" ? state.shop.name : "سوپر مارکت نمونه"
+  const categories = state.status === "success" ? state.data.categories : []
+  const shopName = state.status === "success" ? state.data.shop.name : "سوپر مارکت نمونه"
   const count = useCartStore((s) => cartCount(s.items))
 
   useEffect(() => { document.title = `${shopName} · ${count.toLocaleString("fa-IR")} 🛒` }, [shopName, count])
