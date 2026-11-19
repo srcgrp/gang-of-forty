@@ -1,50 +1,17 @@
 import {useEffect, useState} from 'react';
 
-import {loadData} from '../api';
 import AppContent from './components/AppContent';
 import {useCartStore} from './hooks/useCartStore';
-
-import type {LoadState} from './types';
+import {useCatalog} from './hooks/useCatalog';
 
 export default function App() {
     const cart = useCartStore((state) => state.lines);
+    const {loadState, retry} = useCatalog();
 
     const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
         null,
     );
     const [query, setQuery] = useState('');
-    const [attempt, setAttempt] = useState(0);
-    const [loadState, setLoadState] = useState<LoadState>({status: 'loading'});
-
-    useEffect(() => {
-        let ignore = false;
-
-        loadData()
-            .then((data) => {
-                if (ignore) return;
-
-                setLoadState(
-                    data.products.length === 0
-                        ? {status: 'empty'}
-                        : {status: 'success', data},
-                );
-            })
-            .catch((error: unknown) => {
-                if (ignore) return;
-
-                setLoadState({
-                    status: 'error',
-                    message:
-                        error instanceof Error
-                            ? error.message
-                            : 'دریافت اطلاعات با خطا مواجه شد.',
-                });
-            });
-
-        return () => {
-            ignore = true;
-        };
-    }, [attempt]);
 
     useEffect(() => {
         if (loadState.status !== 'success') return;
@@ -54,11 +21,6 @@ export default function App() {
         document.title = `سوپرمارکت شایان (${itemCount})`;
     }, [cart, loadState]);
 
-    const handleRetry = (): void => {
-        setLoadState({status: 'loading'});
-        setAttempt((previous) => previous + 1);
-    };
-
     return (
         <AppContent
             loadState={loadState}
@@ -66,7 +28,7 @@ export default function App() {
             onPickCategory={setSelectedCategoryId}
             query={query}
             onQuery={setQuery}
-            onRetry={handleRetry}
+            onRetry={retry}
         />
     );
 }
