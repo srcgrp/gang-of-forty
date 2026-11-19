@@ -23,7 +23,11 @@ export function loadCart(): CartItem[] {
 }
 
 export function saveCart(items: CartItem[]): void {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    } catch {
+        return;
+    }
 }
 
 function isCartItem(value: unknown): value is CartItem {
@@ -31,7 +35,8 @@ function isCartItem(value: unknown): value is CartItem {
         return false;
     }
 
-    const item = value as Record<string, unknown>;
+    if (!("productId" in value) || !("quantity" in value)) return false;
+    const item = value;
 
     return (
         typeof item.productId === "number" &&

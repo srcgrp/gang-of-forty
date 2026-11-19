@@ -1,18 +1,19 @@
 
+import { useCartStore } from '../hooks/useCartStore'
+import { getCartCount } from '../cart/cart'
 import SearchBox from './SearchBox'
 import ThemeToggle from './ThemeToggle'
 
 type HeaderProps = {
-  cartCount: number
   searchTerm: string
   onSearchChange: (value: string) => void
 }
 
 export default function Header({
-  cartCount,
   searchTerm,
   onSearchChange,
 }: HeaderProps) {
+  const cartCount = useCartStore((state) => getCartCount(state.lines))
   return (
     <header className="site-header">
       <div className="container header-content">

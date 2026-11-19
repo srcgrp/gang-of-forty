@@ -1,17 +1,17 @@
+import { useCartStore } from '../hooks/useCartStore'
 
 import type { CartLine } from '../types'
 
 type CartPanelProps = {
   items: CartLine[]
   total: number
-  onRemove: (id: number) => void
 }
 
 export default function CartPanel({
   items,
   total,
-  onRemove,
 }: CartPanelProps) {
+  const remove = useCartStore((state) => state.remove)
   return (
     <aside className="cart-panel" id="cart">
       <h2>سبد خرید</h2>
@@ -28,7 +28,7 @@ export default function CartPanel({
                 {(item.price * item.quantity).toLocaleString('fa-IR')} تومان
               </span>
 
-              <button onClick={() => onRemove(item.id)}>
+              <button onClick={() => remove(item.id)}>
                 حذف
               </button>
             </div>

@@ -1,14 +1,9 @@
 
 import { useEffect, useState } from 'react'
-import type { CartItem, Product, LoadState } from './types'
-import { loadCart, saveCart } from './storage/cart-storage'
+import type { Product, LoadState } from './types'
+import { useCartStore } from './hooks/useCartStore'
 
 import { getProducts } from './api/products'
-import {
-  addToCart,
-  removeFromCart,
-  getCartCount,
-} from './cart/cart'
 
 import Header from './components/Header'
 import CategoryNav from './components/CategoryNav'
@@ -20,7 +15,7 @@ import { useThemeStore } from './hooks/useThemeStore'
 
 export default function App() {
   const theme = useThemeStore((state) => state.theme)
-  const [cart, setCart] = useState<CartItem[]>(() => loadCart())
+  const cart = useCartStore((state) => state.lines)
 
   const [searchTerm, setSearchTerm] = useState('')
 
@@ -65,24 +60,6 @@ export default function App() {
     }
   }, [retryCount])
 
-  // Save cart to localStorage whenever cart changes
-  useEffect(() => {
-    saveCart(cart)
-  }, [cart])
-
-  // Update document title when cart changes
-  useEffect(() => {
-    document.title = '🛒 ' + cart.length
-  }, [cart])
-
-  function handleAdd(id: number) {
-    setCart((previousCart) => addToCart(previousCart, id))
-  }
-
-  function handleRemove(id: number) {
-    setCart((previousCart) => removeFromCart(previousCart, id))
-  }
-
   function handleRetry() {
   setProductsState({ status: 'loading' })
   setRetryCount((previous) => previous + 1)
@@ -119,7 +96,6 @@ export default function App() {
   return (
     <div className="app" data-theme={theme}>
       <Header
-  cartCount={getCartCount(cart)}
   searchTerm={searchTerm}
   onSearchChange={setSearchTerm}
 />
@@ -131,14 +107,12 @@ export default function App() {
       <ProductGrid
         state={productsState}
         products={filteredProducts}
-        onAdd={handleAdd}
         onRetry={handleRetry}
        />
 
       <CartPanel
         items={cartLines}
         total={total}
-        onRemove={handleRemove}
       />
     </div>
   )

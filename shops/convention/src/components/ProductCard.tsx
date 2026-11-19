@@ -1,15 +1,15 @@
+import { useCartStore } from '../hooks/useCartStore'
 
 import type { Product } from '../types'
 
 type ProductCardProps = {
   product: Product
-  onAdd: (id: number) => void
 }
 
 export default function ProductCard({
   product,
-  onAdd,
 }: ProductCardProps) {
+  const add = useCartStore((state) => state.add)
   return (
     <article className="product-card">
       <div className="product-image">
@@ -22,7 +22,7 @@ export default function ProductCard({
 
         <button
           className="add-to-cart-btn"
-          onClick={() => onAdd(product.id)}
+          onClick={() => add(product.id)}
         >
           افزودن به سبد خرید
         </button>
