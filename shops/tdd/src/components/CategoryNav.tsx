@@ -1,25 +1,20 @@
 import type { Category, ShopLink } from '../shared/types'
+import { Link } from '@tanstack/react-router'
 
 type CategoryNavProps = {
     categories: Category[]
     shopLinks: ShopLink[]
     activeCategoryId: number | null
-    onPick: (categoryId: number) => void
 }
 
-export default function CategoryNav({ categories, shopLinks, activeCategoryId, onPick }: CategoryNavProps) {
+export default function CategoryNav({ categories, shopLinks, activeCategoryId }: CategoryNavProps) {
     const renderShopLink = (link: ShopLink) => {
         const category = categories.find(item => link.href === `#${item.slug}`)
 
-        return (
-            <a
-                href={category ? '#category-products' : link.href}
-                key={link.href}
-                onClick={category ? () => onPick(category.id) : undefined}
-            >
-                {link.label}
-            </a>
-        )
+        if (category) return <Link to="/plp/$carouselId" params={{ carouselId: category.slug }} key={link.href}>{link.label}</Link>
+        return link.href.startsWith('#')
+            ? <Link to="/" hash={link.href.slice(1)} key={link.href}>{link.label}</Link>
+            : <a href={link.href} key={link.href}>{link.label}</a>
     }
 
     return (
@@ -27,18 +22,17 @@ export default function CategoryNav({ categories, shopLinks, activeCategoryId, o
             <nav className="primary-navigation desktop-navigation" aria-label="منوی اصلی">
                 {shopLinks.map(renderShopLink)}
                 <div className="category-menu">
-                    <a className="category-trigger" href="#categories">دسته‌بندی‌ها <span aria-hidden="true">⌄</span></a>
+                    <Link className="category-trigger" to="/" hash="categories">دسته‌بندی‌ها <span aria-hidden="true">⌄</span></Link>
                     <div className="category-dropdown" id="desktop-categories">
                         {categories.map(category => (
-                            <a
+                            <Link
                                 key={category.id}
-                                href="#category-products"
+                                to="/plp/$carouselId" params={{ carouselId: category.slug }}
                                 className={activeCategoryId === category.id ? 'is-active' : undefined}
                                 aria-current={activeCategoryId === category.id ? 'true' : undefined}
-                                onClick={() => onPick(category.id)}
                             >
                                 <span aria-hidden="true">{category.emoji}</span>{category.name}
-                            </a>
+                            </Link>
                         ))}
                     </div>
                 </div>
@@ -51,15 +45,14 @@ export default function CategoryNav({ categories, shopLinks, activeCategoryId, o
                         <summary>دسته‌بندی محصولات</summary>
                         <div className="mobile-category-links" id="mobile-categories">
                             {categories.map(category => (
-                                <a
+                                <Link
                                     key={category.id}
-                                    href="#category-products"
+                                    to="/plp/$carouselId" params={{ carouselId: category.slug }}
                                     className={activeCategoryId === category.id ? 'is-active' : undefined}
                                     aria-current={activeCategoryId === category.id ? 'true' : undefined}
-                                    onClick={() => onPick(category.id)}
                                 >
                                     <span aria-hidden="true">{category.emoji}</span>{category.name}
-                                </a>
+                                </Link>
                             ))}
                         </div>
                     </details>

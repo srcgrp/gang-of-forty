@@ -1773,6 +1773,56 @@ footer.is-fragment-target {
   height: .5rem;
 }
 
+.plp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
+  gap: 1rem;
+  margin-block-start: 1.5rem;
+}
+
+.product-carousel .carousel-heading,
+.plp-heading {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+}
+
+.plp-heading h1 {
+  margin: 0;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+}
+
+.plp-heading p {
+  margin: .25rem 0 0;
+  color: var(--muted);
+}
+
+.listing-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  flex-shrink: 0;
+  min-height: 2.75rem;
+  padding: .5rem 1rem;
+  color: var(--green-deep);
+  background: var(--green-soft);
+  border: 1px solid var(--line-strong);
+  border-radius: .75rem;
+  font-size: .8rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.listing-link:hover {
+  color: var(--ink);
+  background: var(--surface);
+  border-color: var(--green);
+}
+
 .product-track::-webkit-scrollbar-track {
   background: var(--surface-soft);
   border-radius: 999px;

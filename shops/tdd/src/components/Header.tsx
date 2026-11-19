@@ -1,4 +1,5 @@
 import type { Category, Product, ShopDetails } from '../shared/types'
+import { Link } from '@tanstack/react-router'
 import CartPanel from './CartPanel'
 import CategoryNav from './CategoryNav'
 import SearchBox from './SearchBox'
@@ -11,17 +12,16 @@ type HeaderProps = {
     products: Product[]
     query: string
     onQueryChange: (value: string) => void
-    onPick: (categoryId: number) => void
 }
 
-export default function Header({ categories, shop, categoryId, products, query, onQueryChange, onPick }: HeaderProps) {
+export default function Header({ categories, shop, categoryId, products, query, onQueryChange }: HeaderProps) {
     return (
         <>
-            <a className="skip-link" href="#main-content">پرش به محتوای اصلی</a>
+            <Link className="skip-link" to="." hash="main-content">پرش به محتوای اصلی</Link>
             <header className="site-header">
                 <p className="announcement" id="shop-notice" role="status">{shop.notice}</p>
                 <div className="header-content">
-                    <a className="brand" href="./" aria-label="سام مارکت؛ بازگشت به بالای صفحه">
+                    <Link className="brand" to="/" aria-label="سام مارکت؛ بازگشت به بالای صفحه">
                         <svg className="brand-mark" viewBox="0 0 225 205" role="img" aria-labelledby="logo-title logo-description">
                             <title id="logo-title">لوگوی سام مارکت</title>
                             <desc id="logo-description">سبد خرید با براکت‌های کد، تیک سبز و حروف TDD</desc>
@@ -35,7 +35,7 @@ export default function Header({ categories, shop, categoryId, products, query, 
                             <circle cx="164" cy="83" r="7" fill="#739ff0" />
                         </svg>
                         <span><strong>سام مارکت</strong><small>{shop.slogan}</small></span>
-                    </a>
+                    </Link>
                     <SearchBox query={query} onChange={onQueryChange} />
                     <div className="header-actions">
                         <ThemeToggle />
@@ -43,7 +43,7 @@ export default function Header({ categories, shop, categoryId, products, query, 
                     </div>
                 </div>
                 <p id="cart-status" className="page-status" role="status"></p>
-                <CategoryNav categories={categories} shopLinks={shop.menu} activeCategoryId={categoryId} onPick={onPick} />
+                <CategoryNav categories={categories} shopLinks={shop.menu} activeCategoryId={categoryId} />
             </header>
         </>
     )

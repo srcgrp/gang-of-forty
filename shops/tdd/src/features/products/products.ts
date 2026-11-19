@@ -16,7 +16,10 @@ export function productsForCarousel(config: CarouselConfig, products: Product[],
 
 export function carouselProducts(catalog: Catalog, carouselId: string): Product[] | null {
     const config = catalog.home.carousels.find(item => item.id === carouselId)
-    if (!config) return null
+    if (!config) {
+        const category = catalog.categories.find(item => item.slug === carouselId)
+        return category ? productsInCategory(catalog.products, category.id) : null
+    }
     return productsForCarousel(config, catalog.products, new Map(catalog.offers.map(offer => [offer.productId, offer])))
 }
 

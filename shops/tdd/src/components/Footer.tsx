@@ -1,12 +1,12 @@
 import type { Category, ShopDetails } from '../shared/types'
+import { Link } from '@tanstack/react-router'
 
 type FooterProps = {
     shop: ShopDetails
     categories: Category[]
-    onPick: (id: number) => void
 }
 
-export default function Footer({ shop, categories, onPick }: FooterProps) {
+export default function Footer({ shop, categories }: FooterProps) {
     return (
         <footer id="contact">
             <section aria-labelledby="footer-about">
@@ -23,15 +23,17 @@ export default function Footer({ shop, categories, onPick }: FooterProps) {
             </section>
             <nav id="footer-categories" aria-label="دسته‌بندی‌های پایین صفحه">
                 {categories.map(category => (
-                    <a href="#category-products" key={category.id} onClick={() => onPick(category.id)}>
+                    <Link to="/plp/$carouselId" params={{ carouselId: category.slug }} key={category.id}>
                         {category.name}
-                    </a>
+                    </Link>
                 ))}
             </nav>
             <nav aria-label="راهنمای فروشگاه">
-                {shop.help.map(link => <a href={link.href} key={link.label}>{link.label}</a>)}
+                {shop.help.map(link => link.href.startsWith('#')
+                    ? <Link to="/" hash={link.href.slice(1)} key={link.label}>{link.label}</Link>
+                    : <a href={link.href} key={link.label}>{link.label}</a>)}
             </nav>
-            <a className="back-to-top" href="#top">بازگشت به بالا <span aria-hidden="true">↑</span></a>
+            <Link className="back-to-top" to="." hash="top">بازگشت به بالا <span aria-hidden="true">↑</span></Link>
             <p id="shop-copyright">{shop.copyright.replaceAll(shop.name, 'سام مارکت')}</p>
         </footer>
     )
