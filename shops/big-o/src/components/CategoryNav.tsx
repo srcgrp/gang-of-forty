@@ -1,31 +1,32 @@
+import { Link } from "@tanstack/react-router"
 import type { Category } from "../types"
 
 type CategoryNavProps = {
   categories: Category[]
-  onPick: (id: number) => void
-  activeId: number | null
 }
 
-export default function CategoryNav({categories, onPick, activeId}: CategoryNavProps) {
-    return (
-        <nav className="navbar" aria-label="منوی اصلی">
-            <ul>
-                <li className="all-categories">
-                <a href="#">همه دسته‌ها</a>
-                <ul className="mega-menu">
-                    {categories.map((category) => 
-                        <li key={category.id} >
-                            <a href={`#${category.slug}`}  onClick={() => onPick(category.id)} aria-current={category.id === activeId ? "true" : undefined}>{category.name}</a>
-                        </li>
-                    )}
-                </ul>
-                </li>
-                <li><a href="#special-products">پیشنهاد ویژه</a></li>
-                <li><a href="#">میوه و سبزی</a></li>
-                <li><a href="#dairy">لبنیات</a></li>
-                <li><a href="#">نان تازه</a></li>
-                <li><a href="#">تماس با ما</a></li>
-            </ul>
-        </nav>
-    )
+export default function CategoryNav({ categories }: CategoryNavProps) {
+  return (
+    <nav className="navbar" aria-label="منوی اصلی">
+      <ul>
+        <li className="all-categories">
+          <Link to="/">همه دسته‌ها</Link>
+          <ul className="mega-menu">
+            {categories.map((category) => (
+              <li key={category.id}>
+                <Link to="/plp/$carouselId" params={{ carouselId: category.slug }}>
+                  {category.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </li>
+        <li><Link to="/plp/$carouselId" params={{ carouselId: "offers" }}>پیشنهاد ویژه</Link></li>
+        <li><Link to="/plp/$carouselId" params={{ carouselId: "fruits" }}>میوه و سبزی</Link></li>
+        <li><Link to="/plp/$carouselId" params={{ carouselId: "dairy" }}>لبنیات</Link></li>
+        <li><Link to="/plp/$carouselId" params={{ carouselId: "bakery" }}>نان تازه</Link></li>
+        <li><a href="#">تماس با ما</a></li>
+      </ul>
+    </nav>
+  )
 }

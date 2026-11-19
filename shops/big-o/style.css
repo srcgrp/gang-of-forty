@@ -190,7 +190,7 @@ header {
   display: none;
 }
 
-.mega-menu a[aria-current="true"] {
+.mega-menu a[aria-current="page"] {
   font-weight: bold;
   color: var(--color-primary);
 }

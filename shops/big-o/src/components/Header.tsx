@@ -5,14 +5,13 @@ import type { Category } from "../types";
 import ThemeToggle from "./ThemeToggle";
 import { useCartStore } from "../hooks/useCartStore";
 import { cartCount } from "../cart/cartTotal";
+import { Link } from "@tanstack/react-router"
 
 type HeaderProps = { 
     categories: Category[]
-    onPick: (id: number) => void
     onCartClick: () => void
-    activeId: number | null
 }
-export default function Header({categories, onPick, onCartClick, activeId}: HeaderProps) {
+export default function Header({categories, onCartClick}: HeaderProps) {
     const count = useCartStore((s) => cartCount(s.items))
     return (
         <header>
@@ -23,14 +22,14 @@ export default function Header({categories, onPick, onCartClick, activeId}: Head
             className="visually-hidden"
             />
             <div className="header-row">
-                <a href="#" className="logo">
+                <Link to="/" className="logo">
                     <svg width="40" height="40" viewBox="0 0 40 40" role="img" aria-labelledby="logo-title">
                         <title id="logo-title">سوپر مارکت نمونه</title>
                         <polygon points="8,16 32,16 29,33 11,33" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
                         <polyline points="14,16 17,8 23,8 26,16" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                         <circle cx="20" cy="25" r="4" fill="currentColor" />
                     </svg>
-                </a>
+                </Link>
                 <div className="title">
                     <h1>سوپر مارکت نمونه</h1>
                     <p></p>
@@ -61,7 +60,7 @@ export default function Header({categories, onPick, onCartClick, activeId}: Head
                     <span className="visually-hidden">منو</span>
                 </label>
             </div>
-            <CategoryNav categories={categories} onPick={onPick} activeId={activeId}/>
+            <CategoryNav categories={categories} />
         </header>
     )
 }
