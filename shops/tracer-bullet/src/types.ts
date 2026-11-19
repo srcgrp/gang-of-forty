@@ -6,16 +6,7 @@ export type Promo = { text: string; emoji: string; color: string; href: string; 
 
 export type Banner = { title: string; text: string; emoji: string; cta: Link; };
 
-export type Shop = {
-    slogan: string;
-    phone: string;
-    notice: string;
-    about: string;
-    address: string;
-    schedule: ScheduleRow[];
-    menu: Link[];
-    help: Link[];
-};
+export type Shop = { slogan: string; phone: string; notice: string; about: string; address: string; schedule: ScheduleRow[]; menu: Link[]; help: Link[]; };
 
 export type OffersCarousel = { id: string; title: string; emoji: string; source: "offers"; };
 
@@ -25,15 +16,7 @@ export type Carousel = OffersCarousel | CategoryCarousel;
 
 export type Home = { hero: Banner; side: Banner; promos: Promo[]; carousels: Carousel[]; };
 
-export type Product = {
-    id: number;
-    categoryId: number;
-    name: string;
-    emoji: string;
-    unit: string;
-    price: number;
-    tags: string[];
-};
+export type Product = { id: number; categoryId: number; name: string; emoji: string; unit: string;  price: number; tags: string[]; };
 
 export type Offer = { productId: number; percent: number; label: string; };
 
@@ -66,3 +49,8 @@ export type LoadState =
     | { status: "success"; data: Data }
     | { status: "empty" }
     | { status: "error"; message: string };
+
+export type PlpSort = "default" | "price";
+
+export type CheckoutValues = { name: string; mobile: string; address: string };
+export type CheckoutErrors = Partial<Record<keyof CheckoutValues, string>>;
