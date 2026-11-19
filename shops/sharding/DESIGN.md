@@ -14,6 +14,7 @@ Accounts, payment, checkout and changes to the shared API are outside this versi
 |---|---|---|
 | `/` (`#/`) | `HomePage` | `useCatalog` supplies the `home.json` carousels and category shelves. `useUrlFilters` reads category and search from the route. Each visible shelf previews up to six products. |
 | `/plp/$carouselId` (e.g. `#/plp/dairy`) | `PlpPage` | `useParams` reads `carouselId`. `useCatalog` supplies the title, and `carouselProducts` selects the full list and determines the count. An unknown carousel ID shows «این فهرست پیدا نشد». |
+| `/product/$productId` | `ProductPage` | `useParams` reads `productId`. The page converts it to a number, finds the product in `useCatalog` and uses `cardOf` for its price, image and stock. An unknown product ID shows «محصول پیدا نشد». |
 | Unmatched paths (e.g. `#/nowhere`) | `NotFound` | The page renders a static message and a home link. The shared layout still provides the header and cart panel. |
 
 ## 3. Stores
@@ -21,7 +22,7 @@ Accounts, payment, checkout and changes to the shared API are outside this versi
 | Store | Defined in | State and actions | Writers | Persistence |
 |---|---|---|---|---|
 | Theme (Zustand) | `src/hooks/useThemeStore.ts` | `theme` (`auto`, `light`, or `dark`) and `setTheme` | `ThemeToggle` in the header and mobile menu | Zustand `persist` writes `theme` to localStorage under `sharding-theme`. |
-| Cart (Zustand) | `src/hooks/useCartStore.ts` | `lines` maps product IDs to quantities. Actions are `add`, `remove`, `removeLine` and `reconcile`. | `ProductCard` and `SearchResult` add or decrement items. `CartItem` can also remove a full line. `useLoadCatalog` reconciles stock after a complete product load. | `loadCart` reads localStorage on initialization. A store subscription calls `saveCart` when `lines` changes. Both live in `src/shared/storage/cart-storage.ts` and use the existing `sharding:v1:cart` key. |
+| Cart (Zustand) | `src/hooks/useCartStore.ts` | `lines` maps product IDs to quantities. Actions are `add`, `remove`, `removeLine` and `reconcile`. | `ProductCard` and `SearchResult` add or decrement items. `ProductPage` adds items, and `CartItem` can also remove a full line. `useLoadCatalog` reconciles stock after a complete product load. | `loadCart` reads localStorage on initialization. A store subscription calls `saveCart` when `lines` changes. Both live in `src/shared/storage/cart-storage.ts` and use the existing `sharding:v1:cart` key. |
 
 The cart uses option A, Zustand. Route components can share the cart without forwarding its data and actions through props. Selectors let the header read the total quantity and each product card read its own quantity and actions. The store reuses the pure cart rules and the existing storage format. The header derives the item count, and the cart panel derives the total from quantities, product prices and offers.
 
@@ -49,7 +50,7 @@ The cart uses option A, Zustand. Route components can share the cart without for
         - `ProductsSection`
             - `ProductSkeleton` or `ProductStatus`, depending on the load state and search results
             - `ProductGrid` for each visible shelf → `CarouselNav`, `ProductCard`
-                - `ProductCard` → `Price`, plus `OfferBadge` for eligible offers
+                - `ProductCard` → `ProductImage`, product page link, `Price`
                 - The offers grid also renders `SalePromotion` → `SaleCountdown` while open
 
 ### Product listing
@@ -59,8 +60,17 @@ The cart uses option A, Zustand. Route components can share the cart without for
     - `Outlet` → `PlpPage`
         - `ProductSkeleton` while loading or `ProductStatus` on a load error
         - Title, count and home link for a known carousel
-        - `ProductCard` for every product → `Price` and any `OfferBadge`
+        - `ProductCard` for every product → `ProductImage`, product page link, `Price`
         - A list-specific message and home link for an unknown carousel
+
+### Product details
+
+- `Layout`
+    - `Header`
+    - `Outlet` → `ProductPage`
+        - `ProductImage` → `OfferBadge` for eligible offers
+        - Product name, unit, `Price`, add-to-cart button and home link
+        - `ProductSkeleton` while loading or `ProductStatus` on a load error or unknown product ID
 
 ### Not found
 

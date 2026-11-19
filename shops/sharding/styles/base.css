@@ -3,7 +3,6 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
-  scrollbar-gutter: stable;
 }
 
 body {
@@ -22,6 +21,16 @@ body::before {
   background:
     radial-gradient(760px 420px at 88% -6%, light-dark(rgba(181, 196, 0, 0.14), rgba(232, 185, 102, 0.06)), transparent 70%),
     radial-gradient(680px 420px at 4% 18%, light-dark(rgba(120, 170, 255, 0.08), rgba(180, 90, 60, 0.04)), transparent 72%);
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.app > main {
+  flex: 1;
 }
 
 img { max-width: 100%; display: block; height: auto; }

@@ -1,10 +1,13 @@
-import { useState } from 'react'
+import { useId, useState } from 'react'
+import { Link } from '@tanstack/react-router'
 import { useCartStore } from '../hooks/useCartStore'
 import type { Card } from '../shared/types'
 import Price from './Price'
-import OfferBadge from './OfferBadge'
+import ProductImage from './ProductImage'
+import ProductQuantity from './ProductQuantity'
 
 export default function ProductCard({ card, anchorId }: { card: Card; anchorId?: string }) {
+  const titleId = useId()
   const [pulse, setPulse] = useState(false)
   const qty = useCartStore((state) => state.lines[card.id] ?? 0)
   const add = useCartStore((state) => state.add)
@@ -23,25 +26,16 @@ export default function ProductCard({ card, anchorId }: { card: Card; anchorId?:
   return (
     <li id={anchorId} className="product-item" data-product-id={card.id}>
       <article className={`product ${pulse ? 'product--cart-pulse' : ''}`} data-stock={card.inStock ? 'in' : 'out'} onAnimationEnd={() => setPulse(false)}>
-        <div className="product__link">
-          <span className={`product__img ${!card.image ? 'product__img--emoji' : ''}`}>
-            {card.image ? (
-              <img src={card.image} alt={card.name} loading="lazy" />
-            ) : (
-              <span className="product__emoji">{card.emoji}</span>
-            )}
-
-            {!card.inStock && (
-              <span className="product__badge-stock">
-                {card.stockKnown ? 'ناموجود' : 'موجودی نامشخص'}
-              </span>
-            )}
-            {card.inStock && card.discountPercent !== undefined && (
-              <OfferBadge percent={card.discountPercent} />
-            )}
-          </span>
-          <h3 className="product__name">{card.name} — {card.unit}</h3>
-        </div>
+        <Link
+          to="/product/$productId"
+          params={{ productId: String(card.id) }}
+          search={true}
+          className="product__link"
+          aria-labelledby={titleId}
+        >
+          <ProductImage card={card} />
+          <h3 className="product__name" id={titleId}>{card.name} — {card.unit}</h3>
+        </Link>
 
         <div className="product__footer">
           <Price value={card.price} {...(card.oldPrice !== undefined ? { oldValue: card.oldPrice } : {})} />
@@ -55,11 +49,13 @@ export default function ProductCard({ card, anchorId }: { card: Card; anchorId?:
                 <svg aria-hidden="true"><use href="./icons.svg#plus" /></svg>
               </button>
             ) : (
-              <div className="product__qty">
-                <button type="button" className="product__qty-btn" onClick={removeFromCart} aria-label={`کم کردن ${card.name}`}>−</button>
-                <span className="product__qty-val" aria-live="polite">{qty.toLocaleString('fa-IR')}</span>
-                <button type="button" className="product__qty-btn" onClick={addToCart} aria-label={`افزودن ${card.name}`} disabled={qty >= card.stockQty}>+</button>
-              </div>
+              <ProductQuantity
+                name={card.name}
+                quantity={qty}
+                max={card.stockQty}
+                onAdd={addToCart}
+                onRemove={removeFromCart}
+              />
             )}
           </div>
         </div>
