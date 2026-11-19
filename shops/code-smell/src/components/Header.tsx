@@ -24,7 +24,13 @@ export default function Header({
     catalogControls
 }: HeaderProps) {
     const { categoryId, onPick } = catalogControls
-    const navigationProps = { categories, menu: shop.menu, categoryId, onPick }
+    const navigationProps = {
+    categories,
+    menu: shop.menu,
+    categoryId,
+    onPick,
+    onQuery: catalogControls.onQuery
+}
 
     return (
         <header className="site-header">

@@ -7,8 +7,9 @@ type ProductGridProps = {
 }
 
 export default function ProductGrid({ carousels }: ProductGridProps) {
+    const productsStart = carousels.find((carousel) => carousel.id !== "offers")
     return (
-        <div id="products">
+        <div>
             {carousels.map(function (carousel, index) {
                 const titleId = carousel.id + "-title"
                 const hasProducts = carousel.products.length > 0
@@ -21,6 +22,7 @@ export default function ProductGrid({ carousels }: ProductGridProps) {
                         aria-labelledby={titleId}
                         data-carousel="true"
                     >
+                        {carousel === productsStart && <div id="products" />}
                         <div className="container">
                             <header className="section__header section__header--carousel">
                                 <h2 className="section__title" id={titleId}>
