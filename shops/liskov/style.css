@@ -2056,3 +2056,75 @@ body {
         font-size: 22px;
     }
 }
+
+/* -------------------------------- PLP SORT CONTROLS -------------------------------- */
+
+.plp-sort-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    margin: 24px 0;
+    padding: 6px;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    background: #f8fafc;
+}
+
+.plp-sort-controls::before {
+    content: 'مرتب‌سازی:';
+    padding-inline: 10px;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.plp-sort-controls a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 0 16px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    color: #475569;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.plp-sort-controls a:hover {
+    color: #1d3557;
+    background: #eaf0f7;
+}
+
+.plp-sort-controls a[aria-current='page'] {
+    color: #fff;
+    background: #1d3557;
+    border-color: #1d3557;
+    box-shadow: 0 2px 6px #1d355725;
+}
+
+@media (max-width: 480px) {
+    .plp-sort-controls {
+        width: 100%;
+        gap: 4px;
+        justify-content: space-between;
+    }
+
+    .plp-sort-controls::before {
+        padding-inline: 5px;
+        font-size: 12px;
+    }
+
+    .plp-sort-controls a {
+        flex: 1;
+        padding-inline: 8px;
+        font-size: 12px;
+    }
+}

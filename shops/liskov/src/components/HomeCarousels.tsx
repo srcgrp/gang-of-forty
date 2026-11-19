@@ -76,6 +76,7 @@ function CarouselSection({
                         className='carousel-view-all'
                         to='/plp/$carouselId'
                         params={{carouselId}}
+                        search={{sort: 'default'}}
                     >
                         مشاهده همه
                     </Link>
