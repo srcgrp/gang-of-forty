@@ -45,7 +45,7 @@
 
 - `src/main.tsx`: اتصال React به عنصر root و فعال کردن StrictMode.
 - `src/App.tsx`: تعریف مسیرها، Register و نمایش RouterProvider.
-- `src/components`: نمایش صفحه با JSX و Props تایپ‌دار؛ ظاهر اصلی در `ShopView` است.
+- `src/components`: نمایش صفحه با JSX و Props تایپ‌دار؛ صفحه‌های مسیرها در `src/components/pages` هستند و ظاهر خانه در `ShopView` است.
 - `src/features/products`: دریافت و اعتبارسنجی دادهٔ محصولات و آماده‌سازی کارت‌ها و دسته‌ها.
 - `src/features/cart`: توابع خالص افزودن، حذف، تعداد و جمع قیمت؛ اعتبارسنجی و ذخیرهٔ سبد.
 - `src/shared`: تایپ‌ها، قالب‌بندی، دریافت داده‌های مشترک و ابزار storage مربوط به URL.
@@ -68,7 +68,6 @@ UI قدیمی و `src/main.ts` حذف شده‌اند. هیچ فایل TypeScrip
 main.tsx → StrictMode → App (RouterProvider)
 └── Layout → ThemeFrame → CatalogProvider → LayoutContent
     └── HomeFiltersContext.Provider
-        ├── CartTitle
         ├── Header
         │   ├── Brand
         │   ├── SearchBox → SearchSuggestions
@@ -103,6 +102,24 @@ Outlet → PlpPage
     └── ProductGrid → ProductCard → ProductImage
 ```
 
+صفحهٔ محصول (`/product/$productId`):
+
+```text
+Outlet → ProductPage
+├── loading / empty / error → Link بازگشت + LoadStatus
+├── شناسهٔ نامعتبر یا محصول ناشناخته → Link بازگشت + پیام محصول پیدا نشد
+└── محصول معتبر → Link بازگشت + ProductDetails → ProductImage
+```
+
+صفحهٔ تسویه‌حساب (`/checkout`):
+
+```text
+Outlet → CheckoutPage
+├── سبد خالی → پیام سبد خالی + Link بازگشت
+└── سبد دارای کالا → مبلغ کل + فرم نام، موبایل و نشانی
+    └── خطاهای ورودی پس از ثبت نامعتبر / ثبت معتبر → پاک شدن سبد و بازگشت به خانه
+```
+
 مسیر ناشناخته:
 
 ```text
@@ -110,7 +127,7 @@ Outlet → NotFound
 └── پیام پیدا نشدن صفحه + Link بازگشت به خانه
 ```
 
-درخت‌ها شاخه‌های جایگزین دارند؛ مثلاً LoadStatus و ShopView هم‌زمان نمایش داده نمی‌شوند. فهرست معتبر بدون محصول هم پیام خالی بودن را در ProductGrid نشان می‌دهد. CartPanel داخل Header است و باز و بسته شدنش با State محلی همان Header کنترل می‌شود. CartTitle تعداد سبد را با selector می‌خواند و عنوان تب را در Effect به‌روز می‌کند.
+درخت‌ها شاخه‌های جایگزین دارند؛ مثلاً LoadStatus و ShopView هم‌زمان نمایش داده نمی‌شوند. فهرست معتبر بدون محصول هم پیام خالی بودن را در ProductGrid نشان می‌دهد. CartPanel داخل Header است و باز و بسته شدنش با State محلی همان Header کنترل می‌شود. Header تعداد سبد را با selector می‌خواند و عنوان تب را در Effect به‌روز می‌کند.
 
 ## ۱۰. State کجا زندگی می‌کند؟
 
@@ -127,6 +144,7 @@ State مشترک سبد و تم را در Storeهای Zustand گذاشتم. دا
 | `lines` | `useCartStore` | عملیات add، decrease و remove با توابع خالص سبد | Store و کلید batshop-cart در localStorage |
 | `cartOpen` | `Header` | callbackهای باز و بسته کردن سبد: هاور، کلیک، خروج فوکوس، Escape و دکمهٔ بستن | حافظهٔ React؛ مقدار اولیه false است |
 | `theme` | `useThemeStore` | toggle از ThemeToggle | Store و persist با کلید composition-theme |
+| `values` و `submitted` | `CheckoutPage` | تغییر فیلدهای فرم و تلاش برای ثبت | حافظهٔ React؛ با خروج از صفحه از نو شروع می‌شوند |
 
 Store سبد با loadCart شروع می‌شود و subscribe پس از تغییر، saveCart را صدا می‌زند. ذخیره‌سازی از App حذف شده است. ThemeFrame مقدار theme را روی div دور برنامه اعمال می‌کند و persist تم را ذخیره می‌کند.
 
@@ -141,6 +159,7 @@ Store سبد با loadCart شروع می‌شود و subscribe پس از تغی�
 - آیکون و برچسب دکمهٔ تم از `theme` مشخص می‌شوند؛ با تغییر همین State همراه هم عوض می‌شوند.
 - عنوان تب از تعداد کالاهای cart ساخته می‌شود؛ Effect آن را با مرورگر هماهنگ می‌کند و برای خود عنوان State ندارم.
 
+- خطاهای فرم تسویه از `values` در هر render حساب می‌شوند؛ State جدا ندارند.
 - نتیجهٔ جست‌وجو با `createResults(data)` از query، دسته و داده‌های محصولات هنگام render حساب می‌شود؛ State یا Effect جدا ندارد. پاک کردن متن، کاروسل‌های دستهٔ انتخاب‌شده را برمی‌گرداند.
 - دقیقه و ثانیهٔ نمایشی از `left` حساب می‌شوند و State جدا ندارند.
 
@@ -231,6 +250,6 @@ Layout → LayoutContent → Outlet → ProductPage
 
 مرتب‌سازی PLP با validateSearch مقدار sort را فقط از default و price می‌پذیرد. لینک‌های پیش‌فرض و ارزان‌ترین مقدار را در آدرس نگه می‌دارند؛ تابع خالص sortProducts قیمت نهایی پس از تخفیف را حساب می‌کند و آرایهٔ داده را تغییر نمی‌دهد.
 
-ProductCard با memo پوشانده شده و اکشن افزودن به سبد را با selector می‌خواند. مقدار context فیلترها و تابع تغییر حراج پایدارند و HomePage و ShopView هم memo دارند. Header تعداد را از store می‌خواند و عنوان تب را هم به‌روز می‌کند؛ تغییر سبد نباید render دوبارهٔ صفحه یا کارت‌ها ایجاد کند. تصویر Profiler باید در مرورگر ثبت و به PR اضافه شود.
+ProductCard با memo پوشانده شده و اکشن افزودن به سبد را با selector می‌خواند. مقدار context فیلترها و تابع تغییر حراج پایدارند و HomePage و ShopView هم memo دارند. Header تعداد را از store می‌خواند و عنوان تب را هم به‌روز می‌کند؛ تغییر سبد نباید render دوبارهٔ صفحه یا کارت‌ها ایجاد کند. در تصویر Profiler پس از افزودن کالا، Header و CartPanel به‌روزرسانی شدند؛ شاخهٔ ShopView و کارت‌های محصول در همان commit رندر نشدند. این تصویر را به PR اضافه می‌کنم.
 
 مسیر /checkout به CheckoutPage می‌رسد. فرم سه فیلد controlled دارد؛ خطاها از مقادیر در render حساب می‌شوند و پس از اولین submit نشان داده می‌شوند. اولین فیلد نامعتبر با useRef فوکوس می‌شود. سفارش معتبر سبد را خالی و با replace به خانه برمی‌گرداند.
