@@ -1,0 +1,22 @@
+
+{
+  "carousels": [
+    {
+      "id": "dairy",
+      "title": "لبنیات و صبحانه",
+      "type": "category",
+      "categoryId": "dairy"
+    },
+    {
+      "id": "bread",
+      "title": "نان و محصولات نانوایی",
+      "type": "category",
+      "categoryId": "bread"
+    },
+    {
+      "id": "offers",
+      "title": "پیشنهادهای ویژه",
+      "type": "offers"
+    }
+  ]
+}
