@@ -1,26 +1,14 @@
-import 'notyf/notyf.min.css';
-
-import confetti from 'canvas-confetti';
-import {Notyf} from 'notyf';
 import {useEffect, useState} from 'react';
 
 import {loadData} from '../api';
-import {addToCart, decreaseCartQuantity} from './cart/cart';
 import AppContent from './components/AppContent';
-import {loadCart, saveCart} from './storage/cart';
+import {useCartStore} from './hooks/useCartStore';
 
-import type {CartLine, LoadState} from './types';
-
-const notyf = new Notyf({
-    duration: 2000,
-    position: {
-        x: 'left',
-        y: 'top',
-    },
-});
+import type {LoadState} from './types';
 
 export default function App() {
-    const [cart, setCart] = useState<CartLine[]>(() => loadCart());
+    const cart = useCartStore((state) => state.lines);
+
     const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
         null,
     );
@@ -59,32 +47,12 @@ export default function App() {
     }, [attempt]);
 
     useEffect(() => {
-        saveCart(cart);
-    }, [cart]);
-
-    useEffect(() => {
         if (loadState.status !== 'success') return;
 
         const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
         document.title = `سوپرمارکت شایان (${itemCount})`;
     }, [cart, loadState]);
-
-    const handleAdd = (id: number): void => {
-        setCart((previousCart) => addToCart(previousCart, id));
-
-        notyf.success('محصول به سبد خرید اضافه شد.');
-
-        confetti({
-            particleCount: 70,
-            spread: 65,
-            origin: {y: 0.7},
-        });
-    };
-
-    const handleRemove = (id: number): void => {
-        setCart((previousCart) => decreaseCartQuantity(previousCart, id));
-    };
 
     const handleRetry = (): void => {
         setLoadState({status: 'loading'});
@@ -93,14 +61,11 @@ export default function App() {
 
     return (
         <AppContent
-            cart={cart}
             loadState={loadState}
             selectedCategoryId={selectedCategoryId}
             onPickCategory={setSelectedCategoryId}
             query={query}
             onQuery={setQuery}
-            onAdd={handleAdd}
-            onRemove={handleRemove}
             onRetry={handleRetry}
         />
     );

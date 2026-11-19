@@ -3,9 +3,9 @@ import {useRef} from 'react';
 import ProductCard from './ProductCard';
 
 import type {Category, Offer, Product} from '../types';
+
 type ProductGridProps = {
     products: Product[];
-    onAdd: (id: number) => void;
     stockById?: Record<number, number>;
     offerByProductId?: Map<number, Offer>;
     categoryById?: Map<number, Category>;
@@ -13,7 +13,6 @@ type ProductGridProps = {
 
 export default function ProductGrid({
     products,
-    onAdd,
     stockById,
     offerByProductId = new Map(),
     categoryById,
@@ -35,7 +34,7 @@ export default function ProductGrid({
                     onClick={() => move(-1)}
                     aria-label='محصولات قبلی'
                 >
-                    →
+                    ←
                 </button>
 
                 <button
@@ -43,7 +42,7 @@ export default function ProductGrid({
                     onClick={() => move(1)}
                     aria-label='محصولات بعدی'
                 >
-                    ←
+                    →
                 </button>
             </div>
 
@@ -60,7 +59,6 @@ export default function ProductGrid({
                         <ProductCard
                             key={product.id}
                             product={product}
-                            onAdd={onAdd}
                             inStock={inStock}
                             offer={offer}
                             categoryColor={

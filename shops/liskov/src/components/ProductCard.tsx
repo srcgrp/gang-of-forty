@@ -1,9 +1,9 @@
 import type {Offer, Product} from '../types';
 import {discountedPrice} from '../catalog/pricing';
+import {useAddToCart} from '../hooks/useAddToCart';
 
 type ProductCardProps = {
     product: Product;
-    onAdd: (id: number) => void;
     inStock?: boolean;
     offer?: Offer | undefined;
     categoryColor?: string | undefined;
@@ -13,11 +13,12 @@ const faNumber = new Intl.NumberFormat('fa-IR');
 
 export default function ProductCard({
     product,
-    onAdd,
     inStock = true,
     offer,
     categoryColor,
 }: ProductCardProps) {
+    const addToCart = useAddToCart();
+
     const price = offer
         ? discountedPrice(product.price, offer.percent)
         : product.price;
@@ -60,7 +61,7 @@ export default function ProductCard({
                             ? `افزودن ${product.name} به سبد خرید`
                             : `${product.name} ناموجود است`
                     }
-                    onClick={() => onAdd(product.id)}
+                    onClick={() => addToCart(product.id)}
                     disabled={!inStock}
                 >
                     +

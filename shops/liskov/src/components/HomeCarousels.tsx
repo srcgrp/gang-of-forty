@@ -8,10 +8,9 @@ import type {AppData} from '../types';
 
 type HomeCarouselsProps = {
     data: AppData;
-    onAdd: (id: number) => void;
 };
 
-export default function HomeCarousels({data, onAdd}: HomeCarouselsProps) {
+export default function HomeCarousels({data}: HomeCarouselsProps) {
     const context = buildContext(data);
 
     return (
@@ -24,7 +23,6 @@ export default function HomeCarousels({data, onAdd}: HomeCarouselsProps) {
                     stockById={context.stockById}
                     offerByProductId={context.offerByProductId}
                     categoryById={context.categoryById}
-                    onAdd={onAdd}
                 />
             ))}
         </>
@@ -39,7 +37,6 @@ type CarouselSectionProps = {
     categoryById: AppData['categories'] extends (infer T)[]
         ? Map<number, T>
         : never;
-    onAdd: (id: number) => void;
 };
 
 function CarouselSection({
@@ -48,7 +45,6 @@ function CarouselSection({
     stockById,
     offerByProductId,
     categoryById,
-    onAdd,
 }: CarouselSectionProps) {
     const itemsRef = useRef<HTMLDivElement>(null);
 
@@ -75,7 +71,7 @@ function CarouselSection({
                     onClick={() => move(false)}
                     aria-label='رفتن به ابتدای فهرست'
                 >
-                    →
+                    ←
                 </button>
 
                 <button
@@ -83,7 +79,7 @@ function CarouselSection({
                     onClick={() => move(true)}
                     aria-label='رفتن به انتهای فهرست'
                 >
-                    ←
+                    →
                 </button>
             </div>
 
@@ -92,7 +88,6 @@ function CarouselSection({
                     <ProductCard
                         key={product.id}
                         product={product}
-                        onAdd={onAdd}
                         inStock={(stockById[product.id] ?? 0) > 0}
                         offer={offerByProductId.get(product.id)}
                         categoryColor={
