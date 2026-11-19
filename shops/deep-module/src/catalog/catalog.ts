@@ -1,4 +1,4 @@
-import type { AppData, HomeCarousel, Product } from "../types";
+import type { AppData, HomeCarousel, Category, Product } from "../types";
 
 export type PlpSort = "default" | "price";
 
@@ -7,11 +7,23 @@ export interface CarouselMatch {
   products: Product[];
 }
 
+/**
+ * 🔑 helper: پیدا کردن دسته با slug یا id (fallback)
+ */
+function findCategory(
+  categories: Category[],
+  carouselId: string,
+): Category | undefined {
+  return categories.find(
+    (c) => c.slug === carouselId || String(c.id) === carouselId,
+  );
+}
+
 export function getCarouselProducts(
   data: AppData,
   carouselId: string,
 ): CarouselMatch | null {
-  const carousels = data.home.carousels ?? [];
+  const carousels = data.home?.carousels ?? [];
   const carousel = carousels.find((c) => c.id === carouselId);
 
   if (carousel) {
@@ -33,7 +45,8 @@ export function getCarouselProducts(
     return { carousel, products: data.products };
   }
 
-  const category = data.categories.find((c) => c.slug === carouselId);
+  // 🔑 باگ اصلی قبلاً این‌جا بود - فقط slug رو چک می‌کرد
+  const category = findCategory(data.categories, carouselId);
   if (!category) return null;
 
   return {
