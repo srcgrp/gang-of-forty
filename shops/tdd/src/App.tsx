@@ -1,23 +1,15 @@
-import { Notyf } from 'notyf'
-import 'notyf/notyf.min.css'
 import { useEffect, useState } from 'react'
-import type { CartLine, LoadState } from './shared/types'
+import type { LoadState } from './shared/types'
 import { loadShopData } from './shared/data/api/shop-data'
-import { loadCart, saveCart } from './features/cart/data/storage'
-import { addToCart, cartCount, cartTotal, removeFromCart } from './features/cart/cart'
 import LoadStatus from './components/LoadStatus'
 import Storefront from './components/Storefront'
 import { useThemeStore } from './hooks/useThemeStore'
-
-const pageTitle = document.title
-const notyf = new Notyf({ duration: 2000, position: { x: "left", y: "top" } })
 
 export default function App() {
     const theme = useThemeStore(s => s.theme)
     const [loadState, setLoadState] = useState<LoadState>({ status: 'loading' })
     const [shopData, setShopData] = useState<Awaited<ReturnType<typeof loadShopData>> | null>(null)
     const [categoryId, setCategoryId] = useState<number | null>(null)
-    const [cart, setCart] = useState<CartLine[]>(() => loadCart())
     const [query, setQuery] = useState('')
     const [retryCount, setRetryCount] = useState(0)
 
@@ -35,18 +27,6 @@ export default function App() {
         return () => { ignore = true }
     }, [retryCount])
 
-    useEffect(() => { saveCart(cart) }, [cart])
-    useEffect(() => {
-        const count = cartCount(cart)
-        document.title = count ? `(${count}) ${pageTitle}` : pageTitle
-    }, [cart])
-
-    const handleAdd = (id: number) => {
-        setCart(current => addToCart(current, id))
-        notyf.success("به سبد خرید اضافه شد")
-    }
-    const handleRemove = (id: number) => setCart(current => removeFromCart(current, id))
-    const handleClear = () => setCart([])
     const handleRetry = () => {
         setLoadState({ status: 'loading' })
         setRetryCount(current => current + 1)
@@ -55,10 +35,8 @@ export default function App() {
     return (
         <div className="app" data-theme={theme}>
             {loadState.status !== 'success' ? <LoadStatus state={loadState} onRetry={handleRetry} /> : shopData &&
-                <Storefront data={shopData} categoryId={categoryId} cart={cart}
-                    count={cartCount(cart)} total={cartTotal(cart, loadState.products)}
-                    query={query} onQueryChange={setQuery} onPick={setCategoryId}
-                    onAdd={handleAdd} onRemove={handleRemove} onClear={handleClear} />}
+                <Storefront data={shopData} categoryId={categoryId}
+                    query={query} onQueryChange={setQuery} onPick={setCategoryId} />}
         </div>
     )
 }

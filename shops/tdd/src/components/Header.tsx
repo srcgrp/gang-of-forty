@@ -1,4 +1,4 @@
-import type { CartLine, Category, Product, ShopDetails } from '../shared/types'
+import type { Category, Product, ShopDetails } from '../shared/types'
 import CartPanel from './CartPanel'
 import CategoryNav from './CategoryNav'
 import SearchBox from './SearchBox'
@@ -8,18 +8,13 @@ type HeaderProps = {
     categories: Category[]
     shop: ShopDetails
     categoryId: number | null
-    cart: CartLine[]
     products: Product[]
-    cartCount: number
-    cartTotal: number
     query: string
     onQueryChange: (value: string) => void
     onPick: (categoryId: number) => void
-    onRemove: (productId: number) => void
-    onClear: () => void
 }
 
-export default function Header({ categories, shop, categoryId, cart, products, cartCount, cartTotal, query, onQueryChange, onPick, onRemove, onClear }: HeaderProps) {
+export default function Header({ categories, shop, categoryId, products, query, onQueryChange, onPick }: HeaderProps) {
     return (
         <>
             <a className="skip-link" href="#main-content">پرش به محتوای اصلی</a>
@@ -44,7 +39,7 @@ export default function Header({ categories, shop, categoryId, cart, products, c
                     <SearchBox query={query} onChange={onQueryChange} />
                     <div className="header-actions">
                         <ThemeToggle />
-                        <CartPanel cart={cart} products={products} count={cartCount} total={cartTotal} onRemove={onRemove} onClear={onClear} />
+                        <CartPanel products={products} />
                     </div>
                 </div>
                 <p id="cart-status" className="page-status" role="status"></p>

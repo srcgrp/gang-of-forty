@@ -8,10 +8,9 @@ type ProductGridProps = {
     carousels: CarouselConfig[]
     categories: Category[]
     categoryId: number | null
-    onAdd: (id: number) => void
 }
 
-export default function ProductGrid({ products, stock, offers, carousels, categories, categoryId, onAdd }: ProductGridProps) {
+export default function ProductGrid({ products, stock, offers, carousels, categories, categoryId }: ProductGridProps) {
     const offerConfig = carousels.find(config => config.source === 'offers')
     const defaultCategoryId = carousels.find(config => config.categoryId !== undefined)?.categoryId
     const selectedCategory = categories.find(category => category.id === (categoryId ?? defaultCategoryId))
@@ -56,7 +55,6 @@ export default function ProductGrid({ products, stock, offers, carousels, catego
                                     key={product.id}
                                     product={product}
                                     cardId={cardId}
-                                    onAdd={onAdd}
                                     {...(offer && { offerPercent: offer.percent })}
                                     stock={stockCount}
                                 />

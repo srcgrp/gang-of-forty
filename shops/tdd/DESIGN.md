@@ -60,6 +60,10 @@ All shared shop data models are defined in `src/shared/types.ts` and imported wi
 
 The cart is an array of `CartLine` objects. Each line stores a product ID and its quantity.
 
+### Week 6: why Zustand for the cart?
+
+I chose Zustand because it is already used for the theme and lets each component select the cart state or actions it needs without a Provider or passing cart props through other components. `useCartStore` reuses the existing pure cart functions, while loading and saving still go through the storage module. This keeps the change small and follows the same store pattern for both theme and cart.
+
 ## 4. Where does each piece live?
 
 | Owner | Data |
