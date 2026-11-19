@@ -13,7 +13,7 @@ Accounts, payment, checkout and changes to the shared API are outside this versi
 | Address | Page | Data source |
 |---|---|---|
 | `/` (`#/`) | `HomePage` | `useCatalog` supplies the `home.json` carousels and category shelves. `useUrlFilters` reads category and search from the route. Each visible shelf previews up to six products. |
-| `/plp/$carouselId` (e.g. `#/plp/dairy`) | `PlpPage` | `useParams` reads `carouselId`. `useCatalog` supplies the title, and `carouselProducts` selects the full list and determines the count. An unknown carousel ID shows «این فهرست پیدا نشد». |
+| `/plp/$carouselId` (e.g. `#/plp/dairy?sort=price`) | `PlpPage` | `useParams` reads `carouselId`. `useCatalog` supplies the title, and `carouselProducts` selects the full list. The validated `sort` parameter selects the default order or ascending displayed price. An unknown carousel ID shows «این فهرست پیدا نشد». |
 | `/product/$productId` | `ProductPage` | `useParams` reads `productId`. The page converts it to a number, finds the product in `useCatalog` and uses `cardOf` for its price, image and stock. An unknown product ID shows «محصول پیدا نشد». |
 | Unmatched paths (e.g. `#/nowhere`) | `NotFound` | The page renders a static message and a home link. The shared layout still provides the header and cart panel. |
 
@@ -60,6 +60,7 @@ The cart uses option A, Zustand. Route components can share the cart without for
     - `Outlet` → `PlpPage`
         - `ProductSkeleton` while loading or `ProductStatus` on a load error
         - Title, count and home link for a known carousel
+        - `PlpSortLinks` updates the route search parameter
         - `ProductCard` for every product → `ProductImage`, product page link, `Price`
         - A list-specific message and home link for an unknown carousel
 

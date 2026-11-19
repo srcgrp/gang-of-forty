@@ -1,4 +1,4 @@
-import type { Catalog, Category, Product, Shelf } from '../shared/types'
+import type { Card, CarouselSort, Catalog, Category, Product, Shelf } from '../shared/types'
 
 export function catalogCarousels(
   configured: Shelf[],
@@ -37,4 +37,8 @@ export function carouselProducts(catalog: Catalog, carouselId: string): Product[
   }
   if (shelf.categoryId === undefined) return catalog.products
   return catalog.products.filter((product) => product.categoryId === shelf.categoryId)
+}
+
+export function sortCarouselCards(cards: Card[], sort: CarouselSort): Card[] {
+  return sort === 'price' ? [...cards].sort((a, b) => a.price - b.price) : cards
 }

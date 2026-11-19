@@ -36,7 +36,12 @@ export default function ProductGrid({ id, title, cards, total }: ProductGridProp
                   label={title}
                   sectionId={id}
                 />
-                <Link to="/plp/$carouselId" params={{ carouselId: id }} search={true} className="catalog-link">
+                <Link
+                  to="/plp/$carouselId"
+                  params={{ carouselId: id }}
+                  search={(previous) => ({ ...previous, sort: 'default' })}
+                  className="catalog-link"
+                >
                   مشاهده همه ({total.toLocaleString('fa-IR')})
                 </Link>
               </div>

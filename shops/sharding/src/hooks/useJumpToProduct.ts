@@ -19,7 +19,7 @@ export function useJumpToProduct(catalog: Catalog) {
       void navigate({
         to: '/plp/$carouselId',
         params: { carouselId: carousel.id },
-        search: true,
+        search: (previous) => ({ ...previous, sort: previous.sort ?? 'default' }),
         hash: `product-${id}`,
       })
     }

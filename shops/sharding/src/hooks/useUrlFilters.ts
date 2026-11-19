@@ -9,7 +9,10 @@ export function useUrlFilters() {
   function setQuery(query: string): void {
     void navigate({
       to: '.',
-      search: () => toShopSearch({ category, query }),
+      search: ({ sort }) => ({
+        ...toShopSearch({ category, query }),
+        ...(sort ? { sort } : {}),
+      }),
       hash: true,
       replace: true,
       resetScroll: false,

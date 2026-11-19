@@ -54,3 +54,5 @@ export type ShelfView = {
   shelf: Shelf;
   cards: Card[];
 };
+
+export type CarouselSort = 'default' | 'price';

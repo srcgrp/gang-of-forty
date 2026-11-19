@@ -38,30 +38,19 @@
   .plp__grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
 }
 
-.catalog-link {
-  display: inline-flex;
+.plp__meta,
+.plp__sort {
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: var(--sp-xs);
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: var(--sp-xs) var(--sp-sm);
-  font-size: var(--text-sm);
-  font-weight: 700;
-  white-space: nowrap;
+  gap: var(--sp-xs) var(--sp-sm);
 }
 
-.catalog-link:hover {
-  color: var(--text);
+.plp__meta {
+  margin-top: var(--sp-xs);
+}
+
+.plp__sort .catalog-link[aria-current="page"] {
   background: var(--accent-soft);
-}
-
-.product-shelf[data-variant="offers"] .catalog-link {
-  color: var(--offers-accent);
-  border-color: currentColor;
-}
-
-.product-shelf[data-variant="offers"] .catalog-link:hover {
-  color: var(--offers-bg);
-  background: var(--offers-accent);
+  border-color: var(--accent);
 }

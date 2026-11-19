@@ -11,6 +11,7 @@ import NotFound from './components/pages/NotFound'
 import PlpPage from './components/pages/PlpPage'
 import ProductPage from './components/pages/ProductPage'
 import { validateShopSearch } from './shared/storage/url'
+import type { CarouselSort } from './shared/types'
 
 const rootRoute = createRootRoute({
   component: Layout,
@@ -26,6 +27,9 @@ const plpRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/plp/$carouselId',
   component: PlpPage,
+  validateSearch: (search: Record<string, unknown>): { sort: CarouselSort } => ({
+    sort: search.sort === 'price' ? 'price' : 'default',
+  }),
 })
 const productRoute = createRoute({
   getParentRoute: () => rootRoute,
