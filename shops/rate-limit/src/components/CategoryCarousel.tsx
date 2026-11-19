@@ -2,7 +2,7 @@ import type { CSSProperties } from 'react';
 import type { CatalogItem, Category } from '../types';
 import { toPersianDigits } from '../format/price';
 import Carousel from './Carousel';
-import ProductCard from './ProductCard';
+import ProductCard from './Productcard';
 
 type CategoryCarouselProps = {
   category: Category;

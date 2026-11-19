@@ -1,6 +1,6 @@
 import type { CatalogItem } from '../types';
 import Carousel from './Carousel';
-import ProductCard from './ProductCard';
+import ProductCard from './Productcard';
 
 type ProductGridProps = {
   id?: string;

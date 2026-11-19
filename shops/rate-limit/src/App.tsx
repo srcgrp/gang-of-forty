@@ -10,7 +10,7 @@ import TopBar from './components/TopBar';
 import Hero from './components/Hero';
 import Catalog from './components/Catalog';
 import Footer from './components/Footer';
-import CartPanel from './components/CartPanel';
+import CartPanel from './components/Cartpanel';
 
 export default function App() {
   const [state, setState] = useState<LoadState<CatalogItem>>({ status: 'loading' });

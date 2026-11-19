@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
 import type { Product } from '../types';
 import { toPersianDigits } from '../format/price';
-import OfferBadge from './OfferBadge';
+import OfferBadge from './Offerbadge';
 import Price from './Price';
 
 const LOW_STOCK = 5;

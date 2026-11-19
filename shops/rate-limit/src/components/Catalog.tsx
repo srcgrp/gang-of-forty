@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import type { CatalogItem, Category, LoadState } from '../types';
 import { filterItems } from '../catalog/filter';
-import AdBanner from './AdBanner';
-import CategoryCards from './CategoryCards';
+import AdBanner from './Adbanner';
+import CategoryCards from './Categorycards';
 import CategoryCarousel from './CategoryCarousel';
-import LearnSection from './LearnSection';
-import ProductGrid from './ProductGrid';
+import LearnSection from './Learnsection';
+import ProductGrid from './Productgrid';
 import SaleCountdown from './SaleCountdown';
 import Status from './Status';
 

@@ -1,6 +1,6 @@
 import type { Category } from '../types';
-import AnnouncementBar from './AnnouncementBar';
-import CategoryNav from './CategoryNav';
+import AnnouncementBar from './Announcementbar';
+import CategoryNav from './Categorynav';
 import Header from './Header';
 
 type TopBarProps = {
