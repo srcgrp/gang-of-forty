@@ -1,14 +1,15 @@
- 
+import { useCartStore } from '../hooks/useCartStore'
+import { cartCount } from '../cart/cart'
 import type { Category, Shop } from '../types'
 import ThemeToggle from './ThemeToggle'
 
 type HeaderProps = {
-  itemCount: number
   categories: Category[]
   shop: Shop | null
 }
 
-export default function Header({ itemCount, categories, shop }: HeaderProps) {
+export default function Header({ categories, shop }: HeaderProps) {
+  const itemCount = useCartStore((s) => cartCount(s.lines))
   return (
     <header className="site-header" id="top">
       <a className="skip" href="#main">پرش به محتوای اصلی</a>
