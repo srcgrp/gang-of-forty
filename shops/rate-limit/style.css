@@ -2210,3 +2210,8 @@ nav a:focus-visible {
     border-radius: 20px;
   }
 }
+
+.plp-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+.plp-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 24px; color: var(--muted); }
+.plp-back { color: var(--text); font-weight: 700; }
+.plp-back, .special-offer-sub, .category-carousel-count { text-decoration: none; }

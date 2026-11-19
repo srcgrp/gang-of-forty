@@ -121,6 +121,10 @@ export interface ThemeState {
   theme: Theme;
   toggle: () => void;
 }
+export interface SearchState {
+  query: string;
+  setQuery: (query: string) => void;
+}
 
 export interface CardView {
   emoji: string;

@@ -1,14 +1,22 @@
+import type { MouseEvent } from 'react';
+import { Link } from '@tanstack/react-router';
 import type { Category } from '../types';
 
 type CategoryNavProps = {
   categories: Category[];
-  activeId: number | null;
   open: boolean;
   onToggle: (open: boolean) => void;
-  onPick: (id: number | null) => void; 
 };
 
-export default function CategoryNav({ categories, activeId, open, onToggle, onPick }: CategoryNavProps) {
+// With hash routing a plain "#contact" link would change the route.
+const toContact = (e: MouseEvent<HTMLAnchorElement>) => {
+  e.preventDefault();
+  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+};
+
+export default function CategoryNav({ categories, open, onToggle }: CategoryNavProps) {
+  const close = () => onToggle(false);
+
   return (
     <div className="nav-area">
       <input
@@ -31,34 +39,29 @@ export default function CategoryNav({ categories, activeId, open, onToggle, onPi
             </label>
           </li>
           <li id="special-offer-button">
-            <a href="#special-offers">پیشنهادات ویژه 🔥</a>
+            <Link to="/plp/$carouselId" params={{ carouselId: 'offers' }}>پیشنهادات ویژه 🔥</Link>
           </li>
-          <li><a href="#fruits">میوه و سبزی</a></li>
-          <li><a href="#dairy">لبنیات</a></li>
-          <li><a href="#bakery">نان تازه</a></li>
-          <li><a href="#contact">تماس با ما</a></li>
+          <li><Link to="/plp/$carouselId" params={{ carouselId: 'fruits' }}>میوه و سبزی</Link></li>
+          <li><Link to="/plp/$carouselId" params={{ carouselId: 'dairy' }}>لبنیات</Link></li>
+          <li><Link to="/plp/$carouselId" params={{ carouselId: 'bakery' }}>نان تازه</Link></li>
+          <li><a href="#/" onClick={toContact}>تماس با ما</a></li>
         </ul>
       </nav>
       <label className="menu-close-overlay" htmlFor="category-toggle" aria-hidden="true" />
       <div className="category-dropdown">
-        <a
-          href="#special-offers"
-          className={activeId === null ? 'is-active' : undefined}
-          aria-current={activeId === null ? 'true' : undefined}
-          onClick={() => onPick(null)}
-        >
+        <Link to="/" activeOptions={{ exact: true }} activeProps={{ className: 'is-active' }} onClick={close}>
           همه محصولات
-        </a>
+        </Link>
         {categories.map((c) => (
-          <a
+          <Link
             key={c.id}
-            href={`#${c.slug}`}
-            className={c.id === activeId ? 'is-active' : undefined}
-            aria-current={c.id === activeId ? 'true' : undefined}
-            onClick={() => onPick(c.id)}
+            to="/plp/$carouselId"
+            params={{ carouselId: c.slug }}
+            activeProps={{ className: 'is-active' }}
+            onClick={close}
           >
             {c.name}
-          </a>
+          </Link>
         ))}
       </div>
     </div>

@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router';
 import type { Category } from '../types';
 import { toPersianDigits } from '../format/price';
 import FooterBottom from './FooterBottom';
@@ -29,7 +30,9 @@ export default function Footer({ categories }: FooterProps) {
             <h2 className="footer-title" id="footer-categories-title">دسته‌ها</h2>
             <ul className="footer-list">
               {categories.map((c) => (
-                <li key={c.id}><a href={`#${c.slug}`}>{c.name}</a></li>
+                <li key={c.id}>
+                  <Link to="/plp/$carouselId" params={{ carouselId: c.slug }}>{c.name}</Link>
+                </li>
               ))}
             </ul>
           </section>
@@ -37,9 +40,9 @@ export default function Footer({ categories }: FooterProps) {
           <section className="footer-col" aria-labelledby="footer-help-title">
             <h2 className="footer-title" id="footer-help-title">راهنما</h2>
             <ul className="footer-list">
-              <li><a href="#delivery">شیوه ارسال</a></li>
-              <li><a href="#returns">بازگشت کالا</a></li>
-              <li><a href="#faq">پرسش‌های پرتکرار</a></li>
+              <li>شیوه ارسال</li>
+              <li>بازگشت کالا</li>
+              <li>پرسش‌های پرتکرار</li>
             </ul>
           </section>
 

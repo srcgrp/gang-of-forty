@@ -1,10 +1,16 @@
+import type { MouseEvent } from 'react';
 import { toPersianDigits } from '../format/price';
+
+const toTop = (e: MouseEvent<HTMLAnchorElement>) => {
+  e.preventDefault();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
 
 export default function FooterBottom() {
   return (
     <div className="footer-bottom">
       <p className="footer-bottom-text">© {toPersianDigits(1405)} سوپر مارکت محدودیت نرخ. عضو دار و دسته چهل نفره</p>
-      <a href="#top" className="jump-to-up">
+      <a href="#/" className="jump-to-up" onClick={toTop}>
         پرش به بالا
         <svg
           width="16"

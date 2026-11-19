@@ -1,3 +1,11 @@
+import type { MouseEvent } from 'react';
+import { Link } from '@tanstack/react-router';
+
+const toAbout = (e: MouseEvent<HTMLAnchorElement>) => {
+  e.preventDefault();
+  document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+};
+
 export default function Hero() {
   return (
     <section className="hero" aria-labelledby="hero-title">
@@ -11,8 +19,8 @@ export default function Hero() {
         </p>
 
         <div className="hero-actions">
-          <a href="#fruits" className="hero-btn hero-btn-primary">شروع خرید</a>
-          <a href="#rate-limit" className="hero-btn hero-btn-secondary">درباره فروشگاه</a>
+          <Link to="/plp/$carouselId" params={{ carouselId: 'fruits' }} className="hero-btn hero-btn-primary">شروع خرید</Link>
+          <a href="#/" className="hero-btn hero-btn-secondary" onClick={toAbout}>درباره فروشگاه</a>
         </div>
 
         <ul className="hero-features">
