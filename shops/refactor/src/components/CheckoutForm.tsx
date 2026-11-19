@@ -48,9 +48,8 @@ export default function CheckoutForm({ onSuccess }: CheckoutFormProps) {
     }
     onSuccess()
   }
-
   return (
-    <form className="checkout-form" noValidate onSubmit={onSubmit}>
+    <form id="checkout-form" className="checkout-form" noValidate onSubmit={onSubmit}>
       {FIELDS.map((field) => {
         const error = submitted ? errors[field.key] : undefined
         return (

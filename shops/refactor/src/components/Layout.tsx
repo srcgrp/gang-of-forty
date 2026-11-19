@@ -7,10 +7,15 @@ import CartPanel from './CartPanel'
 import Footer from './Footer'
 import Header from './Header'
 
+const readSearchString = (value: unknown): string | undefined =>
+  typeof value === 'string' ? value : undefined
+const readSearchNumber = (value: unknown): number | undefined =>
+  typeof value === 'number' && Number.isFinite(value) ? value : undefined
+
 export default function Layout() {
   const { state } = useCatalog()
   const theme = useThemeStore((s) => s.theme)
-  const search = useSearch({ strict: false }) as { q?: string; category?: number | null }
+  const search = useSearch({ strict: false })
   const [query, setQuery] = useState('')
   const [isCartOpen, setIsCartOpen] = useState(false)
   const navigate = useNavigate()
@@ -20,9 +25,9 @@ export default function Layout() {
       <a className="skip-link" href="#content" onClick={(event) => anchorClick('#content')(event)}>پرش به محتوای اصلی</a>
       {state.status === 'success' && (
         <Header shop={state.data.shop} categories={state.data.categories} query={query}
-          onQuery={(value) => { setQuery(value); navigate({ to: '/', search: { q: value, category: search.category ?? undefined } }) }}
+          onQuery={(value) => { setQuery(value); navigate({ to: '/', search: { q: value, category: readSearchNumber(search.category) } }) }}
           onOpenCart={() => setIsCartOpen(true)}
-          onPickCategory={(id) => navigate({ to: '/', search: { q: search.q ?? '', category: id ?? undefined } })} />
+          onPickCategory={(id) => navigate({ to: '/', search: { q: readSearchString(search.q) ?? '', category: id ?? undefined } })} />
       )}
       <Outlet />
       {state.status === 'success' && (

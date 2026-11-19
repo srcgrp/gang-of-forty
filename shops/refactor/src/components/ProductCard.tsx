@@ -1,4 +1,3 @@
-
 import { memo } from 'react'
 import { Link } from '@tanstack/react-router'
 import type { ProductView } from "../types";
@@ -31,7 +30,7 @@ type ProductCardProps = {
         {!inStock && <span className="chip-out">ناموجود</span>}
       </div>
       <div className="card-body">
-        <h3 className="card-title"><Link to="/product/$productId" params={{ productId: String(product.id) }}>{product.name}</Link></h3>
+        <h3 className="card-title"><Link className="card-title-link" to="/product/$productId" params={{ productId: String(product.id) }}>{product.name}</Link></h3>
         <p className="card-weight">{product.unit}</p>
       </div>
       <div className="card-foot">

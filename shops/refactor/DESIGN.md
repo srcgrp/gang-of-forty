@@ -2,22 +2,21 @@
 
 ## نمای کلی
 
-فروشگاه با React و TypeScript. صفحهٔ اصلی محصولات را نشان می‌دهد و ترتیب ثابتی دارد: بنر (Hero)، شمارش‌معکوس، نوار دسته‌بندی، گرید محصولات و دو ردیف کروسل. مسیرها با TanStack Router در فایل جدا (`src/router.tsx`) تعریف می‌شوند و `App.tsx` فقط `RouterProvider` را رندر می‌کند. تم روشن/تاریک و سبد خرید با Zustand مدیریت و با localStorage ماندگار می‌شوند؛ فیلترهای جستجو و دسته و مرتب‌سازی PLP در search param زندگی می‌کنند تا با رفرش از بین نروند. چهار صفحهٔ اختصاصی داریم: خانه، فهرست کالای هر کاروسل (PLP)، جزئیات محصول و تسویه حساب.
+فروشگاه با React و TypeScript. صفحهٔ اصلی محصولات را نشان می‌دهد و ترتیب ثابتی دارد: بنر (Hero)، شمارش‌معکوس، نوار دسته‌بندی، گرید محصولات و دو ردیف کروسل. مسیرها با TanStack Router داخل `App.tsx` تعریف می‌شوند. تم روشن/تاریک و سبد خرید با Zustand مدیریت و با localStorage ماندگار می‌شوند؛ فیلترهای جستجو و دسته و مرتب‌سازی PLP در search param زندگی می‌کنند تا با رفرش از بین نروند. چهار صفحهٔ اختصاصی داریم: خانه، فهرست کالای هر کاروسل (PLP)، جزئیات محصول و تسویه حساب.
 
 ## تصمیم‌های مهم و دلیلشان
 
 - **بدون Redux و React Query:** state پروژه ساده است (تم، سبد، واکشی کاتالوگ). به‌جای وابستگی اضافه، هر state با هوک یا store مخصوص خودش مدیریت می‌شود؛ نتیجه: کد کمتر، کنترل بیشتر.
 - **فیلترها در URL، نه در state:** جستجو (`q`)، دسته (`category`) و مرتب‌سازی (`sort`) به‌صورت search param نگه داشته می‌شوند. فایده: رفرش و دکمهٔ Back ترتیب و فیلتر را حفظ می‌کنند و لینک صفحه قابل اشتراک است.
 - **state سراسری با Zustand به‌جای context + reducer:** به‌جای ساخت Provider، reducer و اتصال دستی، storeهای Zustand با selectorهای ریز فقط همان کامپوننت‌هایی را رندر می‌کنند که به آن بخش از state وابسته‌اند؛ ذخیره در localStorage هم با persist داخلی انجام می‌شود.
-- **مسیرها در فایل جدا (`src/router.tsx`):** تعریف روت‌ها، اعتبارسنجی search و ساخت `router` همه در یک فایل جمع شده است؛ `App.tsx` فقط `RouterProvider` را رندر می‌کند. خواندن پارامتر در صفحات هم با `useParams({ from: '/plp/$carouselId' })` انجام می‌شود تا type مسیر و پارامترها از همان تعریف روت استخراج شود و اگر آدرس اشتباه تایپ شود، `npm run check` خطا می‌دهد.
+- **مسیرها در `App.tsx`:** قانون معماری مخزن فقط به `App.tsx` و `main.tsx` اجازهٔ import صفحه‌ها را می‌دهد، پس تعریف روت‌ها، `validateSearch`، `createHashHistory` و `Register` همین‌جاست (فایل جدا مثل `router.tsx` رد می‌شود). صفحه‌ها پارامتر را با `useParams({ from: '/plp/$carouselId' })` می‌خوانند و `App.tsx` را import نمی‌کنند (وگرنه import دوری می‌شود)؛ type مسیر از `Register` می‌آید و آدرس اشتباه در `npm run check` خطا می‌دهد.
 - **واکشی با state machine دستی:** `useCatalog` یک state با فیلد `status` برمی‌گرداند (loading، success، empty، error). مصرف‌کننده با narrowing مطمئن می‌شود فقط در حالت success به داده دست می‌زند.
 - **کمترین render:** `ProductCard` با `memo` بسته شده و همهٔ مشترک‌های store فقط با selector دقیق subscribe می‌کنند (`useCartStore((s) => s.add)`، `useCartStore((s) => cartCount(s.items))`). `Layout` اصلاً مشترک store سبد نیست، پس تغییر سبد کل درخت را دوباره رندر نمی‌کند.
-- **App کوچک:** `App.tsx` ۶ خط است و فقط `RouterProvider` را رندر می‌کند؛ منطق در کامپوننت‌ها، هوک‌ها و `router.tsx` است.
+- **App فقط مسیرها:** `App.tsx` فقط روت‌ها را تعریف می‌کند و `RouterProvider` را رندر می‌کند و هیچ `useState`/`useEffect` ندارد؛ منطق در کامپوننت‌ها و هوک‌هاست.
 
 ## ساختار پروژه
 
-- `App.tsx` — نقطهٔ ورود رندر؛ فقط `<RouterProvider router={router} />`.
-- `router.tsx` — تعریف همهٔ مسیرها، `validateSearch`، `createHashHistory` و `Register`.
+- `App.tsx` — تعریف همهٔ مسیرها، `validateSearch`، `createHashHistory` و `Register`، و رندر `<RouterProvider router={router} />`.
 - کامپوننت‌ها:
   - `Layout`، `Header`، `Footer` — قالب مشترک همهٔ صفحات؛ `Layout` با `<Outlet />` مسیر را داخل خودش رندر می‌کند.
   - `HomePage` — صفحهٔ اصلی روی مسیر `/`.
@@ -93,7 +92,7 @@ Layout
 │     ├─ لینک‌های مرتب‌سازی «پیش‌فرض» و «ارزان‌ترین» (search={{ sort: ... }})
 │     ├─ لینک «بازگشت به خانه»
 │     └─ ProductCard ×N (memo؛ با sortProducts مرتب شده)
-│        یا پیام «کاروسل وجود ندارد» برای شناسهٔ نامعتبر
+│        یا پیام «این فهرست پیدا نشد» برای شناسهٔ نامعتبر
 └─ Footer
 ```
 

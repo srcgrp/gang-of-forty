@@ -27,7 +27,7 @@ export default function CartPanel({ products, onClose }: CartPanelProps) {
       {lines.length === 0 ? (
         <div className="cart-empty-state">
           <span className="cart-empty-emoji" aria-hidden="true">🛒</span>
-          <p>سبد خرید شما خالی است؛از فهرست کالاها چیزی اضافه کنید.</p>
+          <p>سبد خرید شما خالی است؛ از فهرست کالاها چیزی اضافه کنید.</p>
         </div>
       ) : (
         <ul className="cart-items">
