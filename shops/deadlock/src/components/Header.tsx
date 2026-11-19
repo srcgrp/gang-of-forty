@@ -1,5 +1,5 @@
-type HeaderProps = { cartCount: number };
-
+import { useCartStore } from "../hooks/useCartStore";
+import ThemeToggle from "./ThemeToggle";
 const LINKS = [
   { label: "دسته‌بندی‌ها", href: "#categories" },
   { label: "پیشنهاد ویژه", href: "#special-offers" },
@@ -7,7 +7,10 @@ const LINKS = [
   { label: "تماس با ما", href: "#contact" },
 ];
 
-export default function Header({ cartCount }: HeaderProps) {
+export default function Header() {
+  const cartCount = useCartStore((state) =>
+    state.lines.reduce((count, line) => count + line.quantity, 0),
+  );
   return (
     <>
       <a href="#main-content" className="skip-link">پرش به محتوای اصلی</a>
@@ -27,9 +30,18 @@ export default function Header({ cartCount }: HeaderProps) {
           </a>
           <div className="search">
             <input id="search-box" type="search" aria-label="جستجوی محصول" placeholder="جستجو محصول..." />
+            <button type="button" className="search-btn" aria-label="جستجو">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" strokeWidth="2" />
+                <line x1="16.5" y1="16.5" x2="22" y2="22" stroke="currentColor" strokeWidth="2" />
+              </svg>
+            </button>
           </div>
+          <ThemeToggle />
           <button type="button" className="cart" aria-label="سبد خرید">
-            🛒 سبد خرید <span className="cart-count">{cartCount.toLocaleString("fa-IR")}</span>
+            <span className="btn-icon" aria-hidden="true">🛒</span>
+            <span className="btn-text">سبد خرید</span>
+            <span className="cart-count">{cartCount.toLocaleString("fa-IR")}</span>
           </button>
         </div>
         <nav className="main-nav" aria-label="منوی اصلی">

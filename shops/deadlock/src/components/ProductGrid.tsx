@@ -1,15 +1,17 @@
-import type { LoadState, Offer, Product, Stock } from "../types";
+import type { Catalog, LoadState, Offer, Product, Stock } from "../types";
+import { Link } from "@tanstack/react-router";
 import ProductCard from "./ProductCard";
 
 type ProductGridProps = {
   id: string;
   title: string;
   products: Product[];
-  status: LoadState["status"];
+  status: LoadState<Catalog>["status"];
   message: string;
   stock: Stock | undefined;
   offers: Offer[];
-  onAdd: (id: number) => void;
+  carouselId?: string;
+  isPlp?: boolean;
   onRetry?: () => void;
 };
 
@@ -21,21 +23,27 @@ export default function ProductGrid({
   message,
   stock,
   offers,
-  onAdd,
+  carouselId,
+  isPlp = false,
   onRetry,
 }: ProductGridProps) {
   return (
-    <section className="tents" id={id}>
-      <h2 className="titles">{title}</h2>
+    <section className={`tents${isPlp ? " plp-section" : ""}`} id={id}>
+      <div className="section-header">
+        <h2 className="titles">{title}</h2>
+        {carouselId && !isPlp && (
+          <Link to="/plp/$carouselId" params={{ carouselId }} search={{ sort: "default" }}>مشاهده همه ←</Link>
+        )}
+      </div>
       {status !== "success" ? (
-        <>
+        <div className={status === "error" ? "load-error" : undefined} role={status === "error" ? "alert" : undefined}>
           <p className="carousel-message">{status === "loading" ? "در حال بارگذاری..." : message}</p>
-          {status === "error" && onRetry && <button type="button" onClick={onRetry}>تلاش دوباره</button>}
-        </>
+          {status === "error" && onRetry && <button className="retry-button" type="button" onClick={onRetry}>تلاش دوباره</button>}
+        </div>
       ) : products.length === 0 ? (
         <p className="carousel-message">محصولی برای نمایش نیست.</p>
       ) : (
-        <div className="carousel">
+        <div className={isPlp ? "plp-grid" : "carousel"}>
           {products.map((product) => {
             const stockCount = stock?.items[product.id] ?? 0;
             const offer = offers.find((item) => item.productId === product.id);
@@ -45,7 +53,6 @@ export default function ProductGrid({
                 product={product}
                 stockCount={stockCount}
                 offer={offer}
-                onAdd={onAdd}
               />
             );
           })}

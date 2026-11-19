@@ -1,18 +1,15 @@
-import type { CartLine, Product } from "../types";
+import type { Product } from "../types";
+import { useCartStore } from "../hooks/useCartStore";
+import { cartTotal } from "../features/cart/cartState";
 
 type CartPanelProps = {
-  cart: CartLine[];
   products: Product[];
-  total: number;
-  onRemove: (productId: number) => void;
 };
 
-export default function CartPanel({
-  cart,
-  products,
-  total,
-  onRemove,
-}: CartPanelProps) {
+export default function CartPanel({ products }: CartPanelProps) {
+  const cart = useCartStore((state) => state.lines);
+  const removeFromCart = useCartStore((state) => state.remove);
+  const total = cartTotal(cart, products);
   return (
     <aside className="cart-panel">
       <h2>سبد خرید</h2>
@@ -25,8 +22,8 @@ export default function CartPanel({
 
           return (
             <div className="cart-row" key={line.productId}>
-              <span>{product.name} × {line.quantity}</span>
-              <button type="button" onClick={() => onRemove(line.productId)}>
+              <span>{product.name} <strong className="cart-multiply">×</strong> {line.quantity}</span>
+              <button type="button" onClick={() => removeFromCart(line.productId)}>
                 حذف
               </button>
             </div>
