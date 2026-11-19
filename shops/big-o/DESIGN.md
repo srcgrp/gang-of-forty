@@ -6,6 +6,8 @@
 - A customer can see different categories and click to see its products.
 - A customer can see which category is selected in the menu.
 - A customer can open a page with all the products of one carousel or category (PLP), and the page stays the same after a reload.
+- A customer can sort the products of a PLP by price, and the order stays after a reload.
+- A customer can click a product name to open its own page, and add the product to the cart there.
 - A customer can see out-of-stock label on products which are out of stock.
 - A customer can add a product to the cart and see the cart badge count.
 - A customer can open the cart panel, change the number of each item, remove an item and see the total.
@@ -15,22 +17,27 @@
 - A customer can see a "not found" page for a wrong address.
 - A customer can see the shop's information in the footer.
 - A customer can see how much time is left for the special offers sale, and hide or show the countdown.
-- Not now: payments, login, signup, product page, checkout form.
+- Not now: payments, login, signup, checkout form.
 
 ## 2. Screens and parts
-Announcement · Header (logo, search (static), theme toggle, cart count) · Navbar (mega-menu, navbar) · Banner (static) · Category list · Product card · Offered carousel (with sale countdown) · Advertise (static) · Product carousel · Product list page (PLP) · Not found page · Cart panel (drawer) · Cart item row · Footer · Loading / empty / error messages.
+Announcement · Header (logo, search (static), theme toggle, cart count) · Navbar (mega-menu, navbar) · Banner (static) · Category list · Product card · Offered carousel (with sale countdown) · Advertise (static) · Product carousel · Product list page (PLP) · Product page · Not found page · Cart panel (drawer) · Cart item row · Footer · Loading / empty / error messages.
 
 ## 3. Routes
 All routes are in `src/App.tsx`. We use TanStack Router with hash history, so the app works on a static host without server settings.
-- `#/` → `HomePage`
-- `#/plp/$carouselId?sort=default|price` → `PlpPage` (`carouselId` is a carousel id, or a category slug like `dairy`; `sort` is optional)
-- any other address → `NotFound` (`notFoundComponent` of the root route)
+
+| Address | Page | Where the data comes from |
+|---|---|---|
+| `#/` | `HomePage` | `useCatalog` (carousels from `home.json`) |
+| `#/plp/$carouselId?sort=default\|price` | `PlpPage` | `useCatalog` + `carouselProducts` + `sortProducts` (`carouselId` is a carousel id or a category slug like `dairy`; `sort` is optional) |
+| `#/product/$productId` | `ProductPage` | `useCatalog` + `findProduct(products, productId)` |
+| any other address | `NotFound` | no data (`notFoundComponent` of the root route) |
 
 Why the routes are in `App.tsx`: the routes are the map of the whole app, so one file shows all pages at one glance. The pages do not import `App.tsx` (that would be a circular import), so a page reads its param with `useParams({ from: "/plp/$carouselId" })`.
 The route table is registered with a `Register` declaration, so TypeScript checks every `Link` (`to` and `params`). A wrong path is a type error, not a broken link in the browser.
 The active `Link` gets `aria-current="page"` by itself, we use it to style the selected category.
 The old `#slug` anchors do not work with hash routing, so we use `Link` or scroll buttons instead.
 The PLP route has `validateSearch`: it turns `?sort` into `"default"` or `"price"` with `toSortOption` (any other value becomes `"default"`), and `PlpPage` reads it with `useSearch` and orders the cards with the pure function `sortProducts` (cheapest final price first). The sort lives in the URL, so Refresh and Back keep it.
+`ProductPage` reads its param with `useParams({ from: "/product/$productId" })`. The param is text, so `findProduct` turns it into a number and returns `null` if it is not a valid id.
 
 ## 4. Component tree
 `App` only has the routes. `Layout` is the shell of every page.
@@ -55,7 +62,7 @@ HomePage (#/)
 ├─ ProductGrid (one for each carousel in home.json, at most 6 cards, with a "مشاهده همه" link)
 │   ├─ SaleBox (only on the offers carousel, next to the title)
 │   │   └─ SaleCountdown
-│   └─ ProductCard (Badge, Price)
+│   └─ ProductCard (Badge, Price, the name is a link to ProductPage)
 └─ Ads
 
 PlpPage (#/plp/$carouselId)
@@ -65,18 +72,33 @@ PlpPage (#/plp/$carouselId)
 ├─ "not found" message (the carousel does not exist)
 └─ "empty" message (the carousel has no products)
 
+ProductPage (#/product/$productId)
+├─ Badge (out of stock or discount)
+├─ title, unit and Price
+├─ add button (disabled when out of stock)
+├─ "محصول پیدا نشد" message (the id is wrong)
+└─ link to home
+
 NotFound (any other address)
 └─ message and a link to home
 ```
-`HomePage` and `PlpPage` show `CatalogMessage` (loading, empty or error) when the data is not ready.
+`HomePage`, `PlpPage` and `ProductPage` show `CatalogMessage` (loading, empty or error) when the data is not ready.
 Data goes down with props. Events go up with callback props (`onClose`, `onCartClick`, `onRetry`...).
-`Layout`, `Header`, `ProductCard`, `CartPanel` and `ThemeToggle` read the stores directly. `CartPanel` reads `add` and `remove` and passes them to `CartItemRow` as `onAdd` and `onRemove` props.
+`Layout`, `Header`, `ProductCard`, `ProductPage`, `CartPanel` and `ThemeToggle` read the stores directly. `CartPanel` reads `add` and `remove` and passes them to `CartItemRow` as `onAdd` and `onRemove` props.
 
 ## 5. State
 Zustand is used for what many components need. The Router keeps the current page. Everything else is local State.
+
+### Stores
+| Store | Defined in | What it holds | Who changes it | Where it is saved |
+|---|---|---|---|---|
+| `useThemeStore` | `src/hooks/useThemeStore.ts` | `theme`, `toggle` | `ThemeToggle` | localStorage (`big-o-theme`), by `persist` |
+| `useCartStore` | `src/hooks/useCartStore.ts` | `items`, `add`, `remove` | `ProductCard`, `ProductPage`, `CartItemRow` | localStorage (`big-o-cart`), by `subscribe` |
+
+### State
 | State | Owner | Who changes it | Where it is stored |
 |---|---|---|---|
-| `items` (cart) | `useCartStore` | `add` (from `ProductCard`, and from `CartItemRow` through `CartPanel` props), `remove` (from `CartItemRow` through `CartPanel` props) | localStorage (`storage/`), saved with `subscribe` |
+| `items` (cart) | `useCartStore` | `add` (from `ProductCard`, `ProductPage`, and from `CartItemRow` through `CartPanel` props), `remove` (from `CartItemRow` through `CartPanel` props) | localStorage (`storage/`), saved with `subscribe` |
 | `theme` | `useThemeStore` | `toggle` (from `ThemeToggle`) | localStorage (`big-o-theme`), saved by the `persist` middleware |
 | `state` (LoadState) | `useCatalog` hook | the fetch effect, and `retry` (sets `loading`) | memory |
 | `attempt` (load tries) | `useCatalog` hook | `retry`, from the Retry button in `CatalogMessage` | memory |
@@ -97,6 +119,7 @@ These values are **not** State, we calculate them in every render:
 - `categories` and `shopName`: calculated from `state`.
 - the products of a carousel or category (`carouselProducts`): calculated from the route param and `state`.
 - the sorted list of the PLP (`sortProducts`): calculated from these products and `sort`.
+- the product of the product page (`findProduct`): calculated from the route param and `state`.
 
 Why: if we keep a second copy in State, it can go out of sync with the original (for example `items` changes but `total` does not). One source of truth, everything else is calculated.
 
@@ -109,7 +132,7 @@ Also types for the page: CardInfo (offer label, percent, final price and inStock
 - Server: Product, Category, Stock, Offer, Shop, Carousel
 - Client state: the `Catalog` and the load status (in `state` of `useCatalog`), the cart items (in `useCartStore`), the theme (in `useThemeStore`) and the cart panel open flag (in `Layout`).
 - localStorage: cart items (id, name, price, qty) only (key `big-o-cart`), and the theme (key `big-o-theme`)
-- URL: the current page (`#/` or `#/plp/<id>`) and the PLP sort (`?sort=price`), so Refresh and Back / Forward work.
+- URL: the current page (`#/`, `#/plp/<id>` or `#/product/<id>`) and the PLP sort (`?sort=price`), so Refresh and Back / Forward work.
 
 ## 8. API (what we fetch, and when)
 All files are fetched together with `Promise.all` when a page loads (the effect in `useCatalog` calls `loadShopState`). The app only reads, it never writes.
@@ -128,11 +151,12 @@ The effect's deps are `[attempt]`. The Retry button calls `retry`, which sets `l
 ## 9. States of each screen
 Every page checks `state.status` first, and shows `CatalogMessage` if the status is not `success`:
 - loading: a "در حال بارگذاری..." message
-- success: the page (hero, categories, carousels, product cards, or the PLP grid)
+- success: the page (hero, categories, carousels, product cards, the PLP grid, or the product page)
 - empty: a message "محصولی یافت نشد."
 - error: a "بارگذاری اطلاعات ممکن نشد." message with the reason, and a "تلاش دوباره" (Retry) button
 
 `PlpPage` has one more case. `carouselProducts` returns `null` when the carousel id and the category slug do not exist (`#/plp/nothing`), and an empty list `[]` when it exists but has no products. `null` shows "این فهرست پیدا نشد." with a link to home, `[]` shows "محصولی در این فهرست نیست.". On `HomePage`, `null` becomes `[]` (an empty grid), not a crash.
+`ProductPage` has one more case. `findProduct` returns `null` when the id in the URL is not a number or no product has it (`#/product/abc`), and the page shows "محصول پیدا نشد" with a link home.
 A wrong address (`#/nowhere`) shows `NotFound`.
 
 The cart panel shows a message when the cart is empty. Every product card has a `key`.
@@ -144,10 +168,10 @@ Imports only go down: main → App → pages → components → hooks → logic 
 - `src/api/` — data: reads the JSON files (`getData`), turns the result into a LoadState (`loadShopState`) and checks the data with guards (`guards`, `shopGuards`)
 - `src/storage/` — data: saves and reads the cart items in localStorage
 - `src/cart/` — logic: pure functions that return a new cart (`addToCart`, `decreaseItem`) and `cartCount`
-- `src/catalog/` — logic: filters products, final price, card info, `carouselProducts` and `sortProducts` / `toSortOption`
+- `src/catalog/` — logic: filters products, final price, card info, `carouselProducts`, `findProduct` and `sortProducts` / `toSortOption`
 - `src/hooks/` — `useCatalog` (load state and retry), `useCartStore` and `useThemeStore` (Zustand stores). The stores use `storage`, `cart`, and `useCatalog` uses `api`
 - `src/components/` — ui: React components, `Layout` and the small parts
-- `src/components/pages/` — one file for each route: `HomePage`, `PlpPage`, `NotFound` (each at most 70 lines)
+- `src/components/pages/` — one file for each route: `HomePage`, `PlpPage`, `ProductPage`, `NotFound` (each at most 70 lines)
 - `src/App.tsx` — only the routes
 - `src/main.tsx` — mounts `App`
 
