@@ -1,5 +1,7 @@
 import {useState} from 'react';
 
+import {Link} from '@tanstack/react-router';
+
 import {useCartStore} from '../hooks/useCartStore';
 import CartPanel from './CartPanel';
 import ProductGrid from './ProductGrid';
@@ -102,7 +104,7 @@ export default function Header({
                             value={query}
                             onChange={(event) => onQuery(event.target.value)}
                             aria-label='جست‌وجوی محصولات'
-                            placeholder='نام محصول مورد نظرت رو جست‌وجو کن...'
+                            placeholder='نام محصول مورد نظر رو جست‌وجو کن...'
                         />
                         {query && (
                             <button
@@ -143,6 +145,10 @@ export default function Header({
                 </div>
 
                 <div className='header-cart'>
+                    <Link to='/checkout' className='checkout-header-link'>
+                        تسویه حساب
+                    </Link>
+
                     <button
                         type='button'
                         id='cart'

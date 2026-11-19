@@ -10,6 +10,7 @@ type CartState = {
     add: (productId: number) => void;
     decrease: (productId: number) => void;
     remove: (productId: number) => void;
+    clear: () => void;
 };
 
 export const useCartStore = create<CartState>()((set) => ({
@@ -29,6 +30,8 @@ export const useCartStore = create<CartState>()((set) => ({
         set((state) => ({
             lines: removeFromCart(state.lines, productId),
         })),
+
+    clear: () => set({lines: []}),
 }));
 
 useCartStore.subscribe((state) => {
