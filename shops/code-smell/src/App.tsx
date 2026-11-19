@@ -25,6 +25,9 @@ const homeRoute = createRoute({
 const plpRoute = createRoute({
     getParentRoute: () => rootRoute,
     path: "/plp/$carouselId",
+    validateSearch: (search: Record<string, unknown>): { sort: "default" | "price" } => ({
+        sort: search.sort === "price" ? "price" : "default"
+    }),
     component: PlpPage
 })
 

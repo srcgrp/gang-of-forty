@@ -32,6 +32,7 @@ export default function CarouselHeading({ carousel, titleId, preview }: Carousel
                             className="button button--primary button--route"
                             to="/plp/$carouselId"
                             params={{ carouselId: carousel.id }}
+                            search={{ sort: "default" }}
                             aria-label={"مشاهده همه (" + countText + ")، " + carousel.title}
                         >
                             مشاهده همه ({countText})
