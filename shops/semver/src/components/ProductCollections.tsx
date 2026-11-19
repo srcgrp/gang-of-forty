@@ -35,7 +35,7 @@ export default function ProductCollections(props: ProductCollectionsProps) {
         categoryId={props.categoryId}
       />
       <CategoryShelves
-        categories={props.catalog?.categories ?? []}
+        catalog={props.catalog}
         state={props.state}
       />
       <HomeCarousels

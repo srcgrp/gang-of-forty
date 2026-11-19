@@ -1,9 +1,18 @@
-import { useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { toProductViews } from "../api/product-views";
 import * as api from "../api/shop-api";
 import type { Catalog, LoadState } from "../types";
 
-export function useCatalog(): LoadState<Catalog> & { retry: () => void } {
+export type CatalogState = LoadState<Catalog> & { retry: () => void };
+export const CatalogContext = createContext<CatalogState | null>(null);
+
+export function useCatalog(): CatalogState {
+  const state = useContext(CatalogContext);
+  if (state === null) throw new Error("useCatalog requires a catalog provider");
+  return state;
+}
+
+export function useLoadCatalog(): CatalogState {
   const [state, setState] = useState<LoadState<Catalog>>({ status: "loading" });
   const [attempt, setAttempt] = useState(0);
 

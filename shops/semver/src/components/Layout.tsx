@@ -1,14 +1,18 @@
+import { Outlet, useLocation } from "@tanstack/react-router";
 import { useState } from "react";
 import { filterProductsByQuery } from "../catalog/filter-products";
 import { stateForProducts } from "../catalog/product-state";
-import { useCatalog } from "../hooks/useCatalog";
-import CategoryList from "./CategoryList";
+import { HomeCategoryContext } from "../hooks/home-category";
+import { CatalogContext, useCatalog, useLoadCatalog } from "../hooks/useCatalog";
+import { useThemeStore } from "../hooks/useThemeStore";
 import Footer from "./Footer";
 import Header from "./Header";
-import ProductCollections from "./ProductCollections";
+import HeroBanner from "./HeroBanner";
 
-export default function Storefront() {
+function StorefrontLayout() {
   const state = useCatalog();
+  const theme = useThemeStore((state) => state.theme);
+  const isHome = useLocation({ select: (location) => location.pathname === "/" });
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const [query, setQuery] = useState("");
   const catalog = state.status === "success" || state.status === "empty" ? state.data : null;
@@ -18,29 +22,35 @@ export default function Storefront() {
   const searchState = filterProductsByQuery(productState, query, categories);
 
   return (
-    <>
+    <div className="app" id="storefront-top" data-theme={theme}>
       <Header
         products={products}
         categories={categories}
         activeCategoryId={categoryId}
         onCategoryPick={setCategoryId}
         shop={catalog?.shop ?? null}
-        home={catalog?.home ?? null}
         query={query}
         onQueryChange={setQuery}
         searchState={searchState}
         onRetry={state.retry}
       />
+      {isHome && <HeroBanner hero={catalog?.home.hero} />}
       <main>
-        <CategoryList categories={categories} />
-        <ProductCollections
-          catalog={catalog}
-          state={productState}
-          categoryId={categoryId}
-          onRetry={state.retry}
-        />
+        <HomeCategoryContext value={categoryId}>
+          <Outlet />
+        </HomeCategoryContext>
       </main>
       <Footer shop={catalog?.shop ?? null} categories={categories} />
-    </>
+    </div>
+  );
+}
+
+export default function Layout() {
+  const state = useLoadCatalog();
+
+  return (
+    <CatalogContext value={state}>
+      <StorefrontLayout />
+    </CatalogContext>
   );
 }

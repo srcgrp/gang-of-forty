@@ -99,6 +99,17 @@ main {
   padding: 0 16px;
 }
 
+html {
+  scroll-padding-block-start: var(--site-header-height, 0px);
+}
+
+.site-header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 30;
+  background-color: var(--bg);
+}
+
 #news-section {
   display: flex;
   gap: 8px;
@@ -592,6 +603,40 @@ i.ph-arrow-left {
   font-size: 18px;
   font-weight: 700;
   margin-bottom: 0;
+}
+
+.catalog-link {
+  color: var(--ink);
+  text-decoration: underline;
+}
+
+.carousel-title,
+.carousel-title-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+}
+
+.carousel-link {
+  margin-inline-start: auto;
+  font-size: 0.75em;
+  white-space: nowrap;
+}
+
+.catalog-page {
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-block: 24px;
+}
+
+.catalog-page-count {
+  color: var(--ink);
+  margin-block: 8px;
+}
+
+.catalog-page .flex-item-product {
+  flex-wrap: wrap;
 }
 
 .flex-item-product {

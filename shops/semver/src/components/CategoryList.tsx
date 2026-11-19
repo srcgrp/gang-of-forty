@@ -1,4 +1,5 @@
 import type { Category } from "../types";
+import StoreLink from "./StoreLink";
 
 export default function CategoryList({ categories }: { categories: Category[] }) {
   return (
@@ -8,7 +9,7 @@ export default function CategoryList({ categories }: { categories: Category[] })
       </h2>
       <article className="flex-item-categories">
         {categories.map((category) => (
-          <a
+          <StoreLink
             className="item"
             href={`#${category.slug}`}
             aria-label={`رفتن به دسته ${category.name}`}
@@ -16,7 +17,7 @@ export default function CategoryList({ categories }: { categories: Category[] })
           >
             <span className="category-emoji">{category.emoji}</span>
             <p>{category.name}</p>
-          </a>
+          </StoreLink>
         ))}
       </article>
     </>

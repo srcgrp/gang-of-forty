@@ -1,4 +1,6 @@
+import { Link } from "@tanstack/react-router";
 import type { Category, Shop } from "../types";
+import StoreLink from "./StoreLink";
 
 type FooterProps = {
   shop: Shop | null;
@@ -29,7 +31,7 @@ export default function Footer({ shop, categories }: FooterProps) {
               <ul className="footer-links" id="footer-category-links">
                 {categories.map((category) => (
                   <li key={category.id}>
-                    <a href={`#${category.slug}`}>{category.name}</a>
+                    <StoreLink href={`#${category.slug}`}>{category.name}</StoreLink>
                   </li>
                 ))}
               </ul>
@@ -40,7 +42,7 @@ export default function Footer({ shop, categories }: FooterProps) {
               <ul className="footer-links" id="footer-help-links">
                 {shop?.help.map((link) => (
                   <li key={`${link.href}-${link.label}`}>
-                    <a href={link.href}>{link.label}</a>
+                    <StoreLink href={link.href}>{link.label}</StoreLink>
                   </li>
                 ))}
               </ul>
@@ -62,9 +64,9 @@ export default function Footer({ shop, categories }: FooterProps) {
             <p className="copyright" id="footer-copyright">
               {shop?.copyright}
             </p>
-            <a href="#news" className="back-to-top">
+            <Link to="." hash="storefront-top" className="back-to-top" activeOptions={{ includeHash: true }}>
               بازگشت به بالا ↑
-            </a>
+            </Link>
           </div>
         </div>
       </article>

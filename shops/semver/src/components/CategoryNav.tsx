@@ -1,4 +1,5 @@
 import type { Category, ShopLink } from '../types';
+import StoreLink from './StoreLink';
 
 type CategoryNavProps = {
   categories: Category[];
@@ -24,17 +25,17 @@ export default function CategoryNav({
             </summary>
             <ul className="dropdown-menu" id="dropdown-menu">
               <li>
-                <a
+                <StoreLink
                   href="#categories"
                   aria-current={activeCategoryId === null ? 'true' : undefined}
                   onClick={() => onPick(null)}
                 >
                   همه کالاها
-                </a>
+                </StoreLink>
               </li>
               {categories.map((category) => (
                 <li key={category.id}>
-                  <a
+                  <StoreLink
                     href={`#${category.slug}`}
                     aria-current={
                       activeCategoryId === category.id ? 'true' : undefined
@@ -42,7 +43,7 @@ export default function CategoryNav({
                     onClick={() => onPick(category.id)}
                   >
                     {category.emoji} {category.name}
-                  </a>
+                  </StoreLink>
                 </li>
               ))}
             </ul>
@@ -50,7 +51,7 @@ export default function CategoryNav({
         </li>
         {menu.map((link) => (
           <li key={`${link.href}-${link.label}`}>
-            <a href={link.href}>{link.label}</a>
+            <StoreLink href={link.href}>{link.label}</StoreLink>
           </li>
         ))}
       </ul>

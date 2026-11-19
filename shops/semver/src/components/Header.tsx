@@ -1,11 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import logo from '../../image/pomegranate-logo-02.svg';
 import CategoryNav from './CategoryNav';
 import CartPanel from './CartPanel';
 import SearchBox from './SearchBox';
 import ThemeToggle from './ThemeToggle';
-import type { Category, Home, Product, ProductLoadState, Shop } from '../types';
+import type { Category, Product, ProductLoadState, Shop } from '../types';
 import { countCartItems } from '../cart/cart';
 import { useCartStore } from '../hooks/useCartStore';
+import { SHOP_PROFILE } from '../shop-profile';
 import { formatCount } from '../utils/format';
 
 type HeaderProps = {
@@ -14,7 +16,6 @@ type HeaderProps = {
   activeCategoryId: number | null;
   onCategoryPick: (categoryId: number | null) => void;
   shop: Shop | null;
-  home: Home | null;
   query: string;
   onQueryChange: (query: string) => void;
   searchState: ProductLoadState;
@@ -27,7 +28,6 @@ export default function Header({
   activeCategoryId,
   onCategoryPick,
   shop,
-  home,
   query,
   onQueryChange,
   searchState,
@@ -35,13 +35,30 @@ export default function Header({
 }: HeaderProps) {
   const [cartOpen, setCartOpen] = useState(false);
   const cartCount = useCartStore((state) => countCartItems(state.lines));
+  const headerRef = useRef<HTMLElement>(null);
+
+  useLayoutEffect(() => {
+    const header = headerRef.current;
+    if (!header) return;
+
+    const root = document.documentElement;
+    const updateHeight = () => root.style.setProperty('--site-header-height', `${header.offsetHeight}px`);
+    updateHeight();
+
+    const observer = new ResizeObserver(updateHeight);
+    observer.observe(header);
+    return () => {
+      observer.disconnect();
+      root.style.removeProperty('--site-header-height');
+    };
+  }, []);
 
   useEffect(() => {
-    document.title = `سوپرمارکت ناردونه | 🛒 ${formatCount(cartCount)}`;
+    document.title = `${SHOP_PROFILE.name} | 🛒 ${formatCount(cartCount)}`;
   }, [cartCount]);
 
   return (
-    <header>
+    <header className="site-header" ref={headerRef}>
       <article>
         <section id="news-section">
           <p id="news">
@@ -60,12 +77,12 @@ export default function Header({
           <div id="site-brand">
             <img
               id="logo"
-              src="./image/pomegranate-logo-02.svg"
-              alt="لوگوی فروشگاه مترون"
+              src={logo}
+              alt={`لوگوی ${SHOP_PROFILE.name}`}
             />
             <section id="site-name">
-              <p id="title">سوپرمارکت ناردونه</p>
-              <p id="tagline">{shop?.slogan ?? "دقیـق مثـل مترونـوم"}</p>
+              <p id="title">{SHOP_PROFILE.name}</p>
+              <p id="tagline">{shop?.slogan ?? "تازه، نزدیک، به‌صرفه"}</p>
             </section>
           </div>
           <SearchBox
@@ -114,19 +131,6 @@ export default function Header({
         onPick={onCategoryPick}
         menu={shop?.menu ?? []}
       />
-      <section className="hero-container">
-        <div id="hero-right">
-          <div id="hero-title1">
-            <h1 id="hero-h1">{home?.hero.title}</h1>
-            <p id="hero-p">{home?.hero.text}</p>
-            <a href={home?.hero.cta.href ?? "#"} id="cta">
-              <span id="cta-label">{home?.hero.cta.label}</span>
-              <i className="ph ph-arrow-left ph-lg"></i>
-            </a>
-          </div>
-        </div>
-        
-      </section>
     </header>
   );
 }

@@ -1,3 +1,4 @@
+import { SHOP_PROFILE } from '../shop-profile';
 import type { Category, Home, Offer, Product, Shop, StockData } from '../types';
 import { fetchChecked, fetchList } from './client';
 import {
@@ -23,8 +24,10 @@ export const fetchCategories = (): Promise<Category[]> =>
 export const fetchStock = (): Promise<StockData> =>
   fetchChecked(`${BASE}/stock.json`, isStock);
 
-export const fetchShop = (): Promise<Shop> =>
-  fetchChecked(`${BASE}/shop.json`, isShop);
+export const fetchShop = async (): Promise<Shop> => ({
+  ...(await fetchChecked(`${BASE}/shop.json`, isShop)),
+  ...SHOP_PROFILE,
+});
 
 export const fetchHome = (): Promise<Home> =>
   fetchChecked(`${BASE}/home.json`, isHome);
