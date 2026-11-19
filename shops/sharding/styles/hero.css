@@ -12,12 +12,12 @@
   contain: layout paint;
 }
 
-:root[data-theme="dark"] .hero-video {
+.app[data-theme="dark"] .hero-video {
   box-shadow: 0 0 0 1px var(--border), 0 12px 32px -12px var(--shadow-color);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root[data-theme="auto"] .hero-video {
+  .app[data-theme="auto"] .hero-video {
     box-shadow: 0 0 0 1px var(--border), 0 12px 32px -12px var(--shadow-color);
   }
 }
@@ -197,7 +197,7 @@
   overflow-x: auto;
   overflow-y: hidden;
   touch-action: pan-x;
-  scroll-snap-type: x mandatory;
+  scroll-snap-type: x proximity;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   padding: 4px 4px 12px;
