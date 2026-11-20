@@ -1,29 +1,176 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت کد تمیز</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>🧼 سلام دنیا!</h1>
-  </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>کد تمیز</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p><bdi>Clean Code</bdi> نام کتاب رابرت سی. مارتین (معروف به «عمو باب»، ۲۰۰۸) است. حرف اصلی‌اش این است که کد را آدم‌ها بیشتر از کامپیوترها می‌خوانند: اسم‌های گویا، تابع‌های کوچک که فقط یک کار می‌کنند، و کامنت کمتر چون خود کد باید گویا باشد.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
-    </section>
-  </main>
-  <footer>
-    <p dir="ltr">slug: <code>clean-code</code></p>
-  </footer>
-</body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>تمیز مارکت</title>
+    <meta name="author" content="Fateme Ahmadifard">
+    <meta name="description" content="سوپرمارکت تمیز، لبنیات و خرید روزانه">
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&amp;display=swap"
+    >
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <a class="skip" href="#content">پرش به محتوای اصلی</a>
+    <div class="banner" id="top">
+      <img src="./images/truck.png" width="50" height="50" alt="">
+      <p></p>
+    </div>
+
+    <header class="header">
+      <div class="box header-top">
+        <div class="brand">
+          <a href="#top">
+            <svg
+              class="logo"
+              viewBox="0 0 64 64"
+              role="img"
+              aria-labelledby="logo-title"
+            >
+              <title id="logo-title">سوپرمارکت تمیز</title>
+              <rect width="64" height="64" rx="14" fill="#de7272"></rect>
+              <circle
+                cx="32"
+                cy="22"
+                r="8"
+                fill="none"
+                stroke="#ffffff"
+                stroke-width="3"
+              ></circle>
+              <rect x="20" y="22" width="24" height="10" fill="#de7272"></rect>
+              <polygon
+                points="15,30 49,30 44,52 20,52"
+                fill="#ffffff"
+              ></polygon>
+            </svg>
+          </a>
+          <div>
+            <h1>سوپرمارکت تمیز</h1>
+            <p class="slogan"></p>
+          </div>
+        </div>
+
+        <form class="search" action="#content" method="get" role="search">
+          <label class="sr-only" for="q">جستجوی کالا</label>
+          <input id="q" type="search" name="q" placeholder="جستجوی کالا">
+          <button type="submit">جستجو</button>
+        </form>
+
+        <a class="cart" href="#cart">
+          <span class="cart-label">سبد خرید</span>
+          <svg class="cart-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linejoin="round"
+              d="M6 7h15l-1.5 9h-12z"
+            ></path>
+            <path
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              d="M6 7 5 4H2"
+            ></path>
+            <circle cx="9" cy="20" r="1.4" fill="currentColor"></circle>
+            <circle cx="17" cy="20" r="1.4" fill="currentColor"></circle>
+          </svg>
+          <span class="cart-count">۰</span>
+        </a>
+        <input class="nav-toggle" id="nav-toggle" type="checkbox">
+        <label class="menu-btn" for="nav-toggle">
+          <span class="sr-only">منو</span>
+          <svg class="icon-open" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M4 7h16M4 12h16M4 17h16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            ></path>
+          </svg>
+          <svg class="icon-close" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M6 6 18 18M18 6 6 18"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            ></path>
+          </svg>
+        </label>
+      </div>
+
+      <nav class="main-nav" id="menu" aria-label="منوی اصلی">
+        <ul class="box" id="menu-list"></ul>
+      </nav>
+    </header>
+
+    <main id="content" tabindex="-1">
+      <div class="box">
+        <p id="status" class="status" role="status">در حال بارگذاری…</p>
+
+        <section class="hero" id="hero"></section>
+
+        <section id="categories">
+          <h2>دسته‌بندی‌ها</h2>
+          <ul class="cat-list" id="cat-list"></ul>
+        </section>
+
+        <div id="featured"></div>
+
+        <aside class="adv" id="promos"></aside>
+
+        <div id="carousels"></div>
+
+        <section id="cart">
+          <h2>سبد خرید</h2>
+          <p id="cart-text">سبد خالی است.</p>
+          <button type="button" id="clear-cart">خالی کردن سبد</button>
+        </section>
+      </div>
+    </main>
+
+    <footer class="footer" id="contact">
+      <div class="box">
+        <div class="footer-cols">
+          <div>
+            <h2>سوپرمارکت کد تمیز</h2>
+            <p id="about"></p>
+            <p class="foot-line" id="address"></p>
+            <p class="foot-line">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  fill="#d5dfd2"
+                  d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .57 3.6 1 1 0 0 1-.25 1z"
+                ></path>
+              </svg>
+              <a id="phone" href="tel:">—</a>
+            </p>
+          </div>
+          <nav aria-label="دسته‌ها در پابرگ">
+            <h2>دسته‌ها</h2>
+            <ul id="footer-cats"></ul>
+          </nav>
+          <nav aria-label="راهنما">
+            <h2>راهنما</h2>
+            <ul id="footer-help"></ul>
+          </nav>
+          <div>
+            <h2>ساعت کاری</h2>
+            <p id="hours-week"></p>
+            <p id="hours-fri"></p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p class="copy-right" id="copyright"></p>
+          <a class="go-up" href="#top">بازگشت به بالا ↑</a>
+        </div>
+      </div>
+    </footer>
+    <script type="module" src="index.ts"></script>
+  </body>
 </html>

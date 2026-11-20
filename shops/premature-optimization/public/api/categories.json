@@ -1,0 +1,14 @@
+[
+  {"id": 1, "slug": "dairy", "name": "لبنیات", "image": "/svgs/dairies.svg", "emoji": "🥛", "color": "#cbe4ff"},
+  {"id": 2, "slug": "fruits", "name": "میوه و سبزیجات", "image": "/svgs/fruits.svg", "emoji": "🥦", "color": "#b7ffbd"},
+  {"id": 3, "slug": "drinks", "name": "نوشیدنی", "image": "/svgs/drinks.svg", "emoji": "🍹", "color": "#c7cdff"},
+  {"id": 4, "slug": "cleaner", "name": "دستمال و شوینده", "image": "/svgs/cleaner.svg", "emoji": "🧼", "color": "#ffd4f0"},
+  {"id": 5, "slug": "canned", "name": "کنسرو و غذای آماده", "image": "/svgs/canned.svg", "emoji": "🥫", "color": "#c6f8ff"},
+  {"id": 6, "slug": "desserts", "name": "دسر و خشکبار", "image": "/svgs/dessert.svg", "emoji": "🧁", "color": "#ffc4fb"},
+  {"id": 7, "slug": "snacks", "name": "تنقلات", "image": "/svgs/snacks.svg", "emoji": "🍬", "color": "#ffd9c2"},
+  {"id": 8, "slug": "bread", "name": "خواربار و نان", "image": "/svgs/bread.svg", "emoji": "🍞", "color": "#fffcc2"},
+  {"id": 9, "slug": "protein", "name": "پروتئین و تخم مرغ", "image": "/svgs/eggs.svg", "emoji": "🥩", "color": "#c0936b"},
+  {"id": 10, "slug": "makeup", "name": "آرایشی و بهداشتی", "image": "/svgs/makeup.svg", "emoji": "💄", "color": "#ffaccd"},
+  {"id": 11, "slug": "seasoning", "name": "چاشنی و افزودنی", "image": "/svgs/sauce.svg", "emoji": "🧂", "color": "#fbd6ce"},
+  {"id": 12, "slug": "electronic", "name": "لوازم برقی", "image": "/svgs/electronic.svg", "emoji": "💡", "color": "#d9d9d9"}  
+]
