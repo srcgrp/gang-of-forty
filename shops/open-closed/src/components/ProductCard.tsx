@@ -1,29 +1,25 @@
+import { useId } from 'react'
+import { useCartStore } from '../hooks/useCartStore.ts'
 import type { Product } from '../types.ts'
 import { describeProduct } from '../lib/format.ts'
 import Price from './Price.tsx'
-import { useCartStore } from '../hooks/useCartStore.ts'
 
 const TINTS = ['t-blue', 't-yellow', 't-green', 't-pink', 't-purple', 't-orange']
 
 type ProductCardProps = {
   product: Product
   index: number
-  badge?: string
   inStock?: boolean
 }
 
-export default function ProductCard({
-  product,
-  index,
-  badge,
-  inStock = true,
-}: ProductCardProps) {
+export default function ProductCard({ product, index, inStock = true }: ProductCardProps) {
   const add = useCartStore((s) => s.add)
-  const nameId = `d-${product.id}-n`
+  const nameId = useId()
   const tint = TINTS[index % TINTS.length]
+  const badge = product.tags.includes('جدید') ? 'جدید' : undefined
 
   return (
-    <li className={inStock ? 'card' : 'card is-out'} id={`d-${product.id}`}>
+    <li className={inStock ? 'card' : 'card is-out'}>
       <article className={tint} aria-labelledby={nameId}>
         <div className="media">
           <span className="ico" aria-hidden="true">{product.emoji}</span>

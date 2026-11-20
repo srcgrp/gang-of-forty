@@ -871,3 +871,11 @@ background: #E67188}
 }
 .cart-name { flex: 1; font-weight: 700; }
 .cart-total { margin-block-start: 12px; font-weight: 700; }
+
+.plp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--card-w), 1fr));
+    gap: 16px;
+    margin-block-start: 16px;
+}
+.back-link { margin-block-start: 12px; }

@@ -1,18 +1,25 @@
+import { Link } from '@tanstack/react-router'
+import JumpLink from './JumpLink.tsx'
+
 export default function MainNav() {
   return (
     <nav className="main-nav" aria-label="منوی اصلی">
       <ul>
         <li className="all-cats">
-          <a className="all-link" href="#categories">☰ همه دسته‌ها</a>
+          <Link className="all-link" to="/">☰ همه فهرست‌ها</Link>
           <ul className="cat-menu">
-            <li><a href="#categories">🍎 میوه و سبزی</a></li>
-            <li><a href="#dairy">🥛 لبنیات</a></li>
-            <li><a href="#categories">🥖 نان و شیرینی</a></li>
-            <li><a href="#categories">🍚 خواربار</a></li>
+            <li>
+              <Link to="/plp/$carouselId" params={{ carouselId: 'offers' }}>🔥 پیشنهاد ویژه</Link>
+            </li>
+            <li>
+              <Link to="/plp/$carouselId" params={{ carouselId: 'dairy' }}>🥛 لبنیات</Link>
+            </li>
           </ul>
         </li>
-        <li><a href="#dairy">لبنیات</a></li>
-        <li><a href="#contact">تماس با ما</a></li>
+        <li>
+          <Link to="/plp/$carouselId" params={{ carouselId: 'dairy' }}>لبنیات</Link>
+        </li>
+        <li><JumpLink to="contact">تماس با ما</JumpLink></li>
       </ul>
     </nav>
   )

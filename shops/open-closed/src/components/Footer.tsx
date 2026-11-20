@@ -1,3 +1,4 @@
+import JumpLink from './JumpLink.tsx'
 export default function Footer() {
   return (
     <footer className="site-footer" id="contact">
@@ -26,14 +27,14 @@ export default function Footer() {
           <section>
             <h2>راهنما</h2>
             <ul>
-              <li><a href="#top">شیوه ارسال</a></li>
-              <li><a href="#top">بازگشت کالا</a></li>
+              <li><JumpLink to="top">شیوه ارسال</JumpLink></li>
+              <li><JumpLink to="top">بازگشت کالا</JumpLink></li>
             </ul>
           </section>
         </div>
         <div className="footer-bottom">
           <p>© ۱۴۰۵ سوپرمارکت باز-بسته · عضو دار و دسته چهل‌نفره</p>
-          <a className="to-top" href="#top">↑ بازگشت به بالا</a>
+          <JumpLink className="to-top" to="top">↑ بازگشت به بالا</JumpLink>
         </div>
       </div>
     </footer>

@@ -4,7 +4,8 @@ import SearchBox from './SearchBox.tsx'
 import ThemeToggle from './ThemeToggle.tsx'
 import { totalQuantity } from '../cart/cart.ts'
 import { useCartStore } from '../hooks/useCartStore.ts'
-
+import { Link } from '@tanstack/react-router'
+import JumpLink from './JumpLink.tsx'
 
 export default function Header() {
   const count = useCartStore((s) => totalQuantity(s.cart))
@@ -12,7 +13,7 @@ export default function Header() {
     <header className="site-header">
       <div className="topbar">🚚 ارسال رایگان برای خریدهای بالای ۵۰۰ هزار تومان</div>
       <div className="wrap header-grid">
-        <a className="logo" href="#top" aria-label="سوپرمارکت باز-بسته، صفحه اصلی">
+        <Link className="logo" to="/" aria-label="سوپرمارکت باز-بسته، صفحه اصلی">
           <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false">
             <circle cx="20" cy="20" r="20" fill="#E67188" />
             <text x="20" y="27" textAnchor="middle" fontSize="20">🚪</text>
@@ -21,10 +22,10 @@ export default function Header() {
             <span className="logo-name">سوپرمارکت باز-بسته</span>
             <span className="logo-tag">باز برای توسعه، بسته برای تغییر</span>
           </span>
-        </a>
+        </Link>
       <div className="header-actions">
         <ThemeToggle/>
-        <a className="cart" href="#cart" aria-label="سبد خرید">
+        <JumpLink className="cart" to="cart" label="سبد خرید">
           <svg
             viewBox="0 0 24 24"
             fill="none"
@@ -41,7 +42,7 @@ export default function Header() {
           </svg>
           <span className="cart-label">سبد خرید</span>
           <span className="count">{formatCount(count)}</span>
-        </a>
+        </JumpLink>
       </div>
 
         <input className="menu-toggle" type="checkbox" id="menu-toggle" aria-label="باز و بسته کردن منو" />

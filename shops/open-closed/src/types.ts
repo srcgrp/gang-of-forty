@@ -26,7 +26,16 @@ export type Shop = {
 export type CartItem = { productId: number; quantity: number };
 export type Cart = CartItem[];
 
-export type Catalog = { products: Product[] };
+export type Carousel = {
+    id: string; title: string; emoji: string;
+    source?: 'offers'; categoryId?: number;
+};
+
+export type Catalog = {
+    products: Product[];
+    offers: Offer[];
+    carousels: Carousel[];
+};
 
 export type LoadState<T> =
     | { status: 'loading' }

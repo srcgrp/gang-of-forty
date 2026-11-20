@@ -1,34 +1,32 @@
-import { useState } from 'react'
-import { catalogProducts } from './catalog/catalog.ts'
-import { useCartTitle } from './hooks/useCartTitle.ts'
-import { useCatalog } from './hooks/useCatalog.ts'
-import { useThemeStore } from './hooks/useThemeStore.ts'
-import Banners from './components/Banners.tsx'
-import CartPanel from './components/CartPanel.tsx'
-import CategoryNav from './components/CategoryNav.tsx'
-import Footer from './components/Footer.tsx'
-import Header from './components/Header.tsx'
-import Hero from './components/Hero.tsx'
-import ProductGrid from './components/ProductGrid.tsx'
+import {
+  createHashHistory,
+  createRootRoute,
+  createRoute,
+  createRouter,
+  RouterProvider,
+} from '@tanstack/react-router'
+import Layout from './components/Layout.tsx'
+import HomePage from './components/pages/HomePage.tsx'
+import NotFound from './components/pages/NotFound.tsx'
+import PlpPage from './components/pages/PlpPage.tsx'
+
+const rootRoute = createRootRoute({ component: Layout, notFoundComponent: NotFound })
+const homeRoute = createRoute({ getParentRoute: () => rootRoute, path: '/', component: HomePage })
+const plpRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/plp/$carouselId',
+  component: PlpPage,
+})
+
+const routeTree = rootRoute.addChildren([homeRoute, plpRoute])
+const router = createRouter({ routeTree, history: createHashHistory() })
+
+declare module '@tanstack/react-router' {
+  interface Register {
+    router: typeof router
+  }
+}
 
 export default function App() {
-  const state = useCatalog()
-  const [categoryId, setCategoryId] = useState<number | null>(null)
-  const theme = useThemeStore((s) => s.theme)
-  useCartTitle()
-
-  return (
-    <div className="app" data-theme={theme}>
-      <a className="skip-link" href="#main">پرش به محتوای اصلی</a>
-      <Header />
-      <main id="main" tabIndex={-1} className="wrap">
-        <Hero />
-        <CategoryNav categoryId={categoryId} onPick={setCategoryId} />
-        <ProductGrid state={state} categoryId={categoryId} />
-        <CartPanel products={catalogProducts(state)} />
-        <Banners />
-      </main>
-      <Footer />
-    </div>
-  )
+  return <RouterProvider router={router} />
 }

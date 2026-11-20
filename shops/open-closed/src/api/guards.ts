@@ -1,6 +1,6 @@
-import type { Category, Offer, Product, Stock } from '../types.ts';
+import type { Carousel, Category, Offer, Product, Stock } from '../types.ts';
 
-function isRecord(value: unknown): value is Record<string, unknown> {
+export function isRecord(value: unknown): value is Record<string, unknown> {
     return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
@@ -51,5 +51,16 @@ export function isStock(x: unknown): x is Stock {
         typeof x.updatedAt === 'string' &&
         isRecord(x.items) &&
         Object.values(x.items).every((q) => typeof q === 'number' && q >= 0)
+    );
+}
+
+export function isCarousel(x: unknown): x is Carousel {
+    return (
+        isRecord(x) &&
+        typeof x.id === 'string' &&
+        typeof x.title === 'string' &&
+        typeof x.emoji === 'string' &&
+        (x.source === undefined || x.source === 'offers') &&
+        (x.categoryId === undefined || typeof x.categoryId === 'number')
     );
 }
