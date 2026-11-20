@@ -1,4 +1,4 @@
-import { Link, useParams , useSearch } from "@tanstack/react-router";
+import { Link, useParams , useSearch , useNavigate} from "@tanstack/react-router";
 import ProductGrid from "../ProductGrid.tsx";
 import Status from "../Status.tsx";
 import { useCatalog } from "../../hooks/useCatalog.ts";
@@ -12,6 +12,7 @@ import { sortProducts } from "../../catalog/sortProducts.ts";
 export default function PlpPage() {
   const { carouselId } = useParams({ from: "/plp/$carouselId" });
   const { sort } = useSearch({ from: "/plp/$carouselId" });
+  const navigate = useNavigate({ from: "/plp/$carouselId" });
   const { state, retry } = useCatalog();
   const query = useSearchStore((s) => s.query);
 
@@ -30,29 +31,33 @@ export default function PlpPage() {
   }
 
   const matches = sortProducts(searchProducts(all, query), sort);
+function handleSortChange(value: string) {
+  const nextSort =
+    value === "price" || value === "expensive" ? value : "default";
 
+  navigate({
+    search: (prev) => ({ ...prev, sort: nextSort }),
+  });
+}
   return (
     <section className="plp">
       <Link to="/" className="plp-back">بازگشت به خانه</Link>
-      <div className="sort-links">
-      
-  <Link
-    to="/plp/$carouselId"
-    params={{ carouselId }}
-    search={{ sort: "default" }}
-  >
-    پیش‌ فرض
-  </Link>
-<br></br>
-  <Link
-    to="/plp/$carouselId"
-    params={{ carouselId }}
-    search={{ sort: "price" }}
-  >
-    ارزان‌ ترین
-  </Link>
-</div>
-      <p className="plp-count">{formatNumber(matches.length)} محصول</p>
+  <div className="plp-toolbar">
+ <p className="plp-count">
+          {formatNumber(matches.length)} محصول
+        </p>
+        <select
+          className="sort-select"
+          value={sort}
+          onChange={(e) => handleSortChange(e.target.value)}
+          aria-label="مرتب‌سازی محصولات"
+        >
+          <option value="default">پیش‌فرض</option>
+          <option value="price">ارزان‌ترین</option>
+          <option value="expensive">گران‌ترین</option>
+        </select>
+      </div>
+
       <ProductGrid
         title={title}
         id={`plp-${carouselId}`}
