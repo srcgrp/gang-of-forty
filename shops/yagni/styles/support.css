@@ -1,0 +1,138 @@
+/* ========================================
+   Support
+   ======================================== */
+
+.support {
+  width: min(1240px, calc(100% - 40px));
+  margin: 32px auto 0;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+
+  background: var(--surface);
+}
+
+/* ---------- Item ---------- */
+
+.support-item {
+  min-height: 100px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+  padding: 20px 16px;
+
+  color: var(--text);
+  text-decoration: none;
+  text-align: center;
+
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+/* ---------- Icon ---------- */
+
+.support-icon {
+  width: 30px;
+  height: 30px;
+
+  flex-shrink: 0;
+
+  color: var(--primary);
+  fill: currentColor;
+
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
+}
+
+/* ---------- Text ---------- */
+
+.support-item span {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.7;
+}
+
+/* ---------- Hover ---------- */
+
+.support-item:hover .support-icon {
+  color: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+.support-item:hover span {
+  color: var(--text);
+}
+
+/* ========================================
+   Responsive
+   ======================================== */
+
+@media (max-width: 900px) {
+  .support {
+    width: min(100% - 32px, 700px);
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .support-item {
+    min-height: 95px;
+  }
+
+  .support-icon {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+@media (max-width: 600px) {
+  .support {
+    width: calc(100% - 20px);
+    margin-top: 24px;
+
+    grid-template-columns: repeat(2, 1fr);
+    border-radius: 14px;
+  }
+
+  .support-item {
+    min-height: 90px;
+    gap: 8px;
+    padding: 16px 10px;
+  }
+
+  .support-icon {
+    width: 26px;
+    height: 26px;
+  }
+
+  .support-item span {
+    font-size: 0.68rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .support {
+    width: calc(100% - 16px);
+  }
+
+  .support-item {
+    min-height: 82px;
+    padding: 12px 8px;
+  }
+
+  .support-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .support-item span {
+    font-size: 0.62rem;
+  }
+}

@@ -3,27 +3,323 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت گلوله رسام</title>
+  <title>کیتی فرند</title>
   <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
+  <meta name="author" content="elena">
+  <meta name="description" content="برای خاطرات شیرین">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body id="top">
+<a href="#main" class="skip-link">پرش به محتوای اصلی</a>
+
   <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>🎯 سلام دنیا!</h1>
+    <p>با هلو کیتی، همیشه یه دوست کنارته<img class="icon-inline" src="png/paw-print-fill.png" alt="" width="10" height="10"></p>
+    <h1 class="logo">
+      <a href="#top">
+        <svg width="131" height="79" viewBox="0 0 131 79" fill="none" aria-hidden="true">
+          <path class="bow-fill bow-stroke" d="M66.0667 45.5753C61.6667 25.433 49.1 5.58674 31.5 3.21705C13.9 0.847363 3 18.3239 3 37.2814C3 55.0541 4.93333 73.5322 24 74.7171C37.2 75.9019 60.2 62.1632 69 53.8692L66.0667 45.5753Z" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path class="bow-fill" d="M64.9333 46.5753C69.3333 26.433 81.9 6.58674 99.5 4.21705C117.1 1.84736 128 19.3239 128 38.2814C128 56.0541 126.067 74.5322 107 75.7171C93.8 76.9019 70.8 63.1632 62 54.8692L64.9333 46.5753Z"/>
+          <path class="bow-stroke" d="M64.9333 46.5753C69.3333 26.433 81.9 6.58674 99.5 4.21705C117.1 1.84736 128 19.3239 128 38.2814C128 56.0541 126.067 74.5322 107 75.7171C93.8 76.9019 70.8 63.1632 62 54.8692L64.9333 46.5753Z" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path class="bow-fill bow-stroke" d="M62.117 32.2456C70.0599 30.8075 77.2807 35.8411 78.7248 43.751C80.169 51.661 75.8365 59.571 67.8936 62.4473C59.9508 64.6046 52.0079 60.2901 49.1196 52.3801C46.2313 44.4701 49.1196 37.2793 55.6183 33.6838C57.7845 32.9647 59.9508 32.2456 62.117 32.2456Z" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="logo-text">
+          <span>کیتی فرند</span>
+          <small>دوستت، از دوران بچگی</small>
+        </span>
+      </a>
+    </h1>
+    <form class="search" role="search" action="#">
+      <label for="search" class="visually-hidden">جستجو</label>
+      <input type="search" id="search" name="q" placeholder="جستجو">
+      <button type="submit" aria-label="جستجو"><img src="png/magnifying-glass-fill.png" alt="" width="20" height="20"></button>
+    </form>
+    <button type="button" class="cart">
+      <img class="icon-inline" src="png/shopping-bag-open-fill.png" alt="" width="20" height="20">
+      سبد خرید
+      <span aria-hidden="true">۳</span>
+      <span class="visually-hidden">۳ کالا در سبد</span>
+    </button>
+    <input type="checkbox" id="menu-toggle" class="visually-hidden">
+      <label for="menu-toggle" class="menu-button">
+        <span aria-hidden="true">☰</span>
+        <span class="visually-hidden">منو</span>
+      </label>
+    <nav class="main-nav" aria-label="منوی اصلی">
+      <ul>
+        <li class="dropdown">
+          <button type="button">همه دسته‌ها</button>
+          <ul class="dropdown-menu">
+          <li><a href="accessories.html">اکسسوری</a></li>
+          <li><a href="plush.html">عروسک</a></li>
+          <li><a href="makeup.html">لوازم آرایشی</a></li>
+          <li><a href="clothing.html">لباس</a></li>
+          <li><a href="stationery.html">لوازم التحریر</a></li>
+          <li><a href="gift-box.html">باکس هدیه</a></li>
+          </ul>
+        </li>
+        <li><a href="#new-items">محصولات جدید</a></li>
+        <li><a href="#unique-items">محصولات تک نسخه</a></li>
+        <li><a href="#discount-items">تخفیف</a></li>
+        <li><a href="#contact-info">تماس با ما</a></li>
+      </ul>
+    </nav>
   </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>گلوله رسام</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p>گلوله رسام در شب مسیرش را روشن نشان می‌دهد تا تیرانداز ببیند به هدف می‌خورد یا نه. کتاب <bdi>The Pragmatic Programmer</bdi> می‌گوید: اول یک نسخه باریک ولی سرتاسری بساز (از صفحه تا دیتابیس) که واقعاً کار کند، بعد کم‌کم پرش کن.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
+
+<main id="main">
+  <div class="hero-area">
+    <section class="hero" id="hero" aria-labelledby="hero-title">
+      <h2 id="hero-title">محصولات تک نسخه برای کلکسیونت <img class="icon-inline" src="png/sparkle-fill(1).png" alt="" width="32" height="32"></h2>
+      <p>فقط اینجا میتونی پیداشون کنی!</p>
+      <a href="#unique-items">دیدن محصولات</a>
     </section>
-  </main>
-  <footer>
-    <p dir="ltr">slug: <code>tracer-bullet</code></p>
-  </footer>
+    <section class="promo" id="promo" aria-labelledby="promo-title">
+      <h2 id="promo-title">تخفیف<img class="icon-inline" src="png/seal-percent-fill(2).png" alt="" width="32" height="32"></h2>
+      <p>فقط امروز!</p>
+      <a href="#discount-items">دیدن تخفیف‌ها</a>
+    </section>
+  </div>
+
+  <section id="categories" aria-labelledby="categories-title">
+    <h2 id="categories-title">دسته‌بندی‌ها</h2>
+    <ul class="category-list">
+      <li><a href="accessories.html"><span aria-hidden="true">🎀</span> اکسسوری</a></li>
+      <li><a href="plush.html"><span aria-hidden="true">🧸</span> عروسک</a></li>
+      <li><a href="makeup.html"><span aria-hidden="true">💄</span> لوازم آرایشی</a></li>
+      <li><a href="clothing.html"><span aria-hidden="true">👚</span> لباس</a></li>
+      <li><a href="stationery.html"><span aria-hidden="true">✏️</span> لوازم التحریر</a></li>
+      <li><a href="gift-box.html"><span aria-hidden="true">🎁</span> باکس هدیه</a></li>
+    </ul>
+  </section>
+
+  <section id="discount-items" aria-labelledby="discount-title">
+    <h2 id="discount-title"><img class="icon-inline" src="png/paw-print-fill.png" alt="" width="32" height="32">تخفیف‌ها</h2>
+    <ul class="strip">
+      <li>
+        <img src="images/keroppi-backpack.jpg" alt="" loading="lazy">
+        <p class="badge"><span class="visually-hidden">تخفیف</span> ۲۵٪</p>
+        <h3>کوله پشتی کروپی</h3>
+        <p class="meta">۱ عدد</p>
+        <p class="price">
+          <del><span class="visually-hidden">قیمت قبلی</span> ۳٬۰۰۰٬۰۰۰</del>
+          <span class="visually-hidden">قیمت با تخفیف</span> ۲٬۲۵۰٬۰۰۰ تومان
+        </p>
+        <button type="button" aria-label="افزودن کوله پشتی کروپی به سبد">+</button>
+      </li>
+      <li>
+        <img src="images/pompompurin-t-shirt2.jpg" alt="" loading="lazy">
+        <p class="badge"><span class="visually-hidden">تخفیف</span> ۲۵٪</p>
+        <h3>تیشرت پوم‌پوم‌پورین</h3>
+        <p class="meta">۱ عدد</p>
+        <p class="price">
+          <del><span class="visually-hidden">قیمت قبلی</span> ۱٬۵۰۰٬۰۰۰</del>
+          <span class="visually-hidden">قیمت با تخفیف</span> ۱٬۱۲۵٬۰۰۰ تومان
+        </p>
+        <button type="button" aria-label="افزودن تیشرت پوم‌پوم‌پورین به سبد">+</button>
+      </li>
+      <li>
+        <img src="images/hellokitty-pajama-set.jpg" alt="" loading="lazy">
+        <p class="badge"><span class="visually-hidden">تخفیف</span> ۲۵٪</p>
+        <h3>ست پیژامه هلو کیتی</h3>
+        <p class="meta">۱ عدد</p>
+        <p class="price">
+          <del><span class="visually-hidden">قیمت قبلی</span> ۱٬۸۰۰٬۰۰۰</del>
+          <span class="visually-hidden">قیمت با تخفیف</span> ۱٬۳۵۰٬۰۰۰ تومان
+        </p>
+        <button type="button" aria-label="افزودن ست پیژامه هلو کیتی به سبد">+</button>
+      </li>
+      <li>
+        <img src="images/hellokitty-phonecase-2.jpg" alt="" loading="lazy">
+        <p class="badge"><span class="visually-hidden">تخفیف</span> ۲۵٪</p>
+        <h3>قاب گوشی هلو کیتی کد ۱۱۲</h3>
+        <p class="meta">۱ عدد</p>
+        <p class="price">
+          <del><span class="visually-hidden">قیمت قبلی</span> ۵۰۰٬۰۰۰</del>
+          <span class="visually-hidden">قیمت با تخفیف</span> ۳۷۵٬۰۰۰ تومان
+        </p>
+        <button type="button" aria-label="افزودن قاب گوشی هلو کیتی کد ۱۱۲ به سبد">+</button>
+      </li>
+    </ul>
+  </section>
+  <!--Category links point to separate category pages (e.g. clothing.html), which are outside this week's scope.-->
+
+  <section id="new-items" aria-labelledby="new-items-title">
+    <div class="section-head">
+      <h2 id="new-items-title"><img class="icon-inline" src="png/paw-print-fill.png" alt="" width="32" height="32">محصولات جدید</h2>
+      <div class="carousel-nav">
+        <a href="#new-items-first">
+          <span aria-hidden="true">→</span>
+          <span class="visually-hidden">رفتن به ابتدای محصولات جدید</span>
+        </a>
+        <a href="#new-items-last">
+          <span aria-hidden="true">←</span>
+          <span class="visually-hidden">رفتن به انتهای محصولات جدید</span>
+        </a>
+      </div>
+    </div>
+    <ul class="carousel">
+      <li id="new-items-first">
+        <img src="images/hellokitty-pajama-set.jpg" alt="" loading="lazy">
+        <p class="badge"><span class="visually-hidden">تخفیف</span> ۲۵٪</p>
+        <h3>ست پیژامه هلو کیتی</h3>
+        <p class="meta">۱ عدد</p>
+        <p class="price">
+          <del><span class="visually-hidden">قیمت قبلی</span> ۱٬۸۰۰٬۰۰۰</del>
+          <span class="visually-hidden">قیمت با تخفیف</span> ۱٬۳۵۰٬۰۰۰ تومان
+        </p>
+        <button type="button" aria-label="افزودن ست پیژامه هلو کیتی به سبد">+</button>
+      </li>
+      <li class="out-of-stock">
+        <img src="images/kuromi-watch.jpg" alt="" loading="lazy">
+        <p class="badge">ناموجود</p>
+        <h3>ساعت کرومی</h3>
+        <p class="meta">۱ عدد</p>
+        <p class="price">۰۰۰٬۰۰۰ تومان</p>
+        <button type="button" disabled aria-label="ساعت کرومی: ناموجود">+</button>
+      </li>
+      <li>
+        <img src="images/mymelodi-plush.jpg" alt="" loading="lazy">
+        <h3>عروسک مای ملودی</h3>
+        <p class="meta">۱ عدد</p>
+        <p class="price">۷۰۰٬۰۰۰ تومان</p>
+        <button type="button" aria-label="افزودن عروسک مای ملودی به سبد">+</button>
+      </li>
+      <li>
+        <img src="images/hellokitty-phonecase-1.jpg" alt="" loading="lazy">
+        <h3>قاب گوشی هلو کیتی کد ۱۱۱</h3>
+        <p class="meta">۱ عدد</p>
+        <p class="price">۵۰۰٬۰۰۰ تومان</p>
+        <button type="button" aria-label="افزودن قاب گوشی هلو کیتی کد ۱۱۱ به سبد">+</button>
+      </li>
+      <li>
+        <img src="images/hellokitty-phonecase-2.jpg" alt="" loading="lazy">
+        <p class="badge"><span class="visually-hidden">تخفیف</span> ۲۵٪</p>
+        <h3>قاب گوشی هلو کیتی کد ۱۱۲</h3>
+        <p class="meta">۱ عدد</p>
+        <p class="price">
+          <del><span class="visually-hidden">قیمت قبلی</span> ۵۰۰٬۰۰۰</del>
+          <span class="visually-hidden">قیمت با تخفیف</span> ۳۷۵٬۰۰۰ تومان
+        </p>
+        <button type="button" aria-label="افزودن قاب گوشی هلو کیتی کد ۱۱۲ به سبد">+</button>
+      </li>
+      <li id="new-items-last">
+        <img src="images/cinnamoroll-notebook.jpg" alt="" loading="lazy">
+        <h3>دفتر سینامورول</h3>
+        <p class="meta">۱ عدد</p>
+        <p class="price">۲۰۰٬۰۰۰ تومان</p>
+        <button type="button" aria-label="افزودن دفتر سینامورول به سبد">+</button>
+      </li>
+    </ul>
+  </section>
+
+  <section class="banners" id="banners" aria-label="بنرهای تبلیغاتی">
+    <a href="#new-items">آیتم‌هایی که هنوز دست هیچکس ندیدی<img src="png/shooting-star-fill(3).png" alt="" width="32" height="32"></a>
+    <a href="#unique-items">برای سلیقه‌های خاص<img src="png/disco-ball-fill(3).png" alt="" width="32" height="32"></a>
+  </section>
+
+  <section id="unique-items" aria-labelledby="unique-items-title">
+    <div class="section-head">
+      <h2 id="unique-items-title"><img class="icon-inline" src="png/paw-print-fill.png" alt="" width="32" height="32">محصولات تک نسخه</h2>
+      <div class="carousel-nav">
+        <a href="#unique-items-first">
+          <span aria-hidden="true">→</span>
+          <span class="visually-hidden">رفتن به ابتدای محصولات تک نسخه</span>
+        </a>
+        <a href="#unique-items-last">
+          <span aria-hidden="true">←</span>
+          <span class="visually-hidden">رفتن به انتهای محصولات تک نسخه</span>
+        </a>
+      </div>
+    </div>
+    <ul class="carousel">
+      <li id="unique-items-first">
+        <img src="images/conversexhellokittyxswarovski.jpg" alt="" loading="lazy">
+        <h3>کانورس - هلو کیتی - سواروسکی</h3>
+        <p class="meta">۱ عدد</p>
+        <p class="price">۳۵٬۰۰۰٬۰۰۰ تومان</p>
+        <button type="button" aria-label="افزودن کانورس هلو کیتی سواروسکی به سبد">+</button>
+      </li>
+      <li>
+        <img src="images/monster-hellokitty.jpg" alt="" loading="lazy">
+        <h3>آویز هلو کیتی - سری <span lang="en" dir="ltr">colorful pop monster</span></h3>
+        <p class="meta">۱ عدد</p>
+        <p class="price">۲٬۵۰۰٬۰۰۰ تومان</p>
+        <button type="button" aria-label="افزودن آویز هلو کیتی به سبد">+</button>
+      </li>
+      <li>
+        <img src="images/monster-kuromi.jpg" alt="" loading="lazy">
+        <h3>آویز کرومی سری <span lang="en" dir="ltr">colorful pop monster</span></h3>
+        <p class="meta">۱ عدد</p>
+        <p class="price">۲٬۵۰۰٬۰۰۰ تومان</p>
+        <button type="button" aria-label="افزودن آویز کرومی به سبد">+</button>
+      </li>
+      <li>
+        <img src="images/monster-mymelody.jpg" alt="" loading="lazy">
+        <h3>آویز مای ملودی - سری <span lang="en" dir="ltr">colorful pop monster</span></h3>
+        <p class="meta">۱ عدد</p>
+        <p class="price">۲٬۵۰۰٬۰۰۰ تومان</p>
+        <button type="button" aria-label="افزودن آویز مای ملودی به سبد">+</button>
+      </li>
+      <li>
+        <img src="images/monster-cinnamoroll.jpg" alt="" loading="lazy">
+         <h3>آویز سینامورول سری <span lang="en" dir="ltr">colorful pop monster</span></h3>
+        <p class="meta">۱ عدد</p>
+        <p class="price">۲٬۵۰۰٬۰۰۰ تومان</p>
+        <button type="button" aria-label="افزودن آویز سینامورول به سبد">+</button>
+      </li>
+      <li id="unique-items-last">
+        <img src="images/monster-pompompurin.jpg" alt="" loading="lazy">
+         <h3>آویز پوم‌پوم‌پورین سری <span lang="en" dir="ltr">colorful pop monster</span></h3>
+        <p class="meta">۱ عدد</p>
+        <p class="price">۲٬۵۰۰٬۰۰۰ تومان</p>
+        <button type="button" aria-label="افزودن آویز پوم‌پوم‌پورین به سبد">+</button>
+      </li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-columns">
+    <div>
+      <p class="footer-brand">کیتی فرند<img class="icon-inline" src="png/smiley-wink-fill.png" alt="" width="32" height="32"></p>
+      <p>دوستت، از دوران بچگی</p>
+      <p>محصولات معتبر و با کیفیت</p>
+    </div>
+    <section id="contact-info">
+      <!--Contact details are placeholders.-->
+      <h2><img class="icon-inline" src="png/phone-fill.png" alt="" width="20" height="20">راه ارتباطی</h2>
+      <address>
+        <p>تهران</p>
+        <p><a href="tel:+982100000000" dir="ltr">۰۲۱-********</a></p>
+        <p><a href="https://www.instagram.com/" lang="en" dir="ltr">@instagram_account</a></p>
+      </address>
+    </section>
+    <nav class="footer-nav" aria-label="پیوندهای پایین صفحه">
+      <div>
+        <h2><img class="icon-inline" src="png/folders-fill.png" alt="" width="20" height="20">دسته‌ها</h2>
+        <ul>
+          <li><a href="#categories">همه دسته‌ها</a></li>
+          <li><a href="#new-items">محصولات جدید</a></li>
+          <li><a href="#unique-items">محصولات تک نسخه</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2><img class="icon-inline" src="png/hand-pointing-fill.png" alt="" width="20" height="20">راهنما</h2>
+        <ul>
+          <li><a href="#">سوالات پر تکرار</a></li>
+          <li><a href="#">نحوه ارسال</a></li>
+        </ul>
+      </div>
+    </nav>
+    <section id="working-hours">
+      <h2><img class="icon-inline" src="png/clock-fill.png" alt="" width="20" height="20">ساعت کاری</h2>
+      <p>حضوری: شنبه تا پنجشنبه - ساعت ۱۰:۰۰ الی ۲۰:۰۰</p>
+      <p>آنلاین: هر روز و هر ساعت</p>
+    </section>
+  </div>
+  <div class="footer-bottom">
+    <p><small>© ۱۴۰۵ کیتی فرند</small></p>
+    <a href="#top">بازگشت به بالا</a>
+  </div>
+</footer>
 </body>
 </html>

@@ -1,0 +1,8 @@
+.carousel .section-head {
+    min-height: var(--tap);
+}
+
+.car-btn:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+}
