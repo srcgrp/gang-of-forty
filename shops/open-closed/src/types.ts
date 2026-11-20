@@ -26,12 +26,13 @@ export type Shop = {
 export type CartItem = { productId: number; quantity: number };
 export type Cart = CartItem[];
 
-export type LoadState =
+export type Catalog = { products: Product[] };
+
+export type LoadState<T> =
     | { status: 'loading' }
-    | { status: 'success'; products: Product[] }
+    | { status: 'success'; data: T }
     | { status: 'empty' }
     | { status: 'error'; message: string };
-
 
 export type ProductPreview = Pick<Product, 'id' | 'name' | 'price'>;
 export type ReadonlyProduct = Readonly<Product>;

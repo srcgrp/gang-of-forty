@@ -1,4 +1,5 @@
-import type { LoadState } from '../types.ts'
+import { catalogProducts, productsByCategory } from '../catalog/catalog.ts'
+import type { Catalog, LoadState } from '../types.ts'
 import { statusText } from '../lib/statusText.ts'
 import ProductCard from './ProductCard.tsx'
 import Skeleton from './Skeleton.tsx'
@@ -6,15 +7,12 @@ import Skeleton from './Skeleton.tsx'
 const SKELETON_IDS = ['a', 'b', 'c', 'd', 'e', 'f']
 
 type ProductGridProps = {
-  state: LoadState
+  state: LoadState<Catalog>
   categoryId: number | null
 }
 
 export default function ProductGrid({ state, categoryId }: ProductGridProps) {
-  const products =
-    state.status === 'success'
-      ? state.products.filter((p) => categoryId === null || p.categoryId === categoryId)
-      : []
+  const products = productsByCategory(catalogProducts(state), categoryId)
   const first = products[0]
   const last = products[products.length - 1]
 
