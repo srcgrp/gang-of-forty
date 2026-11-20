@@ -1,0 +1,79 @@
+@font-face { font-family: "Vazirmatn"; src: url("/assets/fonts/Vazirmatn-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Vazirmatn"; src: url("/assets/fonts/Vazirmatn-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Vazirmatn"; src: url("/assets/fonts/Vazirmatn-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Vazirmatn"; src: url("/assets/fonts/Vazirmatn-ExtraBold.woff2") format("woff2"); font-weight: 800; font-display: swap; }
+
+:root {
+  color-scheme: light;
+
+  --bg:         light-dark(#F7F7F4, #12100D);
+  --surface:    light-dark(#FFFFFF, #1A1715);
+  --surface-2:  light-dark(#F1F2EE, #221E1B);
+  --card-bg:    light-dark(#FFFFFF, #332D28);
+  --image-plate:light-dark(#FFFFFF, #EAE0D2);
+  --topbar-bg:  light-dark(#E4E7DC, #0A0807);
+
+  --text:   light-dark(#141812, #F5EFE6);
+  --muted:  light-dark(#5E6653, #C8BCAD);
+  --faint:  light-dark(#98A08E, #A69A8D);
+
+  --accent:        light-dark(#B5C400, #E8B966);
+  --accent-bright: light-dark(#D9E85C, #F2CD80);
+  --accent-deep:   light-dark(#8A9700, #C09040);
+  --accent-soft:   light-dark(#F6F8DC, #382C1C);
+  --accent-hover:  light-dark(#A8B800, #F2CD80);
+  --accent-ring:   light-dark(rgba(181, 196, 0, 0.18), rgba(232, 185, 102, 0.35));
+  --on-accent:     light-dark(#141812, #1A1614);
+
+  --border:        light-dark(#E6E7E0, #554D45);
+  --border-strong: light-dark(#D3D5CC, #6A6158);
+
+  --dot-color: light-dark(#C5C9B0, #6B5F52);
+
+  --red:            light-dark(#C2331E, #E5705C);
+  --offers-bg:      light-dark(#6E2414, #7A2814);
+  --offers-accent:  light-dark(#F5C24A, #F2C866);
+
+  --shadow-color: light-dark(rgba(20, 24, 18, 0.18), rgba(0, 0, 0, 0.6));
+  --inset-color:  light-dark(transparent, rgba(255, 255, 255, 0.04));
+
+  --topbar-fg: light-dark(#4A5240, #C8BCAD);
+
+  --skeleton-base: light-dark(#EBEDE6, #221E1B);
+  --skeleton-highlight: light-dark(#F5F6F0, #2E2823);
+
+
+  --footer-bg:      light-dark(#F1F2EE, #0F0C09);
+  --footer-fg:      light-dark(#141812, #F5EFE6);
+  --footer-muted:   light-dark(#5E6653, rgba(245, 239, 230, 0.65));
+  --footer-border:  light-dark(#E6E7E0, rgba(245, 239, 230, 0.12));
+
+  --video-bg: light-dark(#141812, #0F0C09);
+
+  --radius-sm: 3px;
+  --radius:    6px;
+  --radius-lg: 8px;
+
+  --sp-xs: 4px;
+  --sp-sm: 8px;
+  --sp-md: 16px;
+  --sp-lg: 24px;
+  --sp-xl: 32px;
+  --section-gap: clamp(20px, 3vw, 32px);
+
+  --container: 1200px;
+
+  --text-xs:   0.72rem;
+  --text-sm:   0.82rem;
+  --text-md:   1rem;
+  --text-lg:   1.2rem;
+
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --t-fast: 120ms var(--ease);
+  --t-base: 180ms var(--ease);
+
+  --scrollbar-thumb: light-dark(#D3D5CC, #554D45);
+}
+
+:root[data-theme="dark"] { color-scheme: dark; }
+@media (prefers-color-scheme: dark) { :root[data-theme="auto"] { color-scheme: dark; } }

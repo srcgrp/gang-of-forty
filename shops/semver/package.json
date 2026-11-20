@@ -1,0 +1,35 @@
+{
+  "name": "Semver",
+  "version": "1.0.0",
+  "private":"true",
+  "type": "module",
+  "description": "A Persian online grocery built by 40 bootcamp learners over 6 weeks.\r Each learner owns **one supermarket** under `shops/<slug>/` and grows it every week,\r from a hello-world page in Week 1 to a shop that can sell its groceries by Week 6.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "check": "tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/srcgrp/gang-of-fourty.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/srcgrp/gang-of-fourty/issues"
+  },
+  "homepage": "https://github.com/srcgrp/gang-of-fourty#readme",
+  "devDependencies": {
+    "@types/canvas-confetti": "^1.9.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4"
+  },
+  "dependencies": {
+    "canvas-confetti": "^1.9.4",
+    "notyf": "^3.10.0"
+  }
+}
