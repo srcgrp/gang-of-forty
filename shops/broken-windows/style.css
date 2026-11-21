@@ -1909,3 +1909,4 @@ background: var(--bg);
 @media (prefers-reduced-motion: reduce) {
   .cart-panel * { transition: none; }
 }
+.address { font-style: normal; }
