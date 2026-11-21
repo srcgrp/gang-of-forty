@@ -1,8 +1,6 @@
 /* Amirhossein (Armin) Panahi */
-/* Week 4 - Strategic Supermarket - Arch */
 
 import type { ApiData, Category, Offer, ProductItem, SearchIndexEntry, ShopModel } from '../../types';
-import { findCategoryArt } from './art-category';
 import { searchKey } from './search-key';
 import { toCard } from './to-card';
 
@@ -26,7 +24,7 @@ export function buildModel(raw: ApiData): ShopModel {
     searchIndex.push({
       item,
       name: searchKey(product.name),
-      text: searchKey([product.name, product.unit, ...(product.tags ?? [])].join(' ')),
+      text: searchKey([product.name, product.unit, ...product.tags].join(' ')),
       categoryWords: searchKey(categoryById.get(product.categoryId)?.name).split(' '),
     });
   }
@@ -34,7 +32,6 @@ export function buildModel(raw: ApiData): ShopModel {
   return {
     products, categories, offers, shop, home, stockOf, items, itemsByCategory, searchIndex, categoryById,
     categoryBySlug: pairs<string, Category>(categories, (category) => category.slug),
-    categoryArt: new Map(categories.map((category): [number, string | null] => [category.id, findCategoryArt(category)])),
     offerItems: offers.map((offer) => items.get(offer.productId)).filter((item): item is ProductItem => item !== undefined),
     carousels: home.carousels,
   };
