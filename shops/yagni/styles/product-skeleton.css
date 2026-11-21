@@ -1,0 +1,31 @@
+.product-skeleton {
+  flex: 0 0 220px;
+  height: 335.8px;
+
+  overflow: hidden;
+
+  border: 1px solid var(--border);
+  border-radius: 18px;
+
+  background: linear-gradient(
+    90deg,
+    var(--skeleton-base) 25%,
+    var(--skeleton-highlight) 50%,
+    var(--skeleton-base) 75%
+  );
+
+  background-size: 200% 100%;
+
+  animation: skeleton-shimmer 1.5s linear infinite;
+
+  scroll-snap-align: start;
+}
+@keyframes skeleton-shimmer {
+  from {
+    background-position: 200% 0;
+  }
+
+  to {
+    background-position: -200% 0;
+  }
+}

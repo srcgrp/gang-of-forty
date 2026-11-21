@@ -1,7 +1,9 @@
 [
-  { "id": 1, "slug": "fruit", "name": "میوه و سبزی", "emoji": "🍎" },
-  { "id": 2, "slug": "dairy", "name": "لبنیات", "emoji": "🥛" },
-  { "id": 3, "slug": "bakery", "name": "نان و شیرینی", "emoji": "🥖" },
-  { "id": 4, "slug": "pantry", "name": "خواربار", "emoji": "🍚" },
-  { "id": 5, "slug": "drinks", "name": "نوشیدنی", "emoji": "🧃" }
+  {"id": 1, "slug": "fruits", "name": "میوه و سبزی", "emoji": "🍎", "color": "#fde3dc"},
+  {"id": 2, "slug": "dairy", "name": "لبنیات", "emoji": "🥛", "color": "#e2eefc"},
+  {"id": 3, "slug": "bakery", "name": "نان و شیرینی", "emoji": "🥖", "color": "#fff0cc"},
+  {"id": 4, "slug": "pantry", "name": "خواربار", "emoji": "🍚", "color": "#e3f1e7"},
+  {"id": 5, "slug": "drinks", "name": "نوشیدنی", "emoji": "🧃", "color": "#e0f5ef"},
+  {"id": 6, "slug": "protein", "name": "پروتئین", "emoji": "🍗", "color": "#fbe0e6"},
+  {"id": 7, "slug": "snacks", "name": "تنقلات", "emoji": "🍪", "color": "#f1e6fb"}
 ]

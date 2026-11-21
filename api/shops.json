@@ -1,0 +1,282 @@
+[
+  {
+    "slug": "dry",
+    "name": "سوپرمارکت DRY",
+    "emoji": "🔁",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "kiss",
+    "name": "سوپرمارکت KISS",
+    "emoji": "🪶",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "yagni",
+    "name": "سوپرمارکت YAGNI",
+    "emoji": "✂️",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "composition",
+    "name": "سوپرمارکت ترکیب به جای وراثت",
+    "emoji": "🧩",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "tdd",
+    "name": "سوپرمارکت TDD",
+    "emoji": "✅",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "clean-code",
+    "name": "سوپرمارکت کد تمیز",
+    "emoji": "🧼",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "refactor",
+    "name": "سوپرمارکت ریفکتور",
+    "emoji": "🛠️",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "code-smell",
+    "name": "سوپرمارکت بوی کد",
+    "emoji": "👃",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "boy-scout",
+    "name": "سوپرمارکت قانون پیشاهنگ",
+    "emoji": "⛺",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "demeter",
+    "name": "سوپرمارکت قانون دیمیتر",
+    "emoji": "📨",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "liskov",
+    "name": "سوپرمارکت لیسکوف",
+    "emoji": "🔄",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "open-closed",
+    "name": "سوپرمارکت باز-بسته",
+    "emoji": "🚪",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "fail-fast",
+    "name": "سوپرمارکت شکست سریع",
+    "emoji": "💥",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "rubber-duck",
+    "name": "سوپرمارکت اردک پلاستیکی",
+    "emoji": "🦆",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "broken-windows",
+    "name": "سوپرمارکت پنجره شکسته",
+    "emoji": "🪟",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "tracer-bullet",
+    "name": "سوپرمارکت گلوله رسام",
+    "emoji": "🎯",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "orthogonality",
+    "name": "سوپرمارکت تعامد",
+    "emoji": "📐",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "big-o",
+    "name": "سوپرمارکت بیگ‌او",
+    "emoji": "⏱️",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "conway",
+    "name": "سوپرمارکت قانون کانوی",
+    "emoji": "🏢",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "brooks",
+    "name": "سوپرمارکت قانون بروکس",
+    "emoji": "📅",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "separation",
+    "name": "سوپرمارکت جداسازی دغدغه‌ها",
+    "emoji": "🗂️",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "least-surprise",
+    "name": "سوپرمارکت کمترین شگفتی",
+    "emoji": "😮",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "premature-optimization",
+    "name": "سوپرمارکت بهینه‌سازی زودرس",
+    "emoji": "🏎️",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "convention",
+    "name": "سوپرمارکت قرارداد به جای پیکربندی",
+    "emoji": "🛤️",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "semver",
+    "name": "سوپرمارکت نسخه‌بندی معنایی",
+    "emoji": "🏷️",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "cap",
+    "name": "سوپرمارکت قضیه CAP",
+    "emoji": "🔺",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "idempotency",
+    "name": "سوپرمارکت خودتوانی",
+    "emoji": "🔂",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "cache",
+    "name": "سوپرمارکت کش",
+    "emoji": "🗄️",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "load-balancer",
+    "name": "سوپرمارکت متعادل‌کننده بار",
+    "emoji": "⚖️",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "rate-limit",
+    "name": "سوپرمارکت محدودیت نرخ",
+    "emoji": "🚦",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "deep-module",
+    "name": "سوپرمارکت ماژول عمیق",
+    "emoji": "🧊",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "info-hiding",
+    "name": "سوپرمارکت پنهان‌سازی اطلاعات",
+    "emoji": "🙈",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "strategic",
+    "name": "سوپرمارکت برنامه‌نویسی راهبردی",
+    "emoji": "🗺️",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "define-errors-out",
+    "name": "سوپرمارکت حذف خطا از ریشه",
+    "emoji": "🧯",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "race-condition",
+    "name": "سوپرمارکت شرایط رقابتی",
+    "emoji": "🏁",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "deadlock",
+    "name": "سوپرمارکت بن‌بست",
+    "emoji": "🔒",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "message-broker",
+    "name": "سوپرمارکت کارگزار پیام",
+    "emoji": "📬",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "circuit-breaker",
+    "name": "سوپرمارکت قطع‌کننده مدار",
+    "emoji": "🔌",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "acid",
+    "name": "سوپرمارکت ACID",
+    "emoji": "🧪",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  },
+  {
+    "slug": "sharding",
+    "name": "سوپرمارکت شاردینگ",
+    "emoji": "🍕",
+    "owner": "",
+    "description": "به‌زودی: بهترین میوه و سبزی محله!"
+  }
+]

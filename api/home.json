@@ -1,0 +1,48 @@
+{
+  "hero": {
+    "title": "میوه‌های تازه، هر روز صبح",
+    "text": "مستقیم از باغ‌های اطراف شهر، تا دو ساعت بعد دم در خانه شما.",
+    "emoji": "🍉",
+    "cta": {
+      "label": "خرید میوه و سبزی",
+      "href": "#fruits"
+    }
+  },
+  "side": {
+    "title": "تا ۲۰٪ تخفیف لبنیات",
+    "text": "فقط تا پایان هفته",
+    "emoji": "🧀",
+    "cta": {
+      "label": "دیدن محصولات",
+      "href": "#dairy"
+    }
+  },
+  "promos": [
+    {
+      "text": "سبد صبحانه خانواده",
+      "emoji": "🍳",
+      "color": "#e3f1e7",
+      "href": "#dairy"
+    },
+    {
+      "text": "نان داغ، هر روز ساعت ۷",
+      "emoji": "🥐",
+      "color": "#fde3dc",
+      "href": "#bakery"
+    }
+  ],
+  "carousels": [
+    {
+      "id": "offers",
+      "title": "پیشنهاد ویژه امروز",
+      "emoji": "🔥",
+      "source": "offers"
+    },
+    {
+      "id": "dairy",
+      "title": "لبنیات",
+      "emoji": "🥛",
+      "categoryId": 2
+    }
+  ]
+}
