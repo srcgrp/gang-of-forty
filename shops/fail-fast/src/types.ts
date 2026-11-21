@@ -20,4 +20,6 @@ export type {
   LoadState,
 } from "./types/helpers"
 
+export type { HomeData, HomeCarousel } from "./types/home"
+
 export { NOTIFICATION_TYPES, CATEGORY_IDS } from "./types/helpers"

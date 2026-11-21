@@ -5,10 +5,14 @@ import PageLayout from './components/PageLayout'
 import LoadingContent from './components/LoadingContent'
 import SuccessContent from './components/SuccessContent'
 import { useAppData } from './hooks/useAppData'
+import { useHomeData } from './hooks/useHomeData'
+import { useOffers } from './hooks/useOffers'
 import { useCart } from './hooks/useCart'
 
 export default function App(): ReactNode {
   const dataState = useAppData()
+  const homeState = useHomeData()
+  const offersState = useOffers()
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null)
   const { cart, cartItemCount, handleAddToCart, handleRemoveFromCart } = useCart()
 
@@ -37,11 +41,17 @@ export default function App(): ReactNode {
   }
 
   const renderMainContent = (): ReactNode => {
-    if (dataState.status === 'success') {
+    if (
+      dataState.status === 'success' &&
+      homeState.status === 'success' &&
+      offersState.status === 'success'
+    ) {
       return (
         <SuccessContent
           products={dataState.data.products}
           cart={cart}
+          carousels={homeState.data.carousels}
+          offers={offersState.data}
           onAddToCart={handleAddToCart}
           onRemoveFromCart={handleRemoveFromCart}
         />
@@ -49,17 +59,25 @@ export default function App(): ReactNode {
     }
     return (
       <LoadingContent
-        status={dataState.status}
-        errorMessage={dataState.status === 'error' ? dataState.message : undefined}
+        status={dataState.status === 'error' ? 'error' : homeState.status === 'error' ? 'error' : offersState.status === 'error' ? 'error' : 'loading'}
+        errorMessage={
+          dataState.status === 'error' ? dataState.message :
+          homeState.status === 'error' ? homeState.message :
+          offersState.status === 'error' ? offersState.message : undefined
+        }
       />
     )
   }
+
+  const showFooter = dataState.status === 'success' &&
+    homeState.status === 'success' &&
+    offersState.status === 'success'
 
   return (
     <PageLayout
       header={renderHeader()}
       mainContent={renderMainContent()}
-      showFooter={dataState.status === 'success'}
+      showFooter={showFooter}
     />
   )
 }
