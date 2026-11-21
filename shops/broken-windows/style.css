@@ -850,7 +850,7 @@ background: #fff;
 
 }
 
-.footer-top-categories-list-item a {
+.footer-top-categories-list-item a{
   text-decoration: none;
   color: #9FE1CB;
 }
@@ -1888,4 +1888,7 @@ background: var(--bg);
   .cart-total {
     font-size: 14px;
   }
+}
+.footer-top-categories-list{
+  color: #000;
 }
