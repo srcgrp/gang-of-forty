@@ -1,5 +1,7 @@
 # فروشگاه ریفکتور (Refactor Shop)
 
+![CI](https://github.com/ZahraGolabi/refactor-shop/actions/workflows/deploy.yml/badge.svg)
+
 سوپرمارکت آنلاین فارسی با معماری تمیز و کامپوننت‌های بهینه‌سازی‌شده.
 
 ## Run with Docker
