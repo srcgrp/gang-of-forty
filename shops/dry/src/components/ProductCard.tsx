@@ -40,7 +40,7 @@ function ProductCard({ card, anchorId }: ProductCardProps) {
             
             <div className="product-emoji">
                 {card.image ? (
-                    <img src={card.image} alt="" />
+                    <img src={card.image} alt="" loading="lazy" decoding="async" />
                 ) : (
                     <span aria-hidden="true">{card.emoji}</span>
                 )}

@@ -17,7 +17,7 @@ export default function CategoryGrid({ state }: CategoryGridProps) {
         {cards.map((c) => (
           <Link className="category-card" to="/plp/$carouselId" params={{ carouselId: c.slug }} search={{ sort: 'default' }} key={c.slug}>
             {c.image ? (
-              <img src={c.image} alt="" />
+              <img src={c.image} alt="" loading="lazy" decoding="async" />
             ) : (
               <span className="category-emoji" aria-hidden="true">{c.emoji}</span>
             )}
