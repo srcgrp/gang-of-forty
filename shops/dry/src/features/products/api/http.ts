@@ -2,8 +2,7 @@ export type ApiFile = 'products.json' | 'stock.json' | 'offers.json' | 'categori
 
 function apiBase(): string {
   const url: unknown = import.meta.env.VITE_API_URL
-  if (typeof url !== 'string') throw new Error('VITE_API_URL is not set (see the .env files)')
-  return url
+  return typeof url === 'string' && url ? url : '/api'
 }
 
 export async function getJSON(file: ApiFile): Promise<unknown> {
