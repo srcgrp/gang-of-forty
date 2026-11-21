@@ -29,35 +29,39 @@ export default function ProductPage() {
     <section className="plp">
       <Link className="back-link" to="/">← بازگشت به صفحه اصلی</Link>
       <article className="product-detail">
-        {card.image ? <img src={card.image} alt="" /> : <span aria-hidden="true">{card.emoji}</span>}
-        <h1>{card.title}</h1>
-        <p>{card.unit}</p>
-        <p className="price">{card.price}</p>
-        <div className="detail-actions">
-          <button
-            type="button"
-            className="detail-add"
-            disabled={!card.inStock}
-            onClick={() => {
-              add(card.id)
-              showToast(`${card.title} به سبد اضافه شد`)
-            }}
-          >
-            {card.inStock ? 'افزودن به سبد' : 'ناموجود'}
-          </button>
-          <button
-            type="button"
-            className="detail-fav"
-            aria-pressed={liked}
-            onClick={() => {
-              toggle(card.id)
-              showToast(liked
-                ? `${card.title} از علاقه‌مندی‌ها حذف شد`
-                : `${card.title} به علاقه‌مندی‌ها اضافه شد`)
-            }}
-          >
-            {liked ? '♥ حذف از علاقه‌مندی‌ها' : '♡ افزودن به علاقه‌مندی‌ها'}
-          </button>
+        <div className="product-detail-media">
+          {card.image ? <img src={card.image} alt="" /> : <span aria-hidden="true">{card.emoji}</span>}
+        </div>
+        <div className="product-detail-info">
+          <h1>{card.title}</h1>
+          <p>{card.unit}</p>
+          <p className="price">{card.price}</p>
+          <div className="detail-actions">
+            <button
+              type="button"
+              className="detail-add"
+              disabled={!card.inStock}
+              onClick={() => {
+                add(card.id)
+                showToast(`${card.title} به سبد اضافه شد`)
+              }}
+            >
+              {card.inStock ? 'افزودن به سبد' : 'ناموجود'}
+            </button>
+            <button
+              type="button"
+              className="detail-fav"
+              aria-pressed={liked}
+              onClick={() => {
+                toggle(card.id)
+                showToast(liked
+                  ? `${card.title} از علاقه‌مندی‌ها حذف شد`
+                  : `${card.title} به علاقه‌مندی‌ها اضافه شد`)
+              }}
+            >
+              {liked ? '♥ حذف از علاقه‌مندی‌ها' : '♡ افزودن به علاقه‌مندی‌ها'}
+            </button>
+          </div>
         </div>
       </article>
     </section>
