@@ -1,14 +1,16 @@
 /* Amirhossein (Armin) Panahi */
-/* Week 4 - Strategic Supermarket - Arch */
 
 import type { Category, Offer, Product, StockData } from '../types';
 import { isArrayOf } from './basic-guards';
 import { isCategory, isOffer, isProduct, isStock } from './guards-catalog';
-import { ApiError, getChecked, getJSON } from './http';
+import { getChecked } from './http';
 
 export async function loadProducts(signal?: AbortSignal): Promise<Product[]> {
-  const data = await getJSON('products.json', signal);
-  if (!Array.isArray(data)) throw new ApiError('shape', 'products.json');
+  const data = await getChecked(
+    'products.json',
+    (value): value is unknown[] => Array.isArray(value),
+    signal,
+  );
 
   const products = data.filter(isProduct);
   const rejected = data.length - products.length;
