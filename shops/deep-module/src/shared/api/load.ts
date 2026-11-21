@@ -1,4 +1,4 @@
-import type { AppData, ApiErrorType, LoadState } from "../types";
+import type { AppData, ApiErrorType, LoadState } from "../../types";
 import { api, ApiError } from "./client";
 import {
   arrayOf,
@@ -35,15 +35,17 @@ export function userMessage(kind: ApiErrorType): string {
   }
 }
 
-export async function loadAll(): Promise<LoadState<AppData>> {
+export async function loadAll(
+  signal?: AbortSignal,
+): Promise<LoadState<AppData>> {
   try {
     const [p, c, s, h, o, st] = await Promise.all([
-      api.products(),
-      api.categories(),
-      api.shop(),
-      api.home(),
-      api.offers(),
-      api.stock(),
+      api.products(signal),
+      api.categories(signal),
+      api.shop(signal),
+      api.home(signal),
+      api.offers(signal),
+      api.stock(signal),
     ]);
     return {
       status: "success",
