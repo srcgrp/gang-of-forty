@@ -2,7 +2,7 @@ import { formatNumber } from "../format";
 import SearchBox from "./SearchBox";
 import ThemeToggle from "./ThemeToggle";
 import CartLink from "./CartLink";
-import CartPortal from "./CartPortal";
+import CartPanel from "./CartPanel";
 import { useCartStore } from "../hooks/useCartStore";
 import { cartCount } from "../cart/totals";
 
@@ -48,10 +48,16 @@ export default function Header({ query, onQuery }: Props) {
             <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
           </svg>
           <span className="user-account-label">ورود</span></a>
-        <CartLink count={count} />
+        <div className="cart-hover">
+  <CartLink count={count} />
+  <div className="cart-popover">
+    <CartPanel />
+  </div>
+</div>
+
         <ThemeToggle />
       </div>
-      <CartPortal />
+  
     </>
   );
 }
