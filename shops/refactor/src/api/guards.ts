@@ -24,24 +24,17 @@ export const isStock = (value: unknown): value is Stock =>
   && Object.entries(value.items).every(([id, count]) => /^[1-9]\d*$/.test(id) && isNatural(count));
 
 export const readList = <T>(
-  value: unknown, guard: (item: unknown) => item is T, file: string, notices: string[],
+  value: unknown,
+  guard: (item: unknown) => item is T,
+  file: string,
 ): T[] => {
-  if (!Array.isArray(value)) throw new Error(`ساختار دادهٔ ${file} معتبر نیست.`);
-  const accepted = value.filter(guard);
-  const removed = value.length - accepted.length;
-  if (removed > 0) {
-    console.warn(`${file}: ${removed} record(s) failed the type guard and were skipped.`);
-    notices.push(`${removed.toLocaleString('fa-IR')} رکورد نامعتبر از ${file} کنار گذاشته شد.`);
+  if (!Array.isArray(value)) {
+    throw new Error(`ساختار دادهٔ ${file} معتبر نیست.`)
   }
-  return accepted;
-};
-
-export const uniqueBy = <T>(items: T[], key: (item: T) => string | number, notices: string[]): T[] => {
-  const seen = new Set<string | number>();
-  return items.filter((item) => {
-    const id = key(item);
-    if (seen.has(id)) { notices.push('یک رکورد تکراری کنار گذاشته شد.'); return false; }
-    seen.add(id);
-    return true;
-  });
-};
+  const accepted = value.filter(guard)
+  const removed = value.length - accepted.length
+  if (removed > 0) {
+    console.warn(`${file}: ${removed} record(s) failed the type guard and were skipped.`)
+  }
+  return accepted
+}
