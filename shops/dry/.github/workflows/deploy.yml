@@ -1,0 +1,96 @@
+name: Shop CI and deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run ci
+
+  docker:
+    needs: check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image
+        run: docker build -t dry-shop:ci .
+      - name: Smoke-test nginx and the catalog API
+        run: |
+          docker run --detach --publish 127.0.0.1:8080:80 --name dry-shop dry-shop:ci
+          trap 'docker logs dry-shop; docker rm --force dry-shop' EXIT
+          curl --fail --silent --show-error --retry 5 --retry-connrefused http://127.0.0.1:8080/ | grep -q 'id="root"'
+          curl --fail --silent --show-error --retry 3 http://127.0.0.1:8080/api/products.json | jq -e 'type == "array" or type == "object"' > /dev/null
+
+  deploy:
+    needs: [check, docker]
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    concurrency:
+      group: vercel-${{ github.event.pull_request.number || github.ref }}
+      cancel-in-progress: true
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --global vercel@66.6.0
+      - name: Build and deploy to Vercel
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          environment=preview
+          args=()
+          if [[ "$EVENT_NAME" == push ]]; then
+            environment=production
+            args=(--prod)
+          fi
+          vercel pull --yes --environment="$environment" --token="$VERCEL_TOKEN"
+          vercel build "${args[@]}" --token="$VERCEL_TOKEN"
+          url=$(vercel deploy --prebuilt "${args[@]}" --token="$VERCEL_TOKEN")
+          printf '### Vercel %s deployment\n\n[%s](%s)\n' "$environment" "$url" "$url" >> "$GITHUB_STEP_SUMMARY"
+
+  publish:
+    needs: [check, docker]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Read image name and package version
+        id: image
+        run: |
+          echo "name=ghcr.io/${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
+          echo "version=$(node -p 'require("./package.json").version')" >> "$GITHUB_OUTPUT"
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ steps.image.outputs.name }}:${{ steps.image.outputs.version }}
+            ${{ steps.image.outputs.name }}:latest
