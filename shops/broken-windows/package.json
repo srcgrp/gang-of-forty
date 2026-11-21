@@ -10,6 +10,7 @@
     "preview": "vite preview",
     "check": "tsc --noEmit",
     "lint": "oxlint src --deny-warnings",
+    "ci": "npm run lint --if-present && npm run check && npm run test --if-present && npm run build",
     "check:arch": "node shops/broken-windows/check-arch.mjs shops/broken-windows/src"
   },
   "keywords": [],
