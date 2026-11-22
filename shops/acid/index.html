@@ -1,29 +1,25 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت ACID</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Alighozati">
+  <meta name="description" content="سوپرمارکت اسید — خرید آنلاین میوه، لبنیات و خواربار">
+  <title>سوپرمارکت اسید</title>
+  
+  <!-- فونت وزیرمتن (در صورت نیاز) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- فایل CSS اصلی -->
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>🧪 سلام دنیا!</h1>
-  </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>ACID</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p>چهار ویژگی تراکنش پایگاه داده: اتمی بودن (<bdi>Atomicity</bdi>؛ یا همه یا هیچ)، سازگاری (<bdi>Consistency</bdi>)، انزوا (<bdi>Isolation</bdi>؛ تراکنش‌های هم‌زمان مزاحم هم نشوند) و ماندگاری (<bdi>Durability</bdi>؛ بعد از تأیید، با قطع برق هم از بین نرود). در انتقال پول، کم شدن از یک حساب و اضافه شدن به دیگری باید با هم انجام شود یا هیچ‌کدام.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
-    </section>
-  </main>
-  <footer>
-    <p dir="ltr">slug: <code>acid</code></p>
-  </footer>
+  <!-- ریشه‌ای که React تمام برنامه را داخل آن رندر می‌کند -->
+  <div id="root"></div>
+  
+  <!-- نقطه ورود برنامه React -->
+  <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>
