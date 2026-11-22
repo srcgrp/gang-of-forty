@@ -1,4 +1,5 @@
 import { defineConfig } from "vite"
+import react from "@vitejs/plugin-react"
 
 const apiProxy = {
     "/api": {
@@ -8,6 +9,7 @@ const apiProxy = {
 }
 
 export default defineConfig({
+    plugins: [react()],
     base: "./",
     server: {
         proxy: apiProxy
