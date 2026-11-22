@@ -23,3 +23,5 @@ Persian RTL grocery shop, React + TypeScript + Vite + TanStack Router + Zustand 
 ## Never
 - any, as (except as const), !, @ts-ignore, lint-silencing comments
 - edit files outside this folder; commit node_modules, dist, .env*, .vercel
+
+For a release, follow .claude/skills/release/SKILL.md step by step.
