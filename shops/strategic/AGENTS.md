@@ -21,3 +21,6 @@ Persian RTL grocery shop built with React, TypeScript and Vite (Gang of Forty, `
 - Use `any`, type assertions other than `as const`, the non-null assertion operator (`!`), `@ts-ignore`, or comments that disable lint rules.
 - Edit files outside `shops/strategic/`.
 - Commit `node_modules/`, `dist/`, `.env*`, `.vercel/`, or tokens.
+
+
+For a release, follow .claude/skills/release/SKILL.md step by step.
