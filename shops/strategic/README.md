@@ -1,5 +1,24 @@
 # Armin Supermarket (strategic)
 
+Armin Supermarket is a Persian RTL grocery storefront where shoppers can browse products by category, search the catalog, and manage their cart.
+
+[Open the live shop](https://strategic-shop.vercel.app/)
+
+[![CI](https://github.com/armin-panahi/strategic-shop/actions/workflows/deploy.yml/badge.svg)](https://github.com/armin-panahi/strategic-shop/actions/workflows/deploy.yml)
+
+![Armin Supermarket product catalog on mobile](docs/mobile.png)
+
+## Run locally
+
+From the shop directory, install the dependencies and start the development server:
+
+```sh
+npm install
+npm run dev
+```
+
+Open the local URL printed by Vite in your terminal.
+
 ## Run with Docker
 
 From the shop directory (`shops/strategic/`), build the image and start the container:
