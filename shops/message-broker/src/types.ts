@@ -7,7 +7,8 @@ export type Shop = {
 }
 export type Banner = { emoji: string; title: string; text: string; cta: Link }
 export type Promo = { href: string; color: string; emoji: string; text: string }
-export type Home = { hero: Banner; side: Banner; promos: Promo[] }
+export type HomeCarousel = { id: string; title: string; emoji: string; source?: 'offers'; categoryId?: number }
+export type Home = { hero: Banner; side: Banner; promos: Promo[]; carousels: HomeCarousel[] }
 export type Product = { id: number; categoryId: number; name: string; emoji: string; unit: string; price: number }
 export type Offer = { productId: number; percent: number; label: string }
 export type Stock = { updatedAt: string; items: Record<number, number> }

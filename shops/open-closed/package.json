@@ -1,0 +1,28 @@
+{
+  "name": "open-closed",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "check": "tsc --noEmit",
+    "lint": "oxlint src"
+  },
+  "dependencies": {
+    "canvas-confetti": "^1.9.3",
+    "notyf": "^3.10.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@types/canvas-confetti": "^1.9.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "oxlint": "^1.93.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4"
+  }
+}
