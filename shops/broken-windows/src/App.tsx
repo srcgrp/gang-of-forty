@@ -17,8 +17,11 @@ const plpRoute = createRoute({
   path: "/plp/$carouselId",
    validateSearch: (
     search: Record<string, unknown>
-  ): { sort: "default" | "price" } => ({
-    sort: search.sort === "price" ? "price" : "default",
+  ): { sort: "default" | "price" | "expensive" } => ({
+     sort:
+    search.sort === "price" || search.sort === "expensive"
+      ? search.sort
+      : "default",
   }),
   component: PlpPage,
 

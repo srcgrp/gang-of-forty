@@ -1,17 +1,20 @@
- export default function FooterCategories(){
+ import type { Category } from "../types.ts";
+import { Link } from "@tanstack/react-router";
+type Props = {
+  categories: Category[];}
+ export default function FooterCategories({categories}:Props){
     return(
-        <><div className="footer-top-categories">
+    <div className="footer-top-categories">
                     <h4 className="footer-top-header">دسته ها</h4>
                     <ul className="footer-top-categories-list" id="footer-categories">
-                        <li className="footer-top-categories-list-item"><a href="#categories">تنقلات</a></li>
-                        <li className="footer-top-categories-list-item"><a href="#dairy">لبنیات و بستنی</a></li>
-                        <li className="footer-top-categories-list-item"><a href="#categories">میوه و سبزی</a></li>
-                        <li className="footer-top-categories-list-item"><a href="#categories">خواربار و نان</a></li>
-                        <li className="footer-top-categories-list-item"><a href="#categories">نوشیدنی</a></li>
-                        <li className="footer-top-categories-list-item"><a href="#categories">صبحانه</a></li>
-                        <li className="footer-top-categories-list-item"><a href="#special-offer-nuts">آجیل دسر و شیرینی</a>
-                        </li>
+{categories.map((c)=>( <li className="footer-top-categories-list-item" key={c.id}>
+<Link  to="/plp/$carouselId"
+                  params={{ carouselId: c.slug }}
+                  search={{ sort: "default" }}>  {c.name }</Link>
+               </li>))}
+
                     </ul>
-                </div></>
+                </div>
     )
  }
+
