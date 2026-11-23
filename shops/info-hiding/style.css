@@ -8,6 +8,87 @@ body {
   color: #1f2a1c;
 }
 
-h1 {
-  color: #2e7d32;
+.info-product {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
 }
+
+.skincare-card{
+  width: 360px;
+  height: 450px;
+  overflow: hidden;
+  background-color: aliceblue;
+  border-radius: 20px;
+}
+
+.product-image {
+  position: relative;
+}
+
+.product-image img {
+  width: 100%;
+  display: block;
+}
+
+.new-product-badge{
+  position: absolute;
+  color: #f7faf5;
+  background-color: rgb(147, 41, 41);
+  width: 64px;
+  text-align: center;
+  padding: 2px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  top: 6px;
+  left: 10px;
+}
+.info-product{
+  padding: 13px;
+}
+
+.info-product-info{
+  color: #777;
+}
+
+.type-of-product{
+  color: rgb(147, 41, 41);
+  letter-spacing: 1.5px;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.rating span {
+  color: #e88b32;
+  font-size: 18px;
+}
+
+.rating .reviews {
+  color: #777;
+  font-size: 14px;
+  margin-left: 10px;
+}
+
+.add-to-card {
+  display: flex;
+  justify-content: space-between;
+  font-size: 20px;
+}
+
+.btn {
+  padding: 12px 10px;
+  height: 40px;
+  width: 120px;
+  color: azure;
+  background-color: black;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+
