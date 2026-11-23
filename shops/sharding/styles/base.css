@@ -92,11 +92,10 @@ input:focus-visible, textarea:focus-visible { outline: none; }
   to { opacity: 1; visibility: visible; }
 }
 
-.product-shelf, .footer, .categories {
+.categories {
   content-visibility: auto;
   contain-intrinsic-size: auto 400px;
 }
-.product-shelf { contain-intrinsic-size: auto 520px; }
 
 .hero, .categories, .product-shelf { margin-block: var(--section-gap); }
 
