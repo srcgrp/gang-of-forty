@@ -1,0 +1,84 @@
+
+.hero h1 {
+  font-family: "Lalezar", sans-serif;
+}
+
+.hero-ornament {
+  display: block;
+  width: 100%;
+  max-width: 720px;
+  height: auto;
+  margin-bottom: -75px;
+}
+
+.hero-ornament-bottom {
+  transform: rotate(180deg);
+  margin-top: -60px;
+  pointer-events: none;
+}
+
+.hero.hero-slide-three .hero-ornament-bottom {
+  margin-top: -110px;
+}
+
+.hero.hero-slide-three .hero-ornament:not(.hero-ornament-bottom) {
+  transform: translateY(0px);
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 540px;
+  padding: 32px;
+  text-align: center;
+  border-top: 3px solid var(--color-primary);
+  border-bottom: 3px solid var(--color-primary);
+  background-image: url("/asset/banners/bg1.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+.hero.hero-slide-three .hero-content {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 245, 225, 0.9) 0%,
+    rgba(255, 245, 225, 0.65) 15%,
+    rgba(255, 245, 225, 0) 75%
+  );
+  padding: 36px 48px;
+}
+
+.hero.hero-slide-three .hero-content {
+  transform: translateY(-30px);
+}
+
+.hero-content {
+  max-width: 560px;
+  margin: 8px auto;
+}
+
+.hero h1 {
+  margin: 0;
+  font-family: "Lalezar", sans-serif;
+  font-size: 42px;
+  color: var(--color-primary);
+}
+
+.hero p {
+  color: #5F4C47;
+  line-height: 0.5;
+}
+
+.hero-button {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 10px 18px;
+  background-color: var(--color-secondary);
+  color: white;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+}
