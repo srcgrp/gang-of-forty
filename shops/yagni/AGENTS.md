@@ -25,6 +25,7 @@ Persian RTL grocery shop, React + TypeScript + Vite (Gang of Forty, shops/yagni)
 - fetch/HTTP happens only in src/api/ — other layers call it through hooks (useCatalog).
 - Data flows down: pages/components use hooks; hooks use src/api, src/types and pure logic (src/cart, src/catalog).
 - Pure layers (src/cart, src/catalog) must not import hooks, pages or components.
+- For a release, follow .claude/skills/release/SKILL.md step by step.
 
 ## Never
 
