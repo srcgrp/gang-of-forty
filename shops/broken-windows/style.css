@@ -286,8 +286,6 @@ li {
   transform: translateY(0);
 }
 
-.site-main {}
-
 .banner {
   display: flex;
   flex-wrap: wrap;
@@ -298,7 +296,6 @@ li {
   border-radius: 30px;
 }
 
-.main-content {}
 
 .main-content-title {
   color: #fff;
@@ -339,7 +336,6 @@ li {
 
 }
 
-.benefit-box p {}
 
 .benefit-box {
 background: #fff;
@@ -360,7 +356,7 @@ background: #fff;
   box-shadow: 0 6px 16px rgba(4, 52, 44, 0.1);
 }
 
-.benefit-icon {}
+
 
 .benefit-text {
   margin: 0;
@@ -382,9 +378,6 @@ background: #fff;
 
 }
 
-.items-header {}
-
-.items {}
 
 .items-icon {
 
@@ -497,7 +490,7 @@ background: #fff;
 }
 
 
-.items-header {}
+
 
 .special-offer-items {
   display: flex;
@@ -650,7 +643,7 @@ background: #fff;
   gap: 14px;
 }
 
-.broken-window-details {}
+
 
 .broken-window-image {
   height: 110px;
@@ -764,7 +757,7 @@ background: #fff;
   transition: background 0.2s;
 }
 
-.notification-text {}
+
 
 .notification-input {
   background-color: #fff;
@@ -782,9 +775,6 @@ background: #fff;
 }
 
 
-.notification-button {}
-
-#special-offer-nuts {}
 
 .footer {
   background-color: #04342C;
@@ -1006,7 +996,6 @@ background: #fff;
 
 }
 
-.footer-buttom-left {}
 
 .footer-buttom-left-link {
   display: inline-flex;
@@ -1047,7 +1036,7 @@ background: #fff;
   opacity: 0.9;
 }
 
-.unavailable {}
+
 
 .add-button:disabled {
   background: #B4B2A9;
@@ -1342,7 +1331,7 @@ background: #fff;
     line-height: 1.2;
     margin: 0;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+   /* -webkit-line-clamp: 2;*/
     -webkit-box-orient: vertical;
     overflow: hidden;
     min-height: 2.4em;
