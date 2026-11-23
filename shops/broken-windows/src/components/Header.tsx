@@ -40,7 +40,7 @@ export default function Header({ query, onQuery }: Props) {
           </div>
         </a>
         <SearchBox query={query} onQuery={onQuery} />
-        <a className="user-account" href="#" aria-label="ورود به حساب کاربری">
+        <a className="user-account" href="#" aria-label="ورود به حساب کاربری" title="ورود به حساب کاربری">
           <svg aria-hidden="true" className="user-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />

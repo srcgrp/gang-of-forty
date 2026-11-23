@@ -13,7 +13,11 @@ html {
   scroll-padding-top: 100px;
   scroll-behavior: smooth;
 }
-
+.notification-signingin {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 html,
 body {
   width: 100%;
@@ -96,6 +100,7 @@ img {
 
 .search-form {
   flex: 1;
+  
 
 }
 
@@ -134,8 +139,13 @@ img {
   display: flex;
   align-items: center;
   gap: 6px;
+    line-height: 1;
+  white-space: nowrap;
 
 }
+
+.user-account svg { display: block; flex: none; }
+.user-account-label { line-height: 1; }
 
 .user-account:hover {
   color: #1D9E75;
@@ -152,8 +162,13 @@ img {
   background-color: #D4537E;
   color: #fff;
   border-radius: 12px;
+   line-height: 1;
+  white-space: nowrap;
    
 }
+.cart > .cart-icon { display: flex; }
+.cart svg { display: block; }
+.cart-label { line-height: 1; }
 
 
 .menu-toggle {
@@ -193,14 +208,14 @@ padding: 0 5px;
 
 
 }
-.nav{
-display: grid;
-    grid-template-columns: repeat(9, minmax(0, 1fr));
-    align-items: center;
-    width: 100%;
-    gap: 0;
-    padding: 0;
-    margin: 0;
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin: 0;
+  padding: 0 30px;
+  list-style: none;
 }
 .nav a {
   text-decoration: none;
@@ -213,9 +228,11 @@ display: grid;
   color: #0F6E56;
 }
 .nav > li {
-    min-width: 0;
-    text-align: center;
-    white-space: nowrap;
+  flex: none;
+  margin: 0;
+  padding: 10px 14px;
+  text-align: center;
+  white-space: nowrap;
 }
 li {
   display: inline;
@@ -779,6 +796,9 @@ background: #fff;
   padding: 10px 20px;
   border: none;
   transition: background 0.2s;
+   min-width: 300px;
+  cursor: text;
+  border: 1px solid transparent;
 }
 
 
@@ -895,7 +915,7 @@ background: #fff;
 
 .footer-top-header {
   padding-bottom: 6px;
-  border-bottom: 4px solid #D4537E;
+  /*border-bottom: 4px solid #D4537E;*/
   color: #fff;
   width: fit-content;
   margin: 0 0 14px;
@@ -1219,7 +1239,9 @@ background: #fff;
     margin: 0;
     padding: 0;
     list-style: none;
+     display: block;
   }
+
 
   .nav li {
     display: block;
@@ -1453,6 +1475,7 @@ background: #fff;
     flex: 1;
     min-width: 0;
     font-size: 16px;
+  
   }
 
 
@@ -1930,3 +1953,18 @@ background: var(--bg);
 }
 
 address { font-style: normal; }
+.user-account-label,
+.cart-label {
+  line-height: 1;
+  transform: translateY(-4px);
+}
+
+.user-account svg,
+.cart svg {
+  display: block;
+  flex: none;
+}
+.footer-top-info-header {
+  margin: 0 0 14px;
+  color: #fff;
+}
