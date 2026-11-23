@@ -21,3 +21,6 @@ http://localhost:8080
 ```bash
 docker stop shop && docker rm shop
 ```
+
+
+Preview deployment test
