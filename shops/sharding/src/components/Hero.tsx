@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { apiHashLink } from '../shared/storage/url'
 import BannerCarousel from './BannerCarousel'
 import type { Home } from '../shared/types'
+import { Icon } from './Icon'
 
 type HeroProps = {
   banners: string[]
@@ -31,9 +32,7 @@ export default function Hero({ banners, home, loading = false }: HeroProps) {
   const ctaRoute = apiHashLink(ctaHref)
   const ctaContent = <>
     <span>{home?.hero?.cta?.label ?? 'مشاهده محصولات'}</span>
-    <svg className="hero-video__cta-icon" aria-hidden="true">
-      <use href="./icons.svg#arrowForward" />
-    </svg>
+    <Icon name="arrowForward" className="hero-video__cta-icon" />
   </>
 
   return (

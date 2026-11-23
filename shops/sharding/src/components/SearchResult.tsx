@@ -1,6 +1,7 @@
 import type { Card } from '../shared/types'
 import { formatPrice } from '../shared/logic/pricing'
 import { useCartStore } from '../hooks/useCartStore'
+import { Icon } from './Icon'
 
 type SearchResultProps = {
   card: Card
@@ -31,7 +32,7 @@ export default function SearchResult({ card, onJump }: SearchResultProps) {
           <span className="search-results__out">{card.stockKnown ? 'ناموجود' : 'موجودی نامشخص'}</span>
         ) : qty === 0 ? (
           <button type="button" className="product__add" onClick={() => add(card.id, card.stockQty)} aria-label={`افزودن ${card.name}`}>
-            <svg aria-hidden="true"><use href="./icons.svg#plus" /></svg>
+            <Icon name="plus" />
           </button>
         ) : (
           <div className="product__qty">

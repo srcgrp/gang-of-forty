@@ -1,4 +1,5 @@
 import { Link } from '@tanstack/react-router'
+import { Icon } from '../Icon'
 
 export default function NotFound() {
   return (
@@ -8,9 +9,7 @@ export default function NotFound() {
           <header className="product-shelf__main plp__heading">
             <h1 className="plp__title" id="not-found-title">این صفحه پیدا نشد</h1>
             <Link to="/" className="catalog-link">
-              <svg width="16" height="16" fill="currentColor" aria-hidden="true">
-                <use href="./icons.svg#arrowForward" />
-              </svg>
+              <Icon name="arrowForward" width="16" height="16" fill="currentColor" />
               بازگشت به خانه
             </Link>
           </header>

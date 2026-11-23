@@ -1,4 +1,5 @@
 import { useNavigate } from '@tanstack/react-router'
+import { Icon } from './Icon'
 
 type CarouselNavProps = {
   isAtStart: boolean
@@ -30,7 +31,7 @@ export default function CarouselNav({ isAtStart, isAtEnd, onPrev, onNext, label,
         aria-disabled={isAtStart}
         disabled={isAtStart}
       >
-        <svg aria-hidden="true"><use href="./icons.svg#arrowRight" /></svg>
+        <Icon name="arrowRight" />
       </button>
       
       <button
@@ -41,7 +42,7 @@ export default function CarouselNav({ isAtStart, isAtEnd, onPrev, onNext, label,
         aria-disabled={isAtEnd}
         disabled={isAtEnd}
       >
-        <svg aria-hidden="true"><use href="./icons.svg#arrowLeft" /></svg>
+        <Icon name="arrowLeft" />
       </button>
     </nav>
   )

@@ -6,6 +6,7 @@ import PlpSortLinks from '../PlpSortLinks'
 import ProductCard from '../ProductCard'
 import ProductSkeleton from '../ProductSkeleton'
 import ProductStatus from '../ProductStatus'
+import { Icon } from '../Icon'
 
 export default function PlpPage() {
   const { carouselId } = useParams({ from: '/plp/$carouselId' })
@@ -38,9 +39,7 @@ export default function PlpPage() {
                 )}
               </div>
               <Link to="/" search={true} className="catalog-link">
-                <svg width="16" height="16" fill="currentColor" aria-hidden="true">
-                  <use href="./icons.svg#arrowForward" />
-                </svg>
+                <Icon name="arrowForward" width="16" height="16" fill="currentColor" />
                 بازگشت به خانه
               </Link>
             </header>

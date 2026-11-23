@@ -6,6 +6,7 @@ import ProductImage from '../ProductImage'
 import ProductCartActions from '../ProductCartActions'
 import ProductSkeleton from '../ProductSkeleton'
 import ProductStatus from '../ProductStatus'
+import { Icon } from '../Icon'
 
 export default function ProductPage() {
   const { productId } = useParams({ from: '/product/$productId' })
@@ -36,9 +37,7 @@ export default function ProductPage() {
               <Price value={card.price} {...(card.oldPrice !== undefined ? { oldValue: card.oldPrice } : {})} />
               <ProductCartActions card={card} variant="detail" />
               <Link to="/" search={true} className="catalog-link">
-                <svg width="16" height="16" fill="currentColor" aria-hidden="true">
-                  <use href="./icons.svg#arrowForward" />
-                </svg>
+                <Icon name="arrowForward" width="16" height="16" fill="currentColor" />
                 بازگشت به خانه
               </Link>
             </div>

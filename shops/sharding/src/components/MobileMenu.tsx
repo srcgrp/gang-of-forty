@@ -3,6 +3,7 @@ import { useMobileMenu } from '../hooks/useMobileMenu'
 import { apiHashLink } from '../shared/storage/url'
 import type { Link as MenuLink } from '../shared/types'
 import ThemeToggle from './ThemeToggle'
+import { Icon } from './Icon'
 
 type MobileMenuProps = {
   open: boolean
@@ -20,7 +21,7 @@ export default function MobileMenu({ open, onClose, menu }: MobileMenuProps) {
       <div className="mobile-menu__panel" ref={menuRef}>
         <div className="mobile-menu__head">
           <button type="button" className="icon-btn" onClick={onClose} aria-label="بستن منو" data-initial-focus="">
-            <svg className="icon-btn__icon" aria-hidden="true"><use href="./icons.svg#close" /></svg>
+            <Icon name="close" className="icon-btn__icon" />
           </button>
           <span className="mobile-menu__title">منو</span>
           <ThemeToggle />

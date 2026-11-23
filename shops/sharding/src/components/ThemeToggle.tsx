@@ -1,8 +1,9 @@
 import { useId } from 'react'
 import { useThemeStore } from '../hooks/useThemeStore'
 import type { Theme } from '../shared/types'
+import { Icon, type IconName } from './Icon'
 
-const OPTIONS: { value: Theme; icon: string; label: string }[] = [
+const OPTIONS: { value: Theme; icon: IconName; label: string }[] = [
   { value: 'auto', icon: 'themeAuto', label: 'پیروی از سیستم' },
   { value: 'light', icon: 'themeLight', label: 'حالت روشن' },
   { value: 'dark', icon: 'themeDark', label: 'حالت تاریک' },
@@ -28,9 +29,7 @@ export default function ThemeToggle() {
           />
           <label htmlFor={`${groupId}-${opt.value}`} className="theme-switch__label" title={opt.label}>
             <span className="visually-hidden">{opt.label}</span>
-            <svg className="theme-switch__icon" aria-hidden="true">
-              <use href={`./icons.svg#${opt.icon}`} />
-            </svg>
+            <Icon name={opt.icon} className="theme-switch__icon" />
           </label>
         </div>
       ))}

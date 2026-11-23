@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import type { Category, Product } from '../shared/types'
 import MegaMenuItem from './MegaMenuItem'
+import { Icon } from './Icon'
 
 type MegaMenuProps = {
   categories: Category[]
@@ -28,9 +29,7 @@ export default function MegaMenu({ categories, products }: MegaMenuProps) {
         aria-expanded={open}
         onClick={() => setOpen(!open)}
       >
-        <svg className="mega-menu__trigger-icon" aria-hidden="true">
-          <use href="./icons.svg#grid" />
-        </svg>
+        <Icon name="grid" className="mega-menu__trigger-icon" />
         <span>همه دسته‌بندی‌ها</span>
       </button>
 

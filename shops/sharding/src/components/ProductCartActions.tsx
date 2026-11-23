@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { useCartStore } from '../hooks/useCartStore'
 import type { Card } from '../shared/types'
 import ProductQuantity from './ProductQuantity'
+import { Icon } from './Icon'
 
 type ProductCartActionsProps = {
   card: Card
@@ -45,7 +46,7 @@ export default function ProductCartActions({ card, variant }: ProductCartActions
       disabled={!card.inStock}
       aria-label={isCard ? (card.inStock ? `افزودن ${card.name} به سبد` : unavailableLabel) : undefined}
     >
-      {isCard ? <svg aria-hidden="true"><use href="./icons.svg#plus" /></svg> : 'افزودن به سبد'}
+      {isCard ? <Icon name="plus" /> : 'افزودن به سبد'}
     </button>
   )
 

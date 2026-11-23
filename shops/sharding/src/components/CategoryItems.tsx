@@ -1,4 +1,5 @@
 import type { Category } from '../shared/types'
+import { Icon } from './Icon'
 
 type CategoryItemsProps = {
   categories: Category[]
@@ -30,9 +31,7 @@ export default function CategoryItems({ categories, activeId, onPick, loading }:
             onClick={() => onPick(null)}
           >
             <span className="category__img category__img--all">
-              <svg className="category__all-icon" aria-hidden="true">
-                <use href="./icons.svg#grid" />
-              </svg>
+              <Icon name="grid" className="category__all-icon" />
             </span>
             <span className="category__name">همه</span>
           </button>

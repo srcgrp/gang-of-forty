@@ -3,6 +3,7 @@ import type { AppState } from '../shared/types'
 import { searchProducts } from '../features/products/logic/filters'
 import { useJumpToProduct } from '../hooks/useJumpToProduct'
 import SearchResults from './SearchResults'
+import { Icon } from './Icon'
 
 type SearchBoxProps = {
   data: AppState
@@ -47,7 +48,7 @@ export default function SearchBox({ data, activeCategoryId, query, onQuery }: Se
   return (
     <form ref={boxRef} className="search" role="search" autoComplete="off" onSubmit={(e) => e.preventDefault()}>
       <label htmlFor="search-input" className="visually-hidden">جستجو در محصولات</label>
-      <span className="search__icon" aria-hidden="true"><svg><use href="./icons.svg#search" /></svg></span>
+      <span className="search__icon" aria-hidden="true"><Icon name="search" /></span>
       <input
         id="search-input"
         className="search__input"

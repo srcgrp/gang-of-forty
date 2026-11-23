@@ -1,5 +1,6 @@
 import { useId, useState } from 'react'
 import SaleCountdown from './SaleCountdown'
+import { Icon } from './Icon'
 
 export default function SalePromotion() {
   const [open, setOpen] = useState(true)
@@ -19,7 +20,7 @@ export default function SalePromotion() {
         aria-expanded={open}
         aria-label={open ? 'بستن شمارش معکوس' : 'نمایش شمارش معکوس'}
       >
-        <svg aria-hidden="true"><use href={open ? './icons.svg#close' : './icons.svg#clock'} /></svg>
+        <Icon name={open ? 'close' : 'clock'} />
         {!open && <span>نمایش زمان</span>}
       </button>
     </div>
