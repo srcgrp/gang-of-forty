@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router"
+import type { MouseEvent } from "react"
 import type { ShopData } from "../types"
 import type { CatalogControls } from "../hooks/useCatalog"
 import BrandLogo from "./BrandLogo"
@@ -12,6 +13,13 @@ import ThemeToggle from "./ThemeToggle"
 type HeaderProps = {
     data: ShopData
     catalogControls: CatalogControls
+}
+
+function closeMobileMenu(event: MouseEvent<HTMLDetailsElement>): void {
+    if (event.target instanceof Element && event.target.closest("a[href]")) {
+        event.currentTarget.open = false
+        event.currentTarget.querySelector("summary")?.focus({ preventScroll: true })
+    }
 }
 
 export default function Header({ data, catalogControls }: HeaderProps) {
@@ -29,7 +37,7 @@ export default function Header({ data, catalogControls }: HeaderProps) {
         <header className="site-header">
             <Announcement notice={shop.notice} />
             <div className="site-header__bar container" id="header-bar">
-                <Link className="brand" to="/" hash="top">
+                <Link className="brand" to="/" hash="top" onClick={() => catalogControls.onQuery("")}>
                     <BrandLogo />
                     <span className="brand__text" id="brand-text">
                         <strong className="brand__name">
@@ -43,10 +51,10 @@ export default function Header({ data, catalogControls }: HeaderProps) {
                     onQuery={catalogControls.onQuery}
                 />
                 <div className="header-actions">
-                    <CartButton />
+                    <CartButton products={data.products} />
                     <ThemeToggle />
                 </div>
-                <details className="mobile-menu" id="mobile-menu">
+                <details className="mobile-menu" id="mobile-menu" onClick={closeMobileMenu}>
                     <summary className="menu-toggle" aria-label="منوی اصلی">
                         ☰
                     </summary>

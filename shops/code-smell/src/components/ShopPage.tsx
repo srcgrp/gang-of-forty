@@ -1,3 +1,4 @@
+import type { ListingSearch } from "../catalog/shopPageData"
 import type { CarouselWithProducts, ShopData } from "../types"
 import type { CatalogControls } from "../hooks/useCatalog"
 import Hero from "./Hero"
@@ -21,13 +22,16 @@ export default function ShopPage({
     catalogControls,
     countdownControls
 }: ShopPageProps) {
-    const { query, onPick } = catalogControls
-    const isSearching = query.trim() !== ""
+    const { categoryId, query, onPick } = catalogControls
+    const searchText = query.trim()
+    const search: ListingSearch = { sort: "default", q: searchText }
+    if (categoryId !== null) search.cat = categoryId
+    const isSearching = searchText !== ""
 
     return (
         <>
             <main id="main-content" tabIndex={-1}>
-                {isSearching && <ProductGrid carousels={carousels} />}
+                {isSearching && <ProductGrid carousels={carousels} search={search} />}
                 <Hero
                     hero={data.home.hero}
                     shop={data.shop}
@@ -37,7 +41,7 @@ export default function ShopPage({
                 <Categories categories={data.categories} onPick={onPick} />
                 <SaleCountdownPanel {...countdownControls} />
                 <Promos home={data.home} categories={data.categories} onPick={onPick} />
-                {!isSearching && <ProductGrid carousels={carousels} preview />}
+                {!isSearching && <ProductGrid carousels={carousels} />}
                 <Guide shop={data.shop} />
             </main>
             <Footer categories={data.categories} shop={data.shop} onPick={onPick} />

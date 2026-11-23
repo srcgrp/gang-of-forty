@@ -1,14 +1,14 @@
 import { Link } from "@tanstack/react-router"
+import type { ListingSearch } from "../catalog/shopPageData"
 import type { CarouselWithProducts } from "../types"
-import CarouselControls from "./CarouselControls"
 
 type CarouselHeadingProps = {
     carousel: CarouselWithProducts
     titleId: string
-    preview: boolean
+    search: ListingSearch | undefined
 }
 
-export default function CarouselHeading({ carousel, titleId, preview }: CarouselHeadingProps) {
+export default function CarouselHeading({ carousel, titleId, search }: CarouselHeadingProps) {
     const count = carousel.products.length
     const countText = count.toLocaleString("fa-IR")
 
@@ -26,13 +26,12 @@ export default function CarouselHeading({ carousel, titleId, preview }: Carousel
                     {carousel.title}
                 </h2>
                 <div className="carousel-heading-actions">
-                    {!preview && count > 1 && <CarouselControls title={carousel.title} />}
-                    {preview && (
+                    {(!search || count > 0) && (
                         <Link
                             className="button button--primary button--route"
                             to="/plp/$carouselId"
-                            params={{ carouselId: carousel.id }}
-                            search={{ sort: "default" }}
+                            params={{ carouselId: search ? "search-results" : carousel.id }}
+                            search={search ?? { sort: "default" }}
                             aria-label={"مشاهده همه (" + countText + ")، " + carousel.title}
                         >
                             مشاهده همه ({countText})

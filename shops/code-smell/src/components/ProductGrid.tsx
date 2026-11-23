@@ -1,21 +1,22 @@
+import type { ListingSearch } from "../catalog/shopPageData"
 import type { CarouselWithProducts } from "../types"
 import ProductCard from "./ProductCard"
 import CarouselHeading from "./CarouselHeading"
 
 type ProductGridProps = {
     carousels: CarouselWithProducts[]
-    preview?: boolean
+    search?: ListingSearch
 }
 
-const previewSize = 4
+const previewSize = 6
 
-export default function ProductGrid({ carousels, preview = false }: ProductGridProps) {
+export default function ProductGrid({ carousels, search }: ProductGridProps) {
     const productsStart = carousels.find((carousel) => carousel.id !== "offers")
     return (
         <div>
             {carousels.map(function (carousel, index) {
                 const titleId = carousel.id + "-title"
-                const products = preview ? carousel.products.slice(0, previewSize) : carousel.products
+                const products = carousel.products.slice(0, previewSize)
                 const hasProducts = products.length > 0
 
                 return (
@@ -25,11 +26,15 @@ export default function ProductGrid({ carousels, preview = false }: ProductGridP
                         key={carousel.id}
                         aria-labelledby={titleId}
                         data-carousel="true"
-                        data-preview={preview ? "true" : undefined}
+                        data-preview="true"
                     >
                         {carousel === productsStart && <div id="products" />}
                         <div className="container">
-                            <CarouselHeading carousel={carousel} titleId={titleId} preview={preview} />
+                            <CarouselHeading
+                                carousel={carousel}
+                                titleId={titleId}
+                                search={search}
+                            />
                             <p className="catalog-status" role="status" hidden={hasProducts}>
                                 کالایی پیدا نشد!
                             </p>
@@ -37,7 +42,7 @@ export default function ProductGrid({ carousels, preview = false }: ProductGridP
                                 className="product-grid"
                                 tabIndex={0}
                                 hidden={!hasProducts}
-                                aria-label={"کاروسل" + " " + carousel.title}
+                                aria-label={(search ? "نتایج جستجو: " : "کاروسل ") + carousel.title}
                             >
                                 {products.map(function (product) {
                                     return <ProductCard key={product.id} product={product} />

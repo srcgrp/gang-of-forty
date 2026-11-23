@@ -721,6 +721,11 @@ button {
     font-size: var(--font-size-md);
 }
 
+.product-card__title a {
+    color: inherit;
+    text-decoration: none;
+}
+
 .product-card__footer {
     display: grid;
     gap: var(--space-3);

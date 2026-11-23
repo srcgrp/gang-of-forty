@@ -8,7 +8,7 @@ import Status from "../Status"
 
 export default function ProductPage() {
     const { productId } = useParams({ from: "/product/$productId" })
-    const { state, retry } = useCatalog()
+    const { state, retry, catalogControls } = useCatalog()
     const add = useCartStore((store) => store.add)
 
     if (state.status !== "success") {
@@ -31,7 +31,7 @@ export default function ProductPage() {
             <div className="container">
                 <header className="section__header">
                     <h1 className="section__title">{product?.name ?? "محصول پیدا نشد"}</h1>
-                    <Link className="button button--secondary button--route" to="/">
+                    <Link className="button button--secondary button--route" to="/" onClick={() => catalogControls.onQuery("")}>
                         بازگشت به صفحه ی اصلی
                     </Link>
                 </header>

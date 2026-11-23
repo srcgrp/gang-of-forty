@@ -1,14 +1,12 @@
-import type { Cart, CartItem, CartRowData, Offer, Product } from "../types"
+import type { Cart, CartItem, CartRowData, Offer, Product, Stock } from "../types"
 import { getFinalPrice, getProductOffer } from "../catalog/getProductCardData"
 
-export function cartCount(cart: Cart): number {
-    let count = 0
+export function cartCount(cart: Cart, products: Product[]): number {
+    return products.reduce((count, product) => count + (cart[String(product.id)] ?? 0), 0)
+}
 
-    Object.values(cart).forEach(function (quantity) {
-        count += quantity
-    })
-
-    return count
+export function hasStockIssue(rows: CartRowData[], stock: Stock["items"]): boolean {
+    return rows.some((row) => row.quantity > (stock[String(row.id)] ?? 0))
 }
 
 export function addToCart(cart: Cart, cartItem: CartItem): Cart {

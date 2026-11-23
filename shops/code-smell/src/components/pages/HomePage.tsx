@@ -1,5 +1,5 @@
-import { useLocation } from "@tanstack/react-router"
-import { useState } from "react"
+import { useLocation, useNavigate } from "@tanstack/react-router"
+import { useEffect, useState } from "react"
 import { getPageData } from "../../catalog/shopPageData"
 import { useCatalog } from "../../hooks/useCatalog"
 import ShopPage from "../ShopPage"
@@ -16,7 +16,15 @@ export default function HomePage() {
     const orderSubmitted = useLocation({
         select: (location) => location.state.orderSubmitted === true
     })
+    const [showConfirmation] = useState(orderSubmitted)
     const [countdownOpen, setCountdownOpen] = useState(false)
+    const navigate = useNavigate()
+
+    useEffect(function () {
+        if (orderSubmitted) {
+            void navigate({ to: "/", replace: true, state: { orderSubmitted: false } })
+        }
+    }, [orderSubmitted, navigate])
 
     if (state.status !== "success") {
         return <Status state={state} onRetry={retry} />
@@ -26,7 +34,7 @@ export default function HomePage() {
 
     return (
         <>
-            {orderSubmitted && (
+            {showConfirmation && (
                 <div className="container">
                     <p className="info-card order-success" role="status">ثبت سفارش با موفقیت انجام شد</p>
                 </div>
