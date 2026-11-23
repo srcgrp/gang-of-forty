@@ -1,5 +1,3 @@
-/* سوپرمارکت yaldastore - استایل ساده با فلکس */
-
 * {
     box-sizing: border-box;
 }
@@ -16,7 +14,6 @@ a {
     color: #2e7d32;
 }
 
-/* لینک پرش برای کیبورد */
 .skip {
     position: absolute;
     top: -60px;
@@ -38,7 +35,6 @@ a {
     overflow: hidden;
 }
 
-/* نوار بالای صفحه */
 .top-bar {
     background: #2e7d32;
     color: #fff;
@@ -47,7 +43,6 @@ a {
     font-size: 14px;
 }
 
-/* سربرگ */
 .header-main {
     display: flex;
     align-items: center;
@@ -109,7 +104,6 @@ a {
     font-weight: bold;
 }
 
-/* منوی موبایل */
 .burger {
     display: none;
     padding: 8px 16px;
@@ -136,7 +130,6 @@ a {
     color: #555;
 }
 
-/* بنرها */
 .hero {
     display: flex;
     gap: 14px;
@@ -175,7 +168,6 @@ a {
     color: #fff;
 }
 
-/* بخش‌ها */
 .section {
     max-width: 1100px;
     margin: 0 auto;
@@ -205,7 +197,6 @@ a {
     display: none;
 }
 
-/* دسته‌ها */
 .cat-list {
     display: flex;
     gap: 12px;
@@ -235,7 +226,6 @@ a {
     font-size: 30px;
 }
 
-/* کاروسل */
 .car {
     display: flex;
     gap: 12px;
@@ -326,7 +316,6 @@ a {
     cursor: default;
 }
 
-/* بنرهای تبلیغاتی */
 .promos {
     display: flex;
     gap: 14px;
@@ -346,7 +335,6 @@ a {
     font-weight: bold;
 }
 
-/* سبد خرید */
 #cart .box {
     background: #fff;
     border: 1px solid #eee;
@@ -375,7 +363,6 @@ a {
     cursor: pointer;
 }
 
-/* فوتر */
 footer {
     background: #1c2420;
     color: #ccc;
@@ -424,7 +411,6 @@ footer {
     color: #ffca28;
 }
 
-/* موبایل */
 @media (max-width: 600px) {
     .burger {
         display: block;
