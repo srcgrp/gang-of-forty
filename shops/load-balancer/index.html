@@ -1,29 +1,473 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت متعادل‌کننده بار</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>⚖️ سلام دنیا!</h1>
-  </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>متعادل‌کننده بار</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p><bdi>Load Balancer</bdi> درخواست‌های کاربران را بین چند سرور پخش می‌کند تا هیچ‌کدام زیر بار نرود؛ مثل سوپرمارکتی که چند صندوق دارد و مشتری را به صف خلوت‌تر می‌فرستد. اگر یک سرور خراب شود، بقیه کار را ادامه می‌دهند. روش‌های رایجش نوبتی (<bdi>Round Robin</bdi>) و «کمترین اتصال» است.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
-    </section>
-  </main>
-  <footer>
-    <p dir="ltr">slug: <code>load-balancer</code></p>
-  </footer>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>آرتاسک شاپ | تازه، طبیعی، مورد اعتماد</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <aside class="sidebar" aria-label="منوی کناری">
+      <div class="sidebar-logo">
+        <span class="logo-icon" aria-hidden="true">🍃</span>
+        <div>
+          <p class="brand-name">آرتاسک شاپ</p>
+          <p class="brand-tagline">تازه، طبیعی، مورد اعتماد</p>
+        </div>
+      </div>
+      <nav class="sidebar-nav" aria-label="ناوبری اصلی">
+        <ul>
+          <li><a href="#" class="active" aria-current="page">🏠 خانه</a></li>
+          <li><a href="#">📦 دسته‌بندی‌ها</a></li>
+          <li><a href="#">🛒 سبد خرید</a></li>
+          <li><a href="#">📋 سفارش‌ها</a></li>
+          <li><a href="#">👤 پروفایل</a></li>
+          <li><a href="#">💬 پشتیبانی</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="header">
+        <div class="logo-area">
+          <span class="logo-icon" aria-hidden="true">🍃</span>
+          <div>
+            <h1>آرتاسک شاپ</h1>
+            <p>تازه، طبیعی، مورد اعتماد</p>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button
+            type="button"
+            class="header-icon"
+            aria-label="اعلان‌ها (۳ مورد خوانده‌نشده)"
+          >
+            🔔
+            <span class="badge" aria-hidden="true">3</span>
+          </button>
+          <button type="button" class="header-icon" aria-label="حساب کاربری">
+            👤
+          </button>
+        </div>
+      </header>
+
+      <main>
+        <section class="search-section" aria-label="جستجو">
+          <form class="search-box" role="search">
+            <span class="search-icon" aria-hidden="true">🔍</span>
+            <input
+              type="search"
+              name="q"
+              placeholder="جستجو در محصولات..."
+              aria-label="جستجو در محصولات"
+            />
+          </form>
+        </section>
+
+        <nav class="categories" aria-label="دسته‌بندی محصولات">
+          <ul class="cat-list">
+            <li>
+              <button type="button" class="cat-item active" aria-pressed="true">
+                <span class="cat-icon" aria-hidden="true">🍋</span>
+                <span>میوه</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="cat-item" aria-pressed="false">
+                <span class="cat-icon" aria-hidden="true">🥬</span>
+                <span>سبزیجات</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="cat-item" aria-pressed="false">
+                <span class="cat-icon" aria-hidden="true">🍗</span>
+                <span>گوشت و مرغ</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="cat-item" aria-pressed="false">
+                <span class="cat-icon" aria-hidden="true">🥛</span>
+                <span>لبنیات</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="cat-item" aria-pressed="false">
+                <span class="cat-icon" aria-hidden="true">🥜</span>
+                <span>خشکبار</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="cat-item" aria-pressed="false">
+                <span class="cat-icon" aria-hidden="true">🧃</span>
+                <span>نوشیدنی</span>
+              </button>
+            </li>
+          </ul>
+        </nav>
+
+        <section class="hero" aria-labelledby="hero-title">
+          <article class="hero-card">
+            <img
+              src="https://images.unsplash.com/photo-1577234286642-fc512a5f8f11?auto=format&fit=crop&w=900&q=80"
+              alt="دسته‌ای از لیموهای تازه روی درخت"
+            />
+            <div class="hero-overlay">
+              <h2 id="hero-title">حداقل ۳۵٪ تخفیف ویژه</h2>
+              <p>لیمو با کیفیت بالا و ۱۰۰٪ طبیعی مستقیم از مزرعه</p>
+              <a href="#" class="btn-primary">همین حالا خرید کنید ←</a>
+            </div>
+          </article>
+        </section>
+
+        <section class="section" aria-labelledby="offers-title">
+          <header class="section-header">
+            <h2 class="section-title" id="offers-title">پیشنهادهای ویژه</h2>
+            <a href="#" class="see-all">مشاهده همه</a>
+          </header>
+          <ul class="products-scroll">
+            <li>
+              <article class="product-card">
+                <span class="discount-badge">۲۵٪</span>
+                <div class="product-img">
+                  <img
+                    src="https://images.unsplash.com/photo-1519162808019-7de1683fa24b?auto=format&fit=crop&w=400&q=80"
+                    alt="آووکادو رسیده"
+                  />
+                </div>
+                <div class="product-info">
+                  <h3 class="product-name">آووکادو رسیده</h3>
+                  <p class="product-meta">۱ عدد</p>
+                  <div class="product-price">
+                    <p>
+                      <span class="old-price">۷۲,۵۰۰</span>
+                      <span class="price">۵۸,۰۰۰ تومان</span>
+                    </p>
+                    <button
+                      type="button"
+                      class="add-btn"
+                      aria-label="افزودن آووکادو به سبد خرید"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              </article>
+            </li>
+            <li>
+              <article class="product-card">
+                <span class="discount-badge">۲۵٪</span>
+                <div class="product-img">
+                  <img
+                    src="https://images.unsplash.com/photo-1547514701-42782101795e?auto=format&fit=crop&w=400&q=80"
+                    alt="پرتقال شیرین"
+                  />
+                </div>
+                <div class="product-info">
+                  <h3 class="product-name">پرتقال شیرین</h3>
+                  <p class="product-meta">۲ کیلوگرم</p>
+                  <div class="product-price">
+                    <p>
+                      <span class="old-price">۶۴,۰۰۰</span>
+                      <span class="price">۴۸,۰۰۰ تومان</span>
+                    </p>
+                    <button
+                      type="button"
+                      class="add-btn"
+                      aria-label="افزودن پرتقال به سبد خرید"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              </article>
+            </li>
+            <li>
+              <article class="product-card">
+                <span class="discount-badge">۳۰٪</span>
+                <div class="product-img">
+                  <img
+                    src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=400&q=80"
+                    alt="گوجه فرنگی گلخانه‌ای"
+                  />
+                </div>
+                <div class="product-info">
+                  <h3 class="product-name">گوجه فرنگی گلخانه‌ای</h3>
+                  <p class="product-meta">۱ کیلوگرم</p>
+                  <div class="product-price">
+                    <p>
+                      <span class="old-price">۲۹,۰۰۰</span>
+                      <span class="price">۲۰,۸۰۰ تومان</span>
+                    </p>
+                    <button
+                      type="button"
+                      class="add-btn"
+                      aria-label="افزودن گوجه به سبد خرید"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              </article>
+            </li>
+            <li>
+              <article class="product-card">
+                <span class="discount-badge">۲۰٪</span>
+                <div class="product-img">
+                  <img
+                    src="https://images.unsplash.com/photo-1577234286642-fc512a5f8f11?auto=format&fit=crop&w=400&q=80"
+                    alt="لیمو تازه"
+                  />
+                </div>
+                <div class="product-info">
+                  <h3 class="product-name">لیمو تازه</h3>
+                  <p class="product-meta">۱ کیلوگرم</p>
+                  <div class="product-price">
+                    <p>
+                      <span class="old-price">۵۸,۰۰۰</span>
+                      <span class="price">۳۷,۷۰۰ تومان</span>
+                    </p>
+                    <button
+                      type="button"
+                      class="add-btn"
+                      aria-label="افزودن لیمو به سبد خرید"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              </article>
+            </li>
+          </ul>
+        </section>
+
+        <section class="section" aria-labelledby="bestsellers-title">
+          <header class="section-header">
+            <h2 class="section-title" id="bestsellers-title">محصولات پرفروش</h2>
+            <a href="#" class="see-all">مشاهده همه</a>
+          </header>
+          <ul class="products-grid">
+            <li>
+              <article class="product-card">
+                <div class="product-img">
+                  <img
+                    src="https://images.unsplash.com/photo-1618375569909-3cda11894256?auto=format&fit=crop&w=400&q=80"
+                    alt="ریحان تازه"
+                  />
+                </div>
+                <div class="product-info">
+                  <h3 class="product-name">ریحان تازه</h3>
+                  <p class="product-meta">۱ دسته</p>
+                  <div class="product-price">
+                    <p class="price">۲۲,۰۰۰ تومان</p>
+                    <button
+                      type="button"
+                      class="add-btn"
+                      aria-label="افزودن ریحان به سبد خرید"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              </article>
+            </li>
+            <li>
+              <article class="product-card">
+                <div class="product-img">
+                  <img
+                    src="https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=400&q=80"
+                    alt="پنیر سفید محلی"
+                  />
+                </div>
+                <div class="product-info">
+                  <h3 class="product-name">پنیر سفید محلی</h3>
+                  <p class="product-meta">۵۰۰ گرم</p>
+                  <div class="product-price">
+                    <p class="price">۳۶,۰۰۰ تومان</p>
+                    <button
+                      type="button"
+                      class="add-btn"
+                      aria-label="افزودن پنیر به سبد خرید"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              </article>
+            </li>
+            <li>
+              <article class="product-card">
+                <div class="product-img">
+                  <img
+                    src="https://images.unsplash.com/photo-1508747703725-719777637510?auto=format&fit=crop&w=400&q=80"
+                    alt="بادام درختی"
+                  />
+                </div>
+                <div class="product-info">
+                  <h3 class="product-name">بادام درختی</h3>
+                  <p class="product-meta">۵۰۰ گرم</p>
+                  <div class="product-price">
+                    <p class="price">۸۹,۰۰۰ تومان</p>
+                    <button
+                      type="button"
+                      class="add-btn"
+                      aria-label="افزودن بادام به سبد خرید"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              </article>
+            </li>
+            <li>
+              <article class="product-card">
+                <div class="product-img">
+                  <img
+                    src="https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=400&q=80"
+                    alt="عسل طبیعی کوهی"
+                  />
+                </div>
+                <div class="product-info">
+                  <h3 class="product-name">عسل طبیعی کوهی</h3>
+                  <p class="product-meta">۵۰۰ گرم</p>
+                  <div class="product-price">
+                    <p class="price">۹۸,۰۰۰ تومان</p>
+                    <button
+                      type="button"
+                      class="add-btn"
+                      aria-label="افزودن عسل به سبد خرید"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              </article>
+            </li>
+          </ul>
+        </section>
+
+        <section class="accordion-section" aria-labelledby="faq-title">
+          <header class="section-header">
+            <h2 class="section-title" id="faq-title">سوالات پرتکرار</h2>
+          </header>
+          <div class="accordion">
+            <details>
+              <summary>چگونه می‌توانم سفارش ثبت کنم؟</summary>
+              <div class="content">
+                <p>
+                  کافی است محصول مورد نظر را به سبد خرید اضافه کنید، سپس از بخش
+                  سبد خرید اطلاعات ارسال را تکمیل کرده و پرداخت را انجام دهید.
+                  سفارش شما در کوتاه‌ترین زمان ممکن آماده‌سازی و ارسال خواهد شد.
+                </p>
+              </div>
+            </details>
+            <details>
+              <summary>زمان تحویل سفارش چقدر است؟</summary>
+              <div class="content">
+                <p>
+                  سفارش‌های ثبت‌شده تا ساعت ۱۸ همان روز، در همان روز تحویل داده
+                  می‌شوند. سفارش‌های بعد از این ساعت، روز بعد ارسال خواهند شد.
+                  در شهرهای بزرگ امکان تحویل اکسپرس نیز وجود دارد.
+                </p>
+              </div>
+            </details>
+            <details>
+              <summary>آیا محصولات تازه و طبیعی هستند؟</summary>
+              <div class="content">
+                <p>
+                  بله، تمامی محصولات آرتاسک شاپ مستقیماً از مزارع و تولیدکنندگان
+                  معتبر تهیه می‌شوند و دارای گواهی کیفیت و تازگی هستند. ما متعهد
+                  به ارائه محصولات ۱۰۰٪ طبیعی هستیم.
+                </p>
+              </div>
+            </details>
+            <details>
+              <summary>شرایط مرجوعی کالا چگونه است؟</summary>
+              <div class="content">
+                <p>
+                  در صورت عدم رضایت از کیفیت محصول، تا ۲۴ ساعت پس از تحویل
+                  می‌توانید درخواست مرجوعی ثبت کنید. پس از بررسی، مبلغ به حساب
+                  شما بازگردانده خواهد شد.
+                </p>
+              </div>
+            </details>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="footer-grid">
+          <section>
+            <h3>آرتاسک شاپ</h3>
+            <p>
+              فروشگاه آنلاین مواد غذایی تازه، طبیعی و مستقیم از مزرعه. ما متعهد
+              به ارائه بهترین کیفیت با قیمت مناسب هستیم.
+            </p>
+          </section>
+          <nav aria-label="دسترسی سریع">
+            <h3>دسترسی سریع</h3>
+            <ul>
+              <li><a href="#">خانه</a></li>
+              <li><a href="#">دسته‌بندی‌ها</a></li>
+              <li><a href="#">تخفیف‌های ویژه</a></li>
+              <li><a href="#">پرفروش‌ترین‌ها</a></li>
+            </ul>
+          </nav>
+          <nav aria-label="خدمات">
+            <h3>خدمات</h3>
+            <ul>
+              <li><a href="#">پیگیری سفارش</a></li>
+              <li><a href="#">شرایط ارسال</a></li>
+              <li><a href="#">مرجوعی کالا</a></li>
+              <li><a href="#">پشتیبانی</a></li>
+            </ul>
+          </nav>
+          <section>
+            <h3>اعتماد شما افتخار ماست</h3>
+            <ul>
+              <li>✅ تضمین کیفیت</li>
+              <li>🚚 ارسال سریع و ایمن</li>
+              <li>💳 پرداخت امن</li>
+              <li>📞 پشتیبانی ۲۴/۷</li>
+            </ul>
+          </section>
+        </div>
+        <p class="footer-bottom">© ۱۴۰۴ آرتاسک شاپ — تمامی حقوق محفوظ است.</p>
+      </footer>
+    </div>
+
+    <nav class="bottom-nav" aria-label="ناوبری پایین صفحه">
+      <ul>
+        <li>
+          <a href="#" class="nav-item">
+            <span class="icon" aria-hidden="true">🏠</span>
+            <span>خانه</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-item">
+            <span class="icon" aria-hidden="true">📦</span>
+            <span>دسته‌بندی‌ها</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-item active" aria-current="page">
+            <span class="icon" aria-hidden="true">🛒</span>
+            <span>سبد خرید</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-item">
+            <span class="icon" aria-hidden="true">📋</span>
+            <span>سفارش‌ها</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-item">
+            <span class="icon" aria-hidden="true">👤</span>
+            <span>پروفایل</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </body>
 </html>
