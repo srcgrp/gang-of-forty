@@ -6,6 +6,12 @@ main {
     min-height: 55vh;
 }
 
+.app {
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+}
+
 .shop-slogan {
     color: #d1fae5;
     font-size: .75rem;
@@ -231,6 +237,31 @@ main {
     inset-inline-end: 16px;
 }
 
+.icon-btn {
+    text-decoration: none;
+}
+
+.shop-layout {
+    display: grid;
+    gap: 24px;
+    align-items: start;
+    margin-block: 24px;
+}
+
+.shop-layout .catalog-section {
+    margin-block: 0;
+}
+
+.theme-toggle {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.3rem;
+    line-height: 1;
+    padding: 0.25rem;
+    color: #fff
+}
+
 @media (prefers-color-scheme: dark) {
     .hero-side {
         background: #e8f2e8;
@@ -257,45 +288,6 @@ main {
     .footer-about-desc {
         color: var(--muted);
     }
-}
-
-.icon-btn {
-    text-decoration: none;
-}
-
-.shop-layout {
-    display: grid;
-    gap: 24px;
-    align-items: start;
-    margin-block: 24px;
-}
-
-.shop-layout .catalog-section {
-    margin-block: 0;
-}
-
-.app {
-    --bg: #ffffff;
-    --text: #1d1d1f;
-    --card: #f2f3f5;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-}
-
-.app[data-theme='dark'] {
-    --bg: #06382a;
-    --text: #e8eaf0;
-    --card: #252a33;
-}
-
-.theme-toggle {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 1.3rem;
-    line-height: 1;
-    padding: 0.25rem;
 }
 
 @media (prefers-reduced-motion: reduce) {
