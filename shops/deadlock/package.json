@@ -8,7 +8,8 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "check": "tsc --noEmit",
-    "lint": "oxlint src --deny-warnings"
+    "lint": "oxlint src --deny-warnings",
+    "ci": "npm run lint --if-present && npm run check && npm run test --if-present -- --run && npm run build"
   },
   "keywords": [],
   "author": "",
