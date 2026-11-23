@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="رستوران بهار — غذاهای اصیل ایرانی با مواد اولیه تازه، هر روز طبخ می‌شود.">
+<title>رستوران بهار — غذای خانگی، هر روز تازه</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body id="top">
+
+<a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+
+<div class="topbar" role="region" aria-label="اطلاعیه رستوران">
+  <span>🛵 ارسال رایگان برای سفارش‌های بالای ۵۰۰ هزار تومان</span>
+</div>
+
+<header class="site-header">
+  <input type="checkbox" id="nav-toggle" class="nav-toggle visually-hidden">
+
+  <div class="header-inner">
+
+    <label for="nav-toggle" class="nav-toggle-label" aria-label="باز و بسته کردن منوی اصلی">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </label>
+
+    <a href="#top" class="logo" aria-label="رستوران بهار — بازگشت به بالای صفحه">
+      <svg class="logo-mark" viewBox="0 0 48 48" width="42" height="42" aria-hidden="true" focusable="false">
+        <path d="M9 22h30c0 9-6.7 16-15 16S9 31 9 22z" fill="#b71c1c"/>
+        <path d="M7 22h34" stroke="#7f0000" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M17 12q2.5-3 0-6.5" stroke="#d4a017" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+        <path d="M24 12q2.5-3 0-6.5" stroke="#d4a017" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+        <path d="M31 12q2.5-3 0-6.5" stroke="#d4a017" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+        <ellipse cx="38" cy="17" rx="4" ry="2.5" fill="#2e7d32" transform="rotate(-25 38 17)"/>
+      </svg>
+      <span class="logo-text">
+        <strong>رستوران بهار</strong>
+        <small>غذای خانگی، هر روز تازه</small>
+      </span>
+    </a>
+
+    <form class="search" role="search" action="#" method="get">
+      <label for="search-input" class="visually-hidden">جستجو در منوی غذاها</label>
+      <input id="search-input" name="q" type="search" placeholder="جستجو در میان ۱۲۰ غذا..." autocomplete="off">
+      <button type="submit" aria-label="جستجو">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+          <circle cx="10" cy="10" r="6.5" stroke="currentColor" stroke-width="2" fill="none"/>
+          <path d="M15 15l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </form>
+
+    <a href="#order" class="cart" aria-label="سبد سفارش، ۲ غذا، مجموع ۵۰۵ هزار تومان">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
+        <path d="M3 4h2l2 12h12l2-9H6" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+        <circle cx="9" cy="20" r="1.6" fill="currentColor"/>
+        <circle cx="18" cy="20" r="1.6" fill="currentColor"/>
+      </svg>
+      <span class="cart-badge" aria-hidden="true">۲</span>
+    </a>
+
+  </div>
+
+  <nav class="main-nav" aria-label="منوی اصلی">
+
+    <div class="dropdown">
+      <a href="#categories" class="dropdown-toggle" aria-haspopup="true">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+          <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        همه دسته‌ها
+      </a>
+      <ul class="dropdown-menu">
+        <li><a href="#appetizer">🥗 پیش‌غذا</a></li>
+        <li><a href="#main">🍚 غذای اصلی</a></li>
+        <li><a href="#kebab">🍢 کباب</a></li>
+        <li><a href="#stew">🥘 خورش</a></li>
+        <li><a href="#drink">🥤 نوشیدنی</a></li>
+        <li><a href="#dessert">🍰 دسر</a></li>
+      </ul>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="#special">🔥 پیشنهاد ویژه</a></li>
+      <li><a href="#main">🍚 غذاهای اصلی</a></li>
+      <li><a href="#kebab">🍢 کباب‌ها</a></li>
+      <li><a href="#stew">🥘 خورش‌ها</a></li>
+      <li><a href="#contact">📞 تماس با ما</a></li>
+    </ul>
+
+  </nav>
+</header>
+
+<main id="main">
+
+  <!-- Hero -->
+  <section class="hero" aria-label="معرفی رستوران">
+
+    <div class="hero-card hero-primary">
+      <h1>غذای خانگی،<br>هر روز تازه</h1>
+      <p>با مواد اولیه‌ی تازه و دستور اصیل ایرانی، هر روز صبح در آشپزخانه‌ی ما طبخ می‌شود.</p>
+      <a href="#main" class="btn btn-accent">دیدن منو</a>
+      <span class="hero-emoji" aria-hidden="true">🍲</span>
+    </div>
+
+    <div class="hero-card hero-cream">
+      <span class="badge-accent">۲۰٪</span>
+      <p class="hero-cream-title">تخفیف غذاهای ایرانی</p>
+      <p class="hero-cream-sub">فقط تا پایان هفته</p>
+      <a href="#special" class="btn btn-primary">سفارش دهید</a>
+      <span class="hero-emoji small" aria-hidden="true">🍢</span>
+    </div>
+
+  </section>
+
+  <section id="categories" class="section" aria-labelledby="cat-title">
+    <h2 id="cat-title" class="section-title">دسته‌بندی‌ها</h2>
+    <ul class="cat-grid">
+      <li><a href="#appetizer" class="cat-card"><span class="cat-emoji" aria-hidden="true">🥗</span><span>پیش‌غذا</span></a></li>
+      <li><a href="#main"      class="cat-card"><span class="cat-emoji" aria-hidden="true">🍚</span><span>غذای اصلی</span></a></li>
+      <li><a href="#kebab"     class="cat-card"><span class="cat-emoji" aria-hidden="true">🍢</span><span>کباب</span></a></li>
+      <li><a href="#stew"      class="cat-card"><span class="cat-emoji" aria-hidden="true">🥘</span><span>خورش</span></a></li>
+      <li><a href="#drink"     class="cat-card"><span class="cat-emoji" aria-hidden="true">🥤</span><span>نوشیدنی</span></a></li>
+      <li><a href="#dessert"   class="cat-card"><span class="cat-emoji" aria-hidden="true">🍰</span><span>دسر</span></a></li>
+    </ul>
+  </section>
+
+  <section id="special" class="section" aria-labelledby="special-title">
+    <header class="section-head">
+      <h2 id="special-title" class="section-title">🔥 پیشنهاد ویژه امروز</h2>
+      <div class="carousel-nav" role="group" aria-label="پیمایش پیشنهادها">
+        <a href="#sp-1" class="carousel-btn" aria-label="رفتن به ابتدای فهرست">‹</a>
+        <a href="#sp-6" class="carousel-btn" aria-label="رفتن به انتهای فهرست">›</a>
+      </div>
+    </header>
+
+    <ul class="carousel">
+      <li>
+        <article id="sp-1" class="product-card">
+          <span class="discount" aria-label="۱۲ درصد تخفیف">۱۲٪</span>
+          <div class="product-img" style="background:#fde8e8"><span aria-hidden="true">🍢</span></div>
+          <h3>چلوکباب کوبیده</h3>
+          <p class="product-meta">یک پرس، با برنج ایرانی</p>
+          <div class="product-foot">
+            <span class="price"><del>۳۲۵٬۰۰۰</del> ۲۸۵٬۰۰۰ تومان</span>
+            <span class="add-btn" aria-hidden="true">+</span>
+          </div>
+        </article>
+      </li>
+
+      <li>
+        <article id="sp-2" class="product-card">
+          <div class="product-img" style="background:#fff3e0"><span aria-hidden="true">🍗</span></div>
+          <h3>جوجه کباب زعفرانی</h3>
+          <p class="product-meta">یک سیخ، با گوجه کبابی</p>
+          <div class="product-foot">
+            <span class="price">۳۲۰٬۰۰۰ تومان</span>
+            <span class="add-btn" aria-hidden="true">+</span>
+          </div>
+        </article>
+      </li>
+
+      <li>
+        <article id="sp-3" class="product-card">
+          <div class="product-img" style="background:#fdf0e0"><span aria-hidden="true">🥘</span></div>
+          <h3>خورش قیمه بادمجان</h3>
+          <p class="product-meta">یک پرس، همراه برنج</p>
+          <div class="product-foot">
+            <span class="price">۱۸۵٬۰۰۰ تومان</span>
+            <span class="add-btn" aria-hidden="true">+</span>
+          </div>
+        </article>
+      </li>
+
+      <li>
+        <article id="sp-4" class="product-card">
+          <div class="product-img" style="background:#f0e8f5"><span aria-hidden="true">🍆</span></div>
+          <h3>میرزا قاسمی</h3>
+          <p class="product-meta">یک پرس، با نان تازه</p>
+          <div class="product-foot">
+            <span class="price">۱۴۵٬۰۰۰ تومان</span>
+            <span class="add-btn" aria-hidden="true">+</span>
+          </div>
+        </article>
+      </li>
+
+      <li>
+        <article id="sp-5" class="product-card">
+          <span class="discount" aria-label="۱۵ درصد تخفیف">۱۵٪</span>
+          <div class="product-img" style="background:#fdf6e0"><span aria-hidden="true">🍛</span></div>
+          <h3>زرشک پلو با مرغ</h3>
+          <p class="product-meta">یک پرس، با زعفران</p>
+          <div class="product-foot">
+            <span class="price"><del>۲۶۰٬۰۰۰</del> ۲۲۰٬۰۰۰ تومان</span>
+            <span class="add-btn" aria-hidden="true">+</span>
+          </div>
+        </article>
+      </li>
+
+      <li>
+        <article id="sp-6" class="product-card">
+          <div class="product-img" style="background:#e8f5e9"><span aria-hidden="true">🥣</span></div>
+          <h3>قورمه سبزی</h3>
+          <p class="product-meta">یک پرس، با لیمو عمانی</p>
+          <div class="product-foot">
+            <span class="price">۱۹۵٬۰۰۰ تومان</span>
+            <span class="add-btn" aria-hidden="true">+</span>
+          </div>
+        </article>
+      </li>
+    </ul>
+  </section>
+
+  <section class="promos" aria-label="خدمات رستوران">
+    <a href="#order" class="promo promo-cream">
+      <span class="promo-emoji" aria-hidden="true">🛵</span>
+      <span>تحویل اکسپرس تا ۳۰ دقیقه</span>
+    </a>
+    <a href="#contact" class="promo promo-mint">
+      <span class="promo-emoji" aria-hidden="true">📅</span>
+      <span>رزرو میز آنلاین</span>
+    </a>
+  </section>
+
+  <section id="main" class="section" aria-labelledby="main-title">
+    <header class="section-head">
+      <h2 id="main-title" class="section-title">🍚 غذاهای اصلی ایرانی</h2>
+      <div class="carousel-nav" role="group" aria-label="پیمایش غذاهای اصلی">
+        <a href="#fd-1" class="carousel-btn" aria-label="رفتن به ابتدای فهرست غذاهای اصلی">‹</a>
+        <a href="#fd-6" class="carousel-btn" aria-label="رفتن به انتهای فهرست غذاهای اصلی">›</a>
+      </div>
+    </header>
+
+    <ul class="carousel">
+      <li>
+        <article id="fd-1" class="product-card">
+          <div class="product-img" style="background:#fde8e8"><span aria-hidden="true">🍽️</span></div>
+          <h3>چلوکباب سلطانی</h3>
+          <p class="product-meta">یک پرس، کوبیده و برگ</p>
+          <div class="product-foot">
+            <span class="price">۴۲۰٬۰۰۰ تومان</span>
+            <span class="add-btn" aria-hidden="true">+</span>
+          </div>
+        </article>
+      </li>
+
+      <li>
+        <article id="fd-2" class="product-card">
+          <div class="product-img" style="background:#fdf3e0"><span aria-hidden="true">🥘</span></div>
+          <h3>خورش فسنجان</h3>
+          <p class="product-meta">یک پرس، با مرغ</p>
+          <div class="product-foot">
+            <span class="price">۲۴۵٬۰۰۰ تومان</span>
+            <span class="add-btn" aria-hidden="true">+</span>
+          </div>
+        </article>
+      </li>
+
+      <li>
+        <article id="fd-3" class="product-card">
+          <span class="discount" aria-label="۲۰ درصد تخفیف">۲۰٪</span>
+          <div class="product-img" style="background:#fdf6e0"><span aria-hidden="true">🍛</span></div>
+          <h3>باقالی پلو با ماهیچه</h3>
+          <p class="product-meta">یک پرس، با برنج ایرانی</p>
+          <div class="product-foot">
+            <span class="price"><del>۴۷۵٬۰۰۰</del> ۳۸۰٬۰۰۰ تومان</span>
+            <span class="add-btn" aria-hidden="true">+</span>
+          </div>
+        </article>
+      </li>
+
+      <li>
+        <article id="fd-4" class="product-card">
+          <div class="product-img" style="background:#f0e0d0"><span aria-hidden="true">🫕</span></div>
+          <h3>دیزی سنتی</h3>
+          <p class="product-meta">یک پرس، با نان سنگک</p>
+          <div class="product-foot">
+            <span class="price">۱۶۵٬۰۰۰ تومان</span>
+            <span class="add-btn" aria-hidden="true">+</span>
+          </div>
+        </article>
+      </li>
+
+      <li>
+        <article id="fd-5" class="product-card">
+          <div class="product-img" style="background:#fde8e8"><span aria-hidden="true">🍢</span></div>
+          <h3>کباب برگ</h3>
+          <p class="product-meta">یک سیخ، با برنج</p>
+          <div class="product-foot">
+            <span class="price">۴۸۰٬۰۰۰ تومان</span>
+            <span class="add-btn" aria-hidden="true">+</span>
+          </div>
+        </article>
+      </li>
+
+      <li>
+        <article id="fd-6" class="product-card">
+          <div class="product-img" style="background:#fdf0e0"><span aria-hidden="true">🥘</span></div>
+          <h3>ته‌چین مرغ</h3>
+          <p class="product-meta">یک پرس، با ماست چکیده</p>
+          <div class="product-foot">
+            <span class="price">۲۱۰٬۰۰۰ تومان</span>
+            <span class="add-btn" aria-hidden="true">+</span>
+          </div>
+        </article>
+      </li>
+    </ul>
+  </section>
+
+  <section id="appetizer" class="section section-compact" aria-label="پیش‌غذا">
+    <h2 class="section-title">🥗 پیش‌غذا</h2>
+    <p>میرزا قاسمی، کشک بادمجان، سالاد شیرازی و ماست‌های خانگی، تازه هر روز.</p>
+  </section>
+  <section id="kebab" class="section section-compact" aria-label="کباب‌ها">
+    <h2 class="section-title">🍢 کباب‌ها</h2>
+    <p>کوبیده، برگ، جوجه زعفرانی و سلطانی، کباب‌شده روی زغال طبیعی.</p>
+  </section>
+  <section id="stew" class="section section-compact" aria-label="خورش‌ها">
+    <h2 class="section-title">🥘 خورش‌ها</h2>
+    <p>قیمه بادمجان، قورمه سبزی، فسنجان و خورش کرفس، با دستور اصیل ایرانی.</p>
+  </section>
+  <section id="drink" class="section section-compact" aria-label="نوشیدنی‌ها">
+    <h2 class="section-title">🥤 نوشیدنی‌ها</h2>
+    <p>دوغ سنتی، شربت آلبالو، شربت بهارنارنج و چای تازه‌دم ایرانی.</p>
+  </section>
+  <section id="dessert" class="section section-compact" aria-label="دسر">
+    <h2 class="section-title">🍰 دسر</h2>
+    <p>بستنی سنتی زعفرانی، فرنی، شله‌زرد و فالوده شیرازی.</p>
+  </section>
+
+</main>
+
+<footer id="contact" class="site-footer">
+  <div class="footer-inner">
+
+    <div class="footer-col">
+      <h3>رستوران بهار</h3>
+      <p>از سال ۱۳۹۰ میزبان شما هستیم؛ غذاهای اصیل ایرانی با مواد اولیه‌ی تازه.</p>
+      <p class="footer-phone">
+        <span aria-hidden="true">📞</span>
+        <a href="tel:+982188776655" dir="ltr">۰۲۱-۸۸۷۷۶۶۵۵</a>
+      </p>
+      <address>تهران، خیابان ولیعصر، نبش کوچه بهار، پلاک ۱۲</address>
+    </div>
+
+    <nav class="footer-col" aria-label="دسته‌بندی غذاها">
+      <h3>منوی غذا</h3>
+      <ul>
+        <li><a href="#appetizer">پیش‌غذا</a></li>
+        <li><a href="#main">غذای اصلی</a></li>
+        <li><a href="#kebab">کباب</a></li>
+        <li><a href="#stew">خورش</a></li>
+        <li><a href="#dessert">دسر</a></li>
+      </ul>
+    </nav>
+
+    <nav class="footer-col" aria-label="راهنما">
+      <h3>راهنما</h3>
+      <ul>
+        <li><a href="#order">شیوه ارسال</a></li>
+        <li><a href="#order">پیگیری سفارش</a></li>
+        <li><a href="#contact">رزرو میز</a></li>
+        <li><a href="#contact">تماس با ما</a></li>
+      </ul>
+    </nav>
+
+    <div class="footer-col">
+      <h3>ساعت کاری</h3>
+      <p>شنبه تا پنجشنبه: ۱۲ تا ۲۳</p>
+      <p>جمعه: ۱۳ تا ۲۳</p>
+      <div class="socials" role="group" aria-label="شبکه‌های اجتماعی">
+        <a href="#" aria-label="اینستاگرام"><span aria-hidden="true">📷</span></a>
+        <a href="#" aria-label="تلگرام"><span aria-hidden="true">✈️</span></a>
+        <a href="#" aria-label="واتساپ"><span aria-hidden="true">💬</span></a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <p>© ۱۴۰۵ رستوران بهار — همه حقوق محفوظ است.</p>
+    <a href="#top" class="back-to-top">↑ بازگشت به بالا</a>
+  </div>
+</footer>
+
+</body>
+</html>
