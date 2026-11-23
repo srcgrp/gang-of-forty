@@ -7,9 +7,10 @@
     <title>ریفکتور | سوپرمارکت آنلاین</title>
     <meta name="description" content="ریفکتور؛ سوپرمارکت آنلاین با محصولات متنوع، پیشنهادهای ویژه و ارسال سریع.">
     <meta name="author" content="زهرا گلابی">
-    <link rel="stylesheet" href="./public/css/font.css">
-    <link rel="stylesheet" href="./public/css/style.css">
-    <link rel="stylesheet" href="./public/css/responsive.css">
+    <link rel="stylesheet" href="./src/style/font.css">
+    <link rel="stylesheet" href="./src/style/style.css">
+    <link rel="stylesheet" href="./src/style/responsive.css">
+    <link rel="stylesheet" href="./src/style/app.css">
 </head>
 
 <body id="top">
@@ -132,382 +133,118 @@
                 style="font-family: var(--font-body); font-weight: 400; font-size: 11.5px;fill: #ffffff;">سوپرمارکت
                 آنلاین</text>
         </symbol>
+        <symbol id="i-chevron-right" viewBox="0 0 24 24">
+            <path d="M9 5l7 7-7 7" />
+        </symbol>
+        <symbol id="i-chevron-left" viewBox="0 0 24 24">
+            <path d="M15 5l-7 7 7 7" />
+        </symbol>
     </svg>
+
     <header class="site-header">
         <div class="promo">
-            <p>🚚 ارسال رایگان برای خریدهای بالای ۵۰۰ هزار تومان</p>
+            <p id="shop-notice"></p>
         </div>
-        <input type="checkbox" id="nav-toggle" class="nav-toggle sr-only" aria-label="باز و بسته کردن منو">
+        <input type="checkbox" id="nav-toggle" class="nav-toggle sr-only" aria-label="باز و بسته کردن منو" aria-controls="main-nav">
         <div class="header-top container">
-            <a class="brand" href="#top" aria-label="ریفکتور سوپرمارکت آنلاین؛ بازگشت به ابتدای صفحه">
-                <svg class="logo" width="214" height="56" viewBox="0 0 214 56" aria-hidden="true" focusable="false">
+            <a class="brand" href="#top" aria-label="ریفکتور؛ بازگشت به ابتدای صفحه">
+                <svg class="logo" width="214" height="56" viewBox="0 0 214 56" aria-hidden="true">
                     <use href="#logo" />
                 </svg>
+                <span id="shop-slogan" class="shop-slogan"></span>
             </a>
             <div class="header-actions">
-                <a class="icon-btn icon-btn--desktop" href="#favorites" aria-label="علاقه‌مندی‌ها"><svg class="icon"
-                        aria-hidden="true" focusable="false">
-                        <use href="#i-heart" />
-                    </svg></a>
-                <a class="icon-btn icon-btn--desktop" href="#account" aria-label="حساب کاربری"><svg class="icon"
-                        aria-hidden="true" focusable="false">
-                        <use href="#i-user" />
-                    </svg></a>
-                <a class="icon-btn" href="#cart" aria-label="سبد خرید، ۰ کالا"><svg class="icon" aria-hidden="true"
-                        focusable="false">
+                <span class="icon-btn" id="cart-count" role="img" aria-label="سبد خرید، ۰ کالا">
+                    <svg class="icon" aria-hidden="true">
                         <use href="#i-cart" />
-                    </svg><span class="badge cart-badge" aria-hidden="true">۰</span></a>
-                <label for="nav-toggle" class="nav-toggle-btn">
-                    <span class="sr-only">منو</span>
-                    <svg class="icon icon-open" aria-hidden="true" focusable="false">
+                    </svg><span class="badge cart-badge" aria-hidden="true">۰</span>
+                </span>
+                <label for="nav-toggle" class="nav-toggle-btn"><span class="sr-only">منو</span>
+                    <svg class="icon icon-open" aria-hidden="true">
                         <use href="#i-menu" />
                     </svg>
-                    <svg class="icon icon-close" aria-hidden="true" focusable="false">
+                    <svg class="icon icon-close" aria-hidden="true">
                         <use href="#i-close" />
                     </svg>
                 </label>
             </div>
             <search class="search">
-                <form action="#" method="get">
+                <form id="search-form" action="." method="get">
                     <div class="search-box">
                         <label class="sr-only" for="q">جستجو در محصولات</label>
-                        <input id="q" type="search" name="q" placeholder="جستجو در محصولات..." autocomplete="off">
-                        <button class="search-btn" type="submit" aria-label="جستجو"><svg class="icon" aria-hidden="true"
-                                focusable="false">
+                        <input id="q" type="search" name="q" placeholder="جستجو در محصولات…" autocomplete="off">
+                        <button class="search-btn" type="submit" aria-label="جستجو"><svg class="icon"
+                                aria-hidden="true">
                                 <use href="#i-search" />
-                            </svg>
-                        </button>
+                            </svg></button>
                     </div>
                 </form>
             </search>
         </div>
-        <div class="nav-bar">
+        <div class="nav-bar" id="main-nav">
             <div class="nav-inner container">
                 <nav aria-label="منوی اصلی">
-                    <ul class="nav-links">
-                        <li><a href="#top" aria-current="page"><svg class="icon" aria-hidden="true" focusable="false">
-                                    <use href="#i-home" />
-                                </svg>صفحه اصلی</a></li>
-                        <li class="has-sub">
-                            <a href="#products"><svg class="icon" aria-hidden="true" focusable="false">
-                                    <use href="#i-box" />
-                                </svg>محصولات</a>
-                            <!-- زیرمنو از categories.json با JavaScript ساخته می‌شود؛ هر لینک مودال همان دسته را باز می‌کند (?cat=slug) -->
-                            <ul class="sub-menu"></ul>
-                        </li>
-                        <li><a href="#categories"><svg class="icon" aria-hidden="true" focusable="false">
-                                    <use href="#i-grid" />
-                                </svg>دسته‌بندی‌ها</a></li>
-                        <li><a href="#brands"><svg class="icon" aria-hidden="true" focusable="false">
-                                    <use href="#i-tag" />
-                                </svg>برندها</a></li>
-                        <li><a href="#about"><svg class="icon" aria-hidden="true" focusable="false">
-                                    <use href="#i-info" />
-                                </svg>درباره ما</a></li>
-                        <li><a href="#contact"><svg class="icon" aria-hidden="true" focusable="false">
-                                    <use href="#i-phone" />
-                                </svg>تماس با ما</a></li>
-                    </ul>
+                    <ul class="nav-links" id="main-menu"></ul>
                 </nav>
-                <ul class="nav-extra">
-                    <li><a href="#favorites"><svg class="icon" aria-hidden="true" focusable="false">
-                                <use href="#i-heart" />
-                            </svg>علاقه‌مندی‌ها</a></li>
-                    <li><a href="#account"><svg class="icon" aria-hidden="true" focusable="false">
-                                <use href="#i-user" />
-                            </svg>حساب کاربری</a></li>
-                </ul>
-                <a class="nav-phone" href="tel:+982155456789"><svg class="icon" aria-hidden="true" focusable="false">
-                        <use href="#i-phone" />
-                    </svg><bdi>۰۲۱&#8209;۵۵۴۵۶۷۸۹</bdi></a>
-                <address class="contact">
-                    <a href="tel:+982155456789"><svg class="icon" aria-hidden="true" focusable="false">
-                            <use href="#i-phone" />
-                        </svg><bdi>۰۲۱&#8209;۵۵۴۵۶۷۸۹</bdi></a>
-                    <a href="mailto:info@website.com"><svg class="icon" aria-hidden="true" focusable="false">
-                            <use href="#i-mail" />
-                        </svg><bdi>info@website.com</bdi></a>
-                </address>
+                <address class="contact"><a id="header-phone"></a></address>
             </div>
         </div>
     </header>
-    <!-- finish header -->
+
     <main id="content" tabindex="-1">
         <h1 class="sr-only">ریفکتور؛ سوپرمارکت آنلاین</h1>
-        <!-- start hero section -->
-        <section class="hero container" id="hero" aria-label="پیشنهادهای ویژه">
-            <div class="hero-grid" id="hero-grid" aria-busy="true">
-
-                <!-- data loded from js -->
-
-            </div>
-        </section>
-        <!-- finish hero section -->
-        <!-- start section cats -->
-        <section class="cats container" id="categories" aria-labelledby="cats-title">
-            <div class="section-head">
-                <h2 class="section-title" id="cats-title">دسته‌بندی محصولات</h2>
-            </div>
-            <ul class="cat-list">
-                <!-- data load from js -->
-            </ul>
-        </section>
-        <!-- finish section cats -->
-        <!-- start offer section -->
-        <section class="offer container" id="products" aria-labelledby="offer-title">
-            <div class="carousel">
+        <p id="runtime-notice" class="runtime-notice container" role="status" hidden></p>
+        <div class="load-state container" id="load-state" aria-busy="true"></div>
+        <div id="shop-content" hidden>
+            <section class="hero container" id="hero" aria-label="پیشنهادهای فروشگاه">
+                <div class="hero-grid" id="hero-grid"></div>
+            </section>
+            <section class="cats container" id="categories" aria-labelledby="cats-title">
                 <div class="section-head">
-                    <h2 class="section-title" id="offer-title">پیشنهاد شگفت‌انگیز</h2>
-                    <a class="section-link" href="#products">مشاهده همه محصولات</a>
-                    <nav class="car-nav" aria-label="پیمایش پیشنهادهای شگفت‌انگیز">
-                        <a class="car-btn" href="#offer-start" aria-label="رفتن به ابتدای پیشنهادهای شگفت‌انگیز"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevrons-right" /></svg></a>
-                        <a class="car-btn" href="#offer-end" aria-label="رفتن به انتهای پیشنهادهای شگفت‌انگیز"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevrons-left" /></svg></a>
-                    </nav>
+                    <h2 class="section-title" id="cats-title">دسته‌بندی محصولات</h2>
                 </div>
-                <ul class="track products-track products-track-off" id="offer-track" tabindex="0" aria-label="پیشنهادهای شگفت‌انگیز">
-                    <li class="track-edge" id="offer-start" data-edge="start" aria-hidden="true"></li>
-                    <li class="track-edge" id="offer-end" data-edge="end" aria-hidden="true"></li>
-                </ul>
-            </div>
-        </section>
-        <!-- finish offer section -->
-        <!-- start section latest products -->
-        <section class="latest container" id="latest" aria-labelledby="latest-title">
-            <div class="carousel">
+                <ul class="cat-list"></ul>
+            </section>
+            <section class="catalog-section container" id="catalog" aria-labelledby="catalog-title" hidden>
                 <div class="section-head">
-                    <h2 class="section-title" id="latest-title">جدیدترین محصولات</h2>
-                    <a class="section-link" href="#products">مشاهده همه محصولات</a>
-                    <nav class="car-nav" aria-label="پیمایش جدیدترین محصولات">
-                        <a class="car-btn" href="#latest-start" aria-label="رفتن به ابتدای جدیدترین محصولات"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevrons-right" /></svg></a>
-                        <a class="car-btn" href="#latest-end" aria-label="رفتن به انتهای جدیدترین محصولات"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevrons-left" /></svg></a>
-                    </nav>
+                    <h2 class="section-title" id="catalog-title">کالاهای فروشگاه</h2>
+                    <button class="btn" id="reset-filters" type="button">بازگشت به فروشگاه</button>
                 </div>
-                <ul class="track products-track products-track-latest" id="latest-track" tabindex="0" aria-label="جدیدترین محصولات">
-                    <li class="track-edge" id="latest-start" data-edge="start" aria-hidden="true"></li>
-                    <li class="track-edge" id="latest-end" data-edge="end" aria-hidden="true"></li>
-                </ul>
-            </div>
-        </section>
-        <!-- finish section latest products -->
-        <!-- start section season-promo -->
-        <section class="season container" id="fruit" aria-labelledby="season-title">
-            <div class="season-grid">
-                <div class="season-promo">
-                    <div class="season-promo-text">
-                        <h2 class="season-promo-title" id="season-title">سبزیجات و میوه‌های تازه</h2>
-                        <p class="season-promo-desc">تازه‌ترین سبزیجات فصل، مستقیم از مزرعه تا سفره شما</p>
-                    </div>
-                    <div class="season-promo-art"><img src="./public/img/1-1.png" alt="تصویر سبزیجات و میوه‌های تازه" width="560" height="514" loading="lazy" decoding="async"></div>
-                </div>
-                <div class="season-box carousel">
-                    <div class="section-head">
-                        <h3 class="section-title">محصولات فصل</h3>
-                        <nav class="car-nav" aria-label="پیمایش محصولات تازه فصل">
-                            <a class="car-btn" href="#season-start" aria-label="رفتن به ابتدای محصولات تازه فصل"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevrons-right" /></svg></a>
-                            <a class="car-btn" href="#season-end" aria-label="رفتن به انتهای محصولات تازه فصل"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevrons-left" /></svg></a>
-                        </nav>
-                    </div>
-                    <ul class="track products-track product-fruit" id="season-track" tabindex="0" aria-label="محصولات تازه فصل">
-                        <li class="track-edge" id="season-start" data-edge="start" aria-hidden="true"></li>
-                        <li class="track-edge" id="season-end" data-edge="end" aria-hidden="true"></li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-        <!-- finish section season-promo -->
-        <!-- start section brands -->
-        <section class="brands container" id="brands" aria-labelledby="brands-title">
-            <div class="carousel">
-                <div class="section-head">
-                    <h2 class="section-title" id="brands-title">محبوب‌ترین برندها</h2>
-                    <nav class="car-nav" aria-label="پیمایش محبوب‌ترین برندها">
-                        <a class="car-btn" href="#brands-start" aria-label="رفتن به ابتدای محبوب‌ترین برندها"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevrons-right" /></svg></a>
-                        <a class="car-btn" href="#brands-end" aria-label="رفتن به انتهای محبوب‌ترین برندها"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevrons-left" /></svg></a>
-                    </nav>
-                </div>
-                <ul class="track products-track products-track-brand" id="brands-track" tabindex="0" aria-label="محبوب‌ترین برندها">
-                    <li class="track-edge" id="brands-start" data-edge="start" aria-hidden="true"></li>
-                    <li class="card brand-card">
-                        <a href="#products" class="card-link">
-                            <span class="brand-logo"><img src="./public/img/brand.webp" alt="لوگوی برند تک دانه"
-                                    width="1000" height="1000" loading="lazy" decoding="async"></span>
-                            <span class="brand-name">تک دانه</span>
-                            <span class="brand-count">۲ محصول</span>
-                        </a>
-                    </li>
-                    <li class="card brand-card">
-                        <a href="#products" class="card-link">
-                            <span class="brand-logo"><img src="./public/img/brand1.webp" alt="لوگوی برند مزمز"
-                                    width="1000" height="1000" loading="lazy" decoding="async"></span>
-                            <span class="brand-name">مزمز</span>
-                            <span class="brand-count">۲ محصول</span>
-                        </a>
-                    </li>
-                    <li class="card brand-card">
-                        <a href="#products" class="card-link">
-                            <span class="brand-logo"><img src="./public/img/brand3.webp" alt="لوگوی برند لادن"
-                                    width="1000" height="1000" loading="lazy" decoding="async"></span>
-                            <span class="brand-name">لادن</span>
-                            <span class="brand-count">۲ محصول</span>
-                        </a>
-                    </li>
-                    <li class="card brand-card">
-                        <a href="#products" class="card-link">
-                            <span class="brand-logo"><img src="./public/img/brand4.webp" alt="لوگوی برند دلوسه"
-                                    width="1000" height="1000" loading="lazy" decoding="async"></span>
-                            <span class="brand-name">دلوسه</span>
-                            <span class="brand-count">۲ محصول</span>
-                        </a>
-                    </li>
-                    <li class="card brand-card">
-                        <a href="#products" class="card-link">
-                            <span class="brand-logo"><img src="./public/img/brand5.webp" alt="لوگوی برند سن ایچ"
-                                    width="1000" height="1000" loading="lazy" decoding="async"></span>
-                            <span class="brand-name">سن ایچ</span>
-                            <span class="brand-count">۲ محصول</span>
-                        </a>
-                    </li>
-                    <li class="card brand-card">
-                        <a href="#products" class="card-link">
-                            <span class="brand-logo"><img src="./public/img/brand6.webp" alt="لوگوی برند واتا"
-                                    width="1000" height="1000" loading="lazy" decoding="async"></span>
-                            <span class="brand-name">واتا</span>
-                            <span class="brand-count">۲ محصول</span>
-                        </a>
-                    </li>
-                    <li class="track-edge" id="brands-end" data-edge="end" aria-hidden="true"></li>
-                </ul>
-            </div>
-        </section>
-        <!-- finish section brands -->
-        <!-- start section features -->
-        <section class="features container" id="features" aria-label="مزیت‌های خرید از ریفکتور">
-            <ul class="features-list">
-                <li>
-                    <span class="f-icon"><svg class="icon" aria-hidden="true" focusable="false">
-                            <use href="#i-shield" />
-                        </svg></span>
-                    <span><strong>محصولات اورجینال</strong><small>ضمانت اصالت کالا</small></span>
-                </li>
-                <li>
-                    <span class="f-icon"><svg class="icon" aria-hidden="true" focusable="false">
-                            <use href="#i-truck" />
-                        </svg></span>
-                    <span><strong>ارسال رایگان</strong><small>خریدهای بالای ۵۰۰ هزار تومان</small></span>
-                </li>
-                <li>
-                    <span class="f-icon"><svg class="icon" aria-hidden="true" focusable="false">
-                            <use href="#i-card" />
-                        </svg></span>
-                    <span><strong>پرداخت امن</strong><small>همه کارت‌های عضو شتاب</small></span>
-                </li>
-                <li>
-                    <span class="f-icon"><svg class="icon" aria-hidden="true" focusable="false">
-                            <use href="#i-headset" />
-                        </svg></span>
-                    <span><strong>پشتیبانی سریع</strong><small>۲۴ ساعته، ۷ روز هفته</small></span>
-                </li>
-                <li>
-                    <span class="f-icon"><svg class="icon" aria-hidden="true" focusable="false">
-                            <use href="#i-star" />
-                        </svg></span>
-                    <span><strong>محصولات تازه</strong><small>هر روز، مستقیم از تأمین‌کننده</small></span>
-                </li>
-            </ul>
-        </section>
-        <!-- finish section features -->
-        <!-- modal -->
-        <div class="cat-modal" id="cat-modal" hidden>
-            <div class="cat-modal__overlay" data-close></div>
-            <div class="cat-modal__panel" role="dialog" aria-modal="true" aria-labelledby="cat-modal-title">
-                <header class="cat-modal__head">
-                    <h2 class="cat-modal__title" id="cat-modal-title">محصولات دسته‌بندی</h2>
-                    <button class="cat-modal__close" type="button" aria-label="بستن" data-close>
-                <svg class="icon" aria-hidden="true"><use href="#i-close"></use></svg>
-            </button>
-                </header>
-                <div class="cat-modal__body">
-                    <ul class="cat-modal__grid">
-                        <!-- data loded from js -->
-                    </ul>
-                </div>
+                <p id="result-count" class="result-count" role="status"></p>
+                <ul class="catalog-grid" id="catalog-grid" hidden></ul>
+            </section>
+            <div id="products">
+                <div id="home-sections"></div>
+                <div id="fragment-section"></div>
             </div>
         </div>
+        <noscript>
+            <p class="container runtime-notice"></p>
+        </noscript>
     </main>
     <!-- footer section -->
     <footer class="site-footer">
-        <div class="footer-inner">
+        <div class="footer-inner container">
             <div class="footer-top">
-                <div class="footer-badges">
-                    <span class="footer-badge" role="img" aria-label="پشتیبانی ۲۴ ساعته">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-                            <path d="M4 14v-2a8 8 0 0 1 16 0v2" />
-                            <rect x="3" y="13" width="4" height="6" rx="1" />
-                            <rect x="17" y="13" width="4" height="6" rx="1" />
-                        </svg>
-                    </span>
-                    <span class="footer-badge" role="img" aria-label="تازه و باکیفیت">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-                            <path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z" />
-                            <path d="M8.5 12l2.5 2.5 4.5-5" />
-                        </svg>
-                    </span>
-                    <span class="footer-badge" role="img" aria-label="پرداخت امن">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-                            <rect x="3" y="5" width="18" height="14" rx="2" />
-                            <path d="M3 10h18M7 15h4" />
-                        </svg>
-                    </span>
-                </div>
-                <div class="footer-cols">
-                    <!-- data loded from js  -->
-                </div>
+                <div class="footer-cols"></div>
             </div>
             <div class="footer-bottom">
-                <div class="footer-contact" id="contact">
-                    <!-- data loded from js  -->
-                </div>
-                <div class="footer-about" id="about">
-                    <a class="footer-brand" href="#top" aria-label="سوپرمارکت ریفکتور؛ بازگشت به ابتدای صفحه">
-                        <svg class="footer-brand-icon" viewBox="0 0 56 56" aria-hidden="true" focusable="false">
-                            <rect width="56" height="56" rx="16" fill="#0f8a5f" />
-                            <path d="M16 25h24l-2.6 14a3.2 3.2 0 0 1-3.1 2.6H21.7a3.2 3.2 0 0 1-3.1-2.6z" fill="#fff" />
-                            <path d="M22 25l4-8M34 25l-4-8" stroke="#fff" stroke-width="2.6" stroke-linecap="round"
-                                fill="none" />
-                        </svg>
-                        <span class="footer-brand-text">
-                            <strong><span class="footer-brand-prefix">سوپرمارکت</span> ریفکتور</strong>
-                        <small>تازه، نزدیک، به‌صرفه</small>
-                        </span>
-                    </a>
-                    <!-- data loded from js  -->
-                </div>
+                <div class="footer-contact" id="contact"></div>
+                <div class="footer-about" id="about"></div>
             </div>
             <div class="footer-copy">
-                <div class="footer-copy-left">
-                    <a href="#about">شرایط و قوانین</a>
-                    <span aria-hidden="true">|</span>
-                    <a href="#about">حریم خصوصی</a>
-                    <span aria-hidden="true">|</span>
-                    <a href="#contact">سوالات متداول</a>
-                </div>
-                <p class="footer-copy-right">© ۱۴۰۵ سوپرمارکت ریفکتور؛ کلیه حقوق مادی و معنوی این سایت محفوظ می‌باشد. طراحی و توسعه: زهرا گلابی</p>
+                <p class="footer-copy-right"></p>
             </div>
             <div class="footer-to-top-wrap">
                 <a class="footer-to-top" href="#top" aria-label="بازگشت به بالای صفحه">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-                        <path d="M12 19V5M6 11l6-6 6 6" />
+                    <svg class="icon" aria-hidden="true">
+                        <use href="#i-arrow-up" />
                     </svg>
                 </a>
             </div>
         </div>
     </footer>
-
-
-    <script src="./src/script/script.ts" type="module"></script>
+    <script src="./src/main.ts" type="module"></script>
 </body>
 
 </html>

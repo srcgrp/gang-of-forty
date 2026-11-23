@@ -1,6 +1,9 @@
 import confetti from 'canvas-confetti';
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
+import type { Offer, Product, Stock, LoadState } from './src/types';
+import { isProduct, isOffer, isStock } from './src/types';
+
 
 // نمونه‌ساز نوتیفیکیشن
 const notyf = new Notyf({
@@ -8,30 +11,20 @@ const notyf = new Notyf({
     position: { x: 'left', y: 'bottom' }
 });
 
-// تعریف تایپ‌های پروژه بر اساس API
-interface Product {
-    id: number;
-    categoryId: number;
-    name: string;
-    emoji?: string;
-    image?: string;
-    unit?: string;
-    price: number;
-    tags?: string[];
-}
 
-interface Offer {
-    productId: number;
-    percent: number;
-    label?: string;
-}
-
-interface StockResponse {
-    items?: Record<string, number>;
-}
 
 // برای کار با Vite از مسیر مستقیم `/api` با پروکسی استفاده می‌شود
 const API_BASE = '/api';
+
+// تابع دریافت امن داده با خروجی Promise<unknown> (طبق الزامات گام ۳)
+async function getJSON(path: string): Promise<unknown> {
+    const res = await fetch(path);
+    if (!res.ok) {
+        throw new Error(`خطای دریافت داده از سرور: وضعیت ${res.status}`);
+    }
+    return res.json();
+}
+
 
 // فرمت‌کننده اعداد و قیمت به فارسی
 const priceFormatter = new Intl.NumberFormat('fa-IR');
@@ -421,89 +414,154 @@ async function initStore(): Promise<void> {
     const drinksContainer = document.getElementById('drinks-carousel-list');
     const proteinContainer = document.getElementById('protein-carousel-list');
 
-    renderOffersSkeletonLoading(offersContainer, 5);
-    renderSkeletonLoading(fruitsContainer, 6);
-    renderSkeletonLoading(dairyContainer, 6);
-    renderSkeletonLoading(bakeryContainer, 6);
-    renderSkeletonLoading(snacksContainer, 6);
-    renderSkeletonLoading(drinksContainer, 6);
-    renderSkeletonLoading(proteinContainer, 6);
+    let state: LoadState = { status: 'loading' };
+
+    switch (state.status) {
+        case 'loading':
+            renderOffersSkeletonLoading(offersContainer, 5);
+            renderSkeletonLoading(fruitsContainer, 6);
+            renderSkeletonLoading(dairyContainer, 6);
+            renderSkeletonLoading(bakeryContainer, 6);
+            renderSkeletonLoading(snacksContainer, 6);
+            renderSkeletonLoading(drinksContainer, 6);
+            renderSkeletonLoading(proteinContainer, 6);
+            break;
+    }
 
     try {
-        const [productsRes, offersRes, stockRes] = await Promise.all([
-            fetch(`${API_BASE}/products.json`),
-            fetch(`${API_BASE}/offers.json`).catch(() => null),
-            fetch(`${API_BASE}/stock.json`).catch(() => null)
+        const [productsRaw, offersRaw, stockRaw] = await Promise.all([
+            getJSON(`${API_BASE}/products.json`),
+            getJSON(`${API_BASE}/offers.json`).catch(() => []),
+            getJSON(`${API_BASE}/stock.json`).catch(() => ({ updatedAt: '', items: {} }))
         ]);
 
-        if (!productsRes.ok) throw new Error(`خطای دریافت محصولات: ${productsRes.status}`);
+        // ۱. اعتبارسنجی محصولات و شمارش اقلام نامعتبر
+        const rawProductsList = Array.isArray(productsRaw) ? productsRaw : [];
+        const validProducts: Product[] = [];
+        let rejectedProductsCount = 0;
 
-        const allProducts: Product[] = await productsRes.json();
-        const rawOffers: Offer[] = offersRes && offersRes.ok ? await offersRes.json() : [];
-        const stockData: StockResponse = stockRes && stockRes.ok ? await stockRes.json() : {};
-
-        const productsMap = new Map<number, Product>();
-        allProducts.forEach(p => productsMap.set(p.id, p));
-
-        const offersMap = new Map<number, Offer>();
-        rawOffers.forEach(o => {
-            offersMap.set(o.productId, o);
+        rawProductsList.forEach(p => {
+            if (isProduct(p)) {
+                validProducts.push(p);
+            } else {
+                rejectedProductsCount++;
+            }
         });
 
-        const stockMap = new Map<number, number>();
-        const stockItems = stockData.items || {};
-        Object.entries(stockItems).forEach(([key, val]) => {
-            stockMap.set(Number(key), Number(val));
+        if (rejectedProductsCount > 0) {
+            console.warn(`تعداد محصولات نامعتبر حذف‌شده: ${rejectedProductsCount}`);
+        }
+
+        // ۲. اعتبارسنجی تخفیف‌ها
+        const rawOffersList = Array.isArray(offersRaw) ? offersRaw : [];
+        const validOffers: Offer[] = [];
+        rawOffersList.forEach(o => {
+            if (isOffer(o)) validOffers.push(o);
         });
 
-        // ۱. شگفت‌انگیز
-        if (offersContainer) {
-            populateOffersCarousel(offersContainer, rawOffers, productsMap, stockMap);
-            setupCarouselScroll('#special-offers', offersContainer);
-        }
+        // ۳. اعتبارسنجی موجودی انبار
+        const validStock: Stock = isStock(stockRaw)
+            ? stockRaw
+            : { updatedAt: '', items: {} };
 
-        // ۲. کاروسل‌های دسته‌بندی
-        if (fruitsContainer) {
-            const fruits = allProducts.filter(p => p.categoryId === 1);
-            populateCarousel(fruitsContainer, fruits, offersMap, stockMap);
-            setupCarouselScroll('#fruits-vegetables', '#fruits-carousel-list');
+        // تعیین وضعیت نهایی
+        if (validProducts.length === 0) {
+            state = { status: 'empty' };
+        } else {
+            state = {
+                status: 'success',
+                products: validProducts,
+                offers: validOffers,
+                stock: validStock
+            };
         }
-
-        if (dairyContainer) {
-            const dairy = allProducts.filter(p => p.categoryId === 2);
-            populateCarousel(dairyContainer, dairy, offersMap, stockMap);
-            setupCarouselScroll('#dairy', '#dairy-carousel-list');
-        }
-
-        if (bakeryContainer) {
-            const bakery = allProducts.filter(p => p.categoryId === 3);
-            populateCarousel(bakeryContainer, bakery, offersMap, stockMap);
-            setupCarouselScroll('#bakery', '#bakery-carousel-list');
-        }
-
-        if (snacksContainer) {
-            const snacks = allProducts.filter(p => p.categoryId === 7);
-            populateCarousel(snacksContainer, snacks, offersMap, stockMap);
-            setupCarouselScroll('#snacks', '#snacks-carousel-list');
-        }
-
-        if (drinksContainer) {
-            const drinks = allProducts.filter(p => p.categoryId === 5);
-            populateCarousel(drinksContainer, drinks, offersMap, stockMap);
-            setupCarouselScroll('#drinks', '#drinks-carousel-list');
-        }
-
-        if (proteinContainer) {
-            const protein = allProducts.filter(p => p.categoryId === 6);
-            populateCarousel(proteinContainer, protein, offersMap, stockMap);
-            setupCarouselScroll('#protein', '#protein-carousel-list');
-        }
-
     } catch (err: unknown) {
-        console.error('Error loading store data:', err);
-        renderError(offersContainer, 'خطا در بارگذاری پیشنهادهای ویژه.');
-        renderError(fruitsContainer, 'خطا در بارگذاری محصولات.');
+        const message = err instanceof Error ? err.message : 'خطای بارگذاری داده‌ها';
+        state = { status: 'error', message };
+    }
+
+    // رندر صفحه بر اساس وضعیت (Switch با بررسی Exhaustive never)
+    switch (state.status) {
+
+        case 'empty':
+            renderError(offersContainer, 'هیچ کالایی برای نمایش یافت نشد.');
+            renderError(fruitsContainer, 'کالایی موجود نیست.');
+            break;
+
+        case 'error':
+            renderError(offersContainer, state.message);
+            renderError(fruitsContainer, state.message);
+            break;
+
+        case 'success': {
+            const { products, offers, stock } = state;
+
+            const productsMap = new Map<number, Product>();
+            products.forEach(p => productsMap.set(p.id, p));
+
+            const offersMap = new Map<number, Offer>();
+            offers.forEach(o => {
+                offersMap.set(o.productId, o);
+            });
+
+            const stockMap = new Map<number, number>();
+            const stockItems = stock.items || {};
+            Object.entries(stockItems).forEach(([key, val]) => {
+                stockMap.set(Number(key), Number(val));
+            });
+
+            // ۱. شگفت‌انگیز
+            if (offersContainer) {
+                populateOffersCarousel(offersContainer, offers, productsMap, stockMap);
+                setupCarouselScroll('#special-offers', offersContainer);
+            }
+
+            // ۲. کاروسل‌های دسته‌بندی
+            if (fruitsContainer) {
+                const fruits = products.filter(p => p.categoryId === 1);
+                populateCarousel(fruitsContainer, fruits, offersMap, stockMap);
+                setupCarouselScroll('#fruits-vegetables', '#fruits-carousel-list');
+            }
+
+            if (dairyContainer) {
+                const dairy = products.filter(p => p.categoryId === 2);
+                populateCarousel(dairyContainer, dairy, offersMap, stockMap);
+                setupCarouselScroll('#dairy', '#dairy-carousel-list');
+            }
+
+            if (bakeryContainer) {
+                const bakery = products.filter(p => p.categoryId === 3);
+                populateCarousel(bakeryContainer, bakery, offersMap, stockMap);
+                setupCarouselScroll('#bakery', '#bakery-carousel-list');
+            }
+
+            if (snacksContainer) {
+                const snacks = products.filter(p => p.categoryId === 7);
+                populateCarousel(snacksContainer, snacks, offersMap, stockMap);
+                setupCarouselScroll('#snacks', '#snacks-carousel-list');
+            }
+
+            if (drinksContainer) {
+                const drinks = products.filter(p => p.categoryId === 5);
+                populateCarousel(drinksContainer, drinks, offersMap, stockMap);
+                setupCarouselScroll('#drinks', '#drinks-carousel-list');
+            }
+
+            if (proteinContainer) {
+                const protein = products.filter(p => p.categoryId === 6);
+                populateCarousel(proteinContainer, protein, offersMap, stockMap);
+                setupCarouselScroll('#protein', '#protein-carousel-list');
+            }
+            break;
+        }
+
+        default: {
+            // تضمین عدم فراموشی حالت‌های آینده در TypeScript
+            const exhaustiveCheck: never = state;
+            console.error('وضعیت تعریف‌نشده:', exhaustiveCheck);
+        }
     }
 }
+
 
 document.addEventListener('DOMContentLoaded', initStore);
