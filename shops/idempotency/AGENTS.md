@@ -42,3 +42,5 @@ Import rules:
 - Do not make unrelated changes or add unnecessary code.
 - Review `git diff` before each commit.
 - Do not commit, push, or deploy without my approval.
+
+For a release, follow .claude/skills/release/SKILL.md step by step.
