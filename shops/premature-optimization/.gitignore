@@ -3,3 +3,5 @@ dist/
 .env.*.local
 .env.mine
 .vscode
+.vercel
+.env.*
