@@ -1185,6 +1185,7 @@ button {
 }
 
 .cart-button {
+    text-decoration: none;
     grid-area: cart;
     display: inline-flex;
     align-items: center;
@@ -1624,4 +1625,109 @@ button {
     inset: 0;
     z-index: 2;
     pointer-events: none;
+}
+
+.menu-link[aria-current="true"] {
+    font-weight: 700;
+}
+.cart-panel {
+    position: fixed;
+    z-index: calc(var(--z-header) + 1);
+    inset-block-start: calc(var(--header-height) + var(--space-3));
+    inset-inline-end: var(--space-4);
+    inline-size: min(420px, calc(100% - 2rem));
+    max-block-size: calc(100dvh - var(--header-height) - var(--space-8));
+    overflow-y: auto;
+    padding: var(--space-4);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+}
+
+.cart-panel__header {
+    align-items: center;
+    margin-block-end: var(--space-4);
+}
+
+.cart-list {
+    display: grid;
+    gap: var(--space-2);
+}
+
+.cart-row {
+    display: grid;
+    grid-template-columns: 1.5rem minmax(0, 1fr) auto auto auto;
+    align-items: center;
+    gap: var(--space-2);
+    padding-block: var(--space-2);
+    border-block-end: 1px solid var(--color-border);
+}
+
+.cart-row__emoji {
+    font-size: 1.5rem;
+}
+
+.cart-row__title {
+    min-inline-size: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: var(--font-size-base);
+}
+
+.cart-row__quantity {
+    margin: 0;
+    white-space: nowrap;
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+}
+
+.cart-row .price {
+    white-space: nowrap;
+}
+
+.cart-row .price__current {
+    font-size: var(--font-size-base);
+}
+
+.cart-row > .button {
+    padding-inline: var(--space-3);
+}
+
+.cart-summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-block-start: var(--space-4);
+}
+
+.cart-panel .button {
+    border-radius: 12px;
+}
+
+.cart-panel .button--secondary {
+    background-color: var(--color-surface-subtle);
+    border-color: var(--color-border);
+}
+
+.cart-panel .button--secondary:hover {
+    background-color: var(--color-surface-hover);
+    border-color: var(--color-border-strong);
+}
+
+.retry-button {
+    border-radius: 12px;
+}
+
+.sale-countdown .button {
+    border-radius: 12px;
+}
+
+.sale-countdown .section__subtitle {
+    text-align: center;
+    margin-inline: auto;
+    font-size: 1.25rem;
 }
