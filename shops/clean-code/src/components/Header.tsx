@@ -32,7 +32,7 @@ export default function Header() {
           </a>
           <div>
             <h1>سوپرمارکت تمیز</h1>
-            <p className="slogan">تازه، نزدیک، به‌صرفه</p>
+            <p className="slogan">تازه، نزدیک، به‌صرفه، خرید آنلاین</p>
           </div>
           <ThemeToggle />
         </div>
