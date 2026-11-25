@@ -3,4 +3,7 @@ dist
 *.local
 .vercel
 .env*
+.env
+.env.*
+!.env.example
 .playwright-mcp/
