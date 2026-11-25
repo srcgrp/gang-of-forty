@@ -1,20 +1,15 @@
 import { Link, useParams } from '@tanstack/react-router'
-import { useCartStore } from '../../hooks/useCartStore'
 import { useCatalog } from '../../hooks/useCatalog'
-import { formatNumber } from '../format'
-import Icon from '../Icon'
-import OfferBadge from '../OfferBadge'
-import Price from '../Price'
+import ProductCard from '../ProductCard'
 import Status from '../Status'
+import ProductGallery from '../product/ProductGallery'
+import ProductInfo from '../product/ProductInfo'
 
 export default function ProductPage() {
   const { state, retry } = useCatalog()
   const { productId } = useParams({ from: '/product/$productId' })
-  const add = useCartStore((s) => s.add)
 
-  if (state.status !== 'success') {
-    return <Status state={state} onRetry={retry} />
-  }
+  if (state.status !== 'success') return <Status state={state} onRetry={retry} />
 
   const id = Number(productId)
   const product = Number.isFinite(id)
@@ -31,36 +26,41 @@ export default function ProductPage() {
     )
   }
 
-  const inStock = product.stock > 0
-  const discounted = product.percent > 0
+  const category = state.data.categories.find((c) => c.id === product.categoryId)
+  const similar = state.data.products
+    .filter((p) => p.categoryId === product.categoryId && p.id !== product.id)
+    .slice(0, 4)
 
   return (
-    <main id="content" tabIndex={-1} className="container">
-      <div className="section-head">
-        <h1 className="section-title">
-          <span aria-hidden="true">{product.emoji}</span> {product.name}
-        </h1>
-        <Link className="sale-show-btn" to="/" search={{ q: '', category: undefined }}>بازگشت به خانه</Link>
-      </div>
-      <article className={`product-page${inStock ? '' : ' product-page--out'}`}>
-        <div className="product-media">
-          <span className="card-emoji" aria-hidden="true">{product.emoji}</span>
-          {discounted && <OfferBadge percent={product.percent} />}
-          {!inStock && <span className="chip-out">ناموجود</span>}
-        </div>
-        <div className="product-info">
-          <p className="card-weight">واحد: {product.unit}</p>
-          <Price price={product.price} originalPrice={product.originalPrice} discounted={discounted} />
-          <p className="product-stock">
-            {inStock ? `${formatNumber(product.stock)} عدد در انبار موجود است` : 'فعلاً ناموجود است'}
-          </p>
-          <button type="button" className="btn" disabled={!inStock}
-            aria-label={`افزودن ${product.name} به سبد خرید`}
-            onClick={() => add(product.id, product.stock)}>
-            <Icon name="cart" /> افزودن به سبد
-          </button>
-        </div>
+    <main id="content" tabIndex={-1} className="container pd-page">
+      <nav className="pd-crumb" aria-label="مسیر">
+        <Link to="/" search={{ q: '', category: undefined }}>خانه</Link>
+        <span aria-hidden="true">/</span>
+        {category && (
+          <>
+            <Link to="/" search={{ q: '', category: category.id }}>{category.name}</Link>
+            <span aria-hidden="true">/</span>
+          </>
+        )}
+        <span aria-current="page">{product.name}</span>
+      </nav>
+
+      <article className="pd-main">
+        <ProductGallery product={product} />
+        <ProductInfo product={product} />
       </article>
+
+      {similar.length > 0 && (
+        <section className="pd-similar" aria-labelledby="similar-title">
+          <h2 className="section-title" id="similar-title">محصولات مشابه</h2>
+          <ul className="catalog-grid">
+            {similar.map((item) => (
+              <ProductCard key={item.id} product={item} inStock={item.stock > 0}
+                discount={item.percent > 0 ? item.percent : undefined} />
+            ))}
+          </ul>
+        </section>
+      )}
     </main>
   )
 }
