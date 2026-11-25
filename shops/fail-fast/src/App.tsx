@@ -7,77 +7,52 @@ import SuccessContent from './components/SuccessContent'
 import { useAppData } from './hooks/useAppData'
 import { useHomeData } from './hooks/useHomeData'
 import { useOffers } from './hooks/useOffers'
-import { useCart } from './hooks/useCart'
+import { useCartStore } from './hooks/useCartStore'
+import { useDocumentTitle } from './hooks/useDocumentTitle'
 
 export default function App(): ReactNode {
   const dataState = useAppData()
   const homeState = useHomeData()
   const offersState = useOffers()
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null)
-  const { cart, cartItemCount, handleAddToCart, handleRemoveFromCart } = useCart()
+  const cartItemCount = useCartStore((state) => state.itemCount)
+  useDocumentTitle(cartItemCount)
 
-  const handleCategoryPick = (categoryId: number) =>
-    setSelectedCategoryId(categoryId)
-
-  const renderHeader = (): ReactNode => {
-    if (dataState.status !== 'success') {
-      return (
-        <Header
-          cartCount={0}
-          categories={[]}
-          selectedCategoryId={null}
-          onCategoryPick={() => {}}
-        />
-      )
-    }
-    return (
-      <Header
-        cartCount={cartItemCount}
-        categories={dataState.data.categories}
-        selectedCategoryId={selectedCategoryId}
-        onCategoryPick={handleCategoryPick}
-      />
-    )
-  }
-
-  const renderMainContent = (): ReactNode => {
-    if (
-      dataState.status === 'success' &&
-      homeState.status === 'success' &&
-      offersState.status === 'success'
-    ) {
-      return (
-        <SuccessContent
-          products={dataState.data.products}
-          cart={cart}
-          carousels={homeState.data.carousels}
-          offers={offersState.data}
-          onAddToCart={handleAddToCart}
-          onRemoveFromCart={handleRemoveFromCart}
-        />
-      )
-    }
-    return (
-      <LoadingContent
-        status={dataState.status === 'error' ? 'error' : homeState.status === 'error' ? 'error' : offersState.status === 'error' ? 'error' : 'loading'}
-        errorMessage={
-          dataState.status === 'error' ? dataState.message :
-          homeState.status === 'error' ? homeState.message :
-          offersState.status === 'error' ? offersState.message : undefined
-        }
-      />
-    )
-  }
-
-  const showFooter = dataState.status === 'success' &&
+  const handleCategoryPick = (id: number) => setSelectedCategoryId(id)
+  const dataReady = dataState.status === 'success'
+  const allReady =
+    dataReady &&
     homeState.status === 'success' &&
     offersState.status === 'success'
+  const failed = [dataState, homeState, offersState].find(
+    (state) => state.status === 'error'
+  )
 
   return (
     <PageLayout
-      header={renderHeader()}
-      mainContent={renderMainContent()}
-      showFooter={showFooter}
+      header={
+        <Header
+          cartCount={dataReady ? cartItemCount : 0}
+          categories={dataReady ? dataState.data.categories : []}
+          selectedCategoryId={dataReady ? selectedCategoryId : null}
+          onCategoryPick={dataReady ? handleCategoryPick : () => {}}
+        />
+      }
+      mainContent={
+        allReady ? (
+          <SuccessContent
+            products={dataState.data.products}
+            carousels={homeState.data.carousels}
+            offers={offersState.data}
+          />
+        ) : (
+          <LoadingContent
+            status={failed?.status === 'error' ? 'error' : 'loading'}
+            errorMessage={failed?.status === 'error' ? failed.message : undefined}
+          />
+        )
+      }
+      showFooter={allReady}
     />
   )
 }

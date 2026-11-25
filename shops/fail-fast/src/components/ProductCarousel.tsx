@@ -1,13 +1,13 @@
 import type { ReactNode } from 'react'
 import type { Product, Offer } from '../types'
 import ProductCard from './ProductCard'
+import { useCartStore } from '../hooks/useCartStore'
 
 interface ProductCarouselProps {
   title: string
   emoji: string
   products: Product[]
   offers?: Offer[]
-  onAddToCart: (productId: number) => void
   viewAllHref?: string
 }
 
@@ -16,9 +16,10 @@ export default function ProductCarousel({
   emoji,
   products,
   offers = [],
-  onAddToCart,
   viewAllHref = '#products',
 }: ProductCarouselProps): ReactNode {
+  const addToCart = useCartStore((state) => state.add)
+
   const getProductOffer = (productId: number): Offer | undefined =>
     offers.find((o) => o.productId === productId)
 
@@ -36,7 +37,7 @@ export default function ProductCarousel({
             key={product.id}
             product={product}
             offer={getProductOffer(product.id)}
-            onAdd={onAddToCart}
+            onAdd={addToCart}
           />
         ))}
       </div>

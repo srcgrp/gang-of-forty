@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import type { Product, CartLine, Offer, HomeCarousel } from '../types'
+import type { Product, Offer, HomeCarousel } from '../types'
 import HeroBanner from './HeroBanner'
 import PopularCategories from './PopularCategories'
 import Banner02 from './Banner02'
@@ -9,20 +9,14 @@ import CartPanel from './CartPanel'
 
 interface SuccessContentProps {
   products: Product[]
-  cart: CartLine[]
   carousels: HomeCarousel[]
   offers: Offer[]
-  onAddToCart: (productId: number) => void
-  onRemoveFromCart: (productId: number) => void
 }
 
 export default function SuccessContent({
   products,
-  cart,
   carousels,
   offers,
-  onAddToCart,
-  onRemoveFromCart,
 }: SuccessContentProps): ReactNode {
   const getCarouselProducts = (carousel: HomeCarousel): Product[] => {
     if (carousel.source === 'offers') {
@@ -51,14 +45,13 @@ export default function SuccessContent({
               emoji={carousel.emoji}
               products={carouselProducts}
               offers={carousel.source === 'offers' ? offers : []}
-              onAddToCart={onAddToCart}
               viewAllHref={`#${carousel.id}`}
             />
           )
         })}
       </div>
       <Advertisement />
-      <CartPanel cart={cart} products={products} onRemove={onRemoveFromCart} />
+      <CartPanel products={products} />
     </>
   )
 }
