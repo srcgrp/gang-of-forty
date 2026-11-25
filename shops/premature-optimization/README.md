@@ -1,30 +1,44 @@
-# Suprino
+# سوپرینو
 
-پروژه سوپرمارکت سوپرینو
+سوپرمارکت آنلاین با تنوع بسیار.
 
-توسعه‌دهنده: الینا هژبری
+زبان‌های برنامه‌نویسی: React + Typescript
 
-## اجرای پروژه با Docker
+## لینک زنده
 
-ابتدا ایمیج Docker را بسازید:
+[مشاهده‌ی فروشگاه](https://premature-optimization-shop.vercel.app/)
+
+## تصویر
+
+![نسخه‌ی موبایل](./public/imgs/Site/)
+
+## اجرا
+
+```bash
+npm install
+npm run dev
+```
+
+سپس آدرسی که Vite در ترمینال نشان می‌دهد (معمولاً `http://localhost:5173`) را باز کنید.
+
+## اجرا با Docker
+
+۱. ساخت ایمیج:
 
 ```bash
 docker build -t premature-optimization-shop .
 ```
 
-سپس کانتینر را اجرا کنید:
+۲. اجرای کانتینر:
 
 ```bash
-docker run -d -p 8080:80 --name shop premature-optimization-shop
+docker run --rm -p 8080:80 premature-optimization-shop
 ```
 
-حالا فروشگاه از طریق آدرس زیر در دسترس است:
+۳. باز کردن `http://localhost:8080` در مرورگر.
 
-http://localhost:8080
+## Pipeline
 
-برای متوقف کردن و حذف کانتینر:
+وضعیت ساخت و استقرار خودکار (GitHub Actions) در نشان بالای صفحه نمایش داده می‌شود:
 
-```bash
-docker stop shop
-docker rm shop
-```
+![CI](./public/imgs/Site/cicd.png)

@@ -283,7 +283,7 @@
   border-radius: 12px;
 }
 
-.product-page-parts{
+.product-page-parts {
   display: flex;
   gap: 24px;
 }
@@ -424,5 +424,77 @@
     right: 6px;
     padding: 4px 6px;
     font-size: 0.75rem;
+  }
+}
+
+/* ---- Responsive: carousel heading + "view all" button ---- */
+.recommendation-heading {
+  gap: 8px 12px;
+}
+
+.recommendation-title {
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow-wrap: anywhere;
+}
+
+.view-all-link {
+  align-self: center;
+  white-space: nowrap;
+}
+
+@media (max-width: 1100px) {
+  .recommendation-title {
+    font-size: clamp(1.25rem, 2.6vw, 1.5rem);
+  }
+  .view-all-link {
+    margin: 20px 16px 16px;
+  }
+}
+
+@media (max-width: 700px) {
+  .recommendation {
+    margin-bottom: 28px;
+  }
+  .recommendation-heading {
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 8px;
+    padding-inline: 14px;
+  }
+  .recommendation-title {
+    margin: 16px 0 12px;
+    font-size: clamp(1.05rem, 5vw, 1.25rem);
+    line-height: 1.4;
+  }
+  .view-all-link {
+    margin: 16px 0 12px;
+    padding: 5px 10px;
+    font-size: 0.78rem;
+    line-height: 1.4;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Keep title and button on one row; just make the button smaller */
+  .recommendation-title {
+    font-size: 1rem;
+  }
+  .view-all-link {
+    padding: 4px 8px;
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .recommendation-heading {
+    padding-inline: 10px;
+  }
+  .recommendation-title {
+    font-size: 0.95rem;
+  }
+  .view-all-link {
+    padding: 3px 7px;
+    font-size: 0.65rem;
   }
 }
