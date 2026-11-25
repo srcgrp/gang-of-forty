@@ -6,3 +6,4 @@ playwright-report/
 *.log
 .vercel
 .env*
+.playwright-mcp
