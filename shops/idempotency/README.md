@@ -44,6 +44,24 @@ docker run --rm -p 8080:80 idempotency-shop
 
 Open `http://localhost:8080` in your browser.
 
+## GitHub Container Registry
+
+Pushes to `main` in the standalone `Baran-06/idempotency-shop` repository publish
+`ghcr.io/baran-06/idempotency-shop` after CI and the Docker build pass. Each
+publish uses the version from `package.json` (for example, `1.0.0`) and also
+updates the `latest` tag.
+
+After the first publish, set the package visibility to **Public** in GitHub's
+package settings so users can pull the image without signing in.
+
+```bash
+docker pull ghcr.io/baran-06/idempotency-shop:latest
+docker run --rm -p 8080:80 ghcr.io/baran-06/idempotency-shop:latest
+```
+
+Open `http://localhost:8080` in your browser. Replace `latest` in both commands
+with a version tag to run a specific release.
+
 ## CI/CD
 
 Run the project checks with:
