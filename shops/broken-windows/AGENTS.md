@@ -30,3 +30,6 @@ Persian RTL grocery shop, built with React, TypeScript and Vite (Gang of Forty, 
 - Use `any`, `as` (except `as const`), non-null assertions (`!`) or `@ts-ignore`.
 - Edit files outside `shops/broken-windows`.
 - Commit `node_modules`, `dist`, `.env*` or `.vercel`.
+
+
+For a release, follow .claude/skills/release/SKILL.md step by step.
