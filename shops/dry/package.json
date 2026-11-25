@@ -1,13 +1,15 @@
 {
   "name": "dry",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "",
   "main": "index.ts",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "check": "tsc --noEmit"
+    "check": "tsc --noEmit",
+    "lint": "oxlint src --deny-warnings",
+    "ci": "npm run lint --if-present && npm run check && npm run test --if-present -- --run && npm run build"
   },
   "keywords": [],
   "author": "",
@@ -16,12 +18,20 @@
   "private": true,
   "devDependencies": {
     "@types/canvas-confetti": "^1.9.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.2.1",
+    "oxlint": "^1.91.0",
     "typescript": "^7.0.2",
     "vite": "^8.3.4"
   },
   "dependencies": {
+    "@tanstack/react-router": "^1.170.46",
     "canvas-confetti": "^1.9.4",
     "fuse.js": "^7.5.0",
-    "notyf": "^3.10.0"
+    "notyf": "^3.10.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "zustand": "^5.1.0"
   }
 }
