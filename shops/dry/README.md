@@ -4,7 +4,7 @@
 
 [![CI](https://github.com/A-H-FEIZI/dry-shop/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/A-H-FEIZI/dry-shop/actions/workflows/deploy.yml)
 
-آدرس عمومی پس از انتشار در `shop.json` ثبت می‌شود. تصویر موبایل در `docs/mobile.png` از همان آدرس تهیه می‌شود.
+[نسخهٔ زندهٔ فروشگاه MARTO](https://dry-shop-sepia.vercel.app)
 
 ## اجرای محلی
 
