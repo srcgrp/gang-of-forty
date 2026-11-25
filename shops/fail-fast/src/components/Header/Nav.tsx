@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { Link } from '@tanstack/react-router'
 import type { Category } from '../../types'
 
 interface NavProps {
@@ -26,9 +27,10 @@ export default function Nav({
           </button>
           <div className="categories-dropdown" role="menu">
             {categories.map((category) => (
-              <a
+              <Link
                 key={category.id}
-                href="#categories"
+                to="/"
+                hash="categories"
                 role="menuitem"
                 onClick={() => onCategoryPick(category.id)}
                 style={{
@@ -36,17 +38,17 @@ export default function Nav({
                 }}
               >
                 <span aria-hidden="true">{category.emoji}</span> {category.name}
-              </a>
+              </Link>
             ))}
           </div>
         </div>
-        <a href="#categories">پیشنهادهای امروز</a>
-        <a href="#categories">تخفیفدار ها</a>
-        <a href="#categories">لبنیات</a>
-        <a href="#categories">تنقلات</a>
-        <a href="#categories">نوشیدنی</a>
-        <a href="#categories">آرایشی و بهداشتی</a>
-        <a href="#footer">دربارهی ما</a>
+        <Link to="/" hash="categories">پیشنهادهای امروز</Link>
+        <Link to="/" hash="categories">تخفیفدار ها</Link>
+        <Link to="/" hash="categories">لبنیات</Link>
+        <Link to="/" hash="categories">تنقلات</Link>
+        <Link to="/" hash="categories">نوشیدنی</Link>
+        <Link to="/" hash="categories">آرایشی و بهداشتی</Link>
+        <Link to="." hash="footer">دربارهی ما</Link>
       </div>
     </nav>
   )

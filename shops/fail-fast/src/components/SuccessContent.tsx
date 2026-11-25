@@ -5,7 +5,6 @@ import PopularCategories from './PopularCategories'
 import Banner02 from './Banner02'
 import Advertisement from './Advertisement'
 import ProductCarousel from './ProductCarousel'
-import CartPanel from './CartPanel'
 
 interface SuccessContentProps {
   catalog: Catalog
@@ -24,17 +23,16 @@ export default function SuccessContent({ catalog }: SuccessContentProps): ReactN
           return (
             <ProductCarousel
               key={carousel.id}
+              carouselId={carousel.id}
               title={carousel.title}
               emoji={carousel.emoji}
               products={carouselProducts}
               offers={carousel.source === 'offers' ? catalog.offers : []}
-              viewAllHref={`#${carousel.id}`}
             />
           )
         })}
       </div>
       <Advertisement />
-      <CartPanel products={catalog.products} />
     </>
   )
 }

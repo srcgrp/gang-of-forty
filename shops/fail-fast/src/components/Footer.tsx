@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { Link } from '@tanstack/react-router'
 import footerImg from '../images/footer.webp'
 
 export default function Footer(): ReactNode {
@@ -12,23 +13,23 @@ export default function Footer(): ReactNode {
       />
       <div className="footer-inner">
         <div>
-          <a href="#top" className="footer-logo">اسپیس مارکت</a>
+          <Link to="." hash="top" className="footer-logo">اسپیس مارکت</Link>
           <p>یک سوپرمارکت محلی برای خریدهای کوچک و بزرگ روزمره.</p>
           <p>تهران، خیابان ولیعصر، کوچه ۲۴</p>
         </div>
         <div>
           <h3>دسترسی سریع</h3>
-          <a href="#categories">دسته‌بندی‌ها</a>
-          <a href="#sales">پیشنهادهای امروز</a>
-          <a href="#categories">لبنیات</a>
-          <a href="#categories">میوه و سبزی</a>
+          <Link to="/" hash="categories">دسته‌بندی‌ها</Link>
+          <Link to="/" hash="sales">پیشنهادهای امروز</Link>
+          <Link to="/" hash="categories">لبنیات</Link>
+          <Link to="/" hash="categories">میوه و سبزی</Link>
         </div>
         <div>
           <h3>راهنما</h3>
-          <a href="#footer">شیوه ارسال</a>
-          <a href="#footer">پیگیری سفارش</a>
-          <a href="#footer">پرسشهای متداول</a>
-          <a href="#footer">تماس با ما</a>
+          <Link to="." hash="footer">شیوه ارسال</Link>
+          <Link to="." hash="footer">پیگیری سفارش</Link>
+          <Link to="." hash="footer">پرسشهای متداول</Link>
+          <Link to="." hash="footer">تماس با ما</Link>
         </div>
         <div>
           <h3>ساعت کاری</h3>
@@ -40,7 +41,7 @@ export default function Footer(): ReactNode {
       </div>
       <div className="footer-bottom">
         <span>اسپیس مارکت - تنها سوپر مارکت ۲۴/۷</span>
-        <a className="go-top" href="#top">بریم فضا- بالا</a>
+        <Link className="go-top" to="." hash="top">بریم فضا- بالا</Link>
       </div>
     </footer>
   )

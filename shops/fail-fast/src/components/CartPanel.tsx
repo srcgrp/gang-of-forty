@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { useState, useEffect } from 'react'
+import { Link, useLocation } from '@tanstack/react-router'
 import type { Product } from '../types'
 import { useCartStore } from '../hooks/useCartStore'
 
@@ -8,19 +8,12 @@ interface CartPanelProps {
 }
 
 export default function CartPanel({ products }: CartPanelProps): ReactNode {
-  const [isOpen, setIsOpen] = useState(false)
+  const isOpen = useLocation({
+    select: (location) => location.hash === 'cart',
+  })
   const lines = useCartStore((state) => state.lines)
   const removeFromCart = useCartStore((state) => state.remove)
   const getTotal = useCartStore((state) => state.getTotal)
-
-  useEffect(() => {
-    const handleHashChange = () => {
-      setIsOpen(window.location.hash === '#cart')
-    }
-    handleHashChange()
-    window.addEventListener('hashchange', handleHashChange)
-    return () => window.removeEventListener('hashchange', handleHashChange)
-  }, [])
 
   if (!isOpen) return null
 
@@ -29,7 +22,7 @@ export default function CartPanel({ products }: CartPanelProps): ReactNode {
   return (
     <div id="cart" className="cart-panel open">
       <div className="cart-content">
-        <a href="#" className="close-cart" aria-label="بستن سبد خرید">×</a>
+        <Link to="." hash="" className="close-cart" aria-label="بستن سبد خرید">×</Link>
         <h2>سبد خرید</h2>
         {lines.length === 0 ? (
           <p>سبد خرید شما خالی است</p>

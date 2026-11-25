@@ -1,8 +1,10 @@
 import type { ReactNode } from 'react'
+import { Outlet } from '@tanstack/react-router'
 import Header from './components/Header'
 import PageLayout from './components/PageLayout'
 import LoadingContent from './components/LoadingContent'
-import SuccessContent from './components/SuccessContent'
+import CartPanel from './components/CartPanel'
+import { CatalogContext } from './context/CatalogContext'
 import { useCatalog } from './hooks/useCatalog'
 import { useCategorySelection } from './hooks/useCategorySelection'
 import { useCartStore } from './hooks/useCartStore'
@@ -15,6 +17,17 @@ export default function App(): ReactNode {
   useDocumentTitle(cartItemCount)
 
   const isReady = catalogState.status === 'success'
+  const mainContent = isReady ? (
+    <CatalogContext.Provider value={catalogState.data}>
+      <Outlet />
+      <CartPanel products={catalogState.data.products} />
+    </CatalogContext.Provider>
+  ) : (
+    <LoadingContent
+      status={catalogState.status === 'error' ? 'error' : 'loading'}
+      errorMessage={catalogState.status === 'error' ? catalogState.message : undefined}
+    />
+  )
 
   return (
     <PageLayout
@@ -26,18 +39,7 @@ export default function App(): ReactNode {
           onCategoryPick={catalogState.dataReady ? onCategoryPick : () => {}}
         />
       }
-      mainContent={
-        isReady ? (
-          <SuccessContent catalog={catalogState.data} />
-        ) : (
-          <LoadingContent
-            status={catalogState.status === 'error' ? 'error' : 'loading'}
-            errorMessage={
-              catalogState.status === 'error' ? catalogState.message : undefined
-            }
-          />
-        )
-      }
+      mainContent={mainContent}
       showFooter={isReady}
     />
   )

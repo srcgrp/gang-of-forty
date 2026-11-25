@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react'
+import { Link } from '@tanstack/react-router'
 
 interface CategoryCardProps {
-  href: string
+  hash: string
   imgSrc: string
   alt: string
   label: string
@@ -9,7 +10,7 @@ interface CategoryCardProps {
 }
 
 export default function CategoryCard({
-  href,
+  hash,
   imgSrc,
   alt,
   label,
@@ -17,7 +18,7 @@ export default function CategoryCard({
 }: CategoryCardProps): ReactNode {
   return (
     <article className="popular-products-items">
-      <a href={href}>
+      <Link to="/" hash={hash}>
         <div className="popular-products-cards">
           <img
             src={imgSrc}
@@ -28,7 +29,7 @@ export default function CategoryCard({
           />
           <p className="popular-products-tags">{label}</p>
         </div>
-      </a>
+      </Link>
     </article>
   )
 }

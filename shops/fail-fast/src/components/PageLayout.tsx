@@ -1,4 +1,6 @@
 import type { ReactNode } from 'react'
+import { useRef } from 'react'
+import { Link } from '@tanstack/react-router'
 import { useThemeStore } from '../hooks/useThemeStore'
 import Footer from './Footer'
 
@@ -14,13 +16,21 @@ export default function PageLayout({
   showFooter,
 }: PageLayoutProps): ReactNode {
   const theme = useThemeStore((state) => state.theme)
+  const mainRef = useRef<HTMLElement>(null)
 
   return (
     <div className="app" data-theme={theme}>
       <div id="top"></div>
-      <a href="#main" className="skip">پرش به محتوای اصلی</a>
+      <Link
+        to="."
+        hash="main"
+        className="skip"
+        onClick={() => mainRef.current?.focus()}
+      >
+        پرش به محتوای اصلی
+      </Link>
       {header}
-      <main id="main">{mainContent}</main>
+      <main id="main" ref={mainRef} tabIndex={-1}>{mainContent}</main>
       {showFooter && <Footer />}
     </div>
   )
