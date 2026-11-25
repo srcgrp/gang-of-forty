@@ -24,7 +24,7 @@ export default function HomeCarousel({
   )
 
   return (
-    <section className="home-carousel">
+    <section id={carousel.type === 'category' ? carousel.categoryId : carousel.id} className="home-carousel">
       <div className="carousel-header">
         <h2>{carousel.title}</h2>
         <Link
