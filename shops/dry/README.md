@@ -29,7 +29,7 @@ docker run -d -p 8080:80 --name dry-shop dry-shop
 
 فروشگاه روی [پورت ۸۰۸۰](http://localhost:8080) در دسترس است. برای توقف و حذف کانتینر، `docker rm -f dry-shop` را اجرا کنید.
 
-پس از انتشار ایمیج و عمومی‌کردن بستهٔ GHCR، می‌توانید همان نسخه را مستقیم اجرا کنید.
+ایمیج عمومی نسخهٔ ۱٫۰٫۰ در GHCR بدون ورود قابل اجراست. اجرای کانتینر و پاسخ API در [GitHub Actions](https://github.com/A-H-FEIZI/dry-shop/actions/runs/45640347083) تأیید شد.
 
 ```sh
 docker run --rm -p 8080:80 ghcr.io/a-h-feizi/dry-shop:1.0.0
