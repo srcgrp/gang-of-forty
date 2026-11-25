@@ -1,10 +1,10 @@
-
 # Superino
 
 Persian RTL grocery store built with React, TypeScript, Vite, and TanStack Router.
 The project uses Zustand for shared state and CSS for styling.
 
 ## Commands
+
 - `npm run dev` → start development server at http://localhost:5173
 - `npm run build` → type-check and build production files
 - `npm run lint` → run Oxlint
@@ -13,6 +13,7 @@ The project uses Zustand for shared state and CSS for styling.
 - Run `npm run ci` before every commit.
 
 ## Folders and Responsibilities
+
 - `src/components/` → UI components and pages only
 - `src/hooks/` → Zustand stores and custom React hooks
 - `src/api/` → API requests and catalog loading
@@ -26,6 +27,7 @@ The project uses Zustand for shared state and CSS for styling.
 - `public/imgs/` → product images
 
 ## Architecture and Import Rules
+
 - Follow the dependency structure documented in DESIGN.md.
 - Components must not call fetch or access localStorage directly.
 - All network requests must go through src/api/.
@@ -35,10 +37,13 @@ The project uses Zustand for shared state and CSS for styling.
 - Keep TypeScript types in the appropriate types directory.
 
 ## Never
+
 - Do not use `any`, `as` (except `as const`), non-null assertions (`!`), or `@ts-ignore`.
 - Do not suppress lint warnings.
 - Do not modify files outside this project directory.
-- Never commit node_modules/, dist/, .vercel/, or .env* files.
+- Never commit node_modules/, dist/, .vercel/, or .env\* files.
 - Never put secrets or API tokens in source code.
 - Do not introduce unnecessary dependencies or duplicate existing functionality.
 - Preserve the Persian RTL layout and existing application behavior.
+
+For a release, follow .claude/skills/release/SKILL.md step by step.
