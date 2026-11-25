@@ -24,3 +24,6 @@ Persian RTL grocery shop, React + TypeScript + Vite (Gang of Forty, shops/tracer
 - Expose tokens, passwords, credentials or secrets.
 - Commit changes without showing me git diff and receiving my approval.
 - Run git push automatically.
+
+## Release
+- For a release, follow .claude/skills/release/SKILL.md step by step.
