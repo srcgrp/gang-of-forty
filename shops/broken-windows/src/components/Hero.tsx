@@ -1,4 +1,5 @@
 import { formatNumber } from "../format"
+import banner from "../../images/banner.svg"
 
 export default function Hero(){
   return (
@@ -8,7 +9,7 @@ export default function Hero(){
                 <p className="main-content-text">بیش از {formatNumber(10)} هزار کالا با ارسال کمتر از {formatNumber(90)} دقیقه</p>
                 <a href="#special-offer" className="main-content-button" aria-label="شروع خرید">شروع خرید</a>
             </div>
-            <img className="main-content-banner" src="./images/banner.svg" alt=""/>
+            <img className="main-content-banner" src={banner} alt=""/>
         </section>
 
 )
