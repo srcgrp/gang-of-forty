@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.2] - 2026-11-25
+
+### Fixed
+
+- Restored the correct shop header label, `تازه خانه`, by reverting the intentional header bug in Git as part of the production recovery.
+
+## [1.0.1] - 2026-11-25
+
+### Changed
+
+- For the controlled rollback exercise, the shop header intentionally displays the incorrect label `نام فروشگاه اشتباه است` in place of `تازه خانه`.
+
 ## [1.0.0] - 2026-11-24
 
 Initial release of the idempotency shop.

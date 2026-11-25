@@ -4,7 +4,7 @@
 
 Tazeh Khaneh is an online grocery store built during my Frontend Bootcamp. It has a Persian RTL design and works on desktop and mobile devices.
 
-**[Live Website](https://idempotency-shop.vercel.app)**
+**[Live Website](https://shop.baranbuilds.com)** · [Alternative Vercel URL](https://idempotency-shop.vercel.app)
 
 ## Mobile Preview
 
@@ -74,6 +74,15 @@ GitHub Actions checks the code, builds the Docker image, and deploys the website
 
 ## Version
 
-Current version: `1.0.0`
+Current stable version is `1.0.2`.
 
 See [CHANGELOG.md](CHANGELOG.md) for version history.
+
+## Week 7 Bonus Work
+
+- **AI Evals** documented evaluation results for the shop. [AI Evals](evals.md)
+- **GHCR** added publishing of versioned Docker images. [PR #3](https://github.com/Baran-06/idempotency-shop/pull/3) · [Container package](https://github.com/users/Baran-06/packages/container/idempotency-shop)
+- **GitHub MCP** used an experimental pull request. It must remain unmerged. [PR #4](https://github.com/Baran-06/idempotency-shop/pull/4)
+- **Production Rollback** introduced an intentionally incorrect header label in `1.0.1` and restored the correct label with `git revert` in `1.0.2`. The recorded detection at `2026-11-25T12:05:15Z` and recovery at `2026-11-25T12:54:10Z` were 48 minutes 55 seconds apart. [Exercise PR #5](https://github.com/Baran-06/idempotency-shop/pull/5) · [Recovery PR #6](https://github.com/Baran-06/idempotency-shop/pull/6)
+
+Production pipeline runs by version are [1.0.0](https://github.com/Baran-06/idempotency-shop/actions/runs/45539045367), [1.0.1](https://github.com/Baran-06/idempotency-shop/actions/runs/4560997982), and [1.0.2](https://github.com/Baran-06/idempotency-shop/actions/runs/45618014925).
