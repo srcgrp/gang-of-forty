@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import type { Product, Offer, HomeCarousel } from '../types'
+import { getProductsForCarousel, type Catalog } from '../catalog/carousel'
 import HeroBanner from './HeroBanner'
 import PopularCategories from './PopularCategories'
 import Banner02 from './Banner02'
@@ -8,50 +8,33 @@ import ProductCarousel from './ProductCarousel'
 import CartPanel from './CartPanel'
 
 interface SuccessContentProps {
-  products: Product[]
-  carousels: HomeCarousel[]
-  offers: Offer[]
+  catalog: Catalog
 }
 
-export default function SuccessContent({
-  products,
-  carousels,
-  offers,
-}: SuccessContentProps): ReactNode {
-  const getCarouselProducts = (carousel: HomeCarousel): Product[] => {
-    if (carousel.source === 'offers') {
-      const offerProductIds = offers.map((o) => o.productId)
-      return products.filter((p) => offerProductIds.includes(p.id))
-    }
-    if (carousel.categoryId !== undefined) {
-      return products.filter((p) => p.categoryId === carousel.categoryId)
-    }
-    return products
-  }
-
+export default function SuccessContent({ catalog }: SuccessContentProps): ReactNode {
   return (
     <>
       <HeroBanner />
       <PopularCategories />
       <Banner02 />
       <div className="layout">
-        {carousels.map((carousel) => {
-          const carouselProducts = getCarouselProducts(carousel)
-          if (carouselProducts.length === 0) return null
+        {catalog.carousels.map((carousel) => {
+          const carouselProducts = getProductsForCarousel(catalog, carousel.id)
+          if (!carouselProducts || carouselProducts.length === 0) return null
           return (
             <ProductCarousel
               key={carousel.id}
               title={carousel.title}
               emoji={carousel.emoji}
               products={carouselProducts}
-              offers={carousel.source === 'offers' ? offers : []}
+              offers={carousel.source === 'offers' ? catalog.offers : []}
               viewAllHref={`#${carousel.id}`}
             />
           )
         })}
       </div>
       <Advertisement />
-      <CartPanel products={products} />
+      <CartPanel products={catalog.products} />
     </>
   )
 }
