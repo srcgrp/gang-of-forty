@@ -27,3 +27,13 @@ Then open <http://localhost:8080>.
 ## Changelog
 
 See [CHANGELOG.md](./CHANGELOG.md) for the changes included in version 1.0.0.
+
+## Run the published image
+
+After the image has been published to GitHub Container Registry, run:
+
+```sh
+docker run -d -p 8080:80 ghcr.io/rojinh84-lgtm/deadlock-shop:1.0.0
+```
+
+Then open <http://localhost:8080>.
