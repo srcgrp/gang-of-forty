@@ -1,4 +1,4 @@
-const API_BASE: string = import.meta.env.VITE_API_URL;
+const API_BASE: string = import.meta.env.VITE_API_URL ?? "/api";
 
 export async function getJSON(path: string): Promise<unknown> {
     let res: Response;
