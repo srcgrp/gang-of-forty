@@ -28,3 +28,13 @@ Playwright MCP در نمای ۳۹۰ × ۸۴۴ کارت‌های محصول را 
 | 35 | 96 | 100 | 92 |
 
 این امتیازها برای مرور محلی `vite preview` ثبت شدند. اسکرین‌شات `mobile.png` و گزارش نهایی Lighthouse به آدرس Production وابسته‌اند.
+
+## بررسی موبایل روی Production
+
+Playwright MCP فروشگاه را در نمای ۳۹۰ × ۸۴۴ باز کرد و نمایش محصولات را تأیید کرد. هر ۳۰ درخواست ثبت‌شده پاسخ `200` داشت و Console بدون خطا و هشدار بود.
+
+| Performance | Accessibility | Best Practices | SEO |
+| ---: | ---: | ---: | ---: |
+| 66 | 96 | 100 | 100 |
+
+[اسکرین‌شات کامل موبایل](mobile.png) · [تصویر گزارش Lighthouse](lighthouse.png) · [اجرای بررسی Production](https://github.com/A-H-FEIZI/dry-shop/actions/runs/45628710377)
