@@ -3,3 +3,4 @@ dist
 *.local
 .vercel
 .env*
+.playwright-mcp/
