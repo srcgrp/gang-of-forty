@@ -20,3 +20,4 @@ docker run -d -p 8080:80 --name shop composition-shop
 docker stop shop
 docker rm shop
 ```
+بت‌شاپ یک فروشگاه فارسی برای خرید محصولات روزانه است
