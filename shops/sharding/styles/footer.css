@@ -152,7 +152,7 @@
 
 .footer__copy {
   font-size: 0.75rem;
-  color: rgba(245, 239, 230, 0.45);
+  color: var(--footer-muted);
 }
 
 .footer__top {

@@ -1,50 +1,43 @@
-export type UrlFilters = {
-  category: string;
-  query: string;
-};
+import type { UrlFilters } from '../types'
 
-export function readUrlFilters(): UrlFilters {
-  const params = new URLSearchParams(location.search);
+type ShopSearch = {
+  category?: string
+  q?: string
+}
+
+export function toShopSearch({ category, query }: UrlFilters): ShopSearch {
   return {
-    category: params.get('category') ?? params.get('cat') ?? '',
-    query: params.get('q') ?? '',
-  };
+    ...(category ? { category } : {}),
+    ...(query ? { q: query } : {}),
+  }
 }
 
-export function readUrlHash(): string {
-  return location.hash;
+export function validateShopSearch(search: Record<string, unknown>): ShopSearch {
+  return toShopSearch({
+    category: typeof search.category === 'string' ? search.category : '',
+    query: typeof search.q === 'string' ? search.q : '',
+  })
 }
 
-export function writeUrlFilters(
-  filters: UrlFilters,
-  mode: 'push' | 'replace' = 'replace',
-): void {
-  const url = new URL(location.href);
-  const category = filters.category.trim();
-  const query = filters.query.trim();
+export function categorySearch(category: string) {
+  return ({ q }: ShopSearch): ShopSearch => toShopSearch({ category, query: q ?? '' })
+}
 
-  if (category) {
-    url.searchParams.set('category', category);
-  } else {
-    url.searchParams.delete('category');
+export function apiHashLink(href: string) {
+  if (!href.startsWith('#')) return null
+
+  const hash = href.slice(1)
+  const activeOptions = { exact: true, includeHash: true }
+  if (hash === 'main-content' || hash === 'footer' || hash === 'contact') {
+    return { to: '.', hash, search: true, resetScroll: false, activeOptions } as const
   }
+  if (!hash) return { to: '/', search: true, activeOptions } as const
 
-  url.searchParams.delete('cat');
-
-  if (query) {
-    url.searchParams.set('q', query);
-  } else {
-    url.searchParams.delete('q');
-  }
-
-  url.hash = category;
-
-  const href = `${url.pathname}${url.search}${url.hash}`;
-  const state = { category, query };
-
-  if (mode === 'push') {
-    history.pushState(state, '', href);
-  } else {
-    history.replaceState(state, '', href);
-  }
+  return {
+    to: '/',
+    hash,
+    search: categorySearch(hash === 'offers' ? '' : hash),
+    resetScroll: false,
+    activeOptions,
+  } as const
 }

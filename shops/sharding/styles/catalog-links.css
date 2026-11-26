@@ -1,0 +1,27 @@
+.catalog-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-xs);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: var(--sp-xs) var(--sp-sm);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.catalog-link:hover {
+  color: var(--text);
+  background: var(--accent-soft);
+}
+
+.product-shelf[data-variant="offers"] .catalog-link {
+  color: var(--offers-accent);
+  border-color: currentColor;
+}
+
+.product-shelf[data-variant="offers"] .catalog-link:hover {
+  color: var(--offers-bg);
+  background: var(--offers-accent);
+}
