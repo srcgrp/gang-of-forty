@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.0.1] - 2026-11-26
+
+### Added
+
+- Publish multi-platform Docker images to GHCR with the shop version and `latest` tags.
+
+### Changed
+
+- Intentionally show the pre-discount price as the current price on product cards for the production rollback exercise.
+
 ## [1.0.0] - 2026-11-26
 
 First production release of the Sharding grocery shop.

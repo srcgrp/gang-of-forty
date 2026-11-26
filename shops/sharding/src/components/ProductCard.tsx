@@ -23,7 +23,7 @@ export default memo(function ProductCard({ card, anchorId }: { card: Card; ancho
         </Link>
 
         <div className="product__footer">
-          <Price value={card.price} {...(card.oldPrice !== undefined ? { oldValue: card.oldPrice } : {})} />
+          <Price value={card.oldPrice ?? card.price} {...(card.oldPrice !== undefined ? { oldValue: card.oldPrice } : {})} />
           <ProductCartActions card={card} variant="card" />
         </div>
       </article>
