@@ -6,6 +6,8 @@ First production release of the Sharding grocery shop.
 
 ### Added
 
+- Built the responsive Persian storefront with a hero carousel, category navigation, and product shelves.
+- Connected the catalog to the API for products, stock, and offers, with loading and retry states.
 - Added routes for product listings, product details, and checkout.
 - Added live product search, category filtering, and price sorting.
 - Added Docker and a Vercel deployment pipeline with lint, TypeScript, and build checks.
@@ -13,6 +15,8 @@ First production release of the Sharding grocery shop.
 
 ### Changed
 
+- Introduced TypeScript and Vite, with runtime validation for API data and separate cart and product logic.
+- Rebuilt the storefront as React components.
 - Moved cart and theme state into Zustand stores and kept category and search filters in the URL.
 - Rendered SVG icons directly in React, eliminating the separate sprite request.
 
