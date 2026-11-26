@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { cartCount as countLines } from "../features/cart/count";
 import { useCartLines } from "../hooks/useCart";
 import { useCatalog } from "../hooks/useCatalog";
+import { useQueryStore } from "../hooks/useQueryStore";
 import CartIcon from "./CartIcon";
 import Logo from "./Logo";
 import MenuToggle from "./MenuToggle";
@@ -12,7 +13,8 @@ export default function Header() {
   const lines = useCartLines();
   const cartCount = countLines(lines);
   const { load } = useCatalog();
-  const [query, setQuery] = useState("");
+  const query = useQueryStore((s) => s.query);
+  const setQuery = useQueryStore((s) => s.setQuery);
   const menu = load.status === "success" ? load.shop.menu : [];
 
   useEffect(

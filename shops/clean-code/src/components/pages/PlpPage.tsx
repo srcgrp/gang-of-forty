@@ -1,8 +1,10 @@
 import { Link, useParams, useSearch } from "@tanstack/react-router";
 import { carouselProducts } from "../../catalog/carouselProducts";
 import { sortProducts } from "../../catalog/sortProducts";
+import { filterProducts } from "../../features/products/filter";
 import { useCartDispatch } from "../../hooks/useCart";
 import { useCatalog } from "../../hooks/useCatalog";
+import { useQueryStore } from "../../hooks/useQueryStore";
 import ProductGrid from "../ProductGrid";
 import Status from "../Status";
 
@@ -11,6 +13,7 @@ export default function PlpPage() {
   const { sort } = useSearch({ from: "/plp/$carouselId" });
   const { load, retry } = useCatalog();
   const dispatch = useCartDispatch();
+  const query = useQueryStore((s) => s.query);
 
   if (load.status !== "success") {
     return <Status state={load} onRetry={retry} />;
@@ -30,7 +33,8 @@ export default function PlpPage() {
   }
 
   const stock = load.stock.items;
-  const sorted = sortProducts(list, sort, load.offers, stock);
+  const found = filterProducts(list, null, query);
+  const sorted = sortProducts(found, sort, load.offers, stock);
   const item = load.home.carousels.find(function (c) {
     return c.id === carouselId;
   });
@@ -51,7 +55,7 @@ export default function PlpPage() {
         </Link>
       </p>
       <h1>{title}</h1>
-      <p>{list.length.toLocaleString("fa-IR")} محصول</p>
+      <p>{found.length.toLocaleString("fa-IR")} محصول</p>
       <ProductGrid
         className="product-grid"
         products={sorted}
