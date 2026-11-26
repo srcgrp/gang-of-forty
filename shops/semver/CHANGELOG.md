@@ -1,20 +1,20 @@
-# تغییرات ناردونه
+# Nardone Changelog
 
 ## [1.0.0] - 2026-11-27
 
-اولین انتشار ناردونه با کاتالوگ محصولات، سبد خرید و انتشار خودکار.
+Initial release of Nardone with a product catalog, a shopping cart, and automated deployment.
 
 ### Added
 
-- صفحهٔ دسته‌ها و محصولات، صفحهٔ جزئیات محصول، جست‌وجوی کاتالوگ و فرم تسویهٔ محلی اضافه شدند.
-- سبد خرید و حالت روشن و تاریک پس از بستن صفحه در مرورگر حفظ می‌شوند.
-- امکان اجرای فروشگاه با Docker و انتشار در Vercel از طریق GitHub Actions اضافه شد.
+- Added category and product listing pages, a product details page, catalog search, and a local checkout form.
+- The shopping cart and the selected light or dark theme persist in the browser after the page is closed.
+- Added support for running the storefront with Docker and deploying it to Vercel through GitHub Actions.
 
 ### Changed
 
-- رابط فروشگاه به اجزای React و TypeScript تقسیم شد و داده‌های کاتالوگ در یک مسیر مشترک بارگیری می‌شوند.
-- انتشار با بررسی خودکار کد، ساخت پروژه، آزمون اجرای Docker و یک پیش‌نمایش جداگانه همراه شد.
+- Split the storefront interface into React components written in TypeScript and centralized catalog loading.
+- The deployment workflow runs automated code checks, builds the project, tests the running Docker container, and provides a separate preview deployment.
 
 ### Fixed
 
-- آزمون Docker برای آماده‌شدن Nginx صبر می‌کند تا قطع اتصال در شروع کانتینر باعث شکست زودهنگام آزمون نشود.
+- The Docker test waits for Nginx to be ready so a connection reset during container startup does not end the test prematurely.
