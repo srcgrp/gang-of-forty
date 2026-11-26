@@ -30,3 +30,7 @@ Sharding is a Persian RTL grocery shop in `shops/sharding`, built with React, Ty
 - Run `git diff` and read every change. Treat the assistant's output like a teammate's Pull Request.
 - Run `npm run ci` and confirm it passes with no errors.
 - Confirm no file outside `shops/sharding/` is touched.
+
+## Releases
+
+For a release, follow `skills/release/SKILL.md` step by step.
