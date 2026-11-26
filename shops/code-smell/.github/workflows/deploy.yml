@@ -1,0 +1,63 @@
+# shops/code-smell/.github/workflows/deploy.yml: it only runs in your own code-smell-shop repo,
+# where the shop folder is the repo root. Nothing to edit in this file.
+# Secrets (Settings → Secrets and variables → Actions): VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID
+name: CI and deploy
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lint --if-present
+      - run: npm run check
+      - run: npm run test --if-present -- --run
+      - run: npm run build
+
+  docker:
+    # proves the Dockerfile builds, with no Docker on your laptop (runners have it)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - run: docker build -t shop .
+
+  deploy:
+    needs: check
+    # a PR from a fork has no secrets: skip the deploy, keep the check
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    env:
+      TARGET: ${{ github.event_name == 'push' && 'production' || 'preview' }}
+      PROD: ${{ github.event_name == 'push' && '--prod' || '' }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - run: npm install --global vercel@latest
+      - run: vercel pull --yes --environment=$TARGET --token=${{ secrets.VERCEL_TOKEN }}
+      - run: vercel build $PROD --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy
+        run: |
+          url=$(vercel deploy --prebuilt $PROD --token=${{ secrets.VERCEL_TOKEN }})
+          echo "### $TARGET: $url" >> "$GITHUB_STEP_SUMMARY"
