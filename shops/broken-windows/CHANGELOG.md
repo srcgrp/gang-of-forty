@@ -1,4 +1,11 @@
 # Changelog
+## [1.0.1] - 2026-11-26
+
+### Fixed
+
+- API base URL falls back to `/api` when `VITE_API_URL` is not set, so production no longer breaks without `.env` files.
+
+
 
 ## [1.0.0] - 2026-11-26
 
@@ -25,3 +32,4 @@ First production release of Sara Market: Persian RTL supermarket shop with produ
 - Product images and the banner SVG are imported so they are bundled in the production build.
 - HTML validation errors.
 - Supermarket details in the footer and a navigation typo.
+   
