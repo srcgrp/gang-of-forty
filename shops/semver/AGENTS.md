@@ -27,3 +27,5 @@ Run these commands from `shops/semver`. In Windows PowerShell, you can use `npm.
 - In TypeScript, do not use `any`, type assertions using `as` except `as const`, the non-null assertion `!`, `@ts-ignore`, or comments that disable lint rules. Validate the shape of incoming data and handle error states.
 - Keep `node_modules/`, `dist/`, `.vercel/`, `.env*` files, passwords, and tokens out of commits. Keep passwords and tokens out of chats, screenshots, and pull requests as well.
 - Get the project owner's approval before starting each assignment step. Review the changes with `git diff` before committing, make one commit per step, and report test results and any open items afterward.
+
+For a release, follow [.claude/skills/release/SKILL.md](.claude/skills/release/SKILL.md) step by step.
