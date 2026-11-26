@@ -19,12 +19,13 @@ Open the local URL printed by Vite. Run `npm run ci` to run the repository check
 
 ## Run with Docker
 
+Run the published image on a server with Docker installed.
+
 ```bash
-docker build -t sharding-shop .
-docker run -d -p 8080:80 --name shop sharding-shop
+docker run -d -p 8080:80 ghcr.io/alirezaarabshahi/sharding-shop
 ```
 
-Open [http://localhost:8080](http://localhost:8080).
+Open port `8080` on the Docker host, or visit [http://localhost:8080](http://localhost:8080) if Docker is running locally.
 
 ## Mobile screenshot
 
