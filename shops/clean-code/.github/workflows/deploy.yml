@@ -61,3 +61,25 @@ jobs:
         run: |
           url=$(vercel deploy --prebuilt $PROD --token=${{ secrets.VERCEL_TOKEN }})
           echo "### $TARGET: $url" >> "$GITHUB_STEP_SUMMARY"
+
+  publish:
+    needs: check
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/fatemeafd/clean-code-shop:1.0.0
+            ghcr.io/fatemeafd/clean-code-shop:latest

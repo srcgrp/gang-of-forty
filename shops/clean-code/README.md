@@ -22,6 +22,12 @@ docker build -t clean-code-shop .
 docker run -d -p 8080:80 --name shop clean-code-shop
 ```
 
+The published image, on any machine with Docker:
+
+```bash
+docker run -d -p 8080:80 ghcr.io/fatemeafd/clean-code-shop:1.0.0
+```
+
 ## Why with Docker
 
 The shop is a static build. The image builds it with Node, then serves only `dist/` with nginx. The running container does not need Node or this machine's `node_modules`, so the same image is what the deploy pipeline runs.
