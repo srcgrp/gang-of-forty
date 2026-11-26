@@ -3,14 +3,13 @@ import ProductCard from "./ProductCard.tsx";
 
 type ProductGridProps = {
   products: CardProduct[];
-  onAdd: (id: number) => void;
 };
 
-export default function ProductGrid({ products, onAdd }: ProductGridProps) {
+export default function ProductGrid({ products }: ProductGridProps) {
   return (
     <ul className="carousel">
       {products.map((p) => (
-        <ProductCard key={p.id} product={p} onAdd={onAdd} />
+        <ProductCard key={p.id} product={p} />
       ))}
     </ul>
   );

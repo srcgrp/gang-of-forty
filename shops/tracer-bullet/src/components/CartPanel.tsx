@@ -1,13 +1,12 @@
-import type { CartLine } from "../types.ts";
 import { formatNumber, formatPrice } from "../format/formatting.ts";
+import { cartTotal } from "../cart/cart-lines.ts";
+import { useCartStore } from "../hooks/useCartStore.ts";
 
-type CartPanelProps = {
-  lines: CartLine[];
-  total: number;
-  onRemove: (id: number) => void;
-};
+export default function CartPanel() {
+  const lines = useCartStore((s) => s.lines);
+  const remove = useCartStore((s) => s.remove);
+  const total = cartTotal(lines);
 
-export default function CartPanel({ lines, total, onRemove }: CartPanelProps) {
   return (
     <section id="cart-panel" aria-labelledby="cart-panel-title">
       <h2 id="cart-panel-title">سبد خرید</h2>
@@ -19,7 +18,7 @@ export default function CartPanel({ lines, total, onRemove }: CartPanelProps) {
             <li key={line.id}>
               {line.name} × {formatNumber(line.quantity)} —{" "}
               {formatPrice(line.price * line.quantity)}
-              <button type="button" onClick={() => onRemove(line.id)}>
+              <button type="button" onClick={() => remove(line.id)}>
                 حذف {line.name} از سبد
               </button>
             </li>

@@ -1,67 +1,56 @@
-import type { CardProduct, CartLine, LoadState } from "./types.ts";
-import { useState, useEffect } from "react";
-import { addToCart, removeFromCart, cartCount } from "./cart/cart-lines.ts";
-import { loadData } from "./api/load-data.ts";
-import { getDataLoadState } from "./catalog/data-load-state.ts";
-import Status from "./components/Status.tsx";
-import ShopPage from "./components/ShopPage.tsx";
-import { loadCart, saveCart } from "./storage/cart-storage.ts";
-  import { formatNumber } from "./format/formatting.ts";
+import {
+  createHashHistory,
+  createRootRoute,
+  createRoute,
+  createRouter,
+  RouterProvider,
+} from "@tanstack/react-router";
+import Layout from "./components/Layout.tsx";
+import HomePage from "./components/pages/HomePage.tsx";
+import NotFound from "./components/pages/NotFound.tsx";
+import PlpPage from "./components/pages/PlpPage.tsx";
+import ProductPage from "./components/pages/ProductPage.tsx";
+import type { PlpSort } from "./types.ts";
+import CheckoutPage from "./components/pages/CheckoutPage.tsx";
+
+const rootRoute = createRootRoute({
+  component: Layout,
+  notFoundComponent: NotFound,
+});
+const homeRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/",
+  component: HomePage,
+});
+const plpRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/plp/$carouselId",
+  component: PlpPage,
+  validateSearch: (search: Record<string, unknown>): { sort: PlpSort } => ({
+    sort: search.sort === "price" ? "price" : "default",
+  }),
+});
+const productRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/product/$productId",
+  component: ProductPage,
+});
+
+const checkoutRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/checkout",
+  component: CheckoutPage,
+});
+
+const routeTree = rootRoute.addChildren([homeRoute, plpRoute, productRoute, checkoutRoute]);
+const router = createRouter({ routeTree, history: createHashHistory() });
+
+declare module "@tanstack/react-router" {
+  interface Register {
+    router: typeof router;
+  }
+}
 
 export default function App() {
-  const [selectedId, setSelectedId] = useState<number | null>(null);
-  const [state, setState] = useState<LoadState>({ status: "loading" });
-  const [cart, setCart] = useState<CartLine[]>(() => loadCart());
-
-  useEffect(() => {
-    let ignore = false;
-
-    loadData()
-      .then((data) => {
-        if (ignore) return;
-        setState(getDataLoadState(data));
-      })
-      .catch(() => {
-        if (ignore) return;
-        setState({
-          status: "error",
-          message: "خطا: لطفا دوباره تلاش کنید",
-        });
-      });
-
-    return () => {
-      ignore = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    saveCart(cart);
-  }, [cart]);
-
-  useEffect(() => {
-    document.title = `پرتقال - ${formatNumber(cartCount(cart))} 🛒`;
-  }, [cart]);
-
-  if (state.status !== "success") {
-    return <Status state={state} />;
-  }
-
-  function handleAdd(product: CardProduct) {
-    setCart((current) => addToCart(current, product));
-  }
-
-  function handleRemove(id: number) {
-    setCart((current) => removeFromCart(current, id));
-  }
-
-  return (
-    <ShopPage
-      data={state.data}
-      selectedId={selectedId}
-      onPick={setSelectedId}
-      cart={cart}
-      onAdd={handleAdd}
-      onRemove={handleRemove}
-    />
-  );
+  return <RouterProvider router={router} />;
 }

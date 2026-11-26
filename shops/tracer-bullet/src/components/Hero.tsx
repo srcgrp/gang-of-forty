@@ -1,4 +1,5 @@
 import type { Banner } from "../types.ts";
+import AppLink from "./AppLink.tsx";
 
 type HeroProps = {
   hero: Banner;
@@ -13,14 +14,14 @@ export default function Hero({ hero, side }: HeroProps) {
           {hero.title} <span aria-hidden="true">{hero.emoji}</span>
         </h2>
         <p>{hero.text}</p>
-        <a href={hero.cta.href}>{hero.cta.label}</a>
+        <AppLink href={hero.cta.href}>{hero.cta.label}</AppLink>
       </section>
       <section className="promo" id="promo" aria-labelledby="promo-title">
         <h2 id="promo-title">
           {side.title} <span aria-hidden="true">{side.emoji}</span>
         </h2>
         <p>{side.text}</p>
-        <a href={side.cta.href}>{side.cta.label}</a>
+        <AppLink href={side.cta.href}>{side.cta.label}</AppLink>
       </section>
     </div>
   );

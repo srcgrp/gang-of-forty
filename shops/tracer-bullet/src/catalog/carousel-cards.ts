@@ -1,8 +1,5 @@
 import type { Data, CardProduct } from "../types";
-import {
-    withOfferAndStock,
-    getSpecialOfferProducts
-} from "./product-catalog";
+import { withOfferAndStock, getSpecialOfferProducts } from "./product-catalog";
 
 type CarouselDefinition = Data["home"]["carousels"][number];
 
@@ -17,9 +14,7 @@ export function getCarouselCards(
 ): CardProduct[] {
     if ("source" in definition) {
         return getSpecialOfferProducts(
-            data.products,
-            data.offers,
-            data.stock
+            data.products, data.offers, data.stock
         );
     }
 
@@ -30,9 +25,44 @@ export function getCarouselCards(
         );
 }
 
+export function carouselProducts(
+  data: Data,
+  carouselId: string,
+): CardProduct[] | null {
+  const definition = data.home.carousels.find((c) => c.id === carouselId);
+
+  if (!definition) {
+    return null;
+  }
+
+  return getCarouselCards(definition, data);
+}
+
+export type PlpList = { title: string; cards: CardProduct[] };
+
+export function plpList(data: Data, id: string): PlpList | null {
+  const definition = data.home.carousels.find((c) => c.id === id);
+  if (definition) {
+    return {
+      title: definition.title, cards: getCarouselCards(definition, data),
+    };
+  }
+
+  const category = data.categories.find((c) => c.slug === id);
+  if (category) {
+    return {
+      title: category.name,
+      cards: data.products
+        .filter((p) => p.categoryId === category.id)
+        .map((p) => withOfferAndStock(p, data.offers, data.stock)),
+    };
+  }
+
+  return null;
+}
+
 export function prepareCarousels(data: Data): PreparedCarousel[] {
     return data.home.carousels.map(definition => ({
-        definition,
-        cards: getCarouselCards(definition, data)
+        definition, cards: getCarouselCards(definition, data)
     }));
 }

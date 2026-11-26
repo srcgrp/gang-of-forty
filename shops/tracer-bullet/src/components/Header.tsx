@@ -4,25 +4,29 @@ import searchIcon from "../../png/magnifying-glass-fill.png";
 import cartIcon from "../../png/shopping-bag-open-fill.png";
 import type { Category, Shop } from "../types.ts";
 import MainNav from "./MainNav.tsx";
+import ThemeToggle from "./ThemeToggle.tsx";
+import { cartCount } from "../cart/cart-lines.ts";
+import { useCartStore } from "../hooks/useCartStore.ts";
+import { Link } from "@tanstack/react-router";
 
 type HeaderProps = {
-  count: number;
   shop: Shop;
   categories: Category[];
 };
 
-export default function Header({ count, shop, categories }: HeaderProps) {
+export default function Header({ shop, categories }: HeaderProps) {
+  const count = useCartStore((s) => cartCount(s.lines));
   return (
     <header id="top">
       <p className="notice">{shop.notice}</p>
       <h1 className="logo">
-        <a href="#top">
+        <Link to="/">
           <Logo />
           <span className="logo-text">
             <span>پرتقال</span>
             <small className="slogan">{shop.slogan}</small>
           </span>
-        </a>
+        </Link>
       </h1>
       <form className="search" role="search" action="#">
         <label htmlFor="search" className="visually-hidden">
@@ -49,6 +53,7 @@ export default function Header({ count, shop, categories }: HeaderProps) {
           {formatNumber(count)} کالا در سبد
         </span>
       </button>
+      <ThemeToggle />
       <input type="checkbox" id="menu-toggle" className="visually-hidden" />
       <label htmlFor="menu-toggle" className="menu-button">
         <span aria-hidden="true">☰</span>

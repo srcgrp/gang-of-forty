@@ -1,14 +1,17 @@
 import type { CardProduct } from "../types.ts";
 import { formatNumber, formatPrice } from "../format/formatting.ts";
 import OfferBadge from "./OfferBadge.tsx";
+import { useCartStore } from "../hooks/useCartStore.ts";
+import { Link } from "@tanstack/react-router";
+import { memo } from "react";
 
 type ProductCardProps = {
   product: CardProduct;
-  onAdd: (id: number) => void;
 };
 
-export default function ProductCard({ product, onAdd }: ProductCardProps) {
+function ProductCard({ product }: ProductCardProps) {
   const outOfStock = product.stock === 0;
+  const add = useCartStore((s) => s.add);
 
   return (
     <li className={outOfStock ? "out-of-stock" : ""}>
@@ -20,19 +23,23 @@ export default function ProductCard({ product, onAdd }: ProductCardProps) {
       ) : product.percent ? (
         <OfferBadge text="تخفیف" percent={product.percent} />
       ) : null}
-      <h3>{product.name}</h3>
+      <h3>
+        <Link
+          to="/product/$productId"
+          params={{ productId: String(product.id) }}
+        >
+          {product.name}
+        </Link>
+      </h3>
       <p className="meta">{product.unit}</p>
       <p className="price">
-        {product.newPrice ? (
+        {product.newPrice !== undefined ? (
           <>
             <del>
-              {formatNumber(product.price)}
-              <span className="visually-hidden">"قیمت قبلی"</span>
-              {""}
+              <span className="visually-hidden">قیمت قبلی: </span>
               {formatNumber(product.price)}
             </del>
-            <span className="visually-hidden">قیمت با تخفیف</span>
-            {""}
+            <span className="visually-hidden">قیمت با تخفیف: </span>
             {formatPrice(product.newPrice)}
           </>
         ) : (
@@ -42,7 +49,7 @@ export default function ProductCard({ product, onAdd }: ProductCardProps) {
       <button
         type="button"
         disabled={outOfStock}
-        onClick={() => onAdd(product.id)}
+        onClick={() => add(product)}
         aria-label={
           outOfStock
             ? `${product.name}: ناموجود`
@@ -54,3 +61,5 @@ export default function ProductCard({ product, onAdd }: ProductCardProps) {
     </li>
   );
 }
+
+export default memo(ProductCard);

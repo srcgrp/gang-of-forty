@@ -1,4 +1,4 @@
-import type { Product, Offer, Stock, CardProduct } from "../types";
+import type { Product, Offer, Stock, CardProduct, Data } from "../types";
 
 export function withOfferAndStock(
     product: Product,
@@ -44,4 +44,14 @@ export function getSpecialOfferProducts(
             label: offer.label
         }];
     });
+}
+
+export function findCard(data: Data, id: number): CardProduct | null {
+  const product = data.products.find((p) => p.id === id);
+
+  if (!product) {
+    return null;
+  }
+
+  return withOfferAndStock(product, data.offers, data.stock);
 }
