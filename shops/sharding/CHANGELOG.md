@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.2] - 2026-11-26
+
+### Fixed
+
+- Restored the discounted price as the current price on product cards.
+
 ## [1.0.1] - 2026-11-26
 
 ### Added
