@@ -1,0 +1,64 @@
+import type { Offer, Product } from "../types";
+import { Link } from "@tanstack/react-router";
+import { calculateDiscountedPrice } from "../shared/pricing";
+import { useCartStore } from "../hooks/useCartStore";
+import { Notyf } from "notyf";
+import confetti from "canvas-confetti";
+
+const notyf = new Notyf();
+
+type ProductCardProps = {
+  product: Product;
+  offer?: Offer | undefined;
+  stockCount: number;
+};
+
+export default function ProductCard({
+  product,
+  offer,
+  stockCount,
+}: ProductCardProps) {
+  const addToCart = useCartStore((state) => state.add);
+  const handleAdd = () => {
+    addToCart(product.id);
+    notyf.success(`${product.name} به سبد خرید اضافه شد`);
+    confetti({ particleCount: 60, spread: 70 });
+  };
+  const price = offer
+    ? calculateDiscountedPrice(product.price, offer.percent)
+    : product.price;
+
+  return (
+    <article className="tent-article">
+      <Link
+        className="product-card-link"
+        to="/product/$productId"
+        params={{ productId: String(product.id) }}
+        aria-label={`مشاهده جزئیات ${product.name}`}
+      >
+        <span className="product-emoji" aria-hidden="true">
+          {product.emoji}
+        </span>
+        <h3>{product.name}</h3>
+      </Link>
+      <p>{product.unit}</p>
+      {offer && <span className="discount-badge">{offer.percent.toLocaleString("fa-IR")}٪</span>}
+      {stockCount === 0 && <p className="stock-label">ناموجود</p>}
+      <div>
+        <div className="product-prices">
+          {offer && <p className="discount-price">{product.price.toLocaleString("fa-IR")} تومان</p>}
+          <p className={offer ? "discounted-price" : ""}>{price.toLocaleString("fa-IR")} تومان</p>
+        </div>
+        <button
+          type="button"
+          className="add-to-cart"
+          aria-label={stockCount === 0 ? `${product.name} ناموجود است` : `افزودن ${product.name} به سبد خرید`}
+          disabled={stockCount === 0}
+          onClick={handleAdd}
+        >
+          +
+        </button>
+      </div>
+    </article>
+  );
+}

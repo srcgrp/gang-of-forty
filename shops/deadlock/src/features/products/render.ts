@@ -1,4 +1,4 @@
-import type { Offer, Product, Stock, LoadState } from "../../types";
+import type { Catalog, Offer, Product, Stock, LoadState } from "../../types";
 import { createProductCard } from "./productCard";
 import { showMessage, textmsg } from "../../shared/messages";
 export function renderProducts(
@@ -21,7 +21,7 @@ export function renderProducts(
 export function render(
   container: HTMLDivElement,
   offersContainer: HTMLDivElement,
-  state: LoadState,
+  state: LoadState<Catalog>,
 ): void {
   container.replaceChildren();
   offersContainer.replaceChildren();
@@ -33,16 +33,22 @@ export function render(
       break;
 
     case "success": {
+      const pantryProducts = state.products.filter(
+        (product) => product.categoryId === 4,
+      );
+      const offerProducts = state.products.filter((product) =>
+        state.offers.some((offer) => offer.productId === product.id),
+      );
       renderProducts(
         container,
-        state.pantryProducts,
+        pantryProducts,
         state.stock,
         state.offers,
       );
 
       renderProducts(
         offersContainer,
-        state.offerProducts,
+        offerProducts,
         state.stock,
         state.offers,
       );
