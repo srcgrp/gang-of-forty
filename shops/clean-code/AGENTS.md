@@ -2,6 +2,8 @@
 
 Persian RTL grocery shop, React + TypeScript + Vite (Gang of Forty, shops/<clean-code>).
 
+For a release, follow .claude/skills/release/SKILL.md step by step.
+
 ## Commands
 
 - npm run dev → http://localhost:5173
