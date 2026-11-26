@@ -7,7 +7,9 @@ export type Product = {
     price: number;
     tags: string[];
 };
-
+export type CheckoutField = "name" | "phone" | "address";
+export type CheckoutForm = Record<CheckoutField, string>;
+export type CheckoutErrors = Partial<Record<CheckoutField, string>>;
 export type Category = { id: number; name: string; emoji: string; slug: string; color: string };
 export type Offer = { productId: number; percent: number; label: string };
 export type StockData = { items: Record<number, number> };
@@ -43,7 +45,7 @@ export type LoadState =
       }
     | { status: "empty" }
     | { status: "error"; message: string };
-
+export type Catalog = Omit<LoadedState, "status">;
 export type LoadedState = Extract<LoadState, { status: "success" }>;
 
 export type CardView = Pick<Product, "name" | "emoji" | "unit" | "price"> & {
