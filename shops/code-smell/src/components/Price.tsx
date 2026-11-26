@@ -1,6 +1,6 @@
 type PriceProps = {
     amount: number
-    originalPrice?: number
+    originalPrice?: number | undefined
     currency?: string
 }
 

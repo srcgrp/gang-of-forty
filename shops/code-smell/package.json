@@ -5,7 +5,7 @@
   "type": "module",
   "description": "",
   "scripts": {
-    "lint": "oxlint src",
+    "lint": "oxlint src --deny-warnings",
     "dev": "vite",
     "check": "tsc --noEmit",
     "build": "tsc --noEmit && vite build",
@@ -23,9 +23,12 @@
     "vite": "^8.3.4"
   },
   "dependencies": {
+    "@tanstack/react-router": "^1.170.46",
     "fireworks-js": "^2.10.8",
+    "fuse.js": "^7.5.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "typed.js": "^3.0.0"
+    "typed.js": "^3.0.0",
+    "zustand": "^5.1.0"
   }
 }

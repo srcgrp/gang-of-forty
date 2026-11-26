@@ -1,3 +1,4 @@
+import SectionLink from "./SectionLink"
 import type { Category } from "../types"
 
 type CategoryCardProps = {
@@ -14,7 +15,7 @@ export default function CategoryCard({
             className="category-card"
             id={"category-" + category.slug}
         >
-            <a
+            <SectionLink
                 className="category-card__link"
                 href="#products"
                 onClick={function () {
@@ -36,7 +37,7 @@ export default function CategoryCard({
                 <p className="category-card__meta">
                     دیدن کالاها ←
                 </p>
-            </a>
+            </SectionLink>
         </li>
     )
 }

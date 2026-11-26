@@ -1,18 +1,23 @@
+import type { ListingSearch } from "../catalog/shopPageData"
 import type { CarouselWithProducts } from "../types"
 import ProductCard from "./ProductCard"
-import CarouselControls from "./CarouselControls"
+import CarouselHeading from "./CarouselHeading"
 
 type ProductGridProps = {
     carousels: CarouselWithProducts[]
-    onAdd: (id: number) => void
+    search?: ListingSearch
 }
 
-export default function ProductGrid({ carousels, onAdd }: ProductGridProps) {
+const previewSize = 6
+
+export default function ProductGrid({ carousels, search }: ProductGridProps) {
+    const productsStart = carousels.find((carousel) => carousel.id !== "offers")
     return (
-        <div id="products">
+        <div>
             {carousels.map(function (carousel, index) {
                 const titleId = carousel.id + "-title"
-                const hasProducts = carousel.products.length > 0
+                const products = carousel.products.slice(0, previewSize)
+                const hasProducts = products.length > 0
 
                 return (
                     <section
@@ -21,26 +26,15 @@ export default function ProductGrid({ carousels, onAdd }: ProductGridProps) {
                         key={carousel.id}
                         aria-labelledby={titleId}
                         data-carousel="true"
+                        data-preview="true"
                     >
+                        {carousel === productsStart && <div id="products" />}
                         <div className="container">
-                            <header className="section__header section__header--carousel">
-                                <h2 className="section__title" id={titleId}>
-                                    <span className="carousel-title__emoji" aria-hidden="true">
-                                        {carousel.id === "search-results" ? (
-                                            <img src="svg/magnifying-glass.svg" alt="" width={20} height={20} />
-                                        ) : (
-                                            carousel.emoji
-                                        )}
-                                    </span>
-                                    {carousel.title}
-                                </h2>
-                                <div className="carousel-heading-row">
-                                    <p className="section__subtitle">
-                                        {carousel.products.length.toLocaleString("fa-IR") + " " + "کالا"}
-                                    </p>
-                                    {hasProducts && <CarouselControls title={carousel.title} />}
-                                </div>
-                            </header>
+                            <CarouselHeading
+                                carousel={carousel}
+                                titleId={titleId}
+                                search={search}
+                            />
                             <p className="catalog-status" role="status" hidden={hasProducts}>
                                 کالایی پیدا نشد!
                             </p>
@@ -48,16 +42,10 @@ export default function ProductGrid({ carousels, onAdd }: ProductGridProps) {
                                 className="product-grid"
                                 tabIndex={0}
                                 hidden={!hasProducts}
-                                aria-label={"کاروسل" + " " + carousel.title}
+                                aria-label={(search ? "نتایج جستجو: " : "کاروسل ") + carousel.title}
                             >
-                                {carousel.products.map(function (product) {
-                                    return (
-                                        <ProductCard
-                                            key={product.id}
-                                            product={product}
-                                            onAdd={onAdd}
-                                        />
-                                    )
+                                {products.map(function (product) {
+                                    return <ProductCard key={product.id} product={product} />
                                 })}
                             </ul>
                         </div>

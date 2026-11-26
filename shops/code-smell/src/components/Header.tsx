@@ -1,38 +1,43 @@
-import type { Category, Shop } from "../types"
-import type { CartButtonProps } from "./CartButton"
-import type { SearchBoxProps } from "./SearchBox"
+import { Link } from "@tanstack/react-router"
+import type { MouseEvent } from "react"
+import type { ShopData } from "../types"
+import type { CatalogControls } from "../hooks/useCatalog"
 import BrandLogo from "./BrandLogo"
 import CategoryNav from "./CategoryNav"
 import CartButton from "./CartButton"
+import CartPanel from "./CartPanel"
 import Announcement from "./Announcement"
 import SearchBox from "./SearchBox"
-
-export type CatalogControls = SearchBoxProps & {
-    categoryId: number | null
-    onPick: (id: number | null) => void
-}
+import ThemeToggle from "./ThemeToggle"
 
 type HeaderProps = {
-    categories: Category[]
-    shop: Shop
+    data: ShopData
     catalogControls: CatalogControls
-    cartControls: CartButtonProps
 }
 
-export default function Header({
-    categories,
-    shop,
-    catalogControls,
-    cartControls
-}: HeaderProps) {
+function closeMobileMenu(event: MouseEvent<HTMLDetailsElement>): void {
+    if (event.target instanceof Element && event.target.closest("a[href]")) {
+        event.currentTarget.open = false
+        event.currentTarget.querySelector("summary")?.focus({ preventScroll: true })
+    }
+}
+
+export default function Header({ data, catalogControls }: HeaderProps) {
+    const { categories, shop } = data
     const { categoryId, onPick } = catalogControls
-    const navigationProps = { categories, menu: shop.menu, categoryId, onPick }
+    const navigationProps = {
+        categories,
+        menu: shop.menu,
+        categoryId,
+        onPick,
+        onQuery: catalogControls.onQuery
+    }
 
     return (
         <header className="site-header">
             <Announcement notice={shop.notice} />
             <div className="site-header__bar container" id="header-bar">
-                <a className="brand" href="#top">
+                <Link className="brand" to="/" hash="top" onClick={() => catalogControls.onQuery("")}>
                     <BrandLogo />
                     <span className="brand__text" id="brand-text">
                         <strong className="brand__name">
@@ -40,13 +45,16 @@ export default function Header({
                         </strong>
                         <span className="brand__tagline">{shop.slogan}</span>
                     </span>
-                </a>
+                </Link>
                 <SearchBox
                     query={catalogControls.query}
                     onQuery={catalogControls.onQuery}
                 />
-                <CartButton {...cartControls} />
-                <details className="mobile-menu" id="mobile-menu">
+                <div className="header-actions">
+                    <CartButton products={data.products} />
+                    <ThemeToggle />
+                </div>
+                <details className="mobile-menu" id="mobile-menu" onClick={closeMobileMenu}>
                     <summary className="menu-toggle" aria-label="منوی اصلی">
                         ☰
                     </summary>
@@ -54,6 +62,7 @@ export default function Header({
                 </details>
             </div>
             <CategoryNav {...navigationProps} />
+            <CartPanel products={data.products} offers={data.offers} stock={data.stock.items} />
         </header>
     )
 }

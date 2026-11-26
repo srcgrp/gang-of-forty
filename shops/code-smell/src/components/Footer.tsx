@@ -1,8 +1,8 @@
+import SectionLink from "./SectionLink"
 import type { Category, Link, Shop } from "../types"
 import FooterAbout from "./FooterAbout"
 import FooterLinks from "./FooterLinks"
 import FooterHours from "./FooterHours"
-
 
 type FooterProps = {
     categories: Category[]
@@ -54,9 +54,9 @@ export default function Footer({
                         "سوپرمارکت بوی کد"
                     )}
                 </p>
-                <a className="back-to-top" href="#top">
+                <SectionLink className="back-to-top" href="#top">
                     بازگشت به بالا
-                </a>
+                </SectionLink>
             </div>
         </footer>
     )

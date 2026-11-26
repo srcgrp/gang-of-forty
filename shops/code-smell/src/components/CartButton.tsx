@@ -1,15 +1,21 @@
-export type CartButtonProps = {
-    count: number
-    cartOpen: boolean
-    onToggle: () => void
+import { useEffect } from "react"
+import type { Product } from "../types"
+import { cartCount } from "../cart/cartRules"
+import { useCartStore } from "../hooks/useCartStore"
+
+type CartButtonProps = {
+    products: Product[]
 }
 
-export default function CartButton({
-    count,
-    cartOpen,
-    onToggle
-}: CartButtonProps) {
+export default function CartButton({ products }: CartButtonProps) {
+    const count = useCartStore((store) => cartCount(store.cart, products))
+    const cartOpen = useCartStore((store) => store.cartOpen)
+    const toggle = useCartStore((store) => store.toggle)
     const countText = count.toLocaleString("fa-IR")
+
+    useEffect(function () {
+        document.title = "بوی کد | سبد خرید: " + countText + " کالا"
+    }, [countText])
 
     return (
         <button
@@ -18,8 +24,8 @@ export default function CartButton({
             type="button"
             aria-controls="cart"
             aria-expanded={cartOpen}
-            aria-label={"سبد خرید:" + " " + countText + " " + "کالا"}
-            onClick={onToggle}
+            aria-label={"سبد خرید: " + countText + " کالا"}
+            onClick={toggle}
         >
             <img
                 className="cart-button__icon"

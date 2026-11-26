@@ -50,3 +50,18 @@ export function getVisibleCarousels(
 
     return getCatalogCarousels(data, category)
 }
+
+export function getCarouselById(data: ShopData, id: string): CarouselWithProducts | null {
+    let carousel = data.home.carousels.find((item) => item.id === id)
+    if (!carousel) {
+        const category = getSelectedCategory(data.categories, id)
+        if (!category) {
+            return null
+        }
+        carousel = { id, title: category.name, emoji: category.emoji, categoryId: category.id }
+    }
+
+    return getHomeCarousels(
+        [carousel], data.products, data.categories, data.offers, data.stock.items
+    )[0] ?? null
+}

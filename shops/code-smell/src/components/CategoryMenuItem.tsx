@@ -1,3 +1,4 @@
+import SectionLink from "./SectionLink"
 import type { Category } from "../types"
 
 type CategoryMenuItemProps = {
@@ -13,7 +14,7 @@ export default function CategoryMenuItem({
 }: CategoryMenuItemProps) {
     return (
         <li>
-            <a
+            <SectionLink
                 className="menu-link"
                 href="#products"
                 aria-current={isActive ? "true" : undefined}
@@ -31,7 +32,7 @@ export default function CategoryMenuItem({
                     </span>
                 </span>
                 {category.name}
-            </a>
+            </SectionLink>
         </li>
     )
 }
