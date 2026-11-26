@@ -712,6 +712,10 @@ html[dir="ltr"] .carousel-arrows img {
   .product-page {
     grid-template-columns: 20rem 1fr;
   }
+
+  .product-page-info {
+    align-self: center;
+  }
 }
 
 .product-card {
