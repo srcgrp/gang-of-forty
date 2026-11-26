@@ -7,6 +7,7 @@ import { useCartStore } from "../hooks/useCartStore";
 export default function CartPanel() {
   const cart = useCartStore((s) => s.lines);
   const change = useCartStore((s) => s.change);
+  const clear = useCartStore((s) => s.clear);
 
   return (
     <aside className="cart-panel" id="cart-panel">
@@ -15,7 +16,16 @@ export default function CartPanel() {
           <h2 className="items-header">
             سبد خرید
             {cart.length > 0 && (
-              <span className="cart-items-count">{formatNumber(cartCount(cart))} کالا</span>
+              <>        <span className="cart-items-count">{formatNumber(cartCount(cart))} کالا</span>
+          
+              <button
+        type="button"
+        className="cart-clear"
+        onClick={clear}
+      >
+        خالی کردن سبد
+      </button>
+        </>
             )}
           </h2>
           {cart.length === 0 ? (
