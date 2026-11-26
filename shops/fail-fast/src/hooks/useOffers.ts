@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import type { LoadState, Offer } from '../types'
 import { getJSON } from '../api/client'
 
-const API_BASE = import.meta.env.VITE_API_URL
+const API_BASE = import.meta.env.VITE_API_URL ?? '/api'
 
 function isOffer(value: unknown): value is Offer {
   return (

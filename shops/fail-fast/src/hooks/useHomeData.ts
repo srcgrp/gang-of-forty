@@ -3,7 +3,7 @@ import type { LoadState, HomeData } from '../types'
 import { isHomeData } from '../types/home'
 import { getJSON } from '../api/client'
 
-const API_BASE = import.meta.env.VITE_API_URL
+const API_BASE = import.meta.env.VITE_API_URL ?? '/api'
 
 export function useHomeData(): LoadState<HomeData> {
   const [dataState, setDataState] = useState<LoadState<HomeData>>({
