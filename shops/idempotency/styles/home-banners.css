@@ -14,17 +14,17 @@
     box-shadow: 0 2px 2px rgb(230, 216, 190);
 }
 
-html[data-theme="dark"] .home-side-banner {
+div[data-theme="dark"] .home-side-banner {
     background-image: url("/asset/banners/banner-discount-dark.webp");
     box-shadow: 0 2px 2px rgb(32, 20, 18);
 }
 
-html[data-theme="dark"] #home-promos .home-promo-card:nth-child(1) {
+div[data-theme="dark"] #home-promos .home-promo-card:nth-child(1) {
     background-image: url("/asset/banners/banner-breakfast-dark.webp");
     box-shadow: 0 2px 2px rgb(32, 20, 18);
 }
 
-html[data-theme="dark"] #home-promos .home-promo-card:nth-child(2) {
+div[data-theme="dark"] #home-promos .home-promo-card:nth-child(2) {
     background-image: url("/asset/banners/banner-bread-dark.webp");
     box-shadow: 0 2px 2px rgb(32, 20, 18);
 }
@@ -61,7 +61,7 @@ html[data-theme="dark"] #home-promos .home-promo-card:nth-child(2) {
     pointer-events: none;
 }
 
-html[data-theme="dark"] .banner-percent {
+div[data-theme="dark"] .banner-percent {
     position: absolute;
     top: 60%;
     right: 17%;
@@ -170,4 +170,14 @@ html[data-theme="dark"] .banner-percent {
 
 .home-carousel-section {
     width: 100%;
+}
+#home-promos .home-promo-card:nth-child(2) {
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@media (max-width: 520px) {
+  #home-promos .home-promo-card:nth-child(2) {
+    font-size: 15px;
+  }
 }
