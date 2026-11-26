@@ -2,6 +2,7 @@
 
 Persian RTL grocery shop, built with React + TypeScript + Vite, TanStack Router and Zustand (Gang of Forty, shops/composition).
 Read DESIGN.md before changing the architecture.
+For a release, follow .claude/skills/release/SKILL.md step by step.
 
 ## Commands
 - npm ci: install locked dependencies; use npm install only when intentionally changing dependencies.
