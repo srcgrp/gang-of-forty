@@ -1,3 +1,22 @@
+# سارا مارکت
+
+سارا مارکت یک فروشگاه اینترنتی سوپرمارکت با رابط فارسی و راست‌چین است؛ فهرست محصولات، دسته‌بندی‌ها و پیشنهادها را نشان می‌دهد.
+
+![CI](https://github.com/saramoradkhanii/broken-windows-shop/actions/workflows/deploy.yml/badge.svg)
+
+🔗 **سایت زنده:** https://broken-windows-shop.vercel.app/
+
+![نمای موبایل](docs/mobile.png)
+
+## اجرا
+
+```bash
+npm install
+npm run dev
+```
+
+سپس آدرسی را که ترمینال نشان می‌دهد در مرورگر باز کنید.
+
 ## اجرا با Docker
 
 ابتدا Docker Image را بسازید:
@@ -21,6 +40,3 @@ http://localhost:8080
 ```bash
 docker stop shop && docker rm shop
 ```
-
-
-Preview deployment test
