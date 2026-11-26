@@ -9,7 +9,8 @@
     "dev": "vite",
     "check": "tsc --noEmit",
     "build": "tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "ci": "npm run lint --if-present && npm run check && npm run test --if-present -- --run && npm run build"
   },
   "keywords": [],
   "author": "",
