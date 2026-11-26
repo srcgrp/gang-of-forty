@@ -45,7 +45,7 @@
   display: flex;
   gap: clamp(8px, 1.2vw, 12px);
   overflow-x: auto;
-  scroll-snap-type: x mandatory;
+  scroll-snap-type: x proximity;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   padding: 4px 0 10px;
