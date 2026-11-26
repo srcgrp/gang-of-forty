@@ -1,5 +1,7 @@
 node_modules/
 dist/
+.vercel/
+.env*
 .DS_Store
 *.local
 api/mentor-*.html

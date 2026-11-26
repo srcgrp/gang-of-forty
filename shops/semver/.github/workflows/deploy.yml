@@ -1,0 +1,103 @@
+name: Build and deploy Nardone
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+env:
+  VITE_API_URL: /api
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: deploy-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run ci
+
+  docker:
+    needs: check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Build the container image
+        run: docker build -t semver-shop .
+      - name: Check the storefront and API inside Docker
+        run: |
+          docker run --detach --name semver-shop --publish 127.0.0.1:8080:80 semver-shop
+          cleanup() {
+            if (( $? != 0 )); then
+              docker logs semver-shop || true
+            fi
+            docker rm --force semver-shop >/dev/null
+          }
+          trap cleanup EXIT
+
+          echo 'Wait for Nginx to serve the storefront'
+          curl --fail --silent --show-error --retry 10 --retry-all-errors --retry-delay 1 --max-time 5 http://127.0.0.1:8080/ --output /tmp/semver-index.html
+
+          echo 'Check the SPA fallback'
+          curl --fail --silent --show-error --max-time 15 http://127.0.0.1:8080/check-spa-fallback --output /tmp/semver-fallback.html
+          cmp /tmp/semver-index.html /tmp/semver-fallback.html
+
+          echo 'Check the upstream products through the proxy'
+          curl --fail --silent --show-error --max-time 15 http://127.0.0.1:8080/api/products.json | jq -e 'type == "array" and length > 0'
+
+  deploy:
+    needs: check
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          package-manager-cache: false
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+      - name: Build and deploy to Vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          if [[ -z "$VERCEL_TOKEN" || -z "$VERCEL_ORG_ID" || -z "$VERCEL_PROJECT_ID" ]]; then
+            echo 'Set VERCEL_TOKEN, VERCEL_ORG_ID, and VERCEL_PROJECT_ID in the repository secrets.' >&2
+            exit 1
+          fi
+
+          environment=preview
+          deploy_flags=()
+          if [[ "$GITHUB_EVENT_NAME" == push ]]; then
+            environment=production
+            deploy_flags=(--prod)
+          fi
+
+          vercel pull --yes --environment="$environment" --token="$VERCEL_TOKEN"
+          vercel build "${deploy_flags[@]}" --token="$VERCEL_TOKEN"
+          url=$(vercel deploy --prebuilt "${deploy_flags[@]}" --token="$VERCEL_TOKEN")
+          printf '### Vercel %s\n\n%s\n' "$environment" "$url" >> "$GITHUB_STEP_SUMMARY"
