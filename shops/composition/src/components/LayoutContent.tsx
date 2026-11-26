@@ -3,6 +3,7 @@ import { Link, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 import { useCatalog } from "../hooks/useCatalog";
 import { HomeFiltersContext } from "../hooks/useHomeFilters";
 import { createResults } from "../features/products/catalog/results";
+import { normalizeSearch } from "../features/products/catalog/search";
 import Header from "./Header";
 import Footer from "./Footer";
 import Brand from "./Brand";
@@ -26,7 +27,7 @@ export default function LayoutContent() {
   const filters = useMemo(() => ({ query, categoryId, onPick }), [query, categoryId, onPick]);
   const data = state.status === "success" ? state.data : null;
   const category = data?.categories.find(item => item.id === categoryId);
-  const suggestions = data ? createResults(data)({
+  const suggestions = data && normalizeSearch(query) ? createResults(data)({
     query, category: category?.slug ?? "", sort: "default",
   }).cards : [];
   return (
