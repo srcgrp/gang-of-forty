@@ -686,6 +686,28 @@ html[dir="ltr"] .carousel-arrows img {
   outline-offset: 2px;
 }
 
+@media (max-width: 47.99rem) {
+  .product-page-img {
+    justify-self: center;
+    width: 100%;
+    max-width: 11rem;
+    font-size: 5rem;
+  }
+
+  .product-page-info {
+    align-items: center;
+    text-align: center;
+  }
+
+  .product-page-info .add-button {
+    align-self: stretch;
+  }
+
+  .product-page-info .text-link {
+    margin-top: 0.75rem;
+  }
+}
+
 @media (min-width: 48rem) {
   .product-page {
     grid-template-columns: 20rem 1fr;
