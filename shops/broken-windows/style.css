@@ -68,22 +68,35 @@ img {
   width: 56px;
   height: 56px;
 }
-
-.brand-text {
+.brand-info {
   display: flex;
   flex-direction: column;
-  color: #0F6E56;
-  margin: 0;
-  font-size: 11px;
-
+  align-items: flex-start;
+  justify-content: center;
+  gap: 3px;
+  min-width: 0;
 }
 
 .brand-name {
   color: #085041;
   margin: 0;
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.5;
+  letter-spacing: -0.3px;
+  white-space: nowrap;
 }
+
+.brand-text {
+  color: #568477;
+  margin: 0;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
 
 .header {
   display: flex;
@@ -1919,7 +1932,27 @@ address { font-style: normal; }
   min-height: 100vh;
 }
 
+@media (max-width: 600px) {
+  .brand-info {
+    gap: 1px;
+  }
 
+  .brand-name {
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: -0.2px;
+  }
+
+  .brand-text {
+    font-size: 10px;
+    line-height: 1.5;
+  }
+
+  .brand-logos {
+    width: 48px;
+    height: 48px;
+  }
+}
 
 .app {
   --bg: #FFFFFF;
@@ -2336,4 +2369,29 @@ body:has(.app[data-theme="dark"]) {
 .footer-icon-openhours{
   stroke: #ffffff;
 }
+/* Notyf RTL layout */
+.notyf__toast {
+  direction: rtl;
+}
 
+.notyf__wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+}
+
+.notyf__icon {
+  flex: 0 0 24px;
+  margin: 0;
+}
+
+.notyf__message {
+  flex: 1;
+  min-width: 0;
+  direction: rtl;
+  text-align: right;
+  line-height: 1.8;
+  padding: 0;
+}

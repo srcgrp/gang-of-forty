@@ -34,8 +34,10 @@ export default function Header({ query, onQuery }: Props) {
             <path d="M32 44 C25 39 25 32 29.5 32 C31 32 32 33 32 34 C32 33 33 32 34.5 32 C39 32 39 39 32 44 Z"
               fill="#D4537E" />
           </svg>
-          <div className="brand-text">
-            <p className="brand-name"> <b>پنجره شکسته</b></p>
+          <div className="brand-info">
+            <p className="brand-name"> <b>
+            سوپرمارکت پنجره شکسته
+              </b></p>
             
             <p className="brand-text">
               
