@@ -35,3 +35,14 @@ To stop and remove the container:
 ```
 docker stop shop && docker rm shop
 ```
+
+### Run the published image
+
+The pipeline publishes the image to GitHub Container Registry on every push to `main`.
+You can run the shop without cloning the code:
+
+```
+docker run -d -p 8080:80 --name shop ghcr.io/fatemehtayebisalar/big-o-shop:1.0.0
+```
+
+Open http://localhost:8080. Stop it with `docker stop shop && docker rm shop`.
