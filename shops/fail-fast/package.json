@@ -9,7 +9,8 @@
     "check": "tsc --noEmit",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "lint": "oxlint src --deny-warnings"
+    "lint": "oxlint src --deny-warnings",
+    "ci": "npm run lint --if-present && npm run check && npm run test --if-present -- --run && npm run build"
   },
   "keywords": [],
   "author": "ElahehGhelichi",
@@ -29,6 +30,8 @@
     "lucide": "^1.61.0",
     "lucide-static": "^1.61.0",
     "notyf": "^3.10.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "zustand": "^5.1.0"
   }
 }
