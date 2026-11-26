@@ -3,7 +3,7 @@ export default function FooterContact(){
         <div className="footer-top-contact">
                     <h4 className="footer-top-header">تماس با ما</h4>
                     <div className="footer-top-contact-address">
-                        <a href="#" aria-label="آدرس سارا مارکت در نقشه"><svg aria-hidden="true"
+                        <a href="#" aria-label="آدرس پنجره شکسته در نقشه"><svg aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" strokeWidth="2" strokeLinecap="round"
                                 strokeLinejoin="round" className="footer-icon">
@@ -15,7 +15,7 @@ export default function FooterContact(){
                         <address className="address">خیابان نمونه پلاک ۱۲۳</address>
                     </div>
                     <div className="footer-top-contact-phone">
-                        <a href="#" aria-label="شماره تلفن سارا مارکت"><svg aria-hidden="true"
+                        <a href="#" aria-label="شماره تلفن پنجره شکسته"><svg aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" strokeWidth="2" strokeLinecap="round"
                                 strokeLinejoin="round" className="footer-icon">

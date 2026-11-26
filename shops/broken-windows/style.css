@@ -1930,19 +1930,7 @@ address { font-style: normal; }
   color: var(--text);
 }
 
-
-
-
-
-
-/* =========================================================
-   SARA MARKET — DARK THEME
-   Add this block at the END of your existing stylesheet.
-   Your light theme and all layout/responsive rules stay unchanged.
-   ========================================================= */
-
 .app[data-theme="dark"] {
-  /* Palette */
   --background: #0B0B0C;
   --card: #151517;
   --surface: #1D1D20;
@@ -1958,8 +1946,6 @@ address { font-style: normal; }
   --primary-light: #B8D7BE;
 
   --discount: #D99AAA;
-
-  /* Compatibility with variables already used in your stylesheet */
   --bg: var(--background);
   --cart-line: var(--border);
   --cart-muted: var(--text-secondary);
@@ -1973,7 +1959,6 @@ body:has(.app[data-theme="dark"]) {
   background-color: var(--background, #0B0B0C);
 }
 
-/* Page surfaces */
 .app[data-theme="dark"] .header,
 .app[data-theme="dark"] .notification,
 .app[data-theme="dark"] .benefit-box,
@@ -2015,7 +2000,6 @@ body:has(.app[data-theme="dark"]) {
   background-color: var(--surface-hover);
 }
 
-/* Header, navigation and brand */
 .app[data-theme="dark"] .brand-name,
 .app[data-theme="dark"] .items-header,
 .app[data-theme="dark"] .items-title,
@@ -2078,7 +2062,7 @@ body:has(.app[data-theme="dark"]) {
   color: var(--primary-light);
 }
 
-/* Search and form fields */
+
 .app[data-theme="dark"] .search-input,
 .app[data-theme="dark"] .notification-input,
 .app[data-theme="dark"] .checkout-field input,
@@ -2107,7 +2091,6 @@ body:has(.app[data-theme="dark"]) {
   border-color: var(--primary);
 }
 
-/* Main banner and category tiles */
 .app[data-theme="dark"] .banner {
   background-color: #171719;
   border: 1px solid var(--border);
@@ -2170,7 +2153,6 @@ body:has(.app[data-theme="dark"]) {
   color: #FFFFFF;
 }
 
-/* Promotional panels */
 .app[data-theme="dark"] .broken-window,
 .app[data-theme="dark"] .eggs {
   background-color: var(--card);
@@ -2190,8 +2172,6 @@ body:has(.app[data-theme="dark"]) {
 .app[data-theme="dark"] .eggs-title {
   color: var(--text);
 }
-
-/* Buttons — restrained green accent */
 .app[data-theme="dark"] .add-button,
 .app[data-theme="dark"] .broken-window-button,
 .app[data-theme="dark"] .notification-button,
@@ -2217,7 +2197,6 @@ body:has(.app[data-theme="dark"]) {
   color: #85858D;
 }
 
-/* Checkout and product listing */
 .app[data-theme="dark"] .checkout-error {
   color: var(--discount);
 }
@@ -2229,8 +2208,6 @@ body:has(.app[data-theme="dark"]) {
 .app[data-theme="dark"] .plp-back:hover {
   color: var(--primary-hover);
 }
-
-/* Cart panel */
 .app[data-theme="dark"] .cart-panel {
   background-color: var(--card);
   color: var(--text);
@@ -2262,7 +2239,6 @@ body:has(.app[data-theme="dark"]) {
   background-color: var(--surface-hover);
 }
 
-/* Footer */
 .app[data-theme="dark"] .footer {
   background-color: #101012;
   border-top: 1px solid var(--border);
@@ -2324,7 +2300,6 @@ body:has(.app[data-theme="dark"]) {
   background-color: var(--surface-hover);
 }
 
-/* Keyboard focus */
 .app[data-theme="dark"] .add-button:focus-visible,
 .app[data-theme="dark"] .broken-window-button:focus-visible,
 .app[data-theme="dark"] .notification-button:focus-visible,
@@ -2336,7 +2311,7 @@ body:has(.app[data-theme="dark"]) {
   outline-offset: 3px;
 }
 
-/* Mobile navigation */
+
 @media (max-width: 768px) {
   .app[data-theme="dark"] .navigation {
     background-color: var(--card);
@@ -2361,3 +2336,4 @@ body:has(.app[data-theme="dark"]) {
 .footer-icon-openhours{
   stroke: #ffffff;
 }
+

@@ -8,7 +8,7 @@
 
 ## [1.0.0] - 2026-11-26
 
-First production release of Sara Market: a Persian RTL supermarket shop with product listing, categories, offers, cart, checkout, Docker setup, CI pipeline and live deploy on Vercel.
+First production release of broken windows: a Persian RTL supermarket shop with product listing, categories, offers, cart, checkout, Docker setup, CI pipeline and live deploy on Vercel.
 
 ### Added
 

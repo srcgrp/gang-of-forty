@@ -25,7 +25,7 @@ export default function Header({ query, onQuery }: Props) {
           <path d="M4 12h16" />
           <path d="M4 18h16" />
         </svg></label>
-        <a className="brand" href="#top" title="پرش به ابتدای صفحه" aria-label="فروشگاه سارا مارکت">
+        <a className="brand" href="#top" title="پرش به ابتدای صفحه" aria-label="فروشگاه ">
           <svg className="brand-logos" aria-hidden="true" viewBox="0 0 64 64" width="64" height="64">
             <rect width="64" height="64" rx="16" fill="#0F6E56" />
             <path d="M24 26 V22 A8 8 0 0 1 40 22 V26" fill="none" stroke="#FBEAF0" strokeWidth="3"
@@ -35,8 +35,11 @@ export default function Header({ query, onQuery }: Props) {
               fill="#D4537E" />
           </svg>
           <div className="brand-text">
-            <p className="brand-name"> <b>سارا مارکت</b></p>
-            <p className="brand-text">انتخاب های سارا برای شما</p>
+            <p className="brand-name"> <b>پنجره شکسته</b></p>
+            
+            <p className="brand-text">
+              
+             پنجره‌ای رو به انتخاب‌های شما</p>
           </div>
         </a>
         <SearchBox query={query} onQuery={onQuery} />
