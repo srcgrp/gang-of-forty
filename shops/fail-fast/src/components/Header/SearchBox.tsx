@@ -11,7 +11,10 @@ export default function SearchBox(): ReactNode {
         type="search"
         placeholder="جستجو در اسپیس مارکت..."
       />
-      <span className="search-icon" id="search-icon" aria-hidden="true"></span>
+      <svg className="search-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="10.8" cy="10.8" r="6.3" />
+        <path d="m15.5 15.5 4.2 4.2" />
+      </svg>
     </div>
   )
 }

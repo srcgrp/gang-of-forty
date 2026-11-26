@@ -30,7 +30,9 @@ export default function ProductCarousel({
         <h2>
           {emoji} {title}
         </h2>
-        <Link to="/plp/$carouselId" params={{ carouselId }}>مشاهده همه (10)</Link>
+        <Link to="/plp/$carouselId" params={{ carouselId }}>
+          مشاهده همه ({products.length})
+        </Link>
       </div>
       <div className="popular-products" tabIndex={0}>
         {products.map((product) => (

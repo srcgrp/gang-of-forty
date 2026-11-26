@@ -17,7 +17,11 @@ export function getProductsForCarousel(
   carouselId: string
 ): Product[] | null {
   const carousel = catalog.carousels.find((item) => item.id === carouselId);
-  if (!carousel) return null;
+  if (!carousel) {
+    const category = catalog.categories.find((item) => item.slug === carouselId);
+    if (!category) return null;
+    return catalog.products.filter((product) => product.categoryId === category.id);
+  }
 
   if (carousel.source === "offers") {
     const offerProductIds = catalog.offers.map((offer) => offer.productId);
