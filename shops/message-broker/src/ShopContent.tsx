@@ -59,7 +59,7 @@ export default function ShopContent(props: Props) {
       </section>
       <Hero id="posters-2" home={home} />
       <section className="wrap" id="new-products">
-        <h2 id="new-title">محصولات</h2>
+        <h2 id="new-title">محصولات فروشگاه ما</h2>
         <ProductGrid products={visible} offers={offers} onAdd={onAdd} />
       </section>
       <CartPanel
