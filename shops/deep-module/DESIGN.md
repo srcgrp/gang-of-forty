@@ -1,246 +1,73 @@
-# 📐 DESIGN.md — معماری و طراحی فروشگاه سبزکاله
+# 📐 DESIGN.md — معماری چندصفحه‌ای سبزکاله (هفته ششم)
 
-این سند، تصمیمات معماری، قوانین وابستگی و ساختار پروژه هفته چهارم را مستند می‌کند.
+## ۱. جدول مسیرها (Routes)
+
+| مسیر (`path`) | کامپوننت | Search / Params | کاربرد |
+| :--- | :--- | :--- | :--- |
+| `/` (`__root__` + `Layout`) | `HomePage` | — | صفحه اصلی: بنرها، شمارش معکوس و کاروسل‌های `home.json` با لینک «مشاهده همه» |
+| `/plp/$carouselId` | `PlpPage` | `params.carouselId`, `search.sort` (`default` \| `price`) | صفحه فهرست محصولات هر کاروسل با مرتب‌سازی از طریق URL Search Params |
+| `/product/$productId` | `ProductPage` | `params.productId` (`Number(productId)`) | صفحه جزئیات محصول، موجودی، تخفیف و افزودن به سبد خرید |
+| `/checkout` | `CheckoutPage` | — | فرم کنترل‌شده ثبت سفارش (نام، موبایل، آدرس) با فوکوس خودکار روی اولین خطا |
+| `*` (`notFoundComponent`) | `NotFound` | — | صفحه ۴۰۴ فارسی برای مسیرهای نامعتبر با لینک بازگشت به خانه |
+
+> مسیریابی با `@tanstack/react-router` و `createHashHistory` پیاده‌سازی شده است.
 
 ---
 
-## ۱. معماری کلی (Layered Architecture)
+## ۲. جدول Storeها و مدیریت State (Stores)
 
-پروژه به **۷ لایه با وابستگی یک‌طرفه** تقسیم شده است:
+| Store / Hook | کتابخانه | State ذخیره‌شده | ذخیره‌سازی (Persist) | کاربرد |
+| :--- | :--- | :--- | :--- | :--- |
+| `useThemeStore` (`src/hooks/useThemeStore.ts`) | Zustand (`persist`) | `theme: "light" \| "dark"` | `localStorage` (`sabzkaleh-theme`) | اعمال `data-theme` روی `<div className="app">` بدون دستکاری `document.documentElement` |
+| `useCartStore` (`src/hooks/useCartStore.ts`) | Zustand (`persist`) | `items: CartLine[]`, `consumed: Record<number, number>` | `localStorage` (`sabzkaleh-cart` + `storage/cart.ts`) | مدیریت سبد خرید بدون prop drilling؛ `count` و `total` به‌صورت derived با توابع خالص `src/cart/cart.ts` محاسبه می‌شوند |
+| `useWishlistStore` (`src/hooks/useWishlistStore.ts`) | Zustand (`persist`) | `ids: number[]` | `localStorage` (`sabzkaleh-wishlist`) | ذخیره و تغییر علاقه‌مندی‌ها در کارت و مودال |
+| `useCatalog` / `useCatalogStore` (`src/hooks/useCatalog.ts`) | Zustand + Hook | `state: LoadState<AppData>`, `attempt: number` | RAM (با `AbortController` و `retry`) | دریافت داده‌های API یک‌بار و جلوگیری از fetch تکراری در `App.tsx` |
+| `useUiStore` (`src/hooks/useUiStore.ts`) | Zustand | `cartOpen`, `wishlistOpen`, `userOpen` | RAM | کنترل باز و بسته بودن مودال‌ها بدون prop drilling |
 
+---
+
+## ۳. درخت کامپوننت صفحات (Component Tree)
+
+### `Layout` (`__root__`)
 ```text
-┌──────────────────────────────────────┐
-│    main.ts  /  boot.ts               │  ← ورودی و راه‌اندازی
-├──────────────────────────────────────┤
-│    main-render.ts                    │  ← اتصال State به UI
-├──────────────────────────────────────┤
-│    features/                         │  ← منطق دامنه (Domain Logic)
-│    (cart, catalog, filter, theme)    │
-├──────────────────────────────────────┤
-│    shared/ui/                        │  ← کامپوننت‌های عمومی UI
-├──────────────────────────────────────┤
-│    shared/api/                       │  ← ارتباط با سرور (fetch)
-├──────────────────────────────────────┤
-│    shared/types.ts                   │  ← قرارداد داده‌ها
-└──────────────────────────────────────┘
+Layout (<div className="app" data-theme={theme}>)
+├── SiteHeader (TopBar + Link(/) + SearchBox + HeaderActions(ThemeToggle, Wishlist, Cart, Checkout Link) + MainNav)
+├── <main id="main"><Outlet /></main>
+├── SiteFooter
+├── CartModal → CartPanel → Link(/checkout)
+├── WishlistPanel → WishlistItemRow
+└── UserModal
 ```
 
----
-
-## ۲. قانون وابستگی (Dependency Rule)
-
-**قانون طلایی:** هیچ لایه‌ای نباید به لایه‌ی بالاتر از خودش وابسته باشد.
-
-- **`shared/types.ts`**: هیچ `import`ی ندارد — تنها منبع حقیقت (Single Source of Truth) برای Typeها.
-- **`shared/api/`**: تنها لایه‌ای که `fetch` دارد و فقط `types` را می‌شناسد.
-- **`shared/ui/`**: فقط DOM می‌سازد و داده را به‌عنوان پارامتر می‌گیرد.
-- **`features/cart`, `features/catalog`, `features/filter`, `features/theme`**: منطق دامنه (بدون دسترسی به `main.ts` یا `main-render.ts`).
-- **`main-render.ts`**: State را از بالا می‌گیرد و به Componentهای UI پاس می‌دهد.
-- **`main.ts` و `boot.ts`**: تمام لایه‌ها را به هم وصل می‌کنند (Orchestration).
-
-**اعتبارسنجی خودکار:** اسکریپت `check-arch.mjs` این قانون را با ساخت گراف وابستگی‌ها بررسی می‌کند. خروجی باید همیشه `✓ All layer imports are valid` باشد.
-
----
-
-## ۳. جریان داده (Data Flow)
-
+### `HomePage` (`/`)
 ```text
-[API] → shared/api (fetch + guards) → LoadState<AppData>
-                                            ↓
-                                   boot.ts (اورکستراسیون)
-                                            ↓
-                                    State (AppState)
-                                            ↓
-                              main-render.ts (توزیع State)
-                                            ↓
-                              shared/ui + features (رندر DOM)
-                                            ↓
-                                         کاربر
-                                            ↓
-                              (رویداد: کلیک، تایپ، …)
-                                            ↓
-                              features (به‌روزرسانی منطق)
-                                            ↓
-                              State (تغییر) → re-render
+HomePage
+├── Hero
+├── HeroCards
+├── SaleCountdown
+├── CategoriesSection
+├── BannersSection
+└── Carousel Sections (home.carousels)
+    ├── Header + <Link to="/plp/$carouselId">مشاهده همه</Link>
+    └── CategorySlider → ProductCard (memo)
 ```
 
-**قانون:** داده‌ها همیشه یک‌طرفه از بالا به پایین جریان دارند. آپدیت State فقط از طریق توابع pure در `features/` انجام می‌شود.
-
----
-
-## ۴. قرارداد UI (UI Contract)
-
-هر Component UI باید این قرارداد را رعایت کند:
-
-- **ورودی:** فقط داده (State/Model) به‌عنوان پارامتر.
-- **خروجی:** یک `HTMLElement` یا `void` (در صورت side-effect مثل `renderX`).
-- **بدون State داخلی:** هیچ Componentی نباید State مستقل داشته باشد.
-- **بدون دسترسی به API:** فقط `main.ts` و `boot.ts` حق صدا زدن API را دارند.
-- **همیشه A11y:** هر Component باید `aria-label`، `role` و `focus-visible` مناسب داشته باشد.
-
-**مثال درست:**
-
-```typescript
-export function createProductCard(
-  product: Product,
-  offer: Offer | null,
-  stock: StockData,
-): HTMLLIElement {
-  // ...
-}
-```
-
-**مثال اشتباه:**
-
-```typescript
-export function createProductCard() {
-  const product = fetch("/api/products.json"); // ❌ نقض قانون
-}
-```
-
----
-
-## ۵. قوانین کدنویسی
-
-- **حداکثر ۷۰ خط در هر فایل**: هر فایل باید فقط یک مسئولیت داشته باشد.
-- **بدون `any`, `as` (برای ساکت کردن خطا), `@ts-ignore`**.
-- **همه‌ی تایپ‌های داده خارجی با `unknown` + Type Guard** اعتبارسنجی شوند.
-- **همه‌ی متن‌های کاربر با `textContent`** (نه `innerHTML`) درج شوند — ضد XSS.
-- **همه‌ی فایل‌های `localStorage` فقط در `features/*/[name]-storage.ts`**.
-- **همه‌ی فایل‌های `fetch` فقط در `shared/api/client.ts`**.
-
----
-
-## ۶. ساختار پوشه‌ها
-
+### `PlpPage` (`/plp/$carouselId`)
 ```text
-shops/deep-module/
-├── index.html
-├── style.css
-├── DESIGN.md                    ← این سند
-├── README.md
-├── package.json
-├── tsconfig.json
-├── vite.config.ts
-├── .env.development
-├── .env.production
-├── check-arch.mjs
-│
-└── src/
-    ├── types.ts                 ← Interfaceها (بدون Import)
-    ├── main.ts                  ← نقطه ورود
-    ├── boot.ts                  ← راه‌اندازی و fetch
-    ├── main-render.ts           ← رندر State
-    │
-    ├── shared/
-    │   ├── types.ts
-    │   ├── api/
-    │   │   ├── client.ts        ← fetch + timeout + retry
-    │   │   ├── guards.ts        ← Type Guardها
-    │   │   └── load.ts          ← loadAll + LoadState
-    │   └── ui/
-    │       ├── dom.ts
-    │       ├── format.ts
-    │       ├── loading.ts       ← لودر سراسری
-    │       ├── banner.ts        ← آفلاین + Retry Toast
-    │       ├── modal.ts
-    │       ├── toast.ts
-    │       ├── skeleton.ts
-    │       ├── error-state.ts
-    │       ├── empty-state.ts
-    │       ├── header.ts
-    │       ├── hero.ts
-    │       ├── banners.ts
-    │       ├── footer.ts
-    │       ├── global-events.ts
-    │       └── animate.ts
-    │
-    └── features/
-        ├── cart/
-        │   ├── cart.ts          ← توابع خالص سبد
-        │   ├── parse.ts         ← اعتبارسنجی CartItem
-        │   ├── cart-storage.ts  ← localStorage
-        │   ├── cart-view.ts
-        │   ├── cart-item.ts
-        │   └── cart-controller.ts
-        │
-        ├── catalog/
-        │   ├── filter.ts
-        │   ├── search.ts
-        │   ├── stock.ts
-        │   ├── stock-storage.ts
-        │   ├── url.ts           ← State در URL
-        │   ├── search-init.ts
-        │   ├── search-events.ts
-        │   ├── search-actions.ts
-        │   ├── search-form.ts
-        │   ├── search-keyboard.ts
-        │   ├── search-render.ts
-        │   ├── product-card.ts
-        │   ├── product-events.ts
-        │   ├── detail.ts
-        │   ├── categories.ts
-        │   ├── offers.ts
-        │   ├── all-products.ts
-        │   ├── category-sections.ts
-        │   └── setup-filter-search.ts
-        │
-        ├── filter/
-        │   ├── filter-modal.ts
-        │   └── filter-render.ts
-        │
-        └── theme/
-            ├── theme.ts
-            └── theme-storage.ts
+PlpPage
+├── Invalid carouselId → "این فهرست پیدا نشد" + Link(/)
+└── Valid carouselId
+    ├── Header + Sort Links (sort=default | sort=price) + Link(/)
+    └── ProductGrid → ProductCard (memo) → Link(/product/$productId)
 ```
 
----
-
-## ۷. انتشار (Deployment)
-
-### متغیرهای محیطی
-
-```bash
-# .env.development (npm run dev)
-VITE_API_URL=/api
+### `CheckoutPage` (`/checkout`)
+```text
+CheckoutPage
+├── Order Total (cartTotal از useCartStore)
+└── Controlled Form (onSubmit + validateCheckout + useRef focus)
+    ├── <label htmlFor="checkout-name"> + <input ref={nameRef} />
+    ├── <label htmlFor="checkout-mobile"> + <input ref={mobileRef} />
+    ├── <label htmlFor="checkout-address"> + <textarea ref={addressRef} />
+    └── Submit → consumeAndClear() + confetti + toast + navigate({ to: '/', replace: true })
 ```
-
-درخواست‌ها به پروکسی ویت (`vite.config.ts`) می‌روند و به `gof.zzb.cx` متصل می‌شوند. این کار مشکل CORS را در توسعه حل می‌کند.
-
-```bash
-# .env.production (npm run build)
-VITE_API_URL=../../api
-```
-
-چون سایت در زیرپوشه `shops/<slug>/` منتشر می‌شود، آدرس نسبت به موقعیت `index.html` تنظیم می‌شود تا روی هر سروری (حتی GitHub Pages یا زیرپوشه‌های عمیق) کار کند.
-
-### تنظیمات `vite.config.ts`
-
-```typescript
-export default defineConfig({
-  base: "./",
-  server: {
-    proxy: {
-      "/api": { target: "https://gof.zzb.cx", changeOrigin: true },
-    },
-  },
-  preview: {
-    proxy: {
-      "/api": { target: "https://gof.zzb.cx", changeOrigin: true },
-    },
-  },
-});
-```
-
-- `base: "./"`: تمام assetها با مسیر نسبی ساخته می‌شوند، نه با `/` که فقط روی دامنه‌ی ریشه کار می‌کند.
-
-### بررسی قبل از انتشار
-
-```bash
-npm run check                              # TypeScript
-node check-arch.mjs src --shop             # معماری
-npm run build                              # dist/
-npm run preview                            # http://localhost:4173/
-```
-
-در حالت `preview`، تب **Network** در DevTools باید همه‌ی فایل‌ها را با کد **۲۰۰** نشان دهد و Console هیچ خطایی نداشته باشد.

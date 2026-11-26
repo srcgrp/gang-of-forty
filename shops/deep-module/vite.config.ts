@@ -1,9 +1,14 @@
 import { defineConfig } from "vite";
-
-const api = { "/api": { target: "https://gof.zzb.cx", changeOrigin: true } };
+import react from "@vitejs/plugin-react";
 
 export default defineConfig({
-  base: "./",
-  server: { proxy: api },
-  preview: { proxy: api },
+  plugins: [react()],
+  server: {
+    proxy: {
+      "/api": {
+        target: "https://gof.zzb.cx",
+        changeOrigin: true,
+      },
+    },
+  },
 });
