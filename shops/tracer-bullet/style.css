@@ -38,6 +38,12 @@ body {
   color: var(--color-text);
 }
 
+.app {
+  min-height: 100dvh;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
 img,
 svg {
   max-width: 100%;
@@ -149,6 +155,11 @@ header > p {
   margin-inline-end: var(--space-m);
 }
 
+.theme-toggle {
+  grid-column: 3;
+  grid-row: 2;
+}
+
 .search {
   grid-column: 1 / -1;
   grid-row: 3;
@@ -225,7 +236,7 @@ header > p {
 
 @media (min-width: 48rem) {
   header {
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto 1fr auto auto;
   }
 
   .search {
@@ -235,6 +246,10 @@ header > p {
 
   .cart {
     grid-column: 3;
+  }
+
+  .theme-toggle {
+    grid-column: 4;
   }
 }
 
@@ -331,7 +346,18 @@ main h2 {
   list-style: none;
 }
 
-.category-list a {
+.category-list button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  text-align: inherit;
+}
+
+.category-list a, .category-list button {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -344,7 +370,7 @@ main h2 {
   font-weight: 700;
 }
 
-.category-list a span {
+.category-list a span, .category-list button span {
   display: grid;
   place-items: center;
   width: 3.5rem;
@@ -624,7 +650,7 @@ footer li a {
 /* mobile menu */
 
 .menu-button {
-  grid-column: 3;
+  grid-column: 4;
   grid-row: 2;
   display: grid;
   place-items: center;
@@ -659,7 +685,7 @@ footer li a {
 
 @media (max-width: 47.99rem) {
   header {
-    grid-template-columns: 1fr auto auto;
+    grid-template-columns: 1fr auto auto auto;
   }
 
   .cart {
@@ -783,7 +809,7 @@ footer section:target {
 }
 
 /* long category names stay inside their cards */
-.category-list a {
+.category-list a, .category-list button {
   overflow-wrap: anywhere;
 }
 
@@ -795,7 +821,7 @@ footer section:target {
   display: flex;
 }
 
-.category-list a {
+.category-list a, .category-list button {
   flex: 1;
 }
 
@@ -861,56 +887,54 @@ button:disabled {
 
 /* dark mode */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-    --color-bg: #3d5d5a;
-    --color-surface: #074744;
-    --color-text: #FFFFFF;
-    --color-accent: #d83e0a;
-    --color-soft: #298090;
-    --color-muted: #ACB8BE;
-    --color-on-muted: #000000;
-    --on-dark: #FFFFFF;
-  }
+.app[data-theme='dark'] {
+  color-scheme: dark;
+  --color-bg: #3d5d5a;
+  --color-surface: #074744;
+  --color-text: #FFFFFF;
+  --color-accent: #d83e0a;
+  --color-soft: #298090;
+  --color-muted: #ACB8BE;
+  --color-on-muted: #000000;
+  --on-dark: #FFFFFF;
+}
 
-  button,
-  header > p,
-  .promo,
-  .hero,
-  .hero a,
-  .badge,
-  .menu-button,
-  .banners a:first-child {
-    color: var(--on-dark, #FFFFFF);
-  }
+:where(.app[data-theme='dark']) button,
+:where(.app[data-theme='dark']) header > p,
+:where(.app[data-theme='dark']) .promo,
+:where(.app[data-theme='dark']) .hero,
+:where(.app[data-theme='dark']) .hero a,
+:where(.app[data-theme='dark']) .badge,
+:where(.app[data-theme='dark']) .menu-button,
+:where(.app[data-theme='dark']) .banners a:first-child {
+  color: var(--on-dark, #FFFFFF);
+}
 
-  .hero :focus-visible,
-  .banners a:first-child:focus-visible {
-    outline-color: var(--on-dark, #BB3168);
-  }
+:where(.app[data-theme='dark']) .hero :focus-visible,
+:where(.app[data-theme='dark']) .banners a:first-child:focus-visible {
+  outline-color: var(--on-dark, #BB3168);
+}
 
-  footer {
-    background: var(--color-surface);
-    color: var(--color-text);
-  }
+:where(.app[data-theme='dark']) footer {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
 
-  footer a,
-  footer h2,
-  .footer-brand,
-  .footer-bottom a {
-    color: var(--color-text);
-  }
+:where(.app[data-theme='dark']) footer a,
+:where(.app[data-theme='dark']) footer h2,
+:where(.app[data-theme='dark']) .footer-brand,
+:where(.app[data-theme='dark']) .footer-bottom a {
+  color: var(--color-text);
+}
 
-  footer :focus-visible,
-  footer section:target {
-    outline-color: var(--color-text);
-  }
+:where(.app[data-theme='dark']) footer :focus-visible,
+:where(.app[data-theme='dark']) footer section:target {
+  outline-color: var(--color-text);
+}
 
-  .search input::placeholder {
-    color: var(--color-text);
-    opacity: 0.85;
-  }
+:where(.app[data-theme='dark']) .search input::placeholder {
+  color: var(--color-text);
+  opacity: 0.85;
 }
 
 /* align quantity, price and button at the bottom of every card */
