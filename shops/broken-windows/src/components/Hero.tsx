@@ -7,9 +7,10 @@ export default function Hero(){
             <div className="main-content">
                 <h1 className="main-content-title"> هرچی لازم داری همینجاست</h1>
                 <p className="main-content-text">بیش از {formatNumber(10)} هزار کالا با ارسال کمتر از {formatNumber(90)} دقیقه</p>
-                <a href="#special-offer" className="main-content-button" aria-label="شروع خرید">شروع خرید</a>
+                <a href="" className="main-content-button" aria-label="شروع خرید">شروع خرید</a>
             </div>
-            <img className="main-content-banner" src={banner} alt=""/>
+            <img className="main-content-banner" src={banner} alt="" width={400}
+  height={320}/>
         </section>
 
 )

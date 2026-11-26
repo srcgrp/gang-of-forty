@@ -72,7 +72,7 @@ img {
 .brand-text {
   display: flex;
   flex-direction: column;
-  color: #1D9E75;
+  color: #0F6E56;
   margin: 0;
   font-size: 11px;
 
@@ -159,7 +159,7 @@ img {
   gap: 9px;
   padding: 10px 16px;
   font-weight: 600;
-  background-color: #D4537E;
+  background-color: #B8325F;
   color: #fff;
   border-radius: 12px;
    line-height: 1;
@@ -316,7 +316,7 @@ li {
 
 .main-content-title {
   color: #fff;
-  background-color: #D4537E;
+  background-color: #B8325F;
   border-radius: 999px;
   padding: 8px 18px;
   font-size: 20px;
@@ -341,6 +341,8 @@ li {
 
 .main-content-banner {
   width: 200px;
+   max-width: 100%;
+  height: auto;
 }
 
 .benefit {
@@ -562,7 +564,7 @@ background: #fff;
   position: absolute;
   top: 8px;
   right: 8px;
-  background-color: #E24B4A;
+  background-color: #C62828;
   padding: 2px 10px;
   color: #fff;
   border-radius: 999px;
@@ -594,14 +596,10 @@ background: #fff;
   color: var(--text);
 
 }
-
 .special-offer-unit {
-  margin: 0;
-}
-
-.special-offer-unit {
+    margin: 0;
   font-size: 12px;
-  color: #888780;
+  color: #5F5E5A;
 }
 
 .special-offer-item-details {
@@ -813,6 +811,7 @@ background: #fff;
   border-bottom: 1px solid #1D9E75;
   padding-bottom: 30px;
   flex-wrap: wrap;
+  align-items: flex-start;
 
 
 
@@ -834,11 +833,12 @@ background: #fff;
 }
 
 .footer-top-categories {
-  flex: 1;
 
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+   flex: 1 1 0;
+  min-width: 0;
 
 
 }
@@ -849,15 +849,19 @@ background: #fff;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 8px;
+  gap: 14px;
+   text-align: right;
+  width: 100%;
 
 }
 
 .footer-top-categories-list-item {
 
   color: #9FE1CB;
-
-  text-decoration: none;
+    margin: 0;
+  padding: 0;
+ 
+  line-height: 1.8;
 
 
 }
@@ -911,6 +915,7 @@ background: #fff;
   color: #fff;
   width: fit-content;
   margin: 0 0 14px;
+   text-align: right;
 }
 
 
@@ -923,7 +928,7 @@ background: #fff;
   border-radius: 10px;
   background: #1D9E75;
   fill: none;
-  stroke: #F4A6B8;
+  stroke: #ffffff;
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -932,8 +937,7 @@ background: #fff;
 .footer-top-contact-phonenumber {
 
   text-decoration: none;
-  color: #fff;
-
+  color: #9FE1CB;
 
   transition: color 0.3s ease;
 }
@@ -980,14 +984,14 @@ background: #fff;
 }
 
 .footer-top-openhours-box-text {
-  color: #9FE1CB;
+  color: #E1F5EE;
 
 }
 
 
 
 .footer-top-openhours-box {
-  background-color: #1D9E75;
+  background-color: #0F6E56;
 
   width: fit-content;
   padding: 12px 20px;
@@ -1025,7 +1029,7 @@ background: #fff;
   gap: 6px;
   padding: 8px 16px;
   font-weight: 500;
-  background-color: #D4537E;
+  background-color:  #B8325F;
   color: #fff;
   border-radius: 999px;
   font-size: 14px;
@@ -1049,13 +1053,12 @@ background: #fff;
   position: absolute;
   top: 8px;
   right: 8px;
-  background-color: #E24B4A;
+  background-color: #C62828;
   padding: 2px 10px;
   color: #fff;
   border-radius: 999px;
   font-size: 15px;
   font-weight: 700;
-  opacity: 0.9;
 }
 
 
@@ -1066,13 +1069,8 @@ background: #fff;
 }
 
 
-.unavailable .special-offer-image img,
-.unavailable .special-offer-name,
-.unavailable .special-offer-unit,
-.unavailable .special-offer-price {
-  opacity: 0.5;
-}
-
+.unavailable .special-offer-image img { opacity: 0.5; }
+.unavailable .special-offer-price { text-decoration: line-through; }
 
 
 
@@ -1402,7 +1400,7 @@ background: #fff;
 
   .price-old {
     font-size: 8px;
-    color: #888780;
+    color: #5F5E5A;
     text-decoration: line-through;
     white-space: nowrap;
     margin: 0;
@@ -1523,81 +1521,6 @@ background: #fff;
   background: #25B24B;
   transform: scale(1.05);
 }
-.app {
-  --bg: #ffffff;
-  --text: #1d1d1f;
-  --card: #f2f3f5;
-
-  background: var(--bg);
-  color: var(--text);
-}
-
-.app[data-theme="dark"] {
-  --bg: #16181d;
-  --text: #e8eaf0;
-  --card: #252a33;
-}
-
-.app[data-theme="dark"] .notification {
-  background-color: #252a33;
-}
-
-.app[data-theme="dark"] .header {
-background: var(--bg);
-  color: var(--text);
-}
-
-.app[data-theme="dark"] .header {
-  border-bottom-color: rgba(232, 234, 240, 0.1);
-}
-
-.app[data-theme="dark"] .navigation {
-  border-bottom-color: rgba(232, 234, 240, 0.1);
-}
-
-.app[data-theme="dark"] .benefit-box {
-  border-color: rgba(232, 234, 240, 0.12);
-}
-
-.app[data-theme="dark"] .special-offer-item {
-  border-color: rgba(121, 181, 137, 0.3);
-}
-.app[data-theme="dark"] .header,
-.app[data-theme="dark"] .dropdown,
-.app[data-theme="dark"] .benefit-box,
-.app[data-theme="dark"] .special-offer-item {
-  background-color: var(--card);
-}
-.app[data-theme="dark"] .special-offer-name,
-.app[data-theme="dark"] .special-offer-price,
-.app[data-theme="dark"] .items-header,
-.app[data-theme="dark"] .items-title {
-  color: var(--text);
-}
-
-
-.app[data-theme="dark"] .brand-name {
-  color: #e8eaf0;
-}
-
-.app[data-theme="dark"] .brand-text {
-  color: #9fe1cb;
-}
-.app[data-theme="dark"] .dropdown {
-  background-color: var(--card);
-  border-color: rgba(232, 234, 240, 0.12);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-}
-
-.app[data-theme="dark"] .dropdown a {
-  color: var(--text);
-}
-
-.app[data-theme="dark"] .dropdown a:hover,
-.app[data-theme="dark"] .dropdown a:focus {
-  color: #9fe1cb;
-  background-color: #343b45;
-}
 .user-account {
   background-color: #E1F5EE;;
   color:  #085041;
@@ -1639,7 +1562,7 @@ background: var(--bg);
   padding: 10px 20px;
   border: none;
   border-radius: 10px;
-  background: #25B24B;
+  background: #0F6E56;
   color: white;
   cursor: pointer;
 }
@@ -1682,7 +1605,7 @@ background: var(--bg);
 
 .checkout-error {
   margin: 0;
-  color: #D4537E;
+  color: #B8325F;
   font-size: 14px;
 }
 
@@ -1961,10 +1884,447 @@ address { font-style: normal; }
 }
 
 
+.site-main {
+  min-height: 100vh;
+}
+
+
+
+.app {
+  --bg: #FFFFFF;
+  --text: #1D1D1F;
+  --card: #F2F3F5;
+
+  background: var(--bg);
+  color: var(--text);
+}
 
 
 
 
 
 
+/* =========================================================
+   SARA MARKET — DARK THEME
+   Add this block at the END of your existing stylesheet.
+   Your light theme and all layout/responsive rules stay unchanged.
+   ========================================================= */
 
+.app[data-theme="dark"] {
+  /* Palette */
+  --background: #0B0B0C;
+  --card: #151517;
+  --surface: #1D1D20;
+  --surface-hover: #28282C;
+
+  --text: #F5F5F5;
+  --text-secondary: #A1A1AA;
+
+  --border: #303034;
+
+  --primary: #79B589;
+  --primary-hover: #91C69E;
+  --primary-light: #B8D7BE;
+
+  --discount: #D99AAA;
+
+  /* Compatibility with variables already used in your stylesheet */
+  --bg: var(--background);
+  --cart-line: var(--border);
+  --cart-muted: var(--text-secondary);
+  --cart-danger: #E07A83;
+
+  background-color: var(--background);
+  color: var(--text);
+}
+
+body:has(.app[data-theme="dark"]) {
+  background-color: var(--background, #0B0B0C);
+}
+
+/* Page surfaces */
+.app[data-theme="dark"] .header,
+.app[data-theme="dark"] .notification,
+.app[data-theme="dark"] .benefit-box,
+.app[data-theme="dark"] .special-offer-item,
+.app[data-theme="dark"] .dropdown,
+.app[data-theme="dark"] .cart-panel,
+.app[data-theme="dark"] .sort-select,
+.app[data-theme="dark"] .navigation {
+  background-color: var(--card);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.app[data-theme="dark"] .header,
+.app[data-theme="dark"] .navigation {
+  border-bottom-color: var(--border);
+}
+
+.app[data-theme="dark"] .special-offer-item {
+  border: 1px solid var(--border);
+}
+
+.app[data-theme="dark"] .benefit-box {
+  border: 1px solid var(--border);
+}
+
+.app[data-theme="dark"] .dropdown {
+  border: 1px solid var(--border);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+.app[data-theme="dark"] .dropdown a {
+  color: var(--text);
+}
+
+.app[data-theme="dark"] .dropdown a:hover,
+.app[data-theme="dark"] .dropdown a:focus-visible {
+  color: var(--primary-light);
+  background-color: var(--surface-hover);
+}
+
+/* Header, navigation and brand */
+.app[data-theme="dark"] .brand-name,
+.app[data-theme="dark"] .items-header,
+.app[data-theme="dark"] .items-title,
+.app[data-theme="dark"] .special-offer-name,
+.app[data-theme="dark"] .special-offer-price,
+.app[data-theme="dark"] .product-page,
+.app[data-theme="dark"] .checkout {
+  color: var(--text);
+}
+
+.app[data-theme="dark"] .brand-text,
+.app[data-theme="dark"] #allcategory,
+.app[data-theme="dark"] .nav a,
+.app[data-theme="dark"] .items-header-link,
+.app[data-theme="dark"] .plp-back {
+  color: var(--primary);
+}
+
+.app[data-theme="dark"] .nav a:hover,
+.app[data-theme="dark"] .items-header-link:hover,
+.app[data-theme="dark"] .items-header-link:focus-visible,
+.app[data-theme="dark"] .plp-back:hover {
+  color: var(--primary-hover);
+}
+
+.app[data-theme="dark"] .user-account {
+  color: var(--text);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.app[data-theme="dark"] .user-account:hover {
+  color: var(--primary-light);
+  background-color: var(--surface-hover);
+}
+
+.app[data-theme="dark"] .cart {
+  background-color: #202024;
+  color: #FFFFFF;
+  border: 1px solid #3A3A40;
+}
+
+.app[data-theme="dark"] .cart:hover {
+  background-color: #2A2A30;
+}
+
+.app[data-theme="dark"] .cart-count {
+  background-color: var(--primary);
+  color: #0B0B0C;
+}
+
+.app[data-theme="dark"] .theme-toggle {
+  color: var(--text);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.app[data-theme="dark"] .theme-toggle:hover {
+  background-color: var(--surface-hover);
+  color: var(--primary-light);
+}
+
+/* Search and form fields */
+.app[data-theme="dark"] .search-input,
+.app[data-theme="dark"] .notification-input,
+.app[data-theme="dark"] .checkout-field input,
+.app[data-theme="dark"] .sort-select {
+  background-color: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.app[data-theme="dark"] .search-input::placeholder,
+.app[data-theme="dark"] .notification-input::placeholder {
+  color: var(--text-secondary);
+  opacity: 1;
+}
+
+.app[data-theme="dark"] .search-input:focus,
+.app[data-theme="dark"] .notification-input:focus,
+.app[data-theme="dark"] .checkout-field input:focus,
+.app[data-theme="dark"] .sort-select:focus-visible {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(121, 181, 137, 0.16);
+}
+
+.app[data-theme="dark"] .sort-select:hover {
+  border-color: var(--primary);
+}
+
+/* Main banner and category tiles */
+.app[data-theme="dark"] .banner {
+  background-color: #171719;
+  border: 1px solid var(--border);
+}
+
+.app[data-theme="dark"] .main-content-title {
+  color: #FFFFFF;
+  background-color: #242428;
+  border: 1px solid #3A3A40;
+}
+
+.app[data-theme="dark"] .main-content-text {
+  color: var(--text-secondary);
+}
+
+.app[data-theme="dark"] .main-content-button {
+  color: #0B0B0C;
+  background-color: var(--primary);
+}
+
+.app[data-theme="dark"] .main-content-button:hover {
+  background-color: var(--primary-hover);
+}
+
+.app[data-theme="dark"] .items:nth-child(odd) .items-icon {
+  background-color: #202A23;
+}
+
+.app[data-theme="dark"] .items:nth-child(even) .items-icon {
+  background-color: #292226;
+}
+
+.app[data-theme="dark"] .items:hover .items-title,
+.app[data-theme="dark"] .items:focus-visible .items-title {
+  color: var(--primary-light);
+}
+
+/* Product cards and prices */
+.app[data-theme="dark"] .special-offer-item:hover,
+.app[data-theme="dark"] .special-offer-item:focus-within {
+  border-color: #45454C;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
+}
+
+.app[data-theme="dark"] .special-offer-unit,
+.app[data-theme="dark"] .price-old,
+.app[data-theme="dark"] .plp-toolbar .plp-count {
+  color: var(--text-secondary);
+}
+
+.app[data-theme="dark"] .discount-badge {
+  background-color: var(--discount);
+  color: #171115;
+}
+
+.app[data-theme="dark"] .unavailable-badge {
+  background-color: #7D3038;
+  color: #FFFFFF;
+}
+
+/* Promotional panels */
+.app[data-theme="dark"] .broken-window,
+.app[data-theme="dark"] .eggs {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+}
+
+.app[data-theme="dark"] .broken-window-header {
+  color: #ffffff;
+}
+
+.app[data-theme="dark"] .broken-window-subtitle,
+.app[data-theme="dark"] .broken-window-text,
+.app[data-theme="dark"] .eggs-text {
+  color: var(--text-secondary);
+}
+
+.app[data-theme="dark"] .eggs-title {
+  color: var(--text);
+}
+
+/* Buttons — restrained green accent */
+.app[data-theme="dark"] .add-button,
+.app[data-theme="dark"] .broken-window-button,
+.app[data-theme="dark"] .notification-button,
+.app[data-theme="dark"] .cart-checkout,
+.app[data-theme="dark"] .checkout-button,
+.app[data-theme="dark"] .product-page button {
+  background-color: var(--primary);
+  color: #0B0B0C;
+  border: 1px solid transparent;
+}
+
+.app[data-theme="dark"] .add-button:hover:not(:disabled),
+.app[data-theme="dark"] .broken-window-button:hover,
+.app[data-theme="dark"] .notification-button:hover,
+.app[data-theme="dark"] .cart-checkout:hover,
+.app[data-theme="dark"] .checkout-button:hover,
+.app[data-theme="dark"] .product-page button:hover {
+  background-color: var(--primary-hover);
+}
+
+.app[data-theme="dark"] .add-button:disabled {
+  background-color: #303034;
+  color: #85858D;
+}
+
+/* Checkout and product listing */
+.app[data-theme="dark"] .checkout-error {
+  color: var(--discount);
+}
+
+.app[data-theme="dark"] .checkout-field input[aria-invalid="true"] {
+  border-color: var(--discount);
+}
+
+.app[data-theme="dark"] .plp-back:hover {
+  color: var(--primary-hover);
+}
+
+/* Cart panel */
+.app[data-theme="dark"] .cart-panel {
+  background-color: var(--card);
+  color: var(--text);
+  border-color: var(--border);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.5);
+}
+
+.app[data-theme="dark"] .cart-thumb {
+  background-color: var(--surface);
+}
+
+.app[data-theme="dark"] .cart-meta,
+.app[data-theme="dark"] .cart-items-count,
+.app[data-theme="dark"] .cart-empty {
+  color: var(--text-secondary);
+}
+
+.app[data-theme="dark"] .cart-row,
+.app[data-theme="dark"] .cart-summary {
+  border-color: var(--border);
+}
+
+.app[data-theme="dark"] .cart-stepper button {
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.app[data-theme="dark"] .cart-stepper button:hover {
+  background-color: var(--surface-hover);
+}
+
+/* Footer */
+.app[data-theme="dark"] .footer {
+  background-color: #101012;
+  border-top: 1px solid var(--border);
+}
+
+.app[data-theme="dark"] .footer-top {
+  border-bottom-color: var(--border);
+}
+
+.app[data-theme="dark"] .footer-top-info-text,
+.app[data-theme="dark"] .address,
+.app[data-theme="dark"] .footer-top-categories-list-item,
+.app[data-theme="dark"] .footer-top-categories-list-item a,
+.app[data-theme="dark"] .footer-buttom-right,
+.app[data-theme="dark"] .footer-top-contact-phonenumber {
+  color: var(--text-secondary);
+}
+
+.app[data-theme="dark"] .footer-top-categories-list-item a:hover,
+.app[data-theme="dark"] .footer-top-categories-list-item a:focus-visible {
+  color: var(--primary-light);
+}
+
+.app[data-theme="dark"] .footer-top-header,
+.app[data-theme="dark"] .footer-top-info-header,
+.app[data-theme="dark"] .footer-top-openhours-box-title {
+  color: var(--text);
+}
+
+.app[data-theme="dark"] .footer-top-openhours-box {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.app[data-theme="dark"] .footer-top-openhours-box-text {
+  color: var(--text-secondary);
+}
+
+.app[data-theme="dark"] .footer-icon,
+.app[data-theme="dark"] .footer-icon-social {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.app[data-theme="dark"] .footer-icon ,
+.app[data-theme="dark"] .footer-icon-social,
+.app[data-theme="dark"] .icon-tabler{
+  stroke: var(--primary);
+}
+
+.app[data-theme="dark"] .footer-buttom-left-link {
+  background-color: #242428;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.app[data-theme="dark"] .footer-buttom-left-link:hover,
+.app[data-theme="dark"] .footer-buttom-left-link:focus-visible {
+  background-color: var(--surface-hover);
+}
+
+/* Keyboard focus */
+.app[data-theme="dark"] .add-button:focus-visible,
+.app[data-theme="dark"] .broken-window-button:focus-visible,
+.app[data-theme="dark"] .notification-button:focus-visible,
+.app[data-theme="dark"] .cart-checkout:focus-visible,
+.app[data-theme="dark"] .checkout-button:focus-visible,
+.app[data-theme="dark"] .cart-stepper button:focus-visible,
+.app[data-theme="dark"] .menu-button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+/* Mobile navigation */
+@media (max-width: 768px) {
+  .app[data-theme="dark"] .navigation {
+    background-color: var(--card);
+    border-bottom-color: var(--border);
+  }
+
+  .app[data-theme="dark"] .nav li + li {
+    border-top-color: var(--border);
+  }
+
+  .app[data-theme="dark"] .menu-button {
+    background-color: var(--surface);
+    color: var(--text);
+    border-color: var(--border);
+  }
+
+  .app[data-theme="dark"] .menu-button:hover {
+    background-color: var(--surface-hover);
+  }
+}
+
+.icon-tabler{
+  stroke: #ffffff;
+}
