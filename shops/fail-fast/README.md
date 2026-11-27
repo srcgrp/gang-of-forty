@@ -1,5 +1,7 @@
 # Fail-Fast Shop
 
+[![CI](https://github.com/ElahehGhelichi/gang-of-forty-fail-fast/actions/workflows/deploy.yml/badge.svg)](https://github.com/ElahehGhelichi/gang-of-forty-fail-fast/actions/workflows/deploy.yml)
+
 فروشگاه فارسی RTL ساخته‌شده با React، TypeScript و Vite.
 
 ## اجرای محلی
