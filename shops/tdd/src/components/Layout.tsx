@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Outlet, useParams } from '@tanstack/react-router'
 import { useCatalog } from '../hooks/useCatalog'
+import { CatalogContext } from '../hooks/useCatalogData'
 import { useThemeStore } from '../hooks/useThemeStore'
 import { createProductSearch } from '../features/products/search'
 import Header from './Header'
@@ -21,14 +22,14 @@ export default function Layout() {
 
     return (
         <div className="app" id="top" data-theme={theme}>
-            {data && <Header categories={data.categories} shop={data.shop} categoryId={categoryId} products={data.products} offers={data.offers} query={query} onQueryChange={setQuery} />}
-            <main id="main-content" tabIndex={-1}>
-                {state.status === 'success' ? <>
+            {state.status === 'success' ? <>
+                <Header categories={state.data.categories} shop={state.data.shop} categoryId={categoryId} products={state.data.products} offers={state.data.offers} query={query} onQueryChange={setQuery} />
+                <main id="main-content" tabIndex={-1}>
                     <SearchResults query={query} products={results} stock={state.data.stock} offers={state.data.offers} />
-                    <Outlet />
-                </> : <LoadStatus state={state} onRetry={retry} />}
-            </main>
-            {data && <Footer shop={data.shop} categories={data.categories} />}
+                    <CatalogContext.Provider value={state.data}><Outlet /></CatalogContext.Provider>
+                </main>
+                <Footer shop={state.data.shop} categories={state.data.categories} />
+            </> : <main id="main-content" tabIndex={-1}><LoadStatus state={state} onRetry={retry} /></main>}
         </div>
     )
 }

@@ -1,16 +1,12 @@
 import { Link, useParams, useSearch } from '@tanstack/react-router'
-import { useCatalog } from '../../hooks/useCatalog'
+import { useCatalogData } from '../../hooks/useCatalogData'
 import { carouselProducts, sortProducts } from '../../features/products/products'
-import LoadStatus from '../LoadStatus'
 import ProductCard from '../ProductCard'
 
 export default function PlpPage() {
     const { carouselId } = useParams({ from: '/plp/$carouselId' })
     const { sort } = useSearch({ from: '/plp/$carouselId' })
-    const { state, retry } = useCatalog()
-    if (state.status !== 'success') return <LoadStatus state={state} onRetry={retry} />
-
-    const data = state.data
+    const data = useCatalogData()
     const products = carouselProducts(data, carouselId)
     if (products === null) return <section><h1>این فهرست پیدا نشد</h1><Link className="listing-link" to="/">بازگشت به خانه</Link></section>
     const sortedProducts = sortProducts(products, data.offers, sort)

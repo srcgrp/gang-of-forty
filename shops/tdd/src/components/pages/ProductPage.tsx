@@ -1,16 +1,12 @@
 import { Link, useParams } from '@tanstack/react-router'
-import { useCatalog } from '../../hooks/useCatalog'
-import LoadStatus from '../LoadStatus'
+import { useCatalogData } from '../../hooks/useCatalogData'
 import Price from '../Price'
 import OfferBadge from '../OfferBadge'
 import AddToCartButton from '../AddToCartButton'
 
 export default function ProductPage() {
     const { productId } = useParams({ from: '/product/$productId' })
-    const { state, retry } = useCatalog()
-    if (state.status !== 'success') return <LoadStatus state={state} onRetry={retry} />
-
-    const data = state.data
+    const data = useCatalogData()
     const product = data.products.find(item => item.id === Number(productId))
     if (!product) return <section><h1>محصول پیدا نشد</h1><Link className="listing-link" to="/">بازگشت به خانه</Link></section>
     const offer = data.offers.find(item => item.productId === product.id)

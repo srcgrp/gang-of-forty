@@ -1,6 +1,6 @@
 import type { Category, HomeBanner } from '../shared/types'
 import { Link } from '@tanstack/react-router'
-import heroImage from '../../1.jpg'
+import heroImage from '../../hero.webp'
 
 type HeroProps = {
     data: HomeBanner
@@ -27,7 +27,7 @@ export default function Hero({ data, categories }: HeroProps) {
             </div>
             <div className="hero-visual">
                 <div className="hero-image-frame">
-                    <img src={heroImage} alt="نارنگی‌های تازه و رسیده در سبد محصول" />
+                    <img src={heroImage} width={718} height={400} alt="نارنگی‌های تازه و رسیده در سبد محصول" />
                 </div>
                 <p className="freshness-card">
                     <strong>انتخاب امروز سام</strong>

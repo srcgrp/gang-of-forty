@@ -14,10 +14,10 @@ Routes are defined in `src/App.tsx` using TanStack Router. `createHashHistory()`
 
 | Address | Page | Where the data comes from |
 | --- | --- | --- |
-| `/` (browser: `/#/`) | `HomePage` → `Storefront` | `useCatalog()` loads the catalog; `ProductGrid` uses `carouselProducts()` and shows the first six products per carousel |
-| `/plp/$carouselId` (browser: `/#/plp/dairy?sort=price`) | `PlpPage` | `useParams()` reads the ID; `useSearch()` reads the validated sort; `useCatalog()` loads data; `carouselProducts()` selects the list and `sortProducts()` orders it |
+| `/` (browser: `/#/`) | `HomePage` → `Storefront` | `useCatalogData()` reads the shared catalog; `ProductGrid` uses `carouselProducts()` and shows the first six products per carousel |
+| `/plp/$carouselId` (browser: `/#/plp/dairy?sort=price`) | `PlpPage` | `useParams()` reads the ID; `useSearch()` reads the validated sort; `useCatalogData()` reads the shared catalog; `carouselProducts()` selects the list and `sortProducts()` orders it |
 | `/plp/<unknown-id>` | `PlpPage` with a "list not found" message | `carouselProducts()` returns `null` when neither a carousel ID nor a category slug matches |
-| `/product/$productId` (browser: `/#/product/201`) | `ProductPage` | `useParams({ from: '/product/$productId' })` reads the ID; `useCatalog()` loads data; `Number(productId)` is used to find the product, or show "product not found" |
+| `/product/$productId` (browser: `/#/product/201`) | `ProductPage` | `useParams({ from: '/product/$productId' })` reads the ID; `useCatalogData()` reads the shared catalog; `Number(productId)` is used to find the product, or show "product not found" |
 | `/checkout` (browser: `/#/checkout`) | `CheckoutPage` | Local controlled form state; `validateCheckout()` derives errors; the cart store provides `clear()` |
 | Any unmatched path | `NotFound` | Static message and a link home; no page-specific fetch |
 
@@ -58,7 +58,7 @@ App → RouterProvider
     └── Footer
 ```
 
-`Layout`, `HomePage`, `PlpPage`, and `ProductPage` each use `LoadStatus` for loading, empty, or error states. `ProductCard` renders `Price`, an optional `OfferBadge`, and `AddToCartButton`. Product titles and a "View product" link above the add button open the product page, which shows the name, unit, and price and uses the same add button. The add button is disabled when stock is zero; viewing the product remains available. Not-found messages link back home.
+`Layout` uses `LoadStatus` for loading, empty, or error states. `ProductCard` renders `Price`, an optional `OfferBadge`, and `AddToCartButton`. Product titles and a "View product" link above the add button open the product page, which shows the name, unit, and price and uses the same add button. The add button is disabled when stock is zero; viewing the product remains available. Not-found messages link back home.
 
 `StoreStory` and `About` contain project-specific content. Banners, promotions, categories, shop details, and footer links come from the API.
 
@@ -101,7 +101,7 @@ All store reads in components use selectors. Only `CartPanel`, inside `Header`, 
 
 ### Other state and derived values
 
-- `useCatalog()` owns `LoadState<Catalog>` and the retry counter in React state. Each call has its own state and fetch lifecycle; the hook shares loading logic, not cached data.
+- `useCatalog()` owns `LoadState<Catalog>` and the retry counter in `Layout`. Pages read the loaded catalog through `useCatalogData()`.
 - `Layout` owns the search `query`. Fuse.js results update as the user types. The query stays while navigating inside the mounted layout, but resets after a refresh and is not stored in the URL.
 - `CheckoutPage` owns the name, mobile, address, and `submitted` flag. Errors are calculated from the field values on each render and only displayed after the first submit. Name and address must not be blank; mobile must have 11 digits and start with 09 (English or Persian digits). The form values are not persisted.
 - The router owns the active route and `carouselId`. `Layout` derives the selected category from the carousel or category slug and uses it to filter search results.
@@ -111,7 +111,7 @@ All store reads in components use selectors. Only `CartPanel`, inside `Header`, 
 
 ## 5. API and loading
 
-Each `useCatalog()` call runs `loadShopData()` on mount and when retrying. The six requests below run together with `Promise.all`.
+The layout's `useCatalog()` hook runs `loadShopData()` on mount and when retrying. The six requests below run together with `Promise.all`.
 
 | GET relative to `VITE_API_URL` | Type | Used for |
 | --- | --- | --- |
@@ -122,7 +122,7 @@ Each `useCatalog()` call runs `loadShopData()` on mount and when retrying. The s
 | `/shop.json` | `ShopDetails` | Shop content and navigation |
 | `/home.json` | `Home` | Banners, promotions, and carousel configurations |
 
-`Layout` loads data for the shared header, search, cart, and footer. The active `HomePage`, `PlpPage`, or `ProductPage` also calls `useCatalog()` for its content, so there are separate catalog requests for the layout and page. There is no shared catalog cache.
+`Layout` loads one catalog for the header, search, cart, footer and active page. Route changes reuse that catalog through context.
 
 `getJSON()` checks `response.ok` and returns `Promise<unknown>`. Type Guards validate external data. Invalid products are skipped individually and their count is logged; other invalid required data or a failed request produces an error state.
 

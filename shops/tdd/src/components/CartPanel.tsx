@@ -1,5 +1,3 @@
-import Swal from 'sweetalert2'
-import 'sweetalert2/dist/sweetalert2.min.css'
 import { useEffect } from 'react'
 import type { Product, Offer } from '../shared/types'
 import { useCartStore } from '../hooks/useCartStore'
@@ -26,6 +24,7 @@ export default function CartPanel({ products, offers }: CartPanelProps) {
 
     const handleClear = async () => {
         if (!count) return
+        const { default: Swal } = await import('sweetalert2')
         const result = await Swal.fire({
             title: "سبد خرید خالی شود؟",
             icon: "warning",
