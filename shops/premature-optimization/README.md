@@ -10,7 +10,7 @@
 
 ## تصویر
 
-![نسخه‌ی موبایل](./public/imgs/Site/)
+![نسخه‌ی موبایل](./docs/mobile.png)
 
 ## اجرا
 
@@ -41,4 +41,4 @@ docker run --rm -p 8080:80 premature-optimization-shop
 
 وضعیت ساخت و استقرار خودکار (GitHub Actions) در نشان بالای صفحه نمایش داده می‌شود:
 
-![CI](./public/imgs/Site/cicd.png)
+![CI](./docs/cicd.png)

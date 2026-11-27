@@ -1,0 +1,1432 @@
+- generic [ref=e3]:
+  - link "پرش به محتوای اصلی" [ref=e24] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e25]:
+    - paragraph [ref=e27]: 🚚 ارسال رایگان برای خریدهای بالای ۵۰۰ هزار تومان
+    - generic [ref=e28]:
+      - link "سوپرینو سوپرمارکتی تازه و نو" [ref=e29] [cursor=pointer]:
+        - /url: /#/
+        - generic [ref=e32]:
+          - heading "سوپرینو" [level=1] [ref=e33]
+          - generic [ref=e34]: سوپرمارکتی تازه و نو
+      - generic [ref=e35]:
+        - generic [ref=e36]: 🔍︎
+        - searchbox "🔍︎" [ref=e37]
+      - generic [ref=e38]:
+        - button "🛒 سبد خرید ۰" [ref=e40] [cursor=pointer]:
+          - generic [ref=e41]: 🛒
+          - generic [ref=e42]: سبد خرید
+          - generic [ref=e43]: ۰
+        - button "⏾" [ref=e44] [cursor=pointer]
+    - generic [ref=e45] [cursor=pointer]:
+      - generic [ref=e46]: ☰
+      - generic [ref=e47]: منو
+  - main [ref=e48]:
+    - generic [ref=e49]:
+      - article [ref=e50]:
+        - generic [ref=e51]:
+          - heading "میوه‌های ارگانیک، سبزی‌های تازه" [level=2] [ref=e52]
+          - paragraph [ref=e53]: گلچین از بهترین باغ‌های اطراف
+          - link "خرید میوه و سبزی" [ref=e54] [cursor=pointer]:
+            - /url: /#/plp/fruits
+        - img "میوه‌های ارگانیک، سبزی‌های تازه" [ref=e56]
+      - article [ref=e57]:
+        - generic [ref=e58]:
+          - heading "تا ۱۰٪ تخفیف لبنیات" [level=2] [ref=e59]
+          - paragraph [ref=e60]: فقط تا پایان امروز
+          - link "دیدن محصولات" [ref=e61] [cursor=pointer]:
+            - /url: /#/plp/dairy
+        - img "تا ۱۰٪ تخفیف لبنیات" [ref=e63]
+    - generic [ref=e64]:
+      - heading "⏲ حراج امروز تا پایان" [level=2] [ref=e65]
+      - timer [ref=e66]: ۰۰:۵۹:۳۶
+      - button "بستن شمارش" [ref=e67] [cursor=pointer]
+    - generic [ref=e68]:
+      - heading "دسته‌بندی‌ها" [level=2] [ref=e69]
+      - generic [ref=e70]:
+        - link [ref=e71] [cursor=pointer]:
+          - /url: "#dairy"
+          - img "لبنیات" [ref=e73]
+          - paragraph [ref=e74]: لبنیات
+        - link [ref=e75] [cursor=pointer]:
+          - /url: "#fruits"
+          - img "میوه و سبزیجات" [ref=e77]
+          - paragraph [ref=e78]: میوه و سبزیجات
+        - link [ref=e79] [cursor=pointer]:
+          - /url: "#drinks"
+          - img "نوشیدنی" [ref=e81]
+          - paragraph [ref=e82]: نوشیدنی
+        - link [ref=e83] [cursor=pointer]:
+          - /url: "#cleaner"
+          - img "دستمال و شوینده" [ref=e85]
+          - paragraph [ref=e86]: دستمال و شوینده
+        - link [ref=e87] [cursor=pointer]:
+          - /url: "#canned"
+          - img "کنسرو و غذای آماده" [ref=e89]
+          - paragraph [ref=e90]: کنسرو و غذای آماده
+        - link [ref=e91] [cursor=pointer]:
+          - /url: "#desserts"
+          - img "دسر و خشکبار" [ref=e93]
+          - paragraph [ref=e94]: دسر و خشکبار
+        - link [ref=e95] [cursor=pointer]:
+          - /url: "#snacks"
+          - img "تنقلات" [ref=e97]
+          - paragraph [ref=e98]: تنقلات
+        - link [ref=e99] [cursor=pointer]:
+          - /url: "#bread"
+          - img "خواربار و نان" [ref=e101]
+          - paragraph [ref=e102]: خواربار و نان
+        - link [ref=e103] [cursor=pointer]:
+          - /url: "#protein"
+          - img "پروتئین و تخم مرغ" [ref=e105]
+          - paragraph [ref=e106]: پروتئین و تخم مرغ
+        - link [ref=e107] [cursor=pointer]:
+          - /url: "#makeup"
+          - img "آرایشی و بهداشتی" [ref=e109]
+          - paragraph [ref=e110]: آرایشی و بهداشتی
+        - link [ref=e111] [cursor=pointer]:
+          - /url: "#seasoning"
+          - img "چاشنی و افزودنی" [ref=e113]
+          - paragraph [ref=e114]: چاشنی و افزودنی
+        - link [ref=e115] [cursor=pointer]:
+          - /url: "#electronic"
+          - img "لوازم برقی" [ref=e117]
+          - paragraph [ref=e118]: لوازم برقی
+    - generic [ref=e119]:
+      - generic [ref=e120]:
+        - heading "🔥 پیشنهاد ویژه امروز" [level=2] [ref=e121]
+        - link "مشاهده هر ۴۴ محصول" [ref=e122] [cursor=pointer]:
+          - /url: /#/plp/offers
+      - generic [ref=e123]:
+        - list [ref=e125]:
+          - listitem [ref=e126]:
+            - link [ref=e127] [cursor=pointer]:
+              - /url: /#/product/102
+              - img "شیر کاکائو پرچرب تازه میهن" [ref=e129]
+            - paragraph [ref=e130]: لبنیات
+            - generic: ۱۰٪
+            - heading "شیر کاکائو پرچرب تازه میهن" [level=3] [ref=e131]
+            - paragraph [ref=e132]: ۲۳۰ میلی‌لیتر
+            - paragraph [ref=e133]:
+              - generic [ref=e134]: ۵۶٬۰۰۰ تومان
+            - generic [ref=e135]:
+              - generic [ref=e136]: ۵۰٬۴۰۰ تومان
+              - button "+" [disabled] [ref=e137]
+          - listitem [ref=e138]:
+            - link [ref=e139] [cursor=pointer]:
+              - /url: /#/product/103
+              - img "پنیر چدار ورقه ای کاله" [ref=e141]
+            - paragraph [ref=e142]: لبنیات
+            - generic: ۱۲٪
+            - heading "پنیر چدار ورقه ای کاله" [level=3] [ref=e143]
+            - paragraph [ref=e144]: ۱۸۰ گرم
+            - paragraph [ref=e145]:
+              - generic [ref=e146]: ۳۲۵٬۰۰۰ تومان
+            - generic [ref=e147]:
+              - generic [ref=e148]: ۲۸۶٬۰۰۰ تومان
+              - button "+" [ref=e149] [cursor=pointer]
+          - listitem [ref=e150]:
+            - link [ref=e151] [cursor=pointer]:
+              - /url: /#/product/105
+              - img "پنیر سفید مثلثی روزانه" [ref=e153]
+            - paragraph [ref=e154]: لبنیات
+            - generic: ۳۰٪
+            - heading "پنیر سفید مثلثی روزانه" [level=3] [ref=e155]
+            - paragraph [ref=e156]: ۸ عدد
+            - paragraph [ref=e157]:
+              - generic [ref=e158]: ۱۱۸٬۰۰۰ تومان
+            - generic [ref=e159]:
+              - generic [ref=e160]: ۸۲٬۶۰۰ تومان
+              - button "+" [ref=e161] [cursor=pointer]
+          - listitem [ref=e162]:
+            - link [ref=e163] [cursor=pointer]:
+              - /url: /#/product/110
+              - img "بستنی چوبی عروسکی میرکس چارلی میهن" [ref=e165]
+            - paragraph [ref=e166]: لبنیات
+            - generic: ۳٪
+            - heading "بستنی چوبی عروسکی میرکس چارلی میهن" [level=3] [ref=e167]
+            - paragraph [ref=e168]: ۷۰ گرم
+            - paragraph [ref=e169]:
+              - generic [ref=e170]: ۵۰٬۰۰۰ تومان
+            - generic [ref=e171]:
+              - generic [ref=e172]: ۴۸٬۵۰۰ تومان
+              - button "+" [ref=e173] [cursor=pointer]
+          - listitem [ref=e174]:
+            - link [ref=e175] [cursor=pointer]:
+              - /url: /#/product/201
+              - img "موز" [ref=e177]
+            - paragraph [ref=e178]: میوه و سبزیجات
+            - generic: ۱۰٪
+            - heading "موز" [level=3] [ref=e179]
+            - paragraph [ref=e180]: ۱ کیلوگرم
+            - paragraph [ref=e181]:
+              - generic [ref=e182]: ۵۷۰٬۰۰۰ تومان
+            - generic [ref=e183]:
+              - generic [ref=e184]: ۵۱۳٬۰۰۰ تومان
+              - button "+" [ref=e185] [cursor=pointer]
+          - listitem [ref=e186]:
+            - link [ref=e187] [cursor=pointer]:
+              - /url: /#/product/208
+              - img "گوجه فرنگی رسمی" [ref=e189]
+            - paragraph [ref=e190]: میوه و سبزیجات
+            - generic: ۱۰٪
+            - heading "گوجه فرنگی رسمی" [level=3] [ref=e191]
+            - paragraph [ref=e192]: ۱ کیلوگرم
+            - paragraph [ref=e193]:
+              - generic [ref=e194]: ۱۲۵٬۰۰۰ تومان
+            - generic [ref=e195]:
+              - generic [ref=e196]: ۱۱۲٬۵۰۰ تومان
+              - button "+" [ref=e197] [cursor=pointer]
+          - listitem [ref=e198]:
+            - link [ref=e199] [cursor=pointer]:
+              - /url: /#/product/209
+              - img "سیب‌زمینی" [ref=e201]
+            - paragraph [ref=e202]: میوه و سبزیجات
+            - generic: ۱۰٪
+            - heading "سیب‌زمینی" [level=3] [ref=e203]
+            - paragraph [ref=e204]: ۱ کیلوگرم
+            - paragraph [ref=e205]:
+              - generic [ref=e206]: ۱۸۰٬۰۰۰ تومان
+            - generic [ref=e207]:
+              - generic [ref=e208]: ۱۶۲٬۰۰۰ تومان
+              - button "+" [disabled] [ref=e209]
+          - listitem [ref=e210]:
+            - link [ref=e211] [cursor=pointer]:
+              - /url: /#/product/212
+              - img "فلفل دلمه سبز" [ref=e213]
+            - paragraph [ref=e214]: میوه و سبزیجات
+            - generic: ۱۵٪
+            - heading "فلفل دلمه سبز" [level=3] [ref=e215]
+            - paragraph [ref=e216]: ۵۰۰ گرم
+            - paragraph [ref=e217]:
+              - generic [ref=e218]: ۱۱۰٬۰۰۰ تومان
+            - generic [ref=e219]:
+              - generic [ref=e220]: ۹۳٬۵۰۰ تومان
+              - button "+" [ref=e221] [cursor=pointer]
+        - generic:
+          - button "→" [disabled] [ref=e222]
+          - button "←" [ref=e223] [cursor=pointer]
+    - generic [ref=e224]:
+      - article [ref=e225]:
+        - generic [ref=e226]:
+          - heading "تنقلات برای شب‌های پرهیجان" [level=2] [ref=e227]
+          - link "دیدن محصولات" [ref=e228] [cursor=pointer]:
+            - /url: /#/plp/snacks
+        - img "تنقلات برای شب‌های پرهیجان" [ref=e230]
+      - article [ref=e231]:
+        - generic [ref=e232]:
+          - heading "نان داغ، هر روز ساعت ۷" [level=2] [ref=e233]
+          - link "دیدن محصولات" [ref=e234] [cursor=pointer]:
+            - /url: /#/plp/bakery
+        - img "نان داغ، هر روز ساعت ۷" [ref=e236]
+    - generic [ref=e237]:
+      - generic [ref=e238]:
+        - heading "🥛 لبنیات" [level=2] [ref=e239]
+        - link "مشاهده هر ۱۰ محصول" [ref=e240] [cursor=pointer]:
+          - /url: /#/plp/dairy
+      - generic [ref=e241]:
+        - list [ref=e243]:
+          - listitem [ref=e244]:
+            - link [ref=e245] [cursor=pointer]:
+              - /url: /#/product/101
+              - img "شیر پرچرب حاوی ویتامین D3 میهن" [ref=e247]
+            - paragraph [ref=e248]: لبنیات
+            - heading "شیر پرچرب حاوی ویتامین D3 میهن" [level=3] [ref=e249]
+            - paragraph [ref=e250]: ۹۵۰ میلی‌لیتر
+            - generic [ref=e251]:
+              - generic [ref=e252]: ۱۰۸٬۵۰۰ تومان
+              - button "+" [ref=e253] [cursor=pointer]
+          - listitem [ref=e254]:
+            - link [ref=e255] [cursor=pointer]:
+              - /url: /#/product/102
+              - img "شیر کاکائو پرچرب تازه میهن" [ref=e257]
+            - paragraph [ref=e258]: لبنیات
+            - generic: ۱۰٪
+            - heading "شیر کاکائو پرچرب تازه میهن" [level=3] [ref=e259]
+            - paragraph [ref=e260]: ۲۳۰ میلی‌لیتر
+            - paragraph [ref=e261]:
+              - generic [ref=e262]: ۵۶٬۰۰۰ تومان
+            - generic [ref=e263]:
+              - generic [ref=e264]: ۵۰٬۴۰۰ تومان
+              - button "+" [disabled] [ref=e265]
+          - listitem [ref=e266]:
+            - link [ref=e267] [cursor=pointer]:
+              - /url: /#/product/103
+              - img "پنیر چدار ورقه ای کاله" [ref=e269]
+            - paragraph [ref=e270]: لبنیات
+            - generic: ۱۲٪
+            - heading "پنیر چدار ورقه ای کاله" [level=3] [ref=e271]
+            - paragraph [ref=e272]: ۱۸۰ گرم
+            - paragraph [ref=e273]:
+              - generic [ref=e274]: ۳۲۵٬۰۰۰ تومان
+            - generic [ref=e275]:
+              - generic [ref=e276]: ۲۸۶٬۰۰۰ تومان
+              - button "+" [ref=e277] [cursor=pointer]
+          - listitem [ref=e278]:
+            - link [ref=e279] [cursor=pointer]:
+              - /url: /#/product/104
+              - img "پنیر سفید گردویی پرچرب پنج ستاره آمل کاله" [ref=e281]
+            - paragraph [ref=e282]: لبنیات
+            - heading "پنیر سفید گردویی پرچرب پنج ستاره آمل کاله" [level=3] [ref=e283]
+            - paragraph [ref=e284]: ۲۰۰ گرم
+            - generic [ref=e285]:
+              - generic [ref=e286]: ۱۷۴٬۰۰۰ تومان
+              - button "+" [ref=e287] [cursor=pointer]
+          - listitem [ref=e288]:
+            - link [ref=e289] [cursor=pointer]:
+              - /url: /#/product/105
+              - img "پنیر سفید مثلثی روزانه" [ref=e291]
+            - paragraph [ref=e292]: لبنیات
+            - generic: ۳۰٪
+            - heading "پنیر سفید مثلثی روزانه" [level=3] [ref=e293]
+            - paragraph [ref=e294]: ۸ عدد
+            - paragraph [ref=e295]:
+              - generic [ref=e296]: ۱۱۸٬۰۰۰ تومان
+            - generic [ref=e297]:
+              - generic [ref=e298]: ۸۲٬۶۰۰ تومان
+              - button "+" [ref=e299] [cursor=pointer]
+          - listitem [ref=e300]:
+            - link [ref=e301] [cursor=pointer]:
+              - /url: /#/product/106
+              - img "ماست موسیر چکیده پرچرب کاله" [ref=e303]
+            - paragraph [ref=e304]: لبنیات
+            - heading "ماست موسیر چکیده پرچرب کاله" [level=3] [ref=e305]
+            - paragraph [ref=e306]: ۲۵۰ گرم
+            - generic [ref=e307]:
+              - generic [ref=e308]: ۱۲۵٬۰۰۰ تومان
+              - button "+" [ref=e309] [cursor=pointer]
+          - listitem [ref=e310]:
+            - link [ref=e311] [cursor=pointer]:
+              - /url: /#/product/107
+              - img "ماست چکیده پرچرب یونانی پگاه" [ref=e313]
+            - paragraph [ref=e314]: لبنیات
+            - heading "ماست چکیده پرچرب یونانی پگاه" [level=3] [ref=e315]
+            - paragraph [ref=e316]: ۱.۵ کیلوگرم
+            - generic [ref=e317]:
+              - generic [ref=e318]: ۴۱۹٬۳۰۰ تومان
+              - button "+" [ref=e319] [cursor=pointer]
+          - listitem [ref=e320]:
+            - link [ref=e321] [cursor=pointer]:
+              - /url: /#/product/108
+              - img "دوغ گازدار آبعلی زمزم" [ref=e323]
+            - paragraph [ref=e324]: لبنیات
+            - heading "دوغ گازدار آبعلی زمزم" [level=3] [ref=e325]
+            - paragraph [ref=e326]: ۲۵۰ میلی‌لیتر
+            - generic [ref=e327]:
+              - generic [ref=e328]: ۶۹٬۵۰۰ تومان
+              - button "+" [ref=e329] [cursor=pointer]
+        - generic:
+          - button "→" [disabled] [ref=e330]
+          - button "←" [ref=e331] [cursor=pointer]
+    - generic [ref=e332]:
+      - generic [ref=e333]:
+        - heading "🥦 میوه و سبزیجات" [level=2] [ref=e334]
+        - link "مشاهده هر ۱۲ محصول" [ref=e335] [cursor=pointer]:
+          - /url: /#/plp/fruits
+      - generic [ref=e336]:
+        - list [ref=e338]:
+          - listitem [ref=e339]:
+            - link [ref=e340] [cursor=pointer]:
+              - /url: /#/product/201
+              - img "موز" [ref=e342]
+            - paragraph [ref=e343]: میوه و سبزیجات
+            - generic: ۱۰٪
+            - heading "موز" [level=3] [ref=e344]
+            - paragraph [ref=e345]: ۱ کیلوگرم
+            - paragraph [ref=e346]:
+              - generic [ref=e347]: ۵۷۰٬۰۰۰ تومان
+            - generic [ref=e348]:
+              - generic [ref=e349]: ۵۱۳٬۰۰۰ تومان
+              - button "+" [ref=e350] [cursor=pointer]
+          - listitem [ref=e351]:
+            - link [ref=e352] [cursor=pointer]:
+              - /url: /#/product/202
+              - img "خیار گلخانه‌ای" [ref=e354]
+            - paragraph [ref=e355]: میوه و سبزیجات
+            - heading "خیار گلخانه‌ای" [level=3] [ref=e356]
+            - paragraph [ref=e357]: ۱ کیلوگرم
+            - generic [ref=e358]:
+              - generic [ref=e359]: ۸۷٬۰۰۰ تومان
+              - button "+" [ref=e360] [cursor=pointer]
+          - listitem [ref=e361]:
+            - link [ref=e362] [cursor=pointer]:
+              - /url: /#/product/203
+              - img "نارنگی شمال" [ref=e364]
+            - paragraph [ref=e365]: میوه و سبزیجات
+            - heading "نارنگی شمال" [level=3] [ref=e366]
+            - paragraph [ref=e367]: ۱ کیلوگرم
+            - generic [ref=e368]:
+              - generic [ref=e369]: ۱۸۹٬۰۰۰ تومان
+              - button "+" [disabled] [ref=e370]
+          - listitem [ref=e371]:
+            - link [ref=e372] [cursor=pointer]:
+              - /url: /#/product/204
+              - img "انار تره‌بار" [ref=e374]
+            - paragraph [ref=e375]: میوه و سبزیجات
+            - heading "انار تره‌بار" [level=3] [ref=e376]
+            - paragraph [ref=e377]: ۱ کیلوگرم
+            - generic [ref=e378]:
+              - generic [ref=e379]: ۵۰۰٬۰۰۰ تومان
+              - button "+" [ref=e380] [cursor=pointer]
+          - listitem [ref=e381]:
+            - link [ref=e382] [cursor=pointer]:
+              - /url: /#/product/205
+              - img "سیب قرمز" [ref=e384]
+            - paragraph [ref=e385]: میوه و سبزیجات
+            - heading "سیب قرمز" [level=3] [ref=e386]
+            - paragraph [ref=e387]: ۱ کیلوگرم
+            - generic [ref=e388]:
+              - generic [ref=e389]: ۳۰۰٬۰۰۰ تومان
+              - button "+" [ref=e390] [cursor=pointer]
+          - listitem [ref=e391]:
+            - link [ref=e392] [cursor=pointer]:
+              - /url: /#/product/206
+              - img "هندوانه درجه یک" [ref=e394]
+            - paragraph [ref=e395]: میوه و سبزیجات
+            - heading "هندوانه درجه یک" [level=3] [ref=e396]
+            - paragraph [ref=e397]: ۷ کیلوگرمی ± ۱۰۰۰ گرم
+            - generic [ref=e398]:
+              - generic [ref=e399]: ۱۸۷٬۷۰۰ تومان
+              - button "+" [ref=e400] [cursor=pointer]
+          - listitem [ref=e401]:
+            - link [ref=e402] [cursor=pointer]:
+              - /url: /#/product/207
+              - img "قارچ دکمه ای توتیا" [ref=e404]
+            - paragraph [ref=e405]: میوه و سبزیجات
+            - heading "قارچ دکمه ای توتیا" [level=3] [ref=e406]
+            - paragraph [ref=e407]: ۴۰۰ گرم
+            - generic [ref=e408]:
+              - generic [ref=e409]: ۲۱۶٬۷۷۵ تومان
+              - button "+" [ref=e410] [cursor=pointer]
+          - listitem [ref=e411]:
+            - link [ref=e412] [cursor=pointer]:
+              - /url: /#/product/208
+              - img "گوجه فرنگی رسمی" [ref=e414]
+            - paragraph [ref=e415]: میوه و سبزیجات
+            - generic: ۱۰٪
+            - heading "گوجه فرنگی رسمی" [level=3] [ref=e416]
+            - paragraph [ref=e417]: ۱ کیلوگرم
+            - paragraph [ref=e418]:
+              - generic [ref=e419]: ۱۲۵٬۰۰۰ تومان
+            - generic [ref=e420]:
+              - generic [ref=e421]: ۱۱۲٬۵۰۰ تومان
+              - button "+" [ref=e422] [cursor=pointer]
+        - generic:
+          - button "→" [disabled] [ref=e423]
+          - button "←" [ref=e424] [cursor=pointer]
+    - generic [ref=e425]:
+      - generic [ref=e426]:
+        - heading "🍹 نوشیدنی" [level=2] [ref=e427]
+        - link "مشاهده هر ۱۲ محصول" [ref=e428] [cursor=pointer]:
+          - /url: /#/plp/drinks
+      - generic [ref=e429]:
+        - list [ref=e431]:
+          - listitem [ref=e432]:
+            - link [ref=e433] [cursor=pointer]:
+              - /url: /#/product/301
+              - img "آب آشامیدنی آکوآفینا" [ref=e435]
+            - paragraph [ref=e436]: نوشیدنی
+            - generic: ۱۰٪
+            - heading "آب آشامیدنی آکوآفینا" [level=3] [ref=e437]
+            - paragraph [ref=e438]: ۱.۵ لیتری
+            - paragraph [ref=e439]:
+              - generic [ref=e440]: ۳۵٬۰۰۰ تومان
+            - generic [ref=e441]:
+              - generic [ref=e442]: ۳۱٬۵۰۰ تومان
+              - button "+" [ref=e443] [cursor=pointer]
+          - listitem [ref=e444]:
+            - link [ref=e445] [cursor=pointer]:
+              - /url: /#/product/302
+              - img "آب آشامیدنی دسانی" [ref=e447]
+            - paragraph [ref=e448]: نوشیدنی
+            - heading "آب آشامیدنی دسانی" [level=3] [ref=e449]
+            - paragraph [ref=e450]: ۵۰۰ میلی‌لیتری
+            - generic [ref=e451]:
+              - generic [ref=e452]: ۲۰٬۰۰۰ تومان
+              - button "+" [ref=e453] [cursor=pointer]
+          - listitem [ref=e454]:
+            - link [ref=e455] [cursor=pointer]:
+              - /url: /#/product/303
+              - img "ماءالشعیر لیمویی مالت ایچ" [ref=e457]
+            - paragraph [ref=e458]: نوشیدنی
+            - generic: ۱۰٪
+            - heading "ماءالشعیر لیمویی مالت ایچ" [level=3] [ref=e459]
+            - paragraph [ref=e460]: ۱ لیتری
+            - paragraph [ref=e461]:
+              - generic [ref=e462]: ۱۳۵٬۰۰۰ تومان
+            - generic [ref=e463]:
+              - generic [ref=e464]: ۱۲۱٬۵۰۰ تومان
+              - button "+" [ref=e465] [cursor=pointer]
+          - listitem [ref=e466]:
+            - link [ref=e467] [cursor=pointer]:
+              - /url: /#/product/304
+              - img "ماءالشعیر کلاسیک افس" [ref=e469]
+            - paragraph [ref=e470]: نوشیدنی
+            - heading "ماءالشعیر کلاسیک افس" [level=3] [ref=e471]
+            - paragraph [ref=e472]: ۳۳۰ میلی‌لیتری
+            - generic [ref=e473]:
+              - generic [ref=e474]: ۱۱۰٬۰۰۰ تومان
+              - button "+" [ref=e475] [cursor=pointer]
+          - listitem [ref=e476]:
+            - link [ref=e477] [cursor=pointer]:
+              - /url: /#/product/305
+              - img "آب آلبالو سن ایچ" [ref=e479]
+            - paragraph [ref=e480]: نوشیدنی
+            - generic: ۷٪
+            - heading "آب آلبالو سن ایچ" [level=3] [ref=e481]
+            - paragraph [ref=e482]: ۲۰۰ میلی‌لیتری
+            - paragraph [ref=e483]:
+              - generic [ref=e484]: ۵۸٬۰۰۰ تومان
+            - generic [ref=e485]:
+              - generic [ref=e486]: ۵۳٬۹۴۰ تومان
+              - button "+" [ref=e487] [cursor=pointer]
+          - listitem [ref=e488]:
+            - link [ref=e489] [cursor=pointer]:
+              - /url: /#/product/306
+              - img "نوشیدنی پرتقال پالپ دار رانی" [ref=e491]
+            - paragraph [ref=e492]: نوشیدنی
+            - generic: ۱۵٪
+            - heading "نوشیدنی پرتقال پالپ دار رانی" [level=3] [ref=e493]
+            - paragraph [ref=e494]: ۲۴۰ میلی‌لیتری
+            - paragraph [ref=e495]:
+              - generic [ref=e496]: ۹۵٬۰۰۰ تومان
+            - generic [ref=e497]:
+              - generic [ref=e498]: ۸۰٬۷۵۰ تومان
+              - button "+" [ref=e499] [cursor=pointer]
+          - listitem [ref=e500]:
+            - link [ref=e501] [cursor=pointer]:
+              - /url: /#/product/307
+              - img "نوشابه کولا کوکاکولا" [ref=e503]
+            - paragraph [ref=e504]: نوشیدنی
+            - heading "نوشابه کولا کوکاکولا" [level=3] [ref=e505]
+            - paragraph [ref=e506]: ۳۰۰ میلی‌لیتری
+            - generic [ref=e507]:
+              - generic [ref=e508]: ۵۵٬۰۰۰ تومان
+              - button "+" [ref=e509] [cursor=pointer]
+          - listitem [ref=e510]:
+            - link [ref=e511] [cursor=pointer]:
+              - /url: /#/product/308
+              - img "نوشابه لیمویی سپرایت" [ref=e513]
+            - paragraph [ref=e514]: نوشیدنی
+            - generic: ۱۲٪
+            - heading "نوشابه لیمویی سپرایت" [level=3] [ref=e515]
+            - paragraph [ref=e516]: ۱.۵ لیتر
+            - paragraph [ref=e517]:
+              - generic [ref=e518]: ۱۲۲٬۱۰۰ تومان
+            - generic [ref=e519]:
+              - generic [ref=e520]: ۱۰۷٬۴۴۸ تومان
+              - button "+" [ref=e521] [cursor=pointer]
+        - generic:
+          - button "→" [disabled] [ref=e522]
+          - button "←" [ref=e523] [cursor=pointer]
+    - generic [ref=e524]:
+      - generic [ref=e525]:
+        - heading "🧼 دستمال و شوینده" [level=2] [ref=e526]
+        - link "مشاهده هر ۱۴ محصول" [ref=e527] [cursor=pointer]:
+          - /url: /#/plp/cleaner
+      - generic [ref=e528]:
+        - list [ref=e530]:
+          - listitem [ref=e531]:
+            - link [ref=e532] [cursor=pointer]:
+              - /url: /#/product/401
+              - img "دستمال کاغذی ۲ لایه کیولین" [ref=e534]
+            - paragraph [ref=e535]: دستمال و شوینده
+            - heading "دستمال کاغذی ۲ لایه کیولین" [level=3] [ref=e536]
+            - paragraph [ref=e537]: ۱۵۰ برگ
+            - generic [ref=e538]:
+              - generic [ref=e539]: ۱۲۵٬۸۰۰ تومان
+              - button "+" [ref=e540] [cursor=pointer]
+          - listitem [ref=e541]:
+            - link [ref=e542] [cursor=pointer]:
+              - /url: /#/product/402
+              - img "دستمال توالت 3 لایه تنو" [ref=e544]
+            - paragraph [ref=e545]: دستمال و شوینده
+            - heading "دستمال توالت 3 لایه تنو" [level=3] [ref=e546]
+            - paragraph [ref=e547]: ۲ عدد
+            - generic [ref=e548]:
+              - generic [ref=e549]: ۱۱۷٬۰۰۰ تومان
+              - button "+" [ref=e550] [cursor=pointer]
+          - listitem [ref=e551]:
+            - link [ref=e552] [cursor=pointer]:
+              - /url: /#/product/403
+              - img "مایع ظرفشویی Gold پریل" [ref=e554]
+            - paragraph [ref=e555]: دستمال و شوینده
+            - heading "مایع ظرفشویی Gold پریل" [level=3] [ref=e556]
+            - paragraph [ref=e557]: ۱ کیلوگرم
+            - generic [ref=e558]:
+              - generic [ref=e559]: ۲۶۶٬۵۰۰ تومان
+              - button "+" [ref=e560] [cursor=pointer]
+          - listitem [ref=e561]:
+            - link [ref=e562] [cursor=pointer]:
+              - /url: /#/product/404
+              - img "بسته اسکاچ رزال" [ref=e564]
+            - paragraph [ref=e565]: دستمال و شوینده
+            - heading "بسته اسکاچ رزال" [level=3] [ref=e566]
+            - paragraph [ref=e567]: ۳ عدد
+            - generic [ref=e568]:
+              - generic [ref=e569]: ۴۹۰٬۰۰۰ تومان
+              - button "+" [disabled] [ref=e570]
+          - listitem [ref=e571]:
+            - link [ref=e572] [cursor=pointer]:
+              - /url: /#/product/405
+              - img "دستکش خانگی ساق کوتاه رزمریم" [ref=e574]
+            - paragraph [ref=e575]: دستمال و شوینده
+            - heading "دستکش خانگی ساق کوتاه رزمریم" [level=3] [ref=e576]
+            - paragraph [ref=e577]: سایز بزرگ
+            - generic [ref=e578]:
+              - generic [ref=e579]: ۲۴۳٬۰۰۰ تومان
+              - button "+" [ref=e580] [cursor=pointer]
+          - listitem [ref=e581]:
+            - link [ref=e582] [cursor=pointer]:
+              - /url: /#/product/406
+              - img "مایع لباسشویی لاوندر پرسیل" [ref=e584]
+            - paragraph [ref=e585]: دستمال و شوینده
+            - generic: ۱۵٪
+            - heading "مایع لباسشویی لاوندر پرسیل" [level=3] [ref=e586]
+            - paragraph [ref=e587]: ۲.۷ کیلوگرم
+            - paragraph [ref=e588]:
+              - generic [ref=e589]: ۸۱۶٬۰۰۰ تومان
+            - generic [ref=e590]:
+              - generic [ref=e591]: ۶۹۳٬۶۰۰ تومان
+              - button "+" [ref=e592] [cursor=pointer]
+          - listitem [ref=e593]:
+            - link [ref=e594] [cursor=pointer]:
+              - /url: /#/product/407
+              - img "پودر لباسشویی دستی سافتلن" [ref=e596]
+            - paragraph [ref=e597]: دستمال و شوینده
+            - heading "پودر لباسشویی دستی سافتلن" [level=3] [ref=e598]
+            - paragraph [ref=e599]: ۵۰۰ کرم
+            - generic [ref=e600]:
+              - generic [ref=e601]: ۷۸٬۹۰۰ تومان
+              - button "+" [ref=e602] [cursor=pointer]
+          - listitem [ref=e603]:
+            - link [ref=e604] [cursor=pointer]:
+              - /url: /#/product/408
+              - img "مایع نرم کننده حوله و لباس نباتی سافتلن" [ref=e606]
+            - paragraph [ref=e607]: دستمال و شوینده
+            - generic: ۱۰٪
+            - heading "مایع نرم کننده حوله و لباس نباتی سافتلن" [level=3] [ref=e608]
+            - paragraph [ref=e609]: ۲ لیتر
+            - paragraph [ref=e610]:
+              - generic [ref=e611]: ۳۴۳٬۷۰۰ تومان
+            - generic [ref=e612]:
+              - generic [ref=e613]: ۳۰۹٬۳۳۰ تومان
+              - button "+" [ref=e614] [cursor=pointer]
+        - generic:
+          - button "→" [disabled] [ref=e615]
+          - button "←" [ref=e616] [cursor=pointer]
+    - generic [ref=e617]:
+      - generic [ref=e618]:
+        - heading "🥫 کنسرو و غذای آماده" [level=2] [ref=e619]
+        - link "مشاهده هر ۱۱ محصول" [ref=e620] [cursor=pointer]:
+          - /url: /#/plp/canned
+      - generic [ref=e621]:
+        - list [ref=e623]:
+          - listitem [ref=e624]:
+            - link [ref=e625] [cursor=pointer]:
+              - /url: /#/product/501
+              - img "کنسرو ماهی تون در روغن زیتون مکنزی" [ref=e627]
+            - paragraph [ref=e628]: کنسرو و غذای آماده
+            - heading "کنسرو ماهی تون در روغن زیتون مکنزی" [level=3] [ref=e629]
+            - paragraph [ref=e630]: ۱۸۰ گرم
+            - generic [ref=e631]:
+              - generic [ref=e632]: ۳۱۰٬۰۰۰ تومان
+              - button "+" [ref=e633] [cursor=pointer]
+          - listitem [ref=e634]:
+            - link [ref=e635] [cursor=pointer]:
+              - /url: /#/product/502
+              - img "نودل گوشت الیت" [ref=e637]
+            - paragraph [ref=e638]: کنسرو و غذای آماده
+            - heading "نودل گوشت الیت" [level=3] [ref=e639]
+            - paragraph [ref=e640]: ۷۵ گرم
+            - generic [ref=e641]:
+              - generic [ref=e642]: ۶۵٬۰۰۰ تومان
+              - button "+" [ref=e643] [cursor=pointer]
+          - listitem [ref=e644]:
+            - link [ref=e645] [cursor=pointer]:
+              - /url: /#/product/503
+              - img "پودر سوپ جو الیت" [ref=e647]
+            - paragraph [ref=e648]: کنسرو و غذای آماده
+            - heading "پودر سوپ جو الیت" [level=3] [ref=e649]
+            - paragraph [ref=e650]: ۷۵ گرم
+            - generic [ref=e651]:
+              - generic [ref=e652]: ۸۲٬۰۰۰ تومان
+              - button "+" [ref=e653] [cursor=pointer]
+          - listitem [ref=e654]:
+            - link [ref=e655] [cursor=pointer]:
+              - /url: /#/product/504
+              - img "سالاد الویه کالباس نامی نو" [ref=e657]
+            - paragraph [ref=e658]: کنسرو و غذای آماده
+            - heading "سالاد الویه کالباس نامی نو" [level=3] [ref=e659]
+            - paragraph [ref=e660]: ۲۰۰ گرم
+            - generic [ref=e661]:
+              - generic [ref=e662]: ۱۵۴٬۵۰۰ تومان
+              - button "+" [ref=e663] [cursor=pointer]
+          - listitem [ref=e664]:
+            - link [ref=e665] [cursor=pointer]:
+              - /url: /#/product/505
+              - img "خورش قیمه سیب زمینی هانی" [ref=e667]
+            - paragraph [ref=e668]: کنسرو و غذای آماده
+            - heading "خورش قیمه سیب زمینی هانی" [level=3] [ref=e669]
+            - paragraph [ref=e670]: ۲۸۵ گرم
+            - generic [ref=e671]:
+              - generic [ref=e672]: ۳۹۹٬۰۰۰ تومان
+              - button "+" [ref=e673] [cursor=pointer]
+          - listitem [ref=e674]:
+            - link [ref=e675] [cursor=pointer]:
+              - /url: /#/product/506
+              - img "ساندویچ چاباتای مرغ گریل کاپو" [ref=e677]
+            - paragraph [ref=e678]: کنسرو و غذای آماده
+            - generic: ۲٪
+            - heading "ساندویچ چاباتای مرغ گریل کاپو" [level=3] [ref=e679]
+            - paragraph [ref=e680]: ۲۴۰ گرم
+            - paragraph [ref=e681]:
+              - generic [ref=e682]: ۲۸۹٬۸۰۰ تومان
+            - generic [ref=e683]:
+              - generic [ref=e684]: ۲۸۴٬۰۰۴ تومان
+              - button "+" [ref=e685] [cursor=pointer]
+          - listitem [ref=e686]:
+            - link [ref=e687] [cursor=pointer]:
+              - /url: /#/product/507
+              - img "ناگت مرغ 70% پمینا کاله" [ref=e689]
+            - paragraph [ref=e690]: کنسرو و غذای آماده
+            - generic: ۱۹٪
+            - heading "ناگت مرغ 70% پمینا کاله" [level=3] [ref=e691]
+            - paragraph [ref=e692]: ۴۵۰ گرم
+            - paragraph [ref=e693]:
+              - generic [ref=e694]: ۴۱۵٬۰۰۰ تومان
+            - generic [ref=e695]:
+              - generic [ref=e696]: ۳۳۶٬۱۵۰ تومان
+              - button "+" [ref=e697] [cursor=pointer]
+          - listitem [ref=e698]:
+            - link [ref=e699] [cursor=pointer]:
+              - /url: /#/product/508
+              - img "کمپوت آناناس پیک" [ref=e701]
+            - paragraph [ref=e702]: کنسرو و غذای آماده
+            - generic: ۴٪
+            - heading "کمپوت آناناس پیک" [level=3] [ref=e703]
+            - paragraph [ref=e704]: ۵۶۵ گرم
+            - paragraph [ref=e705]:
+              - generic [ref=e706]: ۵۷۰٬۰۰۰ تومان
+            - generic [ref=e707]:
+              - generic [ref=e708]: ۵۴۷٬۲۰۰ تومان
+              - button "+" [ref=e709] [cursor=pointer]
+        - generic:
+          - button "→" [disabled] [ref=e710]
+          - button "←" [ref=e711] [cursor=pointer]
+    - generic [ref=e712]:
+      - generic [ref=e713]:
+        - heading "🧁 دسر و خشکبار" [level=2] [ref=e714]
+        - link "مشاهده هر ۱۲ محصول" [ref=e715] [cursor=pointer]:
+          - /url: /#/plp/desserts
+      - generic [ref=e716]:
+        - list [ref=e718]:
+          - listitem [ref=e719]:
+            - link [ref=e720] [cursor=pointer]:
+              - /url: /#/product/601
+              - img "پودر ژله انار دراژه" [ref=e722]
+            - paragraph [ref=e723]: دسر و خشکبار
+            - heading "پودر ژله انار دراژه" [level=3] [ref=e724]
+            - paragraph [ref=e725]: ۱۰۰ گرم
+            - generic [ref=e726]:
+              - generic [ref=e727]: ۷۵٬۰۰۰ تومان
+              - button "+" [ref=e728] [cursor=pointer]
+          - listitem [ref=e729]:
+            - link [ref=e730] [cursor=pointer]:
+              - /url: /#/product/602
+              - img "پودر ژلاتین فرمند" [ref=e732]
+            - paragraph [ref=e733]: دسر و خشکبار
+            - heading "پودر ژلاتین فرمند" [level=3] [ref=e734]
+            - paragraph [ref=e735]: ۴۰ گرم
+            - generic [ref=e736]:
+              - generic [ref=e737]: ۱۷۰٬۰۰۰ تومان
+              - button "+" [ref=e738] [cursor=pointer]
+          - listitem [ref=e739]:
+            - link [ref=e740] [cursor=pointer]:
+              - /url: /#/product/603
+              - img "دسر وانیلی تاپر دنت" [ref=e742]
+            - paragraph [ref=e743]: دسر و خشکبار
+            - heading "دسر وانیلی تاپر دنت" [level=3] [ref=e744]
+            - paragraph [ref=e745]: ۱۰۰ گرم
+            - generic [ref=e746]:
+              - generic [ref=e747]: ۸۱٬۰۰۰ تومان
+              - button "+" [ref=e748] [cursor=pointer]
+          - listitem [ref=e749]:
+            - link [ref=e750] [cursor=pointer]:
+              - /url: /#/product/604
+              - img "پودر پنکیک رشد" [ref=e752]
+            - paragraph [ref=e753]: دسر و خشکبار
+            - generic: ۱۰٪
+            - heading "پودر پنکیک رشد" [level=3] [ref=e754]
+            - paragraph [ref=e755]: ۲۵۰ گرم
+            - paragraph [ref=e756]:
+              - generic [ref=e757]: ۱۲۰٬۰۰۰ تومان
+            - generic [ref=e758]:
+              - generic [ref=e759]: ۱۰۸٬۰۰۰ تومان
+              - button "+" [disabled] [ref=e760]
+          - listitem [ref=e761]:
+            - link [ref=e762] [cursor=pointer]:
+              - /url: /#/product/605
+              - img "پودر کیک وانیل کاکائویی رشد" [ref=e764]
+            - paragraph [ref=e765]: دسر و خشکبار
+            - generic: ۵٪
+            - heading "پودر کیک وانیل کاکائویی رشد" [level=3] [ref=e766]
+            - paragraph [ref=e767]: ۵۰۰ گرم
+            - paragraph [ref=e768]:
+              - generic [ref=e769]: ۲۴۵٬۰۰۰ تومان
+            - generic [ref=e770]:
+              - generic [ref=e771]: ۲۳۲٬۷۵۰ تومان
+              - button "+" [ref=e772] [cursor=pointer]
+          - listitem [ref=e773]:
+            - link [ref=e774] [cursor=pointer]:
+              - /url: /#/product/606
+              - img "تخمه آفتابگردان دور سفید" [ref=e776]
+            - paragraph [ref=e777]: دسر و خشکبار
+            - heading "تخمه آفتابگردان دور سفید" [level=3] [ref=e778]
+            - paragraph [ref=e779]: ۲۵۰ گرم
+            - generic [ref=e780]:
+              - generic [ref=e781]: ۲۸۹٬۰۰۰ تومان
+              - button "+" [ref=e782] [cursor=pointer]
+          - listitem [ref=e783]:
+            - link [ref=e784] [cursor=pointer]:
+              - /url: /#/product/607
+              - img "کنجد برشته عقاب" [ref=e786]
+            - paragraph [ref=e787]: دسر و خشکبار
+            - heading "کنجد برشته عقاب" [level=3] [ref=e788]
+            - paragraph [ref=e789]: ۱۲۰ گرم
+            - generic [ref=e790]:
+              - generic [ref=e791]: ۲۲۹٬۰۰۰ تومان
+              - button "+" [ref=e792] [cursor=pointer]
+          - listitem [ref=e793]:
+            - link [ref=e794] [cursor=pointer]:
+              - /url: /#/product/608
+              - img "زرشک سحرخیز" [ref=e796]
+            - paragraph [ref=e797]: دسر و خشکبار
+            - heading "زرشک سحرخیز" [level=3] [ref=e798]
+            - paragraph [ref=e799]: ۳۰۰ گرم
+            - generic [ref=e800]:
+              - generic [ref=e801]: ۵۵۵٬۰۰۰ تومان
+              - button "+" [ref=e802] [cursor=pointer]
+        - generic:
+          - button "→" [disabled] [ref=e803]
+          - button "←" [ref=e804] [cursor=pointer]
+    - generic [ref=e805]:
+      - generic [ref=e806]:
+        - heading "🍬 تنقلات" [level=2] [ref=e807]
+        - link "مشاهده هر ۲۰ محصول" [ref=e808] [cursor=pointer]:
+          - /url: /#/plp/snacks
+      - generic [ref=e809]:
+        - list [ref=e811]:
+          - listitem [ref=e812]:
+            - link [ref=e813] [cursor=pointer]:
+              - /url: /#/product/701
+              - img "شکلات شیری با مغز ویفر هیس شیرین عسل" [ref=e815]
+            - paragraph [ref=e816]: تنقلات
+            - heading "شکلات شیری با مغز ویفر هیس شیرین عسل" [level=3] [ref=e817]
+            - paragraph [ref=e818]: ۴۲ گرم
+            - generic [ref=e819]:
+              - generic [ref=e820]: ۳۰٬۰۰۰ تومان
+              - button "+" [ref=e821] [cursor=pointer]
+          - listitem [ref=e822]:
+            - link [ref=e823] [cursor=pointer]:
+              - /url: /#/product/702
+              - img "دراژه کاکائویی پرلیز کوپا" [ref=e825]
+            - paragraph [ref=e826]: تنقلات
+            - heading "دراژه کاکائویی پرلیز کوپا" [level=3] [ref=e827]
+            - paragraph [ref=e828]: ۲۰ گرم
+            - generic [ref=e829]:
+              - generic [ref=e830]: ۳۸٬۰۰۰ تومان
+              - button "+" [ref=e831] [cursor=pointer]
+          - listitem [ref=e832]:
+            - link [ref=e833] [cursor=pointer]:
+              - /url: /#/product/703
+              - img "شکلات روکش دار با مغز نوقا و کارامل نانی شیرین عسل" [ref=e835]
+            - paragraph [ref=e836]: تنقلات
+            - heading "شکلات روکش دار با مغز نوقا و کارامل نانی شیرین عسل" [level=3] [ref=e837]
+            - paragraph [ref=e838]: ۴۰ گرم
+            - generic [ref=e839]:
+              - generic [ref=e840]: ۲۵٬۰۰۰ تومان
+              - button "+" [ref=e841] [cursor=pointer]
+          - listitem [ref=e842]:
+            - link [ref=e843] [cursor=pointer]:
+              - /url: /#/product/704
+              - img "کیک کرم دار وانیلی کاکائویی تی تاپ سالمین" [ref=e845]
+            - paragraph [ref=e846]: تنقلات
+            - heading "کیک کرم دار وانیلی کاکائویی تی تاپ سالمین" [level=3] [ref=e847]
+            - paragraph [ref=e848]: ۵۰ گرم
+            - generic [ref=e849]:
+              - generic [ref=e850]: ۲۵٬۰۰۰ تومان
+              - button "+" [ref=e851] [cursor=pointer]
+          - listitem [ref=e852]:
+            - link [ref=e853] [cursor=pointer]:
+              - /url: /#/product/705
+              - img "کیک برگر توت فرنگی درنا" [ref=e855]
+            - paragraph [ref=e856]: تنقلات
+            - generic: ۷٪
+            - heading "کیک برگر توت فرنگی درنا" [level=3] [ref=e857]
+            - paragraph [ref=e858]: ۴۰ گرم
+            - paragraph [ref=e859]:
+              - generic [ref=e860]: ۳۰٬۰۰۰ تومان
+            - generic [ref=e861]:
+              - generic [ref=e862]: ۲۷٬۹۰۰ تومان
+              - button "+" [ref=e863] [cursor=pointer]
+          - listitem [ref=e864]:
+            - link [ref=e865] [cursor=pointer]:
+              - /url: /#/product/706
+              - img "والس روکش دار کاکائویی با کرم پرتقالی شیرین عسل" [ref=e867]
+            - paragraph [ref=e868]: تنقلات
+            - heading "والس روکش دار کاکائویی با کرم پرتقالی شیرین عسل" [level=3] [ref=e869]
+            - paragraph [ref=e870]: ۲۵ گرم
+            - generic [ref=e871]:
+              - generic [ref=e872]: ۲۰٬۰۰۰ تومان
+              - button "+" [ref=e873] [cursor=pointer]
+          - listitem [ref=e874]:
+            - link [ref=e875] [cursor=pointer]:
+              - /url: /#/product/707
+              - img "بیسکویت سبوس دار ساقه طلایی مینو" [ref=e877]
+            - paragraph [ref=e878]: تنقلات
+            - generic: ۱۲٪
+            - heading "بیسکویت سبوس دار ساقه طلایی مینو" [level=3] [ref=e879]
+            - paragraph [ref=e880]: ۲۰۰ گرم
+            - paragraph [ref=e881]:
+              - generic [ref=e882]: ۷۰٬۰۰۰ تومان
+            - generic [ref=e883]:
+              - generic [ref=e884]: ۶۱٬۶۰۰ تومان
+              - button "+" [ref=e885] [cursor=pointer]
+          - listitem [ref=e886]:
+            - link [ref=e887] [cursor=pointer]:
+              - /url: /#/product/708
+              - img "بیسکویت پتی بور وانیلی شیرین عسل" [ref=e889]
+            - paragraph [ref=e890]: تنقلات
+            - heading "بیسکویت پتی بور وانیلی شیرین عسل" [level=3] [ref=e891]
+            - paragraph [ref=e892]: ۱۲۰ گرم
+            - generic [ref=e893]:
+              - generic [ref=e894]: ۵۰٬۰۰۰ تومان
+              - button "+" [disabled] [ref=e895]
+        - generic:
+          - button "→" [disabled] [ref=e896]
+          - button "←" [ref=e897] [cursor=pointer]
+    - generic [ref=e898]:
+      - generic [ref=e899]:
+        - heading "🍞 خواربار و نان" [level=2] [ref=e900]
+        - link "مشاهده هر ۱۳ محصول" [ref=e901] [cursor=pointer]:
+          - /url: /#/plp/bread
+      - generic [ref=e902]:
+        - list [ref=e904]:
+          - listitem [ref=e905]:
+            - link [ref=e906] [cursor=pointer]:
+              - /url: /#/product/801
+              - img "ماکارونی پیکولی تک ماکارون" [ref=e908]
+            - paragraph [ref=e909]: خواربار و نان
+            - heading "ماکارونی پیکولی تک ماکارون" [level=3] [ref=e910]
+            - paragraph [ref=e911]: ۵۰۰ گرم
+            - generic [ref=e912]:
+              - generic [ref=e913]: ۷۵٬۰۰۰ تومان
+              - button "+" [ref=e914] [cursor=pointer]
+          - listitem [ref=e915]:
+            - link [ref=e916] [cursor=pointer]:
+              - /url: /#/product/802
+              - img "لازانیا شیاردار تک‌ ماکارون" [ref=e918]
+            - paragraph [ref=e919]: خواربار و نان
+            - heading "لازانیا شیاردار تک‌ ماکارون" [level=3] [ref=e920]
+            - paragraph [ref=e921]: ۲۵۰ گرم
+            - generic [ref=e922]:
+              - generic [ref=e923]: ۹۵٬۰۰۰ تومان
+              - button "+" [ref=e924] [cursor=pointer]
+          - listitem [ref=e925]:
+            - link [ref=e926] [cursor=pointer]:
+              - /url: /#/product/803
+              - img "نان لواش سه نان" [ref=e928]
+            - paragraph [ref=e929]: خواربار و نان
+            - heading "نان لواش سه نان" [level=3] [ref=e930]
+            - paragraph [ref=e931]: ۲۰۰ گرم
+            - generic [ref=e932]:
+              - generic [ref=e933]: ۶۵٬۰۰۰ تومان
+              - button "+" [disabled] [ref=e934]
+          - listitem [ref=e935]:
+            - link [ref=e936] [cursor=pointer]:
+              - /url: /#/product/804
+              - img "نان تست پروتئین سه نان" [ref=e938]
+            - paragraph [ref=e939]: خواربار و نان
+            - generic: ۵٪
+            - heading "نان تست پروتئین سه نان" [level=3] [ref=e940]
+            - paragraph [ref=e941]: ۵۴۰ گرم
+            - paragraph [ref=e942]:
+              - generic [ref=e943]: ۱۸۰٬۰۰۰ تومان
+            - generic [ref=e944]:
+              - generic [ref=e945]: ۱۷۱٬۰۰۰ تومان
+              - button "+" [ref=e946] [cursor=pointer]
+          - listitem [ref=e947]:
+            - link [ref=e948] [cursor=pointer]:
+              - /url: /#/product/805
+              - img "برنج ایرانی هاشمی درجه یک طبیعت" [ref=e950]
+            - paragraph [ref=e951]: خواربار و نان
+            - generic: ۹٪
+            - heading "برنج ایرانی هاشمی درجه یک طبیعت" [level=3] [ref=e952]
+            - paragraph [ref=e953]: ۴.۵ کیلوگرم
+            - paragraph [ref=e954]:
+              - generic [ref=e955]: ۲٬۵۱۹٬۵۵۰ تومان
+            - generic [ref=e956]:
+              - generic [ref=e957]: ۲٬۲۹۲٬۷۹۱ تومان
+              - button "+" [ref=e958] [cursor=pointer]
+          - listitem [ref=e959]:
+            - link [ref=e960] [cursor=pointer]:
+              - /url: /#/product/806
+              - img "رب گوجه فرنگی خوشبخت" [ref=e962]
+            - paragraph [ref=e963]: خواربار و نان
+            - heading "رب گوجه فرنگی خوشبخت" [level=3] [ref=e964]
+            - paragraph [ref=e965]: ۸۰۰ گرم
+            - generic [ref=e966]:
+              - generic [ref=e967]: ۲۱۰٬۰۰۰ تومان
+              - button "+" [ref=e968] [cursor=pointer]
+          - listitem [ref=e969]:
+            - link [ref=e970] [cursor=pointer]:
+              - /url: /#/product/807
+              - img "روغن آفتابگردان ویتامینه اویلا" [ref=e972]
+            - paragraph [ref=e973]: خواربار و نان
+            - heading "روغن آفتابگردان ویتامینه اویلا" [level=3] [ref=e974]
+            - paragraph [ref=e975]: ۱.۳۵ کیلوگرم
+            - generic [ref=e976]:
+              - generic [ref=e977]: ۵۴۳٬۰۹۰ تومان
+              - button "+" [ref=e978] [cursor=pointer]
+          - listitem [ref=e979]:
+            - link [ref=e980] [cursor=pointer]:
+              - /url: /#/product/808
+              - img "روغن سرخ کردنی بدون پالم اویلا" [ref=e982]
+            - paragraph [ref=e983]: خواربار و نان
+            - heading "روغن سرخ کردنی بدون پالم اویلا" [level=3] [ref=e984]
+            - paragraph [ref=e985]: ۱.۳۵ کیلوگرم
+            - generic [ref=e986]:
+              - generic [ref=e987]: ۶۰۴٬۵۱۶ تومان
+              - button "+" [disabled] [ref=e988]
+        - generic:
+          - button "→" [disabled] [ref=e989]
+          - button "←" [ref=e990] [cursor=pointer]
+    - generic [ref=e991]:
+      - generic [ref=e992]:
+        - heading "🥩 پروتئین و تخم مرغ" [level=2] [ref=e993]
+        - link "مشاهده هر ۸ محصول" [ref=e994] [cursor=pointer]:
+          - /url: /#/plp/protein
+      - generic [ref=e995]:
+        - list [ref=e997]:
+          - listitem [ref=e998]:
+            - link [ref=e999] [cursor=pointer]:
+              - /url: /#/product/901
+              - img "تخم مرغ درسا" [ref=e1001]
+            - paragraph [ref=e1002]: پروتئین و تخم مرغ
+            - generic: ۱۰٪
+            - heading "تخم مرغ درسا" [level=3] [ref=e1003]
+            - paragraph [ref=e1004]: ۳۰ عدد
+            - paragraph [ref=e1005]:
+              - generic [ref=e1006]: ۶۱۸٬۰۰۰ تومان
+            - generic [ref=e1007]:
+              - generic [ref=e1008]: ۵۵۶٬۲۰۰ تومان
+              - button "+" [ref=e1009] [cursor=pointer]
+          - listitem [ref=e1010]:
+            - link [ref=e1011] [cursor=pointer]:
+              - /url: /#/product/902
+              - img "ساق بوقلمون بدون پوست مهیا پروتئین" [ref=e1013]
+            - paragraph [ref=e1014]: پروتئین و تخم مرغ
+            - heading "ساق بوقلمون بدون پوست مهیا پروتئین" [level=3] [ref=e1015]
+            - paragraph [ref=e1016]: ۹۰۰ گرم
+            - generic [ref=e1017]:
+              - generic [ref=e1018]: ۸۵۹٬۵۰۰ تومان
+              - button "+" [ref=e1019] [cursor=pointer]
+          - listitem [ref=e1020]:
+            - link [ref=e1021] [cursor=pointer]:
+              - /url: /#/product/903
+              - img "گوشت گوساله چرخ شده پویا پروتئین" [ref=e1023]
+            - paragraph [ref=e1024]: پروتئین و تخم مرغ
+            - heading "گوشت گوساله چرخ شده پویا پروتئین" [level=3] [ref=e1025]
+            - paragraph [ref=e1026]: ۱ کیلوگرم
+            - generic [ref=e1027]:
+              - generic [ref=e1028]: ۱٬۶۲۰٬۰۰۰ تومان
+              - button "+" [ref=e1029] [cursor=pointer]
+          - listitem [ref=e1030]:
+            - link [ref=e1031] [cursor=pointer]:
+              - /url: /#/product/904
+              - img "ران مرغ بدون پوست سمین" [ref=e1033]
+            - paragraph [ref=e1034]: پروتئین و تخم مرغ
+            - generic: ۱۰٪
+            - heading "ران مرغ بدون پوست سمین" [level=3] [ref=e1035]
+            - paragraph [ref=e1036]: ۱.۶ کیلوگرم
+            - paragraph [ref=e1037]:
+              - generic [ref=e1038]: ۵۹۲٬۰۰۰ تومان
+            - generic [ref=e1039]:
+              - generic [ref=e1040]: ۵۳۲٬۸۰۰ تومان
+              - button "+" [ref=e1041] [cursor=pointer]
+          - listitem [ref=e1042]:
+            - link [ref=e1043] [cursor=pointer]:
+              - /url: /#/product/905
+              - img "هات داگ گوشت ۷۰٪ مخصوص ۲۰۲" [ref=e1045]
+            - paragraph [ref=e1046]: پروتئین و تخم مرغ
+            - generic: ۳٪
+            - heading "هات داگ گوشت ۷۰٪ مخصوص ۲۰۲" [level=3] [ref=e1047]
+            - paragraph [ref=e1048]: ۴۲۰ گرم
+            - paragraph [ref=e1049]:
+              - generic [ref=e1050]: ۵۸۹٬۸۰۰ تومان
+            - generic [ref=e1051]:
+              - generic [ref=e1052]: ۵۷۲٬۱۰۶ تومان
+              - button "+" [ref=e1053] [cursor=pointer]
+          - listitem [ref=e1054]:
+            - link [ref=e1055] [cursor=pointer]:
+              - /url: /#/product/906
+              - img "ژامبون گوشت ۹۰٪ ۲۰۲" [ref=e1057]
+            - paragraph [ref=e1058]: پروتئین و تخم مرغ
+            - heading "ژامبون گوشت ۹۰٪ ۲۰۲" [level=3] [ref=e1059]
+            - paragraph [ref=e1060]: ۳۰۰ گرم
+            - generic [ref=e1061]:
+              - generic [ref=e1062]: ۶۶۰٬۴۰۰ تومان
+              - button "+" [ref=e1063] [cursor=pointer]
+          - listitem [ref=e1064]:
+            - link [ref=e1065] [cursor=pointer]:
+              - /url: /#/product/907
+              - img "میگو رگ زده منجمد پمینا کاله" [ref=e1067]
+            - paragraph [ref=e1068]: پروتئین و تخم مرغ
+            - generic: ۵٪
+            - heading "میگو رگ زده منجمد پمینا کاله" [level=3] [ref=e1069]
+            - paragraph [ref=e1070]: ۵۰۰ گرم
+            - paragraph [ref=e1071]:
+              - generic [ref=e1072]: ۱٬۳۱۵٬۷۷۷ تومان
+            - generic [ref=e1073]:
+              - generic [ref=e1074]: ۱٬۲۴۹٬۹۸۸ تومان
+              - button "+" [ref=e1075] [cursor=pointer]
+          - listitem [ref=e1076]:
+            - link [ref=e1077] [cursor=pointer]:
+              - /url: /#/product/908
+              - img "فیله ماهی قزل سالمون ایرانی بدون تیغ و استخوان منجمد شارین" [ref=e1079]
+            - paragraph [ref=e1080]: پروتئین و تخم مرغ
+            - heading "فیله ماهی قزل سالمون ایرانی بدون تیغ و استخوان منجمد شارین" [level=3] [ref=e1081]
+            - paragraph [ref=e1082]: ۵۰۰ گرم
+            - generic [ref=e1083]:
+              - generic [ref=e1084]: ۱٬۱۹۵٬۰۰۰ تومان
+              - button "+" [disabled] [ref=e1085]
+        - generic:
+          - button "→" [disabled] [ref=e1086]
+          - button "←" [ref=e1087] [cursor=pointer]
+    - generic [ref=e1088]:
+      - generic [ref=e1089]:
+        - heading "💄 آرایشی و بهداشتی" [level=2] [ref=e1090]
+        - link "مشاهده هر ۱۸ محصول" [ref=e1091] [cursor=pointer]:
+          - /url: /#/plp/makeup
+      - generic [ref=e1092]:
+        - list [ref=e1094]:
+          - listitem [ref=e1095]:
+            - link [ref=e1096] [cursor=pointer]:
+              - /url: /#/product/1001
+              - img "رول ضد تعریق زنانه Tulip مای" [ref=e1098]
+            - paragraph [ref=e1099]: آرایشی و بهداشتی
+            - heading "رول ضد تعریق زنانه Tulip مای" [level=3] [ref=e1100]
+            - paragraph [ref=e1101]: ۶۰ میلی‌لیتر
+            - generic [ref=e1102]:
+              - generic [ref=e1103]: ۲۸۹٬۰۰۰ تومان
+              - button "+" [disabled] [ref=e1104]
+          - listitem [ref=e1105]:
+            - link [ref=e1106] [cursor=pointer]:
+              - /url: /#/product/1002
+              - img "صابون ویتامینه نیلوفر آبی لوکس" [ref=e1108]
+            - paragraph [ref=e1109]: آرایشی و بهداشتی
+            - heading "صابون ویتامینه نیلوفر آبی لوکس" [level=3] [ref=e1110]
+            - paragraph [ref=e1111]: ۱۲۵ گرم
+            - generic [ref=e1112]:
+              - generic [ref=e1113]: ۱۳۸٬۱۰۰ تومان
+              - button "+" [ref=e1114] [cursor=pointer]
+          - listitem [ref=e1115]:
+            - link [ref=e1116] [cursor=pointer]:
+              - /url: /#/product/1003
+              - img "خودتراش 2 لبه Blue II Plus ژیلت" [ref=e1118]
+            - paragraph [ref=e1119]: آرایشی و بهداشتی
+            - generic: ۹٪
+            - heading "خودتراش 2 لبه Blue II Plus ژیلت" [level=3] [ref=e1120]
+            - paragraph [ref=e1121]: ۱۴ عدد
+            - paragraph [ref=e1122]:
+              - generic [ref=e1123]: ۹۶۱٬۰۰۰ تومان
+            - generic [ref=e1124]:
+              - generic [ref=e1125]: ۸۷۴٬۵۱۰ تومان
+              - button "+" [ref=e1126] [cursor=pointer]
+          - listitem [ref=e1127]:
+            - link [ref=e1128] [cursor=pointer]:
+              - /url: /#/product/1004
+              - img "ژل اصلاح مردانه پوست حساس فیوژن 5 ژیلت" [ref=e1130]
+            - paragraph [ref=e1131]: آرایشی و بهداشتی
+            - generic: ۶٪
+            - heading "ژل اصلاح مردانه پوست حساس فیوژن 5 ژیلت" [level=3] [ref=e1132]
+            - paragraph [ref=e1133]: ۲۰۰ میلی‌لیتر
+            - paragraph [ref=e1134]:
+              - generic [ref=e1135]: ۹۸۰٬۰۰۰ تومان
+            - generic [ref=e1136]:
+              - generic [ref=e1137]: ۹۲۱٬۲۰۰ تومان
+              - button "+" [disabled] [ref=e1138]
+          - listitem [ref=e1139]:
+            - link [ref=e1140] [cursor=pointer]:
+              - /url: /#/product/1005
+              - img "پد لاک پاک کن ناژه" [ref=e1142]
+            - paragraph [ref=e1143]: آرایشی و بهداشتی
+            - heading "پد لاک پاک کن ناژه" [level=3] [ref=e1144]
+            - paragraph [ref=e1145]: ۶ عدد
+            - generic [ref=e1146]:
+              - generic [ref=e1147]: ۵۰٬۰۰۰ تومان
+              - button "+" [ref=e1148] [cursor=pointer]
+          - listitem [ref=e1149]:
+            - link [ref=e1150] [cursor=pointer]:
+              - /url: /#/product/1006
+              - img "عطر جیبی مردانه بلک افغان اسکلاره" [ref=e1152]
+            - paragraph [ref=e1153]: آرایشی و بهداشتی
+            - heading "عطر جیبی مردانه بلک افغان اسکلاره" [level=3] [ref=e1154]
+            - paragraph [ref=e1155]: ۳۰ میلی‌لیتر
+            - generic [ref=e1156]:
+              - generic [ref=e1157]: ۳۵۰٬۰۰۰ تومان
+              - button "+" [ref=e1158] [cursor=pointer]
+          - listitem [ref=e1159]:
+            - link [ref=e1160] [cursor=pointer]:
+              - /url: /#/product/1007
+              - img "بالم لب Cherry بیول" [ref=e1162]
+            - paragraph [ref=e1163]: آرایشی و بهداشتی
+            - heading "بالم لب Cherry بیول" [level=3] [ref=e1164]
+            - paragraph [ref=e1165]: ۴.۸ گرم
+            - generic [ref=e1166]:
+              - generic [ref=e1167]: ۳۳۸٬۰۰۰ تومان
+              - button "+" [ref=e1168] [cursor=pointer]
+          - listitem [ref=e1169]:
+            - link [ref=e1170] [cursor=pointer]:
+              - /url: /#/product/1008
+              - img "خمیر دندان ضد پوسیدگی Cavity Fighter سیگنال" [ref=e1172]
+            - paragraph [ref=e1173]: آرایشی و بهداشتی
+            - generic: ۱۵٪
+            - heading "خمیر دندان ضد پوسیدگی Cavity Fighter سیگنال" [level=3] [ref=e1174]
+            - paragraph [ref=e1175]: ۱۰۰ میلی‌لیتر
+            - paragraph [ref=e1176]:
+              - generic [ref=e1177]: ۲۱۴٬۹۰۰ تومان
+            - generic [ref=e1178]:
+              - generic [ref=e1179]: ۱۸۲٬۶۶۵ تومان
+              - button "+" [disabled] [ref=e1180]
+        - generic:
+          - button "→" [disabled] [ref=e1181]
+          - button "←" [ref=e1182] [cursor=pointer]
+    - generic [ref=e1183]:
+      - generic [ref=e1184]:
+        - heading "🧂 چاشنی و افزودنی" [level=2] [ref=e1185]
+        - link "مشاهده هر ۱۵ محصول" [ref=e1186] [cursor=pointer]:
+          - /url: /#/plp/seasoning
+      - generic [ref=e1187]:
+        - list [ref=e1189]:
+          - listitem [ref=e1190]:
+            - link [ref=e1191] [cursor=pointer]:
+              - /url: /#/product/1101
+              - img "سس چیلی تای کاله" [ref=e1193]
+            - paragraph [ref=e1194]: چاشنی و افزودنی
+            - generic: ۱۵٪
+            - heading "سس چیلی تای کاله" [level=3] [ref=e1195]
+            - paragraph [ref=e1196]: ۴۰۰ کرم
+            - paragraph [ref=e1197]:
+              - generic [ref=e1198]: ۲۵۵٬۰۰۰ تومان
+            - generic [ref=e1199]:
+              - generic [ref=e1200]: ۲۱۶٬۷۵۰ تومان
+              - button "+" [ref=e1201] [cursor=pointer]
+          - listitem [ref=e1202]:
+            - link [ref=e1203] [cursor=pointer]:
+              - /url: /#/product/1102
+              - img "سس گوجه فرنگی مهرام" [ref=e1205]
+            - paragraph [ref=e1206]: چاشنی و افزودنی
+            - heading "سس گوجه فرنگی مهرام" [level=3] [ref=e1207]
+            - paragraph [ref=e1208]: ۴۵۵ گرم
+            - generic [ref=e1209]:
+              - generic [ref=e1210]: ۱۵۵٬۰۰۰ تومان
+              - button "+" [ref=e1211] [cursor=pointer]
+          - listitem [ref=e1212]:
+            - link [ref=e1213] [cursor=pointer]:
+              - /url: /#/product/1103
+              - img "سس مایونز کم چرب مهرام" [ref=e1215]
+            - paragraph [ref=e1216]: چاشنی و افزودنی
+            - heading "سس مایونز کم چرب مهرام" [level=3] [ref=e1217]
+            - paragraph [ref=e1218]: ۴۶۰ گرم
+            - generic [ref=e1219]:
+              - generic [ref=e1220]: ۲۶۰٬۰۰۰ تومان
+              - button "+" [disabled] [ref=e1221]
+          - listitem [ref=e1222]:
+            - link [ref=e1223] [cursor=pointer]:
+              - /url: /#/product/1104
+              - img "سس سیروپ شکلاتی فرمند" [ref=e1225]
+            - paragraph [ref=e1226]: چاشنی و افزودنی
+            - heading "سس سیروپ شکلاتی فرمند" [level=3] [ref=e1227]
+            - paragraph [ref=e1228]: ۵۰۰ گرم
+            - generic [ref=e1229]:
+              - generic [ref=e1230]: ۲۹۰٬۰۰۰ تومان
+              - button "+" [ref=e1231] [cursor=pointer]
+          - listitem [ref=e1232]:
+            - link [ref=e1233] [cursor=pointer]:
+              - /url: /#/product/1105
+              - img "زعفران سحرخیز" [ref=e1235]
+            - paragraph [ref=e1236]: چاشنی و افزودنی
+            - heading "زعفران سحرخیز" [level=3] [ref=e1237]
+            - paragraph [ref=e1238]: ۰.۵ گرم
+            - generic [ref=e1239]:
+              - generic [ref=e1240]: ۳۶۵٬۰۰۰ تومان
+              - button "+" [ref=e1241] [cursor=pointer]
+          - listitem [ref=e1242]:
+            - link [ref=e1243] [cursor=pointer]:
+              - /url: /#/product/1106
+              - img "نمک تصفیه شده کریستاله ید دار گلستان" [ref=e1245]
+            - paragraph [ref=e1246]: چاشنی و افزودنی
+            - heading "نمک تصفیه شده کریستاله ید دار گلستان" [level=3] [ref=e1247]
+            - paragraph [ref=e1248]: ۵۰۰ گرم
+            - generic [ref=e1249]:
+              - generic [ref=e1250]: ۵۹٬۴۹۹ تومان
+              - button "+" [ref=e1251] [cursor=pointer]
+          - listitem [ref=e1252]:
+            - link [ref=e1253] [cursor=pointer]:
+              - /url: /#/product/1107
+              - img "پودر فلفل سیاه گلها" [ref=e1255]
+            - paragraph [ref=e1256]: چاشنی و افزودنی
+            - heading "پودر فلفل سیاه گلها" [level=3] [ref=e1257]
+            - paragraph [ref=e1258]: ۹۰ گرم
+            - generic [ref=e1259]:
+              - generic [ref=e1260]: ۵۹۹٬۳۵۰ تومان
+              - button "+" [ref=e1261] [cursor=pointer]
+          - listitem [ref=e1262]:
+            - link [ref=e1263] [cursor=pointer]:
+              - /url: /#/product/1108
+              - img "پودر سماق گلها" [ref=e1265]
+            - paragraph [ref=e1266]: چاشنی و افزودنی
+            - heading "پودر سماق گلها" [level=3] [ref=e1267]
+            - paragraph [ref=e1268]: ۸۰ گرم
+            - generic [ref=e1269]:
+              - generic [ref=e1270]: ۴۹۰٬۸۰۰ تومان
+              - button "+" [disabled] [ref=e1271]
+        - generic:
+          - button "→" [disabled] [ref=e1272]
+          - button "←" [ref=e1273] [cursor=pointer]
+    - generic [ref=e1274]:
+      - generic [ref=e1275]:
+        - heading "💡 لوازم برقی" [level=2] [ref=e1276]
+        - link "مشاهده هر ۷ محصول" [ref=e1277] [cursor=pointer]:
+          - /url: /#/plp/electronic
+      - generic [ref=e1278]:
+        - list [ref=e1280]:
+          - listitem [ref=e1281]:
+            - link [ref=e1282] [cursor=pointer]:
+              - /url: /#/product/1201
+              - img "لامپ رشته ای روشنایی 100 W مدل گلابی ساده پارس شهاب" [ref=e1284]
+            - paragraph [ref=e1285]: لوازم برقی
+            - heading "لامپ رشته ای روشنایی 100 W مدل گلابی ساده پارس شهاب" [level=3] [ref=e1286]
+            - paragraph [ref=e1287]: ۱ عدد
+            - generic [ref=e1288]:
+              - generic [ref=e1289]: ۱۲۰٬۰۰۰ تومان
+              - button "+" [ref=e1290] [cursor=pointer]
+          - listitem [ref=e1291]:
+            - link [ref=e1292] [cursor=pointer]:
+              - /url: /#/product/1202
+              - img "باتری نیم قلمی AAA بیلستری کملیون" [ref=e1294]
+            - paragraph [ref=e1295]: لوازم برقی
+            - heading "باتری نیم قلمی AAA بیلستری کملیون" [level=3] [ref=e1296]
+            - paragraph [ref=e1297]: ۲ عدد
+            - generic [ref=e1298]:
+              - generic [ref=e1299]: ۱۳۱٬۰۰۰ تومان
+              - button "+" [ref=e1300] [cursor=pointer]
+          - listitem [ref=e1301]:
+            - link [ref=e1302] [cursor=pointer]:
+              - /url: /#/product/1203
+              - img "کابل HDMI مدل HM11 یسیدو" [ref=e1304]
+            - paragraph [ref=e1305]: لوازم برقی
+            - generic: ۱۲٪
+            - heading "کابل HDMI مدل HM11 یسیدو" [level=3] [ref=e1306]
+            - paragraph [ref=e1307]: ۱.۸ متر
+            - paragraph [ref=e1308]:
+              - generic [ref=e1309]: ۱٬۰۹۰٬۰۰۰ تومان
+            - generic [ref=e1310]:
+              - generic [ref=e1311]: ۹۵۹٬۲۰۰ تومان
+              - button "+" [ref=e1312] [cursor=pointer]
+          - listitem [ref=e1313]:
+            - link [ref=e1314] [cursor=pointer]:
+              - /url: /#/product/1204
+              - img "هندزفری بی سیم TWS15 مشکی یسیدو" [ref=e1316]
+            - paragraph [ref=e1317]: لوازم برقی
+            - heading "هندزفری بی سیم TWS15 مشکی یسیدو" [level=3] [ref=e1318]
+            - paragraph
+            - generic [ref=e1319]:
+              - generic [ref=e1320]: ۲٬۹۵۰٬۰۰۰ تومان
+              - button "+" [disabled] [ref=e1321]
+          - listitem [ref=e1322]:
+            - link [ref=e1323] [cursor=pointer]:
+              - /url: /#/product/1205
+              - img "اسپیکر بلوتوثی قابل حمل SP-1100 مشکی JBQ" [ref=e1325]
+            - paragraph [ref=e1326]: لوازم برقی
+            - heading "اسپیکر بلوتوثی قابل حمل SP-1100 مشکی JBQ" [level=3] [ref=e1327]
+            - paragraph
+            - generic [ref=e1328]:
+              - generic [ref=e1329]: ۱٬۵۴۰٬۰۰۰ تومان
+              - button "+" [ref=e1330] [cursor=pointer]
+          - listitem [ref=e1331]:
+            - link [ref=e1332] [cursor=pointer]:
+              - /url: /#/product/1206
+              - img "فلش مموری UV128 مشکی آبی آداتا 64 گیگ" [ref=e1334]
+            - paragraph [ref=e1335]: لوازم برقی
+            - heading "فلش مموری UV128 مشکی آبی آداتا 64 گیگ" [level=3] [ref=e1336]
+            - paragraph [ref=e1337]: ۶۴ گیگ
+            - generic [ref=e1338]:
+              - generic [ref=e1339]: ۱٬۹۵۰٬۰۰۰ تومان
+              - button "+" [ref=e1340] [cursor=pointer]
+          - listitem [ref=e1341]:
+            - link [ref=e1342] [cursor=pointer]:
+              - /url: /#/product/1207
+              - img "پایه نگهدارنده موبایل C141 مشکی یسیدو" [ref=e1344]
+            - paragraph [ref=e1345]: لوازم برقی
+            - heading "پایه نگهدارنده موبایل C141 مشکی یسیدو" [level=3] [ref=e1346]
+            - paragraph
+            - generic [ref=e1347]:
+              - generic [ref=e1348]: ۲۷۹٬۰۰۰ تومان
+              - button "+" [ref=e1349] [cursor=pointer]
+        - generic:
+          - button "→" [disabled] [ref=e1350]
+          - button "←" [ref=e1351] [cursor=pointer]
+  - contentinfo [ref=e1352]:
+    - generic [ref=e1353]:
+      - generic [ref=e1354]:
+        - heading "سوپرینو" [level=2] [ref=e1355]
+        - generic [ref=e1356]:
+          - paragraph [ref=e1357]: کالاهای تازه و باکیفیت با قیمتی منصفانه
+          - paragraph [ref=e1358]:
+            - generic [ref=e1359]: ⚲
+            - generic [ref=e1360]: تهران، خیابان استاد معین، پلاک ۳۸
+          - paragraph [ref=e1361]:
+            - generic [ref=e1362]: ☏
+            - generic [ref=e1363]: ۰۲۱-۶۶۵۶۲۲۱۰
+      - generic [ref=e1364]:
+        - heading "دسته‌ها" [level=2] [ref=e1365]
+        - generic [ref=e1366]:
+          - link "لبنیات" [ref=e1367] [cursor=pointer]:
+            - /url: /#/plp/dairy
+          - link "میوه و سبزیجات" [ref=e1368] [cursor=pointer]:
+            - /url: /#/plp/fruits
+          - link "نوشیدنی" [ref=e1369] [cursor=pointer]:
+            - /url: /#/plp/drinks
+          - link "دستمال و شوینده" [ref=e1370] [cursor=pointer]:
+            - /url: /#/plp/cleaner
+          - link "کنسرو و غذای آماده" [ref=e1371] [cursor=pointer]:
+            - /url: /#/plp/canned
+          - link "دسر و خشکبار" [ref=e1372] [cursor=pointer]:
+            - /url: /#/plp/desserts
+          - link "تنقلات" [ref=e1373] [cursor=pointer]:
+            - /url: /#/plp/snacks
+          - link "خواربار و نان" [ref=e1374] [cursor=pointer]:
+            - /url: /#/plp/bread
+          - link "پروتئین و تخم مرغ" [ref=e1375] [cursor=pointer]:
+            - /url: /#/plp/protein
+          - link "آرایشی و بهداشتی" [ref=e1376] [cursor=pointer]:
+            - /url: /#/plp/makeup
+          - link "چاشنی و افزودنی" [ref=e1377] [cursor=pointer]:
+            - /url: /#/plp/seasoning
+          - link "لوازم برقی" [ref=e1378] [cursor=pointer]:
+            - /url: /#/plp/electronic
+      - generic [ref=e1379]:
+        - heading "ساعت کاری" [level=2] [ref=e1380]
+        - generic [ref=e1381]:
+          - paragraph [ref=e1382]: "شنبه تا چهارشنبه: ۸ تا ۲۲"
+          - paragraph [ref=e1383]: "پنجشنبه و جمعه: ۱۰ تا ۲۰"
+    - generic [ref=e1384]:
+      - paragraph [ref=e1386]:
+        - generic [ref=e1387]: © ۱۴۰۵ سوپرینو · عضو دار و دسته چهل‌نفره
+      - link "↑ بازگشت به بالا" [ref=e1389] [cursor=pointer]:
+        - /url: "#top"
+        - generic [ref=e1390]: ↑
+        - generic [ref=e1391]: بازگشت به بالا
