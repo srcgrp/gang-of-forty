@@ -1,6 +1,6 @@
 
 :root {
-    color-scheme: light dark;
+    color-scheme: light;
 
     --font: Vazirmatn, "Noto Sans Arabic", "Segoe UI", Tahoma, system-ui, sans-serif;
 
@@ -45,49 +45,55 @@
     --card-w: 168px;
 }
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --bg: #21171A;
-        --surface: #2B2023;
-        --surface-2: #38292D;
-
-        --text: #F9EDEF;
-        --muted: #C9B5BA;
-        --border: #4A363C;
-
-        --brand: #D96F86;
-        --brand-dark: #A94D64;
-        --link: #F09AAD;
-
-        --pink-soft: #5A343F;
-
-        --yellow: #B8A878;
-        --on-yellow: #29231A;
-
-        --red: #E8756A;
-        --focus: #F3A0B2;
-
-        --promo-bg: #4A3438;
-        --mint: #E6D9DC;
-        --rose: #583238;
-
-        --t-red: #4F2E32;
-        --t-blue: #303B52;
-        --t-yellow: #4B4028;
-        --t-green: #304438;
-        --t-pink: #4F303B;
-        --t-amber: #4B3825;
-        --t-orange: #4B3429;
-        --t-purple: #40334A;
-
-        --disabled-bg: #41393B;
-        --disabled-text: #BDB3B5;
-
-        --footer-bg: #170F12;
-        --footer-text: #E3D4D8;
-    }
+.app {
+    background: var(--bg);
+    color: var(--text);
+    min-block-size: 100vh;
 }
-/* ---------- پایه ---------- */
+
+.app[data-theme='dark'] {
+    color-scheme: dark;
+
+    --bg: #21171A;
+    --surface: #2B2023;
+    --surface-2: #38292D;
+
+    --text: #F9EDEF;
+    --muted: #C9B5BA;
+    --border: #4A363C;
+
+    --brand: #D96F86;
+    --brand-dark: #A94D64;
+    --link: #F09AAD;
+
+    --pink-soft: #5A343F;
+
+    --yellow: #B8A878;
+    --on-yellow: #29231A;
+
+    --red: #E8756A;
+    --focus: #F3A0B2;
+
+    --promo-bg: #4A3438;
+    --mint: #E6D9DC;
+    --rose: #583238;
+
+    --t-red: #4F2E32;
+    --t-blue: #303B52;
+    --t-yellow: #4B4028;
+    --t-green: #304438;
+    --t-pink: #4F303B;
+    --t-amber: #4B3825;
+    --t-orange: #4B3429;
+    --t-purple: #40334A;
+
+    --disabled-bg: #41393B;
+    --disabled-text: #BDB3B5;
+
+    --footer-bg: #170F12;
+    --footer-text: #E3D4D8;
+}
+
 *, *::before, *::after { box-sizing: border-box; }
 
 html {
@@ -132,7 +138,7 @@ button { cursor: pointer; }
     border: 0;
 }
 
-/* ---------- فوکوس ---------- */
+
 :focus-visible {
     outline: 3px solid var(--focus);
     outline-offset: 3px;
@@ -141,7 +147,7 @@ button { cursor: pointer; }
 .site-footer :focus-visible { outline-color: var(--yellow); }
 main:focus { outline: none; }
 
-/* ---------- پرش به محتوای اصلی ---------- */
+
 .skip-link {
     position: absolute;
     inset-block-start: 8px;
@@ -158,12 +164,11 @@ main:focus { outline: none; }
 }
 .skip-link:focus { transform: none; outline: 3px solid #1a5fd0; outline-offset: 2px; }
 
-/* ==========================================================================
-   Header
-   ========================================================================== */
+
+
 .site-header {
     position: sticky;
-    inset-block-start: calc(var(--topbar-h) * -1); /* نوار اطلاع‌رسانی بالا می‌رود، Header می‌ماند */
+    inset-block-start: calc(var(--topbar-h) * -1);
     z-index: 50;
     background: var(--surface);
     border-block-end: 1px solid var(--border);
@@ -191,7 +196,7 @@ main:focus { outline: none; }
     padding-block: 8px;
 }
 
-/* لوگو */
+ 
 .logo {
     grid-area: logo;
     display: flex;
@@ -207,9 +212,9 @@ main:focus { outline: none; }
 .logo-name { font-weight: 800; font-size: 1rem; }
 .logo-tag { font-size: .75rem; color: var(--muted); }
 
-/* سبد خرید */
+
 .cart {
-    grid-area: cart;
+
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -223,6 +228,7 @@ main:focus { outline: none; }
     color: var(--link);
     font-weight: 700;
 }
+
 .cart svg { inline-size: 22px; block-size: 22px; }
 .cart-label { display: none; }
 .count {
@@ -238,7 +244,34 @@ main:focus { outline: none; }
     line-height: 1;
 }
 
-/* دکمه منوی موبایل */
+.header-actions {
+    grid-area: cart;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-block-size: 48px;
+    min-inline-size: 48px;
+    padding-inline: 12px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--text);
+    font-weight: 700;
+}
+.theme-toggle:hover { background: var(--pink-soft); }
+.theme-label { display: none; }
+
+@media (min-width: 861px) {
+    .theme-label { display: inline; }
+}
+
 .menu-toggle,
 .menu-btn { grid-area: toggle; inline-size: 48px; block-size: 48px; }
 .menu-toggle {
@@ -275,7 +308,7 @@ main:focus { outline: none; }
 .menu-toggle:checked + .menu-btn span::before { transform: translateY(7px) rotate(45deg); }
 .menu-toggle:checked + .menu-btn span::after { transform: translateY(-7px) rotate(-45deg); }
 
-/* پنل موبایل (جستجو + منو) */
+
 .header-menu {
     position: absolute;
     inset-inline: 0;
@@ -298,7 +331,7 @@ main:focus { outline: none; }
     transition: opacity .2s ease, transform .2s ease, visibility 0s;
 }
 
-/* جستجو  */
+
 .search { position: relative; margin-block-end: 8px; }
 .search svg {
     position: absolute;
@@ -320,7 +353,7 @@ main:focus { outline: none; }
 }
 .search input::placeholder { color: var(--muted); opacity: 1; }
 
-/* دکمه ثبت جستجو: معمولاً پنهان (فقط برای صفحه‌خوان و Enter)، با فوکوس کیبورد دیده می‌شود */
+
 .search button.sr-only:focus-visible {
     inset-block-start: 50%;
     inset-inline-end: 8px;
@@ -337,7 +370,7 @@ main:focus { outline: none; }
     font-weight: 700;
 }
 
-/* منوی اصلی */
+
 .main-nav a {
     display: flex;
     align-items: center;
@@ -352,7 +385,7 @@ main:focus { outline: none; }
 .all-link { color: var(--link); font-weight: 800; }
 .cat-menu { display: none; }
 
-/* ----- دسکتاپ ----- */
+
 @media (min-width: 861px) {
     :root { --anchor-offset: 150px; --card-w: 196px; }
 
@@ -381,7 +414,7 @@ main:focus { outline: none; }
     .main-nav { grid-area: nav; margin-block-start: 8px; border-block-start: 1px solid var(--border); }
     .main-nav > ul { display: flex; flex-wrap: wrap; gap: 4px; padding-block: 4px; }
 
-    /* منوی همه دسته‌ها: با hover یا فوکوس کیبورد باز می‌شود */
+
     .all-cats { position: relative; }
     .cat-menu {
         display: block;
@@ -416,9 +449,7 @@ main:focus { outline: none; }
     }
 }
 
-/* 
-   محتوا
-   */
+
 main { display: block; padding-block: 20px 8px; }
 
 .section, .card, .site-footer { scroll-margin-block-start: var(--anchor-offset); }
@@ -440,7 +471,7 @@ main { display: block; padding-block: 20px 8px; }
     line-height: 1.5;
 }
 
-/* بخش مقصد Fragment: «اینجا هستید» */
+
 .section:target .section-head {
     padding-inline-start: 12px;
     border-inline-start: 5px solid var(--brand);
@@ -456,7 +487,7 @@ main { display: block; padding-block: 20px 8px; }
 }
 .card:target article { box-shadow: 0 0 0 3px var(--yellow); }
 
-/* ---------- Hero ---------- */
+
 .hero-grid { display: grid; gap: 16px; }
 
 .hero, .promo {
@@ -525,7 +556,7 @@ background: #E67188}
     .hero-art { font-size: 9rem; inset-inline-end: 40px; inset-block-end: 12px; }
 }
 
-/* ---------- دسته‌بندی‌ها ---------- */
+
 .cat-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -566,7 +597,7 @@ background: #E67188}
     .cat { font-size: .9375rem; }
 }
 
-/* رنگ‌های ملایم */
+
 .t-red { --tint: var(--t-red); }
 .t-blue { --tint: var(--t-blue); }
 .t-yellow { --tint: var(--t-yellow); }
@@ -576,7 +607,7 @@ background: #E67188}
 .t-orange { --tint: var(--t-orange); }
 .t-purple { --tint: var(--t-purple); }
 
-/* ---------- کاروسل ---------- */
+
 .carousel-nav { display: flex; gap: 8px; }
 .carousel-btn {
     display: grid;
@@ -596,7 +627,7 @@ background: #E67188}
 
 .carousel {
     margin-inline: -8px;
-    padding: 18px 8px 26px;          /* جا برای بالا آمدن کارت و سایه */
+    padding: 18px 8px 26px;
     overflow-x: auto;
     overflow-y: hidden;
     overscroll-behavior-x: contain;
@@ -613,7 +644,7 @@ background: #E67188}
     min-inline-size: 100%;
 }
 
-/* ---------- کارت محصول ---------- */
+
 .card {
     position: relative;
     isolation: isolate;
@@ -621,7 +652,8 @@ background: #E67188}
     scroll-snap-align: start;
     transition: transform .25s ease;
 }
-/* سایه روی لایهٔ جدا و فقط با opacity ظاهر می‌شود (Composite) */
+
+
 .card::before {
     content: "";
     position: absolute;
@@ -704,7 +736,7 @@ background: #E67188}
 .add:hover { background: var(--brand-dark); }
 .add:active { transform: scale(.92); }
 
-/* حالت «ناموجود» */
+
 .card.is-out article { border-style: dashed; background: var(--surface-2); }
 .is-out .media { filter: grayscale(1); opacity: .6; }
 .is-out .badge { background: var(--disabled-text); }
@@ -716,7 +748,7 @@ background: #E67188}
     transform: none;
 }
 
-/* ---------- بنرهای تبلیغاتی ---------- */
+
 .banners { display: grid; gap: 16px; margin-block-start: 8px; }
 .banner {
     display: flex;
@@ -742,9 +774,7 @@ background: #E67188}
     .banners { grid-template-columns: 1fr 1fr; }
 }
 
-/* ==========================================================================
-   Footer
-   ========================================================================== */
+/*---Footer--- */
 .site-footer {
     margin-block-start: 48px;
     padding-block: 40px 12px;
@@ -777,9 +807,7 @@ background: #E67188}
     .footer-grid { grid-template-columns: 1.5fr 1fr 1fr 1fr; }
 }
 
-/* ==========================================================================
-   کاهش حرکت (تنظیم سیستم‌عامل کاربر)
-   ========================================================================== */
+
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
         animation: none !important;
@@ -843,3 +871,11 @@ background: #E67188}
 }
 .cart-name { flex: 1; font-weight: 700; }
 .cart-total { margin-block-start: 12px; font-weight: 700; }
+
+.plp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--card-w), 1fr));
+    gap: 16px;
+    margin-block-start: 16px;
+}
+.back-link { margin-block-start: 12px; }

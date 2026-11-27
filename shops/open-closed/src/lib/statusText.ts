@@ -4,7 +4,7 @@ function assertNever(value: never): never {
     throw new Error(`Unhandled state: ${JSON.stringify(value)}`);
 }
 
-export function statusText(state: LoadState, shownCount: number): string {
+export function statusText(state: LoadState<unknown>, shownCount: number): string {
     switch (state.status) {
         case 'loading':
             return 'در حال بارگذاری محصولات…';

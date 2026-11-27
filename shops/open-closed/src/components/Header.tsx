@@ -1,15 +1,19 @@
 import { formatCount } from '../lib/format.ts'
 import MainNav from './MainNav.tsx'
 import SearchBox from './SearchBox.tsx'
+import ThemeToggle from './ThemeToggle.tsx'
+import { totalQuantity } from '../cart/cart.ts'
+import { useCartStore } from '../hooks/useCartStore.ts'
+import { Link } from '@tanstack/react-router'
+import JumpLink from './JumpLink.tsx'
 
-type HeaderProps = { cartCount: number }
-
-export default function Header({ cartCount }: HeaderProps) {
+export default function Header() {
+  const count = useCartStore((s) => totalQuantity(s.cart))
   return (
     <header className="site-header">
       <div className="topbar">🚚 ارسال رایگان برای خریدهای بالای ۵۰۰ هزار تومان</div>
       <div className="wrap header-grid">
-        <a className="logo" href="#top" aria-label="سوپرمارکت باز-بسته، صفحه اصلی">
+        <Link className="logo" to="/" aria-label="سوپرمارکت باز-بسته، صفحه اصلی">
           <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false">
             <circle cx="20" cy="20" r="20" fill="#E67188" />
             <text x="20" y="27" textAnchor="middle" fontSize="20">🚪</text>
@@ -18,9 +22,10 @@ export default function Header({ cartCount }: HeaderProps) {
             <span className="logo-name">سوپرمارکت باز-بسته</span>
             <span className="logo-tag">باز برای توسعه، بسته برای تغییر</span>
           </span>
-        </a>
-
-        <a className="cart" href="#cart" aria-label="سبد خرید">
+        </Link>
+      <div className="header-actions">
+        <ThemeToggle/>
+        <JumpLink className="cart" to="cart" label="سبد خرید">
           <svg
             viewBox="0 0 24 24"
             fill="none"
@@ -36,8 +41,9 @@ export default function Header({ cartCount }: HeaderProps) {
             <path d="M2 3h3l2.7 11.4a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 1.9-1.5L21 7H6" />
           </svg>
           <span className="cart-label">سبد خرید</span>
-          <span className="count">{formatCount(cartCount)}</span>
-        </a>
+          <span className="count">{formatCount(count)}</span>
+        </JumpLink>
+      </div>
 
         <input className="menu-toggle" type="checkbox" id="menu-toggle" aria-label="باز و بسته کردن منو" />
         <div className="menu-btn" aria-hidden="true">

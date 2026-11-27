@@ -1,5 +1,6 @@
 dist/
 node_modules/
-dist/
-.env.*.local
+.vercel
 .env.local
+.env.*.local
+.playwright-mcp

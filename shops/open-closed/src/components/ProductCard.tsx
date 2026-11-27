@@ -1,3 +1,5 @@
+import { useId } from 'react'
+import { useCartStore } from '../hooks/useCartStore.ts'
 import type { Product } from '../types.ts'
 import { describeProduct } from '../lib/format.ts'
 import Price from './Price.tsx'
@@ -7,23 +9,17 @@ const TINTS = ['t-blue', 't-yellow', 't-green', 't-pink', 't-purple', 't-orange'
 type ProductCardProps = {
   product: Product
   index: number
-  onAdd: (id: number) => void
-  badge?: string
   inStock?: boolean
 }
 
-export default function ProductCard({
-  product,
-  index,
-  onAdd,
-  badge,
-  inStock = true,
-}: ProductCardProps) {
-  const nameId = `d-${product.id}-n`
+export default function ProductCard({ product, index, inStock = true }: ProductCardProps) {
+  const add = useCartStore((s) => s.add)
+  const nameId = useId()
   const tint = TINTS[index % TINTS.length]
+  const badge = product.tags.includes('جدید') ? 'جدید' : undefined
 
   return (
-    <li className={inStock ? 'card' : 'card is-out'} id={`d-${product.id}`}>
+    <li className={inStock ? 'card' : 'card is-out'}>
       <article className={tint} aria-labelledby={nameId}>
         <div className="media">
           <span className="ico" aria-hidden="true">{product.emoji}</span>
@@ -38,7 +34,7 @@ export default function ProductCard({
             type="button"
             disabled={!inStock}
             aria-label={`افزودن ${describeProduct(product)} به سبد خرید`}
-            onClick={() => onAdd(product.id)}
+            onClick={() => add(product.id)}
           >
             <span aria-hidden="true">+</span>
           </button>

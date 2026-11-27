@@ -3,16 +3,15 @@
 ## 1. What must it do? (Requirements)
 
 - A customer can view the products available in the shop.
-- A customer can browse products by category.
-- A customer can search for products by name.
-- A customer can see product names, prices, units, tags, and available stock.
-- A customer can see product offers and discount percentages.
+- A customer can browse products through carousels (special offers, dairy).
+- A customer can open a full product list (PLP) for each carousel.
+- A customer can see product names, prices, units, and tags.
 - A customer can add products to the cart.
-- A customer can increase or decrease product quantities.
 - A customer can remove products from the cart.
 - A customer can see the cart subtotal and total quantity.
-- A customer can see the shop's delivery fee and free-delivery threshold.
+- A customer can switch between a light and a dark theme, and the theme is remembered.
 - The cart is saved in `localStorage` and restored after refreshing the page.
+- Every page keeps working after Refresh, and Back / Forward work.
 
 Not now:
 - User registration and login.
@@ -21,50 +20,60 @@ Not now:
 - Product management for administrators.
 - Advanced sorting and filtering.
 - Search filtering (the search box is rendered, but it does not filter yet).
+- Product detail page, checkout form, and sort order in the URL.
 
 ## 2. Screens and Parts
 
-- **Header:** Shop name, search input, main menu, and cart count.
-- **Category list:** Available categories with their names and emojis.
-- **Product grid:** Products matching the selected category.
-- **Product card:** Product name, emoji, unit, price, badge, stock status, and add-to-cart button.
+- **Header:** Shop name, theme toggle, cart count, search input, and main menu.
+- **Home page:** Hero, carousel rows (up to 10 products each, with a "view all" link), cart, and banners.
+- **PLP page:** Title and count of one carousel, all of its products, a link back home, and the cart.
+- **Not found page:** A readable message and a link back home.
+- **Product card:** Product name, emoji, unit, price, badge, and add-to-cart button.
 - **Cart:** Cart items, remove buttons, subtotal, and total quantity.
+- **Theme toggle:** A button that switches between light and dark.
 - **Status messages:** Loading skeletons, empty-state messages, and readable error messages.
 
 ## 3. Data (`types.ts`)
 
 - **Product:** `id`, `categoryId`, `name`, `emoji`, `unit`, `price`, and `tags`.
-- **Category:** `id`, `slug`, `name`, `emoji`, and `color`.
-- **Stock:** `updatedAt` and `items`, mapping product IDs to stock quantities.
 - **Offer:** `productId`, `percent`, and `label`.
-- **Shop:** Shop name, slogan, delivery fee, free-delivery threshold, currency, and other shop information.
+- **Carousel:** `id`, `title`, `emoji`, and either `source: 'offers'` or a `categoryId`.
+- **Catalog:** `products`, `offers`, and `carousels`, loaded together.
 - **CartItem / Cart:** A product ID with a quantity, and the list of those items.
-- **LoadState:** A union of `loading`, `success`, `empty`, and `error`.
+- **Theme:** `'light'` or `'dark'`.
+- **LoadState&lt;T&gt;:** A union of `loading`, `success` (with `data: T`), `empty`, and `error`. It is generic, so it can describe any loaded data.
+- **Category, Stock, Shop:** Described by types, but their JSON files are not used yet.
 
 The TypeScript types describe the expected JSON structures. API responses are also checked at runtime (`api/guards.ts`) because TypeScript types alone cannot validate incoming JSON.
 
 ## 4. Where Does Each Piece Live?
 
-- **Server/API data:** Products come from `products.json`. The other JSON files exist but are not used yet.
-- **Client state:** Load status and products, selected category, and the current cart. All of it lives in `App`.
-- **`localStorage`:** Cart items and quantities, read once at startup and written whenever the cart changes.
-- **URL:** No persistent search or category-filter state.
+- **Server/API data:** Products, offers, and carousels come from `products.json`, `offers.json`, and `home.json`. The other JSON files exist but are not used yet.
+- **Shared client state (Zustand stores):** The theme and the cart. Components read them directly, so nothing is passed through `App` or through middle components.
+- **Local client state:** The load status of the catalog lives inside the `useCatalog` hook.
+- **`localStorage`:** The cart (through `storage/cart.ts`) and the theme (through Zustand `persist`).
+- **URL:** The current page and the carousel ID (`#/plp/dairy`).
 - **Environment variables:** `VITE_API_URL` selects the API base URL. No secrets belong in frontend environment variables.
+- **`App`:** It has no state and no Effects. It only defines the routes.
 
 ## 5. API (What We Fetch, and When)
 
-When the application starts, one Effect in `App` fetches:
+`useCatalog` runs one Effect when a page that needs data is mounted. It calls `fetchCatalog`, which uses `Promise.all` to fetch:
 
 - `GET /api/products.json` → Product data.
+- `GET /api/offers.json` → Offer data.
+- `GET /api/home.json` → The `carousels` list.
 
-The response is validated item by item. Invalid items are skipped with a warning. If the file is missing, invalid, or unreachable, the screen shows a readable error.
+Every response is validated item by item. Invalid items are skipped with a warning. If a file is missing, invalid, or unreachable, the screen shows a readable error. A flag (`ignore`) stops a late response from updating a page that has already gone away.
 
 ## 6. States of Each Screen
 
 - **Loading:** Skeleton cards and a loading message.
-- **Success:** The products of the selected category.
-- **Empty:** A message when there are no products at all, or none in the selected category.
+- **Success:** Carousels (home) or the products of one carousel (PLP).
+- **Empty:** A message when there are no products at all, or none in a carousel.
 - **Error:** A readable message when the data cannot be fetched or validated.
+- **Unknown carousel ID:** A "list not found" message with a link home (not a blank page).
+- **Unknown URL:** The not-found page.
 - **Empty cart:** A message that invites the customer to add products.
 
 ## 7. Folders
@@ -73,52 +82,97 @@ The response is validated item by item. Invalid items are skipped with a warning
 - `src/api/` → Fetching API data and validating external responses.
 - `src/storage/` → Reading and writing `localStorage`.
 - `src/cart/` → Pure cart rules and calculations.
+- `src/catalog/` → Pure functions that compute the products of each carousel.
+- `src/hooks/` → Zustand stores (`useThemeStore`, `useCartStore`) and custom hooks (`useCatalog`, `useCartTitle`).
 - `src/lib/` → Formatting, error messages, and status text.
 - `src/components/` → React components (one per file).
-- `src/App.tsx` → State, Effects, and event handlers.
+- `src/components/pages/` → One file per page (`HomePage`, `PlpPage`, `NotFound`).
+- `src/App.tsx` → Only the route definitions.
 - `src/main.tsx` → Mounts `App` into the page.
 
-`App` coordinates the application. API access, storage, and cart logic stay in their own modules and know nothing about React. Shared types do not depend on those modules.
+API access, storage, cart logic, and catalog logic stay in their own modules and know nothing about React. Shared types do not depend on those modules.
 
-## 8. Component Tree
+## 8. Routes
+
+| URL (hash) | Page | Data from |
+|---|---|---|
+| `#/` | `HomePage` | `useCatalog` + `carouselProducts` (per carousel, max 10 products) |
+| `#/plp/$carouselId` | `PlpPage` | `useCatalog` + `findCarousel` + `carouselProducts` |
+| any other URL | `NotFound` | none |
+
+- The router lives in `App.tsx`. Pages read the route parameter with `useParams({ from })`, so they never import `App.tsx` (that would be a circular import).
+- `createHashHistory` is used because shops are static files on a server: `#/plp/dairy` still works after Refresh.
+- `Register` tells every file which routes exist, so a mistyped link path is a TypeScript error.
+- An unknown `carouselId` (for example `#/plp/nothing`) shows a readable "list not found" message.
+- Jumping inside a page (cart, contact, top) uses `JumpLink`, because a plain `href="#cart"` would collide with the hash router.
+
+## 9. Stores
+
+| Store | Defined in | What it holds | Who changes it | Where it is saved |
+|---|---|---|---|---|
+| Theme | `hooks/useThemeStore.ts` (Zustand) | `theme` (`light` / `dark`) and `toggle` | `ThemeToggle` calls `toggle` | `localStorage` key `open-closed-theme`, through Zustand `persist` |
+| Cart | `hooks/useCartStore.ts` (Zustand) | `cart` (list of product ID + quantity), `add`, `remove` | `ProductCard` calls `add`, `CartPanel` calls `remove` | `localStorage` through `storage/cart.ts`, inside a `subscribe` |
+
+- **Why Zustand for the cart (not `useReducer` + `useContext`):** The pure functions in `cart/` and `storage/` stay unchanged. No `Provider` is needed. Each component reads only the part it needs with a selector (`ProductCard` reads only `add`, `Header` reads only the total quantity), so one change does not re-render every component that reads a context.
+- Components always use selectors (`useThemeStore((s) => s.theme)`), never the whole store.
+- **Not State** (computed during render): total quantity, subtotal, cart lines, and the products of a carousel. A separate State could disagree with the cart.
+- **Load state** (`LoadState<Catalog>`) is local state inside the `useCatalog` hook, not a store. Each page that calls `useCatalog` fetches the data when it is mounted.
+- The page title is a side effect of the cart count, set in an Effect inside `useCartTitle`.
+
+## 10. Component Tree per Page
+
+All pages:
 
 ```
-App
+Layout (theme div with data-theme)
+├─ JumpLink (skip link)
 ├─ Header
+│  ├─ Link (logo)
+│  ├─ ThemeToggle
+│  ├─ JumpLink (cart and count)
 │  ├─ SearchBox
 │  └─ MainNav
-├─ Hero
-├─ CategoryNav
-├─ ProductGrid
-│  ├─ Skeleton × 6        (only while loading)
-│  └─ ProductCard × n
-│     └─ Price
-├─ CartPanel
-├─ Banners
+├─ main → Outlet → [the page below]
 └─ Footer
 ```
 
-Data flows down through props. Events flow up through callback props (`onPick`, `onAdd`, `onRemove`).
+Home page (`/`):
 
-## 9. Where Does State Live?
+```
+HomePage
+├─ Hero
+├─ CarouselRow × n         (or LoadStatus while loading, empty, or error)
+│  └─ ProductCard × up to 10
+│     └─ Price
+├─ CartPanel
+└─ Banners
+```
 
-| State | Owner component | Who changes it | Where it is saved |
-|---|---|---|---|
-| `state` (`LoadState`) | `App` | An Effect after `fetchProducts()` finishes | Not saved (comes from the server) |
-| `categoryId` | `App` | `CategoryNav` through `onPick` | Not saved |
-| `cart` | `App` | `ProductGrid`/`ProductCard` through `onAdd`, `CartPanel` through `onRemove` | `localStorage`, through `storage/cart.ts` |
+PLP page (`/plp/$carouselId`):
 
-Values that are computed during render and are **not** State:
+```
+PlpPage
+├─ LoadStatus              (while loading, empty, or error)
+├─ ProductCard × n         (all products of the carousel)
+│  └─ Price
+├─ Link (back to home)
+└─ CartPanel
+```
 
-- **Total quantity and subtotal:** They can always be calculated from `cart` and the products. A separate State could disagree with the cart.
-- **Visible products:** They are calculated from the loaded products and `categoryId`.
-- **Cart lines:** They combine `cart` with the loaded products.
-- **Page title:** It is a side effect of the cart count, set in an Effect.
+Not found page:
 
-## 10. Security
+```
+NotFound
+└─ Link (back to home)
+```
+
+Data flows down through props. Shared state (theme and cart) is read directly from the stores with selectors.
+
+## 11. Security
 
 - Everything delivered to the browser is public and can be inspected or modified.
 - TypeScript types do not validate API responses at runtime.
 - Client-side prices and stock information must not be treated as authoritative during a real purchase.
 - In a real checkout, the server must verify product prices, stock availability, and quantities, then calculate the final order total.
+- The cart and theme in `localStorage` can be edited by the user, so they are checked when read (`isCartItem`) and never trusted as authoritative.
 - No secrets or private API keys belong in frontend code or `VITE_` environment variables.

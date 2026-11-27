@@ -26,12 +26,22 @@ export type Shop = {
 export type CartItem = { productId: number; quantity: number };
 export type Cart = CartItem[];
 
-export type LoadState =
+export type Carousel = {
+    id: string; title: string; emoji: string;
+    source?: 'offers'; categoryId?: number;
+};
+
+export type Catalog = {
+    products: Product[];
+    offers: Offer[];
+    carousels: Carousel[];
+};
+
+export type LoadState<T> =
     | { status: 'loading' }
-    | { status: 'success'; products: Product[] }
+    | { status: 'success'; data: T }
     | { status: 'empty' }
     | { status: 'error'; message: string };
-
 
 export type ProductPreview = Pick<Product, 'id' | 'name' | 'price'>;
 export type ReadonlyProduct = Readonly<Product>;
@@ -50,3 +60,6 @@ export const SHOP_DEFAULTS = {
     deliveryFee: 35000,
     freeDeliveryOver: 500000,
 } satisfies Pick<Shop, 'currency' | 'deliveryFee' | 'freeDeliveryOver'>;
+
+export type Theme = 'light' | 'dark';
+
