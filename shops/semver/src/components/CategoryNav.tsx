@@ -14,14 +14,16 @@ export default function CategoryNav({
   onPick,
   menu,
 }: CategoryNavProps) {
+  const categoryHrefs = new Set(categories.map(({ slug }) => `#${slug}`));
+
   return (
     <section id="header-categories">
       <ul id="btn-categories">
         <li className="has-dropdown">
           <details>
-            <summary className="dropdown-toggle">
-              <i className="ph ph-list"></i>{' '}
-              همه دسته ها
+            <summary className="dropdown-toggle" aria-label="همه دسته ها">
+              <i className="ph ph-list" aria-hidden="true"></i>
+              <span className="dropdown-label">همه دسته ها</span>
             </summary>
             <ul className="dropdown-menu" id="dropdown-menu">
               <li>
@@ -50,7 +52,10 @@ export default function CategoryNav({
           </details>
         </li>
         {menu.map((link) => (
-          <li key={`${link.href}-${link.label}`}>
+          <li
+            key={`${link.href}-${link.label}`}
+            className={categoryHrefs.has(link.href) ? 'category-shortcut' : undefined}
+          >
             <StoreLink href={link.href}>{link.label}</StoreLink>
           </li>
         ))}

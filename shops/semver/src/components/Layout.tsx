@@ -22,7 +22,7 @@ function StorefrontLayout() {
   const searchState = filterProductsByQuery(productState, query, categories);
 
   return (
-    <div className="app" id="storefront-top" data-theme={theme}>
+    <div className={isHome ? "app home-page" : "app"} id="storefront-top" data-theme={theme}>
       <Header
         products={products}
         categories={categories}

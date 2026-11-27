@@ -108,14 +108,16 @@ export default function Header({
                 onClick={() => setCartOpen((open) => !open)}
               >
                 سبد خرید
-                <span
-                  id="cart-count"
-                  className="cart-count"
-                  hidden={cartCount === 0}
-                >
-                  {formatCount(cartCount)}
+                <span className="cart-icon" aria-hidden="true">
+                  <span
+                    id="cart-count"
+                    className="cart-count"
+                    hidden={cartCount === 0}
+                  >
+                    {formatCount(cartCount)}
+                  </span>
+                  <i className="ph ph-shopping-cart-simple"></i>
                 </span>
-                <i className="ph ph-shopping-cart-simple"></i>
               </button>
               <CartPanel
                 open={cartOpen}
