@@ -1,4 +1,5 @@
-import {useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
+import {flushSync} from 'react-dom';
 
 import {Link, useNavigate} from '@tanstack/react-router';
 
@@ -38,9 +39,14 @@ export default function CheckoutPage() {
 
     const [submitted, setSubmitted] = useState(false);
 
+    const mainRef = useRef<HTMLElement>(null);
     const nameRef = useRef<HTMLInputElement>(null);
     const mobileRef = useRef<HTMLInputElement>(null);
     const addressRef = useRef<HTMLTextAreaElement>(null);
+
+    useEffect(() => {
+        mainRef.current?.focus();
+    }, [loadState.status]);
 
     if (loadState.status !== 'success') {
         return null;
@@ -74,9 +80,9 @@ export default function CheckoutPage() {
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        setSubmitted(true);
-
         if (!isValid) {
+            flushSync(() => setSubmitted(true));
+
             if (errors.name) {
                 nameRef.current?.focus();
             } else if (errors.mobile) {
@@ -95,12 +101,18 @@ export default function CheckoutPage() {
     }
 
     return (
-        <main id='main' className='page-section checkout-page' tabIndex={-1}>
+        <main
+            ref={mainRef}
+            id='main'
+            className='page-section checkout-page'
+            tabIndex={-1}
+            aria-labelledby='checkout-title'
+        >
             <Link to='/' className='page-back-link'>
                 بازگشت به فروشگاه
             </Link>
 
-            <h1>تسویه حساب</h1>
+            <h1 id='checkout-title'>تسویه حساب</h1>
 
             {cart.length === 0 ? (
                 <section className='checkout-empty'>
@@ -129,7 +141,11 @@ export default function CheckoutPage() {
                                     updateField('name', event.target.value)
                                 }
                                 aria-invalid={submitted && Boolean(errors.name)}
-                                aria-describedby='checkout-name-error'
+                                aria-describedby={
+                                    submitted && errors.name
+                                        ? 'checkout-name-error'
+                                        : undefined
+                                }
                             />
                             {submitted && errors.name && (
                                 <small
@@ -158,7 +174,11 @@ export default function CheckoutPage() {
                                 aria-invalid={
                                     submitted && Boolean(errors.mobile)
                                 }
-                                aria-describedby='checkout-mobile-error'
+                                aria-describedby={
+                                    submitted && errors.mobile
+                                        ? 'checkout-mobile-error'
+                                        : undefined
+                                }
                             />
                             {submitted && errors.mobile && (
                                 <small
@@ -184,7 +204,11 @@ export default function CheckoutPage() {
                                 aria-invalid={
                                     submitted && Boolean(errors.address)
                                 }
-                                aria-describedby='checkout-address-error'
+                                aria-describedby={
+                                    submitted && errors.address
+                                        ? 'checkout-address-error'
+                                        : undefined
+                                }
                             />
                             {submitted && errors.address && (
                                 <small
@@ -199,7 +223,6 @@ export default function CheckoutPage() {
                         <button
                             type='submit'
                             className='checkout-submit'
-                            disabled={!isValid || cart.length === 0}
                         >
                             ثبت سفارش
                         </button>
