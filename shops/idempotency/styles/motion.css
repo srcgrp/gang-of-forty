@@ -42,7 +42,8 @@
   .categories:target,
   .product-section:target,
   #about:target,
-  #contact:target {
+  #contact:target,
+  .is-targeted {
     animation: none;
   }
 

@@ -1,4 +1,5 @@
-import { isCategory, isProduct, isOffer, isShop, isStock } from './guards';
+import { isCategory, isProduct, isOffer, isStock, isCarousel, isRecord } from './guards';
+import { isShop } from './shopGuards';
 
 const API_URL: string = import.meta.env.VITE_API_URL;
 
@@ -34,24 +35,30 @@ export async function getJSON(path: string): Promise<unknown> {
 
 // Loads categories, products, offers, stock and shop in parallel with Promise.all,
 // so total wait time is the slowest request, not the sum.
-// Returns { categories, products, offeredProducts, stock, shop }.
+// Returns { categories, products, offeredProducts, stock, shop , carousels}.
 // Any failure is rethrown to the caller.
 export async function getData() {
-  const [rawCategories, rawProducts, rawOfferedProducts, stock, shop] = await Promise.all([
+  const [rawCategories, rawProducts, rawOfferedProducts, stock, shop, rawHome] = await Promise.all([
     getJSON(`${API_URL}/categories.json`),
     getJSON(`${API_URL}/products.json`),
     getJSON(`${API_URL}/offers.json`),
     getJSON(`${API_URL}/stock.json`),
     getJSON(`${API_URL}/shop.json`),
+    getJSON(`${API_URL}/home.json`),
   ]);
   const categories = keepValidData(rawCategories, isCategory);
   const products = keepValidData(rawProducts, isProduct);
   const offeredProducts = keepValidData(rawOfferedProducts, isOffer);
+  
+  if (!isRecord(rawHome)) {
+    throw new Error('اطلاعات صفحه اصلی معتبر نیست.')
+  }
+  const carousels = keepValidData(rawHome.carousels, isCarousel)
   if (!isShop(shop)) {
     throw new Error('اطلاعات فروشگاه معتبر نیست.');
   }
   if (!isStock(stock)) {
     throw new Error('اطلاعات موجودی معتبر نیست.');
   }
-  return { categories, products, offeredProducts, stock, shop };
+  return { categories, products, offeredProducts, stock, shop, carousels };
 }
