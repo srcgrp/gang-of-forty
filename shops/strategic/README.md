@@ -36,3 +36,21 @@ When you finish testing, stop and remove the container:
 docker stop shop
 docker rm shop
 ```
+
+### Run the published image
+
+Pull and run version 1.0.0 from GitHub Container Registry.
+
+```sh
+docker pull ghcr.io/armin-panahi/strategic-shop:1.0.0
+docker run -d -p 8080:80 --name strategic-shop-ghcr ghcr.io/armin-panahi/strategic-shop:1.0.0
+```
+
+Open [the shop](http://localhost:8080) and check [the product catalog](http://localhost:8080/api/products.json).
+
+Stop and remove the container after testing.
+
+```sh
+docker stop strategic-shop-ghcr
+docker rm strategic-shop-ghcr
+```
