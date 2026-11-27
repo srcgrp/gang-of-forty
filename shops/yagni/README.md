@@ -4,7 +4,7 @@
 
 ## Live Website
 
-🔗 [مينا Store](https://yagni-shop-qzohcblhk-sipans-projects-a22e04ab.vercel.app)
+🔗 [مينا Store](https://yagni-shop.vercel.app)
 
 ![Mobile screenshot](./docs/mobile.png)
 
