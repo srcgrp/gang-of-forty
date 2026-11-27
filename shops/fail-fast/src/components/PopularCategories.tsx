@@ -6,10 +6,12 @@ import snacksSweetsImg from '../images/snacks-sweets.png'
 import drinksImg from '../images/drinks.png'
 import cosmeticsImg from '../images/cosmetics.webp'
 import CategoryCard from './CategoryCard'
+import { useScrollReveal } from '../hooks/useScrollReveal'
 
 export default function PopularCategories(): ReactNode {
+  const revealRef = useScrollReveal<HTMLElement>()
   return (
-    <section className="section" id="categories">
+    <section ref={revealRef} className="section scroll-reveal" id="categories">
       <h2 className="section-title">دسته‌بندی‌های پرطرفدار</h2>
       <div className="popular-products" tabIndex={0}>
         <CategoryCard

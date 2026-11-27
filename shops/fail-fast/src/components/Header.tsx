@@ -43,7 +43,7 @@ export default function Header({
             <circle cx="18" cy="20" r="1.2" />
           </svg>
           <span>سبد خرید</span>
-          <b aria-live="polite">{cartCount}</b>
+          <b key={cartCount} aria-live="polite">{cartCount}</b>
         </Link>
       </div>
       <Nav
