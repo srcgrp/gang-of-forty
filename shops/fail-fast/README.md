@@ -37,6 +37,13 @@ docker run --rm -p 8080:80 --name fail-fast-shop fail-fast-shop
 
 Pull Request به `main` یک پیش‌نمایش Vercel می‌سازد و push به `main` نسخه production را منتشر می‌کند. آدرس production را پس از deploy در `shop.json` ثبت کنید.
 
+## بررسی موبایل و کیفیت
+
+- [اسکرین‌شات موبایل (390×844)](docs/mobile.png)
+- [خلاصه‌ی Lighthouse](docs/lighthouse.md)
+- [گزارش کامل Lighthouse (HTML)](docs/lighthouse-report.report.html)
+- [داده‌ی خام Lighthouse (JSON)](docs/lighthouse-report.report.json)
+
 ## مجوز و همکاری
 
 این پروژه بخشی از بوت‌کمپ Gang of Forty است. راهنمای ساخت و نگهداری در `AGENTS.md` قرار دارد.
