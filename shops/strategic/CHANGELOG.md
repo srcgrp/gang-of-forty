@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.0.1] - 2026-11-27
+
+Controlled rollback drill with an intentional English-digit price display regression.
+
+### Added
+
+- GitHub Actions publishing of versioned and latest Docker images to GHCR after checks pass on pushes to main.
+- README instructions for local setup and running the published container image, plus a live-shop link and CI badge.
+- Recorded comparison of assistant results with and without project instructions in `evals.md`.
+
+### Changed
+
+- Intentionally display current product-card prices with English digits (`en-US`) for the Week 7 bonus rollback exercise, retaining commit `8a5506a9`. Previous prices retain Persian digits; this regression has not been fixed or reverted.
+
 ## [1.0.0] - 2026-11-22
 
 First release of Armin Supermarket with a Persian RTL storefront, product catalog, shopping cart, Docker build, and Vercel deployment.
