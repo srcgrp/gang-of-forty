@@ -15,7 +15,7 @@
   --color-leaf-dark: #2b5f3a;
   --color-logo-bg: #F7EEDC;
 }
-html[data-theme="dark"] {
+div[data-theme="dark"] {
   --color-bg: #4A0912;
   --color-surface: #641722;
 

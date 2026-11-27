@@ -1,4 +1,4 @@
-import type { AppData, ApiErrorType, LoadState } from "../types";
+import type { AppData, ApiErrorType, LoadState } from "../../types";
 import { api, ApiError } from "./client";
 import {
   arrayOf,
@@ -14,10 +14,8 @@ export function assertNever(value: never): never {
   throw new Error(`Unhandled state: ${String(value)}`);
 }
 
-export function userMessage(kind: ApiErrorType): string {
-  switch (kind) {
-    case "offline":
-      return "اتصال اینترنت خود را بررسی کنید";
+export function userMessage(type: ApiErrorType): string {
+  switch (type) {
     case "timeout":
       return "پاسخی از سرور دریافت نشد";
     case "network":
@@ -31,19 +29,21 @@ export function userMessage(kind: ApiErrorType): string {
     case "unknown":
       return "خطای نامشخصی رخ داد";
     default:
-      return assertNever(kind);
+      return assertNever(type);
   }
 }
 
-export async function loadAll(): Promise<LoadState<AppData>> {
+export async function loadAll(
+  signal?: AbortSignal,
+): Promise<LoadState<AppData>> {
   try {
     const [p, c, s, h, o, st] = await Promise.all([
-      api.products(),
-      api.categories(),
-      api.shop(),
-      api.home(),
-      api.offers(),
-      api.stock(),
+      api.products(signal),
+      api.categories(signal),
+      api.shop(signal),
+      api.home(signal),
+      api.offers(signal),
+      api.stock(signal),
     ]);
     return {
       status: "success",
@@ -57,7 +57,7 @@ export async function loadAll(): Promise<LoadState<AppData>> {
       },
     };
   } catch (err: unknown) {
-    const kind: ApiErrorType = err instanceof ApiError ? err.type : "unknown";
-    return { status: "error", message: userMessage(kind), kind };
+    const type: ApiErrorType = err instanceof ApiError ? err.type : "unknown";
+    return { status: "error", message: userMessage(type), type };
   }
 }

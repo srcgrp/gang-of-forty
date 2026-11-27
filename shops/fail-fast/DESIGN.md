@@ -309,3 +309,98 @@ types.ts
 | `npm run check` | TypeScript type checking |
 | `npm run build` | Build برای production |
 | `npm run preview` | Preview production build |
+
+---
+
+## ۹. State Management
+
+### رویکرد انتخابی: Zustand
+
+برای مدیریت state سبد خرید، از **Zustand** استفاده شده است.
+
+### چرا Zustand؟
+
+| معیار | Zustand | Context + useReducer | Redux |
+|-------|---------|---------------------|-------|
+| Boilerplate | کم | متوسط | زیاد |
+| bundle size | ~۱KB | ۰ (built-in) | ~۷KB |
+| DevTools | Optional | نیاز به setup | Built-in |
+| Re-render optimization | انتخابی با selectors | نیاز به useMemo | انتخابی |
+| Learning curve | پایین | متوسط | بالا |
+| TypeScript support | عالی | خوب | عالی |
+
+**دلایل انتخاب:**
+1. **سادگی:** بدون boilerplate اضافی
+2. **Performance:** Components فقط به state مورد نیاز subscribe می‌کنند
+3. **Persistence:** ادغام آسان با localStorage
+4. **TypeScript:** پشتیبانی عالی با type inference
+
+### ساختار Cart Store
+
+```
+src/
+├── hooks/
+│   └── useCartStore.ts    # Zustand store برای سبد خرید
+├── cart.ts                # Pure functions (بدون تغییر)
+└── storage/
+    └── cartStorage.ts     # localStorage persistence (بدون تغییر)
+```
+
+### Store API
+
+```typescript
+// State
+{
+  lines: CartLine[]      // اقلام سبد
+  itemCount: number      // تعداد کل
+}
+
+// Actions
+{
+  add: (productId: number) => void
+  remove: (productId: number) => void
+  getTotal: (products: Product[]) => number
+}
+```
+
+### نحوه استفاده
+
+```typescript
+// فقط itemCount (re-render فقط وقتی itemCount تغییر کند)
+const itemCount = useCartStore((state) => state.itemCount)
+
+// فقط lines (re-render فقط وقتی lines تغییر کند)
+const lines = useCartStore((state) => state.lines)
+
+// Action (بدون re-render اضافی)
+const add = useCartStore((state) => state.add)
+```
+
+### تفکیک مسئولیت‌ها
+
+| لایه | مسئولیت |
+|------|---------|
+| `cart.ts` | توابع خالص (addToCart, removeFromCart, etc.) |
+| `cartStorage.ts` | خواندن/نوشتن localStorage |
+| `useCartStore.ts` | State management با Zustand |
+
+### Persistence
+
+- **خواندن:** در initialization store از `loadCart()`
+- **نوشتن:** در هر action با `saveCart()`
+- **Key:** `space-market-cart`
+
+### مهاجرت از useCart به useCartStore
+
+| قبلاً (useCart) | اکنون (useCartStore) |
+|-----------------|---------------------|
+| `const { cart, cartItemCount } = useCart()` | `const lines = useCartStore(s => s.lines)` |
+| `const { handleAddToCart } = useCart()` | `const add = useCartStore(s => s.add)` |
+| Props drilling از App | مستقیم در component |
+
+### مزایای رویکرد جدید
+
+1. **حذف prop drilling:** Components مستقیماً به store دسترسی دارند
+2. **Re-render بهینه:** فقط components مربوطه update می‌شوند
+3. **تست آسان‌تر:** Store مستقل از React components
+4. **Persistence خودکار:** با هر تغییر، localStorage بروز می‌شود

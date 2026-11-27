@@ -6,15 +6,15 @@ import { loadCategories } from "./categories";
 import { loadHome } from "../../../shared/api/home";
 
 export async function loadStoreData() {
-  const [products, offers, stock, shop, categories, home] =
-    await Promise.all([
-      loadProducts(),
-      loadOffers(),
-      loadStock(),
-      loadShop(),
-      loadCategories(),
-      loadHome(),
-    ]);
+  const [products, offers, stock, shop, categories, home] = await Promise.all([
+    loadProducts(),
+    loadOffers(),
+    loadStock(),
+    loadShop(),
+    loadCategories(),
+    loadHome(),
+  ]);
 
   return { products, offers, stock, shop, categories, home };
 }
+export type StoreData = Awaited<ReturnType<typeof loadStoreData>>;
