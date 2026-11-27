@@ -2,8 +2,4 @@ node_modules
 dist
 *.local
 .vercel
-.env*
-.env
-.env.*
-!.env.example
 .playwright-mcp/

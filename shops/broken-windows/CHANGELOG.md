@@ -1,5 +1,12 @@
 # Changelog
 
+## [Unreleased]
+
+### Changed
+
+- `.env.development` and `.env.production` are tracked again. They contain only public settings (the API path).  
+
+
 ## [1.0.1] - 2026-11-26
 
 ### Fixed
@@ -31,7 +38,6 @@ First production release of broken windows: a Persian RTL supermarket shop with 
 
 - Header, footer, cart panel, address, and theme-button design.
 - Source files kept under 70 lines, with fewer renders on the catalog.
-- `.env` files are no longer tracked.
 
 ### Fixed
 

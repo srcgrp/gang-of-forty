@@ -6,6 +6,7 @@ import DocumentTitle from "./DocumentTitle.tsx";
 import { useThemeStore } from "../hooks/useThemeStore.ts";
 import { useSearchStore } from "../hooks/useSearchStore.ts";
 import { useCatalog } from "../hooks/useCatalog.ts";
+import CartDrawer from "./CartDrawer";
 
 export default function Layout() {
   const theme = useThemeStore((s) => s.theme);
@@ -20,6 +21,7 @@ const { state} = useCatalog();
       <main className="site-main">
         <Outlet />
       </main>
+      <CartDrawer />
       <Footer categories={state.status === "success" ? state.categories : []} />
     </div>
   );

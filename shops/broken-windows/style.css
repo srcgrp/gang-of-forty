@@ -1373,18 +1373,6 @@ background: #fff;
     align-items: stretch;
   }
 
-  .special-offer-item {
-    flex: 0 0 calc((100% - 2 * 8px) / 3);
-    padding: 6px;
-    gap: 1px;
-    border-radius: 10px;
-    height: 170px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    position: relative;
-  }
-
   .special-offer-image {
     height: 55px;
     margin-bottom: 2px;
@@ -2449,4 +2437,187 @@ body:has(.app[data-theme="dark"]) {
   text-align: right;
   line-height: 1.8;
   padding: 0;
+}
+
+/* ===== Mobile cart drawer ===== */
+.cart-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+}
+
+.cart-drawer-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.cart-drawer-sheet {
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  max-height: 85vh;
+  max-height: 85dvh;
+  overflow-y: auto;
+  background: var(--bg, #fff);
+  color: var(--text);
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.2);
+  direction: rtl;
+  animation: cart-drawer-up 0.25s ease-out;
+}
+
+@keyframes cart-drawer-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.cart-drawer-top {
+  display: flex;
+  justify-content: flex-start;
+  direction: ltr;
+  padding: 10px 12px 0;
+}
+
+.cart-drawer-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid color-mix(in srgb, var(--text) 18%, transparent);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* the panel inside the sheet: no extra card look */
+.app .cart-drawer-sheet .cart-panel {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  padding: 4px 16px 24px;
+}
+
+.app[data-theme="dark"] .cart-drawer-sheet {
+  background-color: var(--card);
+}
+.app[data-theme="dark"] .cart-drawer-close {
+  border-color: var(--border);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cart-drawer-sheet { animation: none; }
+}
+/* ===== Mobile: readable product names ===== */
+@media (max-width: 768px) {
+  /* ~2 cards per screen, so names have room (the next card peeks in) */
+  .special-offer-item {
+    flex: 0 0 calc((100% - 8px) / 2.25);
+    height: auto;
+    min-height: 200px;
+    padding: 8px;
+    gap: 4px;
+    overflow: visible;
+  }
+
+  /* list pages (wrap): exactly 2 per row */
+  .special-offer-items.wrap .special-offer-item {
+    flex: 0 0 calc((100% - 8px) / 2);
+  }
+
+  .special-offer-image {
+    height: 80px;
+  }
+
+  .special-offer-name {
+    display: block;
+    min-height: 3em;
+    overflow: visible;
+    font-size: 12px;
+    line-height: 1.5;
+    word-break: normal;
+    overflow-wrap: break-word;
+  }
+
+  .special-offer-unit {
+    font-size: 10px;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+
+  .special-offer-price {
+    font-size: 12px;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+
+  .add-button {
+    width: 28px;
+    height: 28px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cart-row {
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+
+  .cart-info {
+     flex: 1 1 calc(100% - 60px);
+  }
+
+  .cart-name {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    line-height: 1.6;
+  }
+
+  .cart-stepper {
+    margin-inline-start: 58px;   /* aligns under the name */
+  }
+
+  .cart-line-total {
+    width: auto;
+    margin-inline-start: auto;
+  }
+}
+
+/* Toast: compact on mobile */
+@media (max-width: 480px) {
+  .notyf {
+    padding: 12px;
+  }
+
+  .notyf .notyf__toast {
+    width: auto;
+    max-width: min(240px, calc(100vw - 24px));
+    border-radius: 2px;
+    box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.25);
+  }
+
+  .notyf .notyf__wrapper {
+    padding: 8px 12px;
+    gap: 8px;
+  }
+
+  .notyf .notyf__icon {
+    flex: 0 0 18px;
+    width: 18px;
+    height: 18px;
+  }
+
+  .notyf .notyf__message {
+    font-size: 12px;
+    line-height: 1.6;
+  }
 }

@@ -3,14 +3,14 @@ import CartRow from "./CartRow";
 import { formatNumber, formatPrice } from "../format";
 import { cartCount, cartTotal } from "../cart/totals";
 import { useCartStore } from "../hooks/useCartStore";
-
-export default function CartPanel() {
+type Props = { id?: string; onNavigate?: () => void };
+export default function CartPanel({ id = "cart-panel", onNavigate }: Props) {
   const cart = useCartStore((s) => s.lines);
   const change = useCartStore((s) => s.change);
   const clear = useCartStore((s) => s.clear);
 
   return (
-    <aside className="cart-panel" id="cart-panel">
+    <aside className="cart-panel" id={id}>
       <div className="cart-card">
         <div className="cart-items">
           <h2 className="items-header">
@@ -44,7 +44,7 @@ export default function CartPanel() {
               <span>قابل پرداخت</span>
               <strong>{formatPrice(cartTotal(cart))}</strong>
             </p>
-            <Link to="/checkout" className="cart-checkout">ثبت سفارش</Link>
+            <Link to="/checkout" className="cart-checkout" onClick={onNavigate}>ثبت سفارش</Link>
             <p className="cart-note">ارسال رایگان برای خرید بالای ۲۰۰ هزار تومان</p>
           </div>
         )}
