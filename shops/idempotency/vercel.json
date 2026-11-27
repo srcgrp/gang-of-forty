@@ -1,0 +1,15 @@
+{
+  "git": {
+    "deploymentEnabled": false
+  },
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://gof.zzb.cx/api/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
