@@ -1,17 +1,18 @@
-import type { CartItem } from "../types";
+import { totalCartPrice } from "../cart/cart-logic";
+import { useCartStore } from "../hooks/useCartStore";
 
 interface CartPanelProps {
   isOpen: boolean;
   onClose: () => void;
-  items: CartItem[];
-  onUpdateQuantity: (productId: number, delta: number) => void;
-  onRemove: (productId: number) => void;
 }
 
-export default function CartPanel({ isOpen, onClose, items, onUpdateQuantity, onRemove }: CartPanelProps) {
-  if (!isOpen) return null;
+export default function CartPanel({ isOpen, onClose }: CartPanelProps) {
+  const items = useCartStore((state) => state.lines);
+  const updateQuantity = useCartStore((state) => state.updateQuantity);
+  const remove = useCartStore((state) => state.remove);
+  const total = totalCartPrice(items);
 
-  const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  if (!isOpen) return null;
 
   return (
     <div className="cart-overlay" onMouseDown={(event) => {
@@ -27,10 +28,10 @@ export default function CartPanel({ isOpen, onClose, items, onUpdateQuantity, on
             <div key={item.productId} className="cart-item">
               <span>{item.name}</span>
               <div className="quantity-controls">
-                <button type="button" onClick={() => onUpdateQuantity(item.productId, -1)} aria-label={`کم کردن ${item.name}`}>-</button>
+                <button type="button" onClick={() => updateQuantity(item.productId, -1)} aria-label={`کم کردن ${item.name}`}>-</button>
                 <span>{item.quantity.toLocaleString("fa-IR")}</span>
-                <button type="button" onClick={() => onUpdateQuantity(item.productId, 1)} aria-label={`زیاد کردن ${item.name}`}>+</button>
-                <button className="cart-item-remove" type="button" onClick={() => onRemove(item.productId)} aria-label={`حذف ${item.name}`}>حذف</button>
+                <button type="button" onClick={() => updateQuantity(item.productId, 1)} aria-label={`زیاد کردن ${item.name}`}>+</button>
+                <button className="cart-item-remove" type="button" onClick={() => remove(item.productId)} aria-label={`حذف ${item.name}`}>حذف</button>
               </div>
             </div>
           ))}

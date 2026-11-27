@@ -4,7 +4,7 @@
 
 .site-footer {
   margin-top: 80px;
-  background: var(--surface);
+  background: var(--card);
   color: var(--text);
   border-top: 1px solid var(--border);
 }

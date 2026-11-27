@@ -17,7 +17,7 @@
 body {
   font-family: "Vazirmatn", sans-serif;
   min-height: 100vh;
-  background: var(--surface);
+  background: var(--card);
 }
 
 /* HTML */

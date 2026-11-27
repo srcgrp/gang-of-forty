@@ -33,7 +33,6 @@
   color: var(--primary-hover);
 }
 
-
 /* =========================
    Categories Grid
 ========================= */
@@ -41,14 +40,10 @@
 .categories__grid {
   display: grid;
 
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(min(145px, 100%), 1fr)
-  );
+  grid-template-columns: repeat(auto-fit, minmax(min(145px, 100%), 1fr));
 
   gap: 14px;
 }
-
 
 /* =========================
    Category Card
@@ -68,7 +63,7 @@
   border: 1px solid var(--border);
   border-radius: 16px;
 
-  background: var(--surface);
+  background: var(--card);
 
   color: var(--text);
 
@@ -84,17 +79,12 @@
 .category-card:hover {
   transform: translateY(-4px);
 
-  border-color: color-mix(
-    in srgb,
-    var(--primary) 20%,
-    var(--border)
-  );
+  border-color: color-mix(in srgb, var(--primary) 20%, var(--border));
 
-  background: var(--surface);
+  background: var(--card);
 
   box-shadow: 0 10px 25px rgb(0 0 0 / 7%);
 }
-
 
 /* =========================
    Category Image
@@ -124,7 +114,6 @@
   transform: scale(1.05);
 }
 
-
 /* If you use images in the future */
 
 .category-card__image img {
@@ -135,7 +124,6 @@
 
   object-fit: cover;
 }
-
 
 /* =========================
    Category Title
@@ -156,7 +144,6 @@
   overflow-wrap: anywhere;
 }
 
-
 /* =========================
    Tablet
 ========================= */
@@ -172,10 +159,7 @@
   }
 
   .categories__grid {
-    grid-template-columns: repeat(
-      auto-fit,
-      minmax(120px, 1fr)
-    );
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
 
     gap: 10px;
   }
@@ -197,7 +181,6 @@
     font-size: 0.65rem;
   }
 }
-
 
 /* =========================
    Mobile
@@ -246,7 +229,6 @@
     font-size: 0.62rem;
   }
 }
-
 
 /* =========================
    Very Small Mobile

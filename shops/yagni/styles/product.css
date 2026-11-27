@@ -5,7 +5,7 @@
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: 18px;
-  background: var(--surface);
+  background: var(--card);
   scroll-snap-align: start;
   cursor: pointer;
   transition:
@@ -63,13 +63,13 @@
 .badge-discount {
   flex-shrink: 0;
   border-color: transparent;
-  color: var(--surface);
+  color: var(--card);
   background: color-mix(in srgb, var(--error) 85%, transparent);
 }
 
 .badge-offer-label {
   color: var(--text);
-  background: color-mix(in srgb, var(--secondary) 14%, var(--surface));
+  background: color-mix(in srgb, var(--secondary) 14%, var(--card));
 }
 
 /* ========================================
@@ -83,7 +83,7 @@
   aspect-ratio: 1 / 1;
   margin: 8px 10px 12px;
   border-radius: 12px;
-  /* background: color-mix(in srgb, var(--surface) 92%, var(--border)); */
+  /* background: color-mix(in srgb, var(--card) 92%, var(--border)); */
   user-select: none;
 }
 
@@ -152,7 +152,7 @@
   padding: 0;
   border: 1px solid var(--border);
   border-radius: 11px;
-  background: var(--surface);
+  background: var(--card);
   color: var(--primary);
   font-size: 1.35rem;
   font-weight: 400;
@@ -166,7 +166,7 @@
 
 .add-btn:hover {
   border-color: var(--primary);
-  background: color-mix(in srgb, var(--primary) 8%, var(--surface));
+  background: color-mix(in srgb, var(--primary) 8%, var(--card));
   transform: scale(1.04);
 }
 
@@ -201,7 +201,7 @@
    Out of Stock
 ======================================== */
 .product-card--out-of-stock {
-  /* background: color-mix(in srgb, var(--surface) 88%, var(--border)); */
+  /* background: color-mix(in srgb, var(--card) 88%, var(--border)); */
   border-color: var(--border);
 }
 
@@ -246,7 +246,7 @@
   width: fit-content;
   padding: 4px 10px;
   border-radius: 6px;
-  background: color-mix(in srgb, var(--error) 12%, var(--surface));
+  background: color-mix(in srgb, var(--error) 12%, var(--card));
   color: var(--error);
   font-size: 0.75rem;
   font-weight: 600;
