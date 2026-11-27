@@ -43,6 +43,41 @@ jobs:
       - name: Build Docker image
         run: docker build -t liskov-shop .
 
+  publish:
+    name: Publish Docker image to GHCR
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'ShayanKhoshniyat/liskov-shop'
+    needs: check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    env:
+      IMAGE_NAME: ghcr.io/shayankhoshniyat/liskov-shop
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Read release version
+        id: release
+        run: echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and publish
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.IMAGE_NAME }}:${{ steps.release.outputs.version }}
+            ${{ env.IMAGE_NAME }}:latest
+          labels: org.opencontainers.image.source=https://github.com/${{ github.repository }}
+
   deploy:
     name: Deploy to Vercel
     runs-on: ubuntu-latest

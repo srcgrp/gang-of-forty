@@ -139,6 +139,14 @@ Open `http://localhost:8080` in your browser.
 
 The Docker image uses a Node.js build stage and an Nginx production stage.
 
+After the `publish` job succeeds on the standalone repository's `main` branch,
+pull and run the versioned image from GHCR:
+
+```bash
+docker pull ghcr.io/shayankhoshniyat/liskov-shop:1.0.0
+docker run -d -p 8080:80 --name shop ghcr.io/shayankhoshniyat/liskov-shop:1.0.0
+```
+
 ## Development Guidelines
 
 See [AGENTS.md](AGENTS.md) for coding rules and project conventions.
