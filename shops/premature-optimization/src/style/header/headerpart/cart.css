@@ -189,6 +189,40 @@
   .cart-text {
     font-size: 0.8rem;
   }
+
+  .cart-dropdown-wrap {
+    position: relative;
+  }
+
+  .cart-dropdown {
+    position: fixed;
+    top: auto;
+    left: auto;
+    right: 12px;
+    width: min(340px, calc(100vw - 24px));
+    max-width: calc(100vw - 24px);
+    max-height: min(360px, 60vh);
+    overflow-y: auto;
+    box-sizing: border-box;
+  }
+
+  .cart-dropdown-item {
+    min-width: 0;
+  }
+
+  .cart-dropdown-details {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .cart-dropdown-total {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .cart-checkout-link {
+    margin: 8px 0 4px;
+  }
 }
 
 @media (max-width: 380px) {

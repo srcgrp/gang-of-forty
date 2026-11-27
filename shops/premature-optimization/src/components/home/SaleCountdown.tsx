@@ -10,7 +10,6 @@ export default function SaleCountdown() {
 
   useEffect(() => {
     const id = setInterval(() => {
-      console.log("tick");
       setLeft((s) => Math.max(0, s - 1));
     }, 1000);
     return () => clearInterval(id);
