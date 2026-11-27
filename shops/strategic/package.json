@@ -1,0 +1,32 @@
+{
+  "name": "armin-supermarket",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "check": "tsc --noEmit",
+    "lint": "oxlint src --deny-warnings",
+    "check:arch": "node scripts/check-arch.mjs strategic"
+  },
+  "dependencies": {
+    "@tanstack/react-router": "^1.170.46",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "zustand": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.2.1",
+    "oxlint": "^1.92.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4"
+  },
+  "description": "A responsive Persian supermarket storefront built with TypeScript, Vite, and npm packages.",
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}
