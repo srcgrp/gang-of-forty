@@ -23,3 +23,7 @@ Persian RTL grocery shop built with React, TypeScript, and Vite in `shops/code-s
 - Do not use `any`, type assertions with `as` except `as const`, non-null assertions (`!`), or `@ts-ignore`.
 - Do not edit files outside `shops/code-smell/`.
 - Do not commit `node_modules/`, `dist/`, `.env*`, `.vercel/`, or tokens.
+
+## Release
+
+For a release, follow .claude/skills/release/SKILL.md step by step.
