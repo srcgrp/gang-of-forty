@@ -1,0 +1,104 @@
+name: CI and deploy
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  VITE_API_URL: /api
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run ci
+
+  docker:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+      - run: docker build -t shop .
+
+  publish:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v7
+      - name: Read package version
+        id: package
+        run: |
+          version=$(jq -er '.version' package.json)
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+      - uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v7
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/hamed-abbassi/composition-shop:${{ steps.package.outputs.version }}
+            ghcr.io/hamed-abbassi/composition-shop:latest
+      - name: Test public GHCR image
+        shell: bash
+        timeout-minutes: 5
+        run: |
+          docker logout ghcr.io
+          docker pull ghcr.io/hamed-abbassi/composition-shop:1.0.0
+          docker pull ghcr.io/hamed-abbassi/composition-shop:latest
+          docker run -d -p 8080:80 --name composition-ghcr ghcr.io/hamed-abbassi/composition-shop:1.0.0
+          curl --fail --silent --show-error --retry 10 --retry-all-errors \
+            --retry-delay 1 --max-time 5 --retry-max-time 30 --output /dev/null http://localhost:8080/
+          curl --fail --silent --show-error --max-time 5 http://localhost:8080/ | grep 'id="root"'
+          curl --fail --silent --show-error --max-time 30 http://localhost:8080/api/products.json | jq -e 'type == "array" and length > 0'
+      - name: Remove test container
+        if: always()
+        run: |
+          if docker container inspect composition-ghcr >/dev/null 2>&1; then
+            docker rm -f composition-ghcr
+          fi
+
+  deploy:
+    needs: check
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      TARGET: ${{ github.event_name == 'push' && 'production' || 'preview' }}
+      PROD: ${{ github.event_name == 'push' && '--prod' || '' }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - run: npm install --global vercel@latest
+      - run: vercel pull --yes --environment=$TARGET --token=${{ secrets.VERCEL_TOKEN }}
+      - run: vercel build $PROD --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy
+        run: |
+          url=$(vercel deploy --prebuilt $PROD --token=${{ secrets.VERCEL_TOKEN }})
+          echo "### $TARGET: $url" >> "$GITHUB_STEP_SUMMARY"
