@@ -1,6 +1,6 @@
 {
   "name": "Semver",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "private": "true",
   "type": "module",
   "description": "A Persian online grocery built by 40 bootcamp learners over 6 weeks.\r Each learner owns **one supermarket** under `shops/<slug>/` and grows it every week,\r from a hello-world page in Week 1 to a shop that can sell its groceries by Week 6.",
