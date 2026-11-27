@@ -1,5 +1,20 @@
 # Nardone Changelog
 
+## [1.0.1] - 2026-11-27
+
+Improved Nardone's mobile layout, promotional cards, and readability.
+
+### Added
+
+- Added original breakfast and fresh-bread photos to the corresponding promotional cards.
+
+### Changed
+
+- Made the mobile header more compact across the storefront and checkout, and moved the cart count onto the cart icon at all widths.
+- Reworked the layout of the homepage banner, categories, and product cards for smaller screens.
+- Positioned the promotional cards together on desktop and in separate sections on mobile. Matched their hover styling to the product cards.
+- Made Vazirmatn the default typeface, retained IranYekan for promotional titles, and removed link underlines.
+
 ## [1.0.0] - 2026-11-27
 
 Initial release of Nardone with a product catalog, a shopping cart, and automated deployment.
