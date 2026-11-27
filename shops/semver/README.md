@@ -26,6 +26,16 @@ docker run -d -p 8080:80 --name shop semver-shop
 
 Open `http://localhost:8080` in your browser. To check the API, open `http://localhost:8080/api/products.json` and confirm that it returns the product list as JSON.
 
+### Run a published image from GHCR
+
+With Docker running, start Nardone from GitHub Container Registry.
+
+```powershell
+docker run -d -p 8080:80 --name nardone-ghcr ghcr.io/amirnasr-dev/semver-shop:1.0.0
+```
+
+Open `http://localhost:8080` to see the storefront. Use `latest` in place of `1.0.0` to run the newest published build. Stop and remove the container with `docker rm -f nardone-ghcr` when finished.
+
 ## Mobile view
 
 ![Full-page screenshot of the Nardone storefront on mobile](docs/mobile.png)
