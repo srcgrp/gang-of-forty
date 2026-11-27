@@ -30,6 +30,11 @@ docker build -t broken-windows-shop .
 ```bash
 docker run -d -p 8080:80 --name shop broken-windows-shop
 ```
+### اجرای Image از GitHub Container Registry
+
+```bash
+docker run -d -p 8080:80 --name shop-ghcr ghcr.io/saramoradkhanii/broken-windows-shop:1.0.0
+```
 
 پس از اجرا، فروشگاه از آدرس زیر در دسترس خواهد بود:
 
@@ -39,4 +44,5 @@ http://localhost:8080
 
 ```bash
 docker stop shop && docker rm shop
+docker stop shop-ghcr && docker rm shop-ghcr
 ```
