@@ -3,5 +3,5 @@ export function formatNumber(number: number): string {
 }
 
 export function formatPrice(price: number): string {
-  return formatNumber(price) + " تومان";
+  return new Intl.NumberFormat("fa-IR", { numberingSystem: "latn" }).format(price) + " تومان";
 }
