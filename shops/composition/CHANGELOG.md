@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.2] - 2026-11-27
+
+### Fixed
+
+- Restore Persian digits in prices by reverting the intentional 1.0.1 display change.
+
 ## [1.0.1] - 2026-11-27
 
 ### Added
