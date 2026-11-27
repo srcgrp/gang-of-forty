@@ -24,7 +24,7 @@ function ProductCard({ item }: ProductCardProps) {
         <div className="buy">
           <p className="price">
             {percent > 0 && <del><span className="sr-only">قیمت قبلی: </span>{oldPrice.toLocaleString('fa-IR')}</del>}
-            <strong>{price.toLocaleString('fa-IR')} تومان</strong>
+            <strong>{price.toLocaleString('en-US')} تومان</strong>
           </p>
           <div className="buy__control" data-id={product.id}>
             <ProductPurchase item={item}>
