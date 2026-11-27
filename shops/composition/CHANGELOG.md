@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.0.1] - 2026-11-27
+
+### Added
+
+- Publish the Docker image to GHCR and verify it can be pulled and started.
+
+### Changed
+
+- Load shop routes on demand and improve page metadata.
+- Display prices with Latin digits for the rollback drill.
+
+### Fixed
+
+- Configure the production API endpoint for deployment.
+
 ## [1.0.0] - 2026-11-26
 
 First public release of Batshop.
