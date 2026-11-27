@@ -7,3 +7,4 @@ Folders and import rules:
 `src/hooks/`: imports API, cart, storage and types; `src/components/`: UI and pages.
 `src/ui/`: UI utilities and hooks; `src/router.tsx`: connects pages and Layout.
 Never: no `any`, `!`, `@ts-ignore`, or `as` except `as const`; no edits outside shop; never commit `node_modules`, `dist`, `.env*`, `.vercel`.
+For a release, follow .claude/skills/release/SKILL.md step by step.
