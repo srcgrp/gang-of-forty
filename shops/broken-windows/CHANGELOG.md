@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.2] - 2026-11-27
+
+### Fixed
+
+- Release with an intentional typo in the special offers carousel title for rollback testing.
+
 ## [Unreleased]
 
 ### Changed
