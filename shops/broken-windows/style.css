@@ -1146,6 +1146,8 @@ background: #fff;
   grid-area: theme;
 }
 
+  }
+@media (max-width: 768px) {
   .cart {
     grid-area: cart;
     padding: 9px 11px;
