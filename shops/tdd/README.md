@@ -29,3 +29,11 @@ docker run --rm -p 8080:80 tdd-shop
 ```
 
 Open http://localhost:8080.
+
+## Run the published image
+
+```sh
+docker run --rm -p 8080:80 ghcr.io/sami-gh05/tdd-shop:1.0.0
+```
+
+Open http://localhost:8080.
