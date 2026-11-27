@@ -21,6 +21,8 @@ export const useCatalogStore = create<CatalogStore>()((set) => ({
     })),
 }));
 
+let startedAttempt = -1;
+
 export function useCatalog() {
   const state = useCatalogStore((s) => s.state);
   const attempt = useCatalogStore((s) => s.attempt);
@@ -29,14 +31,14 @@ export function useCatalog() {
 
   useEffect(() => {
     if (useCatalogStore.getState().state.status === "success") return;
-    const controller = new AbortController();
+    if (startedAttempt === attempt) return;
+    startedAttempt = attempt;
     async function fetchCatalog() {
       setState({ status: "loading" });
-      const res = await loadAll(controller.signal);
-      if (!controller.signal.aborted) setState(res);
+      const res = await loadAll();
+      if (startedAttempt === attempt) setState(res);
     }
     void fetchCatalog();
-    return () => controller.abort();
   }, [attempt, setState]);
 
   return { state, retry };

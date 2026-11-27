@@ -1,168 +1,158 @@
 <div align="center">
 
-# 🛒 سبزکاله (Sabzkaleh) — هفته ششم
+# 🛒 سبزکاله (Sabzkaleh) — Week 7 Production Release
 
-### فروشگاه آنلاین مدرن با React 18، TypeScript سخت‌گیرانه، TanStack Router، Zustand و طراحی Mobile-First (سبک دیجی‌کالا)
-
+[![CI / Build / Deploy](https://github.com/<user>/sabzkaleh-shop/actions/workflows/deploy.yml/badge.svg)](https://github.com/<user>/sabzkaleh-shop/actions/workflows/deploy.yml)
+[![Version](https://img.shields.io/badge/Version-1.0.0-2ea44f?style=for-the-badge)](CHANGELOG.md)
 [![React](https://img.shields.io/badge/React-18.3-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-5-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![TanStack Router](https://img.shields.io/badge/TanStack_Router-v1-FF4154?style=for-the-badge)](https://tanstack.com/router)
-[![Zustand](https://img.shields.io/badge/Zustand-5-443E38?style=for-the-badge)](https://zustand-demo.pmnd.rs/)
-[![Oxlint](https://img.shields.io/badge/Oxlint-0_Warnings-2ea44f?style=for-the-badge)](https://oxc.rs/)
-[![RTL](https://img.shields.io/badge/RTL-Persian-2ea44f?style=for-the-badge)]()
-[![Responsive](https://img.shields.io/badge/Responsive-Mobile_First-orange?style=for-the-badge)]()
+
+**سوپرمارکت آنلاین فارسی‌زبان (RTL) با React 18، TypeScript سخت‌گیرانه، TanStack Router، Zustand و استقرار کامل Docker / GHCR / GitHub Actions / Vercel**
 
 </div>
 
----
-
-## 📖 فهرست مطالب
-
-- [درباره پروژه و ارتقاهای اخیر](#-درباره-پروژه-و-ارتقاهای-اخیر)
-- [ویژگی‌ها و بهینه‌سازی‌های انجام‌شده](#-ویژگیها-و-بهینهسازیهای-انجامشده)
-  - [۱. مسیریابی تمیز با BrowserHistory و Vercel SPA](#-۱-مسیریابی-تمیز-با-browserhistory-و-vercel-spa)
-  - [۲. هدر دو ردیفه سبک دیجی‌کالا و اسکرول هوشمند](#-۲-هدر-دو-ردیفه-سبک-دیجیکالا-و-اسکرول-هوشمند)
-  - [۳. تجربه کاربری و رابط کاربری اختصاصی موبایل (Mobile UX/UI)](#-۳-تجربه-کاربری-و-رابط-کاربری-اختصاصی-موبایل-mobile-uxui)
-  - [۴. پولیش بصری، اسکلتون لودینگ و تم تاریک/روشن](#-۴-پولیش-بصری-اسکلتون-لودینگ-و-تم-تاریکروشن)
-- [ساختار فایل‌ها و ماژول‌ها](#-ساختار-فایلها-و-ماژولها)
-- [تکنولوژی‌ها و ابزارها](#-تکنولوژیها-و-ابزارها)
-- [نصب، اجرا و تست](#-نصب-اجرا-و-تست)
+> **MANUAL ACTION REQUIRED:** Replace `<user>` in the CI badge URL above with your real GitHub username, and update the Live/Preview URLs below after connecting Vercel.
 
 ---
 
-## ✨ درباره پروژه و ارتقاهای اخیر
+## 🌐 Deployment URLs
 
-**سبزکاله** یک سوپرمارکت آنلاین فارسی‌زبان (RTL) است که از معماری لایه‌ای هفته چهارم به یک اپلیکیشن مدرن با **React 18**، **TypeScript سخت‌گیرانه (`strict: true`)**، **TanStack Router** و **Zustand** ارتقا یافته است.
-
-در جریان به‌روزرسانی‌های اخیر، کل تجربه کاربری دسکتاپ و به‌ویژه **موبایل** بازطراحی شد تا بدون تداخل چیدمان، بدون اسکرول افقی اضافی و با کیفیت اپلیکیشن‌های بومی تجارت الکترونیک (مانند دیجی‌کالا و آمازون) کار کند.
-
----
-
-## 🚀 ویژگی‌ها و بهینه‌سازی‌های انجام‌شده
-
-### ۱. مسیریابی تمیز با BrowserHistory و Vercel SPA
-- **حذف `#` از آدرس‌ها:** تغییر تاریخچه روتر از `createHashHistory` به `createBrowserHistory` در `src/App.tsx` (مسیرهای تمیز مانند `/plp/offers`, `/product/101`, `/checkout`).
-- **پیکربندی SPA Rewrite:** ایجاد فایل `vercel.json` با قوانین بازنویسی به `/index.html` تا رفرش مستقیم صفحات داخلی با خطای 404 مواجه نشود.
-- **صفحه 404 اختصاصی:** طراحی `NotFound.tsx` با لینک بازگشت به خانه و پیشنهادات ویژه.
-- **اصلاح مسیر باندل CSS:** ایمپورت مستقیم `style.css` در `src/main.tsx` و تنظیم `base: "/"` در `vite.config.ts` برای بارگذاری صحیح استایل در تمام مسیرهای تودرتو.
-
-### ۲. هدر دو ردیفه سبک دیجی‌کالا و اسکرول هوشمند
-- **هدر دو ردیفه (`SiteHeader`, `HeaderTop`, `MainNav`):**
-  - ردیف بالا: لوگو (`HeaderLogo`) در راست، نوار جستجوی برجسته با پیشنهاد هوشمند (`SearchBox`) در مرکز، و دکمه‌های عملیاتی (`HeaderActions`: تغییر تم، حساب، علاقه‌مندی، سبد خرید و دکمه تسویه) در چپ.
-  - ردیف پایین: منوی ناوبری افقی با اسکرول لمسی نرم، نمایش همه دسته‌بندی‌ها با ایموجی و نشانگر صفحه فعال (`nav-link--active`) + مگامنو (`MegaMenu`).
-- **اسکرول هوشمند بدون پرش و هم‌پوشانی (`useScrollDirection` و `scrollDirection.ts`):**
-  - منطق خالص و تست‌شده برای جلوگیری از لرزش (حداقل اسکرول `100px` و آستانه `10px` تغییر جهت).
-  - پنهان شدن نرم نوار ناوبری (`max-height` و `opacity` در `.main-nav-wrapper.nav--hidden`) هنگام اسکرول به پایین و نمایش مجدد هنگام اسکرول به بالا، بدون ایجاد فاصله خالی (`Gap`) یا افتادن هدر روی تیتر محصولات.
-
-### ۳. تجربه کاربری و رابط کاربری اختصاصی موبایل (Mobile UX/UI)
-تمام قوانین ریسپانسیو با مدیا کوئری خالص CSS (`@media (max-width: 768px)`) و با **صفر میلی‌متر سرریز افقی (`scrollWidth <= innerWidth`)** پیاده‌سازی شده‌اند:
-
-- **هدر شیشه‌ای موبایل (Glassmorphism) و ردیف جستجوی هوشمند:**
-  - افکت شیشه‌ای نیمه‌شفاف روی هدر موبایل (`rgba(var(--surface-rgb), 0.85)` به همراه `backdrop-filter: blur(12px)`) و سایه نرم پایینی.
-  - ردیف بالای موبایل: دکمه همبرگری انیمیشنی (`44×44px`) + لوگوی جمع‌وجور در راست، و آیکون‌های سبد خرید با نشانگر تعداد، علاقه‌مندی‌ها و دکمه بازگشت جستجو (`44×44px`) در چپ.
-  - ردیف دوم موبایل: نوار جستجوی تمام‌عرض و گرد که با **اسکرول به پایین به‌صورت نرم جمع و مخفی می‌شود** (`header-top__search--hidden`) و با اسکرول به بالا (یا لمس آیکون ذره‌بین در ردیف بالا) دوباره باز و فوکوس می‌شود.
-- **منوی کشویی موبایل (`MobileMenu.tsx`):**
-  - باز شدن کشویی نرم از سمت راست با افکت پس‌زمینه مات (`backdrop-filter: blur(4px)`).
-  - شامل لوگو، دسترسی سریع **پروفایل من**، **تغییر تم روشن/تاریک (`ThemeToggle`)** و لیست کامل دسته‌بندی‌ها و صفحات با ارتفاع لمسی استاندارد (`44px+`).
-- **نوار ناوبری پایین صفحه (`MobileBottomNav.tsx`):**
-  - نوار ثابت شبیه اپلیکیشن‌های موبایل (مخفی در دسکتاپ، فعال در `<= 768px`) شامل ۴ تب اصلی: **خانه**، **دسته‌ها** (همگام با `useUiStore`)، **سبد خرید** (با Badge قرمز تعداد) و **پروفایل**.
-- **گرید محصولات ۲ ستونه و اهداف لمسی استاندارد (`44×44px`):**
-  - نمایش دقیق **۲ ستون** در گرید محصولات موبایل (`repeat(2, minmax(0, 1fr))`) با فاصله `12px` و پدینگ بهینه کارت‌ها.
-  - دکمه‌های افزودن به سبد خرید در موبایل با ابعاد تمام‌عرض متقارن و حداقل ارتفاع لمسی `44px`.
-- **مودال‌ها به شکل Bottom Sheet در موبایل:**
-  - تبدیل تمام مودال‌ها (`CartModal`, `WishlistPanel`, `FilterModal`, `UserModal`) در موبایل به **Bottom Sheet** با انیمیشن اسلاید از پایین (`sheetSlideUp`)، گوشه‌های بالایی گرد (`20px 20px 0 0`)، دستگیره کشیدن بالایی (`.modal-sheet__handle`) و پس‌زمینه تیره نیمه‌شفاف.
-
-### ۴. پولیش بصری، اسکلتون لودینگ و تم تاریک/روشن
-- **کارت محصولات مدرن (`ProductCard`, `ProductCardFooter`):** افکت هاور نرم، بزرگ‌نمایی لطیف تصویر محصول، برچسب تخفیف گرادیانت و دکمه‌های مدرن.
-- **اسکلتون لودینگ (`SkeletonCard`, `Layout`):** جایگزینی متن ساده لودینگ با انیمیشن Shimmer و گرید اسکلتون ۴ کارتی متوازن.
-- **رفع کامل تم تاریک مودال‌ها (`Modal.tsx`):** انتقال `data-theme` به کانتینر پورتال‌شده مودال (`document.body`) تا در حالت Dark Mode پس‌زمینه و متون مودال‌ها کاملاً خوانا و هماهنگ باشند.
-- **تقسیم‌بندی ماژولار فایل‌ها:** جداسازی منطق تمرکز مودال (`useModalFocusTrap.ts`)، آیکون‌های نوار پایین (`MobileNavIcons.tsx`) و گروه‌های فیلتر (`FilterGroup.tsx`) برای حفظ اندازه کوتاه و خوانای فایل‌های `.tsx`.
+| Environment | URL | Status |
+| :--- | :--- | :--- |
+| **Production (Live URL)** | `MANUAL ACTION REQUIRED: <insert real Vercel production URL>` | Pending Vercel deploy |
+| **Preview URL (PR)** | `MANUAL ACTION REQUIRED: <insert real Vercel preview URL>` | Pending Pull Request |
+| **Container Registry (GHCR)** | `ghcr.io/<github-user>/sabzkaleh-shop:1.0.0` | Pending push to `main` |
 
 ---
 
-## 📁 ساختار فایل‌ها و ماژول‌ها
+## 📱 Mobile Screenshot (`390x844`)
 
-```text
-├── index.html                  # نقطه ورود HTML + متا تگ‌ها
-├── style.css                   # استایل‌های کامل (تم روشن/تاریک + بخش اختصاصی موبایل)
-├── vercel.json                 # بازنویسی مسیرها برای SPA در Vercel
-├── vite.config.ts              # تنظیمات Vite با base: "/"
-├── package.json                # اسکریپت‌ها و وابستگی‌ها
-├── tests/
-│   └── scrollDirection.test.ts # تست واحد منطق اسکرول هدر (node:test)
-└── src/
-    ├── main.tsx                # مانت React و ایمپورت style.css
-    ├── App.tsx                 # پیکربندی TanStack Router با createBrowserHistory
-    ├── types.ts                # تعاریف تایپ‌های سخت‌گیرانه فروشگاه
-    ├── hooks/
-    │   ├── scrollDirection.ts      # تابع خالص محاسبه پنهان/نمایش اسکرول
-    │   ├── useScrollDirection.ts   # هوک اسکرول بدون لرزش
-    │   ├── useModalFocusTrap.ts    # قفل اسکرول و Focus Trap مودال‌ها
-    │   ├── useUiStore.ts           # استیت سراسری مودال‌ها و منوی موبایل (Zustand)
-    │   ├── useCartStore.ts         # استور سبد خرید
-    │   ├── useWishlistStore.ts     # استور علاقه‌مندی‌ها
-    │   ├── useThemeStore.ts        # استور تم روشن/تاریک و پالت رنگی
-    │   ├── useCatalog.ts           # واکشی و مدیریت داده‌های کاتالوگ
-    │   ├── useFilters.ts           # منطق فیلتر و مرتب‌سازی
-    │   └── useSearch.ts            # جستجوی فازی با Fuse.js
-    └── components/
-        ├── Layout.tsx              # پوسته اصلی، اسکلتون لودینگ و رندر MobileBottomNav
-        ├── SiteHeader.tsx          # هدر چسبان با کنترل اسکرول
-        ├── HeaderTop.tsx           # ردیف اول هدر، همبرگر انیمیشنی و سرچ‌بار جمع‌شونده
-        ├── HeaderLogo.tsx          # لوگوی هدر
-        ├── HeaderActions.tsx       # دکمه‌های عملیات هدر + بج سبد خرید و علاقه‌مندی‌ها
-        ├── MainNav.tsx             # منوی افقی و مگامنو
-        ├── MobileMenu.tsx          # منوی کشویی موبایل (لوگو، پروفایل، تم، دسته‌ها)
-        ├── MobileBottomNav.tsx     # نوار ناوبری ثابت پایین موبایل
-        ├── MobileNavIcons.tsx      # آیکون‌های SVG نوار پایین موبایل
-        ├── Modal.tsx               # مودال پایه با پشتیبانی Bottom Sheet موبایل و Dark Mode
-        ├── CartModal.tsx           # Bottom Sheet سبد خرید
-        ├── WishlistPanel.tsx       # Bottom Sheet علاقه‌مندی‌ها
-        ├── FilterModal.tsx         # Bottom Sheet فیلتر محصولات
-        ├── FilterGroup.tsx         # کامپوننت قابل استفاده مجدد گروه فیلترها
-        ├── ProductGrid.tsx         # گرید محصولات (۲ ستونه در موبایل)
-        ├── ProductCard.tsx         # کارت محصول با افکت‌های مدرن
-        ├── ProductCardFooter.tsx   # قیمت و دکمه افزودن به سبد (هدف لمسی 44px+)
-        ├── SkeletonCard.tsx        # کارت اسکلتون Shimmer
-        └── pages/
-            ├── HomePage.tsx        # صفحه اصلی فروشگاه
-            ├── PlpPage.tsx         # صفحه لیست محصولات و دسته‌بندی
-            ├── ProductPage.tsx     # صفحه جزئیات محصول
-            ├── CheckoutPage.tsx    # صفحه تسویه حساب
-            └── NotFound.tsx        # صفحه 404 اختصاصی
-```
+![Sabzkaleh Mobile Production Screenshot](docs/mobile.png)
+
+> **MANUAL ACTION REQUIRED:** `docs/mobile.png` must be captured from the real live Vercel production URL at `390x844` using Playwright MCP after deployment. Do not commit a local or placeholder screenshot. See [`docs/MCP-AND-LIGHTHOUSE.md`](docs/MCP-AND-LIGHTHOUSE.md).
 
 ---
 
-## 🛠 تکنولوژی‌ها و ابزارها
+## 🔀 Local Development vs. Preview vs. Production
 
-| تکنولوژی | کاربرد |
-| :--- | :--- |
-| **React 18 + TypeScript 5** | رابط کاربری کامپوننتی با تایپ‌های سخت‌گیرانه (`strict: true`, بدون `any`) |
-| **TanStack Router** | مسیریابی مدرن کلاینت با `createBrowserHistory` و پشتیبانی کامل Search Params |
-| **Zustand** | مدیریت استیت سبک برای سبد خرید، علاقه‌مندی، تم و وضعیت UI/Drawer |
-| **Vite 5** | سرور توسعه سریع و باندل بهینه Production |
-| **Swiper + Fuse.js + Notyf** | اسلایدر لمسی، جستجوی فازی فارسی و پیام‌های Toast |
-| **Oxlint** | بررسی سریع کیفیت کد بدون خطا و هشدار |
+| Aspect | Local Development | Preview Deployment (Vercel PR) | Production Deployment (`main`) |
+| :--- | :--- | :--- | :--- |
+| **Trigger** | `npm run dev` on developer machine | Opening/updating a Pull Request | Merging/pushing to protected `main` branch (CI `deploy` job) |
+| **URL** | `http://localhost:3000` | Ephemeral per-PR URL (`*-<user>.vercel.app`) | Canonical production domain (`liveUrl` in `shop.json`) |
+| **API Proxy (`/api/*`)** | `vite.config.ts` `server.proxy` -> `https://gof.zzb.cx` | `vercel.json` `/api/:path*` rewrite -> `https://gof.zzb.cx/api/:path*` | `vercel.json` (Vercel) or `nginx.conf` (Docker) -> `https://gof.zzb.cx/api/*` |
+| **Bundle Mode** | Unminified ES modules served by Vite | Minified production `vite build` (`dist/`) | Minified production `vite build` (`dist/`) |
+| **Purpose** | Rapid coding & local UI testing | PR review, visual checks, safe testing before merge | Public live storefront verified via Playwright MCP & Lighthouse |
 
 ---
 
-## 🧪 نصب، اجرا و تست
+## 💻 Local Installation, Development & CI
+
+Requires **Node.js 22+** and **npm** (do not use `bun`, `yarn`, or `pnpm`).
 
 ```bash
-# نصب وابستگی‌ها
-npm install
+# 1. Clean install from package-lock.json
+npm ci
 
-# اجرای سرور توسعه (پورت 3000)
+# 2. Start local dev server (http://0.0.0.0:3000)
 npm run dev
 
-# بررسی تایپ‌های TypeScript و بیلد نهایی
-npm run build
+# 3. Run full CI check (oxlint + tsc --noEmit + vite build)
+npm run ci
 
-# بررسی کیفیت کد با Oxlint
-npm run lint
-
-# اجرای تست واحد منطق اسکرول هوشمند هدر
-npx tsx --test tests/scrollDirection.test.ts
+# 4. Preview built dist/ locally on port 3000
+npm run preview
 ```
+
+---
+
+## 🐳 Docker & GHCR Instructions
+
+The multi-stage [`Dockerfile`](Dockerfile) builds the Vite app in `node:22-alpine` and serves static assets plus `/api/` reverse-proxying via `nginx:1.27-alpine` using [`nginx.conf`](nginx.conf).
+
+### Build & Run Locally
+
+```bash
+# Build production image
+docker build -t sabzkaleh-shop:1.0.0 .
+
+# Run container on http://localhost:8080
+docker run --rm -p 8080:80 sabzkaleh-shop:1.0.0
+```
+
+Verify both SPA routing (e.g. `http://localhost:8080/plp/offers`) and API proxying (`http://localhost:8080/api/products.json`).
+
+### Run Published GHCR Image
+
+On pushes to `main` after `check` passes, `.github/workflows/deploy.yml` publishes:
+- `ghcr.io/<github-user>/sabzkaleh-shop:1.0.0`
+- `ghcr.io/<github-user>/sabzkaleh-shop:latest`
+
+```bash
+docker pull ghcr.io/<github-user>/sabzkaleh-shop:1.0.0
+docker run --rm -p 8080:80 ghcr.io/<github-user>/sabzkaleh-shop:1.0.0
+```
+
+---
+
+## ⚙️ GitHub Actions & Vercel Deployment
+
+Workflow file: [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)
+
+1. **`check`** — Runs `npm ci` and `npm run ci` (`lint`, `check`, `build`) on every push and PR to `main`.
+2. **`docker`** (`needs: check`) — Verifies the multi-stage Docker build passes.
+3. **`publish`** (`needs: check`, `push` to `main` only) — Logs into `ghcr.io` with `GITHUB_TOKEN` (`packages: write`) and pushes `:1.0.0` and `:latest`.
+4. **`deploy`** (`needs: check`, `push` to `main` only) — Pulls Vercel config, builds, and deploys prebuilt artifacts to Vercel Production using repository secrets:
+   - `VERCEL_TOKEN`
+   - `VERCEL_ORG_ID`
+   - `VERCEL_PROJECT_ID`
+
+Vercel configuration in [`vercel.json`](vercel.json) routes `/api/:path*` to `https://gof.zzb.cx/api/:path*` before the SPA rewrite `/(.*)` -> `/index.html`.
+
+---
+
+## 🎭 Playwright MCP & Lighthouse Mobile Validation
+
+Add Playwright MCP to your MCP client configuration:
+
+```json
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    }
+  }
+}
+```
+
+Required production validation steps (see [`docs/MCP-AND-LIGHTHOUSE.md`](docs/MCP-AND-LIGHTHOUSE.md)):
+1. Open the real Vercel production URL.
+2. Resize viewport to `390x844`.
+3. Wait until products are visible.
+4. Check console messages (`0` errors, `0` warnings).
+5. Check network requests and failed requests (`0` failed requests).
+6. Save a full-page screenshot to `docs/mobile.png`.
+7. Run Lighthouse Mobile audit (Performance, Accessibility >= 90, Best Practices, SEO) and attach the screenshot to Pull Request #7.
+
+---
+
+## 🚀 Release Workflow
+
+AI coding rules live in [`AGENTS.md`](AGENTS.md) and [`CLAUDE.md`](CLAUDE.md).
+To release a new version, follow [`.claude/skills/release/SKILL.md`](.claude/skills/release/SKILL.md) step by step:
+1. Run `npm run ci` (abort if failing).
+2. Bump `package.json` version and update [`CHANGELOG.md`](CHANGELOG.md).
+3. Review `git diff` and wait for human approval.
+4. Perform the final `git push` manually, then validate the live production site with Playwright MCP.
+
+---
+
+## 📚 Additional Week 7 Documentation
+
+- [`AGENTS.md`](AGENTS.md) & [`CLAUDE.md`](CLAUDE.md) — Agent rules & strict project conventions
+- [`evals.md`](evals.md) — 5 `AGENTS.md` comparison evaluations
+- [`docs/MCP-AND-LIGHTHOUSE.md`](docs/MCP-AND-LIGHTHOUSE.md) — Playwright MCP `390x844` & Lighthouse Mobile guide
+- [`docs/GITHUB-MCP-BONUS.md`](docs/GITHUB-MCP-BONUS.md) — Bonus #3 GitHub MCP CI-failure debugging exercise
+- [`docs/ROLLBACK-BONUS.md`](docs/ROLLBACK-BONUS.md) — Bonus #4 `1.0.0 -> 1.0.1 -> git revert -> 1.0.2` rollback exercise
+- [`docs/PR7-TEMPLATE.md`](docs/PR7-TEMPLATE.md) — Ready-to-complete Pull Request #7 template

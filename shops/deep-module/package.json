@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "week": 6,
+  "week": 7,
   "scripts": {
     "dev": "vite --host 0.0.0.0 --port 3000",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host 0.0.0.0 --port 3000",
     "check": "tsc --noEmit",
-    "lint": "oxlint src --deny-warnings"
+    "lint": "oxlint src --deny-warnings",
+    "ci": "npm run lint && npm run check && npm run build"
   },
   "dependencies": {
     "@formkit/auto-animate": "^0.10.0",

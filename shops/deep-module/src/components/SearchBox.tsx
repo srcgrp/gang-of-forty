@@ -32,13 +32,15 @@ export function SearchBox({ query, onQuery, suggestions = [], onPickProduct }: S
       <input
         id="site-search"
         type="search"
+        role="combobox"
+        aria-autocomplete="list"
         value={query}
         onChange={(e) => { onQuery(e.target.value); setOpen(true); }}
         onFocus={() => setOpen(true)}
         placeholder="جستجو در سبزکاله..."
         autoComplete="off"
         aria-expanded={showList}
-        aria-controls="search-suggestions"
+        aria-controls={showList ? "search-suggestions" : undefined}
       />
       {query && <button type="button" className="search__clear" aria-label="پاک کردن" onClick={() => { onQuery(""); setOpen(false); }}>✕</button>}
       <button type="submit" className="search__submit">جستجو</button>
