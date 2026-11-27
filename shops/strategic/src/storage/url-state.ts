@@ -1,6 +1,3 @@
-/* Amirhossein (Armin) Panahi */
-/* Week 4 - Strategic Supermarket - Arch */
-
 import { isRecord } from '../api/basic-guards';
 import { CATEGORY_PARAM, QUERY_PARAM } from '../types';
 import type { Route } from '../types';
@@ -42,6 +39,20 @@ export function writeQuery(text: string): void {
   const alreadySearching = route.type !== 'home' && route.query !== '';
   const url = routeUrl(next);
   if (url !== location.pathname + location.search + location.hash) goToUrl(url, alreadySearching);
+}
+export const readQuery = (): string => {
+  const route = readRoute();
+  return route.type === 'home' ? '' : route.query;
+};
+export function watchRoute(changed: () => void): () => void {
+  window.addEventListener('popstate', changed);
+  return () => window.removeEventListener('popstate', changed);
+}
+type Click = { defaultPrevented: boolean; ctrlKey: boolean; metaKey: boolean; shiftKey: boolean; altKey: boolean; target: EventTarget };
+export function routeHref(event: Click): string | null {
+  if (event.defaultPrevented || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return null;
+  const link = event.target instanceof Element ? event.target.closest('a') : null;
+  return link && link.origin === location.origin && link.pathname === location.pathname && !link.hash ? link.href : null;
 }
 export const pushHash = (href: string): void => {
   if (href.startsWith('#') && location.hash !== href) history.pushState(history.state, '', href);

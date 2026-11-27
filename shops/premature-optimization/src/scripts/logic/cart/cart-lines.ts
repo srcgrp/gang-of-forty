@@ -1,20 +1,47 @@
-import type { Cart, CartLine, Product } from "../../types";
-export function getCartLines(cart: Cart, products: Product[]): CartLine[] {
+import type { Cart, CartLine, Offer, Product } from "../../types";
+import { calculatePrice } from "../catalog/calculate-price.ts";
+import { toCartKey } from "./cart-key.ts";
+
+export function getCartQuantity(cart: Cart, productId: number): number {
+  return cart[toCartKey(productId)] ?? 0;
+}
+
+export function cartCount(cart: Cart): number {
+  return Object.values(cart).reduce(
+    (sum, quantity) => sum + Math.max(0, quantity),
+    0,
+  );
+}
+
+export function cartTotal(lines: CartLine[]): number {
+  return lines.reduce((sum, line) => sum + line.price * line.quantity, 0);
+}
+
+export function getPricedLines(
+  cart: Cart,
+  products: Product[],
+  offers: Offer[],
+): CartLine[] {
   return Object.entries(cart)
     .filter(([, quantity]) => quantity > 0)
-    .map(([id, quantity]) => {
-      const product = products.find((item) => String(item.id) === id);
+    .map(([key, quantity]) => {
+      const productId = Number(key);
+      const product = products.find((item) => item.id === productId);
+      const offer = offers.find((item) => item.productId === productId);
+
       return {
-        id: Number(id),
-        name: product?.name ?? `محصول ${id}`,
-        price: product?.price ?? 0,
+        id: productId,
+        name: product?.name ?? `محصول ${key}`,
+        price: calculatePrice(product?.price ?? 0, offer),
         quantity,
       };
     });
 }
-export function cartCount(cart: Cart): number {
-  return Object.values(cart).reduce(
-    (sum, value) => sum + Math.max(0, value),
-    0,
-  );
+
+export function deliveryCost(
+  subtotal: number,
+  deliveryFee: number,
+  freeDeliveryOver: number,
+): number {
+  return subtotal > freeDeliveryOver ? 0 : deliveryFee;
 }

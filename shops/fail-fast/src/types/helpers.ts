@@ -1,0 +1,53 @@
+/**
+ * Helper types and constants.
+ */
+
+import type { Product } from "./index"
+
+export interface Shop {
+  name: string
+  slogan: string
+  owner?: string
+  city: string
+  phone: string
+  hours: { open: string; close: string }
+  deliveryFee: number
+  freeDeliveryOver: number
+  currency: string
+  notice?: string
+  about?: string
+  address?: string
+  schedule?: Array<{ days: string; time: string }>
+  menu?: Array<{ label: string; href: string }>
+  help?: Array<{ label: string; href: string }>
+  copyright?: string
+}
+
+export interface OfferProduct extends Product {
+  percent: number
+  quantity: number
+  discountedPrice: number
+}
+
+export type ShopConfig = Readonly<Shop>
+
+export const NOTIFICATION_TYPES = ["success", "error", "warning"] as const
+export type NotificationType = (typeof NOTIFICATION_TYPES)[number]
+
+export const CATEGORY_IDS = {
+  FRUITS: 1,
+  DAIRY: 2,
+  BAKERY: 3,
+  PANTRY: 4,
+  DRINKS: 5,
+  PROTEIN: 6,
+  SNACKS: 7,
+} as const
+
+export type CategoryId = (typeof CATEGORY_IDS)[keyof typeof CATEGORY_IDS]
+
+export type LoadState<T> =
+  | { status: "loading" }
+  | { status: "success"; data: T }
+  | { status: "empty" }
+  | { status: "error"; message: string }
