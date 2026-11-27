@@ -54,4 +54,13 @@ docker run -d -p 8080:80 --name shop composition-shop
 docker stop shop
 docker rm shop
 ```
-بت‌شاپ یک فروشگاه فارسی برای خرید محصولات روزانه است
+
+### اجرای نسخهٔ منتشرشده از GHCR
+
+پس از انتشار ایمیج و عمومی شدن پکیج، برای اجرای نسخهٔ 1.0.0 روی سیستمی که Docker دارد:
+
+```bash
+docker run -d -p 8080:80 --name composition-ghcr ghcr.io/hamed-abbassi/composition-shop:1.0.0
+```
+
+فروشگاه را در http://localhost:8080 باز کنید.

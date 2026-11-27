@@ -1,14 +1,9 @@
-# Runs in the personal composition-shop repository, where the shop is the root.
-# Secrets: VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID
 name: CI and deploy
 
 on:
   pull_request:
   push:
     branches: [main]
-
-permissions:
-  contents: read
 
 concurrency:
   group: deploy-${{ github.ref }}
@@ -22,6 +17,8 @@ env:
 jobs:
   check:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -29,23 +26,65 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npm run lint --if-present
-      - run: npm run check
-      - run: npm run test --if-present -- --run
-      - run: npm run build
+      - run: npm run ci
 
   docker:
-    # GitHub runners build the image without Docker on the local computer.
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v7
       - run: docker build -t shop .
 
+  publish:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v7
+      - name: Read package version
+        id: package
+        run: |
+          version=$(jq -er '.version' package.json)
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/hamed-abbassi/composition-shop:${{ steps.package.outputs.version }}
+            ghcr.io/hamed-abbassi/composition-shop:latest
+      - name: Test public GHCR image
+        shell: bash
+        timeout-minutes: 5
+        run: |
+          docker logout ghcr.io
+          docker pull ghcr.io/hamed-abbassi/composition-shop:1.0.0
+          docker pull ghcr.io/hamed-abbassi/composition-shop:latest
+          docker run -d -p 8080:80 --name composition-ghcr ghcr.io/hamed-abbassi/composition-shop:1.0.0
+          curl --fail --silent --show-error --retry 10 --retry-connrefused --retry-delay 1 --max-time 5 --retry-max-time 30 http://localhost:8080/ | grep 'id="root"'
+          curl --fail --silent --show-error --max-time 30 http://localhost:8080/api/products.json | jq -e 'type == "array" and length > 0'
+      - name: Remove test container
+        if: always()
+        run: |
+          if docker container inspect composition-ghcr >/dev/null 2>&1; then
+            docker rm -f composition-ghcr
+          fi
+
   deploy:
     needs: check
-    # Fork pull requests have no secrets; their checks still run.
     if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     env:
       TARGET: ${{ github.event_name == 'push' && 'production' || 'preview' }}
       PROD: ${{ github.event_name == 'push' && '--prod' || '' }}
