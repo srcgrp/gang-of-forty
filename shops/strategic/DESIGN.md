@@ -169,6 +169,7 @@ so saved carts remain compatible. The validated catalog is supplied once loading
 succeeds to enforce stock limits, reconcile obsolete products and compute prices.
 Catalog metadata stays in memory; only lines are saved. Unknown IDs cannot be added.
 The subscription is disposed on Vite hot replacement. The loading effect now lives in `useCatalog`, and TanStack Router manages navigation.
+
 ### Cart catalog readiness
 
 The cart store tracks `catalogStatus` as loading, ready or error. `useCatalog` reports

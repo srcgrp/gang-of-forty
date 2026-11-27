@@ -1,6 +1,6 @@
 {
   "name": "armin-supermarket",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "check": "tsc --noEmit",
     "lint": "oxlint src --deny-warnings",
-    "check:arch": "node scripts/check-arch.mjs strategic"
+    "check:arch": "node scripts/check-arch.mjs strategic",
+    "ci": "npm run lint --if-present && npm run check && npm run test --if-present -- --run && npm run build"
   },
   "dependencies": {
     "@tanstack/react-router": "^1.170.46",
