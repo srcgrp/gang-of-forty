@@ -26,7 +26,11 @@ function BannerArticle({
         )}
       </div>
       <span className="banner-art">
-        <Art value={data.emoji} alt={data.title} />
+        <Art
+          value={data.emoji}
+          alt={data.title}
+          priority={variant === "banner-fruit"}
+        />
       </span>
     </article>
   );
