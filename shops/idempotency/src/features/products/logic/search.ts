@@ -14,8 +14,11 @@ export function createProductSearch(
   return (query: string) => {
     const slug = getCategory();
     const categoryId = categories.find((item) => item.slug === slug)?.id;
-    return index.search(query).map(({ item }) => item)
-      .filter((item) => slug === null || item.categoryId === categoryId)
-      .slice(0, 4);
+    return index
+  .search(query)
+  .map(({ item }) => item)
+  .filter((item) => slug === null || item.categoryId === categoryId)
+  .slice(0, 4)
+  .map(({ id, name }) => ({ id, name }));
   };
 }

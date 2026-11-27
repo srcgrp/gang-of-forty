@@ -1,3 +1,4 @@
+
 import type { Category, Link } from '../types'
 import { anchorClick, safeHref } from './safe-href'
 import Icon from './Icon'

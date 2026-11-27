@@ -1,0 +1,43 @@
+.api-status--error {
+  display: block;
+  padding: 12px;
+  margin: 24px;
+  color: var(--error-text);
+  background-color: var(--error-bg);
+  border: 2px solid var(--error-border);
+  border-radius: 12px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.8;
+}
+
+.api-status {
+  margin: 24px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.api-status p {
+  margin-bottom: 8px;
+}
+
+.api-retry-button {
+  display: inline-block;
+  text-decoration: none;
+  padding: 8px 20px;
+  color: var(--accent);
+  background: var(--brand-bg);
+  border: 0;
+  border-radius: 24px;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.api-retry-button:hover {
+  box-shadow: 0 0 0 3px var(--ring);
+}

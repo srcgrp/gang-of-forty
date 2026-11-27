@@ -378,7 +378,7 @@
     }
 
     .banner-percent,
-    html[data-theme="dark"] .banner-percent {
+    div[data-theme="dark"] .banner-percent {
         font-size: 36px;
     }
 }
