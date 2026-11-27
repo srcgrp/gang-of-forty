@@ -34,6 +34,17 @@ docker run -d -p 8080:80 --name code-smell-shop code-smell-shop
 
 بعد از اجرای کانتینر، فروشگاه را باز کنید. [localhost:8080](http://localhost:8080/)
 
+### اجرا با Image منتشر شده
+
+برای اجرای نسخه ی `1.0.0` از GitHub Container Registry، این دستور را اجرا کنید.
+
+```bash
+docker run -d -p 8080:80 ghcr.io/mahsa-mousavinia/code-smell-shop:1.0.0
+```
+
+سپس فروشگاه را باز کنید. [localhost:8080](http://localhost:8080/)
+
+
 ## نمای موبایل
 
 ![نمای موبایل سوپرمارکت بوی کد](docs/mobile.png)
