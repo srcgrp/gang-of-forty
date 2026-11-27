@@ -58,3 +58,11 @@ Stop and remove the container:
 docker stop shop
 docker rm shop
 ```
+
+## Run the published Docker image
+
+```bash
+docker run -d -p 8080:80 --name shop ghcr.io/elenamomeni-art/tracer-bullet-shop:1.0.0
+```
+
+Open http://localhost:8080 in your browser.
