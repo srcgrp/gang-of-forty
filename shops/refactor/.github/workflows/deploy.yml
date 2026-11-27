@@ -38,9 +38,10 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - run: docker build -t shop .
-    publish:
+
+  publish:
     needs: check
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -59,6 +60,7 @@ jobs:
           tags: |
             ghcr.io/zahragolabi/refactor-shop:1.0.0
             ghcr.io/zahragolabi/refactor-shop:latest
+
   deploy:
     needs: check
     # a PR from a fork has no secrets: skip the deploy, keep the check
