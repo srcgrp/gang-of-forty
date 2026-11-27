@@ -1,3 +1,4 @@
+import { useCartStore } from './useCartStore'
 import { useEffect, useSyncExternalStore } from 'react'
 import { getCatalog } from '../api/catalog-data'
 import type { Catalog, LoadState } from '../types'
@@ -15,6 +16,7 @@ function loadCatalog() {
   if (pending) return
   publish({ status: 'loading' })
   pending = getCatalog().then((data) => {
+    useCartStore.getState().retainAvailable(data.products)
     publish(data.products.length ? { status: 'success', data } : { status: 'empty' })
   }).catch((error: unknown) => {
     publish({ status: 'error', message: error instanceof Error ? error.message : 'خطا در دریافت اطلاعات' })

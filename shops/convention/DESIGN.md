@@ -41,7 +41,7 @@ consumers together. React unsubscribes on unmount, protecting against late resul
 results retain the empty state on navigation. Requests remain in api/; selection and immutable
 price sorting remain in catalog/. All API JSON is validated as unknown without casts.
 Vite dev and preview serve the root repository API files through a read-only middleware because
-the former remote proxy returned HTTP 502. Deployment still uses ../../api from the shop URL.
+the former remote proxy returned HTTP 502. The standalone dev server, Docker and Vercel forward same-origin /api/ requests to the course API.
 
 ## Component trees
 
@@ -65,8 +65,8 @@ Layout wrapper; CSS variables propagate the new palette.
 
 Run from shops/convention: npm run check, npm run lint, npm run build, npm run preview.
 The requested check-shop.mjs does not exist in this checkout and was explicitly waived by the owner.
-`npm test` runs four domain tests covering cart immutability, carousel selection, sorting,
-and checkout validation (including Persian and Arabic mobile digits). Node 22.18+ is required
+`npm test` runs five domain tests covering cart immutability, carousel selection, sorting,
+checkout validation (including Persian and Arabic mobile digits), and obsolete saved-cart IDs. Node 22.18+ is required
 for these tests because they use Node's built-in TypeScript stripping; the app runs on Node 20.19+.
 
 Production-preview browser checks are listed in evidence/browser-checks.json: 19 checks,
@@ -113,3 +113,5 @@ routes. The dropdown supports pointer hover, touch activation, keyboard toggle a
 The original “خرید روزانه، ساده و سریع” hero and its product anchor are restored.
 Categories remain in a single flex row; on narrow screens the row scrolls inside its container
 without document overflow. Cart details and remove actions appear exclusively on checkout.
+
+SearchResults keeps the selected categoryId in React state while the search is open. Category links still use typed router state for deep links and browser history. When a valid catalog arrives the cart removes unavailable IDs before checkout.

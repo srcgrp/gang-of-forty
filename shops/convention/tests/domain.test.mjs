@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { addToCart, removeFromCart, getCartCount } from '../src/cart/cart.ts'
+import { addToCart, removeFromCart, getCartCount, retainAvailable } from '../src/cart/cart.ts'
 import { carouselProducts, sortProducts } from '../src/catalog/products.ts'
 import { checkoutErrors } from '../src/checkout/validation.ts'
 
@@ -46,4 +46,12 @@ test('checkout validates blank fields and accepts Persian and Arabic mobile digi
     assert.deepEqual(checkoutErrors({ name: 'علی رضایی', phone, address: 'تهران خیابان آزادی پلاک دوازده' }), { name: '', phone: '', address: '' })
   }
   assert.ok(checkoutErrors({ name: 'Ali', phone: '0912abc6789', address: 'too short' }).phone)
+})
+
+test('saved cart lines are reconciled only against available catalog products', () => {
+  const cart = Object.freeze([{ productId: 1, quantity: 3 }, { productId: 9, quantity: 2 }])
+  assert.equal(retainAvailable(cart, [{ id: 1 }, { id: 9 }]), cart)
+  assert.deepEqual(retainAvailable(cart, [{ id: 1 }]), [{ productId: 1, quantity: 3 }])
+  assert.deepEqual(retainAvailable(cart, []), [])
+  assert.equal(cart.length, 2)
 })

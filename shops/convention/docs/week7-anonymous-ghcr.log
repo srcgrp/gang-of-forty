@@ -1,0 +1,94 @@
+ï»¿2026-11-27T20:44:40.2020299Z Current runner version: '2.338.2'
+2026-11-27T20:44:40.2041955Z ##[group]Runner Image Provisioner
+2026-11-27T20:44:40.2042688Z Hosted Compute Agent
+2026-11-27T20:44:40.2043191Z Version: 20261111.635
+2026-11-27T20:44:40.2043759Z Commit: b8a594ea514ff44cadb5342986c68b1eac6e22ed
+2026-11-27T20:44:40.2044351Z Build Date: 2026-11-11T01:49:01Z
+2026-11-27T20:44:40.2044889Z Worker ID: {c5032add-f666-4d59-97b4-b614fa5ef6b2}
+2026-11-27T20:44:40.2045544Z Region: eastus2
+2026-11-27T20:44:40.2045995Z Cloud: Azure
+2026-11-27T20:44:40.2046457Z ##[endgroup]
+2026-11-27T20:44:40.2047921Z ##[group]Operating System
+2026-11-27T20:44:40.2048414Z Ubuntu
+2026-11-27T20:44:40.2048947Z 26.04.1
+2026-11-27T20:44:40.2049369Z LTS
+2026-11-27T20:44:40.2049811Z ##[endgroup]
+2026-11-27T20:44:40.2050275Z ##[group]Runner Image
+2026-11-27T20:44:40.2050764Z Image: ubuntu-26.04
+2026-11-27T20:44:40.2051296Z Version: 20261122.9.1
+2026-11-27T20:44:40.2052526Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261122.9/images/ubuntu/Ubuntu2604-Readme.md
+2026-11-27T20:44:40.2053808Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261122.9
+2026-11-27T20:44:40.2054573Z ##[endgroup]
+2026-11-27T20:44:40.2055543Z ##[group]GITHUB_TOKEN Permissions
+2026-11-27T20:44:40.2057372Z Contents: read
+2026-11-27T20:44:40.2057919Z Metadata: read
+2026-11-27T20:44:40.2058415Z ##[endgroup]
+2026-11-27T20:44:40.2060167Z Secret source: Actions
+2026-11-27T20:44:40.2060913Z Cache mode: write
+2026-11-27T20:44:40.2061926Z Prepare workflow directory
+2026-11-27T20:44:40.2321409Z Prepare all required actions
+2026-11-27T20:44:40.2408163Z Complete job name: anonymous-image
+2026-11-27T20:44:40.3397220Z ##[group]Run config=$(mktemp -d)
+2026-11-27T20:44:40.3397822Z [36;1mconfig=$(mktemp -d)[0m
+2026-11-27T20:44:40.3398326Z [36;1mecho "DOCKER_CONFIG=$config" >> "$GITHUB_ENV"[0m
+2026-11-27T20:44:40.3398987Z [36;1mprintf '{}\n' > "$config/config.json"[0m
+2026-11-27T20:44:40.3399623Z [36;1mdocker --config "$config" pull ghcr.io/ybn2004/convention-shop:1.0.0[0m
+2026-11-27T20:44:40.3400610Z [36;1mdocker --config "$config" image inspect ghcr.io/ybn2004/convention-shop:1.0.0 --format '{{json .RepoDigests}}'[0m
+2026-11-27T20:44:40.3718146Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-27T20:44:40.3718929Z ##[endgroup]
+2026-11-27T20:44:40.7313097Z 1.0.0: Pulling from ybn2004/convention-shop
+2026-11-27T20:44:40.9306333Z f18232174bc9: Pulling fs layer
+2026-11-27T20:44:40.9307624Z 81bd8ed7ec67: Pulling fs layer
+2026-11-27T20:44:40.9308585Z 39c2ddfd6010: Pulling fs layer
+2026-11-27T20:44:40.9309385Z 6cf9b0b8beb1: Pulling fs layer
+2026-11-27T20:44:40.9310137Z c6a3011557b4: Pulling fs layer
+2026-11-27T20:44:40.9310885Z 34a64644b756: Pulling fs layer
+2026-11-27T20:44:40.9311969Z 197eb75867ef: Pulling fs layer
+2026-11-27T20:44:40.9312847Z 61ca4f733c80: Pulling fs layer
+2026-11-27T20:44:40.9313562Z d7e507024086: Pulling fs layer
+2026-11-27T20:44:40.9314246Z b464cfdf2a63: Pulling fs layer
+2026-11-27T20:44:41.0988681Z 81bd8ed7ec67: Download complete
+2026-11-27T20:44:41.0990084Z 197eb75867ef: Download complete
+2026-11-27T20:44:41.0991174Z 34a64644b756: Download complete
+2026-11-27T20:44:41.1011723Z d7e507024086: Download complete
+2026-11-27T20:44:41.1013030Z 6cf9b0b8beb1: Download complete
+2026-11-27T20:44:41.1014789Z 0562fadcc657: Download complete
+2026-11-27T20:44:41.1016229Z c6a3011557b4: Download complete
+2026-11-27T20:44:41.1017753Z 61ca4f733c80: Download complete
+2026-11-27T20:44:41.1019034Z b464cfdf2a63: Download complete
+2026-11-27T20:44:41.1986180Z f18232174bc9: Download complete
+2026-11-27T20:44:41.2097674Z f18232174bc9: Pull complete
+2026-11-27T20:44:41.2982707Z 39c2ddfd6010: Download complete
+2026-11-27T20:44:41.2996961Z 81bd8ed7ec67: Pull complete
+2026-11-27T20:44:41.3011648Z 197eb75867ef: Pull complete
+2026-11-27T20:44:41.3029228Z d7e507024086: Pull complete
+2026-11-27T20:44:41.3052371Z 61ca4f733c80: Pull complete
+2026-11-27T20:44:41.3085214Z b464cfdf2a63: Pull complete
+2026-11-27T20:44:41.4009748Z 34a64644b756: Pull complete
+2026-11-27T20:44:41.5608676Z 6cf9b0b8beb1: Pull complete
+2026-11-27T20:44:41.5615133Z c6a3011557b4: Pull complete
+2026-11-27T20:44:41.5621995Z 39c2ddfd6010: Pull complete
+2026-11-27T20:44:41.5627429Z Digest: sha256:ba34c313f0d82143ed71972efcda3a0b1ff08460a498e3be9f1675f8c7f1a35a
+2026-11-27T20:44:41.5632954Z Status: Downloaded newer image for ghcr.io/ybn2004/convention-shop:1.0.0
+2026-11-27T20:44:41.5636547Z ghcr.io/ybn2004/convention-shop:1.0.0
+2026-11-27T20:44:41.6036708Z ["ghcr.io/ybn2004/convention-shop@sha256:ba34c313f0d82143ed71972efcda3a0b1ff08460a498e3be9f1675f8c7f1a35a"]
+2026-11-27T20:44:41.6195080Z ##[group]Run docker run -d --name anonymous-release -p 127.0.0.1:8080:80 ghcr.io/ybn2004/convention-shop:1.0.0
+2026-11-27T20:44:41.6197667Z [36;1mdocker run -d --name anonymous-release -p 127.0.0.1:8080:80 ghcr.io/ybn2004/convention-shop:1.0.0[0m
+2026-11-27T20:44:41.6200133Z [36;1mcurl --retry 10 --retry-all-errors --retry-delay 1 -fsS http://127.0.0.1:8080/ -o /tmp/home.html[0m
+2026-11-27T20:44:41.6202060Z [36;1mgrep -q 'id="root"' /tmp/home.html[0m
+2026-11-27T20:44:41.6203438Z [36;1mcurl -fsS http://127.0.0.1:8080/checkout | cmp - /tmp/home.html[0m
+2026-11-27T20:44:41.6205561Z [36;1mprintf 'Anonymous pull, container start, storefront and SPA fallback passed.\n' >> "$GITHUB_STEP_SUMMARY"[0m
+2026-11-27T20:44:41.6237421Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-27T20:44:41.6238636Z env:
+2026-11-27T20:44:41.6239519Z   DOCKER_CONFIG: /tmp/tmp.1amrvuZHUX
+2026-11-27T20:44:41.6240542Z ##[endgroup]
+2026-11-27T20:44:42.2442826Z 85114901340ec04b9bcaa39376c677ff3f16c342eac329dd624540c4669e9212
+2026-11-27T20:44:42.4645713Z curl: (56) Recv failure: Connection reset by peer
+2026-11-27T20:44:43.4800884Z ##[group]Run docker rm -f anonymous-release || true
+2026-11-27T20:44:43.4801293Z [36;1mdocker rm -f anonymous-release || true[0m
+2026-11-27T20:44:43.4832057Z shell: /usr/bin/bash -e {0}
+2026-11-27T20:44:43.4832318Z env:
+2026-11-27T20:44:43.4832551Z   DOCKER_CONFIG: /tmp/tmp.1amrvuZHUX
+2026-11-27T20:44:43.4832831Z ##[endgroup]
+2026-11-27T20:44:43.6211396Z anonymous-release
+2026-11-27T20:44:43.6297804Z Cleaning up orphan processes

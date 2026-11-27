@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.2] - 2026-11-28
+
+- Restored the working catalog URL through revert commit `2d16228`. This release keeps that fix.
+
+## [1.0.1] - 2026-11-28
+
+- Deployed the controlled incident in commit `5daf4ef`, pointing catalog requests to the exercise's invalid API path.
+
 ## [1.0.0] - 2026-11-27
 
 ### Added

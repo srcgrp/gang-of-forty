@@ -4,7 +4,7 @@ import { carouselProducts } from '../../catalog/products'
 import CatalogStatus from '../CatalogStatus'
 import CarouselRow from '../CarouselRow'
 import CategoryNav from '../CategoryNav'
-import ProductCard from '../ProductCard'
+import SearchResults from '../SearchResults'
 import Hero from '../Hero'
 import SaleCountdown from '../SaleCountdown'
 
@@ -13,12 +13,8 @@ export default function HomePage() {
   const query = useSearchStore((store) => store.query)
   if (state.status !== 'success') return <CatalogStatus state={state} retry={state.retry} />
   const catalog = state.data
-  const matches = catalog.products.filter((product) => product.name.includes(query.trim()))
-  return query.trim() ? <section aria-label="نتایج جستجو">
-    <h1>نتایج جستجو ({matches.length.toLocaleString('fa-IR')})</h1>
-    <div className="product-grid">{matches.map((product) => <ProductCard key={product.id} product={product} />)}</div>
-    {matches.length === 0 && <p>محصولی با این نام پیدا نشد.</p>}
-  </section> : <>
+  if (query.trim()) return <SearchResults catalog={catalog} query={query.trim()} />
+  return <>
     <Hero />
     <CategoryNav categories={catalog.categories} />
     <div id="products">

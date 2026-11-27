@@ -24,7 +24,7 @@ export default function CartPanel() {
           {items.map((item) => (
             <div key={item.id}>
               <span>{item.emoji} {item.name}</span>
-              <span>تعداد: {item.quantity}</span>
+              <span>تعداد: {item.quantity.toLocaleString('fa-IR')}</span>
               <span>
                 {(item.price * item.quantity).toLocaleString('fa-IR')} تومان
               </span>

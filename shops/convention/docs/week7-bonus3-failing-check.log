@@ -1,0 +1,217 @@
+ï»¿2026-11-27T20:43:26.1468076Z Current runner version: '2.338.2'
+2026-11-27T20:43:26.1497530Z ##[group]Runner Image Provisioner
+2026-11-27T20:43:26.1498608Z Hosted Compute Agent
+2026-11-27T20:43:26.1499351Z Version: 20261111.635
+2026-11-27T20:43:26.1500229Z Commit: b8a594ea514ff44cadb5342986c68b1eac6e22ed
+2026-11-27T20:43:26.1501218Z Build Date: 2026-11-11T01:49:01Z
+2026-11-27T20:43:26.1502217Z Worker ID: {b153d236-45d6-41ec-9b5f-06cbdb239e18}
+2026-11-27T20:43:26.1503199Z Region: eastus2
+2026-11-27T20:43:26.1503935Z Cloud: Azure
+2026-11-27T20:43:26.1504725Z ##[endgroup]
+2026-11-27T20:43:26.1506348Z ##[group]Operating System
+2026-11-27T20:43:26.1507111Z Ubuntu
+2026-11-27T20:43:26.1507804Z 26.04.1
+2026-11-27T20:43:26.1508471Z LTS
+2026-11-27T20:43:26.1508894Z ##[endgroup]
+2026-11-27T20:43:26.1509424Z ##[group]Runner Image
+2026-11-27T20:43:26.1509967Z Image: ubuntu-26.04
+2026-11-27T20:43:26.1510484Z Version: 20261116.202.1
+2026-11-27T20:43:26.1511744Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261116.202/images/ubuntu/Ubuntu2604-Readme.md
+2026-11-27T20:43:26.1513090Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261116.202
+2026-11-27T20:43:26.1513869Z ##[endgroup]
+2026-11-27T20:43:26.1514829Z ##[group]GITHUB_TOKEN Permissions
+2026-11-27T20:43:26.1516746Z Contents: read
+2026-11-27T20:43:26.1517317Z Metadata: read
+2026-11-27T20:43:26.1517782Z ##[endgroup]
+2026-11-27T20:43:26.1519477Z Secret source: Actions
+2026-11-27T20:43:26.1520370Z Cache mode: write
+2026-11-27T20:43:26.1521115Z Prepare workflow directory
+2026-11-27T20:43:26.1798872Z Prepare all required actions
+2026-11-27T20:43:26.1838235Z Getting action download info
+2026-11-27T20:43:26.3534911Z Download action repository 'actions/checkout@v7' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-11-27T20:43:26.4686552Z Download action repository 'actions/setup-node@v7' (SHA:949feb2413d6458794dcd2491c4babbbce0c15c1)
+2026-11-27T20:43:26.6280586Z Complete job name: check
+2026-11-27T20:43:26.6994083Z ##[group]Run actions/checkout@v7
+2026-11-27T20:43:26.6994766Z with:
+2026-11-27T20:43:26.6995139Z   repository: YBN2004/convention-shop
+2026-11-27T20:43:26.6998226Z   token: ***
+2026-11-27T20:43:26.6998591Z   ssh-strict: true
+2026-11-27T20:43:26.6998954Z   ssh-user: git
+2026-11-27T20:43:26.6999317Z   persist-credentials: true
+2026-11-27T20:43:26.6999713Z   clean: true
+2026-11-27T20:43:26.7000075Z   sparse-checkout-cone-mode: true
+2026-11-27T20:43:26.7000494Z   fetch-depth: 1
+2026-11-27T20:43:26.7000846Z   fetch-tags: false
+2026-11-27T20:43:26.7001213Z   show-progress: true
+2026-11-27T20:43:26.7001735Z   lfs: false
+2026-11-27T20:43:26.7002069Z   submodules: false
+2026-11-27T20:43:26.7002427Z   set-safe-directory: true
+2026-11-27T20:43:26.7002831Z   allow-unsafe-pr-checkout: false
+2026-11-27T20:43:26.7003411Z ##[endgroup]
+2026-11-27T20:43:26.9745871Z Syncing repository: YBN2004/convention-shop
+2026-11-27T20:43:26.9749189Z ##[group]Getting Git version info
+2026-11-27T20:43:26.9750939Z Working directory is '/home/runner/work/convention-shop/convention-shop'
+2026-11-27T20:43:26.9753554Z [command]/usr/bin/git version
+2026-11-27T20:43:26.9754804Z git version 2.56.1
+2026-11-27T20:43:26.9769077Z ##[endgroup]
+2026-11-27T20:43:26.9779053Z Temporarily overriding HOME='/home/runner/work/_temp/6d488d8c-e639-4103-9b70-2e4804d25761' before making global git config changes
+2026-11-27T20:43:26.9782283Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-27T20:43:26.9785279Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/convention-shop/convention-shop
+2026-11-27T20:43:26.9843031Z Deleting the contents of '/home/runner/work/convention-shop/convention-shop'
+2026-11-27T20:43:26.9846201Z ##[group]Determining repository object format
+2026-11-27T20:43:26.9848756Z ##[endgroup]
+2026-11-27T20:43:26.9852760Z ##[group]Initializing the repository
+2026-11-27T20:43:26.9859059Z [command]/usr/bin/git init /home/runner/work/convention-shop/convention-shop
+2026-11-27T20:43:26.9942332Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-27T20:43:26.9945519Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-27T20:43:26.9947618Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-27T20:43:26.9949879Z hint: call:
+2026-11-27T20:43:26.9951225Z hint:
+2026-11-27T20:43:26.9953009Z hint: 	git config --global init.defaultBranch <name>
+2026-11-27T20:43:26.9955057Z hint:
+2026-11-27T20:43:26.9956947Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-27T20:43:26.9960074Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-27T20:43:26.9962874Z hint:
+2026-11-27T20:43:26.9963945Z hint: 	git branch -m <name>
+2026-11-27T20:43:26.9965183Z hint:
+2026-11-27T20:43:26.9966786Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-27T20:43:26.9970216Z Initialized empty Git repository in /home/runner/work/convention-shop/convention-shop/.git/
+2026-11-27T20:43:26.9976303Z [command]/usr/bin/git remote add origin https://github.com/YBN2004/convention-shop
+2026-11-27T20:43:27.0020064Z ##[endgroup]
+2026-11-27T20:43:27.0022325Z ##[group]Disabling automatic garbage collection
+2026-11-27T20:43:27.0024240Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-27T20:43:27.0056964Z ##[endgroup]
+2026-11-27T20:43:27.0059187Z ##[group]Setting up auth
+2026-11-27T20:43:27.0060741Z Removing SSH command configuration
+2026-11-27T20:43:27.0063151Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-27T20:43:27.0095690Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-27T20:43:27.0621006Z Removing HTTP extra header
+2026-11-27T20:43:27.0626608Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-27T20:43:27.0657669Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-27T20:43:27.0943538Z Removing includeIf entries pointing to credentials config files
+2026-11-27T20:43:27.0948040Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-27T20:43:27.0996576Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-27T20:43:27.1244739Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-6ef12fd5-c28f-429c-9cac-34ab0c54c7be.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-27T20:43:27.1282361Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/convention-shop/convention-shop/.git.path /home/runner/work/_temp/git-credentials-6ef12fd5-c28f-429c-9cac-34ab0c54c7be.config
+2026-11-27T20:43:27.1318868Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/convention-shop/convention-shop/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-6ef12fd5-c28f-429c-9cac-34ab0c54c7be.config
+2026-11-27T20:43:27.1388213Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-6ef12fd5-c28f-429c-9cac-34ab0c54c7be.config
+2026-11-27T20:43:27.1438550Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-6ef12fd5-c28f-429c-9cac-34ab0c54c7be.config
+2026-11-27T20:43:27.1553325Z ##[endgroup]
+2026-11-27T20:43:27.1555415Z ##[group]Fetching the repository
+2026-11-27T20:43:27.1563397Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +614207773738815e92affb0be5d42d3801e667b3:refs/remotes/pull/1/merge
+2026-11-27T20:43:27.3675950Z From https://github.com/YBN2004/convention-shop
+2026-11-27T20:43:27.3678374Z  * [new ref]         614207773738815e92affb0be5d42d3801e667b3 -> pull/1/merge
+2026-11-27T20:43:27.3682722Z ##[endgroup]
+2026-11-27T20:43:27.3684525Z ##[group]Determining the checkout info
+2026-11-27T20:43:27.3686469Z ##[endgroup]
+2026-11-27T20:43:27.3687478Z [command]/usr/bin/git sparse-checkout disable
+2026-11-27T20:43:27.3735514Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-27T20:43:27.3763296Z ##[group]Checking out the ref
+2026-11-27T20:43:27.3765811Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/1/merge
+2026-11-27T20:43:27.3871939Z Note: switching to 'refs/remotes/pull/1/merge'.
+2026-11-27T20:43:27.3873307Z 
+2026-11-27T20:43:27.3874310Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-27T20:43:27.3876529Z changes and commit them, and you can discard any commits you make in this
+2026-11-27T20:43:27.3879551Z state without impacting any branches by switching back to a branch.
+2026-11-27T20:43:27.3881338Z 
+2026-11-27T20:43:27.3882706Z If you want to create a new branch to retain commits you create, you may
+2026-11-27T20:43:27.3885560Z do so (now or later) by using -c with the switch command. Example:
+2026-11-27T20:43:27.3887320Z 
+2026-11-27T20:43:27.3887907Z   git switch -c <new-branch-name>
+2026-11-27T20:43:27.3888890Z 
+2026-11-27T20:43:27.3889441Z Or undo this operation with:
+2026-11-27T20:43:27.3890343Z 
+2026-11-27T20:43:27.3890829Z   git switch -
+2026-11-27T20:43:27.3891493Z 
+2026-11-27T20:43:27.3892868Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-27T20:43:27.3894560Z 
+2026-11-27T20:43:27.3896110Z HEAD is now at 6142077 Merge 47ddb600223faa92b82ca389eb59e884857df687 into 074af72b3dcc826da44e7ef114619fff709442fb
+2026-11-27T20:43:27.3900791Z ##[endgroup]
+2026-11-27T20:43:27.3927285Z [command]/usr/bin/git log -1 --format=%H
+2026-11-27T20:43:27.3950412Z 614207773738815e92affb0be5d42d3801e667b3
+2026-11-27T20:43:27.4339975Z ##[group]Run actions/setup-node@v7
+2026-11-27T20:43:27.4340963Z with:
+2026-11-27T20:43:27.4341909Z   node-version: 22
+2026-11-27T20:43:27.4342650Z   cache: npm
+2026-11-27T20:43:27.4343341Z   check-latest: false
+2026-11-27T20:43:27.4350836Z   token: ***
+2026-11-27T20:43:27.4351751Z   package-manager-cache: true
+2026-11-27T20:43:27.4352627Z ##[endgroup]
+2026-11-27T20:43:27.5439721Z Found in cache @ /opt/hostedtoolcache/node/22.23.5/x64
+2026-11-27T20:43:27.6728361Z ##[group]Environment details
+2026-11-27T20:43:28.0517279Z node: v22.23.5
+2026-11-27T20:43:28.0518094Z npm: 10.9.9
+2026-11-27T20:43:28.0518349Z yarn: 1.22.22
+2026-11-27T20:43:28.0518972Z ##[endgroup]
+2026-11-27T20:43:28.0531090Z [command]/opt/hostedtoolcache/node/22.23.5/x64/bin/npm config get cache
+2026-11-27T20:43:28.1631940Z /home/runner/.npm
+2026-11-27T20:43:28.2493556Z Cache hit for: node-cache-Linux-x64-npm-58c6bf1458a320d6a3d1a3d3cc273a03278e4c796abf3cbd207b41df078880fa
+2026-11-27T20:43:28.7921688Z Received 33083100 of 33083100 (100.0%), 95.0 MBs/sec
+2026-11-27T20:43:28.7922326Z Cache Size: ~32 MB (33083100 B)
+2026-11-27T20:43:28.7965509Z [command]/usr/bin/tar -xf /home/runner/work/_temp/52f26682-2675-449e-bea0-f8846a77fd65/cache.tzst -P -C /home/runner/work/convention-shop/convention-shop --use-compress-program unzstd
+2026-11-27T20:43:28.8442018Z Cache restored successfully
+2026-11-27T20:43:28.8459056Z Cache restored from key: node-cache-Linux-x64-npm-58c6bf1458a320d6a3d1a3d3cc273a03278e4c796abf3cbd207b41df078880fa
+2026-11-27T20:43:28.8648806Z ##[group]Run npm ci
+2026-11-27T20:43:28.8649073Z [36;1mnpm ci[0m
+2026-11-27T20:43:28.8688346Z shell: /usr/bin/bash -e {0}
+2026-11-27T20:43:28.8688619Z ##[endgroup]
+2026-11-27T20:43:30.2423107Z 
+2026-11-27T20:43:30.2430803Z added 37 packages, and audited 38 packages in 1s
+2026-11-27T20:43:30.2431217Z 
+2026-11-27T20:43:30.2431481Z 14 packages are looking for funding
+2026-11-27T20:43:30.2432125Z   run `npm fund` for details
+2026-11-27T20:43:30.2432378Z 
+2026-11-27T20:43:30.2432549Z found 0 vulnerabilities
+2026-11-27T20:43:30.2860333Z ##[group]Run npm run ci
+2026-11-27T20:43:30.2860781Z [36;1mnpm run ci[0m
+2026-11-27T20:43:30.2893865Z shell: /usr/bin/bash -e {0}
+2026-11-27T20:43:30.2894103Z ##[endgroup]
+2026-11-27T20:43:30.3677497Z 
+2026-11-27T20:43:30.3678138Z > convention@1.0.0 ci
+2026-11-27T20:43:30.3678721Z > npm run lint --if-present && npm run check && npm run test --if-present && npm run build
+2026-11-27T20:43:30.3679030Z 
+2026-11-27T20:43:30.4504075Z 
+2026-11-27T20:43:30.4504606Z > convention@1.0.0 lint
+2026-11-27T20:43:30.4504972Z > oxlint src --deny-warnings
+2026-11-27T20:43:30.4505147Z 
+2026-11-27T20:43:30.4981999Z Found 0 warnings and 0 errors.
+2026-11-27T20:43:30.4984088Z Finished in 10ms on 36 files with 116 rules using 4 threads.
+2026-11-27T20:43:30.5892835Z 
+2026-11-27T20:43:30.5893560Z > convention@1.0.0 check
+2026-11-27T20:43:30.5893901Z > tsc --noEmit
+2026-11-27T20:43:30.5894046Z 
+2026-11-27T20:43:30.9045230Z ##[error]src/week7-ci-probe.ts(2,14): error TS2322: Type 'string' is not assignable to type 'number'.
+2026-11-27T20:43:30.9245803Z ##[error]Process completed with exit code 1.
+2026-11-27T20:43:30.9361239Z Post job cleanup.
+2026-11-27T20:43:31.0066214Z [command]/usr/bin/git version
+2026-11-27T20:43:31.0102066Z git version 2.56.1
+2026-11-27T20:43:31.0134600Z Temporarily overriding HOME='/home/runner/work/_temp/1b945f1e-70cf-47c4-9d85-983509c497c0' before making global git config changes
+2026-11-27T20:43:31.0135676Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-27T20:43:31.0140401Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/convention-shop/convention-shop
+2026-11-27T20:43:31.0173275Z Removing SSH command configuration
+2026-11-27T20:43:31.0179135Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-27T20:43:31.0214274Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-27T20:43:31.0478785Z Removing HTTP extra header
+2026-11-27T20:43:31.0485959Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-27T20:43:31.0519551Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-27T20:43:31.0787608Z Removing includeIf entries pointing to credentials config files
+2026-11-27T20:43:31.0793388Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-27T20:43:31.0818371Z includeif.gitdir:/home/runner/work/convention-shop/convention-shop/.git.path
+2026-11-27T20:43:31.0819200Z includeif.gitdir:/home/runner/work/convention-shop/convention-shop/.git/worktrees/*.path
+2026-11-27T20:43:31.0819640Z includeif.gitdir:/github/workspace/.git.path
+2026-11-27T20:43:31.0820001Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-27T20:43:31.0825892Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/convention-shop/convention-shop/.git.path
+2026-11-27T20:43:31.0846651Z /home/runner/work/_temp/git-credentials-6ef12fd5-c28f-429c-9cac-34ab0c54c7be.config
+2026-11-27T20:43:31.0855553Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/convention-shop/convention-shop/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-6ef12fd5\-c28f\-429c\-9cac\-34ab0c54c7be\.config
+2026-11-27T20:43:31.0894885Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/convention-shop/convention-shop/.git/worktrees/*.path
+2026-11-27T20:43:31.0915323Z /home/runner/work/_temp/git-credentials-6ef12fd5-c28f-429c-9cac-34ab0c54c7be.config
+2026-11-27T20:43:31.0923085Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/convention-shop/convention-shop/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-6ef12fd5\-c28f\-429c\-9cac\-34ab0c54c7be\.config
+2026-11-27T20:43:31.0950719Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-11-27T20:43:31.0970031Z /github/runner_temp/git-credentials-6ef12fd5-c28f-429c-9cac-34ab0c54c7be.config
+2026-11-27T20:43:31.0976856Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-6ef12fd5\-c28f\-429c\-9cac\-34ab0c54c7be\.config
+2026-11-27T20:43:31.1007897Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-27T20:43:31.1028101Z /github/runner_temp/git-credentials-6ef12fd5-c28f-429c-9cac-34ab0c54c7be.config
+2026-11-27T20:43:31.1035395Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-6ef12fd5\-c28f\-429c\-9cac\-34ab0c54c7be\.config
+2026-11-27T20:43:31.1065759Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-27T20:43:31.1300008Z Removing credentials config '/home/runner/work/_temp/git-credentials-6ef12fd5-c28f-429c-9cac-34ab0c54c7be.config'
+2026-11-27T20:43:31.1433105Z Cleaning up orphan processes

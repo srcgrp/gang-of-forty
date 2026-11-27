@@ -35,3 +35,9 @@ export function getCartCount(cart: CartItem[]): number {
         0
     );
 }
+
+export function retainAvailable(cart: CartItem[], products: { id: number }[]): CartItem[] {
+    const ids = new Set(products.map((product) => product.id))
+    const available = cart.filter((item) => ids.has(item.productId))
+    return available.length === cart.length ? cart : available
+}

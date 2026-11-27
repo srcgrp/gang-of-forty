@@ -1,0 +1,24 @@
+{
+  "servers": {
+    "playwright": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest"]
+    },
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer ${input:githubReadToken}"
+      }
+    }
+  },
+  "inputs": [
+    {
+      "id": "githubReadToken",
+      "type": "promptString",
+      "description": "Read-only fine-grained token for convention-shop",
+      "password": true
+    }
+  ]
+}

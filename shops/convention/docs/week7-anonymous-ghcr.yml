@@ -1,0 +1,28 @@
+name: Week 7 anonymous GHCR verification
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  anonymous-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull published image without registry credentials
+        shell: bash
+        run: |
+          config=$(mktemp -d)
+          echo "DOCKER_CONFIG=$config" >> "$GITHUB_ENV"
+          printf '{}\n' > "$config/config.json"
+          docker --config "$config" pull ghcr.io/ybn2004/convention-shop:1.0.0
+          docker --config "$config" image inspect ghcr.io/ybn2004/convention-shop:1.0.0 --format '{{json .RepoDigests}}'
+      - name: Run published image and verify storefront and fallback
+        shell: bash
+        run: |
+          docker run -d --name anonymous-release -p 127.0.0.1:8080:80 ghcr.io/ybn2004/convention-shop:1.0.0
+          curl --retry 10 --retry-all-errors --retry-delay 1 -fsS http://127.0.0.1:8080/ -o /tmp/home.html
+          grep -q 'id="root"' /tmp/home.html
+          curl -fsS http://127.0.0.1:8080/checkout | cmp - /tmp/home.html
+          printf 'Anonymous pull, container start, storefront and SPA fallback passed.\n' >> "$GITHUB_STEP_SUMMARY"
+      - if: always()
+        run: docker rm -f anonymous-release || true

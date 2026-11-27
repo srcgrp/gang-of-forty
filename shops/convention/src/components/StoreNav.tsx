@@ -16,11 +16,15 @@ export default function StoreNav() {
     <div className="container"><ul className="nav-list">
       <li className="products-menu" data-open={open}
         onPointerEnter={(event) => { if (event.pointerType === 'mouse') setOpen(true) }}
-        onPointerLeave={() => setOpen(false)}
+        onPointerLeave={(event) => { if (event.pointerType === 'mouse') setOpen(false) }}
         onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false) }}
         onKeyDown={(event) => { if (event.key === 'Escape') { setOpen(false); event.currentTarget.querySelector('button')?.focus() } }}>
         <button type="button" className="products-menu-toggle" aria-expanded={open}
-          aria-controls="products-menu-panel" onClick={(event) => setOpen((value) => event.detail === 0 ? !value : true)}>
+          aria-controls="products-menu-panel" onClick={(event) => {
+            const pointer = event.nativeEvent
+            if ('pointerType' in pointer && pointer.pointerType === 'mouse' && event.detail > 0) setOpen(true)
+            else setOpen((value) => !value)
+          }}>
           <span className="hamburger-icon" aria-hidden="true">☰</span> همه محصولات
         </button>
         <div className="mega-menu" id="products-menu-panel">
