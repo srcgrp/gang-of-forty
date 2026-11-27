@@ -12,6 +12,14 @@
 
 Node.js 22 و npm را نصب کنید و دستورهای زیر را داخل پوشهٔ فروشگاه اجرا کنید.
 
+در یک کپی تازه، فایل محلی `.env.development` را در کنار `package.json` بسازید و در آن بنویسید:
+
+```dotenv
+VITE_API_URL=/api
+```
+
+برای `npm run build` و پیش‌نمایش محلی هم همین خط را در `.env.production` قرار دهید. در GitHub Actions و Docker این متغیر هنگام ساخت تنظیم می‌شود.
+
 ```bash
 npm ci
 npm run dev
