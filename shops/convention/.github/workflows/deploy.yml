@@ -1,0 +1,94 @@
+name: Convention shop
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: shop-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run ci
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - run: docker build -t convention-shop:ci .
+      - name: Smoke test the built storefront
+        run: |
+          docker run -d --name shop -p 127.0.0.1:8080:80 convention-shop:ci
+          curl --retry 10 --retry-all-errors --retry-delay 1 -fsS http://localhost:8080/ -o /tmp/home.html
+          grep -q 'id="root"' /tmp/home.html
+          curl -fsS http://localhost:8080/checkout | cmp - /tmp/home.html
+      - if: always()
+        run: docker rm -f shop || true
+
+  deploy:
+    needs: [check, docker]
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - run: npm install --global vercel@latest
+      - name: Deploy preview or production
+        shell: bash
+        env:
+          TARGET: ${{ github.event_name == 'push' && 'production' || 'preview' }}
+        run: |
+          flags=()
+          if [[ "$TARGET" == production ]]; then flags+=(--prod); fi
+          vercel pull --yes --environment="$TARGET" --token="$VERCEL_TOKEN"
+          vercel build "${flags[@]}" --token="$VERCEL_TOKEN"
+          url=$(vercel deploy --prebuilt "${flags[@]}" --token="$VERCEL_TOKEN")
+          printf '### %s\n\n<%s>\n' "$TARGET" "$url" >> "$GITHUB_STEP_SUMMARY"
+
+  publish:
+    needs: [check, docker]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v7
+      - name: Resolve image name and package version
+        id: image
+        run: |
+          echo "name=ghcr.io/${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
+          version=$(node -p "require('./package.json').version")
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+      - uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v7
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ steps.image.outputs.name }}:${{ steps.image.outputs.version }}
+            ${{ steps.image.outputs.name }}:latest
