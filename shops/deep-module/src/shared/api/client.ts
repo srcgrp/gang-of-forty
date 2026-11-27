@@ -1,6 +1,10 @@
 import type { ApiErrorType } from "../../types";
 
-const BASE = (import.meta.env.VITE_API_URL as string | undefined) ?? "/api";
+const rawBase = (import.meta.env.VITE_API_URL as string | undefined)?.trim();
+const BASE =
+  rawBase && !/^https?:\/\/gof\.zzb\.cx\/api\/?$/i.test(rawBase)
+    ? rawBase.replace(/\/+$/, "")
+    : "/api";
 const TIMEOUT = 8000;
 const RETRIES = 2;
 
