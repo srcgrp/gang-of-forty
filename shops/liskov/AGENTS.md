@@ -37,3 +37,7 @@ Liskov is a Persian RTL grocery storefront built with React, TypeScript, and Vit
 - Never modify files outside `shops/liskov/`.
 - Never commit `node_modules/`, `dist/`, `.vercel/`, or local environment files.
 - Never commit without reviewing `git diff` and passing `npm run ci`.
+
+## Release Workflow
+
+- Follow `.claude/skills/release/SKILL.md` when preparing or publishing a release.
