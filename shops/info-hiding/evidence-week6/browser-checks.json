@@ -1,0 +1,280 @@
+[
+  {
+    "test": "live home",
+    "result": "passed",
+    "detail": {
+      "rows": 2,
+      "maximumCardsPerRow": 6,
+      "requests": [
+        {
+          "url": "http://127.0.0.1:4173/api/home.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/stock.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/categories.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/offers.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/products.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/products.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/categories.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/offers.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/stock.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/home.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/products.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/categories.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/offers.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/stock.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/home.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/products.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/categories.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/offers.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/stock.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/home.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/products.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/categories.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/offers.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/stock.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/home.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/products.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/categories.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/offers.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/stock.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/home.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/products.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/categories.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/offers.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/stock.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/home.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/products.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/categories.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/offers.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/stock.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/home.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/products.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/categories.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/offers.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/stock.json",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:4173/api/home.json",
+          "status": 200
+        }
+      ]
+    }
+  },
+  {
+    "test": "PLP refresh",
+    "result": "passed",
+    "detail": "All offers shown; same hash route, dark theme and two saved items survive refresh"
+  },
+  {
+    "test": "shared cart and history",
+    "result": "passed",
+    "detail": "Add on offers PLP, home, dairy PLP, Back/Forward, remove; one shared cart"
+  },
+  {
+    "test": "header cart link",
+    "result": "passed",
+    "detail": "Router hash anchor goes to the home cart panel without becoming an unknown route"
+  },
+  {
+    "test": "category page",
+    "result": "passed",
+    "detail": "Category slug opens its complete product list"
+  },
+  {
+    "test": "responsive",
+    "result": "passed",
+    "detail": [
+      320,
+      390,
+      768,
+      1440
+    ]
+  },
+  {
+    "test": "unknown addresses",
+    "result": "passed",
+    "detail": "Unknown list and unknown route show separate readable messages"
+  },
+  {
+    "test": "normal preview console",
+    "result": "passed",
+    "detail": {
+      "pageErrors": [],
+      "warningsAndErrors": []
+    }
+  },
+  {
+    "test": "missing",
+    "result": "passed",
+    "detail": "Readable API state; no uncaught page errors or API HTML execution"
+  },
+  {
+    "test": "broken",
+    "result": "passed",
+    "detail": "Readable API state; no uncaught page errors or API HTML execution"
+  },
+  {
+    "test": "empty",
+    "result": "passed",
+    "detail": "Readable API state; no uncaught page errors or API HTML execution"
+  },
+  {
+    "test": "bad-home",
+    "result": "passed",
+    "detail": "Readable API state; no uncaught page errors or API HTML execution"
+  },
+  {
+    "test": "unsafe",
+    "result": "passed",
+    "detail": "Readable API state; no uncaught page errors or API HTML execution"
+  },
+  {
+    "test": "loading",
+    "result": "passed",
+    "detail": "Loading status is visible while all requests are pending"
+  },
+  {
+    "test": "corrupt saved state",
+    "result": "passed",
+    "detail": "Corrupt cart JSON and invalid saved theme recover safely"
+  },
+  {
+    "test": "development console",
+    "result": "passed",
+    "detail": "React StrictMode has no key, hooks or runtime warnings/errors"
+  },
+  {
+    "test": "static nested production refresh",
+    "result": "passed",
+    "detail": "Direct PLP refresh works on an ordinary file server at /shops/yasaman/; all resources 200"
+  }
+]

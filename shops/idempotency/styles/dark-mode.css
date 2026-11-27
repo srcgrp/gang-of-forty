@@ -1,0 +1,64 @@
+
+div[data-theme="dark"] .top-bar {
+  background-color: #F7EEDC;
+  color: #740D18;
+}
+
+div[data-theme="dark"] .categories h2,
+div[data-theme="dark"] .product-section h2,
+div[data-theme="dark"] .view-all-link,
+div[data-theme="dark"] .product-price {
+  color: #F7EEDC;
+}
+
+div[data-theme="dark"] .brand,
+div[data-theme="dark"] .cart-summary,
+div[data-theme="dark"] .carousel-arrow {
+  color: #F7EEDC;
+}
+
+div[data-theme="dark"] .cart-summary {
+  border-color: #F7EEDC;
+}
+
+div[data-theme="dark"] .mobile-nav summary {
+  color: #F7EEDC;
+  border-color: #F7EEDC;
+  background-color: rgba(247, 238, 220, 0.06);
+}
+
+/*corner decorations*/
+
+div[data-theme="dark"] .categories::before,
+div[data-theme="dark"] .product-section::before {
+  background-image: url("/asset/decorations/corner-dark-top-left.webp");
+}
+
+div[data-theme="dark"] .categories::after,
+div[data-theme="dark"] .product-section::after {
+  background-image: url("/asset/decorations/corner-dark-top-right.webp");
+}
+
+
+/* Dark mode */
+
+div[data-theme="dark"] .search input {
+    background-color: var(--color-primary);
+    color: var(--color-text);
+    border-color: var(--color-border);
+}
+
+div[data-theme="dark"] .header-main {
+    background-color: var(--color-primary);
+}
+
+div[data-theme="dark"] .home-side-banner h2,
+div[data-theme="dark"] .home-promo-card {
+    color: var(--color-text);
+}
+
+div[data-theme="dark"] .product-card.product-highlight {
+  outline-color: #F7EEDC;
+}
+
+

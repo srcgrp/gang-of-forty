@@ -1,0 +1,73 @@
+export type Category = {
+    id: number,
+    slug: string,
+    name: string,
+    emoji: string
+};
+
+export type Product = { 
+    id: number,
+    categoryId: number,
+    name: string,
+    emoji: string,
+    unit: string,
+    price: number,
+    tags: string[]
+};
+
+export type Offer = {productId: number, percent: number, label: string};
+
+export type Stock = {
+    updatedAt: string,
+    items: Record<string,number>
+};
+
+export type Shop = {
+    name: string,
+    slogan: string,
+    owner: string,
+    city: string,
+    phone: string,
+    hours: { open: string, close: string },
+    deliveryFee: number,
+    freeDeliveryOver: number,
+    currency: string
+}
+
+// Display info for a product card: offer label/percent, whether it's in stock, and the price after discount.
+export interface CardInfo extends Partial<Pick<Offer, 'label' | 'percent'>> { inStock?: boolean; finalPrice?: number;}
+
+const MESSAGE_TYPES = ['load', 'error'] as const;
+
+export type MessageType = (typeof MESSAGE_TYPES)[number];
+
+export type LinkItem = { label: string, href: string };
+
+// An item in the cart: a product’s name/price/id and how many of it
+export interface CartItem extends Pick<Product, 'name'|'price'|'id'> {qty: number}
+
+export type Catalog = {
+    categories: Category[],
+    products: Product[], 
+    offeredProducts: Offer[], 
+    stock: Stock, 
+    shop: Shop,
+    carousels: Carousel[]
+}
+
+type CarouselBase = { id: string; title: string; emoji: string }
+
+export type Carousel = | (CarouselBase & { source: "offers" }) | (CarouselBase & { categoryId: number })
+
+export type LoadState<T> =
+  | { status: 'loading' }
+  | { status: 'success'; data: T }
+  | { status: 'empty' }
+  | { status: 'error'; message: string }
+
+export type Theme = "light" | "dark"
+
+// How the products of the PLP page are sorted
+export type SortOption = "default" | "price"
+
+export type CartProduct = Pick<Product, "id" | "name" | "price">

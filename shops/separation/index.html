@@ -1,29 +1,171 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوپرمارکت جداسازی دغدغه‌ها</title>
-  <!-- Week 1: put YOUR name here to claim this shop. The landing page shows it. -->
-  <meta name="author" content="">
-  <meta name="description" content="به‌زودی: بهترین میوه و سبزی محله!">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>yaldastore | سوپرمارکت محله</title>
+    <meta name="author" content="Yalda">
+    <meta name="description" content="سوپرمارکت yaldastore؛ میوه و سبزی، لبنیات و خواربار تازه محله">
+    <link rel="stylesheet" href="./style.css">
+    <script type="module" src="/src/main.ts"></script>
 </head>
-<body>
-  <header>
-    <a href="../../index.html">→ بازگشت به دار و دسته چهل‌نفره</a>
-    <h1>🗂️ سلام دنیا!</h1>
-  </header>
-  <main>
-    <p>اینجا سوپرمارکت <strong>جداسازی دغدغه‌ها</strong> است. به‌زودی باز می‌شود.</p>
-    <section>
-      <h2>این اسم یعنی چه؟</h2>
-      <p><bdi>Separation of Concerns</bdi> را ادسخر دایکسترا سال ۱۹۷۴ مطرح کرد: هر بخش برنامه فقط به یک دغدغه بپردازد. همین سوپرمارکت مثال خوبی است: <bdi>HTML</bdi> ساختار صفحه است، <bdi>CSS</bdi> ظاهرش و <bdi>JavaScript</bdi> رفتارش. هر کدام را می‌شود جدا عوض کرد.</p>
-      <!-- Your turn: add what YOU found about this name, in your own words. -->
-    </section>
-  </main>
-  <footer>
-    <p dir="ltr">slug: <code>separation</code></p>
-  </footer>
+
+<body id="top">
+
+    <a class="skip" href="#main">
+        پرش به محتوای اصلی
+    </a>
+
+    <header>
+
+        <div class="top-bar">
+            🚚 ارسال رایگان برای خریدهای بالای ۵۰۰ هزار تومان
+        </div>
+
+        <div class="header-main">
+
+            <a href="#top" class="logo">
+                <svg viewBox="0 0 48 48" width="36" height="36" aria-hidden="true">
+                    <rect x="8" y="18" width="32" height="18" rx="5" fill="#2e7d32" />
+                    <rect x="8" y="14" width="32" height="6" rx="3" fill="#66bb6a" />
+                    <circle cx="20" cy="27" r="3" fill="#fff" />
+                    <circle cx="29" cy="27" r="3" fill="#fff" />
+                </svg>
+                <span class="logo-text">yaldastore
+                    <small>سوپرمارکت محله</small>
+                </span>
+            </a>
+
+            <form class="search" role="search" action="#">
+                <label for="q" class="visually-hidden">
+                    جستجو
+                </label>
+                <input id="q" name="q" type="search" placeholder="جستجو در میان کالاها...">
+                <button type="submit" aria-label="جستجو">
+                    🔍
+                </button>
+            </form>
+
+            <a href="#cart" class="cart">
+                🛒 سبد خرید
+                <span id="cart-count">۰</span>
+            </a>
+
+        </div>
+
+        <input type="checkbox" id="nav-toggle" hidden>
+
+        <label for="nav-toggle" class="burger" aria-label="منو">
+            ☰
+        </label>
+
+        <nav class="main-nav" aria-label="منوی اصلی">
+            <ul>
+                <li>
+                    <a href="#categories">همه دسته‌ها</a>
+                </li>
+                <li>
+                    <a href="#offers">پیشنهاد ویژه</a>
+                </li>
+                <li>
+                    <a href="#dairy">لبنیات</a>
+                </li>
+                <li>
+                    <a href="#about">تماس با ما</a>
+                </li>
+            </ul>
+        </nav>
+
+    </header>
+
+    <main id="main">
+
+        <section class="hero">
+            <div class="hero-big">
+                <h1>میوه‌های تازه، هر روز صبح</h1>
+                <p>مستقیم از باغ‌های اطراف شهر، تا دو ساعت بعد دم در خانه شما.</p>
+                <a href="#offers" class="hero-button">خرید میوه و سبزی</a>
+            </div>
+            <div class="hero-small">
+                <h2>۲۰٪ تخفیف لبنیات</h2>
+                <p>فقط تا پایان هفته 🧀</p>
+                <a href="#dairy" class="hero-button">دیدن محصولات</a>
+            </div>
+        </section>
+
+        <section id="categories" class="section">
+            <h2>دسته‌بندی‌ها</h2>
+            <div class="cat-list"></div>
+        </section>
+
+        <section id="offers" class="section">
+            <div class="row-head">
+                <h2>🔥 پیشنهاد ویژه امروز</h2>
+                <label class="sort">مرتب‌سازی:
+                    <select id="sorts">
+                        <option>پیش‌فرض</option>
+                        <option>ارزان‌ترین</option>
+                        <option>گران‌ترین</option>
+                    </select>
+                </label>
+            </div>
+            <p id="status" role="status">در حال بارگذاری…</p>
+            <div class="car"></div>
+        </section>
+
+        <section class="promos">
+            <div class="promo">
+                <span aria-hidden="true">🍳</span>
+                <p>سبد صبحانه خانواده</p>
+            </div>
+            <div class="promo">
+                <span aria-hidden="true">🥐</span>
+                <p>نان داغ، هر روز ساعت ۷</p>
+            </div>
+        </section>
+
+        <section id="dairy" class="section">
+            <h2>🥛 لبنیات</h2>
+            <div class="car"></div>
+        </section>
+
+        <section id="cart" class="section"></section>
+
+    </main>
+
+    <footer id="about">
+        <div class="foot-cols">
+            <div>
+                <h2>yaldastore</h2>
+                <p>از سال ۱۴۰۵ کنار شما هستیم؛ کالای تازه با قیمت منصفانه.</p>
+                <p>تهران، خیابان نمونه، پلاک ۴۰</p>
+                <p>۰۲۱-۱۲۳۴۵۶۷۸</p>
+            </div>
+            <div>
+                <h2>دسته‌ها</h2>
+                <a href="#offers">پیشنهاد ویژه</a>
+                <a href="#dairy">لبنیات</a>
+                <a href="#categories">همه دسته‌ها</a>
+            </div>
+            <div>
+                <h2>راهنما</h2>
+                <a href="#about">شیوه ارسال</a>
+                <a href="#about">بازگشت کالا</a>
+                <a href="#about">پرسش‌های پرتکرار</a>
+            </div>
+            <div>
+                <h2>ساعت کاری</h2>
+                <p>شنبه تا پنجشنبه: ۸ تا ۲۲</p>
+                <p>جمعه: ۹ تا ۱۴</p>
+            </div>
+        </div>
+        <div class="foot-bottom">
+            <p>© ۱۴۰۵ yaldastore · عضو دار و دسته چهل‌نفره</p>
+            <a href="#top">↑ بازگشت به بالا</a>
+        </div>
+    </footer>
+
 </body>
+
 </html>
