@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.2] - 2026-11-27
+
+### Fixed
+
+- Restore Persian digits for current product prices after the 1.0.1 rollback drill.
+
+## [1.0.1] - 2026-11-27
+
+### Changed
+
+- Rollback drill: display current product prices with Latin digits.
+
 ## [1.0.0] - 2026-11-27
 
 ### Added
