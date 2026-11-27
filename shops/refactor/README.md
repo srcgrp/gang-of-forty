@@ -22,3 +22,7 @@ docker build -t refactor-shop .
 docker run -d -p 8080:80 --name shop refactor-shop
 docker stop shop && docker rm shop
 ```
+
+## اجرای Image منتشرشده (ghcr.io)
+
+docker run -d -p 8080:80 ghcr.io/zahragolabi/refactor-shop:1.0.0
