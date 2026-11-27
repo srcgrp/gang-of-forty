@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.2] - 2026-11-27
+
+Restore Persian product-card price digits by reverting the intentional regression.
+
+### Fixed
+
+- Restored Persian digits (`fa-IR`) for current product-card prices in commit `801a0de3`, reverting the intentional English-digit regression introduced by `8a5506a9` and included in 1.0.1.
+
 ## [1.0.1] - 2026-11-27
 
 Controlled rollback drill with an intentional English-digit price display regression.
