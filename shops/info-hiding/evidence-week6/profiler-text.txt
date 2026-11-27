@@ -1,0 +1,34 @@
+ / 1
+App
+RouterProvider
+RouterContextProvider
+Context.Provider
+Matches
+Suspense
+MatchesInner
+CatchBoundary
+MatchImpl (Memo)
+Context.Provider
+CatchNotFound
+CatchBoundary
+MatchInnerImpl (Memo)
+Layout
+Footer (-2.1ms of <0.1ms)
+OutletImpl (Memo) (<0.1ms of 1.3ms)
+Header (1.1ms of 1.8ms)
+Suspense (<0.1ms of 1.3ms)
+MatchImpl (Memo) (<0.1ms of 1.3ms)
+Context.Provider (<0.1ms of 1.3ms)
+MatchInnerImpl (Memo) (<0.1ms of 1.3ms)
+PlpPage (<0.1ms of 1.3ms)
+ProductGrid (-3.2ms of <0.1ms)
+Commit information
+Priority: Immediate
+Committed at: 2.8s
+Durations
+Render: 1.8ms
+Layout effects: <0.1ms
+Passive effects: 0.1ms
+What caused this update?
+Header
+CartPanel

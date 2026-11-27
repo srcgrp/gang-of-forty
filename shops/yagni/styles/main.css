@@ -13,4 +13,6 @@
 @import url("product-loading-error.css");
 @import url("./category-skeleton.css");
 @import url("./banner-skeleton.css");
-@import url("./promos-skeleton.css");
+@import url("./promos-skeleton.css");@import url("./cart-panel.css");
+
+@import url("./sale-countdown.css");
