@@ -1,4 +1,9 @@
 # Changelog
+## [1.0.3] - 2026-11-27
+
+### Fixed
+
+- Reverted the intentional typo in the special offers carousel title and restored the correct text.
 
 ## [1.0.2] - 2026-11-27
 
