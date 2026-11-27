@@ -1,8 +1,12 @@
 # Liskov Shop
 
+[![Liskov Shop CI/CD](https://github.com/ShayanKhoshniyat/liskov-shop/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/ShayanKhoshniyat/liskov-shop/actions/workflows/deploy.yml)
+
 A Persian RTL grocery storefront built with React, TypeScript, and Vite.
 
 **Live Website:** [liskov-shop.vercel.app](https://liskov-shop.vercel.app)
+
+![Mobile storefront at 390 × 844](docs/mobile.png)
 
 ## Features
 
