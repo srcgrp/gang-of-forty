@@ -5,6 +5,7 @@ Work inside `shops/tdd/`. The shop uses React, TypeScript and Vite, with hash ro
 ## Commands
 - `npm run dev` starts the shop at http://localhost:5173.
 - Run `npm run ci` before each commit and review the diff.
+- For a release, follow `.claude/skills/release/SKILL.md` step by step.
 
 ## Source
 - Pages in `src/components/pages/` use hooks for catalog and cart state.
