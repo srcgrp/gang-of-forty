@@ -24,7 +24,7 @@
     outline-offset: 3px;
 }
 
-html[data-theme="dark"] .mobile-nav summary:focus-visible {
+div[data-theme="dark"] .mobile-nav summary:focus-visible {
     outline-color: #F7EEDC;
 }
 
@@ -59,11 +59,11 @@ summary:focus-visible,
   outline-offset: 3px;
 }
 
-html[data-theme="dark"] a:focus-visible,
-html[data-theme="dark"] button:focus-visible,
-html[data-theme="dark"] input:focus-visible,
-html[data-theme="dark"] summary:focus-visible,
-html[data-theme="dark"] .product-track:focus-visible {
+div[data-theme="dark"] a:focus-visible,
+div[data-theme="dark"] button:focus-visible,
+div[data-theme="dark"] input:focus-visible,
+div[data-theme="dark"] summary:focus-visible,
+div[data-theme="dark"] .product-track:focus-visible {
     outline-color: #F7EEDC;
 }
 

@@ -37,13 +37,18 @@ export function setupProductsSearch(
     }
   });
 }
-
 export function restoreSearchQuery(query: string): void {
   const input = document.querySelector<HTMLInputElement>("#site-search");
   const container = document.querySelector<HTMLDivElement>("#search-result");
-  if (!input || !container) throw new Error("Search elements are missing.");
-  if (input.value === query) return;
-  input.value = query;
+
+  if (!input || !container) {
+    throw new Error("Search elements are missing.");
+  }
+
+  if (input.value !== query) {
+    input.value = query;
+  }
+
   container.hidden = true;
   container.replaceChildren();
 }
