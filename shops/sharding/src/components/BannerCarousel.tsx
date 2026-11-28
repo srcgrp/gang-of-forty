@@ -1,0 +1,60 @@
+import { Link } from '@tanstack/react-router'
+import { categorySearch } from '../shared/storage/url'
+import { useCarousel } from '../hooks/useCarousel'
+import CarouselNav from './CarouselNav'
+import BasketSlide from './BasketSlide'
+
+type BannerCarouselProps = {
+  banners: string[]
+  loading?: boolean
+}
+
+export default function BannerCarousel({ banners, loading }: BannerCarouselProps) {
+  const { trackRef, isAtStart, isAtEnd, scrollPrev, scrollNext } = useCarousel(loading ? 0 : banners.length + 1)
+
+  if (loading) {
+    // The loaded track must mount separately so it starts with its own scroll position.
+    return (
+      <div className="hero-carousel">
+        <ul key="loading" className="hero-carousel__track">
+          {[1, 2, 3, 4].map((slot) => (
+            <li key={slot} className="hero-carousel__slide" data-skeleton>
+              <span className="hero-banner"></span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  return (
+    <div className="hero-carousel">
+      <ul
+        ref={trackRef}
+        className="hero-carousel__track"
+        id="banner-track"
+        data-scroll-restoration-id="banner-track"
+        tabIndex={0}
+        aria-label="کاروسل پیشنهادهای ویژه"
+      >
+        <BasketSlide />
+        {banners.map((src, i) => (
+          <li key={src} className="hero-carousel__slide">
+            <Link className="hero-banner" to="/" hash="offers" search={categorySearch('')} resetScroll={false}>
+              <img src={src} alt={`بنر ${(i + 1).toLocaleString('fa-IR')}`} width={800} height={500} decoding="async" loading="lazy" />
+            </Link>
+          </li>
+        ))}
+      </ul>
+      <CarouselNav
+        variant="hero"
+        isAtStart={isAtStart}
+        isAtEnd={isAtEnd}
+        onPrev={scrollPrev}
+        onNext={scrollNext}
+        label="پیشنهادها"
+        sectionId="banner-track"
+      />
+    </div>
+  )
+}

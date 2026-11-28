@@ -75,5 +75,11 @@
   --scrollbar-thumb: light-dark(#D3D5CC, #554D45);
 }
 
-:root[data-theme="dark"] { color-scheme: dark; }
-@media (prefers-color-scheme: dark) { :root[data-theme="auto"] { color-scheme: dark; } }
+/* Keep the page background and browser scrollbars in sync with the app. */
+.app[data-theme="dark"],
+:root:has(.app[data-theme="dark"]) { color-scheme: dark; }
+
+@media (prefers-color-scheme: dark) {
+  .app[data-theme="auto"],
+  :root:has(.app[data-theme="auto"]) { color-scheme: dark; }
+}

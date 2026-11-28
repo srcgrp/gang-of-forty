@@ -2,9 +2,13 @@
 @import './tokens.css';
 @import './base.css';
 @import './header.css';
+@import './checkout.css';
 @import './hero.css';
 @import './categories.css';
 @import './products.css';
+@import './plp.css';
+@import './catalog-links.css';
+@import './product-details.css';
 @import './footer.css';
 @import './skeleton.css';
 @import './animations.css';
