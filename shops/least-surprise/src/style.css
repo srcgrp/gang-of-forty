@@ -89,13 +89,14 @@ body {
    هدر و ناوبری
    ========================================================================== */
 .site-header {
-  background-color: rgba(255, 255, 255, 0.96);
+  background-color: var(--bg-card);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 0;
   z-index: 500;
   box-shadow: var(--shadow-sm);
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 .header-inner {

@@ -1,18 +1,19 @@
 ﻿
-import { useState } from 'react'
 import type { ProductWithDetails } from '../../types'
 import { useCatalog } from '../../hooks/useCatalog'
 import { useCartStore } from '../../hooks/useCartStore'
 import { useHomeConfig } from '../../hooks/useHomeConfig'
-import SearchBox from '../SearchBox'
+import { useSearch } from '../../SearchContext'
 import SaleCountdown from '../SaleCountdown'
 import HomeCarousel from '../HomeCarousel'
+import HeroBanners from '../HeroBanners'
+import CategoryTiles from '../CategoryTiles'
 
 export default function HomePage() {
   const { loadState, retry } = useCatalog()
   const addItem = useCartStore((state) => state.addItem)
   const { homeConfig, configError } = useHomeConfig()
-  const [query, setQuery] = useState('')
+  const { query } = useSearch()
 
   const products: ProductWithDetails[] =
     loadState.status === 'success' ? loadState.products : []
@@ -24,8 +25,11 @@ export default function HomePage() {
 
   return (
     <>
+      <HeroBanners />
+      <CategoryTiles />
+
       <h2>به سوپرمارکت Least Surprise خوش آمدید</h2>
-      <SearchBox query={query} onQuery={setQuery} />
+
       <SaleCountdown initialSeconds={120} />
 
       {loadState.status === 'loading' && (
