@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router"
 import type { Offer, Product, Stock } from "../types"
-import { cartRows, cartTotal } from "../cart/cartRules"
+import { cartRows, cartTotal, hasStockIssue } from "../cart/cartRules"
 import { useCartStore } from "../hooks/useCartStore"
 import CartRow from "./CartRow"
 import Price from "./Price"
@@ -21,6 +21,7 @@ export default function CartPanel({ products, offers, stock }: CartPanelProps) {
 
     const rows = cartRows(cart, products, offers)
     const total = cartTotal(rows)
+    const canCheckout = rows.length > 0 && !hasStockIssue(rows, stock)
 
     return (
         <section className="cart-panel" id="cart" aria-labelledby="cart-title">
@@ -33,7 +34,7 @@ export default function CartPanel({ products, offers, stock }: CartPanelProps) {
                         aria-label="بستن سبد خرید"
                         onClick={toggle}
                     >
-                        بستن
+                        <img src="svg/x.svg" alt="" width={18} height={18} />
                     </button>
                 </div>
                 {rows.length === 0 ? (
@@ -56,9 +57,11 @@ export default function CartPanel({ products, offers, stock }: CartPanelProps) {
                         <strong>جمع سبد خرید:</strong>
                         <Price amount={total} />
                     </div>
-                    <Link className="button button--primary button--route" to="/checkout" onClick={toggle}>
-                        ثبت سفارش
-                    </Link>
+                    {canCheckout && (
+                        <Link className="button button--primary button--route" to="/checkout" onClick={toggle}>
+                            ثبت سفارش
+                        </Link>
+                    )}
                 </div>
             </div>
         </section>

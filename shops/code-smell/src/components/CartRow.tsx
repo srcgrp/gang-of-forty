@@ -53,8 +53,15 @@ export default function CartRow({ row, stockQuantity }: CartRowProps) {
                 aria-label={"حذف از سبد خرید: " + row.name}
                 onClick={() => remove(row.id)}
             >
-                حذف
+                <img src="svg/trash.svg" alt="" width={18} height={18} />
             </button>
+            {row.quantity > stockQuantity && (
+                <p className="cart-row__stock-warning">
+                    {stockQuantity === 0
+                        ? "این کالا ناموجود است. آن را حذف کنید."
+                        : "موجودی فعلی: " + stockQuantity.toLocaleString("fa-IR") + " عدد. تعداد را کم کنید."}
+                </p>
+            )}
         </li>
     )
 }

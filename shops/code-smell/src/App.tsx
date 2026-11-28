@@ -5,6 +5,7 @@ import {
     createRouter,
     RouterProvider
 } from "@tanstack/react-router"
+import type { ListingSearch } from "./catalog/shopPageData"
 import Layout from "./components/Layout"
 import CheckoutPage from "./components/pages/CheckoutPage"
 import HomePage from "./components/pages/HomePage"
@@ -23,12 +24,17 @@ const homeRoute = createRoute({
     component: HomePage
 })
 
+function readListingSearch(params: Record<string, unknown>): ListingSearch {
+    const search: ListingSearch = { sort: params.sort === "price" ? "price" : "default" }
+    if (typeof params.q === "string" || typeof params.q === "number") search.q = String(params.q)
+    if (typeof params.cat === "number") search.cat = params.cat
+    return search
+}
+
 const plpRoute = createRoute({
     getParentRoute: () => rootRoute,
     path: "/plp/$carouselId",
-    validateSearch: (search: Record<string, unknown>): { sort: "default" | "price" } => ({
-        sort: search.sort === "price" ? "price" : "default"
-    }),
+    validateSearch: readListingSearch,
     component: PlpPage
 })
 

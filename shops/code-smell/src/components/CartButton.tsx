@@ -1,15 +1,14 @@
 import { useEffect } from "react"
+import type { Product } from "../types"
 import { cartCount } from "../cart/cartRules"
 import { useCartStore } from "../hooks/useCartStore"
 
-export type CartButtonProps = {
-    count: number
-    cartOpen: boolean
-    onToggle: () => void
+type CartButtonProps = {
+    products: Product[]
 }
 
-export default function CartButton() {
-    const count = useCartStore((store) => cartCount(store.cart))
+export default function CartButton({ products }: CartButtonProps) {
+    const count = useCartStore((store) => cartCount(store.cart, products))
     const cartOpen = useCartStore((store) => store.cartOpen)
     const toggle = useCartStore((store) => store.toggle)
     const countText = count.toLocaleString("fa-IR")

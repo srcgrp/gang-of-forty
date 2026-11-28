@@ -9,7 +9,8 @@
     "dev": "vite",
     "check": "tsc --noEmit",
     "build": "tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "ci": "npm run lint --if-present && npm run check && npm run test --if-present -- --run && npm run build"
   },
   "keywords": [],
   "author": "",
@@ -25,6 +26,7 @@
   "dependencies": {
     "@tanstack/react-router": "^1.170.46",
     "fireworks-js": "^2.10.8",
+    "fuse.js": "^7.5.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "typed.js": "^3.0.0",
