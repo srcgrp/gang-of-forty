@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { Link } from '@tanstack/react-router'
 import type { Product, Offer } from '../shared/types'
 import { useCartStore } from '../hooks/useCartStore'
 import { cartCount, cartTotal } from '../features/cart/cart'
@@ -40,7 +41,7 @@ export default function CartPanel({ products, offers }: CartPanelProps) {
         <div className="cart-actions">
             <details className="cart-widget">
                 <summary className="cart">
-                    سبد خرید 🛒 <strong aria-live="polite">{formatPrice(count)}</strong>
+                    <span><span className="cart-label">سبد خرید</span> <span className="cart-icon" aria-hidden="true">🛒</span></span> <strong aria-live="polite">{formatPrice(count)}</strong>
                 </summary>
                 <div className="cart-panel">
                     {cart.length === 0 ? <p>سبد خرید خالی است.</p> : cart.map(line => {
@@ -55,6 +56,13 @@ export default function CartPanel({ products, offers }: CartPanelProps) {
                         )
                     })}
                     <p className="cart-total">جمع: {formatPrice(total)} تومان</p>
+                    <div className="cart-panel-actions">
+                        <Link className="listing-link checkout-link" to="/checkout" onClick={event => {
+                            const details = event.currentTarget.closest('details')
+                            if (details) details.open = false
+                        }}>تسویه حساب</Link>
+                        <button className="clear-cart" type="button" onClick={handleClear} disabled={count === 0}>خالی‌کردن سبد</button>
+                    </div>
                 </div>
             </details>
             <button className="clear-cart" type="button" onClick={handleClear} disabled={count === 0}>

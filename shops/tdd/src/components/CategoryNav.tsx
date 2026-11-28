@@ -38,7 +38,7 @@ export default function CategoryNav({ categories, shopLinks, activeCategoryId }:
                 </div>
             </nav>
             <details className="mobile-menu">
-                <summary><span aria-hidden="true">☰</span> منوی فروشگاه</summary>
+                <summary aria-label="منوی فروشگاه"><span aria-hidden="true">☰</span> منو</summary>
                 <nav className="mobile-navigation" aria-label="منوی اصلی موبایل">
                     {shopLinks.map(renderShopLink)}
                     <details className="mobile-categories">

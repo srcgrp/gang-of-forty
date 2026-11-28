@@ -415,20 +415,6 @@ footer nav {
 }
 
 @media (max-width: 60rem) {
-  .header-content {
-    flex-wrap: wrap;
-  }
-
-  .search {
-    order: 3;
-    width: 100%;
-  }
-
-  .search input {
-    flex: 1;
-    min-width: 0;
-  }
-
   .primary-navigation {
     justify-content: start;
     overflow-x: auto;
@@ -849,10 +835,6 @@ footer.is-fragment-target {
 }
 
 @media (max-width: 60rem) {
-  :root {
-    --header-offset: 22rem;
-  }
-
   .section-heading {
     flex-direction: column;
     align-items: start;
@@ -1338,28 +1320,7 @@ footer.is-fragment-target {
 }
 
 @media (max-width: 60rem) {
-  :root { --header-offset: 16rem; }
-
-  .header-content {
-    grid-template-columns: 1fr auto;
-    gap: .65rem;
-  }
-
-  .search {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    justify-self: stretch;
-    width: 100%;
-  }
-
-  .mobile-menu {
-    width: min(100% - 2rem, var(--container));
-    padding-block: .5rem;
-    border-top: 1px solid rgb(21 92 69 / 8%);
-  }
-
   .mobile-menu > summary {
-    min-height: 2.65rem;
     padding: .35rem .7rem;
     color: var(--green-deep);
     background: var(--green-soft);
@@ -1368,7 +1329,6 @@ footer.is-fragment-target {
   }
 
   .mobile-navigation {
-    top: calc(100% - .2rem);
     padding: .85rem;
     background: rgb(255 255 255 / 98%);
     border-color: rgb(21 92 69 / 14%);
@@ -1391,44 +1351,6 @@ footer.is-fragment-target {
 }
 
 @media (max-width: 38rem) {
-  :root { --header-offset: 15rem; }
-
-  .announcement {
-    font-size: .64rem;
-  }
-
-  .header-content {
-    min-height: auto;
-  }
-
-  .brand-mark {
-    width: 3.2rem;
-    height: 3.2rem;
-  }
-
-  .brand strong {
-    font-size: 1rem;
-  }
-
-  .brand small,
-  .cart {
-    font-size: 0;
-  }
-
-  .cart {
-    width: 2.9rem;
-    padding: .4rem;
-  }
-
-  .cart strong {
-    font-size: .7rem;
-  }
-
-  .search button {
-    padding-inline: .9rem;
-    font-size: .75rem;
-  }
-
   .hero {
     padding: 2.2rem 1.15rem 1.4rem;
     border-radius: 1.4rem;
@@ -2812,22 +2734,90 @@ main > .store-sections article > span { width: 3rem; height: 3rem; font-size: 1.
 #about > .store-sections article { min-height: 10rem; padding: 1rem; }
 footer { padding-block: clamp(2.5rem, 5vw, 4rem); }
 
+.cart-panel-actions { display: none; }
+
 @media (max-width: 60rem) {
   :root { --header-offset: 9rem; }
-  .header-content {
-    grid-template-columns: auto minmax(11rem, 1fr) auto;
-    gap: .55rem;
-    min-height: 3.9rem;
-    padding-block: .25rem;
+
+  .site-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto auto;
+    align-items: center;
+    gap: .4rem;
+    padding: 0 .75rem .5rem;
+    backdrop-filter: none;
   }
+
+  .announcement {
+    grid-area: 1 / 1 / auto / -1;
+    margin-inline: -.75rem;
+    font-size: .72rem;
+    animation: none;
+  }
+
+  .announcement::before,
+  .announcement::after { content: none; }
+
+  .header-content,
+  .header-actions,
+  .header-actions .cart-actions { display: contents; }
+
+  .brand { grid-area: 2 / 1; gap: .4rem; min-inline-size: 0; min-block-size: 2.75rem; }
+  .brand-mark { width: 2.5rem; height: 2.5rem; border-radius: .7rem; }
+  .brand strong { font-size: .98rem; white-space: nowrap; }
+  .brand small { font-size: .68rem; white-space: normal; }
+
+  .theme-toggle { grid-area: 2 / 2; }
+  .site-header .cart-widget { grid-area: 2 / 3; position: static; }
+  .cart { gap: .35rem; }
+  .cart-icon { font-size: 1rem; }
+  .cart strong { flex-shrink: 0; }
+
+  .theme-toggle,
+  .cart,
+  .mobile-menu > summary {
+    min-block-size: 2.75rem;
+    padding: .3rem .55rem;
+    font-size: .76rem;
+    border-radius: .75rem;
+  }
+
   .search {
-    grid-column: auto;
-    grid-row: auto;
+    grid-area: 3 / 1 / auto / -1;
     width: 100%;
+    padding: .2rem;
+    border-color: var(--line);
   }
-  .cart { min-block-size: 2.5rem; }
-  .mobile-menu { padding-block: .65rem; }
-  .mobile-menu > summary { min-height: 2.75rem; min-block-size: 2.75rem; padding-block: .2rem; font-size: .7rem; }
+
+  .search input,
+  .search button { min-block-size: 2.75rem; }
+  .search input { padding-inline: .75rem; font-size: 1rem; }
+  .search button { flex: 0 0 auto; padding-inline: .8rem; font-size: .8rem; white-space: nowrap; }
+
+  .mobile-menu { grid-area: 2 / 4; position: static; width: auto; margin: 0; padding: 0; }
+  .mobile-menu > summary { gap: .35rem; white-space: nowrap; }
+
+  .header-actions > .checkout-link,
+  .cart-actions > .clear-cart { display: none; }
+
+  .cart-panel-actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-block-start: .7rem; }
+  .cart-panel-actions .checkout-link,
+  .cart-panel-actions .clear-cart { min-block-size: 2.75rem; border-radius: .75rem; }
+
+  .mobile-navigation,
+  .site-header .cart-panel {
+    inset-block-start: calc(100% + .25rem);
+    inset-inline: .75rem;
+    width: auto;
+    max-block-size: min(60dvh, 24rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .mobile-navigation { z-index: 49; }
+  .mobile-menu:focus-within .mobile-navigation { z-index: 51; }
+  .site-header .cart-row button { min-block-size: 2.75rem; min-inline-size: 2.75rem; }
+
   .hero { gap: 1rem; }
   .hero-visual { min-height: 20rem; }
   .category-grid a { min-height: 8.75rem; }
@@ -2837,28 +2827,6 @@ footer { padding-block: clamp(2.5rem, 5vw, 4rem); }
 }
 
 @media (max-width: 38rem) {
-  :root { --header-offset: 11.5rem; }
-  .announcement { font-size: .58rem; }
-  .header-content { grid-template-columns: 1fr auto; }
-  .header-actions { flex-direction: column; align-items: flex-end; gap: .2rem;}
-  .brand-mark { width: 2.75rem; height: 2.75rem; }
-  .brand strong { font-size: .92rem; }
-  .search {
-    display: flex;
-    grid-column: 1 / -1;
-    grid-row: 2;
-    min-width: 0;
-  }
-  .search input { min-width: 0; }
-  .search button { flex: 0 0 auto; }
-  .cart {
-    width: auto;
-    min-width: max-content;
-    min-height: 2.75rem;
-    min-block-size: 2.75rem;
-    padding-inline: .65rem;
-    font-size: .68rem;
-  }
   .hero { padding-block: 1.6rem 1rem; }
   .hero h1 { font-size: clamp(2.25rem, 12vw, 3.25rem); }
   .hero-visual { min-height: 15rem; }
@@ -2891,6 +2859,27 @@ footer { padding-block: clamp(2.5rem, 5vw, 4rem); }
     justify-content: center;
     padding-inline: .5rem;
   }
+}
+
+@media (max-width: 26rem) {
+  .brand-mark { width: 2.15rem; height: 2.15rem; }
+
+  .cart-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+}
+
+@media (max-width: 22rem) {
+  .site-header { column-gap: .3rem; }
+  .brand { gap: .32rem; }
+
+  .theme-toggle,
+  .cart,
+  .mobile-menu > summary { padding-inline: .42rem; }
 }
 
 @media (max-width: 22rem) {
