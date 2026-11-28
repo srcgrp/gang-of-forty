@@ -1,22 +1,25 @@
-import {useRef} from 'react';
+import {memo, useRef} from 'react';
 
 import ProductCard from './ProductCard';
 
 import type {Category, Offer, Product} from '../types';
+
 type ProductGridProps = {
     products: Product[];
-    onAdd: (id: number) => void;
     stockById?: Record<number, number>;
     offerByProductId?: Map<number, Offer>;
     categoryById?: Map<number, Category>;
+    layout?: 'carousel' | 'grid';
 };
 
-export default function ProductGrid({
+const EMPTY_OFFERS = new Map<number, Offer>();
+
+function ProductGrid({
     products,
-    onAdd,
     stockById,
-    offerByProductId = new Map(),
+    offerByProductId = EMPTY_OFFERS,
     categoryById,
+    layout = 'carousel',
 }: ProductGridProps) {
     const itemsRef = useRef<HTMLDivElement>(null);
 
@@ -27,6 +30,25 @@ export default function ProductGrid({
         });
     };
 
+    const cards = products.map((product) => {
+        const inStock =
+            stockById === undefined ? true : (stockById[product.id] ?? 0) > 0;
+
+        return (
+            <ProductCard
+                key={product.id}
+                product={product}
+                inStock={inStock}
+                offer={offerByProductId.get(product.id)}
+                categoryColor={categoryById?.get(product.categoryId)?.color}
+            />
+        );
+    });
+
+    if (layout === 'grid') {
+        return <div className='product-grid'>{cards}</div>;
+    }
+
     return (
         <>
             <div className='carousel-controls'>
@@ -35,7 +57,7 @@ export default function ProductGrid({
                     onClick={() => move(-1)}
                     aria-label='محصولات قبلی'
                 >
-                    →
+                    ←
                 </button>
 
                 <button
@@ -43,33 +65,15 @@ export default function ProductGrid({
                     onClick={() => move(1)}
                     aria-label='محصولات بعدی'
                 >
-                    ←
+                    →
                 </button>
             </div>
 
             <div className='carousel-items' ref={itemsRef}>
-                {products.map((product) => {
-                    const inStock =
-                        stockById === undefined
-                            ? true
-                            : (stockById[product.id] ?? 0) > 0;
-
-                    const offer = offerByProductId.get(product.id);
-
-                    return (
-                        <ProductCard
-                            key={product.id}
-                            product={product}
-                            onAdd={onAdd}
-                            inStock={inStock}
-                            offer={offer}
-                            categoryColor={
-                                categoryById?.get(product.categoryId)?.color
-                            }
-                        />
-                    );
-                })}
+                {cards}
             </div>
         </>
     );
 }
+
+export default memo(ProductGrid);

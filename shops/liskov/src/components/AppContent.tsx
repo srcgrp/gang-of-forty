@@ -1,4 +1,3 @@
-import {cartTotal} from '../cart/cart';
 import {filterProducts} from '../catalog/filter-products';
 import CategoryNav from './CategoryNav';
 import Footer from './Footer';
@@ -9,29 +8,23 @@ import LoadStateView from './LoadStateView';
 import ProductGrid from './ProductGrid';
 import SaleCountdown from './SaleCountdown';
 
-import type {CartLine, LoadState} from '../types';
+import type {LoadState} from '../types';
 
 type AppContentProps = {
-    cart: CartLine[];
     loadState: LoadState;
     selectedCategoryId: number | null;
     query: string;
     onPickCategory: (id: number | null) => void;
     onQuery: (value: string) => void;
-    onAdd: (id: number) => void;
-    onRemove: (id: number) => void;
     onRetry: () => void;
 };
 
 export default function AppContent({
-    cart,
     loadState,
     selectedCategoryId,
     query,
     onPickCategory,
     onQuery,
-    onAdd,
-    onRemove,
     onRetry,
 }: AppContentProps) {
     if (loadState.status !== 'success') {
@@ -42,8 +35,6 @@ export default function AppContent({
 
     const visibleProducts = filterProducts(products, selectedCategoryId, '');
     const searchResults = filterProducts(products, null, query);
-    const total = cartTotal(cart, products);
-    const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
     const offerByProductId = new Map(
         offers.map((offer) => [offer.productId, offer]),
@@ -60,21 +51,16 @@ export default function AppContent({
             </a>
 
             <Header
-                itemCount={itemCount}
                 shop={shop}
                 categories={categories}
                 query={query}
                 onQuery={onQuery}
                 onPickCategory={onPickCategory}
-                cart={cart}
                 products={products}
-                total={total}
                 searchResults={searchResults}
                 stockById={stock.items}
                 offerByProductId={offerByProductId}
                 categoryById={categoryById}
-                onAdd={onAdd}
-                onRemove={onRemove}
             />
 
             <main id='main' tabIndex={-1}>
@@ -82,7 +68,7 @@ export default function AppContent({
 
                 <SaleCountdown />
 
-                <HomeCarousels data={loadState.data} onAdd={onAdd} />
+                <HomeCarousels data={loadState.data} />
 
                 <CategoryNav
                     categories={categories}
@@ -95,7 +81,6 @@ export default function AppContent({
 
                     <ProductGrid
                         products={visibleProducts}
-                        onAdd={onAdd}
                         stockById={stock.items}
                         offerByProductId={offerByProductId}
                         categoryById={categoryById}

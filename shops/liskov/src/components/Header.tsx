@@ -1,50 +1,75 @@
-import {useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 
+import {Link} from '@tanstack/react-router';
+
+import {useCartStore} from '../hooks/useCartStore';
 import CartPanel from './CartPanel';
 import ProductGrid from './ProductGrid';
+import ThemeToggle from './ThemeToggle';
 
-import type {CartLine, Category, Offer, Product, Shop} from '../types';
+import type {Category, Offer, Product, Shop} from '../types';
 
 type HeaderProps = {
-    itemCount: number;
     shop: Shop;
     categories: Category[];
     query: string;
     onQuery: (value: string) => void;
     onPickCategory: (id: number | null) => void;
-    cart: CartLine[];
     products: Product[];
-    total: number;
     searchResults: Product[];
     stockById: Record<number, number>;
     offerByProductId: Map<number, Offer>;
     categoryById: Map<number, Category>;
-    onAdd: (id: number) => void;
-    onRemove: (id: number) => void;
 };
 
 const faNumber = new Intl.NumberFormat('fa-IR');
 
 export default function Header({
-    itemCount,
     shop,
     categories,
     query,
     onQuery,
     onPickCategory,
-    cart,
     products,
-    total,
     searchResults,
     stockById,
     offerByProductId,
     categoryById,
-    onAdd,
-    onRemove,
 }: HeaderProps) {
     const [menuOpen, setMenuOpen] = useState(false);
     const [cartOpen, setCartOpen] = useState(false);
 
+    const cartRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (!cartOpen) return;
+
+        function handleOutsideClick(event: PointerEvent) {
+            if (
+                event.target instanceof Node &&
+                !cartRef.current?.contains(event.target)
+            ) {
+                setCartOpen(false);
+            }
+        }
+
+        function handleEscape(event: KeyboardEvent) {
+            if (event.key === 'Escape') {
+                setCartOpen(false);
+            }
+        }
+
+        document.addEventListener('pointerdown', handleOutsideClick);
+        document.addEventListener('keydown', handleEscape);
+
+        return () => {
+            document.removeEventListener('pointerdown', handleOutsideClick);
+            document.removeEventListener('keydown', handleEscape);
+        };
+    }, [cartOpen]);
+
+    const cart = useCartStore((state) => state.lines);
+    const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
     const count = faNumber.format(itemCount);
 
     return (
@@ -107,15 +132,15 @@ export default function Header({
                             name='search'
                             value={query}
                             onChange={(event) => onQuery(event.target.value)}
-                            aria-label='جستجوی محصولات'
-                            placeholder='نام محصول مورد نظرت رو جستجو کن...'
+                            aria-label='جست‌وجوی محصولات'
+                            placeholder='نام محصول مورد نظر رو جست‌وجو کن...'
                         />
                         {query && (
                             <button
                                 type='button'
                                 className='search-clear'
                                 onClick={() => onQuery('')}
-                                aria-label='پاک کردن جستجو'
+                                aria-label='پاک کردن جست‌وجو'
                             >
                                 ×
                             </button>
@@ -125,7 +150,7 @@ export default function Header({
                     {query.trim() && (
                         <div className='search-dropdown'>
                             <div className='search-dropdown-heading'>
-                                <strong>نتایج جستجو</strong>
+                                <strong>نتایج جست‌وجو</strong>
                                 <span>
                                     {faNumber.format(searchResults.length)}{' '}
                                     محصول
@@ -135,7 +160,6 @@ export default function Header({
                             {searchResults.length > 0 ? (
                                 <ProductGrid
                                     products={searchResults}
-                                    onAdd={onAdd}
                                     stockById={stockById}
                                     offerByProductId={offerByProductId}
                                     categoryById={categoryById}
@@ -149,7 +173,11 @@ export default function Header({
                     )}
                 </div>
 
-                <div className='header-cart'>
+                <div className='header-cart' ref={cartRef}>
+                    <Link to='/checkout' className='checkout-header-link'>
+                        تسویه حساب
+                    </Link>
+
                     <button
                         type='button'
                         id='cart'
@@ -166,16 +194,12 @@ export default function Header({
 
                     {cartOpen && (
                         <div className='cart-dropdown'>
-                            <CartPanel
-                                cart={cart}
-                                products={products}
-                                total={total}
-                                onAdd={onAdd}
-                                onRemove={onRemove}
-                            />
+                            <CartPanel products={products} />
                         </div>
                     )}
                 </div>
+
+                <ThemeToggle />
             </div>
 
             <nav
@@ -190,7 +214,7 @@ export default function Header({
                             onClick={() => setMenuOpen((open) => !open)}
                             aria-expanded={menuOpen}
                         >
-                            همه دسته‌ها
+                            همه دسته‌بندی‌ها
                         </button>
 
                         {menuOpen && (

@@ -1,5 +1,7 @@
 import {useRef} from 'react';
 
+import {Link} from '@tanstack/react-router';
+
 import {getCarouselProducts} from '../catalog/carousel-products';
 import {buildContext} from '../catalog/context';
 import ProductCard from './ProductCard';
@@ -8,10 +10,9 @@ import type {AppData} from '../types';
 
 type HomeCarouselsProps = {
     data: AppData;
-    onAdd: (id: number) => void;
 };
 
-export default function HomeCarousels({data, onAdd}: HomeCarouselsProps) {
+export default function HomeCarousels({data}: HomeCarouselsProps) {
     const context = buildContext(data);
 
     return (
@@ -19,12 +20,12 @@ export default function HomeCarousels({data, onAdd}: HomeCarouselsProps) {
             {data.home.carousels.map((carousel) => (
                 <CarouselSection
                     key={carousel.id}
+                    carouselId={carousel.id}
                     title={`${carousel.emoji} ${carousel.title}`}
                     products={getCarouselProducts(carousel, context)}
                     stockById={context.stockById}
                     offerByProductId={context.offerByProductId}
                     categoryById={context.categoryById}
-                    onAdd={onAdd}
                 />
             ))}
         </>
@@ -32,6 +33,7 @@ export default function HomeCarousels({data, onAdd}: HomeCarouselsProps) {
 }
 
 type CarouselSectionProps = {
+    carouselId: string;
     title: string;
     products: AppData['products'];
     stockById: Record<number, number>;
@@ -39,16 +41,15 @@ type CarouselSectionProps = {
     categoryById: AppData['categories'] extends (infer T)[]
         ? Map<number, T>
         : never;
-    onAdd: (id: number) => void;
 };
 
 function CarouselSection({
+    carouselId,
     title,
     products,
     stockById,
     offerByProductId,
     categoryById,
-    onAdd,
 }: CarouselSectionProps) {
     const itemsRef = useRef<HTMLDivElement>(null);
 
@@ -67,24 +68,35 @@ function CarouselSection({
 
     return (
         <section className='carousel'>
-            <h2 className='titles'>{title}</h2>
+            <div className='carousel-heading'>
+                <h2 className='titles'>{title}</h2>
 
-            <div className='carousel-controls'>
-                <button
-                    type='button'
-                    onClick={() => move(false)}
-                    aria-label='رفتن به ابتدای فهرست'
-                >
-                    →
-                </button>
+                <div className='carousel-controls'>
+                    <Link
+                        className='carousel-view-all'
+                        to='/plp/$carouselId'
+                        params={{carouselId}}
+                        search={{sort: 'default'}}
+                    >
+                        مشاهده همه
+                    </Link>
 
-                <button
-                    type='button'
-                    onClick={() => move(true)}
-                    aria-label='رفتن به انتهای فهرست'
-                >
-                    ←
-                </button>
+                    <button
+                        type='button'
+                        onClick={() => move(false)}
+                        aria-label='رفتن به ابتدای فهرست'
+                    >
+                        ←
+                    </button>
+
+                    <button
+                        type='button'
+                        onClick={() => move(true)}
+                        aria-label='رفتن به انتهای فهرست'
+                    >
+                        →
+                    </button>
+                </div>
             </div>
 
             <div className='carousel-items' ref={itemsRef}>
@@ -92,7 +104,6 @@ function CarouselSection({
                     <ProductCard
                         key={product.id}
                         product={product}
-                        onAdd={onAdd}
                         inStock={(stockById[product.id] ?? 0) > 0}
                         offer={offerByProductId.get(product.id)}
                         categoryColor={

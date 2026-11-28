@@ -1,102 +1,267 @@
-# Shayan Supermarket — Design on one page
+# Liskov Shop — Design Document (Week 6)
 
-## 1. What must it do? (requirements)
+## 1. Application Overview
 
-- A customer can browse product categories and products.
-- A customer can view product prices and add products to the cart.
-- A customer can see the cart item count and total price.
-- A customer can remove products from the cart.
-- The cart is saved in `localStorage` and persists across page reloads.
-- The application displays loading, empty, and error states while loading shop data.
+The application is a React-based supermarket storefront.
 
-## 2. Screens and parts
+Customers can:
+- Browse products and categories.
+- Search for products.
+- View product details.
+- Browse carousel-based product listing pages (PLP).
+- Sort products by price.
+- Add, decrease, and remove cart items.
+- View cart totals and item counts.
+- Change the application theme.
+- Complete the checkout form.
 
-- **App:** Owns application state and coordinates data loading, cart updates, and category selection.
-- **AppContent:** Renders the appropriate loading, error, empty, or success content.
-- **Header:** Displays the shop header and cart item count.
-- **CategoryNav:** Displays categories and allows the customer to select a category.
-- **ProductGrid:** Displays the products in the selected category.
-- **ProductCard:** Displays product information and an add-to-cart button.
-- **CartPanel:** Displays cart items, total price, and remove buttons.
+The application uses TanStack Router for navigation and Zustand for shared cart and theme state.
 
-## 3. Data (types.ts)
+## 2. Routes
 
-- `Shop`: shop information and details.
-- `Category`: category information.
-- `Home`: homepage configuration.
-- `Product`: product information, including its ID, category, name, and price.
-- `Stock`: product stock information.
-- `Offer`: product discount information.
-- `CartLine`: a product ID and its quantity in the cart.
-- `AppData`: combined API data used to render the application.
-- `LoadState`: loading, success, empty, and error states for API data.
+| Route | Page | Description |
+|---|---|---|
+| `/` | `HomePage` | Home banners, carousels, categories, and products |
+| `/plp/$carouselId` | `PlpPage` | Products belonging to a selected carousel |
+| `/product/$productId` | `ProductPage` | Product details and add-to-cart action |
+| `/checkout` | `CheckoutPage` | Checkout form and order summary |
+| Not found | `NotFound` | Fallback page for unknown routes |
 
-## 4. Where does each piece live?
+The router is configured in `src/App.tsx` using TanStack Router and `createHashHistory`.
 
-- **Server:** Shop information, categories, homepage configuration, products, stock, and offers are provided by API JSON files.
-- **App state:** The `App` component owns the loaded data state, selected category ID, and cart.
-- **localStorage:** Cart data is stored under the `cart` key.
-- **Derived values:** Filtered products, cart item count, and cart total are calculated during rendering instead of being stored as state.
+The PLP route validates its search parameters using `validateSearch`. The supported sort values are `default` and `price`.
 
-Product prices and stock are loaded from the API. Cart quantities are stored locally. The server must validate prices, stock, and quantities and calculate the final order total before checkout.
+Pages read route parameters using `useParams({ from: ... })` and search parameters using `useSearch({ from: ... })`.
 
-## 5. API (what we fetch, and when)
+## 3. State Management
 
-All six JSON files are fetched in parallel when the application starts:
+### Cart Store
 
-- `GET /api/shop.json` → shop information.
-- `GET /api/categories.json` → product categories.
-- `GET /api/home.json` → homepage configuration.
-- `GET /api/products.json` → product catalog.
-- `GET /api/stock.json` → product stock quantities.
-- `GET /api/offers.json` → product discounts.
+File: `src/hooks/useCartStore.ts`
 
-The API layer handles fetching and response checks. The application uses TypeScript types and guards to validate the expected data shapes.
+The cart is managed with Zustand.
 
-## 6. States of each screen
+State:
+- `lines`: Cart items and quantities.
 
-- **Loading:** A loading message is displayed while API data is being fetched.
-- **Success:** The header, categories, product grid, and cart are rendered.
-- **Empty:** A message is displayed when there are no products.
-- **Error:** An error message is displayed if loading API data fails.
-- **Cart:** The cart is initialized from `localStorage`. If stored data is invalid or unavailable, the application falls back to an empty cart.
+Actions:
+- `add(productId)`
+- `decrease(productId)`
+- `remove(productId)`
+- `clear()`
 
-## 7. Component tree
+Pure cart operations are implemented in `src/cart/cart.ts`.
+
+Cart persistence is handled through `src/storage/cart.ts`, using `loadCart` and `saveCart`.
+
+Components select only the state and actions they need instead of receiving cart state through intermediate component props.
+
+### Theme Store
+
+File: `src/hooks/useThemeStore.ts`
+
+The theme is managed with Zustand and the `persist` middleware.
+
+State:
+- `theme`: Current light or dark theme.
+
+Action:
+- `toggle()`
+
+Persistence key: `liskov-theme`.
+
+The selected theme is applied to the application wrapper through the `data-theme` attribute in `Layout.tsx`.
+
+### Application Context
+
+Files:
+- `src/context/app-context.ts`
+- `src/context/AppContext.tsx`
+- `src/context/useAppContext.ts`
+
+The application context provides:
+- Catalog loading state.
+- Retry function.
+- Search query.
+- Selected category ID.
+- Search and category update callbacks.
+
+The context is provided by `AppProvider` in `App.tsx`.
+
+## 4. Data Loading and Catalog
+
+File: `src/hooks/useCatalog.ts`
+
+The `useCatalog` hook loads application data through the API layer.
+
+The API layer is located in `src/api/` and handles data fetching and response validation.
+
+Catalog-related operations are implemented in `src/catalog/`:
+
+| File | Responsibility |
+|---|---|
+| `context.ts` | Builds lookup maps for catalog data |
+| `filter-products.ts` | Filters products |
+| `carousel-products.ts` | Selects products for a carousel |
+| `sort-products.ts` | Sorts products |
+| `pricing.ts` | Calculates product pricing |
+
+The application handles loading, success, empty, and error states.
+
+## 5. Component Structure
+
+### Application Layout
 
 ```text
 App
-└── AppContent
-    ├── Header
-    ├── CategoryNav
-    ├── ProductGrid
-    │   └── ProductCard × n
-    └── CartPanel
+└── AppProvider
+    └── RouterProvider
+        └── Layout
+            ├── ThemeToggle (loading state)
+            ├── Header
+            │   ├── ThemeToggle
+            │   ├── SearchBox / ProductGrid
+            │   └── CartPanel
+            ├── Outlet
+            │   └── Active Page
+            └── Footer
 ```
 
-## 8. Where does each state live?
+### Home Page
 
-| State | Owning component | Who changes it? | Where is it stored? |
-|---|---|---|---|
-| `cart` | App | ProductCard through `onAdd`; CartPanel through `onRemove` | React state and `localStorage` |
-| `selectedCategoryId` | App | CategoryNav through `onPick` | React state |
-| `loadState` | App | API loading Effect | React state |
+```text
+HomePage
+├── HomeBanners
+├── SaleCountdown
+├── HomeCarousels
+│   └── CarouselSection
+│       └── ProductCard (multiple)
+├── CategoryNav
+└── ProductGrid
+    └── ProductCard (multiple)
+```
 
-**Derived values (not state):**
+### Product Listing Page
 
-- `itemCount`: Calculated from cart quantities during rendering. It does not need separate state because it can be derived from `cart`.
-- `total`: Calculated from cart items and product prices during rendering. It does not need separate state because it can be derived from `cart` and `products`.
-- `visibleProducts`: Calculated by filtering products using `selectedCategoryId`. It does not need separate state because it can be derived from the products and selected category.
+```text
+PlpPage
+└── ProductGrid
+    └── ProductCard (multiple)
+```
 
-## 9. Folders
+The PLP displays products from the selected carousel and supports URL-based sorting.
 
-The current structure after the React refactoring:
+### Product Details Page
 
-- `src/App.tsx` — application state, Effects, and event handlers.
-- `src/main.tsx` — React application entry point.
-- `src/components/` — React components, including `AppContent`, `Header`, `CategoryNav`, `ProductGrid`, `ProductCard`, and `CartPanel`.
-- `src/api/` — fetching API data and validating external responses.
-- `src/storage/` — reading and writing `localStorage`.
-- `src/cart/` — pure cart operations and pricing calculations.
-- `src/types.ts` — shared TypeScript types.
+```text
+ProductPage
+└── ProductDetail
+    └── Add to Cart Button
+```
 
-`index.html` and `style.css` remain in the shop root. The application UI is implemented with React components.
+### Checkout Page
+
+```text
+CheckoutPage
+├── CheckoutForm
+│   ├── Name Field
+│   ├── Mobile Field
+│   ├── Address Field
+│   └── Submit Button
+└── CheckoutSummary
+    └── Cart Items and Quantity Controls
+```
+
+### Not Found Page
+
+```text
+NotFound
+└── Link to Home
+```
+
+## 6. Component Responsibilities
+
+| Component | Responsibility |
+|---|---|
+| `Layout` | Shared application layout, theme wrapper, header, outlet, and footer |
+| `Header` | Shop information, navigation, search, cart dropdown, and theme toggle |
+| `CartPanel` | Cart items, quantity controls, and total |
+| `Footer` | Shop information, categories, help links, and schedule |
+| `ThemeToggle` | Changes the application theme |
+| `HomeBanners` | Displays homepage banners |
+| `HomeCarousels` | Displays product carousels and PLP links |
+| `ProductCard` | Displays product information and cart actions |
+| `ProductGrid` | Displays a collection of products |
+| `CategoryNav` | Displays category navigation |
+| `SaleCountdown` | Displays the sale countdown |
+| `LoadStateView` | Displays loading, empty, and error states |
+| `CheckoutPage` | Handles checkout form validation and order submission |
+| `ProductPage` | Displays product details and handles add-to-cart |
+| `PlpPage` | Displays and sorts products for a carousel |
+| `HomePage` | Composes the homepage sections |
+| `NotFound` | Displays the fallback page |
+
+## 7. Project Structure
+
+```text
+src/
+├── api/
+│   ├── guards.ts
+│   └── index.ts
+├── cart/
+│   └── cart.ts
+├── catalog/
+│   ├── carousel-products.ts
+│   ├── context.ts
+│   ├── filter-products.ts
+│   ├── pricing.ts
+│   └── sort-products.ts
+├── components/
+│   ├── pages/
+│   │   ├── CheckoutPage.tsx
+│   │   ├── HomePage.tsx
+│   │   ├── NotFound.tsx
+│   │   ├── PlpPage.tsx
+│   │   └── ProductPage.tsx
+│   ├── AppContent.tsx
+│   ├── CartPanel.tsx
+│   ├── CategoryNav.tsx
+│   ├── Footer.tsx
+│   ├── Header.tsx
+│   ├── HomeBanners.tsx
+│   ├── HomeCarousels.tsx
+│   ├── Layout.tsx
+│   ├── LoadStateView.tsx
+│   ├── ProductCard.tsx
+│   ├── ProductGrid.tsx
+│   ├── SaleCountdown.tsx
+│   ├── SearchBox.tsx
+│   └── ThemeToggle.tsx
+├── context/
+│   ├── app-context.ts
+│   ├── AppContext.tsx
+│   └── useAppContext.ts
+├── hooks/
+│   ├── useAddToCart.ts
+│   ├── useCartStore.ts
+│   ├── useCatalog.ts
+│   └── useThemeStore.ts
+├── storage/
+│   └── cart.ts
+├── App.tsx
+├── main.tsx
+└── types.ts
+```
+
+## 8. Important Implementation Details
+
+- Cart state is shared through Zustand.
+- Theme state is shared through Zustand with persistence.
+- Cart persistence is isolated in the storage layer.
+- Cart calculations and operations are implemented in pure functions.
+- The application uses `Layout` and `Outlet` for shared page structure.
+- Product cards are reused across the homepage and PLP.
+- Product details are available through `/product/$productId`.
+- Checkout uses controlled form fields, validation, and input refs for focusing invalid fields.
+- Successful checkout clears the cart and navigates back to the home page.
+- PLP sorting is stored in the URL search parameters, so it survives refreshes.
