@@ -1,0 +1,26 @@
+{
+  "date": "2026-11-19",
+  "browser": "157.0.4341.60",
+  "checks": [
+    "home previews contain at most four products per row",
+    "dairy PLP contains all six products",
+    "price sort ascends and survives refresh",
+    "Back and Forward restore sort",
+    "theme and cart persist after refresh",
+    "unknown list shows list-specific message",
+    "unknown route shows NotFound",
+    "invalid product shows product-specific message",
+    "valid product detail supports add",
+    "503 error followed by retry recovers page and cart together",
+    "empty API state",
+    "malformed home JSON rejected",
+    "cart removal updates count",
+    "invalid sort falls back to default",
+    "checkout errors appear after submit only",
+    "first invalid field receives focus",
+    "Persian mobile digits accepted",
+    "successful checkout clears cart and replaces route",
+    "390px mobile viewport has no horizontal document overflow"
+  ],
+  "runtimeErrors": []
+}

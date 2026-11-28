@@ -1,0 +1,6 @@
+
+> convention@1.0.0 check
+> tsc --noEmit
+
+src/typecheck-probe.tsx(2,43): error TS2820: Type '"/plp/$carouselID"' is not assignable to type '"." | ".." | "/" | "/checkout" | "/plp/$carouselId" | "/product/$productId"'. Did you mean '"/plp/$carouselId"'?
+src/typecheck-probe.tsx(3,107): error TS2322: Type '"cheap"' is not assignable to type '"default" | "price"'.
