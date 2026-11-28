@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import type { Product, Offer } from '../types'
 import { CART_TOAST_EVENT } from './CartToast'
+import { useCartStore } from '../hooks/useCartStore'
 
 interface ProductCardProps {
   product: Product
@@ -10,6 +11,10 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, offer, onAdd }: ProductCardProps): ReactNode {
   const [justAdded, setJustAdded] = useState(false)
+  const cartQuantity = useCartStore((state) =>
+    state.lines.find((line) => line.productId === product.id)?.quantity ?? 0
+  )
+  const decrement = useCartStore((state) => state.decrement)
   const addedTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   useEffect(() => () => {
     if (addedTimer.current) clearTimeout(addedTimer.current)
@@ -17,6 +22,13 @@ export default function ProductCard({ product, offer, onAdd }: ProductCardProps)
   const discountedPrice = offer
     ? Math.round(product.price * (1 - offer.percent / 100))
     : null
+
+  const handleAdd = () => {
+    onAdd(product.id)
+    window.dispatchEvent(new CustomEvent(CART_TOAST_EVENT, {
+      detail: `${product.name} به سبد خرید اضافه شد`,
+    }))
+  }
 
   return (
     <article className="product">
@@ -41,22 +53,31 @@ export default function ProductCard({ product, offer, onAdd }: ProductCardProps)
             {product.price.toLocaleString('fa-IR')} تومان
           </strong>
         )}
-        <button
-          type="button"
-          className={justAdded ? 'added' : undefined}
-          aria-label={justAdded ? `${product.name} به سبد خرید اضافه شد` : `افزودن ${product.name} به سبد خرید`}
-          onClick={() => {
-            onAdd(product.id)
-            window.dispatchEvent(new CustomEvent(CART_TOAST_EVENT, {
-              detail: `${product.name} به سبد خرید اضافه شد`,
-            }))
-            setJustAdded(true)
-            if (addedTimer.current) clearTimeout(addedTimer.current)
-            addedTimer.current = setTimeout(() => setJustAdded(false), 1100)
-          }}
-        >
-          <span aria-hidden="true">{justAdded ? '✓' : '+'}</span>
-        </button>
+        {cartQuantity > 0 ? (
+          <div className="product-quantity" aria-label={`تعداد ${product.name} در سبد خرید`}>
+            <button type="button" onClick={handleAdd} aria-label={`افزودن یک ${product.name}`}>
+              +
+            </button>
+            <span aria-live="polite">{cartQuantity.toLocaleString('fa-IR')}</span>
+            <button type="button" onClick={() => decrement(product.id)} aria-label={`کم‌کردن یک ${product.name}`}>
+              −
+            </button>
+          </div>
+        ) : (
+          <button
+            type="button"
+            className={justAdded ? 'added' : undefined}
+            aria-label={`افزودن ${product.name} به سبد خرید`}
+            onClick={() => {
+              handleAdd()
+              setJustAdded(true)
+              if (addedTimer.current) clearTimeout(addedTimer.current)
+              addedTimer.current = setTimeout(() => setJustAdded(false), 1100)
+            }}
+          >
+            <span aria-hidden="true">{justAdded ? '✓' : '+'}</span>
+          </button>
+        )}
       </div>
     </article>
   )

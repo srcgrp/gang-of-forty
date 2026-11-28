@@ -941,6 +941,48 @@ nav {
   cursor: not-allowed;
 }
 
+.product-quantity {
+  position: absolute;
+  left: 12px;
+  bottom: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  padding: 3px 5px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  box-shadow: 0 3px 10px var(--shadow-color);
+}
+
+.product-info .product-quantity button {
+  position: static;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  min-width: 26px;
+  height: 26px;
+  padding: 0;
+  border-radius: 50%;
+  background: var(--light-orang);
+  color: #fff;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.product-info .product-quantity button:hover {
+  background: var(--dark-orang);
+}
+
+.product-quantity span {
+  min-width: 16px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 800;
+}
+
 .badge-container{
   display: flex;
   justify-content: space-between;
