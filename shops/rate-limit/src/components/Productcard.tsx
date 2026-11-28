@@ -1,20 +1,22 @@
 import type { CSSProperties } from 'react';
-import type { Product } from '../types';
+import { memo } from 'react';
+import type { CatalogItem } from '../types';
 import { toPersianDigits } from '../format/price';
-import OfferBadge from './OfferBadge';
+import { useCartStore } from '../hooks/useCartStore';
+import OfferBadge from './Offerbadge';
 import Price from './Price';
 
 const LOW_STOCK = 5;
 
 type ProductCardProps = {
-  product: Product & { color?: string };
+  product: CatalogItem;
   percent?: number;
   stock?: number;
-  onAdd: (id: number) => void;
 };
 
-export default function ProductCard({ product, percent, stock, onAdd }: ProductCardProps) {
-  const { id, name, price, oldPrice, unit, emoji, color } = product;
+function ProductCard({ product, percent, stock }: ProductCardProps) {
+  const add = useCartStore((s) => s.add);
+  const { name, price, oldPrice, unit, emoji, color } = product;
   const soldOut = stock === 0;
   const stockText = soldOut
     ? 'ناموجود'
@@ -35,7 +37,7 @@ export default function ProductCard({ product, percent, stock, onAdd }: ProductC
           className="offer-add"
           disabled={soldOut}
           aria-label={soldOut ? 'ناموجود' : `افزودن ${name} به سبد`}
-          onClick={() => onAdd(id)}
+          onClick={() => add(product)}
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
             strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
@@ -52,3 +54,5 @@ export default function ProductCard({ product, percent, stock, onAdd }: ProductC
     </article>
   );
 }
+
+export default memo(ProductCard);

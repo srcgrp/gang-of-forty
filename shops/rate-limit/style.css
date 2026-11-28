@@ -1,6 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap");
 
-:root {
+.app {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  transition: background-color 0.25s, color 0.25s;
+}
+
+:root,
+.app {
   color-scheme: light;
   --bg: #fafaff;
   --header-bg: #fafaff;
@@ -26,8 +34,7 @@
   --logo-outline: none;
 }
 
-:root[data-theme="dark"],
-:root:has(#theme-checkbox:checked) {
+.app[data-theme="dark"] {
   color-scheme: dark;
   --bg: #0e1226;
   --header-bg: #131933;
@@ -237,6 +244,25 @@ header p {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+header .cart-stock-message {
+  position: absolute;
+  top: calc(100% + 8px);
+  inset-inline-end: 0;
+  width: max-content;
+  max-width: min(280px, 85vw);
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text);
+  z-index: 40;
+}
+
+header .cart-stock-message:empty {
+  padding: 0;
+  border: 0;
 }
 
 .cart {
@@ -2140,8 +2166,7 @@ nav a:focus-visible {
   font-weight: 800;
 }
 
-:root[data-theme="dark"] .offer-media,
-:root:has(#theme-checkbox:checked) .offer-media {
+.app[data-theme="dark"] .offer-media {
   background: color-mix(in srgb, var(--media-bg, var(--img-bg)) 70%, var(--surface));
 }
 
@@ -2204,3 +2229,8 @@ nav a:focus-visible {
     border-radius: 20px;
   }
 }
+
+.plp-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+.plp-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 24px; color: var(--muted); }
+.plp-back { color: var(--text); font-weight: 700; }
+.plp-back, .special-offer-sub, .category-carousel-count { text-decoration: none; }

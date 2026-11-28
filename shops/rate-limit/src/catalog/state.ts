@@ -1,9 +1,9 @@
-import type { CatalogItem, LoadState } from "../types";
+import type { Catalog, LoadState } from "../types";
 
-export const toLoadState = (products: CatalogItem[]): LoadState<CatalogItem> =>
-  products.length === 0 ? { status: "empty" } : { status: "success", products };
+export const toLoadState = (catalog: Catalog): LoadState<Catalog> =>
+  catalog.items.length === 0 ? { status: "empty" } : { status: "success", data: catalog };
 
-export const errorState = (message: string): LoadState<CatalogItem> => ({
+export const errorState = (message: string): LoadState<Catalog> => ({
   status: "error",
   message,
 });

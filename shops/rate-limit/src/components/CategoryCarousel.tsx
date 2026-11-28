@@ -1,16 +1,17 @@
 import type { CSSProperties } from 'react';
+import { Link } from '@tanstack/react-router';
 import type { CatalogItem, Category } from '../types';
 import { toPersianDigits } from '../format/price';
 import Carousel from './Carousel';
-import ProductCard from './ProductCard';
+import ProductCard from './Productcard';
 
 type CategoryCarouselProps = {
   category: Category;
   products: CatalogItem[];
-  onAdd: (id: number) => void;
+  total: number;
 };
 
-export default function CategoryCarousel({ category, products, onAdd }: CategoryCarouselProps) {
+export default function CategoryCarousel({ category, products, total }: CategoryCarouselProps) {
   if (products.length === 0) return null;
   const titleId = `${category.slug}-title`;
 
@@ -25,11 +26,13 @@ export default function CategoryCarousel({ category, products, onAdd }: Category
           {category.emoji}
         </span>
         <h2 className="category-carousel-title" id={titleId}>{category.name}</h2>
-        <span className="category-carousel-count">{toPersianDigits(products.length)} محصول</span>
+        <Link to="/plp/$carouselId" search={{ sort: 'default' }} params={{ carouselId: category.slug }} className="category-carousel-count">
+          مشاهده همه ({toPersianDigits(total)})
+        </Link>
       </div>
       <Carousel>
         {products.map((p) => (
-          <ProductCard key={p.id} product={p} percent={p.percent} stock={p.stock} onAdd={onAdd} />
+          <ProductCard key={p.id} product={p} percent={p.percent} stock={p.stock} />
         ))}
       </Carousel>
     </section>

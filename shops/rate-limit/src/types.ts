@@ -63,6 +63,7 @@ export interface Catalog {
   items: CatalogItem[];
   specials: CatalogItem[];
   categories: Category[];
+  shop: Shop | null;
 }
 export interface CategoryGroup {
   category: Category;
@@ -74,6 +75,12 @@ export type CartLine = Pick<Product, "id" | "name" | "price"> & {
   quantity: number;
 };
 export type Cart = Readonly<Record<number, CartLine>>;
+export interface CartState {
+  cart: Cart;
+  stockMessage: string | null;
+  add: (item: CatalogItem) => void;
+  remove: (id: number) => void;
+}
 export interface CartAddDetail {
   product: CatalogItem;
   quantity: number;
@@ -96,11 +103,11 @@ export type SortComparators = Record<
   (a: CatalogItem, b: CatalogItem) => number
 >;
 
-export type LoadState<P extends Product = Product> =
+export type LoadState<T = unknown> =
   | { status: "loading" }
-  | { status: "success"; products: P[] }
+  | { status: "success"; data: T }
   | { status: "empty" }
-  | { status: "error"; message: string };
+  | { status: "error"; message: string; retry?: () => void };
 
 export interface StateView {
   skeletons: number;
@@ -108,6 +115,16 @@ export interface StateView {
   errorTitle: string;
   retry: () => void;
   build: (products: CatalogItem[]) => HTMLElement[];
+}
+
+export type Theme = "light" | "dark";
+export interface ThemeState {
+  theme: Theme;
+  toggle: () => void;
+}
+export interface SearchState {
+  query: string;
+  setQuery: (query: string) => void;
 }
 
 export interface CardView {

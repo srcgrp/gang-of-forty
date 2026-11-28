@@ -1,16 +1,19 @@
+import { Link } from '@tanstack/react-router';
+import { toPersianDigits } from '../format/price';
 import type { CatalogItem } from '../types';
 import Carousel from './Carousel';
-import ProductCard from './ProductCard';
+import ProductCard from './Productcard';
 
 type ProductGridProps = {
   id?: string;
+  carouselId: string;
   title: string;
   subtitle?: string;
   products: CatalogItem[];
-  onAdd: (id: number) => void;
+  total: number;
 };
 
-export default function ProductGrid({ id, title, subtitle, products, onAdd }: ProductGridProps) {
+export default function ProductGrid({ id, carouselId, title, subtitle, products, total }: ProductGridProps) {
   const titleId = id ? `${id}-title` : undefined;
 
   return (
@@ -18,6 +21,9 @@ export default function ProductGrid({ id, title, subtitle, products, onAdd }: Pr
       <div className="special-offer-head">
         <h2 className="carousel-title" id={titleId}>{title}</h2>
         {subtitle && <span className="special-offer-sub">{subtitle}</span>}
+        <Link to="/plp/$carouselId" search={{ sort: 'default' }} params={{ carouselId }} className="special-offer-sub">
+          مشاهده همه ({toPersianDigits(total)})
+        </Link>
       </div>
 
       {products.length === 0 ? (
@@ -25,7 +31,7 @@ export default function ProductGrid({ id, title, subtitle, products, onAdd }: Pr
       ) : (
         <Carousel>
           {products.map((p) => (
-            <ProductCard key={p.id} product={p} percent={p.percent} stock={p.stock} onAdd={onAdd} />
+            <ProductCard key={p.id} product={p} percent={p.percent} stock={p.stock} />
           ))}
         </Carousel>
       )}
