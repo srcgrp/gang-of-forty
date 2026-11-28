@@ -4,6 +4,7 @@ import Header from './components/Header'
 import PageLayout from './components/PageLayout'
 import LoadingContent from './components/LoadingContent'
 import CartPanel from './components/CartPanel'
+import CartToast from './components/CartToast'
 import { CatalogContext } from './context/CatalogContext'
 import { useCatalog } from './hooks/useCatalog'
 import { useCategorySelection } from './hooks/useCategorySelection'
@@ -30,6 +31,7 @@ export default function App(): ReactNode {
   )
 
   return (
+    <>
     <PageLayout
       header={
         <Header
@@ -42,5 +44,7 @@ export default function App(): ReactNode {
       mainContent={mainContent}
       showFooter={isReady}
     />
+    <CartToast />
+    </>
   )
 }

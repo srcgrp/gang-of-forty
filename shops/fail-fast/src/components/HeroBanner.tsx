@@ -3,7 +3,7 @@ import bannerImg from '../images/banner01.webp'
 
 export default function HeroBanner(): ReactNode {
   return (
-    <div className="banner01">
+    <div className="banner01 hero-entrance">
       <img
         id="banner01"
         src={bannerImg}

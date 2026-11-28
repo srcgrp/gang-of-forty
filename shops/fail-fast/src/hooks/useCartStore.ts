@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import type { CartLine, Product } from '../types'
-import { addToCart, removeFromCart, getCartItemCount, getCartTotal } from '../cart'
+import { addToCart, decrementCartItem, removeFromCart, getCartItemCount, getCartTotal } from '../cart'
 import { loadCart, saveCart } from '../storage/cartStorage'
 
 interface CartState {
@@ -10,6 +10,7 @@ interface CartState {
 
 interface CartActions {
   add: (productId: number) => void
+  decrement: (productId: number) => void
   remove: (productId: number) => void
   getTotal: (products: Product[]) => number
 }
@@ -26,6 +27,17 @@ export const useCartStore = create<CartStore>((set, get) => {
     add: (productId: number) => {
       set((state) => {
         const newLines = addToCart(state.lines, productId)
+        saveCart(newLines)
+        return {
+          lines: newLines,
+          itemCount: getCartItemCount(newLines),
+        }
+      })
+    },
+
+    decrement: (productId: number) => {
+      set((state) => {
+        const newLines = decrementCartItem(state.lines, productId)
         saveCart(newLines)
         return {
           lines: newLines,

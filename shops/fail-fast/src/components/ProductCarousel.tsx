@@ -3,6 +3,7 @@ import { Link } from '@tanstack/react-router'
 import type { Product, Offer } from '../types'
 import ProductCard from './ProductCard'
 import { useCartStore } from '../hooks/useCartStore'
+import { useScrollReveal } from '../hooks/useScrollReveal'
 
 interface ProductCarouselProps {
   carouselId: string
@@ -20,17 +21,20 @@ export default function ProductCarousel({
   offers = [],
 }: ProductCarouselProps): ReactNode {
   const addToCart = useCartStore((state) => state.add)
+  const revealRef = useScrollReveal<HTMLElement>()
 
   const getProductOffer = (productId: number): Offer | undefined =>
     offers.find((o) => o.productId === productId)
 
   return (
-    <section className="section">
+    <section ref={revealRef} className="section scroll-reveal">
       <div className="section-title">
         <h2>
           {emoji} {title}
         </h2>
-        <Link to="/plp/$carouselId" params={{ carouselId }}>مشاهده همه (10)</Link>
+        <Link to="/plp/$carouselId" params={{ carouselId }}>
+          مشاهده همه ({products.length})
+        </Link>
       </div>
       <div className="popular-products" tabIndex={0}>
         {products.map((product) => (

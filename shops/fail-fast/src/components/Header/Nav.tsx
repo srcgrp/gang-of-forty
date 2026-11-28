@@ -19,7 +19,6 @@ export default function Nav({
         <div className="categories-menu">
           <button
             type="button"
-            className="active"
             aria-haspopup="true"
             aria-expanded="false"
           >
@@ -31,6 +30,7 @@ export default function Nav({
                 key={category.id}
                 to="/"
                 hash="categories"
+                className="nav-link"
                 role="menuitem"
                 onClick={() => onCategoryPick(category.id)}
                 style={{
@@ -42,13 +42,13 @@ export default function Nav({
             ))}
           </div>
         </div>
-        <Link to="/" hash="categories">پیشنهادهای امروز</Link>
-        <Link to="/" hash="categories">تخفیفدار ها</Link>
-        <Link to="/" hash="categories">لبنیات</Link>
-        <Link to="/" hash="categories">تنقلات</Link>
-        <Link to="/" hash="categories">نوشیدنی</Link>
-        <Link to="/" hash="categories">آرایشی و بهداشتی</Link>
-        <Link to="." hash="footer">دربارهی ما</Link>
+        <Link className="nav-link" to="/" hash="categories">پیشنهادهای امروز</Link>
+        <Link className="nav-link" to="/" hash="categories">تخفیفدار ها</Link>
+        <Link className="nav-link" to="/" hash="categories">لبنیات</Link>
+        <Link className="nav-link" to="/" hash="categories">تنقلات</Link>
+        <Link className="nav-link" to="/" hash="categories">نوشیدنی</Link>
+        <Link className="nav-link" to="/" hash="categories">آرایشی و بهداشتی</Link>
+        <Link className="nav-link" to="." hash="footer">دربارهی ما</Link>
       </div>
     </nav>
   )

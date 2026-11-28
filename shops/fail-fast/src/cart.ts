@@ -31,6 +31,16 @@ export function removeFromCart(lines: CartLine[], productId: number): CartLine[]
   return lines.filter((line) => line.productId !== productId)
 }
 
+/** Decrease a product quantity by one and remove its line when it reaches zero. */
+export function decrementCartItem(lines: CartLine[], productId: number): CartLine[] {
+  const line = lines.find((item) => item.productId === productId)
+  if (!line) return lines
+  if (line.quantity <= 1) return removeFromCart(lines, productId)
+  return lines.map((item) =>
+    item.productId === productId ? { ...item, quantity: item.quantity - 1 } : item
+  )
+}
+
 /**
  * Calculate the total number of items in the cart.
  */

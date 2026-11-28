@@ -1,10 +1,12 @@
 import type { ReactNode } from 'react'
 import { Link } from '@tanstack/react-router'
 import footerImg from '../images/footer.webp'
+import { useScrollReveal } from '../hooks/useScrollReveal'
 
 export default function Footer(): ReactNode {
+  const revealRef = useScrollReveal<HTMLElement>()
   return (
-    <footer id="footer">
+    <footer ref={revealRef} id="footer" className="scroll-reveal">
       <img
         src={footerImg}
         className="footer-bg"

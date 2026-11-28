@@ -5,6 +5,7 @@ import PopularCategories from './PopularCategories'
 import Banner02 from './Banner02'
 import Advertisement from './Advertisement'
 import ProductCarousel from './ProductCarousel'
+import LandingCategorySections from './LandingCategorySections'
 
 interface SuccessContentProps {
   catalog: Catalog
@@ -33,6 +34,7 @@ export default function SuccessContent({ catalog }: SuccessContentProps): ReactN
         })}
       </div>
       <Advertisement />
+      <LandingCategorySections catalog={catalog} />
     </>
   )
 }
