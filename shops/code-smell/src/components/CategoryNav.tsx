@@ -1,3 +1,4 @@
+import SectionLink from "./SectionLink"
 import type { Category, Link } from "../types"
 import CategoryMenu from "./CategoryMenu"
 
@@ -6,6 +7,7 @@ type CategoryNavProps = {
     menu: Link[]
     categoryId: number | null
     onPick: (id: number | null) => void
+    onQuery: (value: string) => void
     isMobile?: boolean
 }
 
@@ -14,6 +16,7 @@ export default function CategoryNav({
     menu,
     categoryId,
     onPick,
+    onQuery,
     isMobile = false
 }: CategoryNavProps) {
     return (
@@ -29,11 +32,30 @@ export default function CategoryNav({
                     isMobile={isMobile}
                 />
                 {menu.map(function (entry) {
+                    const isOffers = entry.href === "#offers"
+                    const category = categories.find(function (item) {
+                        return entry.href === "#" + item.slug
+                    })
+                    const showsProducts = isOffers || category !== undefined
+
+                    function selectProducts(): void {
+                        if (isOffers) {
+                            onPick(null)
+                            onQuery("")
+                        } else if (category) {
+                            onPick(category.id)
+                        }
+                    }
+
                     return (
                         <li key={entry.href}>
-                            <a className="site-nav__link" href={entry.href}>
+                            <SectionLink
+                                className="site-nav__link"
+                                href={category ? "#products" : entry.href}
+                                onClick={showsProducts ? selectProducts : undefined}
+                            >
                                 {entry.label}
-                            </a>
+                            </SectionLink>
                         </li>
                     )
                 })}

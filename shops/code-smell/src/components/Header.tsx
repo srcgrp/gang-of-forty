@@ -1,38 +1,35 @@
-import type { Category, Shop } from "../types"
-import type { CartButtonProps } from "./CartButton"
-import type { SearchBoxProps } from "./SearchBox"
+import { Link } from "@tanstack/react-router"
+import type { ShopData } from "../types"
+import type { CatalogControls } from "../hooks/useCatalog"
 import BrandLogo from "./BrandLogo"
 import CategoryNav from "./CategoryNav"
 import CartButton from "./CartButton"
+import CartPanel from "./CartPanel"
 import Announcement from "./Announcement"
 import SearchBox from "./SearchBox"
-
-export type CatalogControls = SearchBoxProps & {
-    categoryId: number | null
-    onPick: (id: number | null) => void
-}
+import ThemeToggle from "./ThemeToggle"
 
 type HeaderProps = {
-    categories: Category[]
-    shop: Shop
+    data: ShopData
     catalogControls: CatalogControls
-    cartControls: CartButtonProps
 }
 
-export default function Header({
-    categories,
-    shop,
-    catalogControls,
-    cartControls
-}: HeaderProps) {
+export default function Header({ data, catalogControls }: HeaderProps) {
+    const { categories, shop } = data
     const { categoryId, onPick } = catalogControls
-    const navigationProps = { categories, menu: shop.menu, categoryId, onPick }
+    const navigationProps = {
+        categories,
+        menu: shop.menu,
+        categoryId,
+        onPick,
+        onQuery: catalogControls.onQuery
+    }
 
     return (
         <header className="site-header">
             <Announcement notice={shop.notice} />
             <div className="site-header__bar container" id="header-bar">
-                <a className="brand" href="#top">
+                <Link className="brand" to="/" hash="top">
                     <BrandLogo />
                     <span className="brand__text" id="brand-text">
                         <strong className="brand__name">
@@ -40,12 +37,15 @@ export default function Header({
                         </strong>
                         <span className="brand__tagline">{shop.slogan}</span>
                     </span>
-                </a>
+                </Link>
                 <SearchBox
                     query={catalogControls.query}
                     onQuery={catalogControls.onQuery}
                 />
-                <CartButton {...cartControls} />
+                <div className="header-actions">
+                    <CartButton />
+                    <ThemeToggle />
+                </div>
                 <details className="mobile-menu" id="mobile-menu">
                     <summary className="menu-toggle" aria-label="منوی اصلی">
                         ☰
@@ -54,6 +54,7 @@ export default function Header({
                 </details>
             </div>
             <CategoryNav {...navigationProps} />
+            <CartPanel products={data.products} offers={data.offers} stock={data.stock.items} />
         </header>
     )
 }

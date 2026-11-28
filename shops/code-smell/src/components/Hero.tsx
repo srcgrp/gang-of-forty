@@ -1,3 +1,4 @@
+import SectionLink from "./SectionLink"
 import type { Banner, Category, Shop } from "../types"
 
 type HeroProps = {
@@ -25,7 +26,7 @@ export default function Hero({ hero, shop, categories, onPick }: HeroProps) {
                     </h1>
                     <p className="hero__text">{hero.text}</p>
                     <div className="hero__actions">
-                        <a
+                        <SectionLink
                             className="button button--primary"
                             href={category ? "#products" : hero.cta.href}
                             onClick={function () {
@@ -33,10 +34,10 @@ export default function Hero({ hero, shop, categories, onPick }: HeroProps) {
                             }}
                         >
                             {hero.cta.label}
-                        </a>
-                        <a className="button button--secondary" href="#categories">
+                        </SectionLink>
+                        <SectionLink className="button button--secondary" href="#categories">
                             دسته‌بندی کالاها
-                        </a>
+                        </SectionLink>
                     </div>
                     <ul className="hero__features">
                         <li>{"ارسال در" + " " + shop.city}</li>

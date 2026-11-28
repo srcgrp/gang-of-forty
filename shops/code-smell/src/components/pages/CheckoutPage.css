@@ -1,0 +1,43 @@
+.checkout-form {
+    --checkout-placeholder: #767676;
+    --checkout-required: #d32f2f;
+    display: grid;
+    gap: var(--space-3);
+    max-inline-size: 520px;
+    margin-block-start: var(--space-5);
+}
+
+.app[data-theme="dark"] .checkout-form {
+    --checkout-placeholder: #a3a8b2;
+    --checkout-required: #ff4d4d;
+}
+
+.checkout-form input,
+.checkout-form textarea {
+    inline-size: 100%;
+    padding: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    font: inherit;
+}
+
+.checkout-form [aria-invalid="true"] {
+    border-color: var(--color-danger);
+}
+
+.checkout-form ::placeholder {
+    color: var(--checkout-placeholder);
+    opacity: 1;
+}
+
+.checkout-required {
+    color: var(--checkout-required);
+}
+
+.checkout-error {
+    border-inline-start: 3px solid var(--color-danger);
+    padding-inline-start: var(--space-2);
+    color: var(--color-text);
+}

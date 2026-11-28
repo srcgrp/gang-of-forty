@@ -1,18 +1,22 @@
 import type { CarouselWithProducts } from "../types"
 import ProductCard from "./ProductCard"
-import CarouselControls from "./CarouselControls"
+import CarouselHeading from "./CarouselHeading"
 
 type ProductGridProps = {
     carousels: CarouselWithProducts[]
-    onAdd: (id: number) => void
+    preview?: boolean
 }
 
-export default function ProductGrid({ carousels, onAdd }: ProductGridProps) {
+const previewSize = 4
+
+export default function ProductGrid({ carousels, preview = false }: ProductGridProps) {
+    const productsStart = carousels.find((carousel) => carousel.id !== "offers")
     return (
-        <div id="products">
+        <div>
             {carousels.map(function (carousel, index) {
                 const titleId = carousel.id + "-title"
-                const hasProducts = carousel.products.length > 0
+                const products = preview ? carousel.products.slice(0, previewSize) : carousel.products
+                const hasProducts = products.length > 0
 
                 return (
                     <section
@@ -21,26 +25,11 @@ export default function ProductGrid({ carousels, onAdd }: ProductGridProps) {
                         key={carousel.id}
                         aria-labelledby={titleId}
                         data-carousel="true"
+                        data-preview={preview ? "true" : undefined}
                     >
+                        {carousel === productsStart && <div id="products" />}
                         <div className="container">
-                            <header className="section__header section__header--carousel">
-                                <h2 className="section__title" id={titleId}>
-                                    <span className="carousel-title__emoji" aria-hidden="true">
-                                        {carousel.id === "search-results" ? (
-                                            <img src="svg/magnifying-glass.svg" alt="" width={20} height={20} />
-                                        ) : (
-                                            carousel.emoji
-                                        )}
-                                    </span>
-                                    {carousel.title}
-                                </h2>
-                                <div className="carousel-heading-row">
-                                    <p className="section__subtitle">
-                                        {carousel.products.length.toLocaleString("fa-IR") + " " + "کالا"}
-                                    </p>
-                                    {hasProducts && <CarouselControls title={carousel.title} />}
-                                </div>
-                            </header>
+                            <CarouselHeading carousel={carousel} titleId={titleId} preview={preview} />
                             <p className="catalog-status" role="status" hidden={hasProducts}>
                                 کالایی پیدا نشد!
                             </p>
@@ -50,14 +39,8 @@ export default function ProductGrid({ carousels, onAdd }: ProductGridProps) {
                                 hidden={!hasProducts}
                                 aria-label={"کاروسل" + " " + carousel.title}
                             >
-                                {carousel.products.map(function (product) {
-                                    return (
-                                        <ProductCard
-                                            key={product.id}
-                                            product={product}
-                                            onAdd={onAdd}
-                                        />
-                                    )
+                                {products.map(function (product) {
+                                    return <ProductCard key={product.id} product={product} />
                                 })}
                             </ul>
                         </div>

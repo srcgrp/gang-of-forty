@@ -1,3 +1,4 @@
+import SectionLink from "./SectionLink"
 import type { Link } from "../types"
 
 type FooterLinksProps = {
@@ -22,7 +23,7 @@ export default function FooterLinks({
                 {entries.map(function (entry) {
                     return (
                         <li key={entry.categoryId ?? (entry.href + "-" + entry.label)}>
-                            <a
+                            <SectionLink
                                 className="footer-link"
                                 href={entry.href}
                                 onClick={function () {
@@ -40,7 +41,7 @@ export default function FooterLinks({
                                     aria-hidden="true"
                                 />
                                 {entry.label}
-                            </a>
+                            </SectionLink>
                         </li>
                     )
                 })}

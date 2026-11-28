@@ -1,50 +1,63 @@
-import type { Cart, ShopData, CarouselWithProducts } from "../types"
-import { cartCount, cartRows, cartTotal } from "../cart/cartRules"
+import type { Carousel, CarouselWithProducts, ShopData } from "../types"
 import { getVisibleCarousels } from "./catalogSelection"
 import { getHomeCarousels } from "./getCarouselProducts"
 
+function getHomeCarouselList(
+    data: ShopData,
+    categoryId: number | null
+): Carousel[] {
+    const category = data.categories.find(function (item) {
+        return item.id === categoryId
+    })
+
+    return data.home.carousels.map(function (carousel) {
+        if (category && carousel.categoryId !== undefined) {
+            return {
+                ...carousel,
+                id: category.slug,
+                title: category.name,
+                emoji: category.emoji,
+                categoryId: category.id
+            }
+        }
+
+        return carousel
+    })
+}
+
 export function getPageData(
     data: ShopData,
-    cart: Cart,
     catalogControls: {
         categoryId: number | null
         query: string
         onPick: (id: number | null) => void
         onQuery: (value: string) => void
-    },
-    cartOpen: boolean,
-    onToggle: () => void
+    }
 ) {
+    const { categoryId } = catalogControls
     const query = catalogControls.query.trim().toLowerCase()
-    const filteredData = {
-        ...data,
-        products: data.products.filter(function (product) {
+    const products = query === ""
+        ? data.products
+        : data.products.filter(function (product) {
             return product.name.toLowerCase().includes(query)
         })
-    }
     let carousels: CarouselWithProducts[]
-    if (query !== "" && catalogControls.categoryId === null) {
+
+    if (query !== "" && categoryId !== null) {
+        carousels = getVisibleCarousels({ ...data, products }, categoryId)
+    } else {
+        const carouselList: Carousel[] = query === ""
+            ? getHomeCarouselList(data, categoryId)
+            : [{ id: "search-results", title: "نتایج جستجو", emoji: "", source: "all" }]
+
         carousels = getHomeCarousels(
-            [{ id: "search-results", title: "نتایج جستجو", emoji: "", source: "all" }],
-            filteredData.products,
+            carouselList,
+            products,
             data.categories,
             data.offers,
             data.stock.items
         )
-    } else {
-        carousels = getVisibleCarousels(filteredData, catalogControls.categoryId)
     }
-    const rows = cartRows(cart, data.products, data.offers)
-    return {
-        data: data,
-        carousels: carousels,
-        catalogControls: catalogControls,
-        cartControls: {
-            count: cartCount(cart),
-            cartOpen: cartOpen,
-            onToggle: onToggle
-        },
-        rows: rows,
-        total: cartTotal(rows)
-    }
+
+    return { data, carousels, catalogControls }
 }

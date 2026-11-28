@@ -1,3 +1,4 @@
+import SectionLink from "./SectionLink"
 import type { Category, Home } from "../types"
 import PromoCard from "./PromoCard"
 import DiscountCard from "./DiscountCard"
@@ -48,7 +49,7 @@ export default function Promos({ home, categories, onPick }: PromosProps) {
                             {home.side.title}
                         </h3>
                         <p className="hero-side__text">{home.side.text}</p>
-                        <a
+                        <SectionLink
                             className="button button--primary"
                             href={sideCategory ? "#products" : home.side.cta.href}
                             onClick={function () {
@@ -56,7 +57,7 @@ export default function Promos({ home, categories, onPick }: PromosProps) {
                             }}
                         >
                             {home.side.cta.label}
-                        </a>
+                        </SectionLink>
                     </article>
                 </div>
             </div>

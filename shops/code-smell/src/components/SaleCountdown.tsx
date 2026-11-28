@@ -10,7 +10,6 @@ export default function SaleCountdown() {
 
     useEffect(function () {
         const timer = window.setInterval(function () {
-            console.log("شمارش معکوس حراج")
             setLeft((seconds) => Math.max(0, seconds - 1))
         }, 1000)
 
@@ -35,7 +34,7 @@ export function SaleCountdownPanel({ open, onToggle }: CountdownControls) {
             <div className="container">
                 <header className="section__header">
                     <h2 className="section__title" id="sale-countdown-title">
-                        شمارش معکوس حراج
+                        بــلک فــرایدی نزدیکــه!
                     </h2>
                     <button
                         className="button button--primary"
@@ -43,7 +42,7 @@ export function SaleCountdownPanel({ open, onToggle }: CountdownControls) {
                         aria-expanded={open}
                         onClick={onToggle}
                     >
-                        {open ? "بستن شمارش معکوس" : "نمایش شمارش معکوس"}
+                        {open ? "بستن" : "چقدر مونده؟"}
                     </button>
                 </header>
                 {open && <SaleCountdown />}

@@ -1,3 +1,4 @@
+import SectionLink from "./SectionLink"
 import type { MouseEvent } from "react"
 
 type CarouselControlsProps = {
@@ -30,7 +31,7 @@ export default function CarouselControls({ title }: CarouselControlsProps) {
                 const arrow = direction === "start" ? "right" : "left"
 
                 return (
-                    <a
+                    <SectionLink
                         href="#products"
                         key={direction}
                         aria-label={label}
@@ -47,7 +48,7 @@ export default function CarouselControls({ title }: CarouselControlsProps) {
                             height={13}
                             aria-hidden="true"
                         />
-                    </a>
+                    </SectionLink>
                 )
             })}
         </nav>

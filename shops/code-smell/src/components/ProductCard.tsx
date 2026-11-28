@@ -1,17 +1,18 @@
+import { Link } from "@tanstack/react-router"
+import { memo } from "react"
 import type { ProductCardData } from "../types"
+import { useCartStore } from "../hooks/useCartStore"
 import Price from "./Price"
 import OfferBadge from "./OfferBadge"
 import AddToCartButton from "./AddToCartButton"
 
 type ProductCardProps = {
     product: ProductCardData
-    onAdd: (id: number) => void
 }
 
-export default function ProductCard({
-    product,
-    onAdd
-}: ProductCardProps) {
+function ProductCard({ product }: ProductCardProps) {
+    const add = useCartStore((store) => store.add)
+
     return (
         <li>
             <article className="product-card">
@@ -23,7 +24,11 @@ export default function ProductCard({
                         <OfferBadge offer={product.offer} />
                     )}
                 </div>
-                <h3 className="product-card__title">{product.name}</h3>
+                <h3 className="product-card__title">
+                    <Link to="/product/$productId" params={{ productId: String(product.id) }}>
+                        {product.name}
+                    </Link>
+                </h3>
                 <p className="product-card__unit">{product.unit}</p>
                 <p
                     className="product-card__tags"
@@ -40,11 +45,12 @@ export default function ProductCard({
                     />
                     <AddToCartButton
                         product={product}
-                        inStock={!product.isUnavailable}
-                        onAdd={onAdd}
+                        onAdd={(id) => add(id, product.stockQuantity)}
                     />
                 </div>
             </article>
         </li>
     )
 }
+
+export default memo(ProductCard)
