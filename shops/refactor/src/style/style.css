@@ -2,6 +2,9 @@
 @import "./header.css";
 @import "./navbar.css";
 @import "./support.css";
+@import "./notfound.css";
+@import "./CheckoutPage.css";
+@import "./ProductPage.css";
 @import "./varible.css";
 *,
 *,
@@ -1282,14 +1285,10 @@ main>section+section {
 .shop-layout {
     display: grid;
     grid-template-columns: 1fr !important;
-    /* اجبار به استفاده از یک ستون تمام‌عرض */
     gap: 24px;
     width: 100%;
     margin: 0 auto;
 }
-
-
-/* ---------- Cart Drawer (fixed to the left edge) ---------- */
 
 .cart-overlay {
     position: fixed;
@@ -1539,6 +1538,11 @@ main>section+section {
 
 .cart-empty-emoji {
     font-size: 2.6rem;
+}
+
+.theme-toggle svg {
+    width: 20px;
+    height: 20px;
 }
 
 @media (prefers-reduced-motion: reduce) {

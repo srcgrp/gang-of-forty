@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-export type IconName = 'search' | 'cart' | 'menu' | 'close' | 'grid' | 'arrow-up' | 'arrow-down'
+export type IconName = 'search' | 'cart' | 'menu' | 'close' | 'grid' | 'arrow-up' | 'arrow-down' | 'check'
 
 const SHAPES: Record<IconName, ReactNode> = {
   search: (<><circle cx="11" cy="11" r="7" /><path d="M20 20l-4-4" /></>),
@@ -9,6 +9,7 @@ const SHAPES: Record<IconName, ReactNode> = {
   close: <path d="M6 6l12 12M18 6L6 18" />,
   'arrow-up': <path d="M12 19V5M6 11l6-6 6 6" />,
   'arrow-down': <path d="M12 5v14M6 13l6 6 6-6" />,
+  check: <path d="M4 12l5 5L20 7" />,
   grid: (
     <>
       <rect x="4" y="4" width="7" height="7" rx="1.5" />

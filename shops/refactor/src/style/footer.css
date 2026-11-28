@@ -4,7 +4,7 @@
 
 .footer-inner {
     position: relative;
-    max-width: var(--container-max);
+    /* max-width: var(--container-max); */
     margin: 0 auto;
     padding: 42px 40px 90px;
     border-radius: 28px 28px 0 0;

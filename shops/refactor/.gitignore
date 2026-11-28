@@ -4,3 +4,6 @@ test-results/
 playwright-report/
 .env*.local
 *.log
+.vercel
+.env*
+.playwright-mcp

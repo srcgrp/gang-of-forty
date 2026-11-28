@@ -1,24 +1,33 @@
-
+import { useEffect } from 'react'
+import { Link } from '@tanstack/react-router'
+import { LuClipboardList } from 'react-icons/lu'
 import type { Category, ShopInfo } from '../types'
 import Icon from './Icon'
 import Logo from './Logo'
 import MainNav from './MainNav'
 import SearchBox from './SearchBox'
+import ThemeToggle from './ThemeToggle'
 import { formatNumber } from './format'
+import { cartCount } from '../features/cart/calculate'
+import { useCartStore } from '../hooks/useCartStore'
 
 type HeaderProps = {
-  shop: Pick<ShopInfo, 'notice' | 'slogan' | 'phone' | 'menu'>
+  shop: Pick<ShopInfo, 'name' | 'notice' | 'slogan' | 'phone' | 'menu'>
   categories: Category[]
-  cartCount: number
   query: string
   onQuery: (value: string) => void
   onOpenCart: () => void
   onPickCategory: (id: number | null) => void
 }
 
-export default function Header({ shop, categories, cartCount, query, onQuery,
+export default function Header({ shop, categories, query, onQuery,
   onOpenCart, onPickCategory }: HeaderProps) {
-  const count = formatNumber(cartCount)
+  const count = formatNumber(useCartStore((s) => cartCount(s.items)))
+
+  useEffect(() => {
+    document.title = `${shop.name} · 🛒 ${count}`
+  }, [shop.name, count])
+
   return (
     <header className="site-header">
       <div className="promo"><p id="shop-notice">{shop.notice}</p></div>
@@ -29,6 +38,10 @@ export default function Header({ shop, categories, cartCount, query, onQuery,
           <Logo /><span id="shop-slogan" className="shop-slogan">{shop.slogan}</span>
         </a>
         <div className="header-actions">
+          <ThemeToggle />
+          <Link className="icon-btn checkout-link" to="/checkout" aria-label="رفتن به صفحهٔ تسویه حساب">
+            <LuClipboardList size={22} />
+          </Link>
           <button type="button" className="icon-btn cart-toggle-btn" id="cart-count"
             onClick={onOpenCart} aria-label={`باز کردن سبد خرید، ${count} کالا`}>
             <Icon name="cart" /><span className="badge cart-badge" aria-hidden="true">{count}</span>

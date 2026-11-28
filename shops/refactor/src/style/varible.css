@@ -16,17 +16,9 @@
     --sale: #c6283a;
     --cream: #f4f2ea;
     --cream-line: #e6e2d3;
-    --surface: #14261f;
-    --bg: #0d1d17;
-    --ink: #f2f6f3;
-    --muted: #becdc3;
-    --field: #213b2e;
-    --line: #365443;
-    --mint: #214a34;
-    --green-night: #b9f3cb;
-    --green-deep: #075a3d;
-    --focus: #ffb968;
-    --on-orange: #1b1000;
+    --focus: #0e1a14;
+    --focus-gap: #fff;
+    --focus-ring: 3px solid #0e1a14;
     --font-body: "IRANSans", Tahoma, "Segoe UI", sans-serif;
     --font-head: "Morabba", "IRANSans", Tahoma, sans-serif;
     --container: 1240px;
@@ -41,9 +33,6 @@
     --sticky-offset: 16px;
     --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
     --dur: 0.22s;
-    --focus: #0e1a14;
-    --focus-gap: #fff;
-    --focus-ring: 3px solid #0e1a14;
     --logo-name: var(--green);
     --logo-sub: var(--muted);
     --shadow-1: 0 1px 3px rgba(10, 40, 28, 0.08);
@@ -51,4 +40,18 @@
     --dot-size: 6px;
     --nav-font-size: 12px;
     --nav-line-height: 16px;
+}
+
+[data-theme="dark"] {
+    --surface: #14261f;
+    --bg: #0d1d17;
+    --ink: #f2f6f3;
+    --muted: #becdc3;
+    --field: #213b2e;
+    --line: #365443;
+    --mint: #214a34;
+    --green-night: #b9f3cb;
+    --focus: #ffb968;
+    --focus-gap: #0d1d17;
+    --focus-ring: 3px solid #ffb968;
 }

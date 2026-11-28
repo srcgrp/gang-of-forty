@@ -4,7 +4,6 @@ import ProductCard from './ProductCard'
 
 type ProductGridProps = {
   products: ProductView[]
-  onAdd: (id: number) => void
   showToggle: boolean
   showAll: boolean
   onToggleAll: () => void
@@ -13,7 +12,7 @@ type ProductGridProps = {
 }
 
 export default function ProductGrid({
-  products, onAdd, showToggle, showAll, onToggleAll, showSaleButton, onShowSale,
+  products, showToggle, showAll, onToggleAll, showSaleButton, onShowSale,
 }: ProductGridProps) {
   return (
     <section className="catalog-section" id="catalog" aria-labelledby="catalog-title">
@@ -29,11 +28,10 @@ export default function ProductGrid({
         ) : (
           products.map((product) => (
             <ProductCard
-              key={product.id}
+             key={product.id}
               product={product}
               inStock={product.stock > 0}
               discount={product.percent > 0 ? product.percent : undefined}
-              onAdd={onAdd}
             />
           ))
         )}

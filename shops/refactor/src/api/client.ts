@@ -1,6 +1,6 @@
 import type { ApiFile } from '../types'
 
-const API_URL: string = import.meta.env.VITE_API_URL
+const API_URL: string = import.meta.env.VITE_API_URL ?? '/api'
 
 export const getJSON = async (file: ApiFile): Promise<unknown> => {
   const response = await fetch(`${API_URL}/${file}`)
