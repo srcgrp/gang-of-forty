@@ -1,0 +1,33 @@
+import { SHOP_PROFILE } from '../shop-profile';
+import type { Category, Home, Offer, Product, Shop, StockData } from '../types';
+import { fetchChecked, fetchList } from './client';
+import {
+  isCategory,
+  isHome,
+  isOffer,
+  isProduct,
+  isShop,
+  isStock,
+} from './guards';
+
+const BASE = import.meta.env.VITE_API_URL ?? '/api';
+
+export const fetchProducts = (): Promise<Product[]> =>
+  fetchList(`${BASE}/products.json`, isProduct);
+
+export const fetchOffers = (): Promise<Offer[]> =>
+  fetchList(`${BASE}/offers.json`, isOffer);
+
+export const fetchCategories = (): Promise<Category[]> =>
+  fetchList(`${BASE}/categories.json`, isCategory);
+
+export const fetchStock = (): Promise<StockData> =>
+  fetchChecked(`${BASE}/stock.json`, isStock);
+
+export const fetchShop = async (): Promise<Shop> => ({
+  ...(await fetchChecked(`${BASE}/shop.json`, isShop)),
+  ...SHOP_PROFILE,
+});
+
+export const fetchHome = (): Promise<Home> =>
+  fetchChecked(`${BASE}/home.json`, isHome);
