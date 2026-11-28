@@ -1,60 +1,28 @@
-import { Notyf } from 'notyf'
-import 'notyf/notyf.min.css'
-import { useEffect, useState } from 'react'
-import type { CartLine, LoadState } from './shared/types'
-import { loadShopData } from './shared/data/api/shop-data'
-import { loadCart, saveCart } from './features/cart/data/storage'
-import { addToCart, cartCount, cartTotal, removeFromCart } from './features/cart/cart'
-import LoadStatus from './components/LoadStatus'
-import Storefront from './components/Storefront'
+import { createHashHistory, createRootRoute, createRoute, createRouter, RouterProvider } from '@tanstack/react-router'
+import Layout from './components/Layout'
+import HomePage from './components/pages/HomePage'
+import PlpPage from './components/pages/PlpPage'
+import ProductPage from './components/pages/ProductPage'
+import CheckoutPage from './components/pages/CheckoutPage'
+import NotFound from './components/pages/NotFound'
 
-const pageTitle = document.title
-const notyf = new Notyf({ duration: 2000, position: { x: "left", y: "top" } })
+const rootRoute = createRootRoute({ component: Layout, notFoundComponent: NotFound })
+const homeRoute = createRoute({ getParentRoute: () => rootRoute, path: '/', component: HomePage })
+const plpRoute = createRoute({
+    getParentRoute: () => rootRoute, path: '/plp/$carouselId', component: PlpPage,
+    validateSearch: (search: Record<string, unknown>): { sort: 'default' | 'price' } => ({
+        sort: search.sort === 'price' ? 'price' : 'default',
+    }),
+})
+const productRoute = createRoute({ getParentRoute: () => rootRoute, path: '/product/$productId', component: ProductPage })
+const checkoutRoute = createRoute({ getParentRoute: () => rootRoute, path: '/checkout', component: CheckoutPage })
+const routeTree = rootRoute.addChildren([homeRoute, plpRoute, productRoute, checkoutRoute])
+const router = createRouter({ routeTree, history: createHashHistory() })
+
+declare module '@tanstack/react-router' {
+    interface Register { router: typeof router }
+}
 
 export default function App() {
-    const [loadState, setLoadState] = useState<LoadState>({ status: 'loading' })
-    const [shopData, setShopData] = useState<Awaited<ReturnType<typeof loadShopData>> | null>(null)
-    const [categoryId, setCategoryId] = useState<number | null>(null)
-    const [cart, setCart] = useState<CartLine[]>(() => loadCart())
-    const [query, setQuery] = useState('')
-    const [retryCount, setRetryCount] = useState(0)
-
-    useEffect(() => {
-        let ignore = false
-        loadShopData().then(data => {
-            if (ignore) return
-            setShopData(data)
-            setLoadState(data.products.length ? { status: 'success', products: data.products } : { status: 'empty' })
-        }).catch((error: unknown) => {
-            if (ignore) return
-            console.error('Storefront loading failed:', error instanceof Error ? error.message : String(error))
-            setLoadState({ status: 'error', message: 'بارگذاری فروشگاه انجام نشد. اتصال را بررسی کنید و دوباره تلاش کنید.' })
-        })
-        return () => { ignore = true }
-    }, [retryCount])
-
-    useEffect(() => { saveCart(cart) }, [cart])
-    useEffect(() => {
-        const count = cartCount(cart)
-        document.title = count ? `(${count}) ${pageTitle}` : pageTitle
-    }, [cart])
-
-    const handleAdd = (id: number) => {
-        setCart(current => addToCart(current, id))
-        notyf.success("به سبد خرید اضافه شد")
-    }
-    const handleRemove = (id: number) => setCart(current => removeFromCart(current, id))
-    const handleClear = () => setCart([])
-    const handleRetry = () => {
-        setLoadState({ status: 'loading' })
-        setRetryCount(current => current + 1)
-    }
-
-    if (loadState.status !== 'success') return <LoadStatus state={loadState} onRetry={handleRetry} />
-    if (shopData === null) return null
-
-    return <Storefront data={shopData} categoryId={categoryId} cart={cart}
-        count={cartCount(cart)} total={cartTotal(cart, loadState.products)}
-        query={query} onQueryChange={setQuery} onPick={setCategoryId}
-        onAdd={handleAdd} onRemove={handleRemove} onClear={handleClear} />
+    return <RouterProvider router={router} />
 }

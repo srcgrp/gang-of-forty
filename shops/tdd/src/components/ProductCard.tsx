@@ -1,16 +1,18 @@
 import type { Product } from '../shared/types'
+import { memo } from 'react'
+import { Link } from '@tanstack/react-router'
+import AddToCartButton from './AddToCartButton'
 import Price from './Price'
 import OfferBadge from './OfferBadge'
 
 type ProductCardProps = {
     product: Product
-    onAdd: (id: number) => void
     offerPercent?: number
     stock?: number
     cardId?: string
 }
 
-export default function ProductCard({ product, onAdd, offerPercent, stock, cardId }: ProductCardProps) {
+export default memo(function ProductCard({ product, offerPercent, stock, cardId }: ProductCardProps) {
     const unavailable = stock === 0
 
     return (
@@ -19,13 +21,12 @@ export default function ProductCard({ product, onAdd, offerPercent, stock, cardI
                 <span className="product-icon" aria-hidden="true">{product.emoji}</span>
                 {offerPercent !== undefined && <OfferBadge percent={offerPercent} />}
             </div>
-            <h3>{product.name}</h3>
+            <h3><Link className="product-title-link" to="/product/$productId" params={{ productId: String(product.id) }}>{product.name}</Link></h3>
             <p className="product-amount">{product.unit}</p>
             {unavailable && <p className="stock-status">ناموجود</p>}
             <Price value={product.price} {...(offerPercent !== undefined && { offerPercent })} />
-            <button className="add-button" type="button" aria-label={`افزودن ${product.name} به سبد خرید`} disabled={unavailable} onClick={() => onAdd(product.id)}>
-                افزودن به سبد <span aria-hidden="true">{unavailable ? '×' : '+'}</span>
-            </button>
+            <Link className="listing-link product-view-link" to="/product/$productId" params={{ productId: String(product.id) }} aria-label={`نمایش محصول ${product.name}`}>نمایش محصول</Link>
+            <AddToCartButton product={product} unavailable={unavailable} />
         </article>
     )
-}
+})

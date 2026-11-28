@@ -1,4 +1,5 @@
-import type { CartLine, Product } from '../../shared/types'
+import type { CartLine, Product, Offer } from '../../shared/types'
+import { discountedPrice } from '../products/products'
 
 export function addToCart(cart: CartLine[], productId: number): CartLine[] {
     const line = cart.find(item => item.productId === productId)
@@ -15,9 +16,10 @@ export function cartCount(cart: CartLine[]): number {
     return cart.reduce((count, item) => count + item.quantity, 0)
 }
 
-export function cartTotal(cart: CartLine[], products: Product[]): number {
+export function cartTotal(cart: CartLine[], products: Product[], offers: Offer[]): number {
     return cart.reduce((total, item) => {
         const product = products.find(entry => entry.id === item.productId)
-        return total + (product ? product.price * item.quantity : 0)
+        const offer = offers.find(entry => entry.productId === item.productId)
+        return total + (product ? discountedPrice(product, offer) * item.quantity : 0)
     }, 0)
 }

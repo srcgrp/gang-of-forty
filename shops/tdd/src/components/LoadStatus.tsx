@@ -1,7 +1,7 @@
 import type { LoadState } from '../shared/types'
 
 type LoadStatusProps = {
-    state: Exclude<LoadState, { status: 'success' }>
+    state: Exclude<LoadState<unknown>, { status: 'success' }>
     onRetry: () => void
 }
 
@@ -24,11 +24,11 @@ export default function LoadStatus({ state, onRetry }: LoadStatusProps) {
     }
 
     return (
-        <main id="main-content" aria-busy={state.status === 'loading'}>
+        <section aria-busy={state.status === 'loading'}>
             <p className={state.status === 'error' ? 'page-status is-error' : 'page-status'} role={state.status === 'error' ? 'alert' : 'status'} aria-live="polite">
                 {message}
             </p>
             {state.status === 'error' && <button type="button" onClick={onRetry}>تلاش دوباره</button>}
-        </main>
+        </section>
     )
 }

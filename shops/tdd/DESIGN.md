@@ -1,52 +1,70 @@
-# Sam Market — design on one page
+# Sam Market — design
 
 ## 1. What must it do? (requirements)
 
-Sam Market is a single-page supermarket website. Customers can browse products and categories, search for products, check prices, discounts and stock, and add available products to the cart. The cart stores each product and its quantity in localStorage, so it stays after a page refresh. Clearing the cart requires confirmation.
+Sam Market is a supermarket website with a home page, product listing pages (PLPs), and individual product pages. Customers can browse categories, search for products, check prices and stock, switch between light and dark themes, and add available products to the cart.
 
-The home page features carousels for dairy products and special offers, using data from the API. Customers can add products directly from these carousels to the cart. Other categories are available through navigation links and their own product sections, without separate home-page carousels.
+The home page shows up to six products per carousel from `home.json`. Each "View all" link opens a PLP with all products in that carousel. Category links also open a PLP. Both pages use the same `ProductCard`.
 
-Not included: checkout, placing orders, or user accounts.
+The theme and cart survive a refresh. The cart shows quantities, item count, and a total including discounts. Clearing it manually requires confirmation. A checkout form validates customer details, then clears the cart and returns home. This is a frontend exercise; payment, server-side order creation, and user accounts are not included.
 
-## 2. Screens and parts
+## 2. Routes and screens
 
-- **Header:** logo, shop notice, search form, cart count, clear-cart button, and desktop/mobile navigation
-- **Home:** hero banner, promotions, dairy and offer carousels, and a side banner loaded from `home.json`
-- **Category list:** category links from the API and product sections for each category
-- **Search results:** Fuse.js search results, including a message when nothing matches. The search term and selected category stay in the URL, so the same results can be shared or restored after a refresh
-- **Product card:** product name, emoji, unit, original or discounted price, stock status, and add button
-- **Cart:** product rows with quantities, total item count, total price, Notyf success message, and SweetAlert2 confirmation before clearing
-- **Story and footer:** Sam Market's custom story is written in the project rather than fetched from the API (cus it's mine and not in JSON files - other parts of footer are fetched from API). Shop information, address, phone number, opening hours, and footer links come from the API
+Routes are defined in `src/App.tsx` using TanStack Router. `createHashHistory()` keeps the route after `#`, so a URL such as `/shops/tdd/#/plp/dairy` works on static hosting without server route rewrites.
 
-### React component tree
+| Address | Page | Where the data comes from |
+| --- | --- | --- |
+| `/` (browser: `/#/`) | `HomePage` → `Storefront` | `useCatalogData()` reads the shared catalog; `ProductGrid` uses `carouselProducts()` and shows the first six products per carousel |
+| `/plp/$carouselId` (browser: `/#/plp/dairy?sort=price`) | `PlpPage` | `useParams()` reads the ID; `useSearch()` reads the validated sort; `useCatalogData()` reads the shared catalog; `carouselProducts()` selects the list and `sortProducts()` orders it |
+| `/plp/<unknown-id>` | `PlpPage` with a "list not found" message | `carouselProducts()` returns `null` when neither a carousel ID nor a category slug matches |
+| `/product/$productId` (browser: `/#/product/201`) | `ProductPage` | `useParams({ from: '/product/$productId' })` reads the ID; `useCatalogData()` reads the shared catalog; `Number(productId)` is used to find the product, or show "product not found" |
+| `/checkout` (browser: `/#/checkout`) | `CheckoutPage` | Local controlled form state; `validateCheckout()` derives errors; the cart store provides `clear()` |
+| Any unmatched path | `NotFound` | Static message and a link home; no page-specific fetch |
 
-`src/main.tsx` mounts `App` inside React Strict Mode. `App` owns the application state and event handlers. It renders the loading status until the API data is ready, then passes data and callbacks to `Storefront`.
+`carouselProducts()` first checks the carousel configurations. It selects offer products or products in the configured category. If there is no carousel with that ID, it tries a category slug. A valid list without products shows an empty-list message.
+
+The PLP accepts `sort=default` or `sort=price`. `validateSearch` returns `default` for missing or invalid values. The "Default" and "Cheapest" links update the URL; `sortProducts()` preserves API order for default and sorts a copy by the final discounted unit price for cheapest. There is no extra sorting state in React or localStorage.
+
+`App` registers the route tree and router type through `Register`, then renders `RouterProvider`. This lets TypeScript check route links and parameter names. `PlpPage` and `ProductPage` read their parameters using `useParams({ from })`; `Layout` uses `useParams({ strict: false })` because it also renders on routes without `carouselId`.
+
+### Shared layout and component trees
+
+`src/main.tsx` mounts `App` inside Strict Mode. After the layout's catalog loads, the tree below contains the matched page in `Outlet`; the page branches are alternatives.
 
 ```text
-main.tsx
-└── App
-    ├── LoadStatus
-    └── Storefront
-        ├── Header
-        │   ├── CartPanel
-        │   └── CategoryNav
-        ├── Hero
-        ├── SearchResults
-        ├── PromoGrid
-        ├── CategoryGrid
-        ├── ProductGrid
-        │   └── ProductCard
-        │       ├── OfferBadge
-        │       └── Price
-        ├── SideBanner
-        ├── StoreStory
-        ├── About
-        └── Footer
+App → RouterProvider
+└── Layout
+    ├── Header
+    │   ├── SearchBox
+    │   ├── ThemeToggle
+    │   ├── CartPanel
+    │   └── CategoryNav
+    ├── main
+    │   ├── SearchResults → ProductCard
+    │   └── Outlet
+    │       ├── HomePage → Storefront
+    │       │   ├── Hero
+    │       │   ├── SaleCountdown
+    │       │   ├── PromoGrid
+    │       │   ├── CategoryGrid
+    │       │   ├── ProductGrid → ProductCard
+    │       │   ├── SideBanner
+    │       │   ├── StoreStory
+    │       │   └── About
+    │       ├── PlpPage → ProductCard
+    │       ├── ProductPage → Price / OfferBadge / AddToCartButton
+    │       ├── CheckoutPage → form (name / mobile / address)
+    │       └── NotFound
+    └── Footer
 ```
+
+`Layout` uses `LoadStatus` for loading, empty, or error states. `ProductCard` renders `Price`, an optional `OfferBadge`, and `AddToCartButton`. Product titles and a "View product" link above the add button open the product page, which shows the name, unit, and price and uses the same add button. The add button is disabled when stock is zero; viewing the product remains available. Not-found messages link back home.
+
+`StoreStory` and `About` contain project-specific content. Banners, promotions, categories, shop details, and footer links come from the API.
 
 ## 3. Data (types.ts)
 
-All shared shop data models are defined in `src/shared/types.ts` and imported with `import type` where needed. The file also contains reusable utility types and an `as const` list for fixed options.
+Shared models live in `src/shared/types.ts` and are imported with `import type` where needed.
 
 | Type | Main fields |
 | --- | --- |
@@ -55,134 +73,90 @@ All shared shop data models are defined in `src/shared/types.ts` and imported wi
 | `Category` | `id`, `slug`, `name`, `emoji`, `color` |
 | `Stock` | `updatedAt`, `items: Record<number, number>` |
 | `Offer` | `productId`, `percent`, `label` |
-| `Shop` | name, slogan, contact information, opening hours, delivery settings, navigation links, and other shop details |
-| `Home` | hero, side banner, promotions, and carousel configurations |
+| `Shop` / `ShopDetails` | Shop content, contact details, opening hours, delivery settings, and links; `ShopDetails` is `Readonly<Shop>` |
+| `Home` | Hero, side banner, promotions, and carousel configurations |
+| `Catalog` | `products`, `stock`, `offers`, `categories`, `shop`, `home` |
+| `LoadState<T>` | `loading`, `success` with `data: T`, `empty`, or `error` with a message |
 
-The cart is an array of `CartLine` objects. Each line stores a product ID and its quantity.
+The cart only stores product IDs and quantities. Product names, prices, and offers come from the current catalog.
 
-## 4. Where does each piece live?
+## 4. Stores and state ownership
 
-| Owner | Data |
-| --- | --- |
-| **Server / API** | products, categories, prices, stock, discounts, home content, and shop information |
-| **React state** | `loadState`, `shopData`, `categoryId`, and `cart` |
-| **localStorage** | `tdd:w5:cart`, used to restore the cart lines and quantities after a refresh |
-| **URL** | `?category=<slug>&q=<term>` stores the selected category and search term. `#section` links to a section or product. Both filters survive a refresh and browser Back/Forward |
-| **Project files** | `StoreStory` and other static storefront content in `src/components/` |
-| **Environment** | public API base URL through `VITE_API_URL` |
+| Store / definition | What it holds | Who changes it | Who reads it | Persistence |
+| --- | --- | --- | --- | --- |
+| Theme: `src/hooks/useThemeStore.ts` | `theme: 'light' \| 'dark'`, `toggle()` | `ThemeToggle` calls `toggle()` | `Layout` applies `data-theme`; `ThemeToggle` reads the theme and action | Zustand `persist`, localStorage key `tdd-theme` |
+| Cart: `src/hooks/useCartStore.ts` | `lines: CartLine[]`, `add()`, `remove()`, `clear()` | `AddToCartButton` adds; `CartPanel` removes or clears after confirmation; `CheckoutPage` clears after a valid submit | `AddToCartButton` selects `add`; `CartPanel` selects lines, count, remove, and clear; `CheckoutPage` selects `clear` | Initialized with `loadCart()`; a store subscription calls `saveCart()`, using key `tdd:w5:cart` |
 
-Only `src/shared/data/url.ts` reads or writes the URL. Category links update the category parameter, and submitting a search updates `q`. Search results are filtered by the category when one is selected.
+### Why Zustand for the cart?
 
-The displayed discounted price is calculated from the product price and offer percentage. A product with zero stock has a disabled add button.
+I chose Zustand because it is already used for the theme and lets each component select the cart state or actions it needs without a Provider or passing cart props through other components. `useCartStore` reuses the existing pure cart functions, while loading and saving still go through the storage module. This keeps the change small and follows the same store pattern for both theme and cart.
 
-**Security:** Everything sent to the browser, including `VITE_*` values, is public. No secrets should go into frontend code or public environment variables. localStorage can also be edited by users. In a real checkout flow, the server must recalculate prices, verify stock, and validate the final total instead of trusting browser values.
+`useThemeStore()` subscribes to the whole store. `useThemeStore(s => s.theme)` selects only the theme, so changes to other fields would not cause that subscriber to render. The cart uses the same selector pattern; `AddToCartButton` subscribes to the stable `add` action rather than the cart lines.
 
-## 5. API (what we fetch, and when)
+### Rendering
 
-Six JSON requests run together when the page starts:
+`ProductCard` is wrapped in React `memo`, using the default shallow comparison. When a parent renders with the same product reference, stock, offer percentage, and card ID, the card can skip rendering. Changed props still update the card normally.
 
-| GET | Type | Used for |
+All store reads in components use selectors. Only `CartPanel`, inside `Header`, reads the cart lines and count; the add button selects the stable `add` action. Adding a product therefore updates the cart panel without subscribing the page or product cards to the cart contents. `memo` handles unchanged props from parent renders, while selectors limit updates caused by store changes.
+
+### Other state and derived values
+
+- `useCatalog()` owns `LoadState<Catalog>` and the retry counter in `Layout`. Pages read the loaded catalog through `useCatalogData()`.
+- `Layout` owns the search `query`. Fuse.js results update as the user types. The query stays while navigating inside the mounted layout, but resets after a refresh and is not stored in the URL.
+- `CheckoutPage` owns the name, mobile, address, and `submitted` flag. Errors are calculated from the field values on each render and only displayed after the first submit. Name and address must not be blank; mobile must have 11 digits and start with 09 (English or Persian digits). The form values are not persisted.
+- The router owns the active route and `carouselId`. `Layout` derives the selected category from the carousel or category slug and uses it to filter search results.
+- `cartCount(lines)` derives the number of items. `cartTotal(lines, products, offers)` derives the total using `discountedPrice()` for each unit before multiplying by quantity. Neither value is stored separately.
+- `CartPanel` updates the document title when the count changes. Cart persistence is handled by the store subscription, not a component effect.
+- Theme CSS variables are selected by `.app[data-theme]`. The theme wrapper covers the header, main content, and footer.
+
+## 5. API and loading
+
+The layout's `useCatalog()` hook runs `loadShopData()` on mount and when retrying. The six requests below run together with `Promise.all`.
+
+| GET relative to `VITE_API_URL` | Type | Used for |
 | --- | --- | --- |
-| `${import.meta.env.VITE_API_URL}/products.json` | `Product[]` | product cards and search |
-| `${import.meta.env.VITE_API_URL}/stock.json` | `Stock` | product availability |
-| `${import.meta.env.VITE_API_URL}/offers.json` | `Offer[]` | discounts and the offers carousel |
-| `${import.meta.env.VITE_API_URL}/categories.json` | `Category[]` | category navigation and sections |
-| `${import.meta.env.VITE_API_URL}/shop.json` | `Shop` | shop details and navigation |
-| `${import.meta.env.VITE_API_URL}/home.json` | `Home` | banners, promotions, and home carousels |
+| `/products.json` | `Product[]` | Product cards, search, and cart totals |
+| `/stock.json` | `Stock` | Product availability |
+| `/offers.json` | `Offer[]` | Discounts, cart totals, and the offers carousel |
+| `/categories.json` | `Category[]` | Navigation, category links, and category PLPs |
+| `/shop.json` | `ShopDetails` | Shop content and navigation |
+| `/home.json` | `Home` | Banners, promotions, and carousel configurations |
 
-The API layer returns `Promise<unknown>` from `getJSON(path)`, checks `response.ok`, and validates external data with Type Guards. Invalid products are skipped individually, and their count is logged to the console. A failed request or invalid required data produces a readable error state instead of a blank page.
+`Layout` loads one catalog for the header, search, cart, footer and active page. Route changes reuse that catalog through context.
 
-The API base URL comes from `import.meta.env.VITE_API_URL`: `/api` in `.env.development` (proxied to `https://gof.zzb.cx`) and `../../api` in `.env.production`. Requests use this base rather than hard-coded deployment paths.
+`getJSON()` checks `response.ok` and returns `Promise<unknown>`. Type Guards validate external data. Invalid products are skipped individually and their count is logged; other invalid required data or a failed request produces an error state.
 
-## 6. States of each screen
+`useCatalog()` starts in `loading`, then sets `success`, `empty` when there are no products, or `error`. Cleanup ignores results from an old effect after unmount or retry. `LoadStatus` renders the message and a retry button for errors. A valid PLP can also have zero products even when the catalog itself is not empty.
 
-| State | Owner | Changed by | Storage |
-| --- | --- | --- | --- |
-| `loadState` | `App` | API loading effect: loading, success, empty, or error | React state only; loaded again when the app starts |
-| `shopData` | `App` | API loading effect after `loadShopData()` succeeds | React state only; fetched again when the app starts |
-| `categoryId` | `App` | Category selection callback passed to navigation, category cards, promotions, and banners | React state only |
-| `cart` | `App` | Add, remove, and clear event handlers | `localStorage` key `tdd:w5:cart`; restored by `loadCart()` and saved by `saveCart()` |
+The API base is `/api` in `.env.development` and `../../api` in `.env.production`. Vite proxies `/api` to `https://gof.zzb.cx` in both dev and preview. `VITE_*` values are public frontend configuration.
 
-### Derived values (not state)
+## 6. Navigation and persistence
 
-These values are calculated from existing state or API data when rendering:
+Navigation uses TanStack `Link`: carousel "View all" links and category links go to PLPs, while section links use router hashes. `Storefront` scrolls to the requested home section after its content mounts.
 
-- Cart item count, calculated by `cartCount(cart)`.
-- Cart total, calculated by `cartTotal(cart, products)`.
-- Product availability and offer details, derived from stock and offer data in `ProductGrid`.
-- Discounted prices, calculated by `Price` from the original price and offer percentage.
+Refreshing a PLP restores the route and sorting from the URL, theme from `tdd-theme`, and cart lines from `tdd:w5:cart`; catalog data is fetched again. Back and Forward restore the chosen sorting. Category and carousel links start with default sorting; same-page section links preserve the current search parameters.
 
-The cart count is also reflected in the page title through an effect. Cart changes are saved to localStorage through an effect.
+Only cart IDs and quantities are persisted, so totals are recalculated with the loaded products and offers. The storage module validates saved cart lines and handles unreadable storage by returning an empty cart.
 
-Loading is represented by a `LoadState` discriminated union. A `switch` on `status` in `LoadStatus` handles loading, empty, and error states. Successful data is rendered by `Storefront`.
+The header links to checkout. Each field has a label, controlled value, and ref. `noValidate` disables native validation popups so the submit handler can focus the first invalid field using `useRef`. Errors update as the user edits after submitting. A valid submit calls `clear()` and `navigate({ to: '/', replace: true })`, replacing the checkout history entry with home. It does not send an order request.
 
-## 7. Folders
+For deployment, Vite uses `base: './'`. `npm run build` generates relative asset paths in `dist/`, which can be served under `/shops/tdd/`. `dist/` and `node_modules/` are not committed.
 
-Project structure:
+## 7. Where does each piece live?
 
-```text
-shops/tdd/
-  index.html
-  style.css
-  DESIGN.md
-  package.json
-  package-lock.json
-  tsconfig.json
-  vite.config.ts
-  check-arch.mjs
-  .env.development
-  .env.production
-  src/
-    main.tsx
-    App.tsx
-    components/
-      About.tsx
-      CartPanel.tsx
-      CategoryGrid.tsx
-      CategoryNav.tsx
-      Footer.tsx
-      Header.tsx
-      Hero.tsx
-      LoadStatus.tsx
-      OfferBadge.tsx
-      Price.tsx
-      ProductCard.tsx
-      ProductGrid.tsx
-      PromoGrid.tsx
-      SearchResults.tsx
-      SideBanner.tsx
-      Storefront.tsx
-      StoreStory.tsx
-    shared/
-      types.ts
-      data/
-        api/
-          client.ts
-          guards.ts
-          shop-data.ts
-          shop-guards.ts
-        url.ts
-    features/
-      cart/
-        cart.ts
-        controller.ts
-        count.ts
-        data/
-          storage.ts
-      products/
-        products.ts
-        search.ts
-```
-
-- `src/main.tsx`: React entry point; mounts `App` inside Strict Mode.
-- `src/App.tsx`: owns application state, effects, and event handlers, then passes data and callbacks to the page components.
-- `src/components/`: React components for the storefront, including `Storefront` which composes the page, and smaller components for its sections and controls.
-- `src/shared/types.ts`: shared API types and utility types.
+- `src/main.tsx`: React entry point and Strict Mode.
+- `src/App.tsx`: route tree, router registration, and `RouterProvider`.
+- `src/components/Layout.tsx`: shared theme wrapper, header, search, outlet, and footer.
+- `src/components/pages/`: `HomePage`, `PlpPage`, `ProductPage`, `CheckoutPage`, and `NotFound`.
+- `src/components/`: page sections, cards, and controls.
+- `src/hooks/`: theme and cart stores, plus the catalog loading hook.
+- `src/shared/types.ts`: shared models and the load-state union.
 - `src/shared/data/api/`: API requests and Type Guards; the only place that uses `fetch`.
-- `src/shared/data/url.ts`: URL filter and hash helpers.
-- `src/features/cart/`: pure cart operations in `cart.ts` and localStorage persistence in `data/storage.ts`. The older `controller.ts` and `count.ts` modules remain in the folder but are not used by the React app.
-- `src/features/products/`: product rules and search logic.
+- `src/features/cart/`: pure cart operations and persistence in `data/storage.ts`.
+- `src/features/products/`: product selection, discount calculation, and Fuse.js search.
+- `src/features/checkout/`: form values type and pure validation rules.
+- `style.css`: layout, responsive styles, and theme variables.
 
-The old DOM-based UI folders and the old `src/main.ts` entry point have been removed. React components now live in `src/components/`, and `App.tsx` is the application state owner. Files stay under 70 lines, and there are no generic `utils.ts` or `helpers.ts` files. TypeScript checks use `noUncheckedIndexedAccess` and `exactOptionalPropertyTypes`. Feature import boundaries are checked with `node check-arch.mjs src --feature-based`. The class-specific required function names in that script do not match this storefront's simpler cart behavior.
+The older `src/shared/data/url.ts`, `src/features/cart/controller.ts`, and `src/features/cart/count.ts` remain in the project but are not used by the React app. Current navigation goes through the router.
 
-For deployment, Vite uses `base: './'` and the environment-specific API URL. `npm run build` generates a self-contained `dist/` with relative asset paths that can be served under `/shops/tdd/`.
+Pages and stores remain small; the TypeScript configuration includes `noUncheckedIndexedAccess` and `exactOptionalPropertyTypes`. `npm run check`, `npm run lint`, and `npm run build` verify the application. The required root command `node scripts/check-shop.mjs tdd` is currently unavailable because that script is missing from this repository version.

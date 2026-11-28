@@ -1,13 +1,13 @@
 import type { Category, HomeBanner } from '../shared/types'
-import heroImage from '../../1.jpg'
+import { Link } from '@tanstack/react-router'
+import heroImage from '../../hero.webp'
 
 type HeroProps = {
     data: HomeBanner
     categories: Category[]
-    onPick: (id: number) => void
 }
 
-export default function Hero({ data, categories, onPick }: HeroProps) {
+export default function Hero({ data, categories }: HeroProps) {
     const category = categories.find(item => data.cta.href === `#${item.slug}`)
 
     return (
@@ -17,14 +17,9 @@ export default function Hero({ data, categories, onPick }: HeroProps) {
                 <h1 id="hero-title">{data.title}</h1>
                 <p>{data.text}</p>
                 <div className="hero-actions">
-                    <a
-                        className="hero-primary-action"
-                        href={category ? '#category-products' : data.cta.href}
-                        onClick={category ? () => onPick(category.id) : undefined}
-                    >
-                        {data.cta.label}
-                    </a>
-                    <a className="hero-secondary-action" href="#about">داستان سام مارکت</a>
+                    {category ? <Link className="hero-primary-action" to="/plp/$carouselId" params={{ carouselId: category.slug }} search={{ sort: 'default' }}>{data.cta.label}</Link>
+                        : <a className="hero-primary-action" href={data.cta.href}>{data.cta.label}</a>}
+                    <Link className="hero-secondary-action" to="/" hash="about">داستان سام مارکت</Link>
                 </div>
                 <ul className="hero-benefits">
                     <li>قیمت‌های روشن</li><li>انتخاب روز</li><li>سبد به‌صرفه</li>
@@ -32,7 +27,7 @@ export default function Hero({ data, categories, onPick }: HeroProps) {
             </div>
             <div className="hero-visual">
                 <div className="hero-image-frame">
-                    <img src={heroImage} alt="نارنگی‌های تازه و رسیده در سبد محصول" />
+                    <img src={heroImage} width={718} height={400} alt="نارنگی‌های تازه و رسیده در سبد محصول" />
                 </div>
                 <p className="freshness-card">
                     <strong>انتخاب امروز سام</strong>

@@ -1,7 +1,7 @@
 import type { Product } from '../../types'
 import { isProduct } from './guards'
 
-const API_URL = import.meta.env.VITE_API_URL
+const API_URL = import.meta.env.VITE_API_URL ?? '/api'
 
 export const PRODUCTS_URL = `${API_URL}/products.json`
 export const STOCK_URL = `${API_URL}/stock.json`

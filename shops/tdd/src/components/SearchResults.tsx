@@ -6,10 +6,9 @@ type SearchResultsProps = {
     products: Product[]
     stock: Stock
     offers: Offer[]
-    onAdd: (id: number) => void
 }
 
-export default function SearchResults({ query, products, stock, offers, onAdd }: SearchResultsProps) {
+export default function SearchResults({ query, products, stock, offers }: SearchResultsProps) {
     if (!query.trim()) return null
 
     return (
@@ -28,7 +27,6 @@ export default function SearchResults({ query, products, stock, offers, onAdd }:
                                 key={product.id}
                                 product={product}
                                 {...(cardId && { cardId })}
-                                onAdd={onAdd}
                                 stock={stock.items[product.id] ?? 0}
                                 {...(offer && { offerPercent: offer.percent })}
                             />

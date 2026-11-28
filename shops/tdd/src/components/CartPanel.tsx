@@ -1,21 +1,31 @@
-import Swal from 'sweetalert2'
-import 'sweetalert2/dist/sweetalert2.min.css'
-import type { CartLine, Product } from '../shared/types'
+import { useEffect } from 'react'
+import { Link } from '@tanstack/react-router'
+import type { Product, Offer } from '../shared/types'
+import { useCartStore } from '../hooks/useCartStore'
+import { cartCount, cartTotal } from '../features/cart/cart'
 
 type CartPanelProps = {
-    cart: CartLine[]
     products: Product[]
-    count: number
-    total: number
-    onRemove: (productId: number) => void
-    onClear: () => void
+    offers: Offer[]
 }
 
-export default function CartPanel({ cart, products, count, total, onRemove, onClear }: CartPanelProps) {
+const pageTitle = document.title
+
+export default function CartPanel({ products, offers }: CartPanelProps) {
+    const cart = useCartStore(s => s.lines)
+    const count = useCartStore(s => cartCount(s.lines))
+    const remove = useCartStore(s => s.remove)
+    const clear = useCartStore(s => s.clear)
+    const total = cartTotal(cart, products, offers)
     const formatPrice = (value: number) => value.toLocaleString('fa-IR')
+
+    useEffect(() => {
+        document.title = count ? `(${count}) ${pageTitle}` : pageTitle
+    }, [count])
 
     const handleClear = async () => {
         if (!count) return
+        const { default: Swal } = await import('sweetalert2')
         const result = await Swal.fire({
             title: "سبد خرید خالی شود؟",
             icon: "warning",
@@ -24,14 +34,14 @@ export default function CartPanel({ cart, products, count, total, onRemove, onCl
             cancelButtonText: "انصراف",
             focusCancel: true
         })
-        if (result.isConfirmed) onClear()
+        if (result.isConfirmed) clear()
     }
 
     return (
         <div className="cart-actions">
             <details className="cart-widget">
                 <summary className="cart">
-                    سبد خرید 🛒 <strong aria-live="polite">{formatPrice(count)}</strong>
+                    <span><span className="cart-label">سبد خرید</span> <span className="cart-icon" aria-hidden="true">🛒</span></span> <strong aria-live="polite">{formatPrice(count)}</strong>
                 </summary>
                 <div className="cart-panel">
                     {cart.length === 0 ? <p>سبد خرید خالی است.</p> : cart.map(line => {
@@ -41,11 +51,18 @@ export default function CartPanel({ cart, products, count, total, onRemove, onCl
                         return (
                             <div className="cart-row" key={line.productId}>
                                 <span>{product.name} × {formatPrice(line.quantity)}</span>
-                                <button type="button" onClick={() => onRemove(line.productId)}>حذف</button>
+                                <button type="button" onClick={() => remove(line.productId)}>حذف</button>
                             </div>
                         )
                     })}
                     <p className="cart-total">جمع: {formatPrice(total)} تومان</p>
+                    <div className="cart-panel-actions">
+                        <Link className="listing-link checkout-link" to="/checkout" onClick={event => {
+                            const details = event.currentTarget.closest('details')
+                            if (details) details.open = false
+                        }}>تسویه حساب</Link>
+                        <button className="clear-cart" type="button" onClick={handleClear} disabled={count === 0}>خالی‌کردن سبد</button>
+                    </div>
                 </div>
             </details>
             <button className="clear-cart" type="button" onClick={handleClear} disabled={count === 0}>
