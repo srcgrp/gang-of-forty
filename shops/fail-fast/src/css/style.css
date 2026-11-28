@@ -2179,6 +2179,43 @@ img {
   }
 }
 
+/* Keep hero and section headings inside the mobile viewport. */
+@media (max-width: 680px) {
+  .banner01-content {
+    right: 5%;
+    left: 5%;
+    width: 90%;
+    justify-content: center;
+    flex-wrap: wrap;
+    text-align: center;
+    line-height: 1.35;
+    font-size: clamp(20px, 6vw, 30px) !important;
+  }
+
+  .banner01-sub {
+    right: 5%;
+    left: 5%;
+    width: 90%;
+    max-width: none;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  .section-title {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+  }
+
+  .section-title h2 {
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    line-height: 1.4;
+    font-size: clamp(18px, 5.5vw, 21px);
+  }
+}
+
 .logo {
   align-items: center;
   gap: 10px;
