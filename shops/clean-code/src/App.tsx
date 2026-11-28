@@ -1,44 +1,71 @@
-import { useEffect, useState } from "react";
-import ShopView from "./components/ShopView.tsx";
-import Status from "./components/Status.tsx";
-import { cartCount, removeFromCart } from "./features/cart/count.ts";
-import { useLoadShop } from "./hooks/useLoadShop.ts";
-import { loadCart, saveCart } from "./storage/cart-storage.ts";
-import type { CartLine } from "./types/product.ts";
+import {
+  createHashHistory,
+  createRootRoute,
+  createRoute,
+  createRouter,
+  RouterProvider,
+} from "@tanstack/react-router";
+import Layout from "./components/Layout";
+import CheckoutPage from "./components/pages/CheckoutPage";
+import HomePage from "./components/pages/HomePage";
+import NotFound from "./components/pages/NotFound";
+import PlpPage from "./components/pages/PlpPage";
+import ProductPage from "./components/pages/ProductPage";
 
-const API = import.meta.env.VITE_API_URL ?? "";
+const rootRoute = createRootRoute({
+  component: Layout,
+  notFoundComponent: NotFound,
+});
+
+const homeRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/",
+  component: HomePage,
+});
+
+const plpRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/plp/$carouselId",
+  component: PlpPage,
+  validateSearch: function (search: Record<string, unknown>): {
+    sort: "default" | "price";
+  } {
+    return {
+      sort: search.sort === "price" ? "price" : "default",
+    };
+  },
+});
+
+const productRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/product/$productId",
+  component: ProductPage,
+});
+
+const checkoutRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/checkout",
+  component: CheckoutPage,
+});
+
+const routeTree = rootRoute.addChildren([
+  homeRoute,
+  plpRoute,
+  productRoute,
+  checkoutRoute,
+]);
+
+const router = createRouter({
+  routeTree,
+  history: createHashHistory(),
+});
+
+declare module "@tanstack/react-router" {
+  interface Register {
+    router: typeof router;
+  }
+}
 
 export default function App() {
-  const { load, retry } = useLoadShop(API);
-  const [categoryId, setCategoryId] = useState<number | null>(null);
-  const [cart, setCart] = useState<CartLine[]>(loadCart);
-  const [query, setQuery] = useState("");
-
-  useEffect(
-    function () {
-      saveCart(cart);
-      document.title =
-        "تمیز مارکت · " + cartCount(cart).toLocaleString("fa-IR") + " 🛒";
-    },
-    [cart],
-  );
-
-  if (load.status !== "success") {
-    return <Status state={load} onRetry={retry} />;
-  }
-
-  return (
-    <ShopView
-      query={query}
-      onQuery={setQuery}
-      load={load}
-      categoryId={categoryId}
-      cart={cart}
-      onPick={setCategoryId}
-      onClear={function () {
-        setCart(removeFromCart());
-      }}
-      setCart={setCart}
-    />
-  );
+  return <RouterProvider router={router} />;
 }

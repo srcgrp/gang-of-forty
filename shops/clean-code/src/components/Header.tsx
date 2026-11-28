@@ -1,34 +1,44 @@
+import { useEffect } from "react";
+import { cartCount as countLines } from "../features/cart/count";
+import { useCartLines } from "../hooks/useCart";
+import { useCatalog } from "../hooks/useCatalog";
+import { useQueryStore } from "../hooks/useQueryStore";
 import CartIcon from "./CartIcon";
 import Logo from "./Logo";
 import MenuToggle from "./MenuToggle";
 import SearchBox from "./SearchBox";
+import ThemeToggle from "./ThemeToggle";
 
-type HeaderProps = {
-  cartCount: number;
-  query: string;
-  menu: { label: string; href: string }[];
-  onQuery: (value: string) => void;
-};
+export default function Header() {
+  const lines = useCartLines();
+  const cartCount = countLines(lines);
+  const { load } = useCatalog();
+  const query = useQueryStore((s) => s.query);
+  const setQuery = useQueryStore((s) => s.setQuery);
+  const menu = load.status === "success" ? load.shop.menu : [];
 
-export default function Header({
-  cartCount,
-  menu,
-  query,
-  onQuery,
-}: HeaderProps) {
+  useEffect(
+    function () {
+      document.title =
+        "تمیز مارکت · " + cartCount.toLocaleString("fa-IR") + " 🛒";
+    },
+    [cartCount],
+  );
+
   return (
     <header className="header">
       <div className="box header-top">
         <div className="brand">
-          <a href="#top">
+          <a href="#/">
             <Logo />
           </a>
           <div>
             <h1>سوپرمارکت تمیز</h1>
-            <p className="slogan">تازه، نزدیک، به‌صرفه</p>
+            <p className="slogan">تازه، نزدیک، به‌صرفه، خرید آنلاین</p>
           </div>
+          <ThemeToggle />
         </div>
-        <SearchBox query={query} onQuery={onQuery} />
+        <SearchBox query={query} onQuery={setQuery} />
         <a className="cart" href="#cart">
           <span className="cart-label">سبد خرید</span>
           <CartIcon />

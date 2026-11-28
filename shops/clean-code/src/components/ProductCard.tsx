@@ -1,3 +1,5 @@
+import { Link } from "@tanstack/react-router";
+import { memo } from "react";
 import type { Product } from "../types/product.ts";
 
 type ProductCardProps = {
@@ -7,12 +9,7 @@ type ProductCardProps = {
   onAdd: (id: number) => void;
 };
 
-export default function ProductCard({
-  product,
-  qty,
-  percent,
-  onAdd,
-}: ProductCardProps) {
+function ProductCard({ product, qty, percent, onAdd }: ProductCardProps) {
   const now =
     percent > 0
       ? Math.round((product.price * (100 - percent)) / 100)
@@ -27,7 +24,14 @@ export default function ProductCard({
           <span className="off">{percent.toLocaleString("fa-IR")}٪</span>
         ) : null}
       </div>
-      <h3>{product.name}</h3>
+      <h3>
+        <Link
+          to="/product/$productId"
+          params={{ productId: String(product.id) }}
+        >
+          {product.name}
+        </Link>
+      </h3>
       <p className="amount">
         {product.unit}
         {qty > 0 ? " · مانده " + qty.toLocaleString("fa-IR") : ""}
@@ -54,3 +58,5 @@ export default function ProductCard({
     </article>
   );
 }
+
+export default memo(ProductCard);

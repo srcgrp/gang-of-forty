@@ -7,6 +7,7 @@ type ProductGridProps = {
   offers: Offer[];
   onAdd: (id: number) => void;
   rowId?: string;
+  className?: string;
 };
 
 export default function ProductGrid({
@@ -15,9 +16,10 @@ export default function ProductGrid({
   offers,
   onAdd,
   rowId,
+  className,
 }: ProductGridProps) {
   return (
-    <ul className="row">
+    <ul className={className ?? "row"}>
       {products.map(function (product, index) {
         const offer = offers.find(function (item) {
           return item.productId === product.id;
