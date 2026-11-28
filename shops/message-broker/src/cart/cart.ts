@@ -1,4 +1,3 @@
-
 import type { CartLine, Offer, Product } from '../types'
 
 export type StoredCart = Record<string | number, number>

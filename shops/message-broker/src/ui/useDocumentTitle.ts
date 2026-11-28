@@ -1,11 +1,12 @@
-
 import { useEffect } from 'react'
+import { useCartStore } from '../hooks/useCartStore'
 import { cartCount } from '../cart/cart'
-import type { CartLine } from '../types'
 
-export function useDocumentTitle(cart: CartLine[]) {
+export function useDocumentTitle() {
+  const itemCount = useCartStore((s) => cartCount(s.lines))
+
   useEffect(() => {
-    const itemCount = cartCount(cart)
     document.title = `میوه فروشی من · ${itemCount} کالا`
-  }, [cart])
+  }, [itemCount])
 }
+
