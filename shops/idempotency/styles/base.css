@@ -8,3 +8,9 @@ body {
   color: var(--color-text);
   font-family: "Vazirmatn", sans-serif;
 }
+
+.app-shell {
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}

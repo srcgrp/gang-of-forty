@@ -1,107 +1,104 @@
-import 'notyf/notyf.min.css';
-
-import confetti from 'canvas-confetti';
-import {Notyf} from 'notyf';
 import {useEffect, useState} from 'react';
 
-import {loadData} from '../api';
-import {addToCart, decreaseCartQuantity} from './cart/cart';
-import AppContent from './components/AppContent';
-import {loadCart, saveCart} from './storage/cart';
+import {
+    createHashHistory,
+    createRootRoute,
+    createRoute,
+    createRouter,
+    RouterProvider,
+} from '@tanstack/react-router';
 
-import type {CartLine, LoadState} from './types';
+import Layout from './components/Layout';
+import CheckoutPage from './components/pages/CheckoutPage';
+import HomePage from './components/pages/HomePage';
+import NotFound from './components/pages/NotFound';
+import PlpPage from './components/pages/PlpPage';
+import ProductPage from './components/pages/ProductPage';
+import {AppProvider} from './context/AppContext';
+import {useCartStore} from './hooks/useCartStore';
+import {useCatalog} from './hooks/useCatalog';
 
-const notyf = new Notyf({
-    duration: 2000,
-    position: {
-        x: 'left',
-        y: 'top',
-    },
+const rootRoute = createRootRoute({
+    component: Layout,
+    notFoundComponent: NotFound,
 });
 
+const homeRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: '/',
+    component: HomePage,
+});
+
+const plpRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: '/plp/$carouselId',
+    validateSearch: (
+        search: Record<string, unknown>,
+    ): {sort: 'default' | 'price'} => ({
+        sort: search.sort === 'price' ? 'price' : 'default',
+    }),
+    component: PlpPage,
+});
+
+const productRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: '/product/$productId',
+    component: ProductPage,
+});
+
+const checkoutRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: '/checkout',
+    component: CheckoutPage,
+});
+
+const routeTree = rootRoute.addChildren([
+    homeRoute,
+    plpRoute,
+    productRoute,
+    checkoutRoute,
+]);
+
+const router = createRouter({
+    routeTree,
+    history: createHashHistory(),
+});
+
+declare module '@tanstack/react-router' {
+    interface Register {
+        router: typeof router;
+    }
+}
+
 export default function App() {
-    const [cart, setCart] = useState<CartLine[]>(() => loadCart());
+    const cart = useCartStore((state) => state.lines);
+    const {loadState, retry} = useCatalog();
+
     const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
         null,
     );
     const [query, setQuery] = useState('');
-    const [attempt, setAttempt] = useState(0);
-    const [loadState, setLoadState] = useState<LoadState>({status: 'loading'});
-
-    useEffect(() => {
-        let ignore = false;
-
-        loadData()
-            .then((data) => {
-                if (ignore) return;
-
-                setLoadState(
-                    data.products.length === 0
-                        ? {status: 'empty'}
-                        : {status: 'success', data},
-                );
-            })
-            .catch((error: unknown) => {
-                if (ignore) return;
-
-                setLoadState({
-                    status: 'error',
-                    message:
-                        error instanceof Error
-                            ? error.message
-                            : 'دریافت اطلاعات با خطا مواجه شد.',
-                });
-            });
-
-        return () => {
-            ignore = true;
-        };
-    }, [attempt]);
-
-    useEffect(() => {
-        saveCart(cart);
-    }, [cart]);
 
     useEffect(() => {
         if (loadState.status !== 'success') return;
 
         const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
-        document.title = `سوپرمارکت شایان (${itemCount})`;
+        document.title = `سوپرمارکت شایان | ${itemCount} کالا در سبد خرید`;
     }, [cart, loadState]);
 
-    const handleAdd = (id: number): void => {
-        setCart((previousCart) => addToCart(previousCart, id));
-
-        notyf.success('محصول به سبد خرید اضافه شد.');
-
-        confetti({
-            particleCount: 70,
-            spread: 65,
-            origin: {y: 0.7},
-        });
-    };
-
-    const handleRemove = (id: number): void => {
-        setCart((previousCart) => decreaseCartQuantity(previousCart, id));
-    };
-
-    const handleRetry = (): void => {
-        setLoadState({status: 'loading'});
-        setAttempt((previous) => previous + 1);
-    };
-
     return (
-        <AppContent
-            cart={cart}
-            loadState={loadState}
-            selectedCategoryId={selectedCategoryId}
-            onPickCategory={setSelectedCategoryId}
-            query={query}
-            onQuery={setQuery}
-            onAdd={handleAdd}
-            onRemove={handleRemove}
-            onRetry={handleRetry}
-        />
+        <AppProvider
+            value={{
+                loadState,
+                retry,
+                query,
+                onQuery: setQuery,
+                selectedCategoryId,
+                onPickCategory: setSelectedCategoryId,
+            }}
+        >
+            <RouterProvider router={router} />
+        </AppProvider>
     );
 }

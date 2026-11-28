@@ -1,17 +1,9 @@
-import type {
-  Category,
-  Offer,
-  CartLine,
-  LoadState,
-  Product,
-  Home
-} from '../types'
+import type {Category, Offer, CartLine, LoadState, Product, Home } from '../types'
 import { assertNever } from '../types'
 import CategoryNav from './CategoryNav'
 import ProductGrid from './ProductGrid'
 import CartPanel from './CartPanel'
 import Hero from './Hero'
-
 type Props = {
   categories: Category[]
   categoryId: number | null
@@ -25,7 +17,6 @@ type Props = {
   onAdd: (id: number) => void
   onRemove: (id: number) => void
 }
-
 export default function ShopContent(props: Props) {
   const {
     categories, categoryId, onPick, loadState,
@@ -55,7 +46,6 @@ export default function ShopContent(props: Props) {
   if (loadState.status !== 'success') {
     return assertNever(loadState)
   }
-
   return (
     <>
       <CategoryNav
@@ -63,19 +53,15 @@ export default function ShopContent(props: Props) {
         activeCategoryId={categoryId}
         onPick={onPick}
       />
-
       <section className="wrap" id="best-selling">
         <h2 id="best-title">پیشنهاد ویژه</h2>
         <ProductGrid products={special} offers={offers} onAdd={onAdd} />
       </section>
-
       <Hero id="posters-2" home={home} />
-
       <section className="wrap" id="new-products">
         <h2 id="new-title">محصولات</h2>
         <ProductGrid products={visible} offers={offers} onAdd={onAdd} />
       </section>
-
       <CartPanel
         cart={cart}
         products={products}

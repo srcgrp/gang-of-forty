@@ -109,3 +109,5 @@ export type BannerOptions = {
     titleTag: 'h1' | 'h2';
     buttonClass: string;
 };
+
+export type Theme = 'light' | 'dark';

@@ -1,23 +1,22 @@
-import type {CartLine, Product} from '../types';
+import {cartTotal} from '../cart/cart';
+import {useAddToCart} from '../hooks/useAddToCart';
+import {useCartStore} from '../hooks/useCartStore';
+
+import type {Product} from '../types';
 
 type CartPanelProps = {
-    cart: CartLine[];
     products: Product[];
-    total: number;
-    onAdd: (productId: number) => void;
-    onRemove: (productId: number) => void;
 };
 
 const faNumber = new Intl.NumberFormat('fa-IR');
 
-export default function CartPanel({
-    cart,
-    products,
-    total,
-    onAdd,
-    onRemove,
-}: CartPanelProps) {
+export default function CartPanel({products}: CartPanelProps) {
+    const cart = useCartStore((state) => state.lines);
+    const decrease = useCartStore((state) => state.decrease);
+    const addToCart = useAddToCart();
+
     const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const total = cartTotal(cart, products);
 
     return (
         <section className='cart-panel' aria-label='سبد خرید'>
@@ -68,7 +67,7 @@ export default function CartPanel({
                                         <button
                                             type='button'
                                             className='cart-quantity-button'
-                                            onClick={() => onRemove(product.id)}
+                                            onClick={() => decrease(product.id)}
                                             aria-label={`کاهش تعداد ${product.name}`}
                                         >
                                             −
@@ -81,7 +80,9 @@ export default function CartPanel({
                                         <button
                                             type='button'
                                             className='cart-quantity-button'
-                                            onClick={() => onAdd(product.id)}
+                                            onClick={() =>
+                                                addToCart(product.id)
+                                            }
                                             aria-label={`افزایش تعداد ${product.name}`}
                                         >
                                             +

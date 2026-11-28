@@ -1,0 +1,64 @@
+تحویل هفتهٔ پنجم — سطح اصلی، بدون بونس
+
+شاخه: feat/yasaman-w5-react
+مسیر پروژهٔ شخصی: shops/yasaman
+برای آکادمی نام شاخه باید feat/info-hiding-w5-react باشد.
+
+چک‌لیست اصلی:
+[x] shop.json با week برابر 5؛ React، React DOM و plugin-react نصب شده‌اند.
+[x] index.html فقط root و main.tsx در body دارد؛ main.tsx بدون ! است.
+[x] Header، CategoryNav، ProductGrid، ProductCard و CartPanel ساخته شده‌اند.
+[x] props نوع‌دار، destructuring، import type و key پایدار از id.
+[x] دسته و سبد با useState در App؛ توابع خالص سبد حفظ شده‌اند.
+[x] تعداد و جمع هنگام render محاسبه می‌شوند و State جدا نیستند.
+[x] API در یک Effect با deps خالی، Promise.all و ignore در cleanup.
+[x] LoadState و switch؛ خطای HTTP، JSON خراب و حالت خالی مدیریت می‌شوند.
+[x] lazy loadCart؛ Effect ذخیرهٔ cart و Effect عنوان تب.
+[x] main.ts و src/ui حذف؛ همهٔ فایل‌های TS/TSX حداکثر 70 خط.
+[x] check، lint و build بدون خطا؛ preview با API واقعی و Console پاک.
+[x] DESIGN.md شامل درخت کامپوننت‌ها، جدول State و پوشه‌های جدید.
+[ ] خروجی رسمی node scripts/check-shop.mjs <slug>؛ منتظر ابزار آکادمی.
+
+نکتهٔ بررسی رسمی:
+main عمومی مخزن srcgrp/gang-of-fourty در زمان بررسی، فایل‌های check-shop.mjs و
+check-arch.mjs را ندارد. ابزار هفتهٔ چهارم React را نمی‌شناسد و جایگزین معتبر نیست.
+پس از دریافت فایل‌های رسمی، از ریشهٔ مخزن آکادمی اجرا و خروجی کامل به PR اضافه شود.
+این چک‌لیست ادعای پاس شدن این بررسی را ندارد.
+
+هشدار واقعی هنگام مهاجرت:
+src/main.ts:41:14: warning eslint(no-unused-vars): Catch parameter 'error' is caught but never used.
+catch نام استفاده‌نشده داشت؛ به catch بدون متغیر تبدیل شد. سپس کل main.ts قدیمی
+در گام 5 حذف شد. lint نهایی بدون هشدار است و هیچ قانون lint خاموش نشده است.
+
+چرا جمع سبد State نیست؟
+جمع از سبد، قیمت محصولات و تخفیف‌ها به دست می‌آید. ذخیرهٔ جداگانه ممکن است باعث
+عقب ماندن جمع از تغییرات سبد شود. cartTotal هنگام render مقدار تازه را حساب می‌کند.
+
+اگر cleanup و ignore را برداریم چه می‌شود؟
+درخواست قبلی ممکن است پس از پاک شدن Effect یا شروع اجرای بعدی پاسخ دهد و State را
+با نتیجهٔ قدیمی به‌روز کند. در StrictMode توسعه، Effect آزمایشی هم اجرا می‌شود؛
+ignore پاسخ آن اجرای قبلی را کنار می‌گذارد. خود درخواست شبکه لغو نمی‌شود.
+
+تصویر preview: evidence-week5/preview.png
+نتایج مرورگر: evidence-week5/browser-checks.json
+تصاویر موبایل، سبد، loading، broken، missing و empty در همان پوشه‌اند.
+درخت کامپوننت‌ها و جدول State: DESIGN.md
+
+اجرا از پوشه‌ای که package.json دارد:
+npm ci
+npm run dev
+npm run check
+npm run lint
+npm run build
+npm run preview
+
+برای هنرجو:
+شاخهٔ هفتهٔ پنجم از نسخهٔ تأییدشدهٔ هفتهٔ چهارم ساخته شود. هر گام کامیت جدا دارد.
+فقط فایل‌های فروشگاه خودتان تغییر کند؛ api و scripts و فایل‌های ریشه تغییر نکنند.
+اگر پروژهٔ قبلی در shops/info-hiding/info-hiding بوده، همان پوشهٔ دارای package.json
+به‌روز شود؛ فایل‌های نامرتبط shops/info-hiding/index.html و style.css دست نخورند.
+پوشهٔ api داخل زیپ نیست؛ API موجود آکادمی استفاده می‌شود.
+برای انتشار تو در تو، .env.production پیش از build باید ../../../api باشد.
+node_modules و dist و .env.*.local کامیت نشوند.
+در مخزن آکادمی PR به main ساخته شود، موارد این فایل و خروجی واقعی check-shop
+به توضیحات PR اضافه شود و لینک PR در پرسلاین ارسال شود. PR را خود هنرجو merge نکند.

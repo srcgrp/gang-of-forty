@@ -1,4 +1,5 @@
- import type { Product } from '../types'
+import { useCartStore } from '../hooks/useCartStore'
+import type { Product } from '../types'
 import Price from './Price'
 import OfferBadge from './OfferBadge'
 
@@ -6,15 +7,15 @@ type ProductCardProps = {
   product: Product
   finalPrice: number
   discount: number
-  onAdd: (id: number) => void
 }
 
 export default function ProductCard({
   product,
   finalPrice,
   discount,
-  onAdd
 }: ProductCardProps) {
+   const add = useCartStore((s) => s.add)
+   
   return (
     <li className="card" id={`product-${product.id}`}>
       <article>
@@ -36,9 +37,9 @@ export default function ProductCard({
 
         <OfferBadge discount={discount} />
 
-        <button type="button" onClick={() => onAdd(product.id)}>
-          افزودن
-        </button>
+        <button type="button" onClick={() => add(product.id)}>
+         افزودن
+        </button> 
       </article>
     </li>
   )

@@ -6,13 +6,11 @@ import { finalPrice } from '../cart/cart'
 type ProductGridProps = {
   products: Product[]
   offers: Offer[]
-  onAdd: (id: number) => void
 }
 
 export default function ProductGrid({
   products,
-  offers,
-  onAdd
+  offers
 }: ProductGridProps) {
   const offerMap = new Map(
     offers.map(offer => [offer.productId, offer])
@@ -29,7 +27,6 @@ export default function ProductGrid({
             product={product}
             finalPrice={finalPrice(product.price, offer)}
             discount={offer?.percent ?? 0}
-            onAdd={onAdd}
           />
         )
       })}

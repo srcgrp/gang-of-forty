@@ -11,6 +11,7 @@ export type HomeCarousel = { id: string; title: string; emoji: string; source?: 
 export type Home = { hero: Banner; side: Banner; promos: Promo[]; carousels: HomeCarousel[] }
 export type Product = { id: number; categoryId: number; name: string; emoji: string; unit: string; price: number }
 export type Offer = { productId: number; percent: number; label: string }
+export type Catalog = { categories: Category[], products: Product[], offers: Offer[], home: Home, shop: Shop}
 export type Stock = { updatedAt: string; items: Record<number, number> }
 export type ProductSummary = Pick<Product, 'id' | 'name' | 'price'>
 export type CartItem = ProductSummary & { quantity: number }
@@ -19,12 +20,11 @@ export type ReadonlyShop = Readonly<Shop>
 export const SORTS = ['cheapest', 'expensive', 'popular'] as const
 export type SortOption = typeof SORTS[number]
 
-export type LoadState =
-    | { status: 'loading' }
-    | { status: 'success'; products: Product[] }
-    | { status: 'empty' }
-    | { status: 'error'; message: string }
-
+export type LoadState<T = { products: Product[] }> =
+  | { status: 'loading' }
+  | ({ status: 'success' } & T)
+  | { status: 'empty' }
+  | { status: 'error'; message: string }
 export type CartLine = { productId: number; quantity: number }
 
 export function assertNever(x: never): never {
