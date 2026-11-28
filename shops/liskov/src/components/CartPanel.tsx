@@ -6,11 +6,12 @@ import type {Product} from '../types';
 
 type CartPanelProps = {
     products: Product[];
+    onEmpty: () => void;
 };
 
 const faNumber = new Intl.NumberFormat('fa-IR');
 
-export default function CartPanel({products}: CartPanelProps) {
+export default function CartPanel({products, onEmpty}: CartPanelProps) {
     const cart = useCartStore((state) => state.lines);
     const decrease = useCartStore((state) => state.decrease);
     const addToCart = useAddToCart();
@@ -67,7 +68,10 @@ export default function CartPanel({products}: CartPanelProps) {
                                         <button
                                             type='button'
                                             className='cart-quantity-button'
-                                            onClick={() => decrease(product.id)}
+                                            onClick={() => {
+                                                if (itemCount === 1) onEmpty();
+                                                decrease(product.id);
+                                            }}
                                             aria-label={`کاهش تعداد ${product.name}`}
                                         >
                                             −
