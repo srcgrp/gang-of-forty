@@ -839,7 +839,9 @@ nav {
 
 .product-info {
   padding: 12px 13px 15px;
-  min-height: 133px;
+  display: flex;
+  flex-direction: column;
+  min-height: 155px;
   position: relative;
 }
 
@@ -878,9 +880,7 @@ nav {
 
 
 .product-info button {
-  position: absolute;
-  left: 12px;
-  bottom: 13px;
+  position: static;
   min-width: 30px;
   height: 30px;
   padding: 0 7px;
@@ -889,7 +889,9 @@ nav {
   background: var(--light-orang);
   color: white;
   font-size: 24px;
-  align-self: baseline;
+  align-self: flex-start;
+  flex: 0 0 auto;
+  margin-top: auto;
 }
 
 .product-info button:hover {
@@ -942,19 +944,20 @@ nav {
 }
 
 .product-quantity {
-  position: absolute;
-  left: 12px;
-  bottom: 13px;
+  position: static;
   display: inline-flex;
   align-items: center;
   gap: 8px;
   min-height: 32px;
   padding: 3px 5px;
   border: 1px solid var(--border);
-  border-radius: 999px;
+  border-radius: 10px;
   background: var(--bg-surface);
   color: var(--text-primary);
   box-shadow: 0 3px 10px var(--shadow-color);
+  align-self: flex-start;
+  flex: 0 0 auto;
+  margin-top: auto;
 }
 
 .product-info .product-quantity button {
@@ -965,7 +968,7 @@ nav {
   min-width: 26px;
   height: 26px;
   padding: 0;
-  border-radius: 50%;
+  border-radius: 8px;
   background: var(--light-orang);
   color: #fff;
   font-size: 18px;
