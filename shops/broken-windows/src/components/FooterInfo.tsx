@@ -2,11 +2,11 @@ export default function FooterInfo(){
     return(
         <>
         <div className="footer-top-info">
-                    <h3 className="footer-top-info-header">سارا مارکت</h3>
+                    <h3 className="footer-top-info-header">پنجره شکسته</h3>
                     <p className="footer-top-info-text">از سال ۱۴۰۵ کنار شما هستیم؛ هر چی لازم داری، با قیمت منصفانه و ارسال
                         سریع. ایراد کوچیک رو همون لحظه درست می‌کنیم.</p>
                     <div className="footer-top-info-icon">
-                        <a title="تلگرام" href="#" aria-label="ایدی تلگرام سارا مارکت"> <svg aria-hidden="true"
+                        <a title="تلگرام" href="#" aria-label="ایدی تلگرام پنجره شکسته"> <svg aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="#ffffff" strokeWidth="2" strokeLinecap="round"
                                 strokeLinejoin="round" className="footer-icon-social">
@@ -14,7 +14,7 @@ export default function FooterInfo(){
                                 <path d="M10 14l11 -11" />
                                 <path d="M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5" />
                             </svg></a>
-                        <a title="اینستاگرام" href="#" aria-label="ایدی اینستا سارا مارکت"><svg aria-hidden="true"
+                        <a title="اینستاگرام" href="#" aria-label="ایدی اینستا پنجره شکسته"><svg aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="#ffffff" strokeWidth="2" strokeLinecap="round"
                                 strokeLinejoin="round" className="footer-icon-social">
@@ -24,7 +24,7 @@ export default function FooterInfo(){
                                 <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
                                 <path d="M16.5 7.5v.01" />
                             </svg></a>
-                        <a title="واتساپ" href="#" aria-label="ایدی واتسپ سارا مارکت"><svg aria-hidden="true"
+                        <a title="واتساپ" href="#" aria-label="ایدی واتسپ پنجره شکسته"><svg aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="#ffffff" strokeWidth="2" strokeLinecap="round"
                                 strokeLinejoin="round" className="footer-icon-social">

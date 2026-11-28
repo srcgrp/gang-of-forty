@@ -2,7 +2,7 @@ import { formatNumber } from "../format";
 import SearchBox from "./SearchBox";
 import ThemeToggle from "./ThemeToggle";
 import CartLink from "./CartLink";
-import CartPortal from "./CartPortal";
+import CartPanel from "./CartPanel";
 import { useCartStore } from "../hooks/useCartStore";
 import { cartCount } from "../cart/totals";
 
@@ -16,7 +16,7 @@ export default function Header({ query, onQuery }: Props) {
   return (
     <>
       <input type="checkbox" id="menu-toggle" className="menu-toggle" aria-label="باز و بسته کردن منو" />
-      <div className="discount" id="notice">ارسال رایگان برای خرید های بالای{formatNumber(200)} هزار تومن</div>
+      <div className="discount" id="notice">❤️ ارسال رایگان برای خرید های بالای{formatNumber(200)} هزار تومن ❤️</div>
       <div className="header" id="header">
         <label htmlFor="menu-toggle" className="menu-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
           viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
@@ -25,7 +25,7 @@ export default function Header({ query, onQuery }: Props) {
           <path d="M4 12h16" />
           <path d="M4 18h16" />
         </svg></label>
-        <a className="brand" href="#top" title="پرش به ابتدای صفحه" aria-label="فروشگاه سارا مارکت">
+        <a className="brand" href="#top" title="پرش به ابتدای صفحه" aria-label="فروشگاه ">
           <svg className="brand-logos" aria-hidden="true" viewBox="0 0 64 64" width="64" height="64">
             <rect width="64" height="64" rx="16" fill="#0F6E56" />
             <path d="M24 26 V22 A8 8 0 0 1 40 22 V26" fill="none" stroke="#FBEAF0" strokeWidth="3"
@@ -34,13 +34,18 @@ export default function Header({ query, onQuery }: Props) {
             <path d="M32 44 C25 39 25 32 29.5 32 C31 32 32 33 32 34 C32 33 33 32 34.5 32 C39 32 39 39 32 44 Z"
               fill="#D4537E" />
           </svg>
-          <div className="brand-text">
-            <p className="brand-name"> <b>سارا مارکت</b></p>
-            <p className="brand-text">انتخاب های سارا برای شما</p>
+          <div className="brand-info">
+            <p className="brand-name"> <b>
+            سوپرمارکت پنجره شکسته
+              </b></p>
+            
+            <p className="brand-text">
+              
+             پنجره‌ای رو به انتخاب‌های شما</p>
           </div>
         </a>
         <SearchBox query={query} onQuery={onQuery} />
-        <a className="user-account" href="#" aria-label="ورود به حساب کاربری">
+        <a className="user-account" href="#" aria-label="ورود به حساب کاربری" title="ورود به حساب کاربری">
           <svg aria-hidden="true" className="user-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
@@ -48,10 +53,16 @@ export default function Header({ query, onQuery }: Props) {
             <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
           </svg>
           <span className="user-account-label">ورود</span></a>
-        <CartLink count={count} />
+        <div className="cart-hover">
+  <CartLink count={count} />
+  <div className="cart-popover">
+    <CartPanel />
+  </div>
+</div>
+
         <ThemeToggle />
       </div>
-      <CartPortal />
+  
     </>
   );
 }

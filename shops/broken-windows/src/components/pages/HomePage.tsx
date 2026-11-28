@@ -1,6 +1,6 @@
 import Hero from "../Hero.tsx";
 import Benefits from "../Benefits.tsx";
-import CategoryNav from "../CategoryNave.tsx";
+import CategoryNav from "../CategoryNav.tsx";
 import CarouselRow from "../CarouselRow.tsx";
 import Middle from "../Middle.tsx";
 import Notification from "../Notification.tsx";

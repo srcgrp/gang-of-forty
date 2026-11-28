@@ -2,7 +2,7 @@ export default function Notification(){
     return(
         <section className="notification" id="notification">
             <div className="notification-text">
-                <h3>از شگفتانه های ویژه سارا مارکت جا نمونی!</h3>
+                <h3>از شگفتانه های ویژه فروشگاه پنجره شکسته جا نمونی!</h3>
                 <p>عضو شو تا اولین نفری که خبردار میشه خودت باشی</p>
             </div>
             <form className="notification-signingin" action="#" method="post">

@@ -2,7 +2,9 @@ export default function FooterBottom(){
     return(
         <div className="footer-buttom">
                 <div className="footer-buttom-right">
-                    <p>&copy; ۱۴۰۵ سارامارکت. همه حقوق محفوظ است. | پنجره شکسته، از دار و دسته‌ی چهل‌نفره</p>
+                    <p>
+  &copy; ۱۴۰۵. تمامی حقوق محفوظ است. | سوپرمارکت پنجره شکسته، عضو دار و دسته‌ی چهل‌نفره
+</p>
                 </div>
                 <div className="footer-buttom-left">
                     <a className="footer-buttom-left-link" aria-label="بازگشت به ابتدای صفحه" href="#top"><svg
