@@ -963,7 +963,7 @@ h1 {
       align-self: flex-start;
       padding: 2px 10px;
       border-radius: 12px;
-      background: #e87522;
+      background: #245c35;
       color: #fff;
       font-size: .8rem;
     }
@@ -1040,7 +1040,7 @@ h1 {
     }
  /* footer */
  .footer {
-   background:var(--footer-bg, #84bb87);
+   background: #245c35;
    color: #ffffff;
    padding: 40px 20px 20px;
    overflow-x: hidden;

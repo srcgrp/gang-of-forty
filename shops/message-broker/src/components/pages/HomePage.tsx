@@ -20,7 +20,7 @@ export default function HomePage() {
     : state.products.filter(p => p.categoryId === categoryId)
 
   return (
-    <main>
+     <main id="main" tabIndex={-1}>
       <Hero home={state.home} />
       <CategoryNav categories={state.categories} activeCategoryId={categoryId} onPick={setCategoryId} />
 
